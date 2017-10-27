@@ -2,7 +2,7 @@ package com.incon.connect.user.utils;
 
 import android.util.Log;
 
-import com.incon.connect.BuildConfig;
+import com.incon.connect.user.BuildConfig;
 
 
 public class Logger {

@@ -5,9 +5,9 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
-import com.incon.connect.R;
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.ConnectApplication;
+import com.incon.connect.user.R;
 import com.incon.connect.user.custom.exception.NoConnectivityException;
 
 import org.json.JSONObject;
