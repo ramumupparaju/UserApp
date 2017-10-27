@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        style="@style/MatchWrap"
+        android:text="@string/add_offer_brand"
+        android:drawableEnd="@android:drawable/arrow_down_float"
+        />
+
+
+
+</layout>

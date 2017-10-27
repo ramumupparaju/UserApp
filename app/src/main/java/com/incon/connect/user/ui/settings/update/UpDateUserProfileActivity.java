@@ -1,0 +1,264 @@
+package com.incon.connect.user.ui.settings.update;
+
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.os.Build;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.text.method.KeyListener;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+
+import com.incon.connect.user.AppUtils;
+import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.updateuserprofile.UpDateUserProfileResponce;
+import com.incon.connect.user.databinding.ActivityUpdateUserProfileBinding;
+import com.incon.connect.user.dto.update.UpDateUserProfile;
+import com.incon.connect.user.ui.BaseActivity;
+import com.incon.connect.user.ui.RegistrationMapActivity;
+import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.SharedPrefsUtils;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.TimeZone;
+
+import static com.incon.connect.user.AppConstants.LoginPrefs.USER_ADDRESS;
+import static com.incon.connect.user.AppConstants.LoginPrefs.USER_CONFIRM_PASSWORD;
+import static com.incon.connect.user.AppConstants.LoginPrefs.USER_DOB;
+import static com.incon.connect.user.AppConstants.LoginPrefs.USER_EMAIL_ID;
+import static com.incon.connect.user.AppConstants.LoginPrefs.USER_GENDER;
+import static com.incon.connect.user.AppConstants.LoginPrefs.USER_ID;
+import static com.incon.connect.user.AppConstants.LoginPrefs.USER_NAME;
+import static com.incon.connect.user.AppConstants.LoginPrefs.USER_PASSWORD;
+import static com.incon.connect.user.AppConstants.LoginPrefs.USER_PHONE_NUMBER;
+
+/**
+ * Created by PC on 10/13/2017.
+ */
+public class UpDateUserProfileActivity extends BaseActivity implements
+        UpDateUserProfileContract.View {
+    private ActivityUpdateUserProfileBinding binding;
+    private UpDateUserProfilePresenter upDateUserProfilePresenter;
+    private UpDateUserProfile upDateUserProfile;
+    private HashMap<Integer, String> errorMap;
+    private Animation shakeAnim;
+    private KeyListener listener;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_update_user_profile;
+    }
+
+    @Override
+    protected void initializePresenter() {
+        upDateUserProfilePresenter = new UpDateUserProfilePresenter();
+        upDateUserProfilePresenter.setView(this);
+        setBasePresenter(upDateUserProfilePresenter);
+    }
+
+    private void enableEditMode(boolean isEditable) {
+        binding.setIsEditable(isEditable);
+        binding.spinnerGender.setKeyListener(isEditable ? listener : null);
+    }
+
+    public void onSubmitClick() {
+//        validateFields();
+
+        upDateUserProfilePresenter.upDateUserProfile(SharedPrefsUtils.loginProvider().
+                getIntegerPreference(USER_ID, DEFAULT_VALUE), upDateUserProfile);
+    }
+
+    public void onAddressClick() {
+        Intent addressIntent = new Intent(this, RegistrationMapActivity.class);
+        startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case RequestCodes.ADDRESS_LOCATION:
+                    upDateUserProfile.setAddress(data.getStringExtra(
+                            IntentConstants.ADDRESS_COMMA));
+                    upDateUserProfile.setLocation(data.getStringExtra(
+                            IntentConstants.LOCATION_COMMA));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void onDobClick() {
+        showDatePicker();
+    }
+
+    @Override
+    protected void onCreateView(Bundle saveInstanceState) {
+        binding = DataBindingUtil.setContentView(this, getLayoutId());
+        binding.setUpDateUserProfileActivity(this);
+        upDateUserProfile = new UpDateUserProfile();
+        binding.setUpDateUserProfile(upDateUserProfile);
+        enableEditMode(false);
+
+        listener = binding.spinnerGender.getKeyListener();
+
+        initializeToolbar();
+        loadData();
+    }
+
+    private void initializeToolbar() {
+        binding.toolbarLeftIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        binding.toolbarEditImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enableEditMode(true);
+            }
+        });
+    }
+
+    private void loadData() {
+        shakeAnim = AnimationUtils.loadAnimation(this, R.anim.shake);
+        loadUserData();
+        loadValidationErrors();
+        loadGenderSpinnerData();
+    }
+
+    private void loadUserData() {
+        SharedPrefsUtils sharedPrefsUtils = SharedPrefsUtils.loginProvider();
+
+        upDateUserProfile.setName(sharedPrefsUtils.getStringPreference(USER_NAME));
+
+        upDateUserProfile.setPhoneNumber(sharedPrefsUtils.getStringPreference(
+                USER_PHONE_NUMBER));
+
+        upDateUserProfile.setGender(sharedPrefsUtils.getStringPreference(
+                USER_GENDER));
+
+        upDateUserProfile.setDob(sharedPrefsUtils.getStringPreference(
+                USER_DOB));
+
+        upDateUserProfile.setUserEmail(sharedPrefsUtils.getStringPreference(
+                USER_EMAIL_ID));
+
+        upDateUserProfile.setPassword(sharedPrefsUtils.getStringPreference(
+                USER_PASSWORD));
+
+        upDateUserProfile.setConfirmPassword(sharedPrefsUtils.getStringPreference(
+                USER_CONFIRM_PASSWORD));
+
+        upDateUserProfile.setAddress(sharedPrefsUtils.getStringPreference(
+                USER_ADDRESS));
+
+    }
+
+    private void showDatePicker() {
+
+        AppUtils.hideSoftKeyboard(this, binding.viewDob);
+        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+        String dateOfBirth = upDateUserProfile.getDateOfBirthToShow();
+        if (!TextUtils.isEmpty(dateOfBirth)) {
+            cal.setTimeInMillis(DateUtils.convertStringFormatToMillis(
+                    dateOfBirth, DateFormatterConstants.MM_DD_YYYY));
+        }
+
+        int customStyle = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                ? R.style.DatePickerDialogTheme : android.R.style.Theme_DeviceDefault_Light_Dialog;
+
+        DatePickerDialog datePicker = new DatePickerDialog(this,
+                customStyle,
+                datePickerListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
+        datePicker.setCancelable(false);
+        datePicker.show();
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener =
+            new DatePickerDialog.OnDateSetListener() {
+                // when dialog box is closed, below method will be called.
+                public void onDateSet(DatePicker view, int selectedYear,
+                                      int selectedMonth, int selectedDay) {
+                    Calendar selectedDateTime = Calendar.getInstance();
+                    selectedDateTime.set(selectedYear, selectedMonth, selectedDay);
+
+                    String dobInMMDDYYYY = DateUtils.convertDateToOtherFormat(
+                            selectedDateTime.getTime(), DateFormatterConstants.MM_DD_YYYY);
+                    upDateUserProfile.setDateOfBirthToShow(dobInMMDDYYYY);
+
+                }
+            };
+
+    void loadGenderSpinnerData() {
+        String[] genderTypeList = getResources().getStringArray(R.array.gender_options_list);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+                R.layout.view_spinner, genderTypeList);
+        arrayAdapter.setDropDownViewResource(R.layout.view_spinner);
+        binding.spinnerGender.setAdapter(arrayAdapter);
+    }
+
+    private void loadValidationErrors() {
+
+        errorMap = new HashMap<>();
+        errorMap.put(RegistrationValidation.NAME_REQ,
+                getString(R.string.error_name_req));
+
+        errorMap.put(RegistrationValidation.PHONE_REQ,
+                getString(R.string.error_phone_req));
+
+        errorMap.put(RegistrationValidation.PHONE_MIN_DIGITS,
+                getString(R.string.error_phone_min_digits));
+
+        errorMap.put(RegistrationValidation.GENDER_REQ,
+                getString(R.string.error_gender_req));
+
+        errorMap.put(RegistrationValidation.DOB_REQ,
+                getString(R.string.error_dob_req));
+
+        errorMap.put(RegistrationValidation.DOB_FUTURE_DATE,
+                getString(R.string.error_dob_futuredate));
+
+        errorMap.put(RegistrationValidation.DOB_PERSON_LIMIT,
+                getString(R.string.error_dob_patient_is_user));
+
+        errorMap.put(RegistrationValidation.EMAIL_REQ,
+                getString(R.string.error_email_req));
+
+        errorMap.put(RegistrationValidation.EMAIL_NOTVALID,
+                getString(R.string.error_email_notvalid));
+
+        errorMap.put(RegistrationValidation.PASSWORD_REQ,
+                getString(R.string.error_password_req));
+
+        errorMap.put(RegistrationValidation.PASSWORD_PATTERN_REQ,
+                getString(R.string.error_password_pattern_req));
+
+        errorMap.put(RegistrationValidation.RE_ENTER_PASSWORD_REQ,
+                getString(R.string.error_re_enter_password_req));
+
+        errorMap.put(RegistrationValidation.RE_ENTER_PASSWORD_DOES_NOT_MATCH,
+                getString(R.string.error_re_enter_password_does_not_match));
+
+        errorMap.put(RegistrationValidation.ADDRESS_REQ, getString(R.string.error_address_req));
+
+
+    }
+
+    @Override
+    public void loadUpDateUserProfileResponce(UpDateUserProfileResponce merchantId) {
+        enableEditMode(false);
+    }
+}

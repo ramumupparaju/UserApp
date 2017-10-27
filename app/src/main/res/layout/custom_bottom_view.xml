@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        style="@style/MatchWrap"
+        android:gravity="center"
+        android:orientation="vertical">
+        <LinearLayout
+            style="@style/BothWrap"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/view_logo"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                app:srcCompat="@drawable/ic_tab_notifications"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/BothWrap"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/view_tv"
+                style="@style/BothWrap"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/margin_5"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

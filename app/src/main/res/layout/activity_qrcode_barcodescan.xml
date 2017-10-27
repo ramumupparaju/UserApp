@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="qrcodeScanActivity"
+            type="com.incon.connect.user.ui.qrcodescan.QrcodeBarcodeScanActivity"/>
+
+    </data>
+
+    <RelativeLayout
+        style="@style/BothMatch"
+        android:background="@color/colorPrimary">
+
+
+        <com.journeyapps.barcodescanner.CompoundBarcodeView
+            android:id="@+id/qrcode_scanner"
+            style="@style/scanner_view"
+            />
+
+        <TextView
+            android:id="@+id/text_qrcode_title"
+            style="@style/scanner_titel"
+            />
+    </RelativeLayout>
+
+</layout>

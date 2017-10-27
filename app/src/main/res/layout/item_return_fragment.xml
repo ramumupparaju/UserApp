@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="returnHistoryResponse"
+            type="com.incon.connect.user.apimodel.components.history.purchased.ReturnHistoryResponse"/>
+    </data>
+
+    <LinearLayout
+        android:weightSum="3"
+        android:orientation="horizontal"
+        style="@style/MatchWrap"
+        android:background="@drawable/list_ripple_effect"
+        android:minHeight="70dp">
+        <LinearLayout
+            android:layout_weight="1"
+            style="@style/BothMatch">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_gravity="center"
+
+                style="@style/m75w75"
+                android:layout_margin="25dp"
+                app:srcCompat="@drawable/ic_showroom"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            style="@style/BothMatch">
+
+            <android.support.v7.widget.AppCompatImageView
+                style="@style/m75w75"
+                android:layout_margin="25dp"
+                app:srcCompat="@drawable/ic_showroom"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            style="@style/BothMatch">
+
+            <TextView
+                android:layout_marginTop="@dimen/margin_7"
+                style="@style/BothWrap"
+                android:text="11/10/2017"
+                android:textColor="@color/ebony_clay"
+                android:textSize="10.4sp"
+                />
+
+            <TextView
+                android:layout_marginTop="@dimen/margin_15"
+                style="@style/BothWrap"
+                android:text="@{returnHistoryResponse.productName}"
+                android:textColor="@color/ebony_clay"
+                android:textSize="12.4sp"
+                />
+            <TextView
+                android:layout_marginTop="@dimen/margin_12"
+                android:text="@{returnHistoryResponse.brandName}"
+                style="@style/BothWrap"
+                android:textColor="@color/ebony_clay"
+                android:textSize="12.4sp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

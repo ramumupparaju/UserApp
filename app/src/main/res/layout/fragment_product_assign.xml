@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="assignQrCode"
+            type="com.incon.connect.user.dto.asignqrcode.AssignQrCode"/>
+
+        <variable
+            name="productassignfragment"
+            type="com.incon.connect.user.ui.home.asignqrcode.fragment.ProductAssignFragment"/>
+
+    </data>
+
+
+    <RelativeLayout
+        style="@style/BothMatch"
+        android:background="@color/white">
+
+        <ScrollView
+            android:id="@+id/scrollview_user_info"
+            style="@style/BothMatch"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="4dp"
+            android:scrollbarThumbVertical="@drawable/scrollbar"
+            android:scrollbars="vertical">
+
+            <RelativeLayout
+                style="@style/BothMatch">
+
+                <!-- modelno -->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_model_number"
+                    style="@style/Register_TextInputLayout"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:hint="@string/add_new__model_no"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+
+                    <com.incon.connect.user.custom.view.CustomAutoCompleteView
+                        android:id="@+id/edittext_model_number"
+                        style="@style/Register_TextInputEditText"
+                        android:maxLength="@integer/character_limit_100"
+                        android:maxLines="1"
+                        android:tag="0"
+                        android:text="@={assignQrCode.productName}"/>
+
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+                <!-- Description -->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_description"
+                    style="@style/Register_TextInputLayout"
+                    android:layout_below="@id/input_layout_model_number"
+                    android:hint="@string/action_description"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edittext_description"
+                        style="@style/Add_new_model_TextInputEditText"
+                        android:focusable="true"
+                        android:imeOptions="actionNext"
+                        android:inputType="textMultiLine"
+                        android:scrollHorizontally="false"
+                        android:tag="1"
+                        android:text="@={assignQrCode.description}"/>
+
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+                <!-- MRP  price -->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_mrp_price"
+                    style="@style/Register_TextInputLayout"
+                    android:layout_below="@id/input_layout_description"
+                    android:hint="@string/add_new__mrp_price"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edittext_mrp_price"
+                        style="@style/Add_new_model_TextInputEditText"
+                        android:focusable="true"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="@integer/character_limit_45"
+                        android:maxLines="1"
+                        android:tag="2"
+                        android:text="@={assignQrCode.mrpPrice}"
+                        />
+
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+
+                <!--price-->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_model_price"
+                    style="@style/Register_TextInputLayout"
+                    android:layout_below="@id/input_layout_mrp_price"
+                    android:hint="@string/add_new__price"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edittext_model_price"
+                        style="@style/Add_new_model_TextInputEditText"
+                        android:focusable="true"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="@integer/character_limit_45"
+                        android:maxLines="1"
+                        android:tag="3"
+                        android:text="@={assignQrCode.price}"/>
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+                <!--submit-->
+                <Button
+                    android:id="@+id/button_submit"
+                    style="@style/w150_wrap"
+                    fontPath="fonts/OpenSans-Bold.ttf"
+                    android:layout_below="@id/input_layout_model_price"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_marginLeft="@dimen/margin_110"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@drawable/btn_login_register_roundedcorner"
+                    android:onClick="@{() -> productassignfragment.onSubmitClick()}"
+                    android:text="@string/add_new_submit"
+                    android:textAllCaps="true"
+                    android:textColor="@color/tueo_theme"
+                    android:textSize="@dimen/text_size_13"/>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/ad_new_model_button"
+            style="@style/m50w50"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="@dimen/margin_280"
+            android:onClick="@{() -> productassignfragment.onNewModelClick()}"
+            app:srcCompat="@drawable/ic_add_new"/>
+
+    </RelativeLayout>
+
+
+</layout>

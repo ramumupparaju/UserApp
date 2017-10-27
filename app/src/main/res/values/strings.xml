@@ -1,0 +1,439 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="sample_text">Text</string>
+
+    <string name="msg_check_internet">Looks like you are offline, please check internet connectivity</string>
+
+    <!-- api error messages -->
+    <string name="error_network">Api failed due to NetworkErrorException</string>
+    <string name="error_model_message">No models found, Please Add New Model by clicking on
+        the below Button
+    </string>
+    <string name="error_socket">Unable to process your request. Please try again</string>
+    <string name="error_no_connectivity">Looks like you are offline, please check internet
+        connectivity</string>
+
+
+    <!--warrantyregistration-->
+    <string name="action_filters">Filters</string>
+    <string name="action_brand">Brand</string>
+    <string name="action_modelno">Model No</string>
+    <string name="action_division">Division</string>
+    <string name="action_category">Category</string>
+    <string name="action_price">Price :</string>
+    <string name="action_batchno">Batch No :</string>
+    <string name="action_serialno">Serial No :</string>
+    <string name="action_submit">Submit</string>
+    <string name="action_otp">OTP</string>
+    <string name="action_qr_code">QR Code Scan</string>
+    <string name="action_manual_entry">Manual Enter</string>
+    <string name="dialog_warranty_registered_successfully">Warranty has been registered
+        successfully</string>
+    <string name="action_product_status">Is product delivered</string>
+    <string name="action_description">Description</string>
+
+    <!--product Assign-->
+    <string name="title_assigned_successfully">Assigned SuccessFully</string>
+    <!--home_scanning activity-->
+    <string name="action_enter_customer_phone_number">Phone number</string>
+    <string name="action_or">OR</string>
+    <string name="action_scanuid">Scan Customer UID</string>
+    <string name="action_entermobilenumber">Enter Mobile Number</string>
+    <string name="title_user_qr_code">Place user qr code to scan</string>
+    <string name="title_warranty_serial_barcode">Place user  Serial no Barcode</string>
+    <string name="title_warranty_batch_barcode">Place user Batch no Barcode</string>
+
+       <!--Assign product-->
+    <string name="hint_product_assigned_success">Assigned SuccessFully</string>
+
+     <!-- add offer -->
+    <string name="add_an_offer_brand_hint">Brand</string>
+    <string name="add_an_offer_division_hint">Division</string>
+    <string name="add_an_offer_model_hint">Model</string>
+    <string name="add_an_offer_on_mrp_hint">Add An Offer On MRP: %</string>
+    <string name="add_an_offer_date_hint">Offer Start On</string>
+    <string name="offer_expires_hint">Offer Expires On</string>
+    <string name="scan_start_date_hint">Scan Start Date</string>
+    <string name="scan_end_date_hint">Scan End Date</string>
+
+    <!-- actions -->
+    <string name="action_changepassword">CHANGE PASSWORD</string>
+    <string name="action_back">Back</string>
+    <string name="action_next">Next</string>
+    <string name="action_login">Login</string>
+    <string name="action_registration">Register</string>
+    <string name="action_ok">Ok</string>
+    <string name="action_yes">Yes</string>
+    <string name="action_no">No</string>
+    <string name="action_cancel_request">Cancel Request</string>
+    <string name="action_reset_password">Reset Password</string>
+    <string name="action_register">Register</string>
+    <string name="action_continue">continue</string>
+    <string name="action_register_parentof_child">I am a parent of a child with asthma</string>
+    <string name="action_register_individual">I am an individual over the age of 16\n managing my own asthma</string>
+    <string name="action_verify">verify</string>
+    <string name="action_view_full_library">View full library</string>
+    <string name="action_done">Done</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_start">Start</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_request_call">Request Call</string>
+    <string name="action_take_new_survey">take new survey</string>
+    <string name="action_save">save</string>
+    <string name="action_discard">discard</string>
+    <string name="action_upload_now">Upload Now!</string>
+    <string name="action_upload_new_plan">Upload new plan</string>
+    <string name="action_why">Why?</string>
+    <string name="action_send_verification_code">Send verification code</string>
+    <string name="action_hint"> Hint </string>
+    <string name="action_update_pwd">Update Password</string>
+    <string name="action_feedback">Feedback</string>
+    <string name="action_development">Development</string>
+
+    <!--settings screen-->
+    <string name="action_settings">Settings</string>
+    <string name="action_update_user_profile">UpDateUserProfile</string>
+    <string name="action_update_store_profile">UpDateStoreProfile</string>
+    <string name="app_version">App Version: </string>
+    <!--scan tap fragment-->
+
+    <string name="action_scancustomeruid">Scan Customer UID</string>
+    <string name="action_enter_mobilenumber">Enter Mobile Number</string>
+
+    <!-- input error messages -->
+    <string name="app_update">Please Update to continue using the App.</string>
+    <string name="location_permission_msg">Please go to application settings and grant location
+        permission.</string>
+    <string name="error_email_req">Email Address is required</string>
+    <string name="error_select_location">Please select location</string>
+    <string name="error_location">Unable to fetch location</string>
+    <string name="error_otp_req">Please enter received OTP</string>
+    <string name="error_email_notvalid">Please enter valid email address</string>
+    <string name="error_password_req">Password is required</string>
+    <string name="error_re_enter_password_req">Password is required</string>
+    <string name="error_re_enter_password_does_not_match">Re-entered Password does not match</string>
+    <string name="error_password_pattern_req">A minimum of 8 characters and must include at least one number</string>
+    <string name="error_newpwd_req">New Password is required</string>
+    <string name="error_confirmpwd_req">Confirm Password is required</string>
+    <string name="error_pwd_notmatched">New and Confirm Password must match</string>
+    <string name="error_name_req">Name is required</string>
+    <string name="error_firstname_req">First Name is required</string>
+    <string name="error_lastname_req">Last Name is required</string>
+    <string name="error_phone_req">Phone is required</string>
+    <string name="error_category_req">Store category is required</string>
+    <string name="error_phone_min_digits">Phone number should be at least 10 digits</string>
+    <string name="error_one_phone_req">Please enter a contact number</string>
+    <string name="error_timezone_req">Time Zone is required</string>
+    <string name="error_zipcode_req">Zip Code is required</string>
+    <string name="error_dob_req">Date of Birth is required</string>
+    <string name="error_gender_req">Gender is required</string>
+    <string name="error_verificationcode_req">Verification Code is required</string>
+    <string name="error_dob_patient_is_user">You must be at least 16 years old to use the
+        Connect application</string>
+    <string name="error_dob_futuredate">You cannot select a future date</string>
+    <string name="error_past_date">You cannot select a past date</string>
+    <string name="error_email_inuse">Email address already in use</string>
+    <string name="error_zipcode_notvalid">Zipcode must be 5 or 9 digits</string>
+    <string name="error_postalcode_notvalid">Postalcode must be 5 or 9 digits</string>
+    <string name="error_symptoms_future_dates">You cannot select a future date</string>
+    <string name="error_future_month">You cannot select a future month</string>
+    <string name="error_log_symptoms_selection">Please empty symptoms</string>
+    <string name="error_log_symptoms_empty">Please enter Symptoms data</string>
+    <string name="error_log_severity_empty">Please select Severity</string>
+    <string name="error_log_symptoms_empty_severity">Please select severity</string>
+    <string name="error_alert_answer_req">Please select any of the category</string>
+    <string name="error_schedule_appointment_req">Please select atleast one for appointment</string>
+    <string name="error_tools_answer_req">Please select atleast one</string>
+    <string name="error_currentpwd_req">Current Password is required</string>
+    <string name="error_new_emailid_req">New EmailId is required</string>
+    <string name="error_address_req">Address is required</string>
+    <string name="error_image_path_req">Select image to view</string>
+    <string name="error_image_path_upload">Select image to upload</string>
+    <string name="error_gstn_req">GSTN is required</string>
+    <string name="error_new_confirm_pwd_not_matched">Password mismatch</string>
+    <string name="error_city_req">City is required</string>
+    <string name="error_postal_code_req">PostalCode is required</string>
+    <string name="error_product_model">Model is required</string>
+    <string name="error_product_invalid_model">Invalid Model</string>
+    <string name="error_product_price">Price is required</string>
+    <string name="error_product_mrp_price">MRP Price is required</string>
+    <string name="error_product_description">Description is required</string>
+    <string name="error_product_serial">Serial is required</string>
+    <string name="error_product_batch">Batch is required</string>
+    <string name="error_product_invoice_number">InvoiceNumber is required</string>
+    <string name="error_product_category">Category is required</string>
+    <string name="error_product_division">Division is required</string>
+    <string name="error_product_brand">Brand is required</string>
+    <string name="error_product_notes">Notes is required</string>
+    <string name="error_Offer_price">Offer Price is required</string>
+    <string name="error_Offer_start_on">Offer Start is required</string>
+    <string name="error_Offer_end_on">Offer End is required</string>
+    <string name="error_Scan_start_on">Scan Start is required</string>
+    <string name="error_Scan_end_on">Scan End is required</string>
+
+
+    <!-- progress messages -->
+    <string name="progress_addoffer_merchant_fragment">Loading AddOffer Merchant Fragment..
+        .</string>
+    <string name="progress_purchased_history">Loading Purchased History...</string>
+    <string name="progress_interest_history">Loading Interest History...</string>
+    <string name="progress_return_history">Loading Return History...</string>
+    <string name="progress_buy_request">Loading Buy Request...</string>
+    <string name="progress_add_offer_merchant">Loading Add Offer Merchant...</string>
+    <string name="progress_user_details">Fetching User Details...</string>
+    <string name="progress_qr_code_validity">Validating qrcode...</string>
+    <string name="progress_qr_code_product">Asign QR Code To Product...</string>
+    <string name="progress_warranty_registering">Registering warranty...</string>
+    <string name="progress_categories">Fetching categories...</string>
+    <string name="progress_add_new_model">Adding new model...</string>
+    <string name="progress_product_details">Fetching product details...</string>
+    <string name="progress_defaults">Fetching details...</string>
+    <string name="progress_location">Loading location details...</string>
+    <string name="progress_login">Logging in...</string>
+    <string name="progress_resend">Resending OTP...</string>
+    <string name="progress_sendotp">Sending otp...</string>
+    <string name="progress_verifycode">Verifying code...</string>
+    <string name="progress_verifyemail">Verifying phoneNumber...</string>
+    <string name="progress_defaults_registering">Defaults Registering...</string>
+    <string name="progress_registering">Registering...</string>
+    <string name="progress_updateuserprofile">UpDateingUserProfile...</string>
+    <string name="progress_updatestoreprofile">UpDateingStoreProfile...</string>
+    <string name="progress_changepassword">Changing Password...</string>
+    <string name="progress_changeemail">Changing Email...</string>
+    <string name="progress_forgotpassword">Forgot Password...</string>
+    <string name="progress_alerts">Loading alerts info...</string>
+    <string name="progress_alert_message">Loading alert message...</string>
+    <string name="progress_alert_summary">Loading alert summary...</string>
+    <string name="progress_loading">Loading...</string>
+    <string name="progress_learningstatus">Loading recommendations...</string>
+    <string name="progress_library">Loading library data...</string>
+    <string name="progress_read_topic">Updating read topic...</string>
+    <string name="progress_dashboard_tasks">Loading tasks...</string>
+    <string name="progress_complete_tasks">Updating task status...</string>
+    <string name="progress_get_appointments">Getting Appointment...</string>
+    <string name="progress_get_coach_defaults">Loading Coach defaults...</string>
+    <string name="progress_schedule_appointment">Scheduling appointment...</string>
+    <string name="progress_cancel_appointment">Cancelling appointment...</string>
+    <string name="progress_get_module_by_id">Getting module...</string>
+    <string name="progress_new_survey_of_patient">Taking new survey...</string>
+    <string name="progress_get_survey_of_patients">Getting survey of persons with asthma...</string>
+    <string name="progress_calculate_tueo_score">Calculating score...</string>
+    <string name="progress_post_survey">Posting survey score...</string>
+    <string name="progress_delete_survey">Deleting survey...</string>
+    <string name="progress_get_module_info">Getting Module info...</string>
+    <string name="progress_uploading_aap_image">Uploading image...</string>
+    <string name="progress_get_aap_image">Getting AAP Image...</string>
+    <string name="progress_downloading_aap">Downloading AAP...</string>
+    <string name="progress_updating_profile">Updating profile...</string>
+    <string name="progress_get_doctor_profile">Getting Doctor profile...</string>
+    <string name="progress_send_summary_report">Sending summary report...</string>
+
+    <!-- Dialog -->
+    <string name="dialog_profile_creation_completed">Registration and profile creation\n completed successfully.</string>
+    <string name="dialog_warning_title">Warning</string>
+    <string name="dialog_warning_message">Sensor Calibration with ocpied bed not successfully completed. It is highly recomended that you complete calibration. Calibration can be automatically performaed during notmal sleep but data collection will be delayed.</string>
+    <string name="dialog_verify_title">Please enter the verification code which\n was sent to %1$s.</string>
+    <string name="dialog_logout">Are you sure you want to logout?</string>
+
+    <!-- Forgot password -->
+    <string name="login_username_hint">Phone number</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_forgotpassword_title">Forgot Password?</string>
+    <string name="login_password_confirm_msg">You will receive an OTP with a temporary password
+        .</string>
+    <string name="login_forgotpassword_enter_phone_number">Enter your phoneNumber and we will send
+        you a one-time password to use in resetting it.</string>
+    <string name="forgot_password_phone_number_hint">Registered Phone number</string>
+
+    <!-- change password -->
+    <string name="changepassword_title">Change Password</string>
+    <string name="changepassword_subtitle">You must change your password for future use.</string>
+    <string name="changepassword_confirmpassword_hint">Confirm Password</string>
+    <string name="changepassword_new_password_hint">Enter new Password</string>
+    <string name="eula_title">End User License Agreement</string>
+
+    <!--Add new Model-->
+    <string name="add_new_submit">SUBMIT</string>
+    <string name="add_new__model_no">Model No</string>
+    <string name="add_new__price">Price </string>
+    <string name="add_new__mrp_price">MRP Price </string>
+    <string name="add_new__batch_no">Batch No</string>
+    <string name="add_new__serial_no">Serial No</string>
+    <string name="add_new__category">Category</string>
+    <string name="add_new__division">Division</string>
+    <string name="add_new__invoiceNumber">InvoiceNumber</string>
+    <string name="add_new__type">Type</string>
+    <string name="add_new_notes">Notes</string>
+
+    <!-- Registration -->
+    <string name="register_userinfo_title">User Information</string>
+    <string name="register_userinfo_subtitle">Please enter information for the person who will be using the app.</string>
+    <string name="register_store_info_title">Store Information</string>
+    <string name="register_store_info_subtitle">Please enter store information</string>
+    <string name="register_name_hint">Name</string>
+    <string name="register_firstname_hint">First Name</string>
+    <string name="register_lastname_hint">Last Name</string>
+    <string name="register_phone_hint">Phone</string>
+    <string name="register_type_hint">Type</string>
+    <string name="register_emailid_hint">Email Address</string>
+    <string name="register_password_hint">Password</string>
+    <string name="register_reenter_password_hint">Re-enter Password</string>
+    <string name="register_patientinfo_title">Person with asthma</string>
+    <string name="register_patientinfo_subtitle">Please enter information for the person with asthma\n who will be monitored.</string>
+    <string name="register_phone_type">Type</string>
+    <string name="register_timezone_hint">Time Zone</string>
+    <string name="register_zipcode_hint">Zip Code</string>
+    <string name="register_dateofbirth_hint">Date of Birth</string>
+    <string name="register_gender_hint">Gender</string>
+    <string name="register_category_hint">Category</string>
+    <string name="register_gstn_hint">GSTN</string>
+    <string name="register_address_hint">Address</string>
+    <string name="register_address1_hint">Address1</string>
+    <string name="register_address2_hint">Address2</string>
+    <string name="register_street_hint">Street</string>
+    <string name="register_state_hint">State</string>
+    <string name="register_country_hint">Country</string>
+    <string name="register_city_hint">City</string>
+    <string name="register_postalcode_hint">Postal Code</string>
+    <string name="register_verify_email_hint">Verification Code</string>
+    <string name="register_hint_password">Minimum 8 characters with least one number</string>
+    <string name="register_why_timezone">Knowing your time zone is important so we can send notifications and schedule phone calls at the right times of day.</string>
+    <string name="register_why_zip_code">The zip code and timezone of the person with asthma and
+        sensor are
+        important for the Tueo Health analytics to function optimally</string>
+    <string name="register_password_hint_unicode">&#9432;</string>
+    <string name="register_timezone_why_unicode">\u003F</string>
+    <string name="validating_code">validating code..</string>
+
+
+    <!--google maps-->
+    <string name="google_map_key">AIzaSyBeSVzykSGfWxZDtPRZoODVFTAFlT73OWE</string>
+
+    <!--History-->
+    <string name="tab_purchased">Purchased</string>
+    <string name="tab_interest">Interest</string>
+    <string name="tab_return">Return</string>
+    <string name="hint_warranty_date">Warranty ends on \n %1$s</string>
+
+    <!--Settings -->
+    <string name="title_menu_change_password">Change Password</string>
+    <string name="title_menu_profile">Profile</string>
+    <string name="title_menu_store_settings">Store Settings</string>
+    <string name="title_menu_bill_format">Bill Format</string>
+    <string name="title_menu_store_location_on_map">Store Location On Map</string>
+    <string name="title_menu_contact_details">Contact Details</string>
+    <string name="title_menu_timings">Timings</string>
+    <string name="title_menu_account_settings">Account Settings</string>
+    <string name="title_menu_logout">Logout</string>
+
+
+    <!--Buy Request Screen-->
+    <string name="buy_request_brand">Brand</string>
+    <string name="buy_request_product_image">Product Image</string>
+    <string name="buy_request_product_info">Product Info</string>
+
+    <!--Purchased Screen-->
+    <string name="purchased_brand">Brand</string>
+    <string name="purchased_product_image">Product Image</string>
+    <string name="purchased_product_info">Product Info</string>
+
+
+    <!--add offers-->
+    <string name="add_offer_brand">Brand</string>
+    <string name="add_offer_price">Price</string>
+    <!-- screen titles -->
+    <string name="title_history">History</string>
+    <string name="title_buy_requests">Buy requests</string>
+    <string name="title_scan">Scan</string>
+    <string name="title_warranty_register">Warranty Registration</string>
+    <string name="title_add_new_model">New Model</string>
+    <string name="title_offers">Offers</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_qr_code_scanner">QR Code Scanner</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_library">Library</string>
+    <string name="title_learning">Learning</string>
+    <string name="title_log_symptoms">Log Symptoms</string>
+    <string name="title_tools">Tools</string>
+    <string name="title_summary">Summary</string>
+    <string name="title_asthma_control_assessment">Asthma Control Assessment</string>
+    <string name="title_asthma_action_plan">Asthma Action Plan</string>
+    <string name="title_alert">Alerts</string>
+    <string name="title_menu_account_holder">Account Holder</string>
+    <string name="title_menu_monitored_person">Monitored Person Info</string>
+    <string name="title_menu_physician_info">Physician Info</string>
+    <string name="title_menu_support">Support</string>
+    <string name="title_menu_sensor_info">Sensor</string>
+    <string name="title_menu_change_email_address">Change Email Address</string>
+    <string name="title_menu_faq">FAQ</string>
+    <string name="title_menu_development">Development</string>
+
+    <string name="alert_you_can_select_multiple">(You can select multiple symptoms)</string>
+    <string name="heart_rate">Heart Rate</string>
+    <string name="respiratory_rate">Respiratory Rate</string>
+    <string name="alert_write_reason_title">Please describe</string>
+    <string name="hint_write_the_reason_here">enter text here</string>
+    <string name="contact_title">Who is your Asthma coach?</string>
+    <string name="contact_message">Asthma coaches can help provide general information about asthma management and answer some questions about your specific situation. \n\n Asthma coaches are not a substitute for your doctor and if any severe signs of asthma are present you should either call your doctor or 911 immediately.</string>
+    <string name="title_contact_asthma_coach">Contact Asthma Coach</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="appointment_cancelled">Appointment Cancelled Successfully</string>
+    <string name="contact_confirmation_message">Your request was received on %1$s at %2$s.\n\nUnder most circumstances you will received a call within 48 hours.</string>
+    <string name="tools_score_summary_statement">The Asthma Control Test&#8482; has a range of scores
+        from 5 to 25. A higher score represents better asthma control. A score of 19 or below or a decrease in the score over time may indicate that asthma is not well controlled. Scores should be interpreted for each individual and with the help of your medical team.</string>
+    <string name="tools_summary_report_subtitle">The summary report will show symptoms, ACT scores, and other details about your asthma management over the last three months. It may be useful for sharing with your healthcare team. It will be emailed to you in PDF format at the address associated with your account shown below.</string>
+    <string name="tools_summary_report_title">Summary Report</string>
+    <string name="aap_first_user_subtitle">No Ashtma Action Plan added at the moment.\n\nTo
+        upload your action plan, please have it in front of you and tap on below button to take
+        picture or select from your number gallery.</string>
+    <string name="action_got_it">got it!</string>
+    <string name="tools_aap_updated_at">Updated on %s</string>
+    <string name="tools_summary_report_confirmation">You should receive the summary report via
+        phoneNumber shortly.</string>
+
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This phoneNumber address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing phoneNumber
+        completions."
+    </string>
+
+    <!-- Actions -->
+    <string name="action_previous">Previous</string>
+    <string name="action_finish">Finish</string>
+    <!--<string name="title_template_step">Step <xliff:g id="step_number">%1$d</xliff:g>: <xliff:g id="step_title">%2$s</xliff:g></string>-->
+    <string name="title_template_step"><xliff:g id="step_title">%2$s</xliff:g></string>
+    <string name="lorem_ipsum"><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris et magna ut erat elementum cursus in quis ipsum. Nam faucibus ultrices eros, vel tempor leo semper sit amet. Duis magna quam, congue vitae interdum nec, condimentum ut lectus. Sed commodo venenatis eros a dignissim. Nunc adipiscing turpis nec magna venenatis at ultricies ipsum bibendum. Sed volutpat urna quis nisi vulputate egestas. Etiam eu dui a enim lacinia dapibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.\n\nPhasellus orci mi, eleifend nec congue id, volutpat at neque. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer semper velit vel leo rutrum sed fermentum elit porta.]]></string>
+    <string name="title_screen_slide">Tueo Health Sensor Setup</string>
+
+    <!-- menu -->
+    <string name="menu_address_hint">Address</string>
+    <string name="menu_sensor_name_hint">Sensor Name</string>
+    <string name="menu_framework_version_hint">Framework Version</string>
+    <string name="menu_calibration_parameters_hint">Calibration Parameters</string>
+    <string name="menu_last_data_recorded_hint">Last Data Recorded</string>
+    <string name="menu_run_sensor_configuration_hint">Run sensor configuration tool</string>
+    <string name="menu_setup_new_device">Setup a new sensor</string>
+    <string name="menu_change_wifi_setup">Change wi-fi setup for sensor</string>
+    <string name="menu_setup_recalibrate_sensor">Recalibrate sensor</string>
+    <string name="menu_hospital_or_practice_hint">Hospital/Practice</string>
+
+    <!-- Change phoneNumber -->
+    <string name="current_password_hint">Current Password</string>
+    <string name="new_emailid_hint">New Email ID</string>
+
+    <!-- Change current password-->
+    <string name="new_password_hint">New Password</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+
+
+
+</resources>
+

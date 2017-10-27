@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="productscanfragment"
+            type="com.incon.connect.user.ui.scan.ProductScanFragment"/>
+    </data>
+
+    <RelativeLayout
+        style="@style/BothMatch"
+        android:background="@android:color/white">
+
+        <android.support.v7.widget.CardView
+            style="@style/BothMatch"
+            android:layout_marginBottom="@dimen/margin_190"
+            android:layout_marginLeft="@dimen/margin_50"
+            android:layout_marginRight="@dimen/margin_45"
+            android:layout_marginTop="@dimen/margin_180"
+            app:cardCornerRadius="@dimen/margin_10"
+            >
+
+            <LinearLayout
+                style="@style/BothMatch"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/layout_qrcode"
+                    style="@style/MatchWrap"
+                    android:layout_weight="1"
+                    android:onClick="@{() -> productscanfragment.onScanClick()}"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/BothWrap"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.5"
+                        android:gravity="center"
+                        android:text="@string/action_qr_code"
+                        android:textColor="@color/tueo_theme"
+                        android:textSize="@dimen/text_size_20"
+                        android:textStyle="bold"/>
+
+                    <ImageView
+                        style="@style/m35w35"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.5"
+                        app:srcCompat="@drawable/ic_qrcode"/>
+
+                </LinearLayout>
+
+                <View
+                    style="@style/view"
+                    android:background="@color/colorAccent"/>
+
+                <LinearLayout
+                    android:id="@+id/layout_manualentry"
+                    style="@style/MatchWrap"
+                    android:layout_weight="1"
+                    android:onClick="@{() -> productscanfragment.onManualClick()}"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        style="@style/BothWrap"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.5"
+                        android:gravity="center"
+                        android:text="@string/action_manual_entry"
+                        android:textColor="@color/tueo_theme"
+                        android:textSize="@dimen/text_size_20"
+                        android:textStyle="bold"/>
+
+                    <ImageView
+                        style="@style/m35w35"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.5"
+                        app:srcCompat="@drawable/ic_manual_enter"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+
+</layout>

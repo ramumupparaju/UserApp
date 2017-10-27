@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="addNewModel"
+            type="com.incon.connect.user.dto.addnewmodel.AddNewModel"/>
+
+        <variable
+            name="addNewModelFragment"
+            type="com.incon.connect.user.ui.addnewmodel.AddNewModelFragment"/>
+
+    </data>
+
+    <ScrollView
+        android:id="@+id/scrollview_user_info"
+        style="@style/BothMatch"
+        android:background="@color/white"
+        android:fadeScrollbars="false"
+        android:scrollbarSize="4dp"
+        android:scrollbarThumbVertical="@drawable/scrollbar"
+        android:scrollbars="vertical">
+
+        <RelativeLayout
+            style="@style/BothMatch"
+            android:background="@color/white">
+
+            <LinearLayout
+                style="@style/BothMatch"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <!-- modelno -->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_model_number"
+                    style="@style/Register_TextInputLayout"
+                    android:layout_toLeftOf="@+id/im_barcode_model"
+                    android:hint="@string/add_new__model_no"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edittext_model_number"
+                        style="@style/Add_new_model_TextInputEditText"
+                        android:focusable="true"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLength="@integer/character_limit_45"
+                        android:maxLines="1"
+                        android:tag="0"
+                        android:text="@={addNewModel.productModel}"/>
+
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+                <!-- Description -->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_description"
+                    style="@style/Register_TextInputLayout"
+                    android:layout_below="@id/input_layout_model_number"
+                    android:hint="@string/action_description"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edittext_description"
+                        style="@style/Add_new_model_TextInputEditText"
+                        android:focusable="true"
+                        android:imeOptions="actionNext"
+                        android:inputType="textMultiLine"
+                        android:scrollHorizontally="false"
+                        android:tag="1"
+                        android:text="@={addNewModel.description}"/>
+
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+                <!-- category-->
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/spinner_category"
+                    style="@style/spinnerItemStyle"
+                    android:layout_below="@id/input_layout_description"
+                    android:layout_marginBottom="@dimen/margin_24"
+                    android:focusable="true"
+                    android:hint="@string/add_new__category"
+                    android:tag="2"
+                    android:text="@={addNewModel.categoryName}"
+                    android:visibility="visible"
+                    app:errorEnabled="true"
+                    app:met_floatingLabel="highlight"
+                    app:met_textColor="@color/colorForgotPasswordHintText"
+                    app:met_textColorHint="@color/colorForgotPasswordHintText"/>
+
+                <!-- division no -->
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/spinner_division"
+                    style="@style/spinnerItemStyle"
+                    android:layout_below="@id/spinner_category"
+                    android:layout_marginBottom="@dimen/margin_24"
+                    android:focusable="true"
+                    android:hint="@string/add_new__division"
+                    android:tag="3"
+                    android:text="@={addNewModel.divisionName}"
+                    android:visibility="gone"
+                    app:errorEnabled="true"
+                    app:met_floatingLabel="highlight"
+                    app:met_textColor="@color/colorForgotPasswordHintText"
+                    app:met_textColorHint="@color/colorForgotPasswordHintText"/>
+
+                <!--brand-->
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/spinner_brand"
+                    style="@style/spinnerItemStyle"
+                    android:layout_below="@id/spinner_division"
+                    android:layout_marginBottom="@dimen/margin_24"
+                    android:focusable="true"
+                    android:hint="@string/action_brand"
+                    android:tag="4"
+                    android:text="@={addNewModel.brandName}"
+                    android:visibility="gone"
+                    app:errorEnabled="true"
+                    app:met_floatingLabel="highlight"
+                    app:met_textColor="@color/colorForgotPasswordHintText"
+                    app:met_textColorHint="@color/colorForgotPasswordHintText"/>
+
+                <!-- type -->
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/spinner_type"
+                    style="@style/spinnerItemStyle"
+                    android:layout_marginBottom="@dimen/margin_24"
+                    android:focusable="true"
+                    android:hint="@string/add_new__type"
+                    android:text="@={addNewModel.divisionName}"
+                    android:visibility="gone"
+                    app:errorEnabled="true"
+                    app:met_floatingLabel="highlight"
+                    app:met_textColor="@color/colorForgotPasswordHintText"
+                    app:met_textColorHint="@color/colorForgotPasswordHintText"/>
+
+                <!--MRP price-->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_mrp_price"
+                    style="@style/Register_TextInputLayout"
+                    android:layout_below="@id/spinner_type"
+                    android:hint="@string/add_new__mrp_price"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edittext_mrp_price"
+                        style="@style/Add_new_model_TextInputEditText"
+                        android:focusable="true"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="@integer/character_limit_45"
+                        android:maxLines="1"
+                        android:tag="5"
+                        android:text="@={addNewModel.mrpPrice}"
+                        />
+
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+
+                <!--price-->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_price"
+                    style="@style/Register_TextInputLayout"
+                    android:layout_below="@id/input_layout_mrp_price"
+                    android:hint="@string/add_new__price"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edittext_price"
+                        style="@style/Add_new_model_TextInputEditText"
+                        android:focusable="true"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="@integer/character_limit_45"
+                        android:maxLines="1"
+                        android:tag="6"
+                        android:text="@={addNewModel.price}"/>
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+                <!--Notes-->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_notes"
+                    style="@style/Register_TextInputLayout"
+                    android:layout_below="@id/spinner_type"
+                    android:hint="@string/add_new_notes"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edittext_notes"
+                        style="@style/Add_new_model_TextInputEditText"
+                        android:focusable="true"
+                        android:imeOptions="actionNext"
+                        android:maxLength="@integer/character_limit_45"
+                        android:maxLines="1"
+                        android:tag="7"
+                        android:text="@={addNewModel.notes}"/>
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+                <!--submit-->
+                <Button
+                    android:id="@+id/button_submit"
+                    style="@style/w150_wrap"
+                    fontPath="fonts/OpenSans-Bold.ttf"
+                    android:layout_below="@id/input_layout_price"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_marginLeft="@dimen/margin_110"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:background="@drawable/btn_login_register_roundedcorner"
+                    android:onClick="@{() -> addNewModelFragment.onSubmitClick()}"
+                    android:text="@string/add_new_submit"
+                    android:textAllCaps="true"
+                    android:textColor="@color/tueo_theme"
+                    android:textSize="@dimen/text_size_13"/>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+
+</layout>

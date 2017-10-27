@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="buyRequestResponse"
+            type="com.incon.connect.user.apimodel.components.buyrequest.BuyRequestResponse"/>
+    </data>
+
+    <LinearLayout
+        style="@style/MatchWrap"
+        android:background="@drawable/list_ripple_effect"
+        android:minHeight="70dp"
+        android:orientation="horizontal"
+        android:weightSum="3">
+        <LinearLayout
+            style="@style/Zero_wrap"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/brand_imageview"
+                android:layout_gravity="center"
+                style="@style/m75w75"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_gravity="center"
+            style="@style/Zero_wrap"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/product_image_imageview"
+                android:layout_gravity="center"
+                style="@style/m75w75"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            style="@style/Zero_wrap"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                style="@style/BothWrap"
+                android:gravity="left"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_7"
+                    android:text="11/10/2017"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="10.4sp"
+                    />
+
+                <TextView
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:text="@{buyRequestResponse.productName}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"
+                    />
+
+                <TextView
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_12"
+                    android:text="@{buyRequestResponse.brandName}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

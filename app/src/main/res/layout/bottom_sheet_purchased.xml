@@ -1,0 +1,26 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <LinearLayout
+        style="@style/MatchWrap"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_10"
+        android:paddingBottom="@dimen/margin_10" >
+
+        <LinearLayout
+            android:id="@+id/top_row"
+            style="@style/BothMatch"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/bottom_row"
+            style="@style/BothWrap"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
