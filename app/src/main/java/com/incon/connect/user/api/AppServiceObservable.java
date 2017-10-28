@@ -46,7 +46,7 @@ public interface AppServiceObservable {
     @POST("login")
     Observable<LoginResponse> login(@Body LoginUserData loginUserData);
 
-    @POST("merchant/register")
+    @POST("user/register")
     Observable<LoginResponse> register(@Body Registration registrationBody);
 
     @POST("merchant/updatemerchant/{merchantId}")
