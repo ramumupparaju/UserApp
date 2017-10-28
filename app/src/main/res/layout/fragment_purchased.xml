@@ -17,7 +17,13 @@
             android:id="@+id/swiperefresh"
             style="@style/BothMatch"
             >
-
+            <TextView
+                android:id="@+id/purchased_textview"
+                style="@style/BothMatch"
+                android:text="No purchases"
+                android:visibility="gone"
+                android:gravity="center"
+                />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/purchased_recyclerview"
                 style="@style/MatchWrap"

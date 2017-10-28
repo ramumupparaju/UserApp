@@ -82,15 +82,16 @@ public interface AppServiceObservable {
 
     @GET("product/checkqropnestatus/{qrCode}")
     Observable<Object> checkQrCodestatus(@Path("qrCode") String qrCode);
-
-    @GET("merchant/history/purchased/{userId}")
+//connect/user/history/purchased/45
+    @GET("user/history/purchased/{userId}")
     Observable<List<PurchasedHistoryResponse>> purchasedApi(@Path("userId") int userId);
 
     @POST("product/assign")
     Observable<Object> assignQrCodeToProduct(@Body AssignQrCode qrCode);
 
     //    TODO Change purchased to interest
-    @GET("merchant/history/purchased/{userId}")
+//    user/history/interested/78
+    @GET("user/history/interested/{userId}")
     Observable<List<InterestHistoryResponse>> interestApi(@Path("userId") int userId);
 
     //    TODO Change purchased to return

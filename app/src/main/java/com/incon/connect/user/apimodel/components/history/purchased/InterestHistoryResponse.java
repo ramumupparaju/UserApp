@@ -11,12 +11,6 @@ public class InterestHistoryResponse {
     @SerializedName("serialNumber")
     @Expose
     private String serialNumber;
-    @SerializedName("mobileNumber")
-    @Expose
-    private String mobileNumber;
-    @SerializedName("batchNumber")
-    @Expose
-    private String batchNumber;
     @SerializedName("productId")
     @Expose
     private Integer productId;
@@ -35,26 +29,27 @@ public class InterestHistoryResponse {
     @SerializedName("price")
     @Expose
     private Integer price;
-    @SerializedName("address")
+    @SerializedName("productLogoUrl")
     @Expose
-    private String address;
+    private String productLogoUrl;
+    @SerializedName("productImageUrl")
+    @Expose
+    private String productImageUrl;
+    @SerializedName("productQrCode")
+    @Expose
+    private String productQrCode;
+    @SerializedName("mrp")
+    @Expose
+    private Integer mrp;
+    @SerializedName("interestId")
+    @Expose
+    private Integer interestId;
+    @SerializedName("mobileNumber")
+    @Expose
+    private String mobileNumber;
     @SerializedName("location")
     @Expose
     private String location;
-    @SerializedName("warrantyId")
-    @Expose
-    private Integer warrantyId;
-    @SerializedName("invoiceNumber")
-    @Expose
-    private String invoiceNumber;
-    @SerializedName("status")
-    @Expose
-    private String status;
-
-
-    @SerializedName("warrantyEndDate")
-    @Expose
-    private String warrantyEndDate;
 
     public String getSerialNumber() {
         return serialNumber;
@@ -62,22 +57,6 @@ public class InterestHistoryResponse {
 
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-    }
-
-    public String getBatchNumber() {
-        return batchNumber;
-    }
-
-    public void setBatchNumber(String batchNumber) {
-        this.batchNumber = batchNumber;
     }
 
     public Integer getProductId() {
@@ -128,12 +107,52 @@ public class InterestHistoryResponse {
         this.price = price;
     }
 
-    public String getAddress() {
-        return address;
+    public String getProductLogoUrl() {
+        return productLogoUrl;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setProductLogoUrl(String productLogoUrl) {
+        this.productLogoUrl = productLogoUrl;
+    }
+
+    public String getProductImageUrl() {
+        return productImageUrl;
+    }
+
+    public void setProductImageUrl(String productImageUrl) {
+        this.productImageUrl = productImageUrl;
+    }
+
+    public String getProductQrCode() {
+        return productQrCode;
+    }
+
+    public void setProductQrCode(String productQrCode) {
+        this.productQrCode = productQrCode;
+    }
+
+    public Integer getMrp() {
+        return mrp;
+    }
+
+    public void setMrp(Integer mrp) {
+        this.mrp = mrp;
+    }
+
+    public Integer getInterestId() {
+        return interestId;
+    }
+
+    public void setInterestId(Integer interestId) {
+        this.interestId = interestId;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
     public String getLocation() {
@@ -143,38 +162,4 @@ public class InterestHistoryResponse {
     public void setLocation(String location) {
         this.location = location;
     }
-
-    public Integer getWarrantyId() {
-        return warrantyId;
-    }
-
-    public void setWarrantyId(Integer warrantyId) {
-        this.warrantyId = warrantyId;
-    }
-
-    public String getInvoiceNumber() {
-        return invoiceNumber;
-    }
-
-    public void setInvoiceNumber(String invoiceNumber) {
-        this.invoiceNumber = invoiceNumber;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    public String getWarrantyEndDate() {
-        return warrantyEndDate;
-    }
-
-    public void setWarrantyEndDate(String warrantyEndDate) {
-        this.warrantyEndDate = warrantyEndDate;
-    }
-
-
-
 }

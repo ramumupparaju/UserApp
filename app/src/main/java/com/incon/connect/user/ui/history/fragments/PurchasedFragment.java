@@ -16,8 +16,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.incon.connect.user.R;
 import com.incon.connect.user.AppUtils;
+import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.history.purchased.PurchasedHistoryResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
@@ -265,8 +265,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 onOpenAlert(itemFromPosition.getInformation());
             } else if (tag == 1 && topClickedText.equals("Warranty")) {
                 String dateString = getString(R.string.hint_warranty_date,
-                        DateUtils.convertMillisToStringFormat(
-                                Long.parseLong(itemFromPosition.getWarrantyEndDate()),
+                        DateUtils.convertMillisToStringFormat(itemFromPosition.getWarrantyEndDate(),
                                 DateFormatterConstants.DD_E_MMMM_YYYY));
                 onOpenAlert(dateString);
             }
@@ -363,8 +362,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         if (purchasedHistoryResponseList == null) {
             purchasedHistoryResponseList = new ArrayList<>();
         }
-        purchasedAdapter.setData(purchasedHistoryResponseList);
-        dismissSwipeRefresh();
+        if (purchasedHistoryResponseList.size() == 0) {
+            binding.purchasedTextview.setVisibility(View.VISIBLE);
+            dismissSwipeRefresh();
+        }   else {
+            purchasedAdapter.setData(purchasedHistoryResponseList);
+            dismissSwipeRefresh();
+        }
+
     }
 
     @Override

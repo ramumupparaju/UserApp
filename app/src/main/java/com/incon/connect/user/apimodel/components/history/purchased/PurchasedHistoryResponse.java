@@ -1,7 +1,6 @@
 package com.incon.connect.user.apimodel.components.history.purchased;
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -33,13 +32,7 @@ public class PurchasedHistoryResponse extends BaseObservable {
     private String brandName;
     @SerializedName("price")
     @Expose
-    private String price;
-    @SerializedName("address")
-    @Expose
-    private String address;
-    @SerializedName("location")
-    @Expose
-    private String location;
+    private Integer price;
     @SerializedName("warrantyId")
     @Expose
     private Integer warrantyId;
@@ -51,7 +44,7 @@ public class PurchasedHistoryResponse extends BaseObservable {
     private String status;
     @SerializedName("warrantyEndDate")
     @Expose
-    private String warrantyEndDate;
+    private Long warrantyEndDate;
     @SerializedName("productLogoUrl")
     @Expose
     private String productLogoUrl;
@@ -61,11 +54,17 @@ public class PurchasedHistoryResponse extends BaseObservable {
     @SerializedName("productQrCode")
     @Expose
     private String productQrCode;
+    @SerializedName("mrp")
+    @Expose
+    private Integer mrp;
+    @SerializedName("address")
+    @Expose
+    private String address;
+    @SerializedName("location")
+    @Expose
+    private String location;
     private transient boolean isSelected;
 
-    public boolean isSelected() {
-        return isSelected;
-    }
 
     public String getSerialNumber() {
         return serialNumber;
@@ -86,7 +85,29 @@ public class PurchasedHistoryResponse extends BaseObservable {
     public String getBatchNumber() {
         return batchNumber;
     }
+    public boolean isSelected() {
+        return isSelected;
+    }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
     public void setBatchNumber(String batchNumber) {
         this.batchNumber = batchNumber;
     }
@@ -131,28 +152,12 @@ public class PurchasedHistoryResponse extends BaseObservable {
         this.brandName = brandName;
     }
 
-    public String getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Integer price) {
         this.price = price;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public Integer getWarrantyId() {
@@ -179,15 +184,14 @@ public class PurchasedHistoryResponse extends BaseObservable {
         this.status = status;
     }
 
-    public String getWarrantyEndDate() {
+    public Long getWarrantyEndDate() {
         return warrantyEndDate;
     }
 
-    public void setWarrantyEndDate(String warrantyEndDate) {
+    public void setWarrantyEndDate(Long warrantyEndDate) {
         this.warrantyEndDate = warrantyEndDate;
     }
 
-    @Bindable
     public String getProductLogoUrl() {
         return productLogoUrl;
     }
@@ -212,7 +216,12 @@ public class PurchasedHistoryResponse extends BaseObservable {
         this.productQrCode = productQrCode;
     }
 
-    public void setSelected(boolean isSelected) {
-        this.isSelected = isSelected;
+    public Integer getMrp() {
+        return mrp;
     }
+
+    public void setMrp(Integer mrp) {
+        this.mrp = mrp;
+    }
+
 }
