@@ -60,6 +60,11 @@ public class ScanTabPresenter extends BasePresenter<ScanTabContract.View> implem
     }
 
     @Override
+    public void userInfoUsingQrCode(String qrCode) {
+
+    }
+
+    @Override
     public void newUserRegistration(String phoneNumber) {
         DisposableObserver<UserInfoResponse> observer = new
                 DisposableObserver<UserInfoResponse>() {
@@ -85,13 +90,13 @@ public class ScanTabPresenter extends BasePresenter<ScanTabContract.View> implem
     }
 
     @Override
-    public void userInfoUsingQrCode(String qrCode) {
+    public void userInterestedUsingQrCode(String qrCode) {
         getView().showProgress(appContext.getString(R.string.progress_user_details));
-        DisposableObserver<UserInfoResponse> observer = new
-                DisposableObserver<UserInfoResponse>() {
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
                     @Override
-                    public void onNext(UserInfoResponse userInfoResponse) {
-                        getView().userInfo(userInfoResponse);
+                    public void onNext(Object userInfoResponse) {
+                        getView().userInterestedResponce(userInfoResponse);
                     }
 
                     @Override
@@ -106,7 +111,7 @@ public class ScanTabPresenter extends BasePresenter<ScanTabContract.View> implem
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().userInfoUsingQrCode(qrCode).subscribe(observer);
+        AppApiService.getInstance().userInterestedUsingQrCode(qrCode).subscribe(observer);
         addDisposable(observer);
     }
 

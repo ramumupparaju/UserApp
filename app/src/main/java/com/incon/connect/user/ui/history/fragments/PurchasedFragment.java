@@ -162,6 +162,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             linearLayout.setGravity(Gravity.CENTER);
             CustomBottomViewBinding customBottomView = getCustomBottomView();
             customBottomView.viewTv.setText(bottomNames[i]);
+            customBottomView.viewTv.setTextSize(10f);
             customBottomView.viewLogo.setImageResource(bottomDrawables[i]);
             View bottomRootView = customBottomView.getRoot();
             bottomRootView.setTag(i);
@@ -238,6 +239,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
                 CustomBottomViewBinding customBottomView = getCustomBottomView();
                 customBottomView.viewTv.setText(bottomOptions[i]);
+                customBottomView.viewTv.setTextSize(10f);
                 customBottomView.viewLogo.setImageResource(topDrawables[i]);
                 View topRootView = customBottomView.getRoot();
                 topRootView.setTag(i);

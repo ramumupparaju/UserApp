@@ -94,8 +94,11 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
             switch (requestCode) {
                 case RequestCodes.USER_PROFILE_SCAN:
                     if (data != null) {
-                        scanTabPresenter.userInfoUsingQrCode(
-                                data.getStringExtra(IntentConstants.SCANNED_CODE));
+                        /*scanTabPresenter.userInterestedUsingQrCode(
+                                data.getStringExtra(IntentConstants.SCANNED_CODE));*/
+                //  TODO REMOVE Hard Coded UUID
+                        scanTabPresenter.
+                                userInterestedUsingQrCode("0d4e7ea7-d35f-4233-be2a-6e01b65e2bb9");
                     }
                     break;
                 default:
@@ -114,5 +117,10 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
         ((HomeActivity) getActivity()).replaceFragmentAndAddToStack(
                 ProductScanFragment.class, bundle);
         AppUtils.hideSoftKeyboard(getActivity(), rootView);
+    }
+
+    @Override
+    public void userInterestedResponce(Object userInfoResponse) {
+
     }
 }

@@ -12,12 +12,15 @@ public interface ScanTabContract {
 
     interface View extends BaseView {
         void userInfo(UserInfoResponse userInfoResponse);
+        void userInterestedResponce(Object userInfoResponse);
     }
 
     interface Presenter {
         void userInfoUsingPhoneNumber(String phoneNumber);
         void userInfoUsingQrCode(String qrCode);
         void newUserRegistration(String phoneNumber);
+        void userInterestedUsingQrCode(String qrCode);
+
     }
 
 }

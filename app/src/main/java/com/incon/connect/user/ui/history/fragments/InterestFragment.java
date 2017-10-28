@@ -3,17 +3,22 @@ package com.incon.connect.user.ui.history.fragments;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse;
+import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
+import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.databinding.BottomSheetInterestBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentInterestBinding;
@@ -23,7 +28,6 @@ import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by PC on 10/2/2017.
@@ -38,8 +42,11 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
      private BottomSheetInterestBinding bottomSheetInterestBinding;
      private BottomSheetDialog bottomSheetDialog;
 
+    private AppAlertDialog detailsDialog;
 
     private View rootView;
+    private int productSelectedPosition;
+
     @Override
     protected void initializePresenter() {
         interestPresenter = new InterestPresenter();
@@ -113,18 +120,42 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     };
 
     private void createBottomSheetView(int position) {
-        bottomSheetInterestBinding.sheetTitle.setText("item : " + position);
+        productSelectedPosition = position;
         bottomSheetInterestBinding.topRow.setVisibility(View.GONE);
+        // bottomSheetPurchasedBinding.bottomRow.removeAllViews();
+
+        String[] bottomNames = new String[4];
+        bottomNames[0] = "Buy request";
+        bottomNames[1] = "Product";
+        bottomNames[2] = "Show room";
+        bottomNames[3] = "Delete";
+
+        int[] bottomDrawables = new int[4];
+        bottomDrawables[0] = R.drawable.ic_option_customer;
+        bottomDrawables[1] = R.drawable.ic_option_product;
+        bottomDrawables[2] = R.drawable.ic_option_service_support;
+        bottomDrawables[3] = R.drawable.ic_option_service_support;
+
         bottomSheetInterestBinding.bottomRow.removeAllViews();
-
-        int noOfViews = new Random().nextInt(4);
-        for (int i = 0; i < noOfViews; i++) {
+        int length = bottomNames.length;
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        0, ViewGroup.LayoutParams.WRAP_CONTENT, length);
+        params.setMargins(1, 1, 1, 1);
+//TODO have to remove hard codeings
+        for (int i = 0; i < length; i++) {
+            LinearLayout linearLayout = new LinearLayout(getContext());
+            linearLayout.setWeightSum(1f);
+            linearLayout.setGravity(Gravity.CENTER);
             CustomBottomViewBinding customBottomView = getCustomBottomView();
-            customBottomView.viewTv.setText("position :" + i);
+            customBottomView.viewTv.setText(bottomNames[i]);
+            customBottomView.viewTv.setTextSize(10f);
+            customBottomView.viewLogo.setImageResource(bottomDrawables[i]);
             View bottomRootView = customBottomView.getRoot();
+            bottomRootView.setTag(i);
+            linearLayout.addView(bottomRootView);
             bottomRootView.setOnClickListener(bottomViewClickListener);
-            bottomSheetInterestBinding.bottomRow.addView(bottomRootView);
-
+            bottomSheetInterestBinding.bottomRow.addView(linearLayout, params);
         }
     }
 
@@ -132,21 +163,112 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            Integer tag = (Integer) view.getTag();
+            String[] bottomOptions;
+            int[] topDrawables;
+            changeBackgroundText(tag , view);
+            if (tag == 0) {
+                bottomOptions = new String[1];
+                bottomOptions[0] = "Note";
+                topDrawables = new int[1];
+                topDrawables[0] = R.drawable.ic_option_call;
+//                changeBackgroundText(tag , view);
+
+            }  else if (tag == 1) {
+                bottomOptions = new String[3];
+                bottomOptions[0] = "Main features";
+                bottomOptions[1] = "Details";
+                bottomOptions[2] = "Feedback / Reviews";
+
+                topDrawables = new int[3];
+                topDrawables[0] = R.drawable.ic_option_details;
+                topDrawables[1] = R.drawable.ic_option_details;
+                topDrawables[2] = R.drawable.ic_option_warranty;
+//                changeBackgroundText(tag , view);
+            } else if (tag == 3) {
+                bottomOptions = new String[1];
+                bottomOptions[0] = "Delete";
+                topDrawables = new int[1];
+                topDrawables[0] = R.drawable.ic_option_details;
+                onOpenAlert("Are You Sure Delete Interested");
+            } else  {
+
+                bottomOptions = new String[3];
+                bottomOptions[0] = "Call";
+                bottomOptions[1] = "Location";
+                bottomOptions[2] = "Feedback / Reviews";
+                topDrawables = new int[3];
+                topDrawables[0] = R.drawable.ic_option_details;
+                topDrawables[1] = R.drawable.ic_option_details;
+                topDrawables[2] = R.drawable.ic_option_warranty;
+
+//                changeBackgroundText(tag , view);
+
+            }
             bottomSheetInterestBinding.topRow.removeAllViews();
+            int length1 = bottomOptions.length;
             bottomSheetInterestBinding.topRow.setVisibility(View.VISIBLE);
-            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
-            String bottomClickedText = viewById.getText().toString();
-            int noOfViews = new Random().nextInt(4);
-            for (int i = 0; i < noOfViews; i++) {
+            int length = length1;
+            LinearLayout.LayoutParams params =
+                    new LinearLayout.LayoutParams(
+                            0,
+                            ViewGroup.LayoutParams.MATCH_PARENT, length);
+            params.setMargins(1, 1, 1, 1);
+            for (int i = 0; i < length; i++) {
+                LinearLayout linearLayout = new LinearLayout(getContext());
+                linearLayout.setWeightSum(1f);
+                linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
                 CustomBottomViewBinding customBottomView = getCustomBottomView();
-                customBottomView.viewTv.setText(bottomClickedText + i);
+                customBottomView.viewTv.setText(bottomOptions[i]);
+                customBottomView.viewTv.setTextSize(10f);
+                customBottomView.viewLogo.setImageResource(topDrawables[i]);
                 View topRootView = customBottomView.getRoot();
+                topRootView.setTag(i);
                 topRootView.setOnClickListener(topViewClickListener);
-                bottomSheetInterestBinding.topRow.addView(topRootView);
+                linearLayout.addView(topRootView);
+                bottomSheetInterestBinding.topRow.addView(linearLayout, params);
             }
         }
     };
 
+    private void onOpenAlert(String messageInfo) {
+        detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
+                AlertDialogCallback() {
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                interestPresenter.delete(userId);
+                                detailsDialog.dismiss();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                detailsDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(messageInfo)
+                .button1Text(getString(R.string.action_ok))
+                .button2Text(getString(R.string.action_cancel))
+                .build();
+        detailsDialog.showDialog();
+    }
+
+    private void changeBackgroundText(Integer tag, View view) {
+        for (int i = 0; i < bottomSheetInterestBinding.bottomRow.getChildCount(); i++) {
+//            if (view.equals(bottomSheetInterestBinding.bottomRow.getChildAt(i))) {
+            LinearLayout childAt = (LinearLayout) bottomSheetInterestBinding.
+                    bottomRow.getChildAt(i);
+            if (view == childAt) {
+                childAt.setBackgroundColor(
+                        ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+            } else {
+                childAt.setBackgroundColor(
+                        ContextCompat.getColor(getActivity(), R.color.white));
+            }
+        }
+    }
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -183,6 +305,14 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         this.interestList = interestHistoryResponseList;
         interestAdapter.setData(interestList);
         dismissSwipeRefresh();
+    }
+
+    @Override
+    public void loadInterestDeleteHistory(Object interestHistoryResponseList) {
+        if (interestHistoryResponseList == null) {
+            interestHistoryResponseList = new ArrayList<>();
+        }
+
     }
 
 

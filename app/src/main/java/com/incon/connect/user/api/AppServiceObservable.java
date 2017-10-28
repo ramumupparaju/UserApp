@@ -94,6 +94,11 @@ public interface AppServiceObservable {
     @GET("user/history/interested/{userId}")
     Observable<List<InterestHistoryResponse>> interestApi(@Path("userId") int userId);
 
+//user/history/deleteinterested/63
+    @GET("user/history/deleteinterested/{userId}")
+    Observable<Object> deleteApi(@Path("userId") int userId);
+
+
     //    TODO Change purchased to return
     @GET("merchant/history/purchased/{userId}")
     Observable<List<ReturnHistoryResponse>> returnApi(@Path("userId") int userId);
@@ -109,6 +114,9 @@ public interface AppServiceObservable {
 
     @GET("user/getuser/scan/{qrCode}/")
     Observable<UserInfoResponse> userInfoUsingQrCode(@Path("qrCode") String qrCode);
+
+    @GET("user/interested/{qrCode}/")
+    Observable<Object> userInterestedUsingQrCode(@Path("qrCode") String qrCode);
 
     @POST("product/getproduct")
     Observable<ProductInfoResponse> productInfoUsingQrCode(@Body HashMap<String, String> qrCode);

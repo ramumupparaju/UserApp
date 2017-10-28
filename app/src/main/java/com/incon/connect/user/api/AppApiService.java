@@ -141,6 +141,10 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.interestApi(userId));
     }
 
+    public Observable<Object> deleteApi(int userId) {
+        return addNetworkCheck(serviceInstance.deleteApi(userId));
+    }
+
     public Observable<List<ReturnHistoryResponse>> returnApi(int userId) {
         return addNetworkCheck(serviceInstance.returnApi(userId));
     }
@@ -157,7 +161,9 @@ public class AppApiService implements AppConstants {
     public Observable<UserInfoResponse> userInfoUsingQrCode(String qrCode) {
         return addNetworkCheck(serviceInstance.userInfoUsingQrCode(qrCode));
     }
-
+    public Observable<Object> userInterestedUsingQrCode(String qrCode) {
+        return addNetworkCheck(serviceInstance.userInterestedUsingQrCode(qrCode));
+    }
     public Observable<UserInfoResponse> userInfoUsingPhoneNumber(String phoneNumber) {
         return addNetworkCheck(serviceInstance.userInfoUsingPhoneNumber(phoneNumber));
     }
