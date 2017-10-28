@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+
+    <RelativeLayout
+        style="@style/BothMatch"
+        android:background="@color/white">
+
+
+        <ImageView
+            android:id="@+id/qrcode_iv"
+            android:layout_width="@dimen/qrcode"
+            android:layout_height="@dimen/qrcode"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+
+</layout>

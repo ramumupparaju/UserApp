@@ -146,6 +146,7 @@ public interface AppConstants {
 
 
     interface BundleConstants {
+        String QRCODE_DATA = "qrcodeData";
         String SCANNED_QRCODE = "scannedQrcode";
         String WARRANTY_DATA = "warrantyData";
         String ADD_NEW_MODEL_DATA = "addnewmodelData";
