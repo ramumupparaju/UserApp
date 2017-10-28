@@ -2,11 +2,13 @@ package com.incon.connect.user.ui.register.fragment;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.view.KeyEvent;
@@ -22,17 +24,23 @@ import android.widget.TextView;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.AppUtils;
+import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
+import com.incon.connect.user.custom.view.AppOtpDialog;
 import com.incon.connect.user.custom.view.CustomTextInputLayout;
 import com.incon.connect.user.databinding.FragmentRegistrationUserBinding;
 import com.incon.connect.user.dto.registration.Registration;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.RegistrationMapActivity;
+import com.incon.connect.user.ui.home.HomeActivity;
+import com.incon.connect.user.ui.notifications.PushPresenter;
 import com.incon.connect.user.ui.register.RegistrationActivity;
+import com.incon.connect.user.ui.termsandcondition.TermsAndConditionActivity;
 import com.incon.connect.user.utils.DateUtils;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TimeZone;
 
 
@@ -48,6 +56,8 @@ public class RegistrationUserFragment extends BaseFragment implements
     private Animation shakeAnim;
     private HashMap<Integer, String> errorMap;
     private MaterialBetterSpinner genderSpinner;
+    private List<CategoryResponse> categoryResponseList;
+    private AppOtpDialog dialog;
 
     @Override
     protected void initializePresenter() {
@@ -85,9 +95,13 @@ public class RegistrationUserFragment extends BaseFragment implements
 
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
+                case RequestCodes.TERMS_AND_CONDITIONS:
+                   callRegisterApi();
+                    break;
                 case RequestCodes.ADDRESS_LOCATION:
-                    register.setUserAddress(data.getStringExtra(IntentConstants.ADDRESS_COMMA));
-                    register.setUserLocation(data.getStringExtra(IntentConstants.LOCATION_COMMA));
+                    register.setAddress(data.getStringExtra(IntentConstants.ADDRESS_COMMA));
+                    register.setLocation(data.getStringExtra(IntentConstants.LOCATION_COMMA));
+                    binding.setRegister(register);
                     break;
                 default:
                     break;
@@ -95,6 +109,11 @@ public class RegistrationUserFragment extends BaseFragment implements
         }
 
     }
+
+    private void callRegisterApi() {
+        registrationUserInfoFragPresenter.register(register);
+    }
+
 
     private void loadData() {
         shakeAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
@@ -316,6 +335,38 @@ public class RegistrationUserFragment extends BaseFragment implements
 
     @Override
     public void navigateToRegistrationActivityNext() {
-        ((RegistrationActivity) getActivity()).navigateToNext();
+       // ((RegistrationActivity) getActivity()).navigateToNext();
+        Intent eulaIntent = new Intent(getActivity(), TermsAndConditionActivity.class);
+        startActivityForResult(eulaIntent, RequestCodes.TERMS_AND_CONDITIONS);
     }
+
+    @Override
+    public void uploadUserData(int userId) {
+
+        navigateToHomeScreen();
+    }
+
+    @Override
+    public void navigateToHomeScreen() {
+        PushPresenter pushPresenter = new PushPresenter();
+        pushPresenter.pushRegisterApi();
+
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        Intent intent = new Intent(getActivity(),
+                HomeActivity.class);
+        // This is a convenient way to make the proper Intent to launch and
+        // reset an application's task.
+        ComponentName cn = intent.getComponent();
+        Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+        startActivity(mainIntent);
+
+    }
+
+    @Override
+    public void validateOTP() {
+
+    }
+
 }

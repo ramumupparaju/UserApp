@@ -16,7 +16,6 @@ import com.incon.connect.user.databinding.ViewRegistrationBottomButtonsBinding;
 import com.incon.connect.user.dto.registration.Registration;
 import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.register.adapter.RegistrationPagerAdapter;
-import com.incon.connect.user.ui.register.fragment.RegistrationStoreFragment;
 import com.incon.connect.user.ui.register.fragment.RegistrationUserFragment;
 import com.incon.connect.user.utils.DeviceUtils;
 
@@ -42,9 +41,10 @@ public class RegistrationActivity extends BaseActivity implements RegistrationCo
                             binding.viewpagerRegister.getCurrentItem());
                     if (currentRegistionFragment instanceof RegistrationUserFragment) {
                         ((RegistrationUserFragment) currentRegistionFragment).onClickNext();
-                    } else if (currentRegistionFragment instanceof RegistrationStoreFragment) {
-                        ((RegistrationStoreFragment) currentRegistionFragment).onClickNext();
                     }
+                    /*else if (currentRegistionFragment instanceof RegistrationStoreFragment) {
+                        ((RegistrationStoreFragment) currentRegistionFragment).onClickNext();
+                    }*/
                     break;
                 default:
                     //do nothing

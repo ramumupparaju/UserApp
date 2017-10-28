@@ -103,7 +103,7 @@
                         android:maxLength="@integer/character_limit_45"
                         android:maxLines="1"
                         android:tag="1"
-                        android:text="@={register.phoneNumber}"/>
+                        android:text="@={register.mobileNumber}"/>
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
                 <!-- Gender -->
@@ -115,7 +115,7 @@
                     android:focusable="true"
                     android:hint="@string/register_gender_hint"
                     android:tag="2"
-                    android:text="@={register.genderType}"
+                    android:text="@={register.gender}"
                     app:errorEnabled="true"
                     app:met_floatingLabel="highlight"
                     app:met_textColor="@color/colorForgotPasswordHintText"
@@ -170,7 +170,7 @@
                         android:maxLength="@integer/character_limit_200"
                         android:maxLines="1"
                         android:tag="4"
-                        android:text="@={register.emailId}"/>
+                        android:text="@={register.email}"/>
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
                 <!-- Password -->
@@ -235,7 +235,7 @@
                         style="@style/Register_TextInputEditText"
                         android:enabled="false"
                         android:tag="7"
-                        android:text="@={register.userAddress}"/>
+                        android:text="@={register.address}"/>
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
 
