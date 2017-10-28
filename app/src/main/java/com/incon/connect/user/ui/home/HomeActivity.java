@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -119,11 +120,14 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
 
     public void onUserQrCodeClick() {
-        //TODO need to data from response
+        String userData = SharedPrefsUtils.loginProvider().getStringPreference(
+                LoginPrefs.USER_UUID);
+        if (TextUtils.isEmpty(userData)) {
+            return;
+        }
         Bundle bundle = new Bundle();
-        bundle.putString(BundleConstants.QRCODE_DATA, "1-45-1507817691174");
-        replaceFragmentAndAddToStack(
-                UserQrCodeFragment.class, bundle);
+        bundle.putString(BundleConstants.QRCODE_DATA, userData);
+        replaceFragmentAndAddToStack(UserQrCodeFragment.class, bundle);
     }
 
     @Override

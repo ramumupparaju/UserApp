@@ -179,6 +179,7 @@ public interface AppConstants {
         String USER_POSTAL_CODE = "userPostalCode";
         String USER_PASSWORD = "userPassword";
         String USER_CONFIRM_PASSWORD = "userConfirmPassword";
+        String USER_UUID = "uuid";
 
         //store details
         String STORE_ID = "storeId";

@@ -26,6 +26,8 @@ public class LoginDataManagerImpl implements LoginDataManager, AppConstants.Logi
                 loginResponse.getDobInMillis());
         sharedPrefsUtils.setStringPreference(USER_GENDER,
                 loginResponse.getGender());
+        sharedPrefsUtils.setStringPreference(USER_UUID,
+                loginResponse.getUuid());
 
         //Adding Store details to preferences
         StoreResponse storeDetails = loginResponse.getStore();

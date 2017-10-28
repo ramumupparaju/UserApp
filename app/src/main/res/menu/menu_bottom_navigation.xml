@@ -11,7 +11,7 @@
         android:id="@+id/action_buy_requests_favorites"
         android:checked="true"
         android:icon="@drawable/ic_tab_buy_requests"
-        android:title="@string/title_buy_requests" />
+        android:title="@string/title_favorites" />
 
     <item
         android:id="@+id/action_scan"
@@ -20,7 +20,7 @@
     <item
         android:id="@+id/action_offers_status"
         android:icon="@drawable/ic_tab_offers"
-        android:title="@string/title_offers" />
+        android:title="@string/title_status" />
     <item
         android:id="@+id/action_notifications"
         android:icon="@drawable/ic_tab_notifications"

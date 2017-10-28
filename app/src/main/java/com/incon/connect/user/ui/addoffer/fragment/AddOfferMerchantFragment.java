@@ -66,7 +66,7 @@ public class AddOfferMerchantFragment extends BaseFragment implements
 
     @Override
     public void setTitle() {
-        ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.title_offers));
+        ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.title_status));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.incon.connect.user.ui.scan;
 
 
-import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 import com.incon.connect.user.ui.BaseView;
 
 /**
@@ -11,16 +10,11 @@ import com.incon.connect.user.ui.BaseView;
 public interface ScanTabContract {
 
     interface View extends BaseView {
-        void userInfo(UserInfoResponse userInfoResponse);
         void userInterestedResponce(Object userInfoResponse);
     }
 
     interface Presenter {
-        void userInfoUsingPhoneNumber(String phoneNumber);
-        void userInfoUsingQrCode(String qrCode);
-        void newUserRegistration(String phoneNumber);
         void userInterestedUsingQrCode(String qrCode);
-
     }
 
 }

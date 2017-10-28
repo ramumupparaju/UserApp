@@ -47,7 +47,7 @@ public class BuyRequestFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void setTitle() {
-        ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.title_buy_requests));
+        ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.title_favorites));
     }
 
     @Override
