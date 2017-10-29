@@ -13,6 +13,7 @@ import com.incon.connect.user.databinding.FragmentScanTabBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.qrcodescan.QrcodeBarcodeScanActivity;
+import com.incon.connect.user.utils.SharedPrefsUtils;
 
 
 public class ScanTabFragment extends BaseFragment implements ScanTabContract.View {
@@ -59,7 +60,8 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
             switch (requestCode) {
                 case RequestCodes.USER_PROFILE_SCAN:
                     if (data != null) {
-                        scanTabPresenter.userInterestedUsingQrCode(
+                        scanTabPresenter.userInterestedUsingQrCode(SharedPrefsUtils.loginProvider().
+                                        getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE),
                                 data.getStringExtra(IntentConstants.SCANNED_CODE));
                     }
                     break;

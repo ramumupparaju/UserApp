@@ -115,8 +115,10 @@ public interface AppServiceObservable {
     @GET("user/getuser/scan/{qrCode}/")
     Observable<UserInfoResponse> userInfoUsingQrCode(@Path("qrCode") String qrCode);
 
-    @GET("user/interested/{qrCode}/")
-    Observable<Object> userInterestedUsingQrCode(@Path("qrCode") String qrCode);
+    @POST("user/interested/{customerId}/")
+    Observable<Object> userInterestedUsingQrCode(@Path("customerId") int customerId, @Body
+            HashMap<String,
+            String> qrCode);
 
     @POST("product/getproduct")
     Observable<ProductInfoResponse> productInfoUsingQrCode(@Body HashMap<String, String> qrCode);

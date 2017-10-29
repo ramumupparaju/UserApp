@@ -4,11 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Pair;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
+
+import java.util.HashMap;
 
 import io.reactivex.observers.DisposableObserver;
 
@@ -29,7 +32,11 @@ public class ScanTabPresenter extends BasePresenter<ScanTabContract.View> implem
     }
 
     @Override
-    public void userInterestedUsingQrCode(String qrCode) {
+    public void userInterestedUsingQrCode(int customerId, String qrCode) {
+        HashMap<String, String> qrCodeMap = new HashMap<>();
+        qrCodeMap.put(AppConstants.ApiRequestKeyConstants.BODY_PRODUCT_CODE,
+                qrCode);
+
         getView().showProgress(appContext.getString(R.string.progress_product_details));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
@@ -50,7 +57,8 @@ public class ScanTabPresenter extends BasePresenter<ScanTabContract.View> implem
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().userInterestedUsingQrCode(qrCode).subscribe(observer);
+        AppApiService.getInstance().userInterestedUsingQrCode(customerId, qrCodeMap).
+                subscribe(observer);
         addDisposable(observer);
     }
 

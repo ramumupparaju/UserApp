@@ -14,7 +14,7 @@ public interface ScanTabContract {
     }
 
     interface Presenter {
-        void userInterestedUsingQrCode(String qrCode);
+        void userInterestedUsingQrCode(int customerId, String qrCode);
     }
 
 }

@@ -34,17 +34,16 @@ import java.util.List;
  */
 
 public class InterestFragment extends BaseTabFragment implements InterestContract.View {
-     private FragmentInterestBinding binding;
-     private InterestPresenter interestPresenter;
-     private List<InterestHistoryResponse> interestList;
-     private int userId;
-     private InterestAdapter interestAdapter;
-     private BottomSheetInterestBinding bottomSheetInterestBinding;
-     private BottomSheetDialog bottomSheetDialog;
-
-    private AppAlertDialog detailsDialog;
-
+    private FragmentInterestBinding binding;
     private View rootView;
+    private InterestPresenter interestPresenter;
+    private List<InterestHistoryResponse> interestList;
+    private InterestAdapter interestAdapter;
+    private BottomSheetInterestBinding bottomSheetInterestBinding;
+
+    private BottomSheetDialog bottomSheetDialog;
+    private AppAlertDialog detailsDialog;
+    private int userId;
     private int productSelectedPosition;
 
     @Override
@@ -52,13 +51,11 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         interestPresenter = new InterestPresenter();
         interestPresenter.setView(this);
         setBasePresenter(interestPresenter);
-
     }
 
     @Override
     public void setTitle() {
         //do nothing
-
     }
 
     @Override
@@ -78,14 +75,10 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     }
 
     private void loadBottomSheet() {
-
-         bottomSheetInterestBinding = DataBindingUtil.inflate(LayoutInflater.from(
+        bottomSheetInterestBinding = DataBindingUtil.inflate(LayoutInflater.from(
                 getActivity()), R.layout.bottom_sheet_interest, null, false);
-
         bottomSheetDialog = new BottomSheetDialog(getActivity());
         bottomSheetDialog.setContentView(bottomSheetInterestBinding.getRoot());
-
-
     }
 
     private void initViews() {
@@ -107,9 +100,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
         interestPresenter.interest(userId);
     }
-
-
-
 
     private IClickCallback iClickCallback = new IClickCallback() {
         @Override
@@ -166,7 +156,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             Integer tag = (Integer) view.getTag();
             String[] bottomOptions;
             int[] topDrawables;
-            changeBackgroundText(tag , view);
+            changeBackgroundText(tag, view);
             if (tag == 0) {
                 bottomOptions = new String[1];
                 bottomOptions[0] = "Note";
@@ -174,7 +164,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[0] = R.drawable.ic_option_call;
 //                changeBackgroundText(tag , view);
 
-            }  else if (tag == 1) {
+            } else if (tag == 1) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = "Main features";
                 bottomOptions[1] = "Details";
@@ -191,7 +181,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables = new int[1];
                 topDrawables[0] = R.drawable.ic_option_details;
                 onOpenAlert("Are You Sure Delete Interested");
-            } else  {
+            } else {
 
                 bottomOptions = new String[3];
                 bottomOptions[0] = "Call";
@@ -269,6 +259,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             }
         }
     }
+
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -291,6 +282,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     interestPresenter.interest(userId);
                 }
             };
+
     private void dismissSwipeRefresh() {
         if (binding.swiperefresh.isRefreshing()) {
             binding.swiperefresh.setRefreshing(false);
