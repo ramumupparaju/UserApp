@@ -10,6 +10,7 @@ import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppOtpDialog;
 import com.incon.connect.user.databinding.ActivityResetPasswordPromptBinding;
 import com.incon.connect.user.ui.BaseActivity;
+import com.incon.connect.user.ui.register.fragment.RegistrationUserFragmentPresenter;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class ResetPasswordPromptActivity extends BaseActivity {
     private AppOtpDialog dialog;
     private String enteredOtp;
     private String phoneNumber;
+    private RegistrationUserFragmentPresenter registrationUserFragmentPresenter;
 
 
     @Override
@@ -67,7 +69,7 @@ public class ResetPasswordPromptActivity extends BaseActivity {
                                 verifyOTP.put(ApiRequestKeyConstants.BODY_MOBILE_NUMBER,
                                         phoneNumber);
                                 verifyOTP.put(ApiRequestKeyConstants.BODY_OTP, enteredOtp);
-                              //  registrationStoreFragmentPresenter.validateOTP(verifyOTP);
+                                registrationUserFragmentPresenter.validateOTP(verifyOTP);
 
                                 break;
                             case AlertDialogCallback.CANCEL:
@@ -75,8 +77,8 @@ public class ResetPasswordPromptActivity extends BaseActivity {
                                 ResetPasswordPromptActivity.this.finish();
                                 break;
                             case TextAlertDialogCallback.RESEND_OTP:
-                               // registrationStoreFragmentPresenter.registerRequestPasswordOtp(
-                                     //   phoneNumber);
+                                registrationUserFragmentPresenter.registerRequestPasswordOtp(
+                                       phoneNumber);
                                 break;
                             default:
                                 break;

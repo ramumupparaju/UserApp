@@ -89,7 +89,6 @@ public interface AppServiceObservable {
     @POST("product/assign")
     Observable<Object> assignQrCodeToProduct(@Body AssignQrCode qrCode);
 
-    //    TODO Change purchased to interest
 //    user/history/interested/78
     @GET("user/history/interested/{userId}")
     Observable<List<InterestHistoryResponse>> interestApi(@Path("userId") int userId);
@@ -99,8 +98,7 @@ public interface AppServiceObservable {
     Observable<Object> deleteApi(@Path("userId") int userId);
 
 
-    //    TODO Change purchased to return
-    @GET("merchant/history/purchased/{userId}")
+    @GET("user/history/return/{userId}")
     Observable<List<ReturnHistoryResponse>> returnApi(@Path("userId") int userId);
 
     @GET("merchant/buy-requests/{userId}")

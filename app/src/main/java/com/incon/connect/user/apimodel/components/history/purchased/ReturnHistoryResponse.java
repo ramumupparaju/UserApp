@@ -35,7 +35,7 @@ public class ReturnHistoryResponse {
     private String brandName;
     @SerializedName("price")
     @Expose
-    private Integer price;
+    private String price;
     @SerializedName("address")
     @Expose
     private String address;
@@ -54,6 +54,69 @@ public class ReturnHistoryResponse {
     @SerializedName("warrantyEndDate")
     @Expose
     private long warrantyEndDate;
+
+    @SerializedName("productLogoUrl")
+    @Expose
+    private String productLogoUrl;
+    @SerializedName("productImageUrl")
+    @Expose
+    private String productImageUrl;
+    @SerializedName("productQrCode")
+    @Expose
+    private String productQrCode;
+
+    @SerializedName("mrp")
+    @Expose
+    private Integer mrp;
+    @SerializedName("interestId")
+    @Expose
+    private Integer interestId;
+    private transient boolean isSelected;
+    public boolean isSelected() {
+        return isSelected;
+    }
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+    public String getProductLogoUrl() {
+        return productLogoUrl;
+    }
+
+    public void setProductLogoUrl(String productLogoUrl) {
+        this.productLogoUrl = productLogoUrl;
+    }
+
+    public String getProductImageUrl() {
+        return productImageUrl;
+    }
+
+    public void setProductImageUrl(String productImageUrl) {
+        this.productImageUrl = productImageUrl;
+    }
+
+    public String getProductQrCode() {
+        return productQrCode;
+    }
+
+    public void setProductQrCode(String productQrCode) {
+        this.productQrCode = productQrCode;
+    }
+
+    public Integer getInterestId() {
+        return interestId;
+    }
+
+    public void setInterestId(Integer interestId) {
+        this.interestId = interestId;
+    }
+
+    public Integer getMrp() {
+        return mrp;
+    }
+
+    public void setMrp(Integer mrp) {
+        this.mrp = mrp;
+    }
 
     public String getSerialNumber() {
         return serialNumber;
@@ -119,11 +182,11 @@ public class ReturnHistoryResponse {
         this.brandName = brandName;
     }
 
-    public Integer getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -167,9 +230,11 @@ public class ReturnHistoryResponse {
         this.status = status;
     }
 
+
     public long getWarrantyEndDate() {
         return warrantyEndDate;
     }
+
 
     public void setWarrantyEndDate(long warrantyEndDate) {
         this.warrantyEndDate = warrantyEndDate;

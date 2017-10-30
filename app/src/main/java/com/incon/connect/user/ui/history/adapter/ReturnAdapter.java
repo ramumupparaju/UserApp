@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.incon.connect.user.AppConstants;
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.history.purchased.ReturnHistoryResponse;
@@ -21,7 +23,8 @@ import java.util.List;
 
 public class ReturnAdapter extends  RecyclerView.Adapter
         <ReturnAdapter.ViewHolder>  {
-    private List<ReturnHistoryResponse> returnList = new ArrayList<>();
+    private List<ReturnHistoryResponse> returnHistoryResponseList = new ArrayList<>();
+    private List<ReturnHistoryResponse> filteredReturnList = new ArrayList<>();
     private IClickCallback clickCallback;
 
     @Override
@@ -33,29 +36,67 @@ public class ReturnAdapter extends  RecyclerView.Adapter
     }
 
     @Override
-    public void onBindViewHolder(ReturnAdapter.ViewHolder holder, int position) {
-        ReturnHistoryResponse returnHistoryResponse = returnList.get(position);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        ReturnHistoryResponse returnHistoryResponse = filteredReturnList.get(position);
         holder.bind(returnHistoryResponse);
     }
 
     @Override
     public int getItemCount() {
-        return returnList.size();
+        return filteredReturnList.size();
+    }
+    public ReturnHistoryResponse getItemFromPosition(int position) {
+        return filteredReturnList.get(position);
     }
 
 
     public void setData(List<ReturnHistoryResponse> returnHistoryResponseList) {
-        returnList = returnHistoryResponseList;
+        this.returnHistoryResponseList = returnHistoryResponseList;
+        filteredReturnList.addAll(returnHistoryResponseList);
         notifyDataSetChanged();
     }
 
     public void clearData() {
-        returnList.clear();
+        returnHistoryResponseList.clear();
         notifyDataSetChanged();
     }
 
     public void setClickCallback(IClickCallback clickCallback) {
         this.clickCallback = clickCallback;
+    }
+
+ public void searchData(String searchableString, String searchType) {
+        filteredReturnList.clear();
+        if (searchType.equalsIgnoreCase(AppConstants.FilterConstants.NAME)) {
+            for (ReturnHistoryResponse purchasedHistoryResponse
+                    : returnHistoryResponseList) {
+                if (purchasedHistoryResponse.getProductName() != null
+                        && purchasedHistoryResponse.getProductName().toLowerCase().startsWith(
+                        searchableString.toLowerCase())) {
+                    filteredReturnList.add(purchasedHistoryResponse);
+                }
+            }
+        } else if (searchType.equalsIgnoreCase(AppConstants.FilterConstants.BRAND)) {
+            for (ReturnHistoryResponse purchasedHistoryResponse
+                    : returnHistoryResponseList) {
+                if (purchasedHistoryResponse.getBrandName() != null && purchasedHistoryResponse
+                        .getBrandName().toLowerCase().startsWith(
+                                searchableString.toLowerCase())) {
+                    filteredReturnList.add(purchasedHistoryResponse);
+                }
+            }
+        } else {
+            filteredReturnList.addAll(returnHistoryResponseList);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void clearSelection() {
+        for (ReturnHistoryResponse returnHistoryResponse : filteredReturnList) {
+            returnHistoryResponse.setSelected(false);
+        }
+        notifyDataSetChanged();
+
     }
 
 
@@ -72,6 +113,12 @@ public class ReturnAdapter extends  RecyclerView.Adapter
         public void bind(ReturnHistoryResponse returnHistoryResponse) {
             binding.setVariable(BR.returnHistoryResponse
                     , returnHistoryResponse);
+               AppUtils.loadImageFromApi(binding.brandImageview, returnHistoryResponse
+                    .getProductLogoUrl());
+            AppUtils.loadImageFromApi(binding.productImageImageview, returnHistoryResponse
+                    .getProductImageUrl());
+            binding.layoutReturnItem.setSelected(returnHistoryResponse.isSelected());
+
             binding.executePendingBindings();
         }
 

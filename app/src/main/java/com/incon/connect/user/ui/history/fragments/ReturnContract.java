@@ -16,6 +16,7 @@ public interface ReturnContract {
     }
 
     interface Presenter {
+        void returnHistory(int userId);
     }
 
 
