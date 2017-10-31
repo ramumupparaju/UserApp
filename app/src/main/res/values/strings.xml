@@ -11,6 +11,32 @@
     <string name="error_socket">Unable to process your request. Please try again</string>
     <string name="error_no_connectivity">Looks like you are offline, please check internet
         connectivity</string>
+    <!-- bottom sheet options-->
+    <string name="sample_test">Sample test</string>
+    <string name="bottom_option_customer">Customer</string>
+    <string name="bottom_option_product">Product</string>
+    <string name="bottom_option_service">Service/Support</string>
+    <string name="bottom_option_satus_update">Satus Update</string>
+    <string name="bottom_option_add_as_favorite">Add as favorite</string>
+    <string name="bottom_option_return">Return</string>
+    <string name="bottom_option_Call">Call</string>
+    <string name="bottom_option_call_customer_care">Call customer care</string>
+    <string name="bottom_option_find_service_center">Find service center</string>
+    <string name="bottom_option_service_request">Service request</string>
+    <string name="bottom_option_location">Location</string>
+    <string name="bottom_option_details">Details</string>
+    <string name="bottom_option_warranty">Warranty</string>
+    <string name="bottom_option_feedback">Feedback</string>
+    <string name="bottom_option_price">Price</string>
+    <string name="bottom_option_showroom">Showroom</string>
+    <string name="bottom_option_return_policy">Return policy</string>
+    <string name="bottom_option_request_installation">Request Installation</string>
+    <string name="bottom_option_share_customer_location">Share Customer Location</string>
+    <string name="bottom_option_share_customer_dispatches_on">Dispatches On</string>
+    <string name="bottom_option_share_customer_dispatched">Dispatched</string>
+    <string name="bottom_option_share_customer_delivered">Delivered</string>
+    <string name="bottom_option_share_customer_installed">Installed</string>
+    <string name="bottom_option_share_customer_return_product">Return Product</string>
 
 
     <!--warrantyregistration-->
