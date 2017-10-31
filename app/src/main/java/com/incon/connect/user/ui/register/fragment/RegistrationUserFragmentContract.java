@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class RegistrationUserFragmentContract {
 
-    interface View extends BaseView {
+    public interface View extends BaseView {
         void navigateToRegistrationActivityNext();
         void uploadUserData(int userId);
         void navigateToHomeScreen();

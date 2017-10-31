@@ -49,7 +49,6 @@ public class ReturnAdapter extends  RecyclerView.Adapter
         return filteredReturnList.get(position);
     }
 
-
     public void setData(List<ReturnHistoryResponse> returnHistoryResponseList) {
         this.returnHistoryResponseList = returnHistoryResponseList;
         filteredReturnList.addAll(returnHistoryResponseList);
@@ -108,7 +107,6 @@ public class ReturnAdapter extends  RecyclerView.Adapter
             this.binding = binding;
             binding.getRoot().setOnClickListener(this);
         }
-
 
         public void bind(ReturnHistoryResponse returnHistoryResponse) {
             binding.setVariable(BR.returnHistoryResponse

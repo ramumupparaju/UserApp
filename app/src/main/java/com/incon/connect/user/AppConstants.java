@@ -150,6 +150,7 @@ public interface AppConstants {
         String SCANNED_QRCODE = "scannedQrcode";
         String WARRANTY_DATA = "warrantyData";
         String ADD_NEW_MODEL_DATA = "addnewmodelData";
+        String LOCATION_ADDRESS = "locationAddress";
     }
 
     interface PushSubTypeConstants {
@@ -233,6 +234,9 @@ public interface AppConstants {
         int SERIAL_NO_SCAN = 116;
         int BATCH_NO_SCAN = 117;
         int ADD_NEW_MODEL = 118;
+        int LOCATION_LATLNG_FROM_ADDRESS = 119;
+        int LOCATION_ADDRESS_FROM_LATLNG = 120;
+
     }
 
     interface TimeConstants {

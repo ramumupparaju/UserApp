@@ -30,28 +30,6 @@ public class LoginDataManagerImpl implements LoginDataManager, AppConstants.Logi
                 loginResponse.getUuid());
         sharedPrefsUtils.setStringPreference(USER_ADDRESS,
                 loginResponse.getAddress());
-
-        //Adding Store details to preferences
-        StoreResponse storeDetails = loginResponse.getStore();
-        sharedPrefsUtils.setIntegerPreference(STORE_ID,
-                storeDetails.getId());
-        sharedPrefsUtils.setStringPreference(STORE_NAME,
-                storeDetails.getName());
-        sharedPrefsUtils.setStringPreference(STORE_EMAIL_ID,
-                storeDetails.getStoreEmail());
-        sharedPrefsUtils.setStringPreference(STORE_PHONE_NUMBER,
-                storeDetails.getContactNumber());
-        saveStoreLogo(storeDetails.getLogo());
-        sharedPrefsUtils.setStringPreference(STORE_GSTN,
-                storeDetails.getGstn());
-        sharedPrefsUtils.setStringPreference(STORE_ADDRESS,
-                storeDetails.getAddress());
-
-        saveStoreLogo(storeDetails.getLogo());
     }
 
-    public void saveStoreLogo(String storeDetailsLogo) {
-        SharedPrefsUtils.loginProvider().setStringPreference(STORE_LOGO,
-                storeDetailsLogo);
-    }
 }

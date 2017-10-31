@@ -371,7 +371,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             purchasedAdapter.setData(purchasedHistoryResponseList);
             dismissSwipeRefresh();
         }
-
     }
 
     @Override

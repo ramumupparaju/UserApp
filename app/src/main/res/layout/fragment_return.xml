@@ -10,11 +10,16 @@
             android:id="@+id/swiperefresh"
             style="@style/BothMatch"
             >
-
+            <TextView
+                android:id="@+id/return_textview"
+                style="@style/BothMatch"
+                android:text="No ReturnItems"
+                android:visibility="gone"
+                android:gravity="center"
+                />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/return_recyclerview"
                 style="@style/MatchWrap"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_10"
                 android:fadeScrollbars="false"
                 android:scrollbarSize="4dp"

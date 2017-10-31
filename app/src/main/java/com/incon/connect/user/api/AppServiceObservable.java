@@ -43,7 +43,7 @@ public interface AppServiceObservable {
     @GET("defaults")
     Observable<DefaultsResponse> defaultsApi();
 
-    @POST("login")
+    @POST("connect/user/login")
     Observable<LoginResponse> login(@Body LoginUserData loginUserData);
 
     @POST("user/register")

@@ -10,12 +10,14 @@ import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppOtpDialog;
 import com.incon.connect.user.databinding.ActivityResetPasswordPromptBinding;
 import com.incon.connect.user.ui.BaseActivity;
+import com.incon.connect.user.ui.register.fragment.RegistrationUserFragmentContract;
 import com.incon.connect.user.ui.register.fragment.RegistrationUserFragmentPresenter;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.HashMap;
 
-public class ResetPasswordPromptActivity extends BaseActivity {
+public class ResetPasswordPromptActivity extends BaseActivity implements
+        RegistrationUserFragmentContract.View {
 
     private static final String TAG = ResetPasswordPromptActivity.class.getName();
     private ActivityResetPasswordPromptBinding binding;
@@ -32,6 +34,9 @@ public class ResetPasswordPromptActivity extends BaseActivity {
 
     @Override
     protected void initializePresenter() {
+        registrationUserFragmentPresenter = new RegistrationUserFragmentPresenter();
+        registrationUserFragmentPresenter.setView(this);
+        setBasePresenter(registrationUserFragmentPresenter);
     }
 
     @Override
@@ -107,7 +112,23 @@ public class ResetPasswordPromptActivity extends BaseActivity {
         //DO nothing
     }
 
+    @Override
+    public void navigateToRegistrationActivityNext() {
+        //DO nothing
+    }
 
+    @Override
+    public void uploadUserData(int userId) {
+        //DO nothing
+    }
 
+    @Override
+    public void navigateToHomeScreen() {
 
+    }
+
+    @Override
+    public void validateOTP() {
+
+    }
 }
