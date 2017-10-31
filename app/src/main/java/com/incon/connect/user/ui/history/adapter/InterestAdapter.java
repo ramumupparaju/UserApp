@@ -23,6 +23,15 @@ public class InterestAdapter extends RecyclerView.Adapter
         <InterestAdapter.ViewHolder> {
     private List<InterestHistoryResponse> lnterestList = new ArrayList<>();
     private IClickCallback clickCallback;
+
+    public InterestHistoryResponse getInterestDateFromPosition(int position) {
+        return lnterestList.get(position);
+    }
+
+    public void setLnterestList(List<InterestHistoryResponse> lnterestList) {
+        this.lnterestList = lnterestList;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -42,11 +51,13 @@ public class InterestAdapter extends RecyclerView.Adapter
     public int getItemCount() {
         return lnterestList.size();
     }
-    public  void setData(List<InterestHistoryResponse> interestHistoryResponseList) {
+
+    public void setData(List<InterestHistoryResponse> interestHistoryResponseList) {
         lnterestList = interestHistoryResponseList;
         notifyDataSetChanged();
 
     }
+
     public void clearData() {
         lnterestList.clear();
         notifyDataSetChanged();
@@ -57,14 +68,15 @@ public class InterestAdapter extends RecyclerView.Adapter
     }
 
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ItemInterestFragmentBinding binding;
+
         public ViewHolder(ItemInterestFragmentBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             binding.getRoot().setOnClickListener(this);
         }
+
         public void bind(InterestHistoryResponse interestHistoryResponse) {
             binding.setVariable(BR.interestHistoryResponse, interestHistoryResponse);
             binding.executePendingBindings();

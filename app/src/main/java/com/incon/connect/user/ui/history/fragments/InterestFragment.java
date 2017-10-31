@@ -228,7 +228,9 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                interestPresenter.delete(userId);
+                                interestPresenter.delete(interestAdapter.
+                                        getInterestDateFromPosition(
+                                                productSelectedPosition).getInterestId());
                                 detailsDialog.dismiss();
                                 break;
                             case AlertDialogCallback.CANCEL:
