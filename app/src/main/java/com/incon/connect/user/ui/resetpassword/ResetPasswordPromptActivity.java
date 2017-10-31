@@ -1,5 +1,6 @@
 package com.incon.connect.user.ui.resetpassword;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppOtpDialog;
 import com.incon.connect.user.databinding.ActivityResetPasswordPromptBinding;
 import com.incon.connect.user.ui.BaseActivity;
+import com.incon.connect.user.ui.changepassword.ChangePasswordActivity;
 import com.incon.connect.user.ui.register.fragment.RegistrationUserFragmentContract;
 import com.incon.connect.user.ui.register.fragment.RegistrationUserFragmentPresenter;
 import com.incon.connect.user.utils.SharedPrefsUtils;
@@ -124,11 +126,28 @@ public class ResetPasswordPromptActivity extends BaseActivity implements
 
     @Override
     public void navigateToHomeScreen() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        Intent intent = new Intent(this,
+                ChangePasswordActivity.class);
+        intent.putExtra(IntentConstants.FROM_FORGOT_PASSWORD_SCREEN, true);
+        startActivity(intent);
+        finish();
 
     }
 
     @Override
     public void validateOTP() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        registrationUserFragmentPresenter.disposeAll();
     }
 }
