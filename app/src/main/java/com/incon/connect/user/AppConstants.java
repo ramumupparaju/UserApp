@@ -293,12 +293,11 @@ public interface AppConstants {
 
     interface MenuConstants {
         int PROFILE = 0;
-        int STORESETTINGS = 1;
-        int CHANGE_PWD = 2;
-        int BILLFORMAT = 3;
-        int TIMEINGS = 4;
-        int CONTACTDETAILS = 5;
-        int LOGOUT = 6;
+        int CHANGE_PWD = 1;
+        int BILLFORMAT = 2;
+        int TIMEINGS = 3;
+        int CONTACTDETAILS = 4;
+        int LOGOUT = 5;
 
 
     }

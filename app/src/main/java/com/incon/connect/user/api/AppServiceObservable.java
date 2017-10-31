@@ -13,7 +13,6 @@ import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse
 import com.incon.connect.user.apimodel.components.qrcodeproduct.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
-import com.incon.connect.user.apimodel.components.updatestoreprofile.UpDateStoreProfileResponce;
 import com.incon.connect.user.apimodel.components.updateuserprofile.UpDateUserProfileResponce;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
@@ -22,7 +21,6 @@ import com.incon.connect.user.dto.asignqrcode.AssignQrCode;
 import com.incon.connect.user.dto.login.LoginUserData;
 import com.incon.connect.user.dto.notifications.PushRegistrarBody;
 import com.incon.connect.user.dto.registration.Registration;
-import com.incon.connect.user.dto.update.UpDateStoreProfile;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
 import com.incon.connect.user.dto.warrantyregistration.WarrantyRegistration;
 
@@ -30,12 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
-import okhttp3.MultipartBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface AppServiceObservable {
@@ -43,7 +38,7 @@ public interface AppServiceObservable {
     @GET("defaults")
     Observable<DefaultsResponse> defaultsApi();
 
-    @POST("connect/user/login")
+    @POST("user/login")
     Observable<LoginResponse> login(@Body LoginUserData loginUserData);
 
     @POST("user/register")
@@ -52,21 +47,12 @@ public interface AppServiceObservable {
     @POST("merchant/updatemerchant/{merchantId}")
     Observable<UpDateUserProfileResponce> upDateUserProfile(@Path(
             "merchantId") int merchantId, @Body UpDateUserProfile upDateUserProfile);
-
-    @POST("merchant/updatestoredetails/{merchantId}")
-    Observable<UpDateStoreProfileResponce> upDateStoreProfile(@Path(
-            "merchantId") int merchantId, @Body UpDateStoreProfile dateStoreProfile);
-
     @GET("user/requestotp/{phoneNumber}/register")
     Observable<Object> registerRequestOtp(@Path("phoneNumber") String phoneNumber);
 
     @GET("user/requestotp/{phoneNumber}/password")
     Observable<Object> registerRequestPasswordOtp(@Path("phoneNumber") String phoneNumber);
 
-    @Multipart
-    @POST("merchant/logoupdate/{storeId}")
-    Observable<Object> uploadStoreLogo(@Path("storeId") String storeId,
-                                       @Part MultipartBody.Part storeLogo);
 
     @POST("account/sendOtp")
     Observable<SendOtpResponse> sendOtp(@Body HashMap<String, String> email);

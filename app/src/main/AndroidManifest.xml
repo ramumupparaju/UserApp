@@ -119,12 +119,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
         </activity>
-        <activity
-            android:name="com.incon.connect.user.ui.settings.update.UpDateStoreProfileActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
 
 
         <meta-data

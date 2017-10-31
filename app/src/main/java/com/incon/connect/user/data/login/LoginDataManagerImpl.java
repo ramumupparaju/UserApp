@@ -2,7 +2,6 @@ package com.incon.connect.user.data.login;
 
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.apimodel.components.login.LoginResponse;
-import com.incon.connect.user.apimodel.components.login.StoreResponse;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 public class LoginDataManagerImpl implements LoginDataManager, AppConstants.LoginPrefs {

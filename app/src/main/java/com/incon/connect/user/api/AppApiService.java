@@ -15,7 +15,6 @@ import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse
 import com.incon.connect.user.apimodel.components.qrcodeproduct.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
-import com.incon.connect.user.apimodel.components.updatestoreprofile.UpDateStoreProfileResponce;
 import com.incon.connect.user.apimodel.components.updateuserprofile.UpDateUserProfileResponce;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.custom.exception.NoConnectivityException;
@@ -25,7 +24,6 @@ import com.incon.connect.user.dto.asignqrcode.AssignQrCode;
 import com.incon.connect.user.dto.login.LoginUserData;
 import com.incon.connect.user.dto.notifications.PushRegistrarBody;
 import com.incon.connect.user.dto.registration.Registration;
-import com.incon.connect.user.dto.update.UpDateStoreProfile;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
 import com.incon.connect.user.dto.warrantyregistration.WarrantyRegistration;
 import com.incon.connect.user.utils.NetworkUtil;
@@ -36,7 +34,6 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.MultipartBody;
 
 public class AppApiService implements AppConstants {
 
@@ -99,22 +96,12 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.upDateUserProfile(merchantId, upDateUserProfile));
     }
 
-    public Observable<UpDateStoreProfileResponce> upDateStoreProfile(
-            int merchantId, UpDateStoreProfile upDateStoreProfile) {
-        return addNetworkCheck(serviceInstance.upDateStoreProfile(merchantId, upDateStoreProfile));
-    }
-
-
     public Observable<Object> registerRequestOtp(String phoneNumber) {
         return addNetworkCheck(serviceInstance.registerRequestOtp(phoneNumber));
     }
 
     public Observable<Object> registerRequestPasswordOtp(String phoneNumber) {
         return addNetworkCheck(serviceInstance.registerRequestPasswordOtp(phoneNumber));
-    }
-
-    public Observable<Object> uploadStoreLogo(int storeId, MultipartBody.Part storeLogo) {
-        return addNetworkCheck(serviceInstance.uploadStoreLogo(String.valueOf(storeId), storeLogo));
     }
 
     public Observable<SendOtpResponse> sendOtp(HashMap<String, String> email) {

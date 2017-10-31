@@ -7,7 +7,6 @@ import android.os.Handler;
 import com.incon.connect.user.R;
 import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.home.HomeActivity;
-import com.incon.connect.user.ui.login.LoginActivity;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import static com.incon.connect.user.AppConstants.LoginPrefs.LOGGED_IN;
@@ -59,7 +58,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
                     intent = new Intent(SplashActivity.this, HomeActivity.class);
                 } else {
                     //TODO need to replace home activity with login activity
-                    intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    intent = new Intent(SplashActivity.this, HomeActivity.class);
                 }
                 startActivity(intent);
                 finish();
