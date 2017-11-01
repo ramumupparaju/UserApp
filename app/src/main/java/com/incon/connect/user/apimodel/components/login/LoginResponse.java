@@ -43,6 +43,7 @@ public class LoginResponse extends ApiBaseResponse {
     private transient String confirmPassword;
     private String address;
     private String phoneNumber;
+    private String mobileNumber;
 
     public Integer getId() {
         return id;
@@ -50,6 +51,13 @@ public class LoginResponse extends ApiBaseResponse {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
     public String getName() {

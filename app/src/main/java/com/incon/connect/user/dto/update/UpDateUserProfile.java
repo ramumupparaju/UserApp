@@ -2,6 +2,8 @@ package com.incon.connect.user.dto.update;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.text.TextUtils;
+import android.util.Pair;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -144,6 +146,73 @@ public class UpDateUserProfile  extends BaseObservable {
                 .DateFormatterConstants.MM_DD_YYYY, AppConstants.DateFormatterConstants
                 .MM_DD_YYYY);
         notifyChange();
+    }
+    public Pair<String, Integer> validateUpDateUserProfile(String tag) {
+
+        int fieldId = AppConstants.VALIDATION_FAILURE;
+        if (tag == null) {
+            for (int i = 0; i <= 5; i++) {
+                fieldId = validateFields(i, true);
+                if (fieldId != AppConstants.VALIDATION_SUCCESS) {
+                    tag = i + "";
+                    break;
+                }
+            }
+        } else {
+            fieldId = validateFields(Integer.parseInt(tag), false);
+        }
+
+        return new Pair<>(tag, fieldId);
+    }
+
+    private int validateFields(int id, boolean emptyValidation) {
+        switch (id) {
+            case 0:
+                boolean nameEmpty = TextUtils.isEmpty(name);
+                if (emptyValidation && nameEmpty) {
+                    return AppConstants.RegistrationValidation.NAME_REQ;
+                }
+                break;
+
+            case 1:
+                boolean phoneNumberEmpty = TextUtils.isEmpty(phoneNumber);
+                if (emptyValidation && phoneNumberEmpty) {
+                    return AppConstants.RegistrationValidation.PHONE_REQ;
+                }
+                break;
+
+            case 2:
+                boolean genderEmpty = TextUtils.isEmpty(gender);
+                if (emptyValidation && genderEmpty) {
+                    return AppConstants.RegistrationValidation.GENDER_REQ;
+                }
+                break;
+
+            case 3:
+                boolean dobEmpty = TextUtils.isEmpty(dateOfBirthToShow);
+                if (emptyValidation && dobEmpty) {
+                    return AppConstants.RegistrationValidation.DOB_REQ;
+                }
+                break;
+            case 4:
+                boolean userEmailEmpty = TextUtils.isEmpty(userEmail);
+                if (emptyValidation && userEmailEmpty) {
+                    return AppConstants.RegistrationValidation.EMAIL_REQ;
+                }
+                break;
+
+
+            case 5:
+                boolean addressEmpty = TextUtils.isEmpty(address);
+                if (emptyValidation && addressEmpty) {
+                    return AppConstants.RegistrationValidation.ADDRESS_REQ;
+                }
+                break;
+
+            default:
+                return AppConstants.VALIDATION_SUCCESS;
+        }
+        return AppConstants.VALIDATION_SUCCESS;
     }
 
 }

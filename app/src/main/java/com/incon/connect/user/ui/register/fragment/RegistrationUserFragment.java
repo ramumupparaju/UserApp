@@ -25,6 +25,8 @@ import android.widget.TextView;
 import com.incon.connect.user.R;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
+import com.incon.connect.user.callbacks.AlertDialogCallback;
+import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppOtpDialog;
 import com.incon.connect.user.custom.view.CustomTextInputLayout;
 import com.incon.connect.user.databinding.FragmentRegistrationUserBinding;
@@ -36,6 +38,7 @@ import com.incon.connect.user.ui.notifications.PushPresenter;
 import com.incon.connect.user.ui.register.RegistrationActivity;
 import com.incon.connect.user.ui.termsandcondition.TermsAndConditionActivity;
 import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.SharedPrefsUtils;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.Calendar;
@@ -58,6 +61,7 @@ public class RegistrationUserFragment extends BaseFragment implements
     private MaterialBetterSpinner genderSpinner;
     private List<CategoryResponse> categoryResponseList;
     private AppOtpDialog dialog;
+    private String enteredOtp;
 
     @Override
     protected void initializePresenter() {
@@ -367,6 +371,56 @@ public class RegistrationUserFragment extends BaseFragment implements
     @Override
     public void validateOTP() {
 
+        SharedPrefsUtils.loginProvider().setBooleanPreference(LoginPrefs.IS_REGISTERED, true);
+        SharedPrefsUtils.loginProvider().setStringPreference(LoginPrefs.USER_MOBILE_NUMBER,
+                register.getMobileNumber());
+
+        showOtpDialog();
+
+    }
+
+    private void showOtpDialog() {
+        final String mobileNumber = register.getMobileNumber();
+        dialog = new AppOtpDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String otpString) {
+                        enteredOtp = otpString;
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                if (TextUtils.isEmpty(enteredOtp)) {
+                                    showErrorMessage(getString(R.string.error_otp_req));
+                                    return;
+                                }
+                                HashMap<String, String> verifyOTP = new HashMap<>();
+                                verifyOTP.put(ApiRequestKeyConstants.BODY_MOBILE_NUMBER,
+                                        mobileNumber);
+                                verifyOTP.put(ApiRequestKeyConstants.BODY_OTP, enteredOtp);
+                                registrationUserInfoFragPresenter.validateOTP(verifyOTP);
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                dialog.dismiss();
+                                break;
+                            case TextAlertDialogCallback.RESEND_OTP:
+                                registrationUserInfoFragPresenter.registerRequestOtp(mobileNumber);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.dialog_verify_title, mobileNumber))
+                .build();
+        dialog.showDialog();
+
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        registrationUserInfoFragPresenter.disposeAll();
     }
 
 }

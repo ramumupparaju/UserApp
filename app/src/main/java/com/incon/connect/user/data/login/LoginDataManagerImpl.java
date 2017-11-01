@@ -19,7 +19,7 @@ public class LoginDataManagerImpl implements LoginDataManager, AppConstants.Logi
                 loginResponse.getName());
         sharedPrefsUtils.setStringPreference(USER_EMAIL_ID,
                 loginResponse.getEmail());
-        sharedPrefsUtils.setStringPreference(USER_PHONE_NUMBER,
+        sharedPrefsUtils.setStringPreference(USER_MOBILE_NUMBER,
                 loginResponse.getMsisdn());
         sharedPrefsUtils.setStringPreference(USER_DOB,
                 loginResponse.getDobInMillis());

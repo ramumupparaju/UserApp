@@ -1,6 +1,7 @@
 package com.incon.connect.user.ui.register.fragment;
 
 
+import com.incon.connect.user.dto.registration.Registration;
 import com.incon.connect.user.ui.BaseView;
 
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public class RegistrationUserFragmentContract {
     }
 
     interface Presenter {
+        void register(Registration registrationBody);
         void validateOTP(HashMap<String, String> verify);
         void registerRequestOtp(String phoneNumber);
         void registerRequestPasswordOtp(String phoneNumber);

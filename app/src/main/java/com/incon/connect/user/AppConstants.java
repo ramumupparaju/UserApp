@@ -172,6 +172,7 @@ public interface AppConstants {
         String USER_NAME = "userName";
         String USER_EMAIL_ID = "userEmailId";
         String USER_PHONE_NUMBER = "userPhoneNumber";
+        String USER_MOBILE_NUMBER = "userMobileNumber";
         String USER_DOB = "userDob";
         String USER_GENDER = "userGender";
         String USER_ADDRESS = "userAddress";

@@ -15,7 +15,6 @@ import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse
 import com.incon.connect.user.apimodel.components.qrcodeproduct.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
-import com.incon.connect.user.apimodel.components.updateuserprofile.UpDateUserProfileResponce;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.custom.exception.NoConnectivityException;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
@@ -91,9 +90,9 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.register(registrationBody));
     }
 
-    public Observable<UpDateUserProfileResponce> upDateUserProfile(
-            int merchantId, UpDateUserProfile upDateUserProfile) {
-        return addNetworkCheck(serviceInstance.upDateUserProfile(merchantId, upDateUserProfile));
+    public Observable<LoginResponse> upDateUserProfile(
+            int userId, UpDateUserProfile upDateUserProfile) {
+        return addNetworkCheck(serviceInstance.upDateUserProfile(userId, upDateUserProfile));
     }
 
     public Observable<Object> registerRequestOtp(String phoneNumber) {
@@ -197,4 +196,5 @@ public class AppApiService implements AppConstants {
     public Observable<Object> pushTokenApi(PushRegistrarBody pushRegistrarBody) {
         return addNetworkCheck(serviceInstance.pushTokenApi(pushRegistrarBody));
     }
+
 }

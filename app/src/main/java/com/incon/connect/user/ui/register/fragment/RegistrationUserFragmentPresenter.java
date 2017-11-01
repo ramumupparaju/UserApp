@@ -45,6 +45,7 @@ public class RegistrationUserFragmentPresenter extends
             @Override
             public void onNext(LoginResponse loginResponse) {
                 getView().uploadUserData(loginResponse.getId());
+                getView().validateOTP();
             }
 
             @Override
@@ -61,6 +62,7 @@ public class RegistrationUserFragmentPresenter extends
         AppApiService.getInstance().register(registrationBody).subscribe(observer);
         addDisposable(observer);
     }
+
 
     @Override
     public void validateOTP(HashMap<String, String> verify) {

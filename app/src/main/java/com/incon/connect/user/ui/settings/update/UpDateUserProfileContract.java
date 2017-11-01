@@ -1,7 +1,6 @@
 package com.incon.connect.user.ui.settings.update;
 
 import com.incon.connect.user.apimodel.components.login.LoginResponse;
-import com.incon.connect.user.apimodel.components.updateuserprofile.UpDateUserProfileResponce;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
 import com.incon.connect.user.ui.BaseView;
 
@@ -12,11 +11,11 @@ import com.incon.connect.user.ui.BaseView;
 public interface UpDateUserProfileContract {
 
     interface View extends BaseView {
-        void loadUpDateUserProfileResponce(UpDateUserProfileResponce upDateUserProfileResponce);
+        void loadUpDateUserProfileResponce(LoginResponse loginResponse);
 
     }
     interface Presenter {
-        void upDateUserProfile(int merchantId, UpDateUserProfile upDateUserProfile);
+        void upDateUserProfile(int userId, UpDateUserProfile upDateUserProfile);
         void saveUserData(LoginResponse loginResponse);
 
     }

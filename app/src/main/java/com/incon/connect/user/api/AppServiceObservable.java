@@ -13,7 +13,6 @@ import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse
 import com.incon.connect.user.apimodel.components.qrcodeproduct.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
-import com.incon.connect.user.apimodel.components.updateuserprofile.UpDateUserProfileResponce;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
 import com.incon.connect.user.dto.addoffer.AddOfferRequest;
@@ -44,15 +43,15 @@ public interface AppServiceObservable {
     @POST("user/register")
     Observable<LoginResponse> register(@Body Registration registrationBody);
 
-    @POST("merchant/updatemerchant/{merchantId}")
-    Observable<UpDateUserProfileResponce> upDateUserProfile(@Path(
-            "merchantId") int merchantId, @Body UpDateUserProfile upDateUserProfile);
     @GET("user/requestotp/{phoneNumber}/register")
     Observable<Object> registerRequestOtp(@Path("phoneNumber") String phoneNumber);
 
     @GET("user/requestotp/{phoneNumber}/password")
     Observable<Object> registerRequestPasswordOtp(@Path("phoneNumber") String phoneNumber);
 
+    @POST("user/updateuser/{userId}")
+    Observable<LoginResponse> upDateUserProfile(@Path(
+            "userId") int userId, @Body UpDateUserProfile upDateUserProfile);
 
     @POST("account/sendOtp")
     Observable<SendOtpResponse> sendOtp(@Body HashMap<String, String> email);
