@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
+import android.text.method.KeyListener;
 import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
@@ -37,8 +38,8 @@ import static com.incon.connect.user.AppConstants.LoginPrefs.USER_DOB;
 import static com.incon.connect.user.AppConstants.LoginPrefs.USER_EMAIL_ID;
 import static com.incon.connect.user.AppConstants.LoginPrefs.USER_GENDER;
 import static com.incon.connect.user.AppConstants.LoginPrefs.USER_ID;
-import static com.incon.connect.user.AppConstants.LoginPrefs.USER_MOBILE_NUMBER;
 import static com.incon.connect.user.AppConstants.LoginPrefs.USER_NAME;
+import static com.incon.connect.user.AppConstants.LoginPrefs.USER_PHONE_NUMBER;
 
 /**
  * Created by PC on 10/13/2017.
@@ -50,6 +51,7 @@ public class UpDateUserProfileActivity extends BaseActivity implements
     private UpDateUserProfile upDateUserProfile;
     private HashMap<Integer, String> errorMap;
     private Animation shakeAnim;
+    private KeyListener listener;
 
     @Override
     protected int getLayoutId() {
@@ -109,43 +111,11 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         binding.setUpDateUserProfile(upDateUserProfile);
         enableEditMode(false);
 
+        listener = binding.spinnerGender.getKeyListener();
 
         initializeToolbar();
         loadData();
-        initViews();
     }
-
-    private void initViews() {
-        shakeAnim = AnimationUtils.loadAnimation(this, R.anim.shake);
-        loadValidationErrors();
-        setFocusForViews();
-    }
-
-    private void setFocusForViews() {
-        binding.edittextUpDateUserName.setOnFocusChangeListener(onFocusChangeListener);
-        binding.edittextUpDatePhone.setOnFocusChangeListener(onFocusChangeListener);
-        binding.edittextUpDateDob.setOnFocusChangeListener(onFocusChangeListener);
-        binding.edittextUpDateEmailid.setOnFocusChangeListener(onFocusChangeListener);
-        binding.edittextUpDateAddress.setOnFocusChangeListener(onFocusChangeListener);
-    }
-
-    View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View view, boolean hasFocus) {
-            Object fieldId = view.getTag();
-            if (fieldId != null) {
-                Pair<String, Integer> validation = binding.getUpDateUserProfile().
-                        validateUpDateUserProfile((String) fieldId);
-                if (!hasFocus) {
-                    if (view instanceof TextInputEditText) {
-                        TextInputEditText textInputEditText = (TextInputEditText) view;
-                        textInputEditText.setText(textInputEditText.getText().toString().trim());
-                    }
-                    updateUiAfterValidation(validation.first, validation.second);
-                }
-            }
-        }
-    };
 
     private void initializeToolbar() {
         binding.toolbarLeftIv.setOnClickListener(new View.OnClickListener() {
@@ -168,26 +138,30 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         loadValidationErrors();
         loadGenderSpinnerData();
     }
+
     private void loadUserData() {
         SharedPrefsUtils sharedPrefsUtils = SharedPrefsUtils.loginProvider();
 
         upDateUserProfile.setName(sharedPrefsUtils.getStringPreference(USER_NAME));
 
-        upDateUserProfile.setPhoneNumber(sharedPrefsUtils.getStringPreference(
-                USER_MOBILE_NUMBER));
+        upDateUserProfile.setMobileNumber(sharedPrefsUtils.getStringPreference(
+                USER_PHONE_NUMBER));
 
         upDateUserProfile.setGender(sharedPrefsUtils.getStringPreference(
                 USER_GENDER));
 
-        upDateUserProfile.setDateOfBirthToShow(sharedPrefsUtils.getStringPreference(
+        upDateUserProfile.setDob(sharedPrefsUtils.getStringPreference(
                 USER_DOB));
 
-        upDateUserProfile.setUserEmail(sharedPrefsUtils.getStringPreference(
+        upDateUserProfile.setEmail(sharedPrefsUtils.getStringPreference(
                 USER_EMAIL_ID));
+
 
         upDateUserProfile.setAddress(sharedPrefsUtils.getStringPreference(
                 USER_ADDRESS));
+
     }
+
     private void showDatePicker() {
 
         AppUtils.hideSoftKeyboard(this, binding.viewDob);
@@ -250,6 +224,7 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         return validation.second == VALIDATION_SUCCESS;
     }
 
+
     private void updateUiAfterValidation(String tag, int validationId) {
         if (tag == null) {
             return;
@@ -275,6 +250,7 @@ public class UpDateUserProfileActivity extends BaseActivity implements
             view.startAnimation(shakeAnim);
         }
     }
+
 
     private void loadValidationErrors() {
 
@@ -320,16 +296,11 @@ public class UpDateUserProfileActivity extends BaseActivity implements
 
         errorMap.put(RegistrationValidation.ADDRESS_REQ, getString(R.string.error_address_req));
 
+
     }
 
     @Override
     public void loadUpDateUserProfileResponce(LoginResponse loginResponse) {
         enableEditMode(false);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        upDateUserProfilePresenter.disposeAll();
     }
 }

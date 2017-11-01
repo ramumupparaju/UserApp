@@ -31,32 +31,32 @@ public class UpDateUserProfilePresenter extends BasePresenter<UpDateUserProfileC
         appContext = ConnectApplication.getAppContext();
     }
 
-   public void upDateUserProfile(int userId, UpDateUserProfile upDateUserProfile) {
-       getView().showProgress(appContext.getString(R.string.progress_updateuserprofile));
-       DisposableObserver<LoginResponse> observer = new
-               DisposableObserver<LoginResponse>() {
-           @Override
-           public void onNext(LoginResponse loginResponse) {
-               getView().hideProgress();
-               getView().loadUpDateUserProfileResponce(loginResponse);
-              saveUserData(loginResponse);
-           }
+    public void upDateUserProfile(int userId, UpDateUserProfile upDateUserProfile) {
+        getView().showProgress(appContext.getString(R.string.progress_updateuserprofile));
+        DisposableObserver<LoginResponse> observer = new
+                DisposableObserver<LoginResponse>() {
+                    @Override
+                    public void onNext(LoginResponse loginResponse) {
+                        getView().hideProgress();
+                        getView().loadUpDateUserProfileResponce(loginResponse);
+               saveUserData(loginResponse);
+                    }
 
-           @Override
-           public void onError(Throwable e) {
-               getView().hideProgress();
-               Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
-               getView().handleException(errorDetails);
-           }
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
 
-           @Override
-           public void onComplete() {
+                    @Override
+                    public void onComplete() {
 
-           }
-       };
-       AppApiService.getInstance().upDateUserProfile(userId, upDateUserProfile).
-               subscribe(observer);
-       addDisposable(observer);
+                    }
+                };
+        AppApiService.getInstance().upDateUserProfile(userId, upDateUserProfile).
+                subscribe(observer);
+        addDisposable(observer);
 
     }
 

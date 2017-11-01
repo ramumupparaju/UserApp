@@ -318,27 +318,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             AppUtils.shortToast(getActivity(), getString(R.string.error_location));
             return;
         }
-        /*String[] splitLocation = itemFromPosition.getLocation().split(
-        AppConstants.COMMA_SEPARATOR);
-        LatLng latLng = new LatLng(Double.parseDouble(splitLocation[0]), Double.parseDouble(
-                splitLocation[1]));
-        mapDialog = new AppAlertDialogMap.AlertDialogBuilder(getActivity(), new
-                AlertDialogCallback() {
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.CANCEL:
-                                mapDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                })
-                .location(latLng, itemFromPosition.getAddress())
-                .button2Text(getString(R.string.action_ok))
-                .build();
-        mapDialog.showDialog();*/
 
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
         addressIntent.putExtra(IntentConstants.LOCATION_COMMA, itemFromPosition.getLocation());
@@ -390,5 +369,11 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     public void onSearchClickListerner(String searchableText, String searchType) {
         AppUtils.hideSoftKeyboard(getActivity(), rootView);
         purchasedAdapter.searchData(searchableText, searchType);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        purchasedPresenter.disposeAll();
     }
 }

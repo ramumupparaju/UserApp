@@ -89,7 +89,6 @@ public class AppApiService implements AppConstants {
     public Observable<LoginResponse> register(Registration registrationBody) {
         return addNetworkCheck(serviceInstance.register(registrationBody));
     }
-
     public Observable<LoginResponse> upDateUserProfile(
             int userId, UpDateUserProfile upDateUserProfile) {
         return addNetworkCheck(serviceInstance.upDateUserProfile(userId, upDateUserProfile));

@@ -24,6 +24,7 @@ public class LoginResponse extends ApiBaseResponse {
     @SerializedName("usertype")
     @Expose
     private Integer usertype;
+
     @SerializedName("uuid")
     @Expose
     private String uuid;
@@ -36,11 +37,22 @@ public class LoginResponse extends ApiBaseResponse {
     @SerializedName("gender")
     @Expose
     private String gender;
+    @SerializedName("mobileNumber")
+    @Expose
+    private String mobileNumber;
+    @SerializedName("address")
+    @Expose
+    private String address;
     private String password;
     private transient String confirmPassword;
-    private String address;
     private String phoneNumber;
-    private String mobileNumber;
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
 
     public Integer getId() {
         return id;
@@ -48,13 +60,6 @@ public class LoginResponse extends ApiBaseResponse {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
     }
 
     public String getName() {
@@ -127,6 +132,8 @@ public class LoginResponse extends ApiBaseResponse {
     public void setUsertype(Integer usertype) {
         this.usertype = usertype;
     }
+
+
 
     public String getUuid() {
         return uuid;

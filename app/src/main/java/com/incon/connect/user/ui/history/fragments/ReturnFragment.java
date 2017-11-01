@@ -74,7 +74,6 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
         binding.returnRecyclerview.setLayoutManager(linearLayoutManager);
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
-        userId = 83; //TODO have to remove
         returnPresenter.returnHistory(userId);
     }
     private void dismissSwipeRefresh() {
@@ -110,6 +109,7 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
         }
         if (returnHistoryResponseList.size() == 0) {
             binding.returnTextview.setVisibility(View.VISIBLE);
+            dismissSwipeRefresh();
         } else {
             returnAdapter.setData(returnHistoryResponseList);
             dismissSwipeRefresh();

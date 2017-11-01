@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
@@ -115,16 +116,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         // bottomSheetPurchasedBinding.bottomRow.removeAllViews();
 
         String[] bottomNames = new String[4];
-        bottomNames[0] = "Buy request";
-        bottomNames[1] = "Product";
-        bottomNames[2] = "Show room";
-        bottomNames[3] = "Delete";
+        bottomNames[0] = getString(R.string.bottom_option_buy_request);
+        bottomNames[1] = getString(R.string.bottom_option_product);
+        bottomNames[2] = getString(R.string.bottom_option_showroom);
+        bottomNames[3] = getString(R.string.bottom_option_delete);
 
         int[] bottomDrawables = new int[4];
         bottomDrawables[0] = R.drawable.ic_option_customer;
         bottomDrawables[1] = R.drawable.ic_option_product;
-        bottomDrawables[2] = R.drawable.ic_option_service_support;
-        bottomDrawables[3] = R.drawable.ic_option_service_support;
+        bottomDrawables[2] = R.drawable.ic_showroom;
+        bottomDrawables[3] = R.drawable.ic_option_delete;
 
         bottomSheetInterestBinding.bottomRow.removeAllViews();
         int length = bottomNames.length;
@@ -132,7 +133,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.WRAP_CONTENT, length);
         params.setMargins(1, 1, 1, 1);
-//TODO have to remove hard codeings
         for (int i = 0; i < length; i++) {
             LinearLayout linearLayout = new LinearLayout(getContext());
             linearLayout.setWeightSum(1f);
@@ -159,16 +159,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             changeBackgroundText(tag, view);
             if (tag == 0) {
                 bottomOptions = new String[1];
-                bottomOptions[0] = "Note";
+                bottomOptions[0] = getString(R.string.bottom_option_note);
                 topDrawables = new int[1];
                 topDrawables[0] = R.drawable.ic_option_call;
 //                changeBackgroundText(tag , view);
 
             } else if (tag == 1) {
                 bottomOptions = new String[3];
-                bottomOptions[0] = "Main features";
-                bottomOptions[1] = "Details";
-                bottomOptions[2] = "Feedback / Reviews";
+                bottomOptions[0] = getString(R.string.bottom_option_main_features);
+                bottomOptions[1] = getString(R.string.bottom_option_details);
+                bottomOptions[2] = getString(R.string.bottom_option_feedback);
 
                 topDrawables = new int[3];
                 topDrawables[0] = R.drawable.ic_option_details;
@@ -177,20 +177,20 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
 //                changeBackgroundText(tag , view);
             } else if (tag == 3) {
                 bottomOptions = new String[1];
-                bottomOptions[0] = "Delete";
+                bottomOptions[0] = getString(R.string.bottom_option_delete);
                 topDrawables = new int[1];
                 topDrawables[0] = R.drawable.ic_option_details;
-                onOpenAlert("Are You Sure Delete Interested");
+                onOpenAlert(getString(R.string.dilog_delete));
             } else {
 
                 bottomOptions = new String[3];
-                bottomOptions[0] = "Call";
-                bottomOptions[1] = "Location";
-                bottomOptions[2] = "Feedback / Reviews";
+                bottomOptions[0] = getString(R.string.bottom_option_Call);
+                bottomOptions[1] = getString(R.string.bottom_option_location);
+                bottomOptions[2] = getString(R.string.bottom_option_feedback);
                 topDrawables = new int[3];
-                topDrawables[0] = R.drawable.ic_option_details;
-                topDrawables[1] = R.drawable.ic_option_details;
-                topDrawables[2] = R.drawable.ic_option_warranty;
+                topDrawables[0] = R.drawable.ic_option_call;
+                topDrawables[1] = R.drawable.ic_option_location;
+                topDrawables[2] = R.drawable.ic_option_feedback;
 
 //                changeBackgroundText(tag , view);
 
@@ -296,9 +296,18 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         if (interestHistoryResponseList == null) {
             interestHistoryResponseList = new ArrayList<>();
         }
-        this.interestList = interestHistoryResponseList;
-        interestAdapter.setData(interestList);
-        dismissSwipeRefresh();
+        if (interestHistoryResponseList.size() == 0) {
+            binding.interestTextview.setVisibility(View.VISIBLE);
+            dismissSwipeRefresh();
+        } else {
+            interestAdapter.setData(interestHistoryResponseList);
+            dismissSwipeRefresh();
+        }
+
+
+
+
+
     }
 
     @Override
@@ -312,6 +321,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
 
     @Override
     public void onSearchClickListerner(String searchableText, String searchType) {
-
+        AppUtils.hideSoftKeyboard(getActivity(), rootView);
+        interestAdapter.searchData(searchableText, searchType);
     }
 }
