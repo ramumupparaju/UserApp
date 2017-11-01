@@ -51,6 +51,7 @@ public class ReturnAdapter extends  RecyclerView.Adapter
 
     public void setData(List<ReturnHistoryResponse> returnHistoryResponseList) {
         this.returnHistoryResponseList = returnHistoryResponseList;
+        filteredReturnList.clear();
         filteredReturnList.addAll(returnHistoryResponseList);
         notifyDataSetChanged();
     }

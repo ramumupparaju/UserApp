@@ -30,10 +30,6 @@ public class InterestAdapter extends RecyclerView.Adapter
         return filteredInterestList.get(position);
     }
 
-    public void setLnterestList(List<InterestHistoryResponse> lnterestList) {
-        this.filteredInterestList = lnterestList;
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -56,6 +52,7 @@ public class InterestAdapter extends RecyclerView.Adapter
 
     public void setData(List<InterestHistoryResponse> interestHistoryResponseList) {
        this.interestHistoryResponseList = interestHistoryResponseList;
+        filteredInterestList.clear();
         filteredInterestList.addAll(interestHistoryResponseList);
         notifyDataSetChanged();
 

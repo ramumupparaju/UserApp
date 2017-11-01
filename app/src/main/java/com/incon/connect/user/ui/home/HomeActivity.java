@@ -123,6 +123,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         String userData = SharedPrefsUtils.loginProvider().getStringPreference(
                 LoginPrefs.USER_UUID);
         if (TextUtils.isEmpty(userData)) {
+            showErrorMessage(getString(R.string.error_uuid));
             return;
         }
         Bundle bundle = new Bundle();

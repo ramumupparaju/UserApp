@@ -22,7 +22,6 @@ import com.incon.connect.user.apimodel.components.history.purchased.PurchasedHis
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
-import com.incon.connect.user.custom.view.AppAlertDialogMap;
 import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
@@ -49,8 +48,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private BottomSheetPurchasedBinding bottomSheetPurchasedBinding;
     private int productSelectedPosition;
     private AppAlertDialog detailsDialog;
-    private AppAlertDialogMap mapDialog;
-
 
     @Override
     protected void initializePresenter() {

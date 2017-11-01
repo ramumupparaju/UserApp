@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.incon.connect.user.R;
+import com.incon.connect.user.callbacks.AlertDialogCallback;
+import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.databinding.FragmentScanTabBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
@@ -21,6 +23,7 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
     private View rootView;
     private FragmentScanTabBinding binding;
     private ScanTabPresenter scanTabPresenter;
+    private AppAlertDialog productDetailsDialog;
 
     @Override
     protected void initializePresenter() {
@@ -73,6 +76,27 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
 
     @Override
     public void userInterestedResponce(Object productInfoResponse) {
-        //TODO have to show product details
+        showProductDetailsDialog(productInfoResponse);
+    }
+
+    private void showProductDetailsDialog(Object productInfoResponse) {
+        productDetailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
+                AlertDialogCallback() {
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                            case AlertDialogCallback.CANCEL:
+                                getActivity().onBackPressed();
+                                productDetailsDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.action_scan_product_details))
+                .button1Text(getString(R.string.action_ok))
+                .build();
+        productDetailsDialog.showDialog();
     }
 }

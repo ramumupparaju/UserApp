@@ -52,6 +52,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter
 
     public void setData(List<PurchasedHistoryResponse> purchasedHistoryResponseList) {
         this.purchasedHistoryResponseList = purchasedHistoryResponseList;
+        filteredPurchasedList.clear();
         filteredPurchasedList.addAll(purchasedHistoryResponseList);
         notifyDataSetChanged();
     }

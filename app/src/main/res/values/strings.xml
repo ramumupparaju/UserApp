@@ -129,6 +129,7 @@
     <string name="app_version">App Version: </string>
     <!--scan tap fragment-->
 
+    <string name="action_scan_product_details">Product details</string>
     <string name="action_scancustomeruid">Scan Customer UID</string>
     <string name="action_enter_mobilenumber">Enter Mobile Number</string>
 
@@ -136,6 +137,7 @@
     <string name="app_update">Please Update to continue using the App.</string>
     <string name="location_permission_msg">Please go to application settings and grant location
         permission.</string>
+    <string name="error_uuid">No data to generate qrcode</string>
     <string name="error_email_req">Email Address is required</string>
     <string name="error_select_location">Please select location</string>
     <string name="error_location">Unable to fetch location</string>
