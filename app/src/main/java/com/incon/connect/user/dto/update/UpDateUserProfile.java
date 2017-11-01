@@ -16,6 +16,7 @@ import com.incon.connect.user.utils.DateUtils;
 
 public class UpDateUserProfile  extends BaseObservable {
 
+
     @SerializedName("address")
     @Expose
     private String address;
@@ -37,7 +38,8 @@ public class UpDateUserProfile  extends BaseObservable {
     @SerializedName("userEmail")
     @Expose
     private String userEmail;
-
+    @SerializedName("mobileNumber")
+    @Expose
     private String phoneNumber;
 
     private String password;
@@ -46,8 +48,8 @@ public class UpDateUserProfile  extends BaseObservable {
     private transient String dateOfBirthToShow;
 
     public  UpDateUserProfile() {
-
     }
+
     @Bindable
     public String getAddress() {
         return address;
@@ -91,13 +93,14 @@ public class UpDateUserProfile  extends BaseObservable {
         this.gender = gender;
         notifyChange();
     }
-
+    @Bindable
     public String getLocation() {
         return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
+        notifyChange();
     }
     @Bindable
     public String getName() {
@@ -214,5 +217,4 @@ public class UpDateUserProfile  extends BaseObservable {
         }
         return AppConstants.VALIDATION_SUCCESS;
     }
-
 }

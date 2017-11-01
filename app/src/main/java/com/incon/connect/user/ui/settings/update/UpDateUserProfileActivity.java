@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
-import android.text.method.KeyListener;
 import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
@@ -51,7 +50,6 @@ public class UpDateUserProfileActivity extends BaseActivity implements
     private UpDateUserProfile upDateUserProfile;
     private HashMap<Integer, String> errorMap;
     private Animation shakeAnim;
-    private KeyListener listener;
 
     @Override
     protected int getLayoutId() {
@@ -114,7 +112,40 @@ public class UpDateUserProfileActivity extends BaseActivity implements
 
         initializeToolbar();
         loadData();
+        initViews();
     }
+
+    private void initViews() {
+        shakeAnim = AnimationUtils.loadAnimation(this, R.anim.shake);
+        loadValidationErrors();
+        setFocusForViews();
+    }
+
+    private void setFocusForViews() {
+        binding.edittextUpDateUserName.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextUpDatePhone.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextUpDateDob.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextUpDateEmailid.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextUpDateAddress.setOnFocusChangeListener(onFocusChangeListener);
+    }
+
+    View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean hasFocus) {
+            Object fieldId = view.getTag();
+            if (fieldId != null) {
+                Pair<String, Integer> validation = binding.getUpDateUserProfile().
+                        validateUpDateUserProfile((String) fieldId);
+                if (!hasFocus) {
+                    if (view instanceof TextInputEditText) {
+                        TextInputEditText textInputEditText = (TextInputEditText) view;
+                        textInputEditText.setText(textInputEditText.getText().toString().trim());
+                    }
+                    updateUiAfterValidation(validation.first, validation.second);
+                }
+            }
+        }
+    };
 
     private void initializeToolbar() {
         binding.toolbarLeftIv.setOnClickListener(new View.OnClickListener() {

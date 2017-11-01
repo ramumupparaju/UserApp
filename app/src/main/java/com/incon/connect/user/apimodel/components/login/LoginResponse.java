@@ -24,9 +24,6 @@ public class LoginResponse extends ApiBaseResponse {
     @SerializedName("usertype")
     @Expose
     private Integer usertype;
-    @SerializedName("store")
-    @Expose
-    private StoreResponse store;
     @SerializedName("uuid")
     @Expose
     private String uuid;
@@ -129,14 +126,6 @@ public class LoginResponse extends ApiBaseResponse {
 
     public void setUsertype(Integer usertype) {
         this.usertype = usertype;
-    }
-
-    public StoreResponse getStore() {
-        return store;
-    }
-
-    public void setStore(StoreResponse store) {
-        this.store = store;
     }
 
     public String getUuid() {
