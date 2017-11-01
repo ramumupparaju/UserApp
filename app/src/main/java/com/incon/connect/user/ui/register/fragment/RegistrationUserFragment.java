@@ -22,9 +22,8 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import com.incon.connect.user.R;
 import com.incon.connect.user.AppUtils;
-import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
+import com.incon.connect.user.R;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppOtpDialog;
@@ -43,7 +42,6 @@ import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.TimeZone;
 
 
@@ -59,7 +57,6 @@ public class RegistrationUserFragment extends BaseFragment implements
     private Animation shakeAnim;
     private HashMap<Integer, String> errorMap;
     private MaterialBetterSpinner genderSpinner;
-    private List<CategoryResponse> categoryResponseList;
     private AppOtpDialog dialog;
     private String enteredOtp;
 
@@ -316,9 +313,7 @@ public class RegistrationUserFragment extends BaseFragment implements
     public void onClickNext() {
         if (validateFields()) {
             navigateToRegistrationActivityNext();
-        } /*else {
-            navigateToRegistrationActivityNext(); // TODO have to comment
-        }*/
+        }
     }
 
     private boolean validateFields() {
@@ -345,12 +340,6 @@ public class RegistrationUserFragment extends BaseFragment implements
     }
 
     @Override
-    public void uploadUserData(int userId) {
-
-        navigateToHomeScreen();
-    }
-
-    @Override
     public void navigateToHomeScreen() {
         PushPresenter pushPresenter = new PushPresenter();
         pushPresenter.pushRegisterApi();
@@ -370,13 +359,11 @@ public class RegistrationUserFragment extends BaseFragment implements
 
     @Override
     public void validateOTP() {
-
         SharedPrefsUtils.loginProvider().setBooleanPreference(LoginPrefs.IS_REGISTERED, true);
         SharedPrefsUtils.loginProvider().setStringPreference(LoginPrefs.USER_MOBILE_NUMBER,
                 register.getMobileNumber());
 
         showOtpDialog();
-
     }
 
     private void showOtpDialog() {

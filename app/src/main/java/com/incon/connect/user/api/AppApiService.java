@@ -126,8 +126,8 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.interestApi(userId));
     }
 
-    public Observable<Object> deleteApi(int userId) {
-        return addNetworkCheck(serviceInstance.deleteApi(userId));
+    public Observable<Object> deleteApi(int interestId) {
+        return addNetworkCheck(serviceInstance.deleteApi(interestId));
     }
 
     public Observable<List<ReturnHistoryResponse>> returnApi(int userId) {

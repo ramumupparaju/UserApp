@@ -189,7 +189,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 bottomOptions[0] = getString(R.string.bottom_option_delete);
                 topDrawables = new int[1];
                 topDrawables[0] = R.drawable.ic_option_details;
-                showInterestProductDialog(getString(R.string.dilog_delete));
+                showInterestProductDeleteDialog(getString(R.string.dilog_delete));
             } else {
 
                 bottomOptions = new String[3];
@@ -230,7 +230,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     };
 
-    private void showInterestProductDialog(String messageInfo) {
+    private void showInterestProductDeleteDialog(String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override

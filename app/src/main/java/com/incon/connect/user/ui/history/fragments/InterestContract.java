@@ -21,7 +21,7 @@ public interface InterestContract {
     interface Presenter {
         void interestApi(int userId);
 
-        void deleteApi(int userId);
+        void deleteApi(int interestId);
     }
 
 }

@@ -120,11 +120,6 @@ public class ResetPasswordPromptActivity extends BaseActivity implements
     }
 
     @Override
-    public void uploadUserData(int userId) {
-        //DO nothing
-    }
-
-    @Override
     public void navigateToHomeScreen() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();

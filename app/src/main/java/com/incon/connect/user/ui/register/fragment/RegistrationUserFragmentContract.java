@@ -14,10 +14,8 @@ public class RegistrationUserFragmentContract {
 
     public interface View extends BaseView {
         void navigateToRegistrationActivityNext();
-        void uploadUserData(int userId);
         void navigateToHomeScreen();
         void validateOTP();
-
     }
 
     interface Presenter {

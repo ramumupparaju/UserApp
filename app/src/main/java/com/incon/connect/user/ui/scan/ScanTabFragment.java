@@ -87,14 +87,13 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
                             case AlertDialogCallback.CANCEL:
-                                getActivity().onBackPressed();
                                 productDetailsDialog.dismiss();
                                 break;
                             default:
                                 break;
                         }
                     }
-                }).title(getString(R.string.action_scan_product_details))
+                }).title("product details have to come from api") //TODO have to change
                 .button1Text(getString(R.string.action_ok))
                 .build();
         productDetailsDialog.showDialog();

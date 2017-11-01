@@ -90,11 +90,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         }
 
         @Override
-        public void uploadUserData(int userId) {
-
-        }
-
-        @Override
         public void navigateToHomeScreen() {
             //DO nothing
         }

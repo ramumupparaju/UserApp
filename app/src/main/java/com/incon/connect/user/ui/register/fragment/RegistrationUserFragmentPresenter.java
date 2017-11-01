@@ -44,7 +44,6 @@ public class RegistrationUserFragmentPresenter extends
         DisposableObserver<LoginResponse> observer = new DisposableObserver<LoginResponse>() {
             @Override
             public void onNext(LoginResponse loginResponse) {
-                getView().uploadUserData(loginResponse.getId());
                 getView().validateOTP();
             }
 

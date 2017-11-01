@@ -57,7 +57,7 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
     }
 
     @Override
-    public void deleteApi(int userId) {
+    public void deleteApi(int interestId) {
         getView().showProgress(appContext.getString(R.string.progress_interest_history));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
@@ -79,7 +79,7 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().deleteApi(userId).subscribe(observer);
+        AppApiService.getInstance().deleteApi(interestId).subscribe(observer);
         addDisposable(observer);
     }
 }
