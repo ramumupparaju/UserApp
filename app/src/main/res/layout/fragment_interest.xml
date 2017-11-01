@@ -10,22 +10,27 @@
             android:id="@+id/swiperefresh"
             style="@style/BothMatch"
             >
-            <TextView
-                android:id="@+id/interest_textview"
-                style="@style/BothMatch"
-                android:text="No InterestItems"
-                android:visibility="gone"
-                android:gravity="center"
-                />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/interest_recyclerview"
-                style="@style/MatchWrap"
-                android:layout_marginTop="@dimen/margin_10"
-                android:fadeScrollbars="false"
-                android:scrollbarSize="4dp"
-                android:scrollbarThumbVertical="@drawable/scrollbar"
-                android:scrollbars="vertical"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/interest_textview"
+                    style="@style/BothMatch"
+                    android:gravity="center"
+                    android:text="No InterestItems"
+                    android:visibility="gone"
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/interest_recyclerview"
+                    style="@style/MatchWrap"
+                    android:fadeScrollbars="false"
+                    android:scrollbarSize="4dp"
+                    android:scrollbarThumbVertical="@drawable/scrollbar"
+                    android:scrollbars="vertical"/>
+            </LinearLayout>
 
         </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>

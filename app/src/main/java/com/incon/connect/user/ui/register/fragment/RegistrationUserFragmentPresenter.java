@@ -27,8 +27,8 @@ public class RegistrationUserFragmentPresenter extends
         BasePresenter<RegistrationUserFragmentContract.View> implements
         RegistrationUserFragmentContract.Presenter {
 
-    private Context appContext;
     private static final String TAG = RegistrationUserFragmentPresenter.class.getName();
+    private Context appContext;
     private LoginDataManagerImpl loginDataManagerImpl;
 
     @Override
