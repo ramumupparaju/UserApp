@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.incon.connect.user.AppConstants;
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse;
@@ -105,6 +106,10 @@ public class InterestAdapter extends RecyclerView.Adapter
 
         public void bind(InterestHistoryResponse interestHistoryResponse) {
             binding.setVariable(BR.interestHistoryResponse, interestHistoryResponse);
+            AppUtils.loadImageFromApi(binding.brandIv, interestHistoryResponse
+                    .getProductLogoUrl());
+            AppUtils.loadImageFromApi(binding.productIv, interestHistoryResponse
+                    .getProductImageUrl());
             binding.executePendingBindings();
         }
 
