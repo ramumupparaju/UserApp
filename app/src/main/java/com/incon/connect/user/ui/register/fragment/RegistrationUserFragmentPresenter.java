@@ -27,8 +27,8 @@ public class RegistrationUserFragmentPresenter extends
         BasePresenter<RegistrationUserFragmentContract.View> implements
         RegistrationUserFragmentContract.Presenter {
 
-    private Context appContext;
     private static final String TAG = RegistrationUserFragmentPresenter.class.getName();
+    private Context appContext;
     private LoginDataManagerImpl loginDataManagerImpl;
 
     @Override
@@ -44,7 +44,7 @@ public class RegistrationUserFragmentPresenter extends
         DisposableObserver<LoginResponse> observer = new DisposableObserver<LoginResponse>() {
             @Override
             public void onNext(LoginResponse loginResponse) {
-                getView().uploadUserData(loginResponse.getId());
+                getView().validateOTP();
             }
 
             @Override
@@ -61,6 +61,7 @@ public class RegistrationUserFragmentPresenter extends
         AppApiService.getInstance().register(registrationBody).subscribe(observer);
         addDisposable(observer);
     }
+
 
     @Override
     public void validateOTP(HashMap<String, String> verify) {

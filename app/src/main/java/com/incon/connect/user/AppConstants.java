@@ -150,6 +150,7 @@ public interface AppConstants {
         String SCANNED_QRCODE = "scannedQrcode";
         String WARRANTY_DATA = "warrantyData";
         String ADD_NEW_MODEL_DATA = "addnewmodelData";
+        String LOCATION_ADDRESS = "locationAddress";
     }
 
     interface PushSubTypeConstants {
@@ -171,6 +172,7 @@ public interface AppConstants {
         String USER_NAME = "userName";
         String USER_EMAIL_ID = "userEmailId";
         String USER_PHONE_NUMBER = "userPhoneNumber";
+        String USER_MOBILE_NUMBER = "userMobileNumber";
         String USER_DOB = "userDob";
         String USER_GENDER = "userGender";
         String USER_ADDRESS = "userAddress";
@@ -233,6 +235,9 @@ public interface AppConstants {
         int SERIAL_NO_SCAN = 116;
         int BATCH_NO_SCAN = 117;
         int ADD_NEW_MODEL = 118;
+        int LOCATION_LATLNG_FROM_ADDRESS = 119;
+        int LOCATION_ADDRESS_FROM_LATLNG = 120;
+
     }
 
     interface TimeConstants {
@@ -289,12 +294,11 @@ public interface AppConstants {
 
     interface MenuConstants {
         int PROFILE = 0;
-        int STORESETTINGS = 1;
-        int CHANGE_PWD = 2;
-        int BILLFORMAT = 3;
-        int TIMEINGS = 4;
-        int CONTACTDETAILS = 5;
-        int LOGOUT = 6;
+        int CHANGE_PWD = 1;
+        int BILLFORMAT = 2;
+        int TIMEINGS = 3;
+        int CONTACTDETAILS = 4;
+        int LOGOUT = 5;
 
 
     }

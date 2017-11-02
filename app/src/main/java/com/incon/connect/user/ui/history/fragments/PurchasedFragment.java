@@ -22,14 +22,12 @@ import com.incon.connect.user.apimodel.components.history.purchased.PurchasedHis
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
-import com.incon.connect.user.custom.view.AppAlertDialogMap;
 import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
-import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
@@ -50,8 +48,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private BottomSheetPurchasedBinding bottomSheetPurchasedBinding;
     private int productSelectedPosition;
     private AppAlertDialog detailsDialog;
-    private AppAlertDialogMap mapDialog;
-
 
     @Override
     protected void initializePresenter() {
@@ -138,15 +134,15 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         // bottomSheetPurchasedBinding.bottomRow.removeAllViews();
 
         String[] bottomNames = new String[4];
-        bottomNames[0] = "Customer";
-        bottomNames[1] = "Product";
-        bottomNames[2] = "Service/Support";
-        bottomNames[3] = "Satus Update";
+        bottomNames[0] = getString(R.string.bottom_option_service);
+        bottomNames[1] = getString(R.string.bottom_option_product);
+        bottomNames[2] = getString(R.string.bottom_option_showroom);
+        bottomNames[3] = getString(R.string.bottom_option_add_as_favorite);
 
         int[] bottomDrawables = new int[4];
-        bottomDrawables[0] = R.drawable.ic_option_customer;
+        bottomDrawables[0] = R.drawable.ic_option_service_support;
         bottomDrawables[1] = R.drawable.ic_option_product;
-        bottomDrawables[2] = R.drawable.ic_option_service_support;
+        bottomDrawables[2] = R.drawable.ic_option_customer;
         bottomDrawables[3] = R.drawable.ic_option_delivery_status;
 
         bottomSheetPurchasedBinding.bottomRow.removeAllViews();
@@ -179,25 +175,33 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             String[] bottomOptions;
             int[] topDrawables;
             if (tag == 0) {
-                bottomOptions = new String[2];
-                bottomOptions[0] = "Call";
-                bottomOptions[1] = "Location";
+                bottomOptions = new String[3];
+                bottomOptions[0] = getString(R.string.bottom_option_call_customer_care);
+                bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
+                bottomOptions[1] = getString(R.string.bottom_option_service_request);
 
-                topDrawables = new int[2];
+                topDrawables = new int[3];
                 topDrawables[0] = R.drawable.ic_option_call;
+                topDrawables[1] = R.drawable.ic_option_location;
                 topDrawables[1] = R.drawable.ic_option_location;
 
             } else if (tag == 1) {
                 bottomOptions = new String[2];
-                bottomOptions[0] = "Details";
-                bottomOptions[1] = "Warranty";
+                bottomOptions[0] = getString(R.string.bottom_option_details);
+                bottomOptions[1] = getString(R.string.bottom_option_warranty);
 
                 topDrawables = new int[2];
                 topDrawables[0] = R.drawable.ic_option_details;
                 topDrawables[1] = R.drawable.ic_option_warranty;
             } else if (tag == 2) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
+                bottomOptions = new String[3];
+                bottomOptions[0] = getString(R.string.bottom_option_Call);
+                bottomOptions[1] = getString(R.string.bottom_option_location);
+                bottomOptions[2] = getString(R.string.bottom_option_feedback);
+                topDrawables = new int[3];
+                topDrawables[0] = R.drawable.ic_option_call;
+                topDrawables[1] = R.drawable.ic_option_location;
+                topDrawables[2] = R.drawable.ic_option_details;
                 /*bottomOptions = new String[3];
                 topDrawables = new int[3];
                 bottomOptions[0] = "Call";
@@ -259,19 +263,25 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             Integer tag = (Integer) view.getTag();
             PurchasedHistoryResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
-            if (tag == 0 && topClickedText.equals("Call")) {
+            if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_call_customer_care))) {
                 callPhoneNumber(itemFromPosition.getMobileNumber());
-            } else if (tag == 1 && topClickedText.equals("Location")) {
-                showLocationDialog();
-            } else if (tag == 0 && topClickedText.equals("Details")) {
-                onOpenAlert(itemFromPosition.getInformation());
-            } else if (tag == 1 && topClickedText.equals("Warranty")) {
-                String dateString = getString(R.string.hint_warranty_date,
-                        DateUtils.convertMillisToStringFormat(itemFromPosition.getWarrantyEndDate(),
-                                DateFormatterConstants.DD_E_MMMM_YYYY));
-                onOpenAlert(dateString);
+            } else if (tag == 1 && topClickedText.equals(getString(
+                    R.string.bottom_option_find_service_center))) {
+            } else if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_service_request))) {
             }
 
+            else if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_Call))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+            } else if (tag == 1 && topClickedText.equals(getString(
+                    R.string.bottom_option_location))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+            }   else if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_feedback))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+            }
         }
     };
 
@@ -305,27 +315,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             AppUtils.shortToast(getActivity(), getString(R.string.error_location));
             return;
         }
-        /*String[] splitLocation = itemFromPosition.getLocation().split(
-        AppConstants.COMMA_SEPARATOR);
-        LatLng latLng = new LatLng(Double.parseDouble(splitLocation[0]), Double.parseDouble(
-                splitLocation[1]));
-        mapDialog = new AppAlertDialogMap.AlertDialogBuilder(getActivity(), new
-                AlertDialogCallback() {
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.CANCEL:
-                                mapDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                })
-                .location(latLng, itemFromPosition.getAddress())
-                .button2Text(getString(R.string.action_ok))
-                .build();
-        mapDialog.showDialog();*/
 
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
         addressIntent.putExtra(IntentConstants.LOCATION_COMMA, itemFromPosition.getLocation());
@@ -371,12 +360,17 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             purchasedAdapter.setData(purchasedHistoryResponseList);
             dismissSwipeRefresh();
         }
-
     }
 
     @Override
     public void onSearchClickListerner(String searchableText, String searchType) {
         AppUtils.hideSoftKeyboard(getActivity(), rootView);
         purchasedAdapter.searchData(searchableText, searchType);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        purchasedPresenter.disposeAll();
     }
 }

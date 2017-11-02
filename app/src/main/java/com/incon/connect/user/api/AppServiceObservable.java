@@ -13,8 +13,6 @@ import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse
 import com.incon.connect.user.apimodel.components.qrcodeproduct.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
-import com.incon.connect.user.apimodel.components.updatestoreprofile.UpDateStoreProfileResponce;
-import com.incon.connect.user.apimodel.components.updateuserprofile.UpDateUserProfileResponce;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
 import com.incon.connect.user.dto.addoffer.AddOfferRequest;
@@ -22,7 +20,6 @@ import com.incon.connect.user.dto.asignqrcode.AssignQrCode;
 import com.incon.connect.user.dto.login.LoginUserData;
 import com.incon.connect.user.dto.notifications.PushRegistrarBody;
 import com.incon.connect.user.dto.registration.Registration;
-import com.incon.connect.user.dto.update.UpDateStoreProfile;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
 import com.incon.connect.user.dto.warrantyregistration.WarrantyRegistration;
 
@@ -30,12 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
-import okhttp3.MultipartBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface AppServiceObservable {
@@ -43,19 +37,11 @@ public interface AppServiceObservable {
     @GET("defaults")
     Observable<DefaultsResponse> defaultsApi();
 
-    @POST("login")
+    @POST("user/login")
     Observable<LoginResponse> login(@Body LoginUserData loginUserData);
 
     @POST("user/register")
     Observable<LoginResponse> register(@Body Registration registrationBody);
-
-    @POST("merchant/updatemerchant/{merchantId}")
-    Observable<UpDateUserProfileResponce> upDateUserProfile(@Path(
-            "merchantId") int merchantId, @Body UpDateUserProfile upDateUserProfile);
-
-    @POST("merchant/updatestoredetails/{merchantId}")
-    Observable<UpDateStoreProfileResponce> upDateStoreProfile(@Path(
-            "merchantId") int merchantId, @Body UpDateStoreProfile dateStoreProfile);
 
     @GET("user/requestotp/{phoneNumber}/register")
     Observable<Object> registerRequestOtp(@Path("phoneNumber") String phoneNumber);
@@ -63,10 +49,9 @@ public interface AppServiceObservable {
     @GET("user/requestotp/{phoneNumber}/password")
     Observable<Object> registerRequestPasswordOtp(@Path("phoneNumber") String phoneNumber);
 
-    @Multipart
-    @POST("merchant/logoupdate/{storeId}")
-    Observable<Object> uploadStoreLogo(@Path("storeId") String storeId,
-                                       @Part MultipartBody.Part storeLogo);
+    @POST("user/updateuser/{userId}")
+    Observable<LoginResponse> upDateUserProfile(@Path(
+            "userId") int userId, @Body UpDateUserProfile upDateUserProfile);
 
     @POST("account/sendOtp")
     Observable<SendOtpResponse> sendOtp(@Body HashMap<String, String> email);
@@ -89,18 +74,16 @@ public interface AppServiceObservable {
     @POST("product/assign")
     Observable<Object> assignQrCodeToProduct(@Body AssignQrCode qrCode);
 
-    //    TODO Change purchased to interest
 //    user/history/interested/78
     @GET("user/history/interested/{userId}")
     Observable<List<InterestHistoryResponse>> interestApi(@Path("userId") int userId);
 
 //user/history/deleteinterested/63
-    @GET("user/history/deleteinterested/{userId}")
-    Observable<Object> deleteApi(@Path("userId") int userId);
+    @GET("user/history/deleteinterested/{interestId}")
+    Observable<Object> deleteApi(@Path("interestId") int interestId);
 
 
-    //    TODO Change purchased to return
-    @GET("merchant/history/purchased/{userId}")
+    @GET("user/history/return/{userId}")
     Observable<List<ReturnHistoryResponse>> returnApi(@Path("userId") int userId);
 
     @GET("merchant/buy-requests/{userId}")
@@ -115,8 +98,10 @@ public interface AppServiceObservable {
     @GET("user/getuser/scan/{qrCode}/")
     Observable<UserInfoResponse> userInfoUsingQrCode(@Path("qrCode") String qrCode);
 
-    @GET("user/interested/{qrCode}/")
-    Observable<Object> userInterestedUsingQrCode(@Path("qrCode") String qrCode);
+    @POST("user/interested/{customerId}/")
+    Observable<Object> userInterestedUsingQrCode(@Path("customerId") int customerId, @Body
+            HashMap<String,
+            String> qrCode);
 
     @POST("product/getproduct")
     Observable<ProductInfoResponse> productInfoUsingQrCode(@Body HashMap<String, String> qrCode);

@@ -9,10 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.incon.connect.user.R;
+import com.incon.connect.user.callbacks.AlertDialogCallback;
+import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.databinding.FragmentScanTabBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.qrcodescan.QrcodeBarcodeScanActivity;
+import com.incon.connect.user.utils.SharedPrefsUtils;
 
 
 public class ScanTabFragment extends BaseFragment implements ScanTabContract.View {
@@ -20,6 +23,7 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
     private View rootView;
     private FragmentScanTabBinding binding;
     private ScanTabPresenter scanTabPresenter;
+    private AppAlertDialog productDetailsDialog;
 
     @Override
     protected void initializePresenter() {
@@ -59,7 +63,8 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
             switch (requestCode) {
                 case RequestCodes.USER_PROFILE_SCAN:
                     if (data != null) {
-                        scanTabPresenter.userInterestedUsingQrCode(
+                        scanTabPresenter.userInterestedUsingQrCode(SharedPrefsUtils.loginProvider().
+                                        getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE),
                                 data.getStringExtra(IntentConstants.SCANNED_CODE));
                     }
                     break;
@@ -71,6 +76,26 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
 
     @Override
     public void userInterestedResponce(Object productInfoResponse) {
-        //TODO have to show product details
+        showProductDetailsDialog(productInfoResponse);
+    }
+
+    private void showProductDetailsDialog(Object productInfoResponse) {
+        productDetailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
+                AlertDialogCallback() {
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                            case AlertDialogCallback.CANCEL:
+                                productDetailsDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title("product details have to come from api") //TODO have to change
+                .button1Text(getString(R.string.action_ok))
+                .build();
+        productDetailsDialog.showDialog();
     }
 }

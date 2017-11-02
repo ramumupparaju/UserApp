@@ -2,7 +2,6 @@ package com.incon.connect.user.data.login;
 
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.apimodel.components.login.LoginResponse;
-import com.incon.connect.user.apimodel.components.login.StoreResponse;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 public class LoginDataManagerImpl implements LoginDataManager, AppConstants.LoginPrefs {
@@ -20,36 +19,16 @@ public class LoginDataManagerImpl implements LoginDataManager, AppConstants.Logi
                 loginResponse.getName());
         sharedPrefsUtils.setStringPreference(USER_EMAIL_ID,
                 loginResponse.getEmail());
-        sharedPrefsUtils.setStringPreference(USER_PHONE_NUMBER,
-                loginResponse.getMsisdn());
+        sharedPrefsUtils.setStringPreference(USER_MOBILE_NUMBER,
+                loginResponse.getMobileNumber());
         sharedPrefsUtils.setStringPreference(USER_DOB,
                 loginResponse.getDobInMillis());
         sharedPrefsUtils.setStringPreference(USER_GENDER,
                 loginResponse.getGender());
+        sharedPrefsUtils.setStringPreference(USER_ADDRESS,
+                loginResponse.getAddress());
         sharedPrefsUtils.setStringPreference(USER_UUID,
                 loginResponse.getUuid());
-
-        //Adding Store details to preferences
-        StoreResponse storeDetails = loginResponse.getStore();
-        sharedPrefsUtils.setIntegerPreference(STORE_ID,
-                storeDetails.getId());
-        sharedPrefsUtils.setStringPreference(STORE_NAME,
-                storeDetails.getName());
-        sharedPrefsUtils.setStringPreference(STORE_EMAIL_ID,
-                storeDetails.getStoreEmail());
-        sharedPrefsUtils.setStringPreference(STORE_PHONE_NUMBER,
-                storeDetails.getContactNumber());
-        saveStoreLogo(storeDetails.getLogo());
-        sharedPrefsUtils.setStringPreference(STORE_GSTN,
-                storeDetails.getGstn());
-        sharedPrefsUtils.setStringPreference(STORE_ADDRESS,
-                storeDetails.getAddress());
-
-        saveStoreLogo(storeDetails.getLogo());
     }
 
-    public void saveStoreLogo(String storeDetailsLogo) {
-        SharedPrefsUtils.loginProvider().setStringPreference(STORE_LOGO,
-                storeDetailsLogo);
-    }
 }

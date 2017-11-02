@@ -11,6 +11,37 @@
     <string name="error_socket">Unable to process your request. Please try again</string>
     <string name="error_no_connectivity">Looks like you are offline, please check internet
         connectivity</string>
+    <!-- bottom sheet options-->
+    <string name="sample_test">Sample test</string>
+    <string name="bottom_option_customer">Customer</string>
+    <string name="bottom_option_product">Product</string>
+    <string name="bottom_option_service">Service/Support</string>
+    <string name="bottom_option_satus_update">Satus Update</string>
+    <string name="bottom_option_add_as_favorite">Add as favorite</string>
+    <string name="bottom_option_return">Return</string>
+    <string name="bottom_option_Call">Call</string>
+    <string name="bottom_option_call_customer_care">Call customer care</string>
+    <string name="bottom_option_find_service_center">Find service center</string>
+    <string name="bottom_option_service_request">Service request</string>
+    <string name="bottom_option_location">Location</string>
+    <string name="bottom_option_details">Details</string>
+    <string name="bottom_option_note">Note</string>
+    <string name="bottom_option_main_features">Main features</string>
+    <string name="bottom_option_warranty">Warranty</string>
+    <string name="bottom_option_feedback">Feedback</string>
+    <string name="bottom_option_price">Price</string>
+    <string name="bottom_option_delete">Delete</string>
+    <string name="bottom_option_showroom">Showroom</string>
+    <string name="bottom_option_buy_request">Buy request</string>
+    <string name="dilog_delete">Are You Sure Delete Interested</string>
+    <string name="bottom_option_return_policy">Return policy</string>
+    <string name="bottom_option_request_installation">Request Installation</string>
+    <string name="bottom_option_share_customer_location">Share Customer Location</string>
+    <string name="bottom_option_share_customer_dispatches_on">Dispatches On</string>
+    <string name="bottom_option_share_customer_dispatched">Dispatched</string>
+    <string name="bottom_option_share_customer_delivered">Delivered</string>
+    <string name="bottom_option_share_customer_installed">Installed</string>
+    <string name="bottom_option_share_customer_return_product">Return Product</string>
 
 
     <!--warrantyregistration-->
@@ -98,6 +129,7 @@
     <string name="app_version">App Version: </string>
     <!--scan tap fragment-->
 
+    <string name="action_scan_product_details">Product details</string>
     <string name="action_scancustomeruid">Scan Customer UID</string>
     <string name="action_enter_mobilenumber">Enter Mobile Number</string>
 
@@ -105,6 +137,7 @@
     <string name="app_update">Please Update to continue using the App.</string>
     <string name="location_permission_msg">Please go to application settings and grant location
         permission.</string>
+    <string name="error_uuid">No data to generate qrcode</string>
     <string name="error_email_req">Email Address is required</string>
     <string name="error_select_location">Please select location</string>
     <string name="error_location">Unable to fetch location</string>

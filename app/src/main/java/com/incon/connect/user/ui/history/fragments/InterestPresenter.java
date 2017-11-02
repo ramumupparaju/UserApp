@@ -29,7 +29,9 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
         super.initialize(extras);
         appContext = ConnectApplication.getAppContext();
     }
-    public void interest(int userId) {
+
+    @Override
+    public void interestApi(int userId) {
         getView().showProgress(appContext.getString(R.string.progress_interest_history));
         DisposableObserver<List<InterestHistoryResponse>> observer = new
                 DisposableObserver<List<InterestHistoryResponse>>() {
@@ -53,7 +55,9 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
         AppApiService.getInstance().interestApi(userId).subscribe(observer);
         addDisposable(observer);
     }
-    public void delete(int userId) {
+
+    @Override
+    public void deleteApi(int interestId) {
         getView().showProgress(appContext.getString(R.string.progress_interest_history));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
@@ -67,6 +71,7 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
                         getView().hideProgress();
                         Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
                         getView().handleException(errorDetails);
+                        getView().showErrorMessage(errorDetails.second);
                     }
 
                     @Override
@@ -74,7 +79,7 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().deleteApi(userId).subscribe(observer);
+        AppApiService.getInstance().deleteApi(interestId).subscribe(observer);
         addDisposable(observer);
     }
 }

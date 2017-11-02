@@ -8,7 +8,6 @@ import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.login.LoginResponse;
-import com.incon.connect.user.apimodel.components.updateuserprofile.UpDateUserProfileResponce;
 import com.incon.connect.user.data.login.LoginDataManagerImpl;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
 import com.incon.connect.user.ui.BasePresenter;
@@ -32,32 +31,32 @@ public class UpDateUserProfilePresenter extends BasePresenter<UpDateUserProfileC
         appContext = ConnectApplication.getAppContext();
     }
 
-   public void upDateUserProfile(int merchantId, UpDateUserProfile upDateUserProfile) {
-       getView().showProgress(appContext.getString(R.string.progress_updateuserprofile));
-       DisposableObserver<UpDateUserProfileResponce> observer = new
-               DisposableObserver<UpDateUserProfileResponce>() {
-           @Override
-           public void onNext(UpDateUserProfileResponce upDateUserProfileResponce) {
-               getView().hideProgress();
-               getView().loadUpDateUserProfileResponce(upDateUserProfileResponce);
-//               saveUserData(upDateUserProfileResponce); //TODO have to change
-           }
+    public void upDateUserProfile(int userId, UpDateUserProfile upDateUserProfile) {
+        getView().showProgress(appContext.getString(R.string.progress_updateuserprofile));
+        DisposableObserver<LoginResponse> observer = new
+                DisposableObserver<LoginResponse>() {
+                    @Override
+                    public void onNext(LoginResponse loginResponse) {
+                        getView().hideProgress();
+                        getView().loadUpDateUserProfileResponce(loginResponse);
+               saveUserData(loginResponse);
+                    }
 
-           @Override
-           public void onError(Throwable e) {
-               getView().hideProgress();
-               Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
-               getView().handleException(errorDetails);
-           }
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
 
-           @Override
-           public void onComplete() {
+                    @Override
+                    public void onComplete() {
 
-           }
-       };
-       AppApiService.getInstance().upDateUserProfile(merchantId, upDateUserProfile).
-               subscribe(observer);
-       addDisposable(observer);
+                    }
+                };
+        AppApiService.getInstance().upDateUserProfile(userId, upDateUserProfile).
+                subscribe(observer);
+        addDisposable(observer);
 
     }
 

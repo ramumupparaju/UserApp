@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -15,17 +16,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.incon.connect.user.R;
 import com.incon.connect.user.AppUtils;
+import com.incon.connect.user.R;
 import com.incon.connect.user.callbacks.ILocationCallbacks;
 import com.incon.connect.user.databinding.ActivityRegistrationMapBinding;
+import com.incon.connect.user.utils.AddressFromLatLngAddress;
 import com.incon.connect.user.utils.DeviceLocation;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
@@ -40,6 +38,7 @@ public class RegistrationMapActivity extends BaseActivity implements OnMapReadyC
     private Marker marker;
     private String preZipCode;
     private LatLng locationAddress;
+    private AddressFromLatLngAddress addressFromLatLngAddress;
 
 
     @Override
@@ -70,6 +69,7 @@ public class RegistrationMapActivity extends BaseActivity implements OnMapReadyC
             }
         }
         addZipcodeWatcher();
+        addressFromLatLngAddress = new AddressFromLatLngAddress();
     }
 
     public void onOkClick() {
@@ -106,7 +106,7 @@ public class RegistrationMapActivity extends BaseActivity implements OnMapReadyC
                                 AppUtils.hideSoftKeyboard(RegistrationMapActivity.this,
                                         binding.edittextPincode);
 //                                registrationMapPresenter.doPostalCode(zipCode);
-                                fetchLocationFromZipcode();
+                                loadLocationFromZipcode();
                             }
                         }
                         preZipCode = zipCode;
@@ -123,28 +123,38 @@ public class RegistrationMapActivity extends BaseActivity implements OnMapReadyC
         zipCodeChangeObserver.subscribe(observer);
     }
 
-    private void fetchLocationFromZipcode() {
+    private void loadLocationFromZipcode() {
+        addressFromLatLngAddress.getLocationFromAddress(RegistrationMapActivity.this,
+                binding.edittextPincode.getText().toString(),
+                RequestCodes.LOCATION_LATLNG_FROM_ADDRESS, new LocationHandler());
 
-        if (!Geocoder.isPresent()) {
-//todo error msg to fill manually
-            return;
-        }
-        try {
-            Geocoder geocoder = new Geocoder(RegistrationMapActivity.this, Locale.getDefault());
-            List<Address> addressList = geocoder.
-                    getFromLocationName(binding.edittextPincode.getText().toString(),
-                            GoogleMapConstants.GEOCODER_MAX_ADDRESS_RESULTS);
-            if (addressList != null && addressList.size() > 0) {
-                Address address = addressList.get(0);
-                if (address.hasLatitude() && address.hasLongitude()) {
-                    displayMarker(new LatLng(address.getLatitude(), address.getLongitude()),
-                            true);
+    }
+
+    private class LocationHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            Bundle bundle = message.getData();
+            Address locationAddress = bundle.getParcelable(BundleConstants
+                    .LOCATION_ADDRESS);
+            if (locationAddress != null) {
+                switch (message.what) {
+                    case RequestCodes.LOCATION_ADDRESS_FROM_LATLNG:
+                        binding.setAddress(locationAddress);
+                        break;
+                    case RequestCodes.LOCATION_LATLNG_FROM_ADDRESS:
+                        if (locationAddress.hasLatitude() && locationAddress.hasLongitude()) {
+                            displayMarker(new LatLng(locationAddress.getLatitude(),
+                                            locationAddress.getLongitude()),
+                                    true);
+                        }
+                        break;
+                    default:
+                        //do nothing
                 }
+            } else {
+                showErrorMessage(getString(R.string.error_location));
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
     }
 
 
@@ -206,28 +216,8 @@ public class RegistrationMapActivity extends BaseActivity implements OnMapReadyC
 
     private void loadLocationDetailsFromGeocoder() {
 
-        if (!Geocoder.isPresent()) {
-//todo error msg to fill manually
-            return;
-        }
-
-        //fetching address using geo coder
-        Geocoder geocoder = new Geocoder(RegistrationMapActivity.this, Locale.getDefault());
-        List<Address> list = null;
-
-        LatLng latLng = locationAddress;
-        try {
-            list = geocoder.getFromLocation(latLng.latitude,
-                    latLng.longitude, GoogleMapConstants.GEOCODER_MAX_ADDRESS_RESULTS);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (list != null && list.size() > 0) {
-            Address address = list.get(0);
-            binding.setAddress(address);
-        } else {
-            showErrorMessage(getString(R.string.error_location));
-        }
+        addressFromLatLngAddress.getAddressFromLocation(RegistrationMapActivity.this,
+                locationAddress, RequestCodes.LOCATION_ADDRESS_FROM_LATLNG, new LocationHandler());
 
     }
 }

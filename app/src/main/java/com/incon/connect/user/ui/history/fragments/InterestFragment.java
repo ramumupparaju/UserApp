@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
@@ -34,31 +35,28 @@ import java.util.List;
  */
 
 public class InterestFragment extends BaseTabFragment implements InterestContract.View {
-     private FragmentInterestBinding binding;
-     private InterestPresenter interestPresenter;
-     private List<InterestHistoryResponse> interestList;
-     private int userId;
-     private InterestAdapter interestAdapter;
-     private BottomSheetInterestBinding bottomSheetInterestBinding;
-     private BottomSheetDialog bottomSheetDialog;
-
-    private AppAlertDialog detailsDialog;
-
+    private FragmentInterestBinding binding;
     private View rootView;
-    private int productSelectedPosition;
+    private InterestPresenter interestPresenter;
+    private List<InterestHistoryResponse> interestList;
+    private InterestAdapter interestAdapter;
+    private BottomSheetInterestBinding bottomSheetInterestBinding;
+
+    private BottomSheetDialog bottomSheetDialog;
+    private AppAlertDialog detailsDialog;
+    private int userId;
+    private int productSelectedPosition = -1;
 
     @Override
     protected void initializePresenter() {
         interestPresenter = new InterestPresenter();
         interestPresenter.setView(this);
         setBasePresenter(interestPresenter);
-
     }
 
     @Override
     public void setTitle() {
         //do nothing
-
     }
 
     @Override
@@ -77,15 +75,20 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         return rootView;
     }
 
+    @Override
+    public void showErrorMessage(String errorMessage) {
+        if (bottomSheetDialog.isShowing()) {
+            AppUtils.shortToast(getActivity(), errorMessage);
+        } else {
+            super.showErrorMessage(errorMessage);
+        }
+    }
+
     private void loadBottomSheet() {
-
-         bottomSheetInterestBinding = DataBindingUtil.inflate(LayoutInflater.from(
+        bottomSheetInterestBinding = DataBindingUtil.inflate(LayoutInflater.from(
                 getActivity()), R.layout.bottom_sheet_interest, null, false);
-
         bottomSheetDialog = new BottomSheetDialog(getActivity());
         bottomSheetDialog.setContentView(bottomSheetInterestBinding.getRoot());
-
-
     }
 
     private void initViews() {
@@ -105,11 +108,8 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
 
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
-        interestPresenter.interest(userId);
+        interestPresenter.interestApi(userId);
     }
-
-
-
 
     private IClickCallback iClickCallback = new IClickCallback() {
         @Override
@@ -125,16 +125,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         // bottomSheetPurchasedBinding.bottomRow.removeAllViews();
 
         String[] bottomNames = new String[4];
-        bottomNames[0] = "Buy request";
-        bottomNames[1] = "Product";
-        bottomNames[2] = "Show room";
-        bottomNames[3] = "Delete";
+        bottomNames[0] = getString(R.string.bottom_option_buy_request);
+        bottomNames[1] = getString(R.string.bottom_option_product);
+        bottomNames[2] = getString(R.string.bottom_option_showroom);
+        bottomNames[3] = getString(R.string.bottom_option_delete);
 
         int[] bottomDrawables = new int[4];
         bottomDrawables[0] = R.drawable.ic_option_customer;
         bottomDrawables[1] = R.drawable.ic_option_product;
-        bottomDrawables[2] = R.drawable.ic_option_service_support;
-        bottomDrawables[3] = R.drawable.ic_option_service_support;
+        bottomDrawables[2] = R.drawable.ic_showroom;
+        bottomDrawables[3] = R.drawable.ic_option_delete;
 
         bottomSheetInterestBinding.bottomRow.removeAllViews();
         int length = bottomNames.length;
@@ -142,7 +142,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.WRAP_CONTENT, length);
         params.setMargins(1, 1, 1, 1);
-//TODO have to remove hard codeings
         for (int i = 0; i < length; i++) {
             LinearLayout linearLayout = new LinearLayout(getContext());
             linearLayout.setWeightSum(1f);
@@ -166,19 +165,19 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             Integer tag = (Integer) view.getTag();
             String[] bottomOptions;
             int[] topDrawables;
-            changeBackgroundText(tag , view);
+            changeBackgroundText(tag, view);
             if (tag == 0) {
                 bottomOptions = new String[1];
-                bottomOptions[0] = "Note";
+                bottomOptions[0] = getString(R.string.bottom_option_note);
                 topDrawables = new int[1];
                 topDrawables[0] = R.drawable.ic_option_call;
 //                changeBackgroundText(tag , view);
 
-            }  else if (tag == 1) {
+            } else if (tag == 1) {
                 bottomOptions = new String[3];
-                bottomOptions[0] = "Main features";
-                bottomOptions[1] = "Details";
-                bottomOptions[2] = "Feedback / Reviews";
+                bottomOptions[0] = getString(R.string.bottom_option_main_features);
+                bottomOptions[1] = getString(R.string.bottom_option_details);
+                bottomOptions[2] = getString(R.string.bottom_option_feedback);
 
                 topDrawables = new int[3];
                 topDrawables[0] = R.drawable.ic_option_details;
@@ -187,20 +186,20 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
 //                changeBackgroundText(tag , view);
             } else if (tag == 3) {
                 bottomOptions = new String[1];
-                bottomOptions[0] = "Delete";
+                bottomOptions[0] = getString(R.string.bottom_option_delete);
                 topDrawables = new int[1];
                 topDrawables[0] = R.drawable.ic_option_details;
-                onOpenAlert("Are You Sure Delete Interested");
-            } else  {
+                showInterestProductDeleteDialog(getString(R.string.dilog_delete));
+            } else {
 
                 bottomOptions = new String[3];
-                bottomOptions[0] = "Call";
-                bottomOptions[1] = "Location";
-                bottomOptions[2] = "Feedback / Reviews";
+                bottomOptions[0] = getString(R.string.bottom_option_Call);
+                bottomOptions[1] = getString(R.string.bottom_option_location);
+                bottomOptions[2] = getString(R.string.bottom_option_feedback);
                 topDrawables = new int[3];
-                topDrawables[0] = R.drawable.ic_option_details;
-                topDrawables[1] = R.drawable.ic_option_details;
-                topDrawables[2] = R.drawable.ic_option_warranty;
+                topDrawables[0] = R.drawable.ic_option_call;
+                topDrawables[1] = R.drawable.ic_option_location;
+                topDrawables[2] = R.drawable.ic_option_feedback;
 
 //                changeBackgroundText(tag , view);
 
@@ -231,14 +230,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     };
 
-    private void onOpenAlert(String messageInfo) {
+    private void showInterestProductDeleteDialog(String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                interestPresenter.delete(userId);
+                                interestPresenter.deleteApi(interestAdapter.
+                                        getInterestDateFromPosition(
+                                                productSelectedPosition).getInterestId());
                                 detailsDialog.dismiss();
                                 break;
                             case AlertDialogCallback.CANCEL:
@@ -269,6 +270,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             }
         }
     }
+
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -288,9 +290,10 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 @Override
                 public void onRefresh() {
                     interestAdapter.clearData();
-                    interestPresenter.interest(userId);
+                    interestPresenter.interestApi(userId);
                 }
             };
+
     private void dismissSwipeRefresh() {
         if (binding.swiperefresh.isRefreshing()) {
             binding.swiperefresh.setRefreshing(false);
@@ -302,22 +305,27 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         if (interestHistoryResponseList == null) {
             interestHistoryResponseList = new ArrayList<>();
         }
-        this.interestList = interestHistoryResponseList;
-        interestAdapter.setData(interestList);
-        dismissSwipeRefresh();
+        if (interestHistoryResponseList.size() == 0) {
+            binding.interestTextview.setVisibility(View.VISIBLE);
+            dismissSwipeRefresh();
+        } else {
+            interestAdapter.setData(interestHistoryResponseList);
+            dismissSwipeRefresh();
+        }
+
+
     }
 
     @Override
     public void loadInterestDeleteHistory(Object interestHistoryResponseList) {
-        if (interestHistoryResponseList == null) {
-            interestHistoryResponseList = new ArrayList<>();
-        }
-
+        bottomSheetDialog.dismiss();
+        interestPresenter.interestApi(userId);
     }
 
 
     @Override
     public void onSearchClickListerner(String searchableText, String searchType) {
-
+        AppUtils.hideSoftKeyboard(getActivity(), rootView);
+        interestAdapter.searchData(searchableText, searchType);
     }
 }

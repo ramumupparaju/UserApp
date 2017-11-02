@@ -19,7 +19,6 @@ import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.changepassword.ChangePasswordActivity;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.settings.adapters.SettingsAdapter;
-import com.incon.connect.user.ui.settings.update.UpDateStoreProfileActivity;
 import com.incon.connect.user.ui.settings.update.UpDateUserProfileActivity;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
@@ -88,7 +87,7 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
 
     private void prepareMenuData() {
 
-        int[] icons = {R.drawable.ic_menu_store_settings, R.drawable.ic_menu_change_password,
+        int[] icons = {R.drawable.ic_menu_change_password,
                 R.drawable.ic_menu_bill_format,
                 R.drawable.ic_menu_timings,
                 R.drawable.ic_menu_contact_details,
@@ -129,10 +128,6 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
             case MenuConstants.PROFILE:
                 Intent userProfileIntent = new Intent(this, UpDateUserProfileActivity.class);
                 startActivity(userProfileIntent);
-                break;
-            case MenuConstants.STORESETTINGS:
-                Intent storeProfileIntent = new Intent(this, UpDateStoreProfileActivity.class);
-                startActivity(storeProfileIntent);
                 break;
             case MenuConstants.CHANGE_PWD:
                 Intent changePasswordIntent = new Intent(this, ChangePasswordActivity.class);
