@@ -82,7 +82,6 @@ public interface AppServiceObservable {
     @GET("user/history/deleteinterested/{interestId}")
     Observable<Object> deleteApi(@Path("interestId") int interestId);
 
-
     @GET("user/history/return/{userId}")
     Observable<List<ReturnHistoryResponse>> returnApi(@Path("userId") int userId);
 

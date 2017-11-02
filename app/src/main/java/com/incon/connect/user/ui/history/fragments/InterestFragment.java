@@ -3,7 +3,6 @@ package com.incon.connect.user.ui.history.fragments;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -122,7 +121,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private void createBottomSheetView(int position) {
         productSelectedPosition = position;
         bottomSheetInterestBinding.topRow.setVisibility(View.GONE);
-        // bottomSheetPurchasedBinding.bottomRow.removeAllViews();
 
         String[] bottomNames = new String[4];
         bottomNames[0] = getString(R.string.bottom_option_buy_request);
@@ -184,7 +182,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[1] = R.drawable.ic_option_details;
                 topDrawables[2] = R.drawable.ic_option_warranty;
 //                changeBackgroundText(tag , view);
-            } else if (tag == 3) {
+            } else if (tag == 2) {
                 bottomOptions = new String[1];
                 bottomOptions[0] = getString(R.string.bottom_option_delete);
                 topDrawables = new int[1];
@@ -257,16 +255,50 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     }
 
     private void changeBackgroundText(Integer tag, View view) {
-        for (int i = 0; i < bottomSheetInterestBinding.bottomRow.getChildCount(); i++) {
-//            if (view.equals(bottomSheetInterestBinding.bottomRow.getChildAt(i))) {
-            LinearLayout childAt = (LinearLayout) bottomSheetInterestBinding.
-                    bottomRow.getChildAt(i);
-            if (view == childAt) {
-                childAt.setBackgroundColor(
-                        ContextCompat.getColor(getActivity(), R.color.colorPrimary));
-            } else {
-                childAt.setBackgroundColor(
-                        ContextCompat.getColor(getActivity(), R.color.white));
+        if (view instanceof LinearLayout) {
+            View topRootView = (View) view.getParent();
+            View topRootView1 = (View) topRootView.getParent();
+//                    here we get count of 4
+            for (int j = 0; j < ((ViewGroup) topRootView1).getChildCount(); j++) {
+                View childView1 = ((ViewGroup) topRootView1).getChildAt(j);
+
+                if (j == tag) {
+                    if (childView1 instanceof LinearLayout) {
+                        for (int k = 0; k < ((ViewGroup) childView1).getChildCount(); k++) {
+                            View childView2 = ((ViewGroup) childView1).getChildAt(k);
+                            if (childView2 instanceof LinearLayout) {
+                                for (int l = 0;
+                                     l < ((ViewGroup) childView2).getChildCount(); l++) {
+                                    View childView3
+                                            = ((ViewGroup) childView2).getChildAt(l);
+                                    if (childView3 instanceof TextView) {
+                                        ((TextView) childView3).setTextColor(getResources()
+                                                .getColor(R.color.colorPrimary));
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                } else {
+                    if (childView1 instanceof LinearLayout) {
+                        for (int k = 0; k < ((ViewGroup) childView1).getChildCount(); k++) {
+                            View childView2 = ((ViewGroup) childView1).getChildAt(k);
+                            if (childView2 instanceof LinearLayout) {
+                                for (int l = 0;
+                                     l < ((ViewGroup) childView2).getChildCount(); l++) {
+                                    View childView3
+                                            = ((ViewGroup) childView2).getChildAt(l);
+                                    if (childView3 instanceof TextView) {
+                                        ((TextView) childView3).setTextColor(getResources()
+                                                .getColor(R.color.colorAccent));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }

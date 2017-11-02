@@ -80,7 +80,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private void loadBottomSheet() {
         bottomSheetPurchasedBinding = DataBindingUtil.inflate(LayoutInflater.from(
                 getActivity()), R.layout.bottom_sheet_purchased, null, false);
-
         bottomSheetDialog = new BottomSheetDialog(getActivity());
         bottomSheetDialog.setContentView(bottomSheetPurchasedBinding.getRoot());
         bottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -98,18 +97,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
-
         purchasedAdapter = new PurchasedAdapter();
         purchasedAdapter.setClickCallback(iClickCallback);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 getContext(), linearLayoutManager.getOrientation());
         binding.purchasedRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.purchasedRecyclerview.setAdapter(purchasedAdapter);
         binding.purchasedRecyclerview.setLayoutManager(linearLayoutManager);
-
-
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
         purchasedPresenter.purchased(userId);
@@ -132,7 +127,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private void createBottomSheetView(int position) {
         productSelectedPosition = position;
         bottomSheetPurchasedBinding.topRow.setVisibility(View.GONE);
-        // bottomSheetPurchasedBinding.bottomRow.removeAllViews();
 
         String[] bottomNames = new String[4];
         bottomNames[0] = getString(R.string.bottom_option_service);
@@ -150,7 +144,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         int length = bottomNames.length;
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
-                        0, ViewGroup.LayoutParams.WRAP_CONTENT, length);
+                        0, ViewGroup.LayoutParams.MATCH_PARENT, length);
         params.setMargins(1, 1, 1, 1);
         for (int i = 0; i < length; i++) {
             LinearLayout linearLayout = new LinearLayout(getContext());
@@ -174,25 +168,39 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             Integer tag = (Integer) view.getTag();
             String[] bottomOptions;
             int[] topDrawables;
+            changeBackgroundText(tag, view);
             if (tag == 0) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_call_customer_care);
                 bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
-                bottomOptions[1] = getString(R.string.bottom_option_service_request);
+                bottomOptions[2] = getString(R.string.bottom_option_service_request);
 
                 topDrawables = new int[3];
                 topDrawables[0] = R.drawable.ic_option_call;
                 topDrawables[1] = R.drawable.ic_option_location;
-                topDrawables[1] = R.drawable.ic_option_location;
+                topDrawables[2] = R.drawable.ic_option_location;
 
             } else if (tag == 1) {
-                bottomOptions = new String[2];
+                bottomOptions = new String[8];
                 bottomOptions[0] = getString(R.string.bottom_option_details);
                 bottomOptions[1] = getString(R.string.bottom_option_warranty);
+                bottomOptions[2] = getString(R.string.bottom_option_warranty);
+                bottomOptions[3] = getString(R.string.bottom_option_warranty);
+                bottomOptions[4] = getString(R.string.bottom_option_warranty);
+                bottomOptions[5] = getString(R.string.bottom_option_warranty);
+                bottomOptions[6] = getString(R.string.bottom_option_warranty);
+                bottomOptions[7] = getString(R.string.bottom_option_warranty);
 
-                topDrawables = new int[2];
+                topDrawables = new int[8];
                 topDrawables[0] = R.drawable.ic_option_details;
                 topDrawables[1] = R.drawable.ic_option_warranty;
+                topDrawables[2] = R.drawable.ic_option_warranty;
+                topDrawables[3] = R.drawable.ic_option_warranty;
+                topDrawables[4] = R.drawable.ic_option_warranty;
+                topDrawables[5] = R.drawable.ic_option_warranty;
+                topDrawables[6] = R.drawable.ic_option_warranty;
+                topDrawables[7] = R.drawable.ic_option_warranty;
+
             } else if (tag == 2) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_Call);
@@ -207,8 +215,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 bottomOptions[0] = "Call";
                 bottomOptions[1] = "Request Installation";
                 bottomOptions[2] = "Share Customer Location";
-
-
                 topDrawables[0] = R.drawable.ic_option_call;
                 topDrawables[1] = R.drawable.ic_option_accept_request;
                 topDrawables[2] = R.drawable.ic_option_location;*/
@@ -253,6 +259,57 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
         }
     };
+
+    private void changeBackgroundText(Integer tag, View view) {
+
+
+        if (view instanceof LinearLayout) {
+            View topRootView = (View) view.getParent();
+            View topRootView1 = (View) topRootView.getParent();
+//                    here we get count of 4
+            for (int j = 0; j < ((ViewGroup) topRootView1).getChildCount(); j++) {
+                View childView1 = ((ViewGroup) topRootView1).getChildAt(j);
+
+                if (j == tag) {
+                    if (childView1 instanceof LinearLayout) {
+                        for (int k = 0; k < ((ViewGroup) childView1).getChildCount(); k++) {
+                            View childView2 = ((ViewGroup) childView1).getChildAt(k);
+                            if (childView2 instanceof LinearLayout) {
+                                for (int l = 0;
+                                     l < ((ViewGroup) childView2).getChildCount(); l++) {
+                                    View childView3
+                                            = ((ViewGroup) childView2).getChildAt(l);
+                                    if (childView3 instanceof TextView) {
+                                        ((TextView) childView3).setTextColor(getResources()
+                                                .getColor(R.color.colorPrimary));
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                } else {
+                    if (childView1 instanceof LinearLayout) {
+                        for (int k = 0; k < ((ViewGroup) childView1).getChildCount(); k++) {
+                            View childView2 = ((ViewGroup) childView1).getChildAt(k);
+                            if (childView2 instanceof LinearLayout) {
+                                for (int l = 0;
+                                     l < ((ViewGroup) childView2).getChildCount(); l++) {
+                                    View childView3
+                                            = ((ViewGroup) childView2).getChildAt(l);
+                                    if (childView3 instanceof TextView) {
+                                        ((TextView) childView3).setTextColor(getResources()
+                                                .getColor(R.color.colorAccent));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
 
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
@@ -354,16 +411,16 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             purchasedHistoryResponseList = new ArrayList<>();
         }
 
-        /*if (purchasedHistoryResponseList.size() == 0) {
+        if (purchasedHistoryResponseList.size() == 0) {
             binding.purchasedTextview.setVisibility(View.VISIBLE);
             dismissSwipeRefresh();
         }   else {
             purchasedAdapter.setData(purchasedHistoryResponseList);
             dismissSwipeRefresh();
-        }*/
+        }
 
-        purchasedAdapter.setData(purchasedHistoryResponseList);
-        dismissSwipeRefresh();
+        /*purchasedAdapter.setData(purchasedHistoryResponseList);
+        dismissSwipeRefresh();*/
     }
 
     @Override

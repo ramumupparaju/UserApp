@@ -93,7 +93,8 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
                                 break;
                         }
                     }
-                }).title("product details have to come from api") //TODO have to change
+                }).title("Added Product  to Interest List")
+                //TODO have to change
                 .button1Text(getString(R.string.action_ok))
                 .build();
         productDetailsDialog.showDialog();

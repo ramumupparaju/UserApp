@@ -4,20 +4,23 @@
 
     <LinearLayout
         style="@style/MatchWrap"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/margin_10"
-        android:paddingBottom="@dimen/margin_10" >
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/sheet_title"
+            style="@style/MatchWrap"
+            />
 
         <LinearLayout
             android:id="@+id/top_row"
-            style="@style/BothMatch"
+            style="@style/MatchWrap"
             android:orientation="horizontal"
             android:visibility="gone">
 
         </LinearLayout>
         <LinearLayout
             android:id="@+id/bottom_row"
-            style="@style/BothWrap"
+            style="@style/MatchWrap"
             android:orientation="horizontal">
 
         </LinearLayout>
