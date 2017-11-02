@@ -51,6 +51,12 @@ public class InterestHistoryResponse {
     @Expose
     private String location;
 
+    private transient boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
     public String getSerialNumber() {
         return serialNumber;
     }
@@ -161,5 +167,8 @@ public class InterestHistoryResponse {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 }

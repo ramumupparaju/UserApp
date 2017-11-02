@@ -50,7 +50,7 @@
             <TextView
                 android:layout_marginTop="@dimen/margin_7"
                 style="@style/BothWrap"
-                android:text="11/10/2017"
+                android:text="@{interestHistoryResponse.productName}"
                 android:textColor="@color/ebony_clay"
                 android:textSize="10.4sp"
                 />
@@ -58,13 +58,13 @@
             <TextView
                 android:layout_marginTop="@dimen/margin_15"
                 style="@style/BothWrap"
-                android:text="@{interestHistoryResponse.productName}"
+                android:text="@{interestHistoryResponse.price}"
                 android:textColor="@color/ebony_clay"
                 android:textSize="12.4sp"
                 />
             <TextView
                 android:layout_marginTop="@dimen/margin_12"
-                android:text="@{interestHistoryResponse.brandName}"
+                android:text="@{interestHistoryResponse.mobileNumber}"
                 style="@style/BothWrap"
                 android:textColor="@color/ebony_clay"
                 android:textSize="12.4sp"

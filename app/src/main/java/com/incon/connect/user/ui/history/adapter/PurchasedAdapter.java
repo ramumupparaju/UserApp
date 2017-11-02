@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
 import com.incon.connect.user.AppConstants;
-import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.apimodel.components.history.purchased.PurchasedHistoryResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemPurchasedFragmentBinding;
@@ -110,11 +109,11 @@ public class PurchasedAdapter extends RecyclerView.Adapter
         }
         public void bind(PurchasedHistoryResponse purchasedHistoryResponse) {
             binding.setVariable(BR.purchasedHistoryResponse, purchasedHistoryResponse);
-            AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
+           /* AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageImageview, purchasedHistoryResponse
                     .getProductImageUrl());
-            binding.layoutPurchsedItem.setSelected(purchasedHistoryResponse.isSelected());
+            binding.layoutPurchsedItem.setSelected(purchasedHistoryResponse.isSelected());*/
             binding.executePendingBindings();
         }
 
