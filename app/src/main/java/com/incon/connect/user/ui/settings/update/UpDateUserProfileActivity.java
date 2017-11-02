@@ -110,11 +110,16 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         upDateUserProfile = new UpDateUserProfile();
         binding.setUpDateUserProfile(upDateUserProfile);
         enableEditMode(false);
-
-        listener = binding.spinnerGender.getKeyListener();
-
         initializeToolbar();
         loadData();
+        initViews();
+    }
+
+    private void initViews() {
+
+        shakeAnim = AnimationUtils.loadAnimation(this, R.anim.shake);
+        loadValidationErrors();
+        setFocusForViews();
     }
 
     private void initializeToolbar() {
@@ -155,7 +160,6 @@ public class UpDateUserProfileActivity extends BaseActivity implements
 
         upDateUserProfile.setEmail(sharedPrefsUtils.getStringPreference(
                 USER_EMAIL_ID));
-
 
         upDateUserProfile.setAddress(sharedPrefsUtils.getStringPreference(
                 USER_ADDRESS));
@@ -223,6 +227,33 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         updateUiAfterValidation(validation.first, validation.second);
         return validation.second == VALIDATION_SUCCESS;
     }
+
+
+    private void setFocusForViews() {
+        binding.edittextUpDateUserName.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextUpDatePhone.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextUpDateDob.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextUpDateEmailid.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextUpDateAddress.setOnFocusChangeListener(onFocusChangeListener);
+    }
+
+    View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean hasFocus) {
+            Object fieldId = view.getTag();
+            if (fieldId != null) {
+                Pair<String, Integer> validation = binding.getUpDateUserProfile().
+                        validateUpDateUserProfile((String) fieldId);
+                if (!hasFocus) {
+                    if (view instanceof TextInputEditText) {
+                        TextInputEditText textInputEditText = (TextInputEditText) view;
+                        textInputEditText.setText(textInputEditText.getText().toString().trim());
+                    }
+                    updateUiAfterValidation(validation.first, validation.second);
+                }
+            }
+        }
+    };
 
 
     private void updateUiAfterValidation(String tag, int validationId) {

@@ -89,6 +89,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 purchasedAdapter.clearSelection();
             }
         });
+
         /*dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);*/
     }
@@ -151,7 +152,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.WRAP_CONTENT, length);
         params.setMargins(1, 1, 1, 1);
-//TODO have to remove hard codeings
         for (int i = 0; i < length; i++) {
             LinearLayout linearLayout = new LinearLayout(getContext());
             linearLayout.setWeightSum(1f);
@@ -353,13 +353,17 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         if (purchasedHistoryResponseList == null) {
             purchasedHistoryResponseList = new ArrayList<>();
         }
-        if (purchasedHistoryResponseList.size() == 0) {
+
+        /*if (purchasedHistoryResponseList.size() == 0) {
             binding.purchasedTextview.setVisibility(View.VISIBLE);
             dismissSwipeRefresh();
         }   else {
             purchasedAdapter.setData(purchasedHistoryResponseList);
             dismissSwipeRefresh();
-        }
+        }*/
+
+        purchasedAdapter.setData(purchasedHistoryResponseList);
+        dismissSwipeRefresh();
     }
 
     @Override

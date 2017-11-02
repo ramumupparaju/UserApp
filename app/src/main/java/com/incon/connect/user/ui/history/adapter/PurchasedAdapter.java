@@ -109,7 +109,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter
         }
         public void bind(PurchasedHistoryResponse purchasedHistoryResponse) {
             binding.setVariable(BR.purchasedHistoryResponse, purchasedHistoryResponse);
-           /* AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
+          /* AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageImageview, purchasedHistoryResponse
                     .getProductImageUrl());
