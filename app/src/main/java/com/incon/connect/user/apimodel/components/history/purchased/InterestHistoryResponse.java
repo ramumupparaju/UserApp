@@ -28,7 +28,7 @@ public class InterestHistoryResponse {
     private String brandName;
     @SerializedName("price")
     @Expose
-    private Integer price;
+    private String price;
     @SerializedName("productLogoUrl")
     @Expose
     private String productLogoUrl;
@@ -105,11 +105,11 @@ public class InterestHistoryResponse {
         this.brandName = brandName;
     }
 
-    public Integer getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
