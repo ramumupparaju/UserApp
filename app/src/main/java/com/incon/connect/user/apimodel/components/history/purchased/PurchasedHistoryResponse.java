@@ -32,7 +32,7 @@ public class PurchasedHistoryResponse extends BaseObservable {
     private String brandName;
     @SerializedName("price")
     @Expose
-    private Integer price;
+    private String price;
     @SerializedName("warrantyId")
     @Expose
     private Integer warrantyId;
@@ -152,11 +152,11 @@ public class PurchasedHistoryResponse extends BaseObservable {
         this.brandName = brandName;
     }
 
-    public Integer getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
