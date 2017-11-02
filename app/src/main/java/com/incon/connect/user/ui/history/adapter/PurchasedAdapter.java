@@ -108,8 +108,6 @@ public class PurchasedAdapter extends RecyclerView.Adapter
             this.binding = binding;
             binding.getRoot().setOnClickListener(this);
         }
-
-
         public void bind(PurchasedHistoryResponse purchasedHistoryResponse) {
             binding.setVariable(BR.purchasedHistoryResponse, purchasedHistoryResponse);
             AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
