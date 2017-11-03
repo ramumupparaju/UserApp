@@ -168,7 +168,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             Integer tag = (Integer) view.getTag();
             String[] bottomOptions;
             int[] topDrawables;
-            changeBackgroundText(tag, view);
             if (tag == 0) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_call_customer_care);
@@ -179,17 +178,19 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[0] = R.drawable.ic_option_call;
                 topDrawables[1] = R.drawable.ic_option_location;
                 topDrawables[2] = R.drawable.ic_option_location;
+                changeBackgroundText(tag, view);
+
 
             } else if (tag == 1) {
                 bottomOptions = new String[8];
                 bottomOptions[0] = getString(R.string.bottom_option_details);
                 bottomOptions[1] = getString(R.string.bottom_option_warranty);
-                bottomOptions[2] = getString(R.string.bottom_option_warranty);
-                bottomOptions[3] = getString(R.string.bottom_option_warranty);
-                bottomOptions[4] = getString(R.string.bottom_option_warranty);
-                bottomOptions[5] = getString(R.string.bottom_option_warranty);
-                bottomOptions[6] = getString(R.string.bottom_option_warranty);
-                bottomOptions[7] = getString(R.string.bottom_option_warranty);
+                bottomOptions[2] = getString(R.string.bottom_option_bill);
+                bottomOptions[3] = getString(R.string.bottom_option_past_history);
+                bottomOptions[4] = getString(R.string.bottom_option_share);
+                bottomOptions[5] = getString(R.string.bottom_option_transfer);
+                bottomOptions[6] = getString(R.string.bottom_option_feedback);
+                bottomOptions[7] = getString(R.string.bottom_option_suggestions);
 
                 topDrawables = new int[8];
                 topDrawables[0] = R.drawable.ic_option_details;
@@ -198,8 +199,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[3] = R.drawable.ic_option_warranty;
                 topDrawables[4] = R.drawable.ic_option_warranty;
                 topDrawables[5] = R.drawable.ic_option_warranty;
-                topDrawables[6] = R.drawable.ic_option_warranty;
+                topDrawables[6] = R.drawable.ic_option_feedback;
                 topDrawables[7] = R.drawable.ic_option_warranty;
+                changeBackgroundText(tag, view);
+
 
             } else if (tag == 2) {
                 bottomOptions = new String[3];
@@ -221,14 +224,13 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             } else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
+                changeBackgroundText(tag, view);
                 /*bottomOptions = new String[4];
                 topDrawables = new int[4];
                 bottomOptions[0] = "Dispatches On";
                 bottomOptions[1] = "Dispatched";
                 bottomOptions[2] = "Delivered";
                 bottomOptions[3] = "Installed";
-
-
                 topDrawables[0] = R.drawable.ic_option_delivery_status;
                 topDrawables[1] = R.drawable.ic_option_delivery_status;
                 topDrawables[2] = R.drawable.ic_option_delivery_status;

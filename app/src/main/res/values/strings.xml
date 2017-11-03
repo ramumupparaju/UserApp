@@ -26,8 +26,13 @@
     <string name="bottom_option_location">Location</string>
     <string name="bottom_option_details">Details</string>
     <string name="bottom_option_note">Note</string>
-    <string name="bottom_option_main_features">Main features</string>
+    <string name="bottom_option_main_features">Main Features</string>
     <string name="bottom_option_warranty">Warranty</string>
+    <string name="bottom_option_suggestions">Suggestions</string>
+    <string name="bottom_option_bill">Bill</string>
+    <string name="bottom_option_past_history">Past History</string>
+    <string name="bottom_option_share">Share</string>
+    <string name="bottom_option_transfer">Transfer</string>
     <string name="bottom_option_feedback">Feedback</string>
     <string name="bottom_option_price">Price</string>
     <string name="bottom_option_delete">Delete</string>
