@@ -35,7 +35,7 @@ public class BuyRequestPresenter extends BasePresenter<BuyRequestContract.View> 
 
 
     public void buyRequest(int userId) {
-        getView().showProgress(appContext.getString(R.string.progress_buy_request));
+        getView().showProgress(appContext.getString(R.string.progress_favorites));
         DisposableObserver<List<BuyRequestResponse>> observer = new
                 DisposableObserver<List<BuyRequestResponse>>() {
             @Override

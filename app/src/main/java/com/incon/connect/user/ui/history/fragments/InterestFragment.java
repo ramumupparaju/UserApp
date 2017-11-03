@@ -163,13 +163,13 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             Integer tag = (Integer) view.getTag();
             String[] bottomOptions;
             int[] topDrawables;
-            changeBackgroundText(tag, view);
             if (tag == 0) {
                 bottomOptions = new String[1];
                 bottomOptions[0] = getString(R.string.bottom_option_note);
                 topDrawables = new int[1];
-                topDrawables[0] = R.drawable.ic_option_call;
-//                changeBackgroundText(tag , view);
+                topDrawables[0] = R.drawable.ic_option_details;
+                changeBackgroundText(tag, view);
+
 
             } else if (tag == 1) {
                 bottomOptions = new String[3];
@@ -180,16 +180,10 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables = new int[3];
                 topDrawables[0] = R.drawable.ic_option_details;
                 topDrawables[1] = R.drawable.ic_option_details;
-                topDrawables[2] = R.drawable.ic_option_warranty;
-//                changeBackgroundText(tag , view);
-            } else if (tag == 2) {
-                bottomOptions = new String[1];
-                bottomOptions[0] = getString(R.string.bottom_option_delete);
-                topDrawables = new int[1];
-                topDrawables[0] = R.drawable.ic_option_details;
-                showInterestProductDeleteDialog(getString(R.string.dilog_delete));
-            } else {
+                topDrawables[2] = R.drawable.ic_option_feedback;
+                changeBackgroundText(tag, view);
 
+            } else if (tag == 2) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_Call);
                 bottomOptions[1] = getString(R.string.bottom_option_location);
@@ -198,10 +192,18 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[0] = R.drawable.ic_option_call;
                 topDrawables[1] = R.drawable.ic_option_location;
                 topDrawables[2] = R.drawable.ic_option_feedback;
+                changeBackgroundText(tag, view);
 
-//                changeBackgroundText(tag , view);
+            } else {
+                bottomOptions = new String[0];
+              //  bottomOptions[0] = getString(R.string.bottom_option_Call);
+                topDrawables = new int[0];
+               // topDrawables[0] = R.drawable.ic_option_call;
+                changeBackgroundText(tag, view);
+                showInterestProductDeleteDialog(getString(R.string.dilog_delete));
 
             }
+            bottomSheetInterestBinding.secondtopRow.removeAllViews();
             bottomSheetInterestBinding.topRow.removeAllViews();
             int length1 = bottomOptions.length;
             bottomSheetInterestBinding.topRow.setVisibility(View.VISIBLE);
@@ -224,6 +226,92 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topRootView.setOnClickListener(topViewClickListener);
                 linearLayout.addView(topRootView);
                 bottomSheetInterestBinding.topRow.addView(linearLayout, params);
+            }
+        }
+    };
+
+    private View.OnClickListener topViewClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Integer tag = (Integer) view.getTag();
+            String[] bottomOptions;
+            int[] topDrawables;
+            if (tag == 0) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                changeBackgroundText(tag, view);
+                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+            }
+            else if (tag == 1) {
+                bottomOptions = new String[5];
+                bottomOptions[0] = getString(R.string.bottom_option_return_policy);
+                bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
+                bottomOptions[2] = getString(R.string.bottom_option_how_to_use);
+                bottomOptions[3] = getString(R.string.bottom_option_warranty);
+                bottomOptions[4] = getString(R.string.bottom_option_share);
+                topDrawables = new int[5];
+                topDrawables[0] = R.drawable.ic_option_return_policy;
+                topDrawables[1] = R.drawable.ic_option_sp_instructions;
+                topDrawables[2] = R.drawable.ic_option_howtouse;
+                topDrawables[3] = R.drawable.ic_option_warranty;
+                topDrawables[4] = R.drawable.ic_option_share;
+                changeBackgroundText(tag, view);
+            }
+            else {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                changeBackgroundText(tag, view);
+            }
+
+            bottomSheetInterestBinding.secondtopRow.removeAllViews();
+            int length1 = bottomOptions.length;
+            bottomSheetInterestBinding.secondtopRow.setVisibility(View.VISIBLE);
+            int length = length1;
+            LinearLayout.LayoutParams params =
+                    new LinearLayout.LayoutParams(
+                            0, ViewGroup.LayoutParams.WRAP_CONTENT, length);
+            params.setMargins(1, 1, 1, 1);
+            for (int i = 0; i < length; i++) {
+                LinearLayout linearLayout = new LinearLayout(getContext());
+                linearLayout.setWeightSum(1f);
+                linearLayout.setGravity(Gravity.CENTER);
+                CustomBottomViewBinding customBottomView = getCustomBottomView();
+                customBottomView.viewTv.setText(bottomOptions[i]);
+                customBottomView.viewTv.setTextSize(10f);
+                customBottomView.viewLogo.setImageResource(topDrawables[i]);
+                View bottomRootView = customBottomView.getRoot();
+                bottomRootView.setTag(i);
+                linearLayout.addView(bottomRootView);
+                bottomRootView.setOnClickListener(secondtopViewClickListener);
+                bottomSheetInterestBinding.secondtopRow.addView(linearLayout, params);
+            }
+        }
+    };
+
+    private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
+            String topClickedText = viewById.getText().toString();
+            Integer tag = (Integer) view.getTag();
+            InterestHistoryResponse itemFromPosition = interestAdapter.getItemFromPosition(
+                    productSelectedPosition);
+            if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_call_customer_care))) {
+            }
+            else if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_return_policy))) {
+            }   else if (tag == 1 && topClickedText.equals(getString(
+                    R.string.bottom_option_special_instructions))) {
+            }   else if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_how_to_use))) {
+            }  else if (tag == 3 && topClickedText.equals(getString(
+                    R.string.bottom_option_warranty))) {
+            }  else if (tag == 4 && topClickedText.equals(getString(
+                    R.string.bottom_option_share))) {
+            }
+            else  if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_feedback))) {
             }
         }
     };
@@ -302,15 +390,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             }
         }
     }
-
-    private View.OnClickListener topViewClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
-            String topClickedText = viewById.getText().toString();
-            showErrorMessage(topClickedText);
-        }
-    };
 
     private CustomBottomViewBinding getCustomBottomView() {
         return DataBindingUtil.inflate(

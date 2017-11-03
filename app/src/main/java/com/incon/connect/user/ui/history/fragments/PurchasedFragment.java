@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
+import com.incon.connect.user.databinding.CustomBottomViewProductBinding;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
@@ -127,7 +129,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private void createBottomSheetView(int position) {
         productSelectedPosition = position;
         bottomSheetPurchasedBinding.topRow.setVisibility(View.GONE);
-
         String[] bottomNames = new String[4];
         bottomNames[0] = getString(R.string.bottom_option_service);
         bottomNames[1] = getString(R.string.bottom_option_product);
@@ -138,21 +139,20 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         bottomDrawables[0] = R.drawable.ic_option_service_support;
         bottomDrawables[1] = R.drawable.ic_option_product;
         bottomDrawables[2] = R.drawable.ic_option_customer;
-        bottomDrawables[3] = R.drawable.ic_option_delivery_status;
+        bottomDrawables[3] = R.drawable.ic_option_favorites;
 
         bottomSheetPurchasedBinding.bottomRow.removeAllViews();
         int length = bottomNames.length;
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.MATCH_PARENT, length);
-        params.setMargins(1, 1, 1, 1);
+//        params.setMargins(1, 1, 1, 1);
         for (int i = 0; i < length; i++) {
             LinearLayout linearLayout = new LinearLayout(getContext());
             linearLayout.setWeightSum(1f);
             linearLayout.setGravity(Gravity.CENTER);
             CustomBottomViewBinding customBottomView = getCustomBottomView();
             customBottomView.viewTv.setText(bottomNames[i]);
-            customBottomView.viewTv.setTextSize(10f);
             customBottomView.viewLogo.setImageResource(bottomDrawables[i]);
             View bottomRootView = customBottomView.getRoot();
             bottomRootView.setTag(i);
@@ -173,13 +173,11 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 bottomOptions[0] = getString(R.string.bottom_option_call_customer_care);
                 bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
                 bottomOptions[2] = getString(R.string.bottom_option_service_request);
-
                 topDrawables = new int[3];
                 topDrawables[0] = R.drawable.ic_option_call;
-                topDrawables[1] = R.drawable.ic_option_location;
-                topDrawables[2] = R.drawable.ic_option_location;
+                topDrawables[1] = R.drawable.ic_option_find_service_center;
+                topDrawables[2] = R.drawable.ic_option_service_request;
                 changeBackgroundText(tag, view);
-
 
             } else if (tag == 1) {
                 bottomOptions = new String[8];
@@ -195,14 +193,13 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables = new int[8];
                 topDrawables[0] = R.drawable.ic_option_details;
                 topDrawables[1] = R.drawable.ic_option_warranty;
-                topDrawables[2] = R.drawable.ic_option_warranty;
-                topDrawables[3] = R.drawable.ic_option_warranty;
-                topDrawables[4] = R.drawable.ic_option_warranty;
-                topDrawables[5] = R.drawable.ic_option_warranty;
+                topDrawables[2] = R.drawable.ic_option_bill;
+                topDrawables[3] = R.drawable.ic_option_pasthistory;
+                topDrawables[4] = R.drawable.ic_option_share;
+                topDrawables[5] = R.drawable.ic_option_transfer;
                 topDrawables[6] = R.drawable.ic_option_feedback;
-                topDrawables[7] = R.drawable.ic_option_warranty;
+                topDrawables[7] = R.drawable.ic_option_suggestions;
                 changeBackgroundText(tag, view);
-
 
             } else if (tag == 2) {
                 bottomOptions = new String[3];
@@ -212,30 +209,15 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables = new int[3];
                 topDrawables[0] = R.drawable.ic_option_call;
                 topDrawables[1] = R.drawable.ic_option_location;
-                topDrawables[2] = R.drawable.ic_option_details;
-                /*bottomOptions = new String[3];
-                topDrawables = new int[3];
-                bottomOptions[0] = "Call";
-                bottomOptions[1] = "Request Installation";
-                bottomOptions[2] = "Share Customer Location";
-                topDrawables[0] = R.drawable.ic_option_call;
-                topDrawables[1] = R.drawable.ic_option_accept_request;
-                topDrawables[2] = R.drawable.ic_option_location;*/
+                topDrawables[2] = R.drawable.ic_option_feedback;
+
             } else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 changeBackgroundText(tag, view);
-                /*bottomOptions = new String[4];
-                topDrawables = new int[4];
-                bottomOptions[0] = "Dispatches On";
-                bottomOptions[1] = "Dispatched";
-                bottomOptions[2] = "Delivered";
-                bottomOptions[3] = "Installed";
-                topDrawables[0] = R.drawable.ic_option_delivery_status;
-                topDrawables[1] = R.drawable.ic_option_delivery_status;
-                topDrawables[2] = R.drawable.ic_option_delivery_status;
-                topDrawables[3] = R.drawable.ic_option_delivery_status;*/
+
             }
+            bottomSheetPurchasedBinding.secondTopRow.removeAllViews();
             bottomSheetPurchasedBinding.topRow.removeAllViews();
             int length1 = bottomOptions.length;
             bottomSheetPurchasedBinding.topRow.setVisibility(View.VISIBLE);
@@ -251,20 +233,18 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
                 CustomBottomViewBinding customBottomView = getCustomBottomView();
                 customBottomView.viewTv.setText(bottomOptions[i]);
-                customBottomView.viewTv.setTextSize(10f);
                 customBottomView.viewLogo.setImageResource(topDrawables[i]);
                 View topRootView = customBottomView.getRoot();
                 topRootView.setTag(i);
-                topRootView.setOnClickListener(topViewClickListener);
                 linearLayout.addView(topRootView);
+                topRootView.setOnClickListener(topViewClickListener);
                 bottomSheetPurchasedBinding.topRow.addView(linearLayout, params);
             }
+
         }
     };
 
     private void changeBackgroundText(Integer tag, View view) {
-
-
         if (view instanceof LinearLayout) {
             View topRootView = (View) view.getParent();
             View topRootView1 = (View) topRootView.getParent();
@@ -282,13 +262,13 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                                     View childView3
                                             = ((ViewGroup) childView2).getChildAt(l);
                                     if (childView3 instanceof TextView) {
-                                        ((TextView) childView3).setTextColor(getResources()
-                                                .getColor(R.color.colorPrimary));
+                                        ((TextView) childView3).setTextColor(
+                                                ContextCompat.getColor(
+                                                        getActivity(), R.color.colorPrimary));
                                     }
                                 }
                             }
                         }
-
                     }
                 } else {
                     if (childView1 instanceof LinearLayout) {
@@ -316,19 +296,127 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
+
+            Integer tag = (Integer) view.getTag();
+            String[] bottomOptions;
+            int[] topDrawables;
+            if (tag == 3) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                changeBackgroundText(tag, view);
+               // AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+            }
+            else if (tag == 1) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                changeBackgroundText(tag, view);
+            }
+            else if (tag == 2) {
+                bottomOptions = new String[0];
+
+                topDrawables = new int[0];
+
+                changeBackgroundText(tag, view);
+            }
+            else if (tag == 0) {
+                bottomOptions = new String[3];
+                bottomOptions[0] = getString(R.string.bottom_option_return_policy);
+                bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
+                bottomOptions[2] = getString(R.string.bottom_option_how_to_use);
+
+                topDrawables = new int[3];
+                topDrawables[0] = R.drawable.ic_option_return_policy;
+                topDrawables[1] = R.drawable.ic_option_sp_instructions;
+                topDrawables[2] = R.drawable.ic_option_howtouse;
+                changeBackgroundText(tag, view);
+            }
+            else  if (tag == 4) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                changeBackgroundText(tag, view);
+            }
+            else    if (tag == 5) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                changeBackgroundText(tag, view);
+            }
+            else {
+                bottomOptions = new String[0];
+                //  bottomOptions[0] = getString(R.string.bottom_option_Call);
+                topDrawables = new int[0];
+                // topDrawables[0] = R.drawable.ic_option_call;
+                changeBackgroundText(tag, view);
+            }
+
+            bottomSheetPurchasedBinding.secondTopRow.removeAllViews();
+            int length1 = bottomOptions.length;
+            bottomSheetPurchasedBinding.secondTopRow.setVisibility(View.VISIBLE);
+            int length = length1;
+            LinearLayout.LayoutParams params =
+                    new LinearLayout.LayoutParams(
+                            0, ViewGroup.LayoutParams.WRAP_CONTENT, length);
+            params.setMargins(1, 1, 1, 1);
+            for (int i = 0; i < length; i++) {
+                LinearLayout linearLayout = new LinearLayout(getContext());
+                linearLayout.setWeightSum(1f);
+                linearLayout.setGravity(Gravity.CENTER);
+                CustomBottomViewBinding customBottomView = getCustomBottomView();
+                customBottomView.viewTv.setText(bottomOptions[i]);
+                customBottomView.viewTv.setTextSize(10f);
+                customBottomView.viewLogo.setImageResource(topDrawables[i]);
+                View bottomRootView = customBottomView.getRoot();
+                bottomRootView.setTag(i);
+                linearLayout.addView(bottomRootView);
+                bottomRootView.setOnClickListener(secondtopViewClickListener);
+                bottomSheetPurchasedBinding.secondTopRow.addView(linearLayout, params);
+            }
+        }
+    };
+
+
+         /*   TextView viewById = (TextView) view.findViewById(R.id.view_tv);
             String topClickedText = viewById.getText().toString();
-            showErrorMessage(topClickedText);
             Integer tag = (Integer) view.getTag();
             PurchasedHistoryResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_call_customer_care))) {
                 callPhoneNumber(itemFromPosition.getMobileNumber());
-            } else if (tag == 1 && topClickedText.equals(getString(
+            }
+
+            else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_find_service_center))) {
-            } else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_service_request))) {
+            }
+
+            else if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_find_service_center))) {
+            }
+
+            else if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_details))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+            }
+            else if (tag == 1 && topClickedText.equals(getString(
+                    R.string.bottom_option_warranty))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+            }   else if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_bill))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+            }    else if (tag == 3 && topClickedText.equals(getString(
+                    R.string.bottom_option_past_history))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+            }    else if (tag == 4 && topClickedText.equals(getString(
+                    R.string.bottom_option_share))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+            }    else if (tag == 5 && topClickedText.equals(getString(
+                    R.string.bottom_option_transfer))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+            }   else if (tag == 6 && topClickedText.equals(getString(
+                    R.string.bottom_option_feedback))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+            }   else if (tag == 7 && topClickedText.equals(getString(
+                    R.string.bottom_option_suggestions))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
             }
 
             else if (tag == 0 && topClickedText.equals(getString(
@@ -343,8 +431,45 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
         }
     };
+*/
 
-    private void onOpenAlert(String messageInfo) {
+
+
+private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+        TextView viewById = (TextView) view.findViewById(R.id.view_tv);
+        String topClickedText = viewById.getText().toString();
+        Integer tag = (Integer) view.getTag();
+        PurchasedHistoryResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
+        productSelectedPosition);
+       /* if (tag == 0 && topClickedText.equals(getString(
+        R.string.bottom_option_call_customer_care))) {
+        }
+        else if (tag == 1 && topClickedText.equals(getString(
+                R.string.bottom_option_special_instructions))) {
+        }   else if (tag == 2 && topClickedText.equals(getString(
+                R.string.bottom_option_how_to_use))) {
+        }
+        else if (tag == 0 && topClickedText.equals(getString(
+        R.string.bottom_option_return_policy))) {
+        }   else if (tag == 1 && topClickedText.equals(getString(
+        R.string.bottom_option_special_instructions))) {
+        }   else if (tag == 2 && topClickedText.equals(getString(
+        R.string.bottom_option_how_to_use))) {
+        }  else if (tag == 3 && topClickedText.equals(getString(
+        R.string.bottom_option_warranty))) {
+        }  else if (tag == 4 && topClickedText.equals(getString(
+        R.string.bottom_option_share))) {
+        }
+        else  if (tag == 0 && topClickedText.equals(getString(
+        R.string.bottom_option_feedback))) {
+        }*/
+        }
+
+        };
+
+    private void showAlertDialog(String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override
@@ -388,6 +513,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private CustomBottomViewBinding getCustomBottomView() {
         return DataBindingUtil.inflate(
                 LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
+    }
+
+    private CustomBottomViewProductBinding getCustomBottomProductView() {
+        return DataBindingUtil.inflate(
+                LayoutInflater.from(getActivity()), R.layout.custom_bottom_view_product, null,
+                false);
     }
 
 

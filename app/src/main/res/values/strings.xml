@@ -15,6 +15,8 @@
     <string name="sample_test">Sample test</string>
     <string name="bottom_option_customer">Customer</string>
     <string name="bottom_option_product">Product</string>
+    <string name="bottom_option_special_instructions">Special Instructions </string>
+    <string name="bottom_option_how_to_use">How to use</string>
     <string name="bottom_option_service">Service/Support</string>
     <string name="bottom_option_satus_update">Satus Update</string>
     <string name="bottom_option_add_as_favorite">Add as favorite</string>
@@ -218,6 +220,7 @@
     <string name="progress_interest_history">Loading Interest History...</string>
     <string name="progress_return_history">Loading Return History...</string>
     <string name="progress_buy_request">Loading Buy Request...</string>
+    <string name="progress_favorites">Loading Favorites...</string>
     <string name="progress_add_offer_merchant">Loading Add Offer Merchant...</string>
     <string name="progress_user_details">Fetching User Details...</string>
     <string name="progress_qr_code_validity">Validating qrcode...</string>

@@ -50,6 +50,9 @@ public class InterestAdapter extends RecyclerView.Adapter
     public int getItemCount() {
         return filteredInterestList.size();
     }
+    public InterestHistoryResponse getItemFromPosition(int position) {
+        return filteredInterestList.get(position);
+    }
 
     public void setData(List<InterestHistoryResponse> interestHistoryResponseList) {
        this.interestHistoryResponseList = interestHistoryResponseList;
@@ -106,9 +109,9 @@ public class InterestAdapter extends RecyclerView.Adapter
 
         public void bind(InterestHistoryResponse interestHistoryResponse) {
             binding.setVariable(BR.interestHistoryResponse, interestHistoryResponse);
-            AppUtils.loadImageFromApi(binding.brandIv, interestHistoryResponse
+            AppUtils.loadImageFromApi(binding.brandImageview, interestHistoryResponse
                     .getProductLogoUrl());
-            AppUtils.loadImageFromApi(binding.productIv, interestHistoryResponse
+            AppUtils.loadImageFromApi(binding.productImageImageview, interestHistoryResponse
                     .getProductImageUrl());
             binding.executePendingBindings();
         }

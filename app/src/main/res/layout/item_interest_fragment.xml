@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-
         <variable
             name="interestHistoryResponse"
             type="com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse"/>
@@ -11,29 +8,33 @@
 
     <LinearLayout
         style="@style/MatchWrap"
-        android:background="@drawable/list_ripple_effect"
+        android:background="@drawable/list_item_selector"
         android:minHeight="70dp"
         android:orientation="horizontal"
         android:weightSum="3">
-
         <LinearLayout
-            style="@style/BothMatch"
+            style="@style/Zero_wrap"
+            android:layout_gravity="center"
+            android:orientation="vertical"
             android:layout_weight="1">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/brand_iv"
+            <ImageView
+                android:id="@+id/brand_imageview"
                 style="@style/m75w75"
                 android:layout_gravity="center"
-                android:layout_margin="25dp"/>
+               />
 
         </LinearLayout>
 
         <LinearLayout
-            style="@style/BothMatch"
-            android:layout_weight="1">
+            style="@style/Zero_wrap"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/product_iv"
+            <ImageView
+                android:id="@+id/product_image_imageview"
                 style="@style/m75w75"
                 android:layout_margin="25dp"
                 />
@@ -41,37 +42,46 @@
         </LinearLayout>
 
         <LinearLayout
-            style="@style/BothMatch"
+            style="@style/Zero_wrap"
+            android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical"
-
             >
 
-            <TextView
+            <LinearLayout
                 style="@style/BothWrap"
-                android:layout_marginTop="@dimen/margin_7"
-                android:text="@{interestHistoryResponse.productName}"
-                android:textColor="@color/ebony_clay"
-                android:textSize="10.4sp"
-                />
+                android:gravity="start"
+                android:orientation="vertical">
 
-            <TextView
-                style="@style/BothWrap"
-                android:layout_marginTop="@dimen/margin_15"
-                android:text="@{interestHistoryResponse.price}"
-                android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp"
-                />
+                <TextView
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@{interestHistoryResponse.productName}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"
+                    />
 
-            <TextView
-                style="@style/BothWrap"
-                android:layout_marginTop="@dimen/margin_12"
-                android:text="@{interestHistoryResponse.mobileNumber}"
-                android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp"
-                />
+                <TextView
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:text="@{interestHistoryResponse.price}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"
+                    />
+
+                <TextView
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:text="@{interestHistoryResponse.mobileNumber}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"
+                    />
+            </LinearLayout>
+
 
         </LinearLayout>
 
     </LinearLayout>
+
 </layout>
