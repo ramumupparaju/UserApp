@@ -108,21 +108,19 @@ public class RegistrationUserFragment extends BaseFragment implements
                     break;
             }
         }
-
     }
 
     private void callRegisterApi() {
+
+        register.setGender(String.valueOf(register.getGender().charAt(0)));
         registrationUserInfoFragPresenter.register(register);
     }
-
-
     private void loadData() {
         shakeAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
         loadGenderSpinnerData();
         loadValidationErrors();
         setFocusListenersForEditText();
     }
-
     public void onAddressClick() {
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
         startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
@@ -153,7 +151,6 @@ public class RegistrationUserFragment extends BaseFragment implements
         datePicker.setCancelable(false);
         datePicker.show();
     }
-
     // Date Listener
     private DatePickerDialog.OnDateSetListener datePickerListener =
             new DatePickerDialog.OnDateSetListener() {
@@ -183,7 +180,6 @@ public class RegistrationUserFragment extends BaseFragment implements
         genderSpinner.setAdapter(arrayAdapter);
 
     }
-
     private void loadValidationErrors() {
 
         errorMap = new HashMap<>();
@@ -227,9 +223,7 @@ public class RegistrationUserFragment extends BaseFragment implements
                 getString(R.string.error_re_enter_password_does_not_match));
 
         errorMap.put(RegistrationValidation.ADDRESS_REQ, getString(R.string.error_address_req));
-
     }
-
     private void setFocusListenersForEditText() {
 
         TextView.OnEditorActionListener onEditorActionListener =
@@ -286,9 +280,7 @@ public class RegistrationUserFragment extends BaseFragment implements
 
         View viewByTag = binding.getRoot().findViewWithTag(tag);
         setFieldError(viewByTag, validationId);
-
     }
-
     private void setFieldError(View view, int validationId) {
 
         if (view instanceof TextInputEditText) {
@@ -305,7 +297,6 @@ public class RegistrationUserFragment extends BaseFragment implements
             ((RegistrationActivity) getActivity()).focusOnView(binding.scrollviewUserInfo, view);
         }
     }
-
     /**
      * called from registration activity when user click on next in bottom bars
      * validate user , if all fields ok then call next screen
@@ -331,14 +322,12 @@ public class RegistrationUserFragment extends BaseFragment implements
 
         return validation.second == VALIDATION_SUCCESS;
     }
-
     @Override
     public void navigateToRegistrationActivityNext() {
        // ((RegistrationActivity) getActivity()).navigateToNext();
         Intent eulaIntent = new Intent(getActivity(), TermsAndConditionActivity.class);
         startActivityForResult(eulaIntent, RequestCodes.TERMS_AND_CONDITIONS);
     }
-
     @Override
     public void navigateToHomeScreen() {
         PushPresenter pushPresenter = new PushPresenter();
@@ -354,7 +343,6 @@ public class RegistrationUserFragment extends BaseFragment implements
         ComponentName cn = intent.getComponent();
         Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
         startActivity(mainIntent);
-
     }
 
     @Override
@@ -362,7 +350,6 @@ public class RegistrationUserFragment extends BaseFragment implements
         SharedPrefsUtils.loginProvider().setBooleanPreference(LoginPrefs.IS_REGISTERED, true);
         SharedPrefsUtils.loginProvider().setStringPreference(LoginPrefs.USER_MOBILE_NUMBER,
                 register.getMobileNumber());
-
         showOtpDialog();
     }
 

@@ -4,6 +4,7 @@ import com.incon.connect.user.apimodel.base.ApiBaseResponse;
 import com.incon.connect.user.apimodel.components.addoffer.AddOfferMerchantFragmentResponse;
 import com.incon.connect.user.apimodel.components.buyrequest.BuyRequestResponse;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
+import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
 import com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse;
 import com.incon.connect.user.apimodel.components.history.purchased.PurchasedHistoryResponse;
@@ -14,6 +15,7 @@ import com.incon.connect.user.apimodel.components.qrcodeproduct.ProductInfoRespo
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
+import com.incon.connect.user.dto.addfavorites.Favorites;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
 import com.incon.connect.user.dto.addoffer.AddOfferRequest;
 import com.incon.connect.user.dto.asignqrcode.AssignQrCode;
@@ -87,6 +89,13 @@ public interface AppServiceObservable {
 
     @GET("merchant/buy-requests/{userId}")
     Observable<List<BuyRequestResponse>> buyRequestApi(@Path("userId") int userId);
+
+    @GET("user/favourites/{purchasedId}/{userId}")
+    Observable<List<FavoritesResponse>> favouritesProductApi(
+            @Path("userId") int userId, @Path("purchasedId") int purchasedId);
+
+    @POST("user/addtofavourites")
+    Observable<FavoritesResponse> addtofavourites(@Body Favorites favorites);
 
     @POST("offers/addoffers")
     Observable<AddOfferMerchantFragmentResponse> addOffer(@Body AddOfferRequest addOfferRequest);

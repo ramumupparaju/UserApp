@@ -77,7 +77,6 @@ public class UpDateUserProfileActivity extends BaseActivity implements
                     getIntegerPreference(USER_ID, DEFAULT_VALUE), upDateUserProfile);
         }
     }
-
     public void onAddressClick() {
         Intent addressIntent = new Intent(this, RegistrationMapActivity.class);
         startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);

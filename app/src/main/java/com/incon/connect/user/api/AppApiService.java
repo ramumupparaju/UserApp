@@ -6,6 +6,7 @@ import com.incon.connect.user.apimodel.base.ApiBaseResponse;
 import com.incon.connect.user.apimodel.components.addoffer.AddOfferMerchantFragmentResponse;
 import com.incon.connect.user.apimodel.components.buyrequest.BuyRequestResponse;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
+import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
 import com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse;
 import com.incon.connect.user.apimodel.components.history.purchased.PurchasedHistoryResponse;
@@ -17,6 +18,7 @@ import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.custom.exception.NoConnectivityException;
+import com.incon.connect.user.dto.addfavorites.Favorites;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
 import com.incon.connect.user.dto.addoffer.AddOfferRequest;
 import com.incon.connect.user.dto.asignqrcode.AssignQrCode;
@@ -137,11 +139,16 @@ public class AppApiService implements AppConstants {
     public Observable<List<BuyRequestResponse>> buyRequestApi(int userId) {
         return addNetworkCheck(serviceInstance.buyRequestApi(userId));
     }
+     public Observable<List<FavoritesResponse>> favouritesProductApi(int userId, int customerId) {
+        return addNetworkCheck(serviceInstance.favouritesProductApi(userId, customerId));
+    }
+    public Observable<FavoritesResponse> addtofavourites(Favorites favorites) {
+        return addNetworkCheck(serviceInstance.addtofavourites(favorites));
+    }
 
     public Observable<AddOfferMerchantFragmentResponse> addOffer(AddOfferRequest addOfferRequest) {
         return addNetworkCheck(serviceInstance.addOffer(addOfferRequest));
     }
-
 
     public Observable<UserInfoResponse> userInfoUsingQrCode(String qrCode) {
         return addNetworkCheck(serviceInstance.userInfoUsingQrCode(qrCode));

@@ -41,15 +41,16 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
         returnPresenter.setView(this);
         setBasePresenter(returnPresenter);
     }
+
     @Override
     public void setTitle() {
         //do nothing
     }
+
     @Override
     protected View onPrepareView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
         if (rootView == null) {
-            // handle events from here using android binding
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return,
                     container, false);
             initViews();
@@ -58,7 +59,6 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
         setTitle();
         return rootView;
     }
-
 
     private void initViews() {
 
@@ -76,6 +76,7 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
         returnPresenter.returnHistory(userId);
     }
+
     private void dismissSwipeRefresh() {
         if (binding.swiperefresh.isRefreshing()) {
             binding.swiperefresh.setRefreshing(false);
@@ -92,7 +93,6 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
             returnAdapter.notifyDataSetChanged();
         }
     };
-
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
             new SwipeRefreshLayout.OnRefreshListener() {
                 @Override

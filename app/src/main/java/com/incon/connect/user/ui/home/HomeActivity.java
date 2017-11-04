@@ -20,7 +20,7 @@ import com.incon.connect.user.databinding.ToolBarBinding;
 import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.addoffer.fragment.AddOfferMerchantFragment;
-import com.incon.connect.user.ui.buyrequets.BuyRequestFragment;
+import com.incon.connect.user.ui.favorites.FavoritesFragment;
 import com.incon.connect.user.ui.history.HistoryTabFragment;
 import com.incon.connect.user.ui.home.asignqrcode.fragment.ProductAssignFragment;
 import com.incon.connect.user.ui.home.userqrcode.UserQrCodeFragment;
@@ -182,7 +182,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                 aClass = HistoryTabFragment.class;
                 break;
             case R.id.action_buy_requests_favorites:
-                aClass = BuyRequestFragment.class;
+                aClass = FavoritesFragment.class;
                 break;
             case R.id.action_scan:
                 aClass = ScanTabFragment.class;

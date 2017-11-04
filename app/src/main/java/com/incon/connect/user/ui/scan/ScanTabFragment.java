@@ -93,7 +93,7 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
                                 break;
                         }
                     }
-                }).title("Added Product  to Interest List")
+                }).title("Added Product to Interest List")
                 //TODO have to change
                 .button1Text(getString(R.string.action_ok))
                 .build();

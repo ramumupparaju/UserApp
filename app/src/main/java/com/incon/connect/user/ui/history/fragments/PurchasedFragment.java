@@ -40,7 +40,6 @@ import java.util.List;
  * Created on 13 Jun 2017 4:01 PM.
  */
 public class PurchasedFragment extends BaseTabFragment implements PurchasedContract.View {
-
     private View rootView;
     private PurchasedPresenter purchasedPresenter;
     private FragmentPurchasedBinding binding;
@@ -50,19 +49,16 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private BottomSheetPurchasedBinding bottomSheetPurchasedBinding;
     private int productSelectedPosition;
     private AppAlertDialog detailsDialog;
-
     @Override
     protected void initializePresenter() {
         purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.setView(this);
         setBasePresenter(purchasedPresenter);
     }
-
     @Override
     public void setTitle() {
         //do nothing
     }
-
     @Override
     protected View onPrepareView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -90,13 +86,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 purchasedAdapter.clearSelection();
             }
         });
-
-        /*dialog.setCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);*/
     }
-
     private void initViews() {
-
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
         purchasedAdapter = new PurchasedAdapter();
@@ -111,7 +102,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
         purchasedPresenter.purchased(userId);
     }
-
     private IClickCallback iClickCallback = new IClickCallback() {
         @Override
         public void onClickPosition(int position) {
@@ -125,7 +115,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             bottomSheetDialog.show();
         }
     };
-
     private void createBottomSheetView(int position) {
         productSelectedPosition = position;
         bottomSheetPurchasedBinding.topRow.setVisibility(View.GONE);
@@ -161,7 +150,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             bottomSheetPurchasedBinding.bottomRow.addView(linearLayout, params);
         }
     }
-
     private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -200,7 +188,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[6] = R.drawable.ic_option_feedback;
                 topDrawables[7] = R.drawable.ic_option_suggestions;
                 changeBackgroundText(tag, view);
-
             } else if (tag == 2) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_Call);
@@ -210,12 +197,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[0] = R.drawable.ic_option_call;
                 topDrawables[1] = R.drawable.ic_option_location;
                 topDrawables[2] = R.drawable.ic_option_feedback;
-
             } else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 changeBackgroundText(tag, view);
-
             }
             bottomSheetPurchasedBinding.secondTopRow.removeAllViews();
             bottomSheetPurchasedBinding.topRow.removeAllViews();
@@ -240,10 +225,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topRootView.setOnClickListener(topViewClickListener);
                 bottomSheetPurchasedBinding.topRow.addView(linearLayout, params);
             }
-
         }
     };
-
     private void changeBackgroundText(Integer tag, View view) {
         if (view instanceof LinearLayout) {
             View topRootView = (View) view.getParent();
@@ -251,7 +234,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 //                    here we get count of 4
             for (int j = 0; j < ((ViewGroup) topRootView1).getChildCount(); j++) {
                 View childView1 = ((ViewGroup) topRootView1).getChildAt(j);
-
                 if (j == tag) {
                     if (childView1 instanceof LinearLayout) {
                         for (int k = 0; k < ((ViewGroup) childView1).getChildCount(); k++) {
@@ -292,7 +274,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
         }
     }
-
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -305,13 +286,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 bottomOptions[0] = getString(R.string.bottom_option_return_policy);
                 bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
                 bottomOptions[2] = getString(R.string.bottom_option_how_to_use);
-
                 topDrawables = new int[3];
                 topDrawables[0] = R.drawable.ic_option_return_policy;
                 topDrawables[1] = R.drawable.ic_option_sp_instructions;
                 topDrawables[2] = R.drawable.ic_option_howtouse;
-
-               // AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
             }
             else if (tag == 1) {
                 bottomOptions = new String[0];
@@ -320,9 +298,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
             else if (tag == 2) {
                 bottomOptions = new String[0];
-
                 topDrawables = new int[0];
-
                 changeBackgroundText(tag, view);
             }
             else if (tag == 3) {
@@ -342,12 +318,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
             else {
                 bottomOptions = new String[0];
-                //  bottomOptions[0] = getString(R.string.bottom_option_Call);
                 topDrawables = new int[0];
-                // topDrawables[0] = R.drawable.ic_option_call;
                 changeBackgroundText(tag, view);
             }
-
             bottomSheetPurchasedBinding.secondTopRow.removeAllViews();
             int length1 = bottomOptions.length;
             bottomSheetPurchasedBinding.secondTopRow.setVisibility(View.VISIBLE);
@@ -372,7 +345,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
         }
     };
-
 
          /*   TextView viewById = (TextView) view.findViewById(R.id.view_tv);
             String topClickedText = viewById.getText().toString();
@@ -432,9 +404,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     };
 */
-
-
-
 private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
 @Override
 public void onClick(View view) {
@@ -469,7 +438,7 @@ public void onClick(View view) {
 
         };
 
-    private void showAlertDialog(String messageInfo) {
+    private void showInformationDialog(String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override
