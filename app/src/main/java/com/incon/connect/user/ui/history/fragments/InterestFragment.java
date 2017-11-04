@@ -256,6 +256,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[3] = R.drawable.ic_option_warranty;
                 topDrawables[4] = R.drawable.ic_option_share;
                 changeBackgroundText(tag, view);
+
             }
             else {
                 bottomOptions = new String[0];

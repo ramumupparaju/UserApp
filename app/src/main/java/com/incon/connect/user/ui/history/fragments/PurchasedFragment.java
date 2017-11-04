@@ -300,10 +300,17 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             Integer tag = (Integer) view.getTag();
             String[] bottomOptions;
             int[] topDrawables;
-            if (tag == 3) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-                changeBackgroundText(tag, view);
+            if (tag == 0) {
+                bottomOptions = new String[3];
+                bottomOptions[0] = getString(R.string.bottom_option_return_policy);
+                bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
+                bottomOptions[2] = getString(R.string.bottom_option_how_to_use);
+
+                topDrawables = new int[3];
+                topDrawables[0] = R.drawable.ic_option_return_policy;
+                topDrawables[1] = R.drawable.ic_option_sp_instructions;
+                topDrawables[2] = R.drawable.ic_option_howtouse;
+
                // AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
             }
             else if (tag == 1) {
@@ -318,16 +325,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
                 changeBackgroundText(tag, view);
             }
-            else if (tag == 0) {
-                bottomOptions = new String[3];
-                bottomOptions[0] = getString(R.string.bottom_option_return_policy);
-                bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
-                bottomOptions[2] = getString(R.string.bottom_option_how_to_use);
-
-                topDrawables = new int[3];
-                topDrawables[0] = R.drawable.ic_option_return_policy;
-                topDrawables[1] = R.drawable.ic_option_sp_instructions;
-                topDrawables[2] = R.drawable.ic_option_howtouse;
+            else if (tag == 3) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
                 changeBackgroundText(tag, view);
             }
             else  if (tag == 4) {
