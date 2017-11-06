@@ -1,5 +1,6 @@
 package com.incon.connect.user.ui.history.fragments;
 
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
@@ -40,7 +41,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private List<InterestHistoryResponse> interestList;
     private InterestAdapter interestAdapter;
     private BottomSheetInterestBinding bottomSheetInterestBinding;
-
+    private InterestHistoryResponse interestHistoryResponse;
     private BottomSheetDialog bottomSheetDialog;
     private AppAlertDialog detailsDialog;
     private int userId;
@@ -85,12 +86,17 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 getActivity()), R.layout.bottom_sheet_interest, null, false);
         bottomSheetDialog = new BottomSheetDialog(getActivity());
         bottomSheetDialog.setContentView(bottomSheetInterestBinding.getRoot());
+        bottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                interestAdapter.clearSelection();
+            }
+        });
     }
 
     private void initViews() {
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
-
         interestList = new ArrayList<>();
         interestAdapter = new InterestAdapter();
         interestAdapter.setData(interestList);
@@ -101,7 +107,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         binding.interestRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.interestRecyclerview.setAdapter(interestAdapter);
         binding.interestRecyclerview.setLayoutManager(linearLayoutManager);
-
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
         interestPresenter.interestApi(userId);
@@ -110,6 +115,12 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private IClickCallback iClickCallback = new IClickCallback() {
         @Override
         public void onClickPosition(int position) {
+            interestAdapter.clearSelection();
+            InterestHistoryResponse interestHistoryResponse =
+                    interestAdapter.
+                            getItemFromPosition(position);
+            interestAdapter.notifyDataSetChanged();
+            interestHistoryResponse.setSelected(true);
             createBottomSheetView(position);
             bottomSheetDialog.show();
         }

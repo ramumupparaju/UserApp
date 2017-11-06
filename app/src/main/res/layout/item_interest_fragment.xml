@@ -7,11 +7,13 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/layout_interest_item"
         style="@style/MatchWrap"
         android:background="@drawable/list_item_selector"
         android:minHeight="70dp"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="3"
+        >
         <LinearLayout
             style="@style/Zero_wrap"
             android:layout_gravity="center"

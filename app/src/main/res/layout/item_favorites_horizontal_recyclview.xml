@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <data>
+        <variable
+            name="favoritesResponse"
+            type="com.incon.connect.user.apimodel.components.favorites.FavoritesResponse"/>
+    </data>
+
+    <LinearLayout
+        android:id="@+id/layout_purchsed_item"
+        style="@style/MatchWrap"
+        android:background="@drawable/list_item_selector"
+        android:minHeight="70dp"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <LinearLayout
+            style="@style/Zero_wrap"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                app:srcCompat="@drawable/ic_connect_logo_svg"
+                android:id="@+id/home_imageview"
+                style="@style/m75w75"
+                android:layout_gravity="center"/>
+            <TextView
+                style="@style/BothWrap"
+                android:text="mupparaju"
+                android:textColor="@color/ebony_clay"
+                android:textSize="15.4sp"
+                android:layout_gravity="center"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Zero_wrap"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                app:srcCompat="@drawable/ic_connect_logo_svg"
+                android:id="@+id/office_image_imageview"
+                style="@style/m75w75"
+                android:layout_gravity="center"/>
+            <TextView
+                style="@style/BothWrap"
+                android:text="mupparaju"
+                android:textColor="@color/ebony_clay"
+                android:textSize="15.4sp"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            style="@style/Zero_wrap"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                app:srcCompat="@drawable/ic_connect_logo_svg"
+                android:id="@+id/farm_house_image_imageview"
+                style="@style/m75w75"
+                android:layout_gravity="center"/>
+            <TextView
+                style="@style/BothWrap"
+                android:text="mupparaju"
+                android:textColor="@color/ebony_clay"
+                android:textSize="15.4sp"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Zero_wrap"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                app:srcCompat="@drawable/ic_connect_logo_svg"
+                android:id="@+id/add_image_imageview"
+                style="@style/m75w75"
+                android:layout_gravity="center"/>
+            <TextView
+                style="@style/BothWrap"
+                android:text="mupparaju"
+                android:textColor="@color/ebony_clay"
+                android:textSize="15.4sp"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</layout>

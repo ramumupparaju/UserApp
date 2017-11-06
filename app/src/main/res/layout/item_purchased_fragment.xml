@@ -12,7 +12,9 @@
         android:background="@drawable/list_item_selector"
         android:minHeight="70dp"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="3"
+
+        >
         <LinearLayout
             style="@style/Zero_wrap"
             android:layout_gravity="center"
@@ -71,10 +73,12 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{purchasedHistoryResponse.mobileNumber}"
+                    android:text="@{purchasedHistoryResponse.status}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
+
+
             </LinearLayout>
 
 

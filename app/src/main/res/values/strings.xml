@@ -71,6 +71,7 @@
 
     <!--product Assign-->
     <string name="user_qr_code">User QR code</string>
+    <string name="user_uid">User UID</string>
     <string name="title_assigned_successfully">Assigned SuccessFully</string>
     <!--home_scanning activity-->
     <string name="action_enter_customer_phone_number">Phone number</string>

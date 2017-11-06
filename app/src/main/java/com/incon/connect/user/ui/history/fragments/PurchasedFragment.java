@@ -47,18 +47,21 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private int userId;
     private BottomSheetDialog bottomSheetDialog;
     private BottomSheetPurchasedBinding bottomSheetPurchasedBinding;
-    private int productSelectedPosition;
+    private int productSelectedPosition = -1;
     private AppAlertDialog detailsDialog;
+
     @Override
     protected void initializePresenter() {
         purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.setView(this);
         setBasePresenter(purchasedPresenter);
     }
+
     @Override
     public void setTitle() {
         //do nothing
     }
+
     @Override
     protected View onPrepareView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -87,6 +90,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
         });
     }
+
     private void initViews() {
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
@@ -102,19 +106,21 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
         purchasedPresenter.purchased(userId);
     }
+
     private IClickCallback iClickCallback = new IClickCallback() {
         @Override
         public void onClickPosition(int position) {
             purchasedAdapter.clearSelection();
             PurchasedHistoryResponse purchasedHistoryResponse =
                     purchasedAdapter.
-                    getItemFromPosition(position);
+                            getItemFromPosition(position);
             purchasedHistoryResponse.setSelected(true);
             purchasedAdapter.notifyDataSetChanged();
             createBottomSheetView(position);
             bottomSheetDialog.show();
         }
     };
+
     private void createBottomSheetView(int position) {
         productSelectedPosition = position;
         bottomSheetPurchasedBinding.topRow.setVisibility(View.GONE);
@@ -150,12 +156,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             bottomSheetPurchasedBinding.bottomRow.addView(linearLayout, params);
         }
     }
+
     private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Integer tag = (Integer) view.getTag();
             String[] bottomOptions;
             int[] topDrawables;
+            changeBackgroundText(tag, view);
             if (tag == 0) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_call_customer_care);
@@ -165,7 +173,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[0] = R.drawable.ic_option_call;
                 topDrawables[1] = R.drawable.ic_option_find_service_center;
                 topDrawables[2] = R.drawable.ic_option_service_request;
-                changeBackgroundText(tag, view);
+
 
             } else if (tag == 1) {
                 bottomOptions = new String[8];
@@ -187,7 +195,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[5] = R.drawable.ic_option_transfer;
                 topDrawables[6] = R.drawable.ic_option_feedback;
                 topDrawables[7] = R.drawable.ic_option_suggestions;
-                changeBackgroundText(tag, view);
             } else if (tag == 2) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_Call);
@@ -197,10 +204,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[0] = R.drawable.ic_option_call;
                 topDrawables[1] = R.drawable.ic_option_location;
                 topDrawables[2] = R.drawable.ic_option_feedback;
+                changeBackgroundText(tag, view);
             } else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-                changeBackgroundText(tag, view);
             }
             bottomSheetPurchasedBinding.secondTopRow.removeAllViews();
             bottomSheetPurchasedBinding.topRow.removeAllViews();
@@ -227,6 +234,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
         }
     };
+
     private void changeBackgroundText(Integer tag, View view) {
         if (view instanceof LinearLayout) {
             View topRootView = (View) view.getParent();
@@ -274,6 +282,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
         }
     }
+
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -281,6 +290,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             Integer tag = (Integer) view.getTag();
             String[] bottomOptions;
             int[] topDrawables;
+            changeBackgroundText(tag, view);
             if (tag == 0) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_return_policy);
@@ -290,36 +300,25 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[0] = R.drawable.ic_option_return_policy;
                 topDrawables[1] = R.drawable.ic_option_sp_instructions;
                 topDrawables[2] = R.drawable.ic_option_howtouse;
-            }
-            else if (tag == 1) {
+            } else if (tag == 1) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            } else if (tag == 2) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            } else if (tag == 3) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 changeBackgroundText(tag, view);
-            }
-            else if (tag == 2) {
+            } else if (tag == 4) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-                changeBackgroundText(tag, view);
-            }
-            else if (tag == 3) {
+            } else if (tag == 5) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-                changeBackgroundText(tag, view);
-            }
-            else  if (tag == 4) {
+            } else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-                changeBackgroundText(tag, view);
-            }
-            else    if (tag == 5) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-                changeBackgroundText(tag, view);
-            }
-            else {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-                changeBackgroundText(tag, view);
             }
             bottomSheetPurchasedBinding.secondTopRow.removeAllViews();
             int length1 = bottomOptions.length;
@@ -346,72 +345,73 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     };
 
-         /*   TextView viewById = (TextView) view.findViewById(R.id.view_tv);
+    /*   TextView viewById = (TextView) view.findViewById(R.id.view_tv);
+       String topClickedText = viewById.getText().toString();
+       Integer tag = (Integer) view.getTag();
+       PurchasedHistoryResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
+               productSelectedPosition);
+       if (tag == 0 && topClickedText.equals(getString(
+               R.string.bottom_option_call_customer_care))) {
+           callPhoneNumber(itemFromPosition.getMobileNumber());
+       }
+
+       else if (tag == 1 && topClickedText.equals(getString(
+               R.string.bottom_option_find_service_center))) {
+       }
+
+       else if (tag == 2 && topClickedText.equals(getString(
+               R.string.bottom_option_find_service_center))) {
+       }
+
+       else if (tag == 0 && topClickedText.equals(getString(
+               R.string.bottom_option_details))) {
+           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+       }
+       else if (tag == 1 && topClickedText.equals(getString(
+               R.string.bottom_option_warranty))) {
+           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+       }   else if (tag == 2 && topClickedText.equals(getString(
+               R.string.bottom_option_bill))) {
+           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+       }    else if (tag == 3 && topClickedText.equals(getString(
+               R.string.bottom_option_past_history))) {
+           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+       }    else if (tag == 4 && topClickedText.equals(getString(
+               R.string.bottom_option_share))) {
+           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+       }    else if (tag == 5 && topClickedText.equals(getString(
+               R.string.bottom_option_transfer))) {
+           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+       }   else if (tag == 6 && topClickedText.equals(getString(
+               R.string.bottom_option_feedback))) {
+           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+       }   else if (tag == 7 && topClickedText.equals(getString(
+               R.string.bottom_option_suggestions))) {
+           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+       }
+
+       else if (tag == 0 && topClickedText.equals(getString(
+               R.string.bottom_option_Call))) {
+           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+       } else if (tag == 1 && topClickedText.equals(getString(
+               R.string.bottom_option_location))) {
+           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+       }   else if (tag == 2 && topClickedText.equals(getString(
+               R.string.bottom_option_feedback))) {
+           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
+       }
+   }
+};
+*/
+    private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
             String topClickedText = viewById.getText().toString();
             Integer tag = (Integer) view.getTag();
+            changeBackgroundText(tag, view);
             PurchasedHistoryResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
-            if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_call_customer_care))) {
-                callPhoneNumber(itemFromPosition.getMobileNumber());
-            }
-
-            else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_find_service_center))) {
-            }
-
-            else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_find_service_center))) {
-            }
-
-            else if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_details))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-            }
-            else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_warranty))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-            }   else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_bill))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-            }    else if (tag == 3 && topClickedText.equals(getString(
-                    R.string.bottom_option_past_history))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-            }    else if (tag == 4 && topClickedText.equals(getString(
-                    R.string.bottom_option_share))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-            }    else if (tag == 5 && topClickedText.equals(getString(
-                    R.string.bottom_option_transfer))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-            }   else if (tag == 6 && topClickedText.equals(getString(
-                    R.string.bottom_option_feedback))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-            }   else if (tag == 7 && topClickedText.equals(getString(
-                    R.string.bottom_option_suggestions))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-            }
-
-            else if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_Call))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-            } else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_location))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-            }   else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_feedback))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-            }
-        }
-    };
-*/
-private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
-@Override
-public void onClick(View view) {
-        TextView viewById = (TextView) view.findViewById(R.id.view_tv);
-        String topClickedText = viewById.getText().toString();
-        Integer tag = (Integer) view.getTag();
-        PurchasedHistoryResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
-        productSelectedPosition);
        /* if (tag == 0 && topClickedText.equals(getString(
         R.string.bottom_option_call_customer_care))) {
         }
@@ -436,7 +436,7 @@ public void onClick(View view) {
         }*/
         }
 
-        };
+    };
 
     private void showInformationDialog(String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
@@ -516,7 +516,7 @@ public void onClick(View view) {
         if (purchasedHistoryResponseList.size() == 0) {
             binding.purchasedTextview.setVisibility(View.VISIBLE);
             dismissSwipeRefresh();
-        }   else {
+        } else {
             purchasedAdapter.setData(purchasedHistoryResponseList);
             dismissSwipeRefresh();
         }

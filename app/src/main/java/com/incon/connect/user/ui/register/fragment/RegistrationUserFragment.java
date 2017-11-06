@@ -394,6 +394,9 @@ public class RegistrationUserFragment extends BaseFragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
         registrationUserInfoFragPresenter.disposeAll();
     }
 

@@ -41,6 +41,9 @@ public class UpDateUserProfile  extends BaseObservable {
     @Expose
     private String name;
 
+    public  UpDateUserProfile() {
+    }
+
     private transient String dateOfBirthToShow;
 
     public String getAddress() {

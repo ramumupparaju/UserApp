@@ -27,10 +27,6 @@ public class InterestAdapter extends RecyclerView.Adapter
     private List<InterestHistoryResponse> filteredInterestList = new ArrayList<>();
     private IClickCallback clickCallback;
 
-    public InterestHistoryResponse getInterestDateFromPosition(int position) {
-        return filteredInterestList.get(position);
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -38,14 +34,12 @@ public class InterestAdapter extends RecyclerView.Adapter
                 R.layout.item_interest_fragment, parent, false);
         return new ViewHolder(binding);
     }
-
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         InterestHistoryResponse interestResponse = filteredInterestList.get(position);
         holder.bind(interestResponse);
 
     }
-
     @Override
     public int getItemCount() {
         return filteredInterestList.size();
@@ -53,6 +47,11 @@ public class InterestAdapter extends RecyclerView.Adapter
     public InterestHistoryResponse getItemFromPosition(int position) {
         return filteredInterestList.get(position);
     }
+
+    public InterestHistoryResponse getInterestDateFromPosition(int position) {
+        return filteredInterestList.get(position);
+    }
+
 
     public void setData(List<InterestHistoryResponse> interestHistoryResponseList) {
        this.interestHistoryResponseList = interestHistoryResponseList;
@@ -69,6 +68,13 @@ public class InterestAdapter extends RecyclerView.Adapter
 
     public void setClickCallback(IClickCallback clickCallback) {
         this.clickCallback = clickCallback;
+    }
+
+    public void clearSelection() {
+        for (InterestHistoryResponse interestHistoryResponse : filteredInterestList) {
+            interestHistoryResponse.setSelected(false);
+        }
+        notifyDataSetChanged();
     }
 
     public void searchData(String searchableString, String searchType) {
@@ -113,6 +119,7 @@ public class InterestAdapter extends RecyclerView.Adapter
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageImageview, interestHistoryResponse
                     .getProductImageUrl());
+            binding.layoutInterestItem.setSelected(interestHistoryResponse.isSelected());
             binding.executePendingBindings();
         }
 

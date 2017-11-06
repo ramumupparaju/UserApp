@@ -42,9 +42,6 @@ public class RegistrationActivity extends BaseActivity implements RegistrationCo
                     if (currentRegistionFragment instanceof RegistrationUserFragment) {
                         ((RegistrationUserFragment) currentRegistionFragment).onClickNext();
                     }
-                    /*else if (currentRegistionFragment instanceof RegistrationStoreFragment) {
-                        ((RegistrationStoreFragment) currentRegistionFragment).onClickNext();
-                    }*/
                     break;
                 default:
                     //do nothing

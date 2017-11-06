@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
@@ -26,8 +25,7 @@ import java.util.List;
  * Created by PC on 11/4/2017.
  */
 
-public class FavoritesFragment extends BaseFragment implements FavoritesContract.View,
-        View.OnClickListener {
+public class FavoritesFragment extends BaseFragment implements FavoritesContract.View {
     private FragmentFavoritesBinding binding;
     private  FavoritesPresenter favoritesPresenter;
     private  FavoritesAdapter favoritesAdapter;
@@ -35,7 +33,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     private View rootView;
     private FavoritesResponse favoritesResponse;
     private int userId;
-    private int productSelectedPosition;
     @Override
     protected void initializePresenter() {
         favoritesPresenter = new FavoritesPresenter();
@@ -59,8 +56,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         return rootView;
     }
     private void initViews() {
-        binding.searchLayout.searchIconIv.setOnClickListener(this);
-        binding.searchLayout.filterIconIv.setOnClickListener(this);
 
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
@@ -93,33 +88,14 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 }
             };
 
-    @Override
-    public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.search_icon_iv:
-                String searchableText = binding.searchLayout.searchEt.getText().toString();
-                int filterType;
-                /*if (TextUtils.isEmpty(searchableText)) {
-                    filterType = FilterConstants.NONE;
-                } else {
-                    filterType = FilterConstants.NAME;
-                }
-                buyRequestAdapter.searchData(searchableText, filterType);
-                */
-                break;
-            case R.id.filter_icon_iv:
-                AppUtils.showSnackBar(rootView, "have to show popup");
-                break;
-            default:
-                //do nothing
-        }
-    }
-    private void dismissSwipeRefresh() {
+   private void dismissSwipeRefresh() {
         if (binding.swiperefresh.isRefreshing()) {
             binding.swiperefresh.setRefreshing(false);
         }
     }
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();

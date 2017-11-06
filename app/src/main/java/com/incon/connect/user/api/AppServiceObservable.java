@@ -2,7 +2,6 @@ package com.incon.connect.user.api;
 
 import com.incon.connect.user.apimodel.base.ApiBaseResponse;
 import com.incon.connect.user.apimodel.components.addoffer.AddOfferMerchantFragmentResponse;
-import com.incon.connect.user.apimodel.components.buyrequest.BuyRequestResponse;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
 import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
@@ -86,9 +85,6 @@ public interface AppServiceObservable {
 
     @GET("user/history/return/{userId}")
     Observable<List<ReturnHistoryResponse>> returnApi(@Path("userId") int userId);
-
-    @GET("merchant/buy-requests/{userId}")
-    Observable<List<BuyRequestResponse>> buyRequestApi(@Path("userId") int userId);
 
     @GET("user/favourites/{purchasedId}/{userId}")
     Observable<List<FavoritesResponse>> favouritesProductApi(
