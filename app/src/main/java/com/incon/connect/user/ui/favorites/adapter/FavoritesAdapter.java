@@ -27,7 +27,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ItemFavoritesFragmentBinding binding = DataBindingUtil.inflate(layoutInflater,
-                R.layout.item_favorites_horizontal_recyclview, parent, false);
+                R.layout.item_favorites_fragment, parent, false);
         return new ViewHolder(binding);
     }
 
@@ -74,7 +74,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter
         }
 
 /*
-
         public void bind(FavoritesResponse favoritesResponse) {
             binding.setVariable(BR.favoritesResponse, favoritesResponse);
             AppUtils.loadImageFromApi(binding.brandImageview, favoritesResponse

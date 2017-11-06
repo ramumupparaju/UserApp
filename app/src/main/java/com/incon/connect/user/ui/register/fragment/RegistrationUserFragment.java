@@ -72,7 +72,6 @@ public class RegistrationUserFragment extends BaseFragment implements
     public void setTitle() {
         // do nothing
     }
-
     @Override
     protected View onPrepareView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -394,9 +393,7 @@ public class RegistrationUserFragment extends BaseFragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
+
         registrationUserInfoFragPresenter.disposeAll();
     }
 

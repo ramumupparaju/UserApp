@@ -76,7 +76,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{returnHistoryResponse.mobileNumber}"
+                    android:text="@{returnHistoryResponse.status}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />

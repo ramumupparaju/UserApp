@@ -78,6 +78,14 @@
                     android:textSize="12.4sp"
                     />
 
+                <TextView
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:text="@{purchasedHistoryResponse.warrantyId}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"
+                    />
+
 
             </LinearLayout>
 

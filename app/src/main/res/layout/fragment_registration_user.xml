@@ -182,8 +182,8 @@
                     app:errorEnabled="true"
                     app:fontName="fonts/OpenSans-Regular.ttf"
                     app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor"
-                    app:passwordToggleEnabled="true">
-
+                    app:passwordToggleEnabled="true"
+                    >
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edittext_register_password"
                         style="@style/Register_TextInputEditText"

@@ -29,7 +29,7 @@
                 android:layout_gravity="center"/>
             <TextView
                 style="@style/BothWrap"
-                android:text="mupparaju"
+                android:text="sample"
                 android:textColor="@color/ebony_clay"
                 android:textSize="15.4sp"
                 android:layout_gravity="center"
@@ -51,7 +51,7 @@
                 android:layout_gravity="center"/>
             <TextView
                 style="@style/BothWrap"
-                android:text="mupparaju"
+                android:text="sample"
                 android:textColor="@color/ebony_clay"
                 android:textSize="15.4sp"
                 android:layout_gravity="center"
@@ -73,7 +73,7 @@
                 android:layout_gravity="center"/>
             <TextView
                 style="@style/BothWrap"
-                android:text="mupparaju"
+                android:text="sample"
                 android:textColor="@color/ebony_clay"
                 android:textSize="15.4sp"
                 android:layout_gravity="center"
@@ -94,7 +94,7 @@
                 android:layout_gravity="center"/>
             <TextView
                 style="@style/BothWrap"
-                android:text="mupparaju"
+                android:text="sample"
                 android:textColor="@color/ebony_clay"
                 android:textSize="15.4sp"
                 android:layout_gravity="center"

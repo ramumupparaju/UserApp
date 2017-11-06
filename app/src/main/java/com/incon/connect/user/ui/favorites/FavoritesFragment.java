@@ -4,7 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +65,17 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         favoritesAdapter.setData(favoritesList);
         favoritesAdapter.setClickCallback(iClickCallback);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                getContext(), gridLayoutManager.getOrientation());
+        binding.favoritesRecyclerview.addItemDecoration(dividerItemDecoration);
+        binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
+        binding.favoritesRecyclerview.setLayoutManager(gridLayoutManager);
+        userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
+                LoginPrefs.USER_ID, DEFAULT_VALUE);
+        favoritesPresenter.doFavoritesProductApi(userId, getId());
+
+      /*  LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 getContext(), linearLayoutManager.getOrientation());
         binding.favoritesRecyclerview.addItemDecoration(dividerItemDecoration);
@@ -73,7 +83,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         binding.favoritesRecyclerview.setLayoutManager(linearLayoutManager);
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
-        favoritesPresenter.doFavoritesProductApi(userId, getId());
+        favoritesPresenter.doFavoritesProductApi(userId, getId());*/
     }
     private IClickCallback iClickCallback = new IClickCallback() {
         @Override
@@ -87,15 +97,11 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                     favoritesAdapter.clearData();
                 }
             };
-
-
    private void dismissSwipeRefresh() {
         if (binding.swiperefresh.isRefreshing()) {
             binding.swiperefresh.setRefreshing(false);
         }
     }
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
