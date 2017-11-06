@@ -15,10 +15,11 @@ import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
+import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
 import com.incon.connect.user.ui.home.HomeActivity;
-import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,10 +30,16 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     private FragmentFavoritesBinding binding;
     private  FavoritesPresenter favoritesPresenter;
     private  FavoritesAdapter favoritesAdapter;
+    private HorizontalRecycleViewAdapter horizontalRecycleViewAdapter;
     private List<FavoritesResponse> favoritesList;
     private View rootView;
     private FavoritesResponse favoritesResponse;
     private int userId;
+
+    ArrayList personImages = new ArrayList<>(Arrays.asList(
+            R.drawable.ic_connect_logo_svg, R.drawable.ic_connect_logo_svg,
+            R.drawable.ic_connect_logo_svg, R.drawable.ic_connect_logo_svg));
+
     @Override
     protected void initializePresenter() {
         favoritesPresenter = new FavoritesPresenter();
@@ -60,30 +67,27 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
 
-        favoritesList = new ArrayList<>();
-        favoritesAdapter = new FavoritesAdapter();
-        favoritesAdapter.setData(favoritesList);
+        favoritesAdapter = new FavoritesAdapter(FavoritesFragment.this, personImages);
         favoritesAdapter.setClickCallback(iClickCallback);
+
+        horizontalRecycleViewAdapter = new HorizontalRecycleViewAdapter(FavoritesFragment.this,
+                personImages);
+        horizontalRecycleViewAdapter.setClickCallback(iClickCallback);
 
          GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 getContext(), gridLayoutManager.getOrientation());
+
         binding.favoritesRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
         binding.favoritesRecyclerview.setLayoutManager(gridLayoutManager);
-        userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
-                LoginPrefs.USER_ID, DEFAULT_VALUE);
-        favoritesPresenter.doFavoritesProductApi(userId, getId());
+        binding.favoritesHorizontalRecyclerview.setAdapter(horizontalRecycleViewAdapter);
 
-      /*  LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                getContext(), linearLayoutManager.getOrientation());
-        binding.favoritesRecyclerview.addItemDecoration(dividerItemDecoration);
-        binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
-        binding.favoritesRecyclerview.setLayoutManager(linearLayoutManager);
-        userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
+
+       /* userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
         favoritesPresenter.doFavoritesProductApi(userId, getId());*/
+
     }
     private IClickCallback iClickCallback = new IClickCallback() {
         @Override
@@ -110,12 +114,11 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
     @Override
     public void loadFavoritesProducts(List<FavoritesResponse> favoritesResponseList) {
-        if (favoritesResponseList == null) {
+      /*  if (favoritesResponseList == null) {
             favoritesResponseList = new ArrayList<>();
         }
         this.favoritesList = favoritesResponseList;
         favoritesAdapter.setData(favoritesList);
-        dismissSwipeRefresh();
-
+        dismissSwipeRefresh();*/
     }
 }

@@ -1,83 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-
+        xmlns:card_view="http://schemas.android.com/tools">
     <data>
         <variable
             name="favoritesResponse"
             type="com.incon.connect.user.apimodel.components.favorites.FavoritesResponse"/>
     </data>
-
     <LinearLayout
         style="@style/MatchWrap"
+        android:orientation="vertical"
         android:background="@drawable/list_ripple_effect"
         android:minHeight="70dp"
-        android:orientation="horizontal"
         android:weightSum="3">
-        <LinearLayout
-            style="@style/Zero_wrap"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                card_view:cardCornerRadius="0dp"
+                card_view:cardElevation="@dimen/margin_10"
+                card_view:cardMaxElevation="@dimen/margin_10"
+                card_view:contentPadding="@dimen/margin_10">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/product_image_imageview"
+                        style="@style/m100_w100"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitXY" />
+                </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/brand_imageview"
-                android:layout_gravity="center"
-                style="@style/m75w75"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_gravity="center"
-            style="@style/Zero_wrap"
-            android:orientation="vertical"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/product_image_imageview"
-                android:layout_gravity="center"
-                style="@style/m75w75"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:gravity="center"
-            style="@style/Zero_wrap"
-            android:layout_weight="1"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical"
-            >
-            <LinearLayout
-                style="@style/BothWrap"
-                android:gravity="left"
-                android:orientation="vertical">
-                <TextView
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_7"
-                    android:text="@{favoritesResponse.productName}"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="10.4sp"
-                    />
-
-                <TextView
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:text="@{favoritesResponse.brandName}"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"
-                    />
-
-                <TextView
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_12"
-                    android:text="@{favoritesResponse.price}"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"
-                    />
-            </LinearLayout>
-
-
-        </LinearLayout>
+            </android.support.v7.widget.CardView>
 
     </LinearLayout>
 </layout>

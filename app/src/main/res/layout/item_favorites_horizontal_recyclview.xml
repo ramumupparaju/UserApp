@@ -12,7 +12,7 @@
         android:id="@+id/layout_purchsed_item"
         style="@style/MatchWrap"
         android:background="@drawable/list_item_selector"
-        android:minHeight="70dp"
+        android:minHeight="100dp"
         android:orientation="horizontal"
         android:weightSum="4">
 
