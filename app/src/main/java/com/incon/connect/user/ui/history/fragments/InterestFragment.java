@@ -171,12 +171,13 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             Integer tag = (Integer) view.getTag();
             String[] bottomOptions;
             int[] topDrawables;
+            changeBackgroundText(tag, view);
             if (tag == 0) {
                 bottomOptions = new String[1];
                 bottomOptions[0] = getString(R.string.bottom_option_note);
                 topDrawables = new int[1];
                 topDrawables[0] = R.drawable.ic_option_details;
-                changeBackgroundText(tag, view);
+
             } else if (tag == 1) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_main_features);
@@ -186,7 +187,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[0] = R.drawable.ic_option_details;
                 topDrawables[1] = R.drawable.ic_option_details;
                 topDrawables[2] = R.drawable.ic_option_feedback;
-                changeBackgroundText(tag, view);
             } else if (tag == 2) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_Call);
@@ -200,7 +200,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             } else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-                changeBackgroundText(tag, view);
                 showInterestProductDeleteDialog(getString(R.string.dilog_delete));
             }
             bottomSheetInterestBinding.secondtopRow.removeAllViews();
@@ -284,7 +283,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-                changeBackgroundText(tag, view);
             }
 
             bottomSheetInterestBinding.secondtopRow.removeAllViews();
@@ -318,6 +316,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             TextView viewById = (TextView) view.findViewById(R.id.view_tv);
             String topClickedText = viewById.getText().toString();
             Integer tag = (Integer) view.getTag();
+            changeBackgroundText(tag, view);
             InterestHistoryResponse itemFromPosition = interestAdapter.getItemFromPosition(
                     productSelectedPosition);
             if (tag == 0 && topClickedText.equals(getString(
