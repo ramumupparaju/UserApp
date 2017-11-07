@@ -70,8 +70,16 @@ public class FavoritesResponse {
     @SerializedName("addressId")
     @Expose
     private String addressId;
+    private transient boolean isSelected;
     public Integer getId() {
         return id;
+    }
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 
     public void setId(Integer id) {
@@ -230,6 +238,7 @@ public class FavoritesResponse {
     public void setMrp(Integer mrp) {
         this.mrp = mrp;
     }
+
 
 
 }

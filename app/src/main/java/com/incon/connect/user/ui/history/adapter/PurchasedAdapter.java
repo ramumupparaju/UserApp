@@ -99,7 +99,6 @@ public class PurchasedAdapter extends RecyclerView.Adapter
         notifyDataSetChanged();
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ItemPurchasedFragmentBinding binding;
 
@@ -112,7 +111,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter
             binding.setVariable(BR.purchasedHistoryResponse, purchasedHistoryResponse);
             AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
                     .getProductLogoUrl());
-            AppUtils.loadImageFromApi(binding.productImageImageview, purchasedHistoryResponse
+            AppUtils.loadImageFromApi(binding.productImageview, purchasedHistoryResponse
                     .getProductImageUrl());
             binding.layoutPurchsedItem.setSelected(purchasedHistoryResponse.isSelected());
             binding.executePendingBindings();

@@ -114,7 +114,7 @@ public class ReturnAdapter extends  RecyclerView.Adapter
                     , returnHistoryResponse);
                AppUtils.loadImageFromApi(binding.brandImageview, returnHistoryResponse
                     .getProductLogoUrl());
-            AppUtils.loadImageFromApi(binding.productImageImageview, returnHistoryResponse
+            AppUtils.loadImageFromApi(binding.productImageview, returnHistoryResponse
                     .getProductImageUrl());
             binding.layoutReturnItem.setSelected(returnHistoryResponse.isSelected());
             binding.executePendingBindings();

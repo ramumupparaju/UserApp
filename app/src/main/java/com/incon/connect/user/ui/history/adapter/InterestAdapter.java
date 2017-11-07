@@ -117,7 +117,7 @@ public class InterestAdapter extends RecyclerView.Adapter
             binding.setVariable(BR.interestHistoryResponse, interestHistoryResponse);
             AppUtils.loadImageFromApi(binding.brandImageview, interestHistoryResponse
                     .getProductLogoUrl());
-            AppUtils.loadImageFromApi(binding.productImageImageview, interestHistoryResponse
+            AppUtils.loadImageFromApi(binding.productImageview, interestHistoryResponse
                     .getProductImageUrl());
             binding.layoutInterestItem.setSelected(interestHistoryResponse.isSelected());
             binding.executePendingBindings();

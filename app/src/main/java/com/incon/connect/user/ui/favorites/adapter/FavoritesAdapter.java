@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
@@ -21,15 +22,15 @@ import java.util.List;
  */
 public class FavoritesAdapter extends RecyclerView.Adapter
         <FavoritesAdapter.ViewHolder> {
+    private List<FavoritesResponse> favoritestResponseList = new ArrayList<>();
     private List<FavoritesResponse> filteredFavoritesList = new ArrayList<>();
-    private List<FavoritesResponse> favoritesList = new ArrayList<>();
     private IClickCallback clickCallback;
-    ArrayList personImages;
+    ArrayList favoritesImages;
     FavoritesFragment context;
 
     public FavoritesAdapter(FavoritesFragment context, ArrayList personImages) {
         this.context = context;
-        this.personImages = personImages;
+        this.favoritesImages = personImages;
     }
 
     @Override
@@ -42,9 +43,10 @@ public class FavoritesAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-      /*  FavoritesResponse favoritesResponse = filteredFavoritesList.get(position);
-       holder.bind(favoritesResponse);*/
-     holder.binding.productImageImageview.setImageResource(R.drawable.ic_connect_logo_svg);
+        FavoritesResponse favoritesResponse = filteredFavoritesList.get(position);
+       holder.bind(favoritesResponse);
+     //holder.binding.productImageImageview.setImageResource((Integer) favoritesImages.get
+                //(position));
     }
     public FavoritesResponse getItemFromPosition(int position) {
         return filteredFavoritesList.get(position);
@@ -52,12 +54,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter
 
     @Override
     public int getItemCount() {
-        return personImages.size();
+        return filteredFavoritesList.size();
     }
 
-
-    public void setData(List<FavoritesResponse> filteredFavoritesList) {
-        favoritesList = filteredFavoritesList;
+    public void setData(List<FavoritesResponse> favoritestResponseList) {
+        this.favoritestResponseList = favoritestResponseList;
+        filteredFavoritesList.clear();
         filteredFavoritesList.addAll(filteredFavoritesList);
         notifyDataSetChanged();
     }
@@ -65,24 +67,30 @@ public class FavoritesAdapter extends RecyclerView.Adapter
         filteredFavoritesList.clear();
         notifyDataSetChanged();
     }
-
     public void setClickCallback(IClickCallback clickCallback) {
         this.clickCallback = clickCallback;
     }
-
+    public void clearSelection() {
+        for (FavoritesResponse favoritesResponse : filteredFavoritesList) {
+            favoritesResponse.setSelected(false);
+        }
+        notifyDataSetChanged();
+    }
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ItemFavoritesFragmentBinding binding;
 
         public ViewHolder(ItemFavoritesFragmentBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.getRoot().setOnClickListener(this);
         }
 
         public void bind(FavoritesResponse favoritesResponse) {
             binding.setVariable(BR.favoritesResponse, favoritesResponse);
+            AppUtils.loadImageFromApi(binding.productImageview, favoritesResponse
+                    .getProductImageUrl());
             binding.executePendingBindings();
         }
-
 
         @Override
         public void onClick(View v) {

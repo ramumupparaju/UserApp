@@ -20,10 +20,9 @@
                 card_view:cardMaxElevation="@dimen/margin_10"
                 card_view:contentPadding="@dimen/margin_10">
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    style="@style/BothMatch">
                     <ImageView
-                        android:id="@+id/product_image_imageview"
+                        android:id="@+id/product_imageview"
                         style="@style/m100_w100"
                         android:layout_centerInParent="true"
                         android:scaleType="fitXY" />

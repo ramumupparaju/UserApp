@@ -36,7 +36,7 @@
             >
 
             <ImageView
-                android:id="@+id/product_image_imageview"
+                android:id="@+id/product_imageview"
                 style="@style/m75w75"
                 android:layout_margin="25dp"
                 />

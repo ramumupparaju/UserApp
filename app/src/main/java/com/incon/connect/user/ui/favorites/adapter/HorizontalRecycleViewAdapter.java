@@ -25,7 +25,7 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
     private List<FavoritesResponse> filteredFavoritesList = new ArrayList<>();
     private List<FavoritesResponse> favoritesList = new ArrayList<>();
     private IClickCallback clickCallback;
-    ArrayList favoritesImages;
+    ArrayList favoritesPlaces;
     ArrayList favoritesNames;
     FavoritesFragment context;
     @Override
@@ -36,24 +36,25 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
                 R.layout.item_favorites_horizontal_recyclview, parent, false);
         return new ViewHolder(binding);
     }
-
-
-    public HorizontalRecycleViewAdapter(FavoritesFragment context, ArrayList favoritesImages,
+    public HorizontalRecycleViewAdapter(FavoritesFragment context, ArrayList favoritesPlaces,
                                         ArrayList favoritesNames) {
         this.context = context;
-        this.favoritesImages = favoritesImages;
+        this.favoritesPlaces = favoritesPlaces;
         this.favoritesNames = favoritesNames;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-       holder.binding.homeImageview.setImageResource(R.drawable.ic_connect_logo_svg);
-       holder.binding.homeText.setText("Home");
+       holder.binding.homeImageview.setImageResource((Integer) favoritesPlaces.get(position));
+       holder.binding.homeText.setText((String) favoritesNames.get(position));
     }
 
+    public FavoritesResponse getItemFromPosition(int position) {
+        return filteredFavoritesList.get(position);
+    }
     @Override
     public int getItemCount() {
-        return favoritesImages.size(); }
+        return favoritesPlaces.size(); }
 
     public void setData(List<FavoritesResponse> filteredFavoritesList) {
         favoritesList = filteredFavoritesList;
@@ -84,7 +85,6 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
             binding.setVariable(BR.favoritesResponse, favoritesResponse);
             binding.executePendingBindings();
         }
-
 
         @Override
         public void onClick(View v) {
