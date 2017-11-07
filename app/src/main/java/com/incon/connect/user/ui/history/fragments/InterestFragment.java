@@ -191,7 +191,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_Call);
                 bottomOptions[1] = getString(R.string.bottom_option_location);
-                bottomOptions[2] = getString(R.string.bottom_option_feedback);
+                bottomOptions[2] = getString(R.string.bottom_option_review);
                 topDrawables = new int[3];
                 topDrawables[0] = R.drawable.ic_option_call;
                 topDrawables[1] = R.drawable.ic_option_location;
@@ -233,16 +233,30 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
+            String topClickedText = viewById.getText().toString();
             Integer tag = (Integer) view.getTag();
+            changeBackgroundText(tag, view);
             String[] bottomOptions;
             int[] topDrawables;
-            if (tag == 0) {
+            if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_note))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-                changeBackgroundText(tag, view);
-                AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
             }
-            else if (tag == 1) {
+            else  if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_main_features))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            }
+            else  if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_Call))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            }
+
+            else if (tag == 1 && topClickedText.equals(getString(
+                    R.string.bottom_option_details))) {
                 bottomOptions = new String[5];
                 bottomOptions[0] = getString(R.string.bottom_option_return_policy);
                 bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
@@ -256,7 +270,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[3] = R.drawable.ic_option_warranty;
                 topDrawables[4] = R.drawable.ic_option_share;
                 changeBackgroundText(tag, view);
-
+            }
+            else  if (tag == 1 && topClickedText.equals(getString(
+                    R.string.bottom_option_location))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            }
+            else  if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_review))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
             }
             else {
                 bottomOptions = new String[0];

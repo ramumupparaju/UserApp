@@ -174,7 +174,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[1] = R.drawable.ic_option_find_service_center;
                 topDrawables[2] = R.drawable.ic_option_service_request;
 
-
             } else if (tag == 1) {
                 bottomOptions = new String[8];
                 bottomOptions[0] = getString(R.string.bottom_option_details);
@@ -286,12 +285,22 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            PurchasedHistoryResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
+                    productSelectedPosition);
+            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
+            String topClickedText = viewById.getText().toString();
             Integer tag = (Integer) view.getTag();
             String[] bottomOptions;
             int[] topDrawables;
             changeBackgroundText(tag, view);
-            if (tag == 0) {
+            if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_call_customer_care))) {
+                callPhoneNumber(itemFromPosition.getMobileNumber());
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+
+            } else if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_details))) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_return_policy);
                 bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
@@ -300,13 +309,39 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[0] = R.drawable.ic_option_return_policy;
                 topDrawables[1] = R.drawable.ic_option_sp_instructions;
                 topDrawables[2] = R.drawable.ic_option_howtouse;
-            } else if (tag == 1) {
+            }
+            else if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_Call))) {
+                callPhoneNumber(itemFromPosition.getMobileNumber());
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            } else if (tag == 2) {
+
+            }
+
+            else if (tag == 1 && topClickedText.equals(getString(
+                    R.string.bottom_option_find_service_center))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            } else if (tag == 3) {
+            }
+            else if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_service_request))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            }
+
+
+            else if (tag == 1 && topClickedText.equals(getString(
+                    R.string.bottom_option_location))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            }
+            else if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_feedback))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            }
+
+            else if (tag == 3) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 changeBackgroundText(tag, view);
