@@ -25,7 +25,8 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
     private List<FavoritesResponse> filteredFavoritesList = new ArrayList<>();
     private List<FavoritesResponse> favoritesList = new ArrayList<>();
     private IClickCallback clickCallback;
-    ArrayList personImages;
+    ArrayList favoritesImages;
+    ArrayList favoritesNames;
     FavoritesFragment context;
     @Override
     public HorizontalRecycleViewAdapter.ViewHolder onCreateViewHolder(
@@ -37,24 +38,32 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
     }
 
 
-    public HorizontalRecycleViewAdapter(FavoritesFragment context, ArrayList personImages) {
+    public HorizontalRecycleViewAdapter(FavoritesFragment context, ArrayList favoritesImages,
+                                        ArrayList favoritesNames) {
         this.context = context;
-        this.personImages = personImages;
+        this.favoritesImages = favoritesImages;
+        this.favoritesNames = favoritesNames;
     }
 
     @Override
-    public void onBindViewHolder(HorizontalRecycleViewAdapter.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(ViewHolder holder, int position) {
        holder.binding.homeImageview.setImageResource(R.drawable.ic_connect_logo_svg);
-        holder.binding.officeImageImageview.setImageResource(R.drawable.ic_connect_logo_svg);
-        holder.binding.farmHouseImageImageview.setImageResource(R.drawable.ic_connect_logo_svg);
-        holder.binding.addImageImageview.setImageResource(R.drawable.ic_connect_logo_svg);
-
+       holder.binding.homeText.setText("Home");
     }
 
     @Override
     public int getItemCount() {
-        return personImages.size();
+        return favoritesImages.size(); }
+
+    public void setData(List<FavoritesResponse> filteredFavoritesList) {
+        favoritesList = filteredFavoritesList;
+        filteredFavoritesList.addAll(filteredFavoritesList);
+        notifyDataSetChanged();
+    }
+
+    public void clearData() {
+        filteredFavoritesList.clear();
+        notifyDataSetChanged();
     }
 
     public void setClickCallback(IClickCallback clickCallback) {
@@ -65,7 +74,6 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
         ItemFavoritesHorizontalRecyclviewBinding binding;
 
-
         public ViewHolder(ItemFavoritesHorizontalRecyclviewBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -74,14 +82,6 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
 
         public void bind(FavoritesResponse favoritesResponse) {
             binding.setVariable(BR.favoritesResponse, favoritesResponse);
-          /*  AppUtils.loadImageFromApi(binding.brandImageview, favoritesResponse
-                    .getProductLogoUrl());
-            AppUtils.loadImageFromApi(binding.productImageImageview, favoritesResponse
-                    .getProductImageUrl());*/
-            binding.homeImageview.setImageResource(R.drawable.ic_connect_logo_svg);
-            binding.officeImageImageview.setImageResource(R.drawable.ic_connect_logo_svg);
-            binding.farmHouseImageImageview.setImageResource(R.drawable.ic_connect_logo_svg);
-            binding.addImageImageview.setImageResource(R.drawable.ic_connect_logo_svg);
             binding.executePendingBindings();
         }
 

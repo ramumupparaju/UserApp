@@ -10,8 +10,7 @@
         style="@style/MatchWrap"
         android:orientation="vertical"
         android:background="@drawable/list_ripple_effect"
-        android:minHeight="70dp"
-        android:weightSum="3">
+        android:minHeight="70dp">
             <android.support.v7.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="match_parent"

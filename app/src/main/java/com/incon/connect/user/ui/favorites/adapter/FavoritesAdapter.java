@@ -46,8 +46,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter
        holder.bind(favoritesResponse);*/
      holder.binding.productImageImageview.setImageResource(R.drawable.ic_connect_logo_svg);
     }
-
-
     public FavoritesResponse getItemFromPosition(int position) {
         return filteredFavoritesList.get(position);
     }
@@ -82,11 +80,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter
 
         public void bind(FavoritesResponse favoritesResponse) {
             binding.setVariable(BR.favoritesResponse, favoritesResponse);
-          /*  AppUtils.loadImageFromApi(binding.brandImageview, favoritesResponse
-                    .getProductLogoUrl());
-            AppUtils.loadImageFromApi(binding.productImageImageview, favoritesResponse
-                    .getProductImageUrl());*/
-            binding.productImageImageview.setImageResource(R.drawable.ic_connect_logo_svg);
             binding.executePendingBindings();
         }
 

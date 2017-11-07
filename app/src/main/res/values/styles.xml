@@ -236,6 +236,16 @@
         <item name="android:layout_height">@dimen/margin_75</item>
     </style>
 
+    <style name="Match_w100">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/margin_100</item>
+    </style>
+
+
+    <style name="Match_w150">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/margin_150</item>
+    </style>
     <!--style match_wrap-->
     <style name="MatchWrap">
         <item name="android:layout_width">match_parent</item>

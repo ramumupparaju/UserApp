@@ -14,7 +14,7 @@
                 style="@style/MatchWrap">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/favorites_horizontal_recyclerview"
-                style="@style/Match_w75"
+                style="@style/Match_w150"
                 android:layout_marginTop="@dimen/margin_10"
                 android:fadeScrollbars="false"
                 android:scrollbarSize="4dp"

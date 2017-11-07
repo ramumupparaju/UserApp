@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             R.drawable.ic_connect_logo_svg, R.drawable.ic_connect_logo_svg,
             R.drawable.ic_connect_logo_svg, R.drawable.ic_connect_logo_svg));
 
+    ArrayList favoritesNames = new ArrayList<>(Arrays.asList("Home", "Office", "Farm House",
+            "Add New"));
+    ArrayList favoritesImages = new ArrayList<>(Arrays.asList(
+            R.drawable.ic_connect_logo_svg, R.drawable.ic_connect_logo_svg,
+            R.drawable.ic_connect_logo_svg, R.drawable.ic_connect_logo_svg));
+
     @Override
     protected void initializePresenter() {
         favoritesPresenter = new FavoritesPresenter();
@@ -63,30 +70,24 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         return rootView;
     }
     private void initViews() {
-
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
-
-        favoritesAdapter = new FavoritesAdapter(FavoritesFragment.this, personImages);
-        favoritesAdapter.setClickCallback(iClickCallback);
-
-        horizontalRecycleViewAdapter = new HorizontalRecycleViewAdapter(FavoritesFragment.this,
-                personImages);
-        horizontalRecycleViewAdapter.setClickCallback(iClickCallback);
-
-         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 getContext(), gridLayoutManager.getOrientation());
-
+        favoritesAdapter = new FavoritesAdapter(FavoritesFragment.this, personImages);
+        favoritesAdapter.setClickCallback(iClickCallback);
         binding.favoritesRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
         binding.favoritesRecyclerview.setLayoutManager(gridLayoutManager);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
+                getContext(), LinearLayoutManager.HORIZONTAL, false);
+        horizontalRecycleViewAdapter = new HorizontalRecycleViewAdapter(FavoritesFragment.this,
+                favoritesImages, favoritesNames);
+        horizontalRecycleViewAdapter.setClickCallback(iClickCallback);
+        binding.favoritesHorizontalRecyclerview.setLayoutManager(linearLayoutManager);
         binding.favoritesHorizontalRecyclerview.setAdapter(horizontalRecycleViewAdapter);
-
-
-       /* userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
-                LoginPrefs.USER_ID, DEFAULT_VALUE);
-        favoritesPresenter.doFavoritesProductApi(userId, getId());*/
 
     }
     private IClickCallback iClickCallback = new IClickCallback() {
@@ -114,11 +115,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
     @Override
     public void loadFavoritesProducts(List<FavoritesResponse> favoritesResponseList) {
-      /*  if (favoritesResponseList == null) {
-            favoritesResponseList = new ArrayList<>();
-        }
-        this.favoritesList = favoritesResponseList;
-        favoritesAdapter.setData(favoritesList);
-        dismissSwipeRefresh();*/
+
     }
 }
