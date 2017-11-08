@@ -92,10 +92,11 @@ public class AppCheckBoxListAdapter extends RecyclerView.Adapter
 
         @Override
         public void onClick(View v) {
+            boolean checked = binding.checkboxSpinnerFormat.isChecked();
             if (isRadio) {
                 clearSelection();
             }
-            binding.checkboxSpinnerFormat.setChecked(!binding.checkboxSpinnerFormat.isChecked());
+            binding.checkboxSpinnerFormat.setChecked(!checked);
         }
 
     }

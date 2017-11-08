@@ -193,6 +193,8 @@ public interface AppConstants {
     interface ApiRequestKeyConstants {
         String BODY_EMAIL = "email";
         String BODY_USER_ID = "userid";
+        String BODY_ADDRESS_ID = "addressId";
+        String BODY_WARRANTY_ID = "warrantyId";
         String BODY_PRODUCT_CODE = "code";
         String BODY_OTP = "otp";
         String BODY_MOBILE_NUMBER = "mobileNumber";

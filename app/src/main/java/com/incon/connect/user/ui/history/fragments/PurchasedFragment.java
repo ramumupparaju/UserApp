@@ -19,21 +19,29 @@ import android.widget.TextView;
 
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
+import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
+import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.CustomBottomViewProductBinding;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
+import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_ADDRESS_ID;
+import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_WARRANTY_ID;
 
 
 /**
@@ -49,6 +57,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private BottomSheetPurchasedBinding bottomSheetPurchasedBinding;
     private int productSelectedPosition = -1;
     private AppAlertDialog detailsDialog;
+    private AppCheckBoxListDialog productLocationDialog;
+    private List<AddUserAddressResponse> productLocationList;
+    private Integer addressId;
 
     @Override
     protected void initializePresenter() {
@@ -105,6 +116,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
         purchasedPresenter.purchased(userId);
+        purchasedPresenter.doGetAddressApi(userId);
     }
 
     private IClickCallback iClickCallback = new IClickCallback() {
@@ -207,6 +219,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             } else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
+                showFavoriteOptionsDialog();
             }
             bottomSheetPurchasedBinding.secondTopRow.removeAllViews();
             bottomSheetPurchasedBinding.topRow.removeAllViews();
@@ -233,6 +246,61 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
         }
     };
+
+    private void showFavoriteOptionsDialog() {
+        if (productLocationList == null) {
+            //TODO add error message
+            return;
+        }
+
+        //set previous selected categories as checked
+        List<CheckedModelSpinner> filterNamesList = new ArrayList<>();
+
+        for (AddUserAddressResponse addUserAddressResponse : productLocationList) {
+            CheckedModelSpinner checkedModelSpinner = new CheckedModelSpinner();
+            checkedModelSpinner.setName(addUserAddressResponse.getName());
+            filterNamesList.add(checkedModelSpinner);
+        }
+        productLocationDialog = new AppCheckBoxListDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String selectedLocationName) {
+                        for (AddUserAddressResponse addUserAddressResponse : productLocationList) {
+                            if (addUserAddressResponse.getName().equals(selectedLocationName)) {
+                                addressId = addUserAddressResponse.getId();
+                                break;
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                ProductInfoResponse itemFromPosition = purchasedAdapter.
+                                        getItemFromPosition(productSelectedPosition);
+                                HashMap<String, String> favoritesMap = new HashMap<>();
+                                favoritesMap.put(ApiRequestKeyConstants.BODY_USER_ID,
+                                        String.valueOf(userId));
+                                favoritesMap.put(BODY_ADDRESS_ID, String.valueOf(addressId));
+                                favoritesMap.put(BODY_WARRANTY_ID,
+                                        itemFromPosition.getWarrantyId());
+                                purchasedPresenter.addToFavotites(favoritesMap);
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                productLocationDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.action_add_as_favorite))
+                .spinnerItems(filterNamesList)
+                .build();
+        productLocationDialog.showDialog();
+        productLocationDialog.setRadioType(true);
+    }
 
     private void changeBackgroundText(Integer tag, View view) {
         if (view instanceof LinearLayout) {
@@ -309,39 +377,29 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[0] = R.drawable.ic_option_return_policy;
                 topDrawables[1] = R.drawable.ic_option_sp_instructions;
                 topDrawables[2] = R.drawable.ic_option_howtouse;
-            }
-            else if (tag == 0 && topClickedText.equals(getString(
+            } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_Call))) {
                 callPhoneNumber(itemFromPosition.getMobileNumber());
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
-            }
-
-            else if (tag == 1 && topClickedText.equals(getString(
+            } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_find_service_center))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-            else if (tag == 2 && topClickedText.equals(getString(
+            } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_service_request))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-
-
-            else if (tag == 1 && topClickedText.equals(getString(
+            } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_location))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-            else if (tag == 2 && topClickedText.equals(getString(
+            } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-
-            else if (tag == 3) {
+            } else if (tag == 3) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 changeBackgroundText(tag, view);
@@ -558,6 +616,19 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
         /*purchasedAdapter.setData(purchasedHistoryResponseList);
         dismissSwipeRefresh();*/
+    }
+
+    @Override
+    public void loadAddresses(List<AddUserAddressResponse> productLocationList) {
+        this.productLocationList = productLocationList;
+    }
+
+    @Override
+    public void addedToFavorite() {
+        if (productLocationDialog != null && productLocationDialog.isShowing()) {
+            productLocationDialog.dismiss();
+        }
+
     }
 
     @Override

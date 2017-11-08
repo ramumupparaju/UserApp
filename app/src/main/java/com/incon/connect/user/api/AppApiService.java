@@ -15,7 +15,6 @@ import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.custom.exception.NoConnectivityException;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
-import com.incon.connect.user.dto.addfavorites.Favorites;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
 import com.incon.connect.user.dto.addoffer.AddOfferRequest;
 import com.incon.connect.user.dto.asignqrcode.AssignQrCode;
@@ -121,6 +120,10 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.purchasedApi(userId));
     }
 
+    public Observable<Object> addToFavotites(HashMap<String, String> favoriteMap) {
+        return addNetworkCheck(serviceInstance.addToFavotites(favoriteMap));
+    }
+
     public Observable<List<ProductInfoResponse>> interestApi(int userId) {
         return addNetworkCheck(serviceInstance.interestApi(userId));
     }
@@ -142,12 +145,6 @@ public class AppApiService implements AppConstants {
     }
     public Observable<List<AddUserAddressResponse>> getAddressesApi(int userId) {
         return addNetworkCheck(serviceInstance.getAddressesApi(userId));
-    }
-    public Observable<ProductInfoResponse> addtofavourites(Favorites favorites) {
-        return addNetworkCheck(serviceInstance.addtofavourites(favorites));
-    }
-    public Observable<AddUserAddressResponse> addUserAddress(Favorites favorites) {
-        return addNetworkCheck(serviceInstance.addUserAddress(favorites));
     }
 
     public Observable<AddOfferMerchantFragmentResponse> addOffer(AddOfferRequest addOfferRequest) {

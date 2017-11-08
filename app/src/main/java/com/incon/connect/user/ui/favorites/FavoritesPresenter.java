@@ -30,7 +30,6 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     @Override
     public void initialize(Bundle extras) {
         super.initialize(extras);
-        super.initialize(extras);
         appContext = ConnectApplication.getAppContext();
     }
 

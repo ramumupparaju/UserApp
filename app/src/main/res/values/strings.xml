@@ -53,6 +53,7 @@
 
 
     <!--warrantyregistration-->
+    <string name="action_add_as_favorite">Add as favorite</string>
     <string name="action_filters">Filters</string>
     <string name="action_brand">Brand</string>
     <string name="action_modelno">Model No</string>
@@ -221,6 +222,7 @@
     <!-- progress messages -->
     <string name="progress_addoffer_merchant_fragment">Loading AddOffer Merchant Fragment..
         .</string>
+    <string name="progress_adding_to_favorites">Adding to favorites...</string>
     <string name="progress_purchased_history">Loading Purchased History...</string>
     <string name="progress_interest_history">Loading Interest History...</string>
     <string name="progress_return_history">Loading Return History...</string>

@@ -12,7 +12,6 @@ import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
-import com.incon.connect.user.dto.addfavorites.Favorites;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
 import com.incon.connect.user.dto.addoffer.AddOfferRequest;
 import com.incon.connect.user.dto.asignqrcode.AssignQrCode;
@@ -71,6 +70,9 @@ public interface AppServiceObservable {
     @GET("user/history/purchased/{userId}")
     Observable<List<ProductInfoResponse>> purchasedApi(@Path("userId") int userId);
 
+    @POST("user/addtofavourites")
+    Observable<Object> addToFavotites(@Body HashMap<String, String> favoriteMap);
+
     @POST("product/assign")
     Observable<Object> assignQrCodeToProduct(@Body AssignQrCode qrCode);
 
@@ -94,12 +96,6 @@ public interface AppServiceObservable {
     @GET("user/favourites/{userId}/{addressId}")
     Observable<List<ProductInfoResponse>> favouritesProductApi(
             @Path("userId") int userId, @Path("addressId") int addressId);
-
-    @POST("user/addaddress")
-    Observable<AddUserAddressResponse> addUserAddress(@Body Favorites favorites);
-
-    @POST("user/addtofavourites")
-    Observable<ProductInfoResponse> addtofavourites(@Body Favorites favorites);
 
     @POST("offers/addoffers")
     Observable<AddOfferMerchantFragmentResponse> addOffer(@Body AddOfferRequest addOfferRequest);
