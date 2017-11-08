@@ -7,7 +7,7 @@ import android.util.Pair;
 import com.incon.connect.user.R;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.api.AppApiService;
-import com.incon.connect.user.apimodel.components.history.purchased.PurchasedHistoryResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
@@ -34,11 +34,11 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
     @Override
     public void purchased(int userId) {
         getView().showProgress(appContext.getString(R.string.progress_purchased_history));
-        DisposableObserver<List<PurchasedHistoryResponse>> observer = new
-                DisposableObserver<List<PurchasedHistoryResponse>>() {
+        DisposableObserver<List<ProductInfoResponse>> observer = new
+                DisposableObserver<List<ProductInfoResponse>>() {
             @Override
-            public void onNext(List<PurchasedHistoryResponse> historyResponse) {
-                getView().loadPurchasedHistory(historyResponse);
+            public void onNext(List<ProductInfoResponse> productInfoResponses) {
+                getView().loadPurchasedHistory(productInfoResponses);
             }
 
             @Override

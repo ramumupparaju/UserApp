@@ -7,7 +7,7 @@ import android.util.Pair;
 import com.incon.connect.user.R;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.api.AppApiService;
-import com.incon.connect.user.apimodel.components.history.purchased.ReturnHistoryResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
@@ -33,10 +33,10 @@ public class ReturnPresenter extends BasePresenter<ReturnContract.View> implemen
 
      public void returnHistory(int userId) {
         getView().showProgress(appContext.getString(R.string.progress_return_history));
-        DisposableObserver<List<ReturnHistoryResponse>> observer = new
-                DisposableObserver<List<ReturnHistoryResponse>>() {
+        DisposableObserver<List<ProductInfoResponse>> observer = new
+                DisposableObserver<List<ProductInfoResponse>>() {
                     @Override
-                    public void onNext(List<ReturnHistoryResponse> historyResponse) {
+                    public void onNext(List<ProductInfoResponse> historyResponse) {
                         getView().loadReturnHistory(historyResponse);
                     }
 

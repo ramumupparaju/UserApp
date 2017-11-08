@@ -10,7 +10,7 @@ import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.history.purchased.ReturnHistoryResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemReturnFragmentBinding;
 
@@ -23,8 +23,8 @@ import java.util.List;
 
 public class ReturnAdapter extends  RecyclerView.Adapter
         <ReturnAdapter.ViewHolder>  {
-    private List<ReturnHistoryResponse> returnHistoryResponseList = new ArrayList<>();
-    private List<ReturnHistoryResponse> filteredReturnList = new ArrayList<>();
+    private List<ProductInfoResponse> returnHistoryResponseList = new ArrayList<>();
+    private List<ProductInfoResponse> filteredReturnList = new ArrayList<>();
     private IClickCallback clickCallback;
 
     @Override
@@ -37,7 +37,7 @@ public class ReturnAdapter extends  RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ReturnHistoryResponse returnHistoryResponse = filteredReturnList.get(position);
+        ProductInfoResponse returnHistoryResponse = filteredReturnList.get(position);
         holder.bind(returnHistoryResponse);
     }
 
@@ -45,11 +45,11 @@ public class ReturnAdapter extends  RecyclerView.Adapter
     public int getItemCount() {
         return filteredReturnList.size();
     }
-    public ReturnHistoryResponse getItemFromPosition(int position) {
+    public ProductInfoResponse getItemFromPosition(int position) {
         return filteredReturnList.get(position);
     }
 
-    public void setData(List<ReturnHistoryResponse> returnHistoryResponseList) {
+    public void setData(List<ProductInfoResponse> returnHistoryResponseList) {
         this.returnHistoryResponseList = returnHistoryResponseList;
         filteredReturnList.clear();
         filteredReturnList.addAll(returnHistoryResponseList);
@@ -68,7 +68,7 @@ public class ReturnAdapter extends  RecyclerView.Adapter
  public void searchData(String searchableString, String searchType) {
         filteredReturnList.clear();
         if (searchType.equalsIgnoreCase(AppConstants.FilterConstants.NAME)) {
-            for (ReturnHistoryResponse purchasedHistoryResponse
+            for (ProductInfoResponse purchasedHistoryResponse
                     : returnHistoryResponseList) {
                 if (purchasedHistoryResponse.getProductName() != null
                         && purchasedHistoryResponse.getProductName().toLowerCase().startsWith(
@@ -77,7 +77,7 @@ public class ReturnAdapter extends  RecyclerView.Adapter
                 }
             }
         } else if (searchType.equalsIgnoreCase(AppConstants.FilterConstants.BRAND)) {
-            for (ReturnHistoryResponse purchasedHistoryResponse
+            for (ProductInfoResponse purchasedHistoryResponse
                     : returnHistoryResponseList) {
                 if (purchasedHistoryResponse.getBrandName() != null && purchasedHistoryResponse
                         .getBrandName().toLowerCase().startsWith(
@@ -92,7 +92,7 @@ public class ReturnAdapter extends  RecyclerView.Adapter
     }
 
     public void clearSelection() {
-        for (ReturnHistoryResponse returnHistoryResponse : filteredReturnList) {
+        for (ProductInfoResponse returnHistoryResponse : filteredReturnList) {
             returnHistoryResponse.setSelected(false);
         }
         notifyDataSetChanged();
@@ -109,8 +109,8 @@ public class ReturnAdapter extends  RecyclerView.Adapter
             binding.getRoot().setOnClickListener(this);
         }
 
-        public void bind(ReturnHistoryResponse returnHistoryResponse) {
-            binding.setVariable(BR.returnHistoryResponse
+        public void bind(ProductInfoResponse returnHistoryResponse) {
+            binding.setVariable(BR.productinforesponse
                     , returnHistoryResponse);
                AppUtils.loadImageFromApi(binding.brandImageview, returnHistoryResponse
                     .getProductLogoUrl());

@@ -10,7 +10,7 @@ import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemInterestFragmentBinding;
 
@@ -23,8 +23,8 @@ import java.util.List;
 
 public class InterestAdapter extends RecyclerView.Adapter
         <InterestAdapter.ViewHolder> {
-    private List<InterestHistoryResponse> interestHistoryResponseList = new ArrayList<>();
-    private List<InterestHistoryResponse> filteredInterestList = new ArrayList<>();
+    private List<ProductInfoResponse> interestHistoryResponseList = new ArrayList<>();
+    private List<ProductInfoResponse> filteredInterestList = new ArrayList<>();
     private IClickCallback clickCallback;
 
     @Override
@@ -36,7 +36,7 @@ public class InterestAdapter extends RecyclerView.Adapter
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        InterestHistoryResponse interestResponse = filteredInterestList.get(position);
+        ProductInfoResponse interestResponse = filteredInterestList.get(position);
         holder.bind(interestResponse);
 
     }
@@ -44,16 +44,16 @@ public class InterestAdapter extends RecyclerView.Adapter
     public int getItemCount() {
         return filteredInterestList.size();
     }
-    public InterestHistoryResponse getItemFromPosition(int position) {
+    public ProductInfoResponse getItemFromPosition(int position) {
         return filteredInterestList.get(position);
     }
 
-    public InterestHistoryResponse getInterestDateFromPosition(int position) {
+    public ProductInfoResponse getInterestDateFromPosition(int position) {
         return filteredInterestList.get(position);
     }
 
 
-    public void setData(List<InterestHistoryResponse> interestHistoryResponseList) {
+    public void setData(List<ProductInfoResponse> interestHistoryResponseList) {
        this.interestHistoryResponseList = interestHistoryResponseList;
         filteredInterestList.clear();
         filteredInterestList.addAll(interestHistoryResponseList);
@@ -71,7 +71,7 @@ public class InterestAdapter extends RecyclerView.Adapter
     }
 
     public void clearSelection() {
-        for (InterestHistoryResponse interestHistoryResponse : filteredInterestList) {
+        for (ProductInfoResponse interestHistoryResponse : filteredInterestList) {
             interestHistoryResponse.setSelected(false);
         }
         notifyDataSetChanged();
@@ -80,7 +80,7 @@ public class InterestAdapter extends RecyclerView.Adapter
     public void searchData(String searchableString, String searchType) {
         filteredInterestList.clear();
         if (searchType.equalsIgnoreCase(AppConstants.FilterConstants.NAME)) {
-            for (InterestHistoryResponse interestHistoryResponse
+            for (ProductInfoResponse interestHistoryResponse
                     : interestHistoryResponseList) {
                 if (interestHistoryResponse.getProductName() != null
                         && interestHistoryResponse.getProductName().toLowerCase().startsWith(
@@ -89,7 +89,7 @@ public class InterestAdapter extends RecyclerView.Adapter
                 }
             }
         } else if (searchType.equalsIgnoreCase(AppConstants.FilterConstants.BRAND)) {
-            for (InterestHistoryResponse purchasedHistoryResponse
+            for (ProductInfoResponse purchasedHistoryResponse
                     : interestHistoryResponseList) {
                 if (purchasedHistoryResponse.getBrandName() != null && purchasedHistoryResponse
                         .getBrandName().toLowerCase().startsWith(
@@ -113,8 +113,8 @@ public class InterestAdapter extends RecyclerView.Adapter
             binding.getRoot().setOnClickListener(this);
         }
 
-        public void bind(InterestHistoryResponse interestHistoryResponse) {
-            binding.setVariable(BR.interestHistoryResponse, interestHistoryResponse);
+        public void bind(ProductInfoResponse interestHistoryResponse) {
+            binding.setVariable(BR.productinforesponse, interestHistoryResponse);
             AppUtils.loadImageFromApi(binding.brandImageview, interestHistoryResponse
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, interestHistoryResponse

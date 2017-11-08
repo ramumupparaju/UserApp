@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.history.purchased.PurchasedHistoryResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
@@ -111,7 +111,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         @Override
         public void onClickPosition(int position) {
             purchasedAdapter.clearSelection();
-            PurchasedHistoryResponse purchasedHistoryResponse =
+            ProductInfoResponse purchasedHistoryResponse =
                     purchasedAdapter.
                             getItemFromPosition(position);
             purchasedHistoryResponse.setSelected(true);
@@ -285,7 +285,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            PurchasedHistoryResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
+            ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
             TextView viewById = (TextView) view.findViewById(R.id.view_tv);
             String topClickedText = viewById.getText().toString();
@@ -445,7 +445,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             String topClickedText = viewById.getText().toString();
             Integer tag = (Integer) view.getTag();
             changeBackgroundText(tag, view);
-            PurchasedHistoryResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
+            ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
        /* if (tag == 0 && topClickedText.equals(getString(
         R.string.bottom_option_call_customer_care))) {
@@ -496,7 +496,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     }
 
     private void showLocationDialog() {
-        PurchasedHistoryResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
+        ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                 productSelectedPosition);
 
         if (TextUtils.isEmpty(itemFromPosition.getLocation())) {
@@ -543,16 +543,16 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     }
 
     @Override
-    public void loadPurchasedHistory(List<PurchasedHistoryResponse> purchasedHistoryResponseList) {
-        if (purchasedHistoryResponseList == null) {
-            purchasedHistoryResponseList = new ArrayList<>();
+    public void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses) {
+        if (productInfoResponses == null) {
+            productInfoResponses = new ArrayList<>();
         }
 
-        if (purchasedHistoryResponseList.size() == 0) {
+        if (productInfoResponses.size() == 0) {
             binding.purchasedTextview.setVisibility(View.VISIBLE);
             dismissSwipeRefresh();
         } else {
-            purchasedAdapter.setData(purchasedHistoryResponseList);
+            purchasedAdapter.setData(productInfoResponses);
             dismissSwipeRefresh();
         }
 

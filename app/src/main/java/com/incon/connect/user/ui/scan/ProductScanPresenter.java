@@ -8,7 +8,7 @@ import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
-import com.incon.connect.user.apimodel.components.qrcodeproduct.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 

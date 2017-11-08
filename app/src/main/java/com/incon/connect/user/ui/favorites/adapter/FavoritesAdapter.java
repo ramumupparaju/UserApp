@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemFavoritesFragmentBinding;
 import com.incon.connect.user.ui.favorites.FavoritesFragment;
@@ -22,8 +22,8 @@ import java.util.List;
  */
 public class FavoritesAdapter extends RecyclerView.Adapter
         <FavoritesAdapter.ViewHolder> {
-    private List<FavoritesResponse> favoritestResponseList = new ArrayList<>();
-    private List<FavoritesResponse> filteredFavoritesList = new ArrayList<>();
+    private List<ProductInfoResponse> favoritestResponseList = new ArrayList<>();
+    private List<ProductInfoResponse> filteredFavoritesList = new ArrayList<>();
     private IClickCallback clickCallback;
     ArrayList favoritesImages;
     FavoritesFragment context;
@@ -43,12 +43,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        FavoritesResponse favoritesResponse = filteredFavoritesList.get(position);
+        ProductInfoResponse favoritesResponse = filteredFavoritesList.get(position);
        holder.bind(favoritesResponse);
      //holder.binding.productImageImageview.setImageResource((Integer) favoritesImages.get
                 //(position));
     }
-    public FavoritesResponse getItemFromPosition(int position) {
+    public ProductInfoResponse getItemFromPosition(int position) {
         return filteredFavoritesList.get(position);
     }
 
@@ -57,7 +57,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter
         return filteredFavoritesList.size();
     }
 
-    public void setData(List<FavoritesResponse> favoritestResponseList) {
+    public void setData(List<ProductInfoResponse> favoritestResponseList) {
         this.favoritestResponseList = favoritestResponseList;
         filteredFavoritesList.clear();
         filteredFavoritesList.addAll(filteredFavoritesList);
@@ -71,7 +71,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter
         this.clickCallback = clickCallback;
     }
     public void clearSelection() {
-        for (FavoritesResponse favoritesResponse : filteredFavoritesList) {
+        for (ProductInfoResponse favoritesResponse : filteredFavoritesList) {
             favoritesResponse.setSelected(false);
         }
         notifyDataSetChanged();
@@ -85,7 +85,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter
             binding.getRoot().setOnClickListener(this);
         }
 
-        public void bind(FavoritesResponse favoritesResponse) {
+        public void bind(ProductInfoResponse favoritesResponse) {
             binding.setVariable(BR.favoritesResponse, favoritesResponse);
             AppUtils.loadImageFromApi(binding.productImageview, favoritesResponse
                     .getProductImageUrl());

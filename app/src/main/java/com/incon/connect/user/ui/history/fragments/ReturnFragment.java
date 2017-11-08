@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.history.purchased.ReturnHistoryResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.databinding.FragmentReturnBinding;
@@ -87,7 +87,7 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
         @Override
         public void onClickPosition(int position) {
             returnAdapter.clearSelection();
-            ReturnHistoryResponse returnHistoryResponse = returnAdapter.
+            ProductInfoResponse returnHistoryResponse = returnAdapter.
                     getItemFromPosition(position);
             returnHistoryResponse.setSelected(true);
             returnAdapter.notifyDataSetChanged();
@@ -103,7 +103,7 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
             };
 
     @Override
-    public void loadReturnHistory(List<ReturnHistoryResponse> returnHistoryResponseList) {
+    public void loadReturnHistory(List<ProductInfoResponse> returnHistoryResponseList) {
         if (returnHistoryResponseList == null) {
             returnHistoryResponseList = new ArrayList<>();
         }

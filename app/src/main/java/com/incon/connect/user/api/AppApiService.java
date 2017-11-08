@@ -5,14 +5,10 @@ import com.incon.connect.user.BuildConfig;
 import com.incon.connect.user.apimodel.base.ApiBaseResponse;
 import com.incon.connect.user.apimodel.components.addoffer.AddOfferMerchantFragmentResponse;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
-import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
-import com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse;
-import com.incon.connect.user.apimodel.components.history.purchased.PurchasedHistoryResponse;
-import com.incon.connect.user.apimodel.components.history.purchased.ReturnHistoryResponse;
 import com.incon.connect.user.apimodel.components.login.LoginResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
-import com.incon.connect.user.apimodel.components.qrcodeproduct.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
@@ -119,11 +115,11 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.checkQrCodestatus(qrCode));
     }
 
-    public Observable<List<PurchasedHistoryResponse>> purchasedApi(int userId) {
+    public Observable<List<ProductInfoResponse>> purchasedApi(int userId) {
         return addNetworkCheck(serviceInstance.purchasedApi(userId));
     }
 
-    public Observable<List<InterestHistoryResponse>> interestApi(int userId) {
+    public Observable<List<ProductInfoResponse>> interestApi(int userId) {
         return addNetworkCheck(serviceInstance.interestApi(userId));
     }
 
@@ -131,13 +127,13 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.deleteApi(interestId));
     }
 
-    public Observable<List<ReturnHistoryResponse>> returnApi(int userId) {
+    public Observable<List<ProductInfoResponse>> returnApi(int userId) {
         return addNetworkCheck(serviceInstance.returnApi(userId));
     }
-     public Observable<List<FavoritesResponse>> favouritesProductApi(int userId, int customerId) {
+     public Observable<List<ProductInfoResponse>> favouritesProductApi(int userId, int customerId) {
         return addNetworkCheck(serviceInstance.favouritesProductApi(userId, customerId));
     }
-    public Observable<FavoritesResponse> addtofavourites(Favorites favorites) {
+    public Observable<ProductInfoResponse> addtofavourites(Favorites favorites) {
         return addNetworkCheck(serviceInstance.addtofavourites(favorites));
     }
 

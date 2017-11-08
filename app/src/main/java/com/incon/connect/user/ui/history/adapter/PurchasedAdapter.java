@@ -10,7 +10,7 @@ import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.history.purchased.PurchasedHistoryResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemPurchasedFragmentBinding;
 
@@ -22,8 +22,8 @@ import java.util.List;
  */
 public class PurchasedAdapter extends RecyclerView.Adapter
         <PurchasedAdapter.ViewHolder> {
-    private List<PurchasedHistoryResponse> purchasedHistoryResponseList = new ArrayList<>();
-    private List<PurchasedHistoryResponse> filteredPurchasedList = new ArrayList<>();
+    private List<ProductInfoResponse> purchasedHistoryResponseList = new ArrayList<>();
+    private List<ProductInfoResponse> filteredPurchasedList = new ArrayList<>();
     private IClickCallback clickCallback;
 
     @Override
@@ -36,7 +36,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        PurchasedHistoryResponse purchasedHistoryResponse = filteredPurchasedList.get(position);
+        ProductInfoResponse purchasedHistoryResponse = filteredPurchasedList.get(position);
         holder.bind(purchasedHistoryResponse);
     }
 
@@ -45,12 +45,12 @@ public class PurchasedAdapter extends RecyclerView.Adapter
         return filteredPurchasedList.size();
     }
 
-    public PurchasedHistoryResponse getItemFromPosition(int position) {
+    public ProductInfoResponse getItemFromPosition(int position) {
         return filteredPurchasedList.get(position);
     }
 
 
-    public void setData(List<PurchasedHistoryResponse> purchasedHistoryResponseList) {
+    public void setData(List<ProductInfoResponse> purchasedHistoryResponseList) {
         this.purchasedHistoryResponseList = purchasedHistoryResponseList;
         filteredPurchasedList.clear();
         filteredPurchasedList.addAll(purchasedHistoryResponseList);
@@ -60,7 +60,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter
     public void searchData(String searchableString, String searchType) {
         filteredPurchasedList.clear();
         if (searchType.equalsIgnoreCase(AppConstants.FilterConstants.NAME)) {
-            for (PurchasedHistoryResponse purchasedHistoryResponse
+            for (ProductInfoResponse purchasedHistoryResponse
                     : purchasedHistoryResponseList) {
                 if (purchasedHistoryResponse.getProductName() != null
                         && purchasedHistoryResponse.getProductName().toLowerCase().startsWith(
@@ -69,7 +69,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter
                 }
             }
         } else if (searchType.equalsIgnoreCase(AppConstants.FilterConstants.BRAND)) {
-            for (PurchasedHistoryResponse purchasedHistoryResponse
+            for (ProductInfoResponse purchasedHistoryResponse
                     : purchasedHistoryResponseList) {
                 if (purchasedHistoryResponse.getBrandName() != null && purchasedHistoryResponse
                         .getBrandName().toLowerCase().startsWith(
@@ -93,7 +93,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter
     }
 
     public void clearSelection() {
-        for (PurchasedHistoryResponse purchasedHistoryResponse : filteredPurchasedList) {
+        for (ProductInfoResponse purchasedHistoryResponse : filteredPurchasedList) {
             purchasedHistoryResponse.setSelected(false);
         }
         notifyDataSetChanged();
@@ -107,8 +107,8 @@ public class PurchasedAdapter extends RecyclerView.Adapter
             this.binding = binding;
             binding.getRoot().setOnClickListener(this);
         }
-        public void bind(PurchasedHistoryResponse purchasedHistoryResponse) {
-            binding.setVariable(BR.purchasedHistoryResponse, purchasedHistoryResponse);
+        public void bind(ProductInfoResponse purchasedHistoryResponse) {
+            binding.setVariable(BR.productinforesponse, purchasedHistoryResponse);
             AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, purchasedHistoryResponse

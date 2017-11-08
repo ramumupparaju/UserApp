@@ -2,8 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android" >
     <data>
         <variable
-            name="purchasedHistoryResponse"
-            type="com.incon.connect.user.apimodel.components.history.purchased.PurchasedHistoryResponse"/>
+            name="productinforesponse"
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
     </data>
 
     <LinearLayout
@@ -57,7 +57,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_10"
-                    android:text="@{purchasedHistoryResponse.productName}"
+                    android:text="@{productinforesponse.productName}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
@@ -65,7 +65,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{purchasedHistoryResponse.price}"
+                    android:text="@{productinforesponse.price}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
@@ -73,7 +73,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{purchasedHistoryResponse.status}"
+                    android:text="@{productinforesponse.status}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
@@ -81,7 +81,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{purchasedHistoryResponse.warrantyId}"
+                    android:text="@{productinforesponse.warrantyId}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />

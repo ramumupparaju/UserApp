@@ -2,8 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-            name="interestHistoryResponse"
-            type="com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse"/>
+            name="productinforesponse"
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
     </data>
 
     <LinearLayout
@@ -59,7 +59,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_10"
-                    android:text="@{interestHistoryResponse.productName}"
+                    android:text="@{productinforesponse.productName}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
@@ -67,7 +67,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{interestHistoryResponse.price}"
+                    android:text="@{productinforesponse.price}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
@@ -75,7 +75,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{interestHistoryResponse.mobileNumber}"
+                    android:text="@{productinforesponse.mobileNumber}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />

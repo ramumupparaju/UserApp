@@ -3,14 +3,10 @@ package com.incon.connect.user.api;
 import com.incon.connect.user.apimodel.base.ApiBaseResponse;
 import com.incon.connect.user.apimodel.components.addoffer.AddOfferMerchantFragmentResponse;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
-import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
-import com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse;
-import com.incon.connect.user.apimodel.components.history.purchased.PurchasedHistoryResponse;
-import com.incon.connect.user.apimodel.components.history.purchased.ReturnHistoryResponse;
 import com.incon.connect.user.apimodel.components.login.LoginResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
-import com.incon.connect.user.apimodel.components.qrcodeproduct.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
@@ -70,28 +66,28 @@ public interface AppServiceObservable {
     Observable<Object> checkQrCodestatus(@Path("qrCode") String qrCode);
      //connect/user/history/purchased/45
     @GET("user/history/purchased/{userId}")
-    Observable<List<PurchasedHistoryResponse>> purchasedApi(@Path("userId") int userId);
+    Observable<List<ProductInfoResponse>> purchasedApi(@Path("userId") int userId);
 
     @POST("product/assign")
     Observable<Object> assignQrCodeToProduct(@Body AssignQrCode qrCode);
 
 //    user/history/interested/78
     @GET("user/history/interested/{userId}")
-    Observable<List<InterestHistoryResponse>> interestApi(@Path("userId") int userId);
+    Observable<List<ProductInfoResponse>> interestApi(@Path("userId") int userId);
 
 //user/history/deleteinterested/63
     @GET("user/history/deleteinterested/{interestId}")
     Observable<Object> deleteApi(@Path("interestId") int interestId);
 
     @GET("user/history/return/{userId}")
-    Observable<List<ReturnHistoryResponse>> returnApi(@Path("userId") int userId);
+    Observable<List<ProductInfoResponse>> returnApi(@Path("userId") int userId);
 
     @GET("user/favourites/{purchasedId}/{userId}")
-    Observable<List<FavoritesResponse>> favouritesProductApi(
+    Observable<List<ProductInfoResponse>> favouritesProductApi(
             @Path("userId") int userId, @Path("purchasedId") int purchasedId);
 
     @POST("user/addtofavourites")
-    Observable<FavoritesResponse> addtofavourites(@Body Favorites favorites);
+    Observable<ProductInfoResponse> addtofavourites(@Body Favorites favorites);
 
     @POST("offers/addoffers")
     Observable<AddOfferMerchantFragmentResponse> addOffer(@Body AddOfferRequest addOfferRequest);

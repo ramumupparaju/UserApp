@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="returnHistoryResponse"
-            type="com.incon.connect.user.apimodel.components.history.purchased.ReturnHistoryResponse"/>
+            name="productinforesponse"
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
     </data>
 
 
@@ -60,7 +60,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_10"
-                    android:text="@{returnHistoryResponse.productName}"
+                    android:text="@{productinforesponse.productName}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
@@ -68,7 +68,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{returnHistoryResponse.price}"
+                    android:text="@{productinforesponse.price}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
@@ -76,7 +76,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{returnHistoryResponse.status}"
+                    android:text="@{productinforesponse.status}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />

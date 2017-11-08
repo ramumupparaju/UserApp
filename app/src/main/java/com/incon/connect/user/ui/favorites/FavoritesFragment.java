@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.ui.BaseFragment;
@@ -32,7 +33,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     private FavoritesPresenter favoritesPresenter;
     private FavoritesAdapter favoritesAdapter;
     private HorizontalRecycleViewAdapter horizontalRecycleViewAdapter;
-    private List<FavoritesResponse> favoritesList;
+    private List<ProductInfoResponse> favoritesList;
     private View rootView;
     private FavoritesResponse favoritesResponse;
     private int userId;
@@ -97,7 +98,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         @Override
         public void onClickPosition(int position) {
             favoritesAdapter.clearSelection();
-            FavoritesResponse favoritesResponse =
+            ProductInfoResponse favoritesResponse =
                     favoritesAdapter.
                             getItemFromPosition(position);
             favoritesResponse.setSelected(true);
@@ -127,7 +128,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     }
 
     @Override
-    public void loadFavoritesProducts(List<FavoritesResponse> favoritesResponseList) {
+    public void loadFavoritesProducts(List<ProductInfoResponse> favoritesResponseList) {
         dismissSwipeRefresh();
 
     }

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.qrcodeproduct.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.databinding.FragmentProductScanBinding;
 import com.incon.connect.user.dto.warrantyregistration.WarrantyRegistration;
 import com.incon.connect.user.ui.BaseFragment;

@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
@@ -38,10 +38,10 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private FragmentInterestBinding binding;
     private View rootView;
     private InterestPresenter interestPresenter;
-    private List<InterestHistoryResponse> interestList;
+    private List<ProductInfoResponse> interestList;
     private InterestAdapter interestAdapter;
     private BottomSheetInterestBinding bottomSheetInterestBinding;
-    private InterestHistoryResponse interestHistoryResponse;
+    private ProductInfoResponse interestHistoryResponse;
     private BottomSheetDialog bottomSheetDialog;
     private AppAlertDialog detailsDialog;
     private int userId;
@@ -116,7 +116,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         @Override
         public void onClickPosition(int position) {
             interestAdapter.clearSelection();
-            InterestHistoryResponse interestHistoryResponse =
+            ProductInfoResponse interestHistoryResponse =
                     interestAdapter.
                             getItemFromPosition(position);
             interestAdapter.notifyDataSetChanged();
@@ -317,7 +317,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             String topClickedText = viewById.getText().toString();
             Integer tag = (Integer) view.getTag();
             changeBackgroundText(tag, view);
-            InterestHistoryResponse itemFromPosition = interestAdapter.getItemFromPosition(
+            ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
                     productSelectedPosition);
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_call_customer_care))) {
@@ -434,7 +434,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
     @Override
-    public void loadInterestHistory(List<InterestHistoryResponse> interestHistoryResponseList) {
+    public void loadInterestHistory(List<ProductInfoResponse> interestHistoryResponseList) {
         if (interestHistoryResponseList == null) {
             interestHistoryResponseList = new ArrayList<>();
         }
