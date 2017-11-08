@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.favorites.FavoritesAddressResponse;
+import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemFavoritesHorizontalRecyclviewBinding;
@@ -22,10 +22,10 @@ import java.util.List;
 
 public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
         <HorizontalRecycleViewAdapter.ViewHolder> {
-    private List<FavoritesAddressResponse> addressResponsesList = new ArrayList<>();
+    private List<AddUserAddressResponse> addressResponsesList = new ArrayList<>();
     private IClickCallback clickCallback;
 
-    public void setData(List<FavoritesAddressResponse> addressResponses) {
+    public void setData(List<AddUserAddressResponse> addressResponses) {
         this.addressResponsesList = addressResponses;
         notifyDataSetChanged();
     }
@@ -45,11 +45,11 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        FavoritesAddressResponse singleAddressResponse = addressResponsesList.get(position);
+        AddUserAddressResponse singleAddressResponse = addressResponsesList.get(position);
         holder.binding.homeText.setText(singleAddressResponse.getName());
     }
 
-    public FavoritesAddressResponse getItemFromPosition(int position) {
+    public AddUserAddressResponse getItemFromPosition(int position) {
         return addressResponsesList.get(position);
     }
 

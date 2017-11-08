@@ -52,7 +52,6 @@ public class InterestAdapter extends RecyclerView.Adapter
         return filteredInterestList.get(position);
     }
 
-
     public void setData(List<ProductInfoResponse> interestHistoryResponseList) {
        this.interestHistoryResponseList = interestHistoryResponseList;
         filteredInterestList.clear();
@@ -129,6 +128,5 @@ public class InterestAdapter extends RecyclerView.Adapter
 
         }
     }
-
 
 }

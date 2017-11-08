@@ -7,7 +7,7 @@ import android.util.Pair;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
-import com.incon.connect.user.apimodel.components.favorites.FavoritesAddressResponse;
+import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
@@ -37,10 +37,10 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     @Override
     public void doGetAddressApi(int userId) {
         getView().showProgress(appContext.getString(R.string.progress_get_addresses));
-        DisposableObserver<List<FavoritesAddressResponse>> observer = new
-                DisposableObserver<List<FavoritesAddressResponse>>() {
+        DisposableObserver<List<AddUserAddressResponse>> observer = new
+                DisposableObserver<List<AddUserAddressResponse>>() {
                     @Override
-                    public void onNext(List<FavoritesAddressResponse> favoritesResponseList) {
+                    public void onNext(List<AddUserAddressResponse> favoritesResponseList) {
                         getView().loadAddresses(favoritesResponseList);
                     }
 

@@ -1,6 +1,6 @@
 package com.incon.connect.user.ui.favorites;
 
-import com.incon.connect.user.apimodel.components.favorites.FavoritesAddressResponse;
+import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.ui.BaseView;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface FavoritesContract {
     interface View extends BaseView {
-        void loadAddresses(List<FavoritesAddressResponse> favoritesResponseList);
+        void loadAddresses(List<AddUserAddressResponse> favoritesResponseList);
 
         void loadFavoritesProducts(List<ProductInfoResponse> favoritesResponseList);
     }

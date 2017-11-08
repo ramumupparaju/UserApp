@@ -184,7 +184,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 bottomOptions[1] = getString(R.string.bottom_option_details);
                 bottomOptions[2] = getString(R.string.bottom_option_feedback);
                 topDrawables = new int[3];
-                topDrawables[0] = R.drawable.ic_option_details;
+                topDrawables[0] = R.drawable.ic_options_features;
                 topDrawables[1] = R.drawable.ic_option_details;
                 topDrawables[2] = R.drawable.ic_option_feedback;
             } else if (tag == 2) {

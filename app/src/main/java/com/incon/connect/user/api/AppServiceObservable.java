@@ -3,7 +3,7 @@ package com.incon.connect.user.api;
 import com.incon.connect.user.apimodel.base.ApiBaseResponse;
 import com.incon.connect.user.apimodel.components.addoffer.AddOfferMerchantFragmentResponse;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
-import com.incon.connect.user.apimodel.components.favorites.FavoritesAddressResponse;
+import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
 import com.incon.connect.user.apimodel.components.login.LoginResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
@@ -84,15 +84,18 @@ public interface AppServiceObservable {
     Observable<List<ProductInfoResponse>> returnApi(@Path("userId") int userId);
 
     @GET("user/getaddresses/{userId}")
-    Observable<List<FavoritesAddressResponse>> getAddressesApi(@Path("userId") int userId);
+    Observable<List<AddUserAddressResponse>> getAddressesApi(@Path("userId") int userId);
 
     @GET("user/favourites/{userId}/{addressId}")
     Observable<List<ProductInfoResponse>> favouritesProductApi(
             @Path("userId") int userId, @Path("addressId") int addressId);
-    @GET("user/favourites/{purchasedId}/{userId}")
 
-   /* Observable<List<ProductInfoResponse>> favouritesProductApi(
+   /*  @GET("user/favourites/{purchasedId}/{userId}")
+   Observable<List<ProductInfoResponse>> favouritesProductApi(
             @Path("userId") int userId, @Path("purchasedId") int purchasedId);*/
+
+    @POST("user/addaddress")
+    Observable<AddUserAddressResponse> addUserAddress(@Body Favorites favorites);
 
     @POST("user/addtofavourites")
     Observable<ProductInfoResponse> addtofavourites(@Body Favorites favorites);

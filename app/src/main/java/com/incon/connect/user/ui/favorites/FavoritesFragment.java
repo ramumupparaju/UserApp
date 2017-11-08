@@ -7,22 +7,27 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SnapHelper;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.favorites.FavoritesAddressResponse;
+import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
+import com.incon.connect.user.callbacks.TextAddressDialogCallback;
+import com.incon.connect.user.custom.view.AppAddressDialog;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.utils.GravitySnapHelper;
+import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,18 +39,18 @@ import java.util.List;
 
 public class FavoritesFragment extends BaseFragment implements FavoritesContract.View,
         View.OnClickListener {
-
     private FragmentFavoritesBinding binding;
     private FavoritesPresenter favoritesPresenter;
     private View rootView;
     private int userId;
-
+    private AppAddressDialog dialog;
     private HorizontalRecycleViewAdapter addressessAdapter;
     private FavoritesAdapter favoritesAdapter;
     private List<FavoritesResponse> favoritesList;
     private int productSelectedPosition;
     private int addressSelectedPosition = 0;
-
+    private String editTextName;
+    private String editTextAddress;
     ArrayList favoritesImages = new ArrayList<>(Arrays.asList(
             R.drawable.ic_connect_logo_svg, R.drawable.ic_option_call,
             R.drawable.ic_option_customer, R.drawable.ic_option_feedback));
@@ -113,11 +118,48 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         //api call to get addresses
         favoritesPresenter.doGetAddressApi(userId);
     }
-
-
     @Override
     public void onClick(View view) {
-        showErrorMessage("show custom popup");
+        showAddressDialog();
+    }
+
+    private void showAddressDialog() {
+        final String name = SharedPrefsUtils.loginProvider().getStringPreference(
+                LoginPrefs.USER_NAME);
+        dialog = new AppAddressDialog.AlertDialogBuilder(getActivity(),
+                new TextAddressDialogCallback() {
+            @Override
+            public void enteredTextName(String nameString) {
+                editTextName = nameString;
+
+            }
+            @Override
+            public void enteredTextAddress(String addressString) {
+                editTextAddress = addressString;
+
+            }
+            @Override
+            public void alertDialogCallback(byte dialogStatus) {
+
+                switch (dialogStatus) {
+                    case AlertDialogCallback.OK:
+                        if ((TextUtils.isEmpty(editTextName)) &&  (TextUtils.isEmpty(
+                                editTextAddress))) {
+                            showErrorMessage(getString(R.string.error_name_address));
+                            return;
+                        }
+                        break;
+                    case AlertDialogCallback.CANCEL:
+                        dialog.dismiss();
+                        break;
+
+                    default:
+                        break;
+                }
+
+            }
+        }).title(getString(R.string.dialog_verify_title, name)).build();
+                dialog.showDialog();
     }
 
 
@@ -134,7 +176,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    FavoritesAddressResponse singleAddressResponse = addressessAdapter.
+                    AddUserAddressResponse singleAddressResponse = addressessAdapter.
                             getItemFromPosition(addressSelectedPosition);
                     favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());
                 }
@@ -149,11 +191,14 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
         favoritesPresenter.disposeAll();
     }
 
     @Override
-    public void loadAddresses(List<FavoritesAddressResponse> favoritesResponseList) {
+    public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
         if (favoritesResponseList == null) {
             favoritesResponseList = new ArrayList<>();
         }

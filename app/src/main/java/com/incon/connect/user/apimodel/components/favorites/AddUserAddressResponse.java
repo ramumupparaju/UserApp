@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by PC on 11/4/2017.
  */
 
-public class FavoritesAddressResponse {
+public class AddUserAddressResponse {
 
     @SerializedName("id")
     @Expose
