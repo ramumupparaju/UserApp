@@ -98,6 +98,7 @@
 
     <!-- actions -->
     <string name="action_changepassword">CHANGE PASSWORD</string>
+    <string name="action_add">Add</string>
     <string name="action_back">Back</string>
     <string name="action_next">Next</string>
     <string name="action_login">Login</string>
@@ -222,6 +223,7 @@
     <string name="progress_interest_history">Loading Interest History...</string>
     <string name="progress_return_history">Loading Return History...</string>
     <string name="progress_buy_request">Loading Buy Request...</string>
+    <string name="progress_get_addresses">Loading Address...</string>
     <string name="progress_favorites">Loading Favorites...</string>
     <string name="progress_add_offer_merchant">Loading Add Offer Merchant...</string>
     <string name="progress_user_details">Fetching User Details...</string>
