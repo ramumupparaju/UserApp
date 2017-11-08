@@ -7,7 +7,8 @@ import android.util.Pair;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
-import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.favorites.FavoritesAddressResponse;
+import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
@@ -33,16 +34,16 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     }
 
 
-
     @Override
-    public void doFavoritesProductApi(int userId, int productId) {
-        getView().showProgress(appContext.getString(R.string.progress_favorites));
-        DisposableObserver<List<ProductInfoResponse>> observer = new
-                DisposableObserver<List<ProductInfoResponse>>() {
+    public void doGetAddressApi(int userId) {
+        getView().showProgress(appContext.getString(R.string.progress_get_addresses));
+        DisposableObserver<List<FavoritesAddressResponse>> observer = new
+                DisposableObserver<List<FavoritesAddressResponse>>() {
                     @Override
-                    public void onNext(List<ProductInfoResponse> favoritesResponseList) {
-                        getView().loadFavoritesProducts(favoritesResponseList);
+                    public void onNext(List<FavoritesAddressResponse> favoritesResponseList) {
+                        getView().loadAddresses(favoritesResponseList);
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         getView().hideProgress();
@@ -57,8 +58,35 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
                     }
                 };
 
-        AppApiService.getInstance().favouritesProductApi(userId, productId).subscribe(observer);
+        AppApiService.getInstance().getAddressesApi(userId).subscribe(observer);
         addDisposable(observer);
+    }
 
+    @Override
+    public void doFavoritesProductApi(int userId, int addressId) {
+        getView().showProgress(appContext.getString(R.string.progress_favorites));
+        DisposableObserver<List<FavoritesResponse>> observer = new
+                DisposableObserver<List<FavoritesResponse>>() {
+                    @Override
+                    public void onNext(List<FavoritesResponse> favoritesResponseList) {
+                        getView().loadFavoritesProducts(favoritesResponseList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+
+                    }
+                };
+
+        AppApiService.getInstance().favouritesProductApi(userId, addressId).subscribe(observer);
+        addDisposable(observer);
     }
 }

@@ -10,27 +10,40 @@
             style="@style/BothMatch"
             android:background="@color/white"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-            <RelativeLayout
-                style="@style/MatchWrap">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/favorites_horizontal_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="@dimen/margin_10"
-                android:fadeScrollbars="false"
-                android:scrollbarSize="4dp"
-                android:scrollbarThumbVertical="@drawable/scrollbar"
-                android:scrollbars="horizontal"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/favorites_recyclerview"
-                android:layout_below="@+id/favorites_horizontal_recyclerview"
+            <RelativeLayout
                 style="@style/MatchWrap"
-                android:layout_marginTop="@dimen/margin_10"
-                android:fadeScrollbars="false"
-                android:scrollbarSize="4dp"
-                android:scrollbarThumbVertical="@drawable/scrollbar"
-                android:scrollbars="vertical"/>
+                android:paddingTop="@dimen/margin_10">
+
+                <include
+                    android:id="@+id/add_address_view"
+                    layout="@layout/item_favorites_horizontal_recyclview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="@dimen/margin_5"
+                    android:paddingRight="@dimen/margin_5"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/addresses_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_toLeftOf="@id/add_address_view"
+                    android:fadeScrollbars="false"
+                    android:scrollbarSize="4dp"
+                    android:scrollbarThumbVertical="@drawable/scrollbar"
+                    android:scrollbars="horizontal"/>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/favorites_recyclerview"
+                    style="@style/MatchWrap"
+                    android:layout_below="@+id/addresses_recyclerview"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:fadeScrollbars="false"
+                    android:scrollbarSize="4dp"
+                    android:scrollbarThumbVertical="@drawable/scrollbar"
+                    android:scrollbars="vertical"/>
             </RelativeLayout>
 
         </android.support.v4.widget.SwipeRefreshLayout>

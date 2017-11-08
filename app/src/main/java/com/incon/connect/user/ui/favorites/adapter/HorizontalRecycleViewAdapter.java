@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.favorites.FavoritesAddressResponse;
 import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemFavoritesHorizontalRecyclviewBinding;
-import com.incon.connect.user.ui.favorites.FavoritesFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +22,18 @@ import java.util.List;
 
 public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
         <HorizontalRecycleViewAdapter.ViewHolder> {
-    private List<FavoritesResponse> filteredFavoritesList = new ArrayList<>();
-    private List<FavoritesResponse> favoritesList = new ArrayList<>();
+    private List<FavoritesAddressResponse> addressResponsesList = new ArrayList<>();
     private IClickCallback clickCallback;
-    ArrayList favoritesPlaces;
-    ArrayList favoritesNames;
-    FavoritesFragment context;
+
+    public void setData(List<FavoritesAddressResponse> addressResponses) {
+        this.addressResponsesList = addressResponses;
+        notifyDataSetChanged();
+    }
+
+    public void setClickCallback(IClickCallback clickCallback) {
+        this.clickCallback = clickCallback;
+    }
+
     @Override
     public HorizontalRecycleViewAdapter.ViewHolder onCreateViewHolder(
             ViewGroup parent, int viewType) {
@@ -36,43 +42,23 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
                 R.layout.item_favorites_horizontal_recyclview, parent, false);
         return new ViewHolder(binding);
     }
-    public HorizontalRecycleViewAdapter(FavoritesFragment context, ArrayList favoritesPlaces,
-                                        ArrayList favoritesNames) {
-        this.context = context;
-        this.favoritesPlaces = favoritesPlaces;
-        this.favoritesNames = favoritesNames;
-    }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-       holder.binding.homeImageview.setImageResource((Integer) favoritesPlaces.get(position));
-       holder.binding.homeText.setText((String) favoritesNames.get(position));
+        FavoritesAddressResponse singleAddressResponse = addressResponsesList.get(position);
+        holder.binding.homeText.setText(singleAddressResponse.getName());
     }
 
-    public FavoritesResponse getItemFromPosition(int position) {
-        return filteredFavoritesList.get(position);
+    public FavoritesAddressResponse getItemFromPosition(int position) {
+        return addressResponsesList.get(position);
     }
+
     @Override
     public int getItemCount() {
-        return favoritesPlaces.size(); }
-
-    public void setData(List<FavoritesResponse> filteredFavoritesList) {
-        favoritesList = filteredFavoritesList;
-        filteredFavoritesList.addAll(filteredFavoritesList);
-        notifyDataSetChanged();
+        return addressResponsesList.size();
     }
 
-    public void clearData() {
-        filteredFavoritesList.clear();
-        notifyDataSetChanged();
-    }
-
-    public void setClickCallback(IClickCallback clickCallback) {
-        this.clickCallback = clickCallback;
-    }
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ItemFavoritesHorizontalRecyclviewBinding binding;
 
         public ViewHolder(ItemFavoritesHorizontalRecyclviewBinding binding) {
@@ -89,7 +75,6 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
         @Override
         public void onClick(View v) {
             clickCallback.onClickPosition(getAdapterPosition());
-
         }
     }
 }
