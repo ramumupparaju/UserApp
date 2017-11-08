@@ -22,10 +22,11 @@
             card_view:cardCornerRadius="0dp"
             card_view:cardElevation="@dimen/margin_10"
             card_view:cardMaxElevation="@dimen/margin_10"
-            card_view:contentPadding="@dimen/margin_10">
+            card_view:contentPadding="@dimen/margin_0">
 
             <RelativeLayout
-                style="@style/BothMatch">
+                style="@style/BothMatch"
+                android:padding="@dimen/margin_10">
 
                 <ImageView
                     android:id="@+id/product_imageview"
@@ -39,7 +40,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/product_imageview"
                     android:layout_centerHorizontal="true"
-                    android:text="@{favoritesResponse.price}"
                     android:textColor="@color/black"
                     android:textSize="15sp"/>
 

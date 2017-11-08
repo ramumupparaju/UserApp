@@ -210,8 +210,8 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         public void onClickPosition(int position) {
             if (addressSelectedPosition != position) {
                 addressSelectedPosition = position;
-                onRefreshListener.onRefresh();
             }
+            onRefreshListener.onRefresh();
         }
     };
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener =

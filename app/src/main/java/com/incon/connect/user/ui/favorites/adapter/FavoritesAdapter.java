@@ -35,10 +35,11 @@ public class FavoritesAdapter extends RecyclerView.Adapter
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ProductInfoResponse favoritesResponse = favoritestResponseList.get(position);
-       holder.bind(favoritesResponse);
-     //holder.binding.productImageImageview.setImageResource((Integer) favoritesImages.get
-                //(position));
+        holder.bind(favoritesResponse);
+        //holder.binding.productImageImageview.setImageResource((Integer) favoritesImages.get
+        //(position));
     }
+
     public ProductInfoResponse getItemFromPosition(int position) {
         return favoritestResponseList.get(position);
     }
@@ -52,15 +53,18 @@ public class FavoritesAdapter extends RecyclerView.Adapter
         this.favoritestResponseList = favoritestResponseList;
         notifyDataSetChanged();
     }
+
     public void setClickCallback(IClickCallback clickCallback) {
         this.clickCallback = clickCallback;
     }
+
     public void clearSelection() {
         for (ProductInfoResponse favoritesResponse : favoritestResponseList) {
             favoritesResponse.setSelected(false);
         }
         notifyDataSetChanged();
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ItemFavoritesFragmentBinding binding;
 
@@ -74,6 +78,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter
             binding.setVariable(BR.favoritesResponse, favoritesResponse);
             AppUtils.loadImageFromApi(binding.productImageview, favoritesResponse
                     .getProductImageUrl());
+            binding.productName.setText(favoritesResponse.getProductName() + "\n "
+                    + favoritesResponse.getPrice());
             binding.executePendingBindings();
         }
 
