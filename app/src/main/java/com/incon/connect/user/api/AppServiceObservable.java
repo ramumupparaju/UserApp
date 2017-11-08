@@ -68,7 +68,7 @@ public interface AppServiceObservable {
 
     @GET("product/checkqropnestatus/{qrCode}")
     Observable<Object> checkQrCodestatus(@Path("qrCode") String qrCode);
-//connect/user/history/purchased/45
+     //connect/user/history/purchased/45
     @GET("user/history/purchased/{userId}")
     Observable<List<PurchasedHistoryResponse>> purchasedApi(@Path("userId") int userId);
 
