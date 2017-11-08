@@ -79,8 +79,8 @@ public class AddOfferMerchantFragment extends BaseFragment implements
             binding.setAddOfferRequest(addOfferRequest);
             binding.setAddOfferMerchantFragment(this);
             rootView = binding.getRoot();
-            addOfferMerchantPresenter.getCategories(SharedPrefsUtils.loginProvider().
-                    getIntegerPreference(LoginPrefs.STORE_ID, DEFAULT_VALUE));
+          /*  addOfferMerchantPresenter.getCategories(SharedPrefsUtils.loginProvider().
+                    getIntegerPreference(LoginPrefs.STORE_ID, DEFAULT_VALUE));*/
             initViews();
         }
         setTitle();

@@ -14,6 +14,7 @@ import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.custom.exception.NoConnectivityException;
+import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.addfavorites.Favorites;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
 import com.incon.connect.user.dto.addoffer.AddOfferRequest;
@@ -131,7 +132,12 @@ public class AppApiService implements AppConstants {
     public Observable<List<ProductInfoResponse>> returnApi(int userId) {
         return addNetworkCheck(serviceInstance.returnApi(userId));
     }
-     public Observable<List<ProductInfoResponse>> favouritesProductApi(int userId, int customerId) {
+
+    public Observable<Object> addProductAddress(AddUserAddress addUserAddress) {
+        return addNetworkCheck(serviceInstance.addProductAddress(addUserAddress));
+    }
+
+    public Observable<List<ProductInfoResponse>> favouritesProductApi(int userId, int customerId) {
         return addNetworkCheck(serviceInstance.favouritesProductApi(userId, customerId));
     }
     public Observable<List<AddUserAddressResponse>> getAddressesApi(int userId) {

@@ -5,7 +5,5 @@ package com.incon.connect.user.callbacks;
  */
 
 public interface TextAddressDialogCallback extends AlertDialogCallback {
-
-    void enteredTextName(String nameString);
-    void enteredTextAddress(String addressString);
+    void openAddressActivity();
 }

@@ -347,7 +347,7 @@ public class RegistrationUserFragment extends BaseFragment implements
     @Override
     public void validateOTP() {
         SharedPrefsUtils.loginProvider().setBooleanPreference(LoginPrefs.IS_REGISTERED, true);
-        SharedPrefsUtils.loginProvider().setStringPreference(LoginPrefs.USER_MOBILE_NUMBER,
+        SharedPrefsUtils.loginProvider().setStringPreference(LoginPrefs.USER_PHONE_NUMBER,
                 register.getMobileNumber());
         showOtpDialog();
     }

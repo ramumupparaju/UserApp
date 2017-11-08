@@ -343,6 +343,7 @@
     <string name="register_country_hint">Country</string>
     <string name="register_city_hint">City</string>
     <string name="user_name_hint">Name</string>
+    <string name="user_contact_hint">Contact</string>
     <string name="user_address_hint">Address</string>
     <string name="register_postalcode_hint">Postal Code</string>
     <string name="register_verify_email_hint">Verification Code</string>

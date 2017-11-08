@@ -9,6 +9,7 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
@@ -87,6 +88,32 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
                 };
 
         AppApiService.getInstance().favouritesProductApi(userId, addressId).subscribe(observer);
+        addDisposable(observer);
+    }
+
+    @Override
+    public void doAddAddressApi(final AddUserAddress addUserAddress) {
+        getView().showProgress(appContext.getString(R.string.progress_favorites)); //TODO
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object favoritesResponseList) {
+                        doGetAddressApi(addUserAddress.getSubscriberId());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                };
+
+        AppApiService.getInstance().addProductAddress(addUserAddress).subscribe(observer);
         addDisposable(observer);
     }
 }

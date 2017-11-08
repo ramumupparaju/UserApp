@@ -1,5 +1,7 @@
 package com.incon.connect.user.ui.favorites;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,7 +9,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SnapHelper;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,11 @@ import com.incon.connect.user.apimodel.components.productinforesponse.ProductInf
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAddressDialogCallback;
-import com.incon.connect.user.custom.view.AppAddressDialog;
+import com.incon.connect.user.custom.view.AppUserAddressDialog;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
+import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.ui.BaseFragment;
+import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
 import com.incon.connect.user.ui.home.HomeActivity;
@@ -43,17 +46,18 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     private FavoritesPresenter favoritesPresenter;
     private View rootView;
     private int userId;
-    private AppAddressDialog dialog;
+
     private HorizontalRecycleViewAdapter addressessAdapter;
     private FavoritesAdapter favoritesAdapter;
     private List<FavoritesResponse> favoritesList;
     private int productSelectedPosition;
     private int addressSelectedPosition = 0;
-    private String editTextName;
-    private String editTextAddress;
     ArrayList favoritesImages = new ArrayList<>(Arrays.asList(
             R.drawable.ic_connect_logo_svg, R.drawable.ic_option_call,
             R.drawable.ic_option_customer, R.drawable.ic_option_feedback));
+
+    private AppUserAddressDialog dialog;
+    private AddUserAddress addUserAddress;
 
     @Override
     protected void initializePresenter() {
@@ -82,9 +86,9 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
     private void initViews() {
         //getting customer id to fetch addresses and product info
-        /*userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
-                LoginPrefs.USER_ID, DEFAULT_VALUE);*/
-        userId = 45; // TODO have to remove and uncomment above
+        userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
+                LoginPrefs.USER_ID, DEFAULT_VALUE);
+//        userId = 45; // TODO have to remove and uncomment above
 
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
@@ -118,50 +122,85 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         //api call to get addresses
         favoritesPresenter.doGetAddressApi(userId);
     }
+
     @Override
     public void onClick(View view) {
         showAddressDialog();
     }
 
     private void showAddressDialog() {
-        final String name = SharedPrefsUtils.loginProvider().getStringPreference(
-                LoginPrefs.USER_NAME);
-        dialog = new AppAddressDialog.AlertDialogBuilder(getActivity(),
+        addUserAddress = new AddUserAddress();
+        SharedPrefsUtils sharedPrefsUtils = SharedPrefsUtils.loginProvider();
+        addUserAddress.setSubscriberId(sharedPrefsUtils.getIntegerPreference(LoginPrefs.USER_ID,
+                DEFAULT_VALUE));
+        addUserAddress.setAdressType("1"); //TODO have to remove hard coding
+        addUserAddress.setContact(sharedPrefsUtils.getStringPreference(LoginPrefs
+                .USER_PHONE_NUMBER));
+        dialog = new AppUserAddressDialog.AlertDialogBuilder(getActivity(),
                 new TextAddressDialogCallback() {
-            @Override
-            public void enteredTextName(String nameString) {
-                editTextName = nameString;
+                    @Override
+                    public void openAddressActivity() {
+                        navigateToAddressActivity();
+                    }
 
-            }
-            @Override
-            public void enteredTextAddress(String addressString) {
-                editTextAddress = addressString;
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
 
-            }
-            @Override
-            public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                /*if ((TextUtils.isEmpty(addUserAddress.getName()))) {
+                                    showErrorMessage(getString(R.string.error_name_address));
+                                    return;
+                                } else if ((TextUtils.isEmpty(addUserAddress.getName()))) {
+                                    showErrorMessage(getString(R.string.error_name_address));
+                                    return;
+                                }*/ //TODO have to add conditions
+                                favoritesPresenter.doAddAddressApi(addUserAddress);
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                dialog.dismiss();
+                                break;
 
-                switch (dialogStatus) {
-                    case AlertDialogCallback.OK:
-                        if ((TextUtils.isEmpty(editTextName)) &&  (TextUtils.isEmpty(
-                                editTextAddress))) {
-                            showErrorMessage(getString(R.string.error_name_address));
-                            return;
+                            default:
+                                break;
                         }
-                        break;
-                    case AlertDialogCallback.CANCEL:
-                        dialog.dismiss();
-                        break;
 
-                    default:
-                        break;
-                }
-
-            }
-        }).title(getString(R.string.dialog_verify_title, name)).build();
-                dialog.showDialog();
+                    }
+                }).addUserAddress(addUserAddress).build();
+        dialog.showDialog();
     }
 
+    private void navigateToAddressActivity() {
+        Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
+        startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case RequestCodes.ADDRESS_LOCATION:
+                    String stringAddress = data.getStringExtra(IntentConstants.ADDRESS_COMMA);
+                    String stringLocation = data.getStringExtra(IntentConstants.LOCATION_COMMA);
+                    if (dialog != null) {
+                        try {
+                            String[] addressData = stringAddress.split(COMMA_SEPARATOR);
+                            addUserAddress.setAddress(addressData[1]);
+                            addUserAddress.setPincode(Integer.valueOf(addressData[0]));
+                            addUserAddress.setState(addressData[2]);
+                            addUserAddress.setCountry(addressData[3]);
+                        } catch (Exception e) {
+                            //DO nothing
+                        }
+                        addUserAddress.setLocation(stringLocation);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     private IClickCallback iAddressClickCallback = new IClickCallback() {
         @Override
@@ -203,6 +242,9 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             favoritesResponseList = new ArrayList<>();
         }
         addressessAdapter.setData(favoritesResponseList);
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
         dismissSwipeRefresh();
     }
 

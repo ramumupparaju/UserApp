@@ -2,6 +2,7 @@ package com.incon.connect.user.ui.favorites;
 
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.ui.BaseView;
 
 import java.util.List;
@@ -22,5 +23,6 @@ public interface FavoritesContract {
 
         void doFavoritesProductApi(int userId, int addressId);
 
+        void doAddAddressApi(AddUserAddress addUserAddress);
     }
 }

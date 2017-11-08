@@ -1,6 +1,7 @@
 package com.incon.connect.user.dto.addfavorites;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -39,12 +40,14 @@ public class AddUserAddress extends BaseObservable {
     @Expose
     private String contact;
 
+    @Bindable
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+        notifyChange();
     }
 
     public Integer getSubscriberId() {
@@ -63,20 +66,24 @@ public class AddUserAddress extends BaseObservable {
         this.adressType = adressType;
     }
 
+    @Bindable
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
+        notifyChange();
     }
 
+    @Bindable
     public String getLocation() {
         return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
+        notifyChange();
     }
 
     public String getState() {
@@ -103,11 +110,13 @@ public class AddUserAddress extends BaseObservable {
         this.pincode = pincode;
     }
 
+    @Bindable
     public String getContact() {
         return contact;
     }
 
     public void setContact(String contact) {
         this.contact = contact;
+        notifyChange();
     }
 }

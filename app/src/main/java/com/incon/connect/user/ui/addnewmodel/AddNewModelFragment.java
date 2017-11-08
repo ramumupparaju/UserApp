@@ -69,8 +69,8 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
             binding.setAddNewModelFragment(this);
             rootView = binding.getRoot();
             initViews();
-            addNewModelPresenter.getCategories(SharedPrefsUtils.loginProvider().
-                    getIntegerPreference(LoginPrefs.STORE_ID, DEFAULT_VALUE));
+            /*addNewModelPresenter.getCategories(SharedPrefsUtils.loginProvider().
+                    getIntegerPreference(LoginPrefs.STORE_ID, DEFAULT_VALUE));*/
         }
         setTitle();
         return rootView;

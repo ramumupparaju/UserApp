@@ -11,6 +11,7 @@ import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
+import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.addfavorites.Favorites;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
 import com.incon.connect.user.dto.addoffer.AddOfferRequest;
@@ -65,18 +66,19 @@ public interface AppServiceObservable {
 
     @GET("product/checkqropnestatus/{qrCode}")
     Observable<Object> checkQrCodestatus(@Path("qrCode") String qrCode);
-//connect/user/history/purchased/45
+
+    //connect/user/history/purchased/45
     @GET("user/history/purchased/{userId}")
     Observable<List<ProductInfoResponse>> purchasedApi(@Path("userId") int userId);
 
     @POST("product/assign")
     Observable<Object> assignQrCodeToProduct(@Body AssignQrCode qrCode);
 
-//    user/history/interested/78
+    //    user/history/interested/78
     @GET("user/history/interested/{userId}")
     Observable<List<ProductInfoResponse>> interestApi(@Path("userId") int userId);
 
-//user/history/deleteinterested/63
+    //user/history/deleteinterested/63
     @GET("user/history/deleteinterested/{interestId}")
     Observable<Object> deleteApi(@Path("interestId") int interestId);
 
@@ -86,13 +88,12 @@ public interface AppServiceObservable {
     @GET("user/getaddresses/{userId}")
     Observable<List<AddUserAddressResponse>> getAddressesApi(@Path("userId") int userId);
 
+    @POST("user/addaddress")
+    Observable<Object> addProductAddress(@Body AddUserAddress addUserAddress);
+
     @GET("user/favourites/{userId}/{addressId}")
     Observable<List<ProductInfoResponse>> favouritesProductApi(
             @Path("userId") int userId, @Path("addressId") int addressId);
-
-   /*  @GET("user/favourites/{purchasedId}/{userId}")
-   Observable<List<ProductInfoResponse>> favouritesProductApi(
-            @Path("userId") int userId, @Path("purchasedId") int purchasedId);*/
 
     @POST("user/addaddress")
     Observable<AddUserAddressResponse> addUserAddress(@Body Favorites favorites);
@@ -112,7 +113,7 @@ public interface AppServiceObservable {
     @POST("user/interested/{customerId}/")
     Observable<Object> userInterestedUsingQrCode(@Path("customerId") int customerId, @Body
             HashMap<String,
-            String> qrCode);
+                    String> qrCode);
 
     @POST("product/getproduct")
     Observable<ProductInfoResponse> productInfoUsingQrCode(@Body HashMap<String, String> qrCode);

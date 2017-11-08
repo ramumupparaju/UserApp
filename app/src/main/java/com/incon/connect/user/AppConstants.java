@@ -172,7 +172,6 @@ public interface AppConstants {
         String USER_NAME = "userName";
         String USER_EMAIL_ID = "userEmailId";
         String USER_PHONE_NUMBER = "userPhoneNumber";
-        String USER_MOBILE_NUMBER = "userMobileNumber";
         String USER_DOB = "userDob";
         String USER_GENDER = "userGender";
         String USER_ADDRESS = "userAddress";
@@ -182,19 +181,6 @@ public interface AppConstants {
         String USER_PASSWORD = "userPassword";
         String USER_CONFIRM_PASSWORD = "userConfirmPassword";
         String USER_UUID = "uuid";
-
-        //store details
-        String STORE_ID = "storeId";
-        String STORE_NAME = "storeName";
-        String STORE_EMAIL_ID = "storeEmailId";
-        String STORE_PHONE_NUMBER = "storePhoneNumber";
-        String STORE_LOGO = "storeLogo";
-        String STORE_GSTN = "storeGstn";
-        String STORE_ADDRESS = "storeAddress";
-        String STORE_CITY = "storeCity";
-        String STORE_STATE = "storeState";
-        String STORE_POSTAL_CODE = "storePostalCode";
-        String STORE_CATEGORY_NAME = "StoreCategoryName";
 
 
         String IS_REGISTERED = "isRegistered";

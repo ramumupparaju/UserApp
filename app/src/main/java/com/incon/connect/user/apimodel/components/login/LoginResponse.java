@@ -45,7 +45,7 @@ public class LoginResponse extends ApiBaseResponse {
     private String address;
     private String password;
     private transient String confirmPassword;
-    private String phoneNumber;
+
     public String getMobileNumber() {
         return mobileNumber;
     }
@@ -89,6 +89,7 @@ public class LoginResponse extends ApiBaseResponse {
     public void setAddress(String address) {
         this.address = address;
     }
+
     public String getPassword() {
         return password;
     }
@@ -117,14 +118,6 @@ public class LoginResponse extends ApiBaseResponse {
         this.msisdn = msisdn;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public Integer getUsertype() {
         return usertype;
     }
@@ -132,7 +125,6 @@ public class LoginResponse extends ApiBaseResponse {
     public void setUsertype(Integer usertype) {
         this.usertype = usertype;
     }
-
 
 
     public String getUuid() {
