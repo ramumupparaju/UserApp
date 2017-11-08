@@ -6,10 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
-import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemFavoritesHorizontalRecyclviewBinding;
 
@@ -65,11 +63,6 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
             super(binding.getRoot());
             this.binding = binding;
             binding.getRoot().setOnClickListener(this);
-        }
-
-        public void bind(FavoritesResponse favoritesResponse) {
-            binding.setVariable(BR.favoritesResponse, favoritesResponse);
-            binding.executePendingBindings();
         }
 
         @Override

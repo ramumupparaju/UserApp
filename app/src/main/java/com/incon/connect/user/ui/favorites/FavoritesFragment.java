@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
-import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
@@ -33,7 +32,6 @@ import com.incon.connect.user.utils.GravitySnapHelper;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -49,13 +47,8 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
     private HorizontalRecycleViewAdapter addressessAdapter;
     private FavoritesAdapter favoritesAdapter;
-    private List<FavoritesResponse> favoritesList;
-    private int productSelectedPosition;
     private int addressSelectedPosition = 0;
-    ArrayList favoritesImages = new ArrayList<>(Arrays.asList(
-            R.drawable.ic_connect_logo_svg, R.drawable.ic_option_call,
-            R.drawable.ic_option_customer, R.drawable.ic_option_feedback));
-
+    private int productSelectedPosition = -1;
     private AppUserAddressDialog dialog;
     private AddUserAddress addUserAddress;
 
@@ -110,11 +103,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         snapHelper.attachToRecyclerView(binding.addressesRecyclerview);
 
         //bottom recyclerview
+        favoritesAdapter = new FavoritesAdapter();
+        favoritesAdapter.setClickCallback(iProductClickCallback);
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 getContext(), gridLayoutManager.getOrientation());
-        favoritesAdapter = new FavoritesAdapter(FavoritesFragment.this, favoritesImages);
-        // favoritesAdapter.setClickCallback(iClickCallback);
         binding.favoritesRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
         binding.favoritesRecyclerview.setLayoutManager(gridLayoutManager);
@@ -202,6 +196,15 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         }
     }
 
+    private IClickCallback iProductClickCallback = new IClickCallback() {
+        @Override
+        public void onClickPosition(int position) {
+            if (productSelectedPosition != position) {
+                productSelectedPosition = position;
+            }
+        }
+    };
+
     private IClickCallback iAddressClickCallback = new IClickCallback() {
         @Override
         public void onClickPosition(int position) {
@@ -250,6 +253,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
     @Override
     public void loadFavoritesProducts(List<ProductInfoResponse> favoritesResponseList) {
+        if (favoritesResponseList == null) {
+            favoritesResponseList = new ArrayList<>();
+        }
+        favoritesAdapter.setData(favoritesResponseList);
         dismissSwipeRefresh();
     }
+
+
 }

@@ -12,7 +12,6 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemFavoritesFragmentBinding;
-import com.incon.connect.user.ui.favorites.FavoritesFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +22,7 @@ import java.util.List;
 public class FavoritesAdapter extends RecyclerView.Adapter
         <FavoritesAdapter.ViewHolder> {
     private List<ProductInfoResponse> favoritestResponseList = new ArrayList<>();
-    private List<ProductInfoResponse> filteredFavoritesList = new ArrayList<>();
     private IClickCallback clickCallback;
-    ArrayList favoritesImages;
-    FavoritesFragment context;
-
-    public FavoritesAdapter(FavoritesFragment context, ArrayList personImages) {
-        this.context = context;
-        this.favoritesImages = personImages;
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -43,35 +34,29 @@ public class FavoritesAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ProductInfoResponse favoritesResponse = filteredFavoritesList.get(position);
+        ProductInfoResponse favoritesResponse = favoritestResponseList.get(position);
        holder.bind(favoritesResponse);
      //holder.binding.productImageImageview.setImageResource((Integer) favoritesImages.get
                 //(position));
     }
     public ProductInfoResponse getItemFromPosition(int position) {
-        return filteredFavoritesList.get(position);
+        return favoritestResponseList.get(position);
     }
 
     @Override
     public int getItemCount() {
-        return filteredFavoritesList.size();
+        return favoritestResponseList.size();
     }
 
     public void setData(List<ProductInfoResponse> favoritestResponseList) {
         this.favoritestResponseList = favoritestResponseList;
-        filteredFavoritesList.clear();
-        filteredFavoritesList.addAll(filteredFavoritesList);
-        notifyDataSetChanged();
-    }
-    public void clearData() {
-        filteredFavoritesList.clear();
         notifyDataSetChanged();
     }
     public void setClickCallback(IClickCallback clickCallback) {
         this.clickCallback = clickCallback;
     }
     public void clearSelection() {
-        for (ProductInfoResponse favoritesResponse : filteredFavoritesList) {
+        for (ProductInfoResponse favoritesResponse : favoritestResponseList) {
             favoritesResponse.setSelected(false);
         }
         notifyDataSetChanged();

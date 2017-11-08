@@ -92,9 +92,30 @@ public class ProductInfoResponse extends BaseObservable {
     @SerializedName("interestId")
     @Expose
     private Integer interestId;
+
+    @SerializedName("userId")
+    @Expose
+    private String userId;
+    @SerializedName("addressId")
+    @Expose
+    private String addressId;
     private transient boolean isSelected;
 
+    public String getUserId() {
+        return userId;
+    }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
+    }
     public Integer getCodeId() {
         return codeId;
     }

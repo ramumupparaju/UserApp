@@ -3,13 +3,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-    <data>
-
-        <variable
-            name="favoritesResponse"
-            type="com.incon.connect.user.apimodel.components.favorites.FavoritesResponse"/>
-    </data>
-
     <LinearLayout
         android:id="@+id/item_favorites_root_view"
         android:layout_width="100dp"
