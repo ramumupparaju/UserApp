@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.FavoritesAddressResponse;
 import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.ui.BaseFragment;
@@ -161,7 +162,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     }
 
     @Override
-    public void loadFavoritesProducts(List<FavoritesResponse> favoritesResponseList) {
+    public void loadFavoritesProducts(List<ProductInfoResponse> favoritesResponseList) {
         dismissSwipeRefresh();
     }
 }

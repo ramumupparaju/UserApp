@@ -8,7 +8,7 @@ import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.favorites.FavoritesAddressResponse;
-import com.incon.connect.user.apimodel.components.favorites.FavoritesResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
@@ -65,10 +65,10 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     @Override
     public void doFavoritesProductApi(int userId, int addressId) {
         getView().showProgress(appContext.getString(R.string.progress_favorites));
-        DisposableObserver<List<FavoritesResponse>> observer = new
-                DisposableObserver<List<FavoritesResponse>>() {
+        DisposableObserver<List<ProductInfoResponse>> observer = new
+                DisposableObserver<List<ProductInfoResponse>>() {
                     @Override
-                    public void onNext(List<FavoritesResponse> favoritesResponseList) {
+                    public void onNext(List<ProductInfoResponse> favoritesResponseList) {
                         getView().loadFavoritesProducts(favoritesResponseList);
                     }
 

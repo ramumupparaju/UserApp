@@ -5,6 +5,7 @@ import com.incon.connect.user.BuildConfig;
 import com.incon.connect.user.apimodel.base.ApiBaseResponse;
 import com.incon.connect.user.apimodel.components.addoffer.AddOfferMerchantFragmentResponse;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
+import com.incon.connect.user.apimodel.components.favorites.FavoritesAddressResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
 import com.incon.connect.user.apimodel.components.login.LoginResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
@@ -132,6 +133,9 @@ public class AppApiService implements AppConstants {
     }
      public Observable<List<ProductInfoResponse>> favouritesProductApi(int userId, int customerId) {
         return addNetworkCheck(serviceInstance.favouritesProductApi(userId, customerId));
+    }
+    public Observable<List<FavoritesAddressResponse>> getAddressesApi(int userId) {
+        return addNetworkCheck(serviceInstance.getAddressesApi(userId));
     }
     public Observable<ProductInfoResponse> addtofavourites(Favorites favorites) {
         return addNetworkCheck(serviceInstance.addtofavourites(favorites));
