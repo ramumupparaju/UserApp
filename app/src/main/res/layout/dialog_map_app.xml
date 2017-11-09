@@ -22,7 +22,7 @@
 
     <Button
         android:id="@+id/dialog_second_button"
-        style="@style/style_tueo_button"
+        style="@style/style_submit_button"
         fontPath="fonts/OpenSans-Bold.ttf"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

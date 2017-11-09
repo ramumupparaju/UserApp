@@ -23,7 +23,7 @@ import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
-import com.incon.connect.user.custom.view.AppNoteDialog;
+import com.incon.connect.user.custom.view.AppNotesDialog;
 import com.incon.connect.user.databinding.BottomSheetInterestBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentInterestBinding;
@@ -49,7 +49,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private ProductInfoResponse interestHistoryResponse;
     private BottomSheetDialog bottomSheetDialog;
     private AppAlertDialog detailsDialog;
-    private AppNoteDialog noteDialog;
+    private AppNotesDialog noteDialog;
     private int userId;
     private int productSelectedPosition = -1;
     @Override
@@ -170,7 +170,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
-
     private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -236,7 +235,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     };
 
     private void showNoteDialog() {
-        noteDialog = new AppNoteDialog.AlertDialogBuilder(getActivity(), new
+        noteDialog = new AppNotesDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String otpString) {
@@ -251,7 +250,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                                 break;
                         }
                     }
-                }).title(getString(R.string.dialog_note_buyRequest, "note"))
+                }).title(getString(R.string.dialog_note_buyRequest, "notes"))
                 .build();
         noteDialog.showDialog();
 
@@ -352,9 +351,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
                     productSelectedPosition);
             if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_call_customer_care))) {
-            }
-            else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_return_policy))) {
             }   else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_special_instructions))) {

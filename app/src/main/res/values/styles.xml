@@ -478,7 +478,7 @@
         <item name="fontPath">fonts/OpenSans-Medium.ttf</item>
     </style>
 
-    <style name="style_tueo_button" parent="MatchWrap">
+    <style name="style_submit_button" parent="MatchWrap">
         <item name="android:textSize">@dimen/text_size_18</item>
         <item name="android:layout_marginTop">@dimen/margin_20</item>
         <item name="android:layout_marginBottom">@dimen/margin_20</item>

@@ -8,7 +8,7 @@
 
         <!-- note title -->
         <com.incon.connect.user.custom.view.CustomTextInputLayout
-            android:id="@+id/input_layout_note_buyrequest"
+            android:id="@+id/input_layout_notes_buyrequest"
             style="@style/MatchWrap"
             android:layout_marginStart="14dp"
             android:layout_marginTop="10dp"
@@ -31,15 +31,14 @@
         </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
         <Button
-            android:layout_below="@+id/input_layout_note_buyrequest"
             android:id="@+id/button_submit"
-            style="@style/style_tueo_button"
-            android:text="Submit"
+            style="@style/style_submit_button"
             fontPath="fonts/OpenSans-Bold.ttf"
+            android:layout_below="@+id/input_layout_notes_buyrequest"
             android:layout_marginLeft="@dimen/margin_30"
             android:layout_marginRight="@dimen/margin_30"
-            android:layout_marginTop="@dimen/margin_20" />
-
+            android:layout_marginTop="@dimen/margin_20"
+            android:text="Submit"/>
 
 
     </RelativeLayout>

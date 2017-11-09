@@ -15,14 +15,15 @@ import com.incon.connect.user.databinding.ViewNoteBuyrequestBinding;
  * Created by PC on 11/9/2017.
  */
 
-public class AppNoteDialog  extends Dialog implements View.OnClickListener {
+public class AppNotesDialog extends Dialog implements View.OnClickListener {
     private final Context context;
     //All final attributes
     private final String title; // required
     private EditText editNote; // required
     private final TextAlertDialogCallback mAlertDialogCallback; // required
+    ViewNoteBuyrequestBinding binding;
 
-    private AppNoteDialog(AlertDialogBuilder builder) {
+    private AppNotesDialog(AlertDialogBuilder builder) {
         super(builder.context);
         this.context = builder.context;
         this.title = builder.title;
@@ -30,10 +31,15 @@ public class AppNoteDialog  extends Dialog implements View.OnClickListener {
     }
 
     public void showDialog() {
-        ViewNoteBuyrequestBinding viewNoteBuyrequestBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
                 LayoutInflater.from(context), R.layout.view_note_buyrequest, null,
                 false);
-        View contentView = viewNoteBuyrequestBinding.getRoot();
+        View contentView = binding.getRoot();
+        binding.buttonSubmit.setOnClickListener(this);
+        setContentView(contentView);
+        setCancelable(false);
+        getWindow().setBackgroundDrawableResource(R.drawable.dialog_shadow);
+        show();
     }
 
     @Override
@@ -42,14 +48,7 @@ public class AppNoteDialog  extends Dialog implements View.OnClickListener {
         if (mAlertDialogCallback == null) {
             return;
         }
-        switch (view.getId()) {
-            case R.id.button_submit:
-                mAlertDialogCallback.enteredText(editNote.getText().toString());
-                mAlertDialogCallback.alertDialogCallback(TextAlertDialogCallback.OK);
-                break;
-            default:
-                break;
-        }
+        mAlertDialogCallback.alertDialogCallback(TextAlertDialogCallback.OK);
 
     }
 
@@ -57,7 +56,6 @@ public class AppNoteDialog  extends Dialog implements View.OnClickListener {
         private final Context context;
         private final TextAlertDialogCallback callback;
         private String title;
-
 
         public AlertDialogBuilder(Context context, TextAlertDialogCallback callback) {
             this.context = context;
@@ -69,16 +67,14 @@ public class AppNoteDialog  extends Dialog implements View.OnClickListener {
             return this;
         }
 
-
-         public AppNoteDialog build() {
-             AppNoteDialog dialog = new AppNoteDialog(
+        public AppNotesDialog build() {
+            AppNotesDialog dialog = new AppNotesDialog(
                     this);
             dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
             return dialog;
         }
 
     }
-
 
 
 }
