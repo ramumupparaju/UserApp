@@ -13,11 +13,9 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemInterestFragmentBinding;
-import com.incon.connect.user.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 /**
