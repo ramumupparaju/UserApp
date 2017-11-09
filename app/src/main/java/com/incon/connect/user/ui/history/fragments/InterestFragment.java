@@ -236,7 +236,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             }
         }
     };
-
     private void showNoteDialog() {
         noteDialog = new AppNotesDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
@@ -262,7 +261,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 .build();
         noteDialog.showDialog();
     }
-
 
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
@@ -367,7 +365,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             }
         }
     };
-
     private void showInterestProductDeleteDialog(String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {

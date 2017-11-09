@@ -258,6 +258,4 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         favoritesAdapter.setData(favoritesResponseList);
         dismissSwipeRefresh();
     }
-
-
 }
