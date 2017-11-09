@@ -52,16 +52,19 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private AppNotesDialog noteDialog;
     private int userId;
     private int productSelectedPosition = -1;
+
     @Override
     protected void initializePresenter() {
         interestPresenter = new InterestPresenter();
         interestPresenter.setView(this);
         setBasePresenter(interestPresenter);
     }
+
     @Override
     public void setTitle() {
         //do nothing
     }
+
     @Override
     protected View onPrepareView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -238,7 +241,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         noteDialog = new AppNotesDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
-                    public void enteredText(String otpString) {
+                    public void enteredText(String notesString) {
                     }
 
                     @Override
@@ -246,15 +249,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
                                 interestPresenter.buyrequestApi(userId);
+                                noteDialog.dismiss();
                             default:
                                 break;
                         }
                     }
-                }).title(getString(R.string.dialog_note_buyRequest, "notes"))
+                }).title(getString(R.string.dialog_notes_buyRequest, "notes"))
                 .build();
         noteDialog.showDialog();
-
     }
+
 
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
@@ -272,19 +276,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 showNoteDialog();
-            }
-            else  if (tag == 0 && topClickedText.equals(getString(
+            } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_main_features))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-            else  if (tag == 0 && topClickedText.equals(getString(
+            } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_Call))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 callPhoneNumber(itemFromPosition.getMobileNumber());
-            }
-            else if (tag == 1 && topClickedText.equals(getString(
+            } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_details))) {
                 bottomOptions = new String[5];
                 bottomOptions[0] = getString(R.string.bottom_option_return_policy);
@@ -299,19 +300,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[3] = R.drawable.ic_option_warranty;
                 topDrawables[4] = R.drawable.ic_option_share;
                 changeBackgroundText(tag, view);
-            }
-            else  if (tag == 1 && topClickedText.equals(getString(
+            } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_location))) {
                 showLocationDialog();
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-            else  if (tag == 2 && topClickedText.equals(getString(
+            } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_review))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-            else {
+            } else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             }
@@ -352,16 +350,15 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     productSelectedPosition);
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_return_policy))) {
-            }   else if (tag == 1 && topClickedText.equals(getString(
+            } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_special_instructions))) {
-            }   else if (tag == 2 && topClickedText.equals(getString(
+            } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_how_to_use))) {
-            }  else if (tag == 3 && topClickedText.equals(getString(
+            } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_warranty))) {
-            }  else if (tag == 4 && topClickedText.equals(getString(
+            } else if (tag == 4 && topClickedText.equals(getString(
                     R.string.bottom_option_share))) {
-            }
-            else  if (tag == 0 && topClickedText.equals(getString(
+            } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
             }
         }
@@ -455,9 +452,11 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         addressIntent.putExtra(IntentConstants.ADDRESS_COMMA, itemFromPosition.getAddress());
         startActivity(addressIntent);
     }
+
     private void callPhoneNumber(String phoneNumber) {
         AppUtils.callPhoneNumber(getActivity(), phoneNumber);
     }
+
     private CustomBottomViewBinding getCustomBottomView() {
         return DataBindingUtil.inflate(
                 LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
@@ -477,6 +476,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             binding.swiperefresh.setRefreshing(false);
         }
     }
+
     @Override
     public void loadInterestHistory(List<ProductInfoResponse> interestHistoryResponseList) {
         if (interestHistoryResponseList == null) {
@@ -490,6 +490,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             dismissSwipeRefresh();
         }
     }
+
     @Override
     public void loadInterestDeleteHistory(Object interestHistoryResponseList) {
         bottomSheetDialog.dismiss();

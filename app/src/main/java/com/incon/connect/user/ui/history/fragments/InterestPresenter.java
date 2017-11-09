@@ -87,7 +87,7 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
 
     @Override
     public void buyrequestApi(int userId) {
-        getView().showProgress(appContext.getString(R.string.progress_interest_history));
+        getView().showProgress(appContext.getString(R.string.progress_buy_request));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
                     @Override
