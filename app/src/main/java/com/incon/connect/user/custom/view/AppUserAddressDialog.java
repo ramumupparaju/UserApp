@@ -20,7 +20,6 @@ public class AppUserAddressDialog extends Dialog implements View.OnClickListener
     private AddUserAddress addUserAddress;
     private ViewUserProductAddressBinding binding;
     private final TextAddressDialogCallback mAlertDialogCallback; // required
-
     private AppUserAddressDialog(AlertDialogBuilder builder) {
         super(builder.context);
         this.context = builder.context;

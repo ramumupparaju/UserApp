@@ -17,13 +17,13 @@ import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.qrcodescan.QrcodeBarcodeScanActivity;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
-
 public class ScanTabFragment extends BaseFragment implements ScanTabContract.View {
     private static final String TAG = ScanTabFragment.class.getSimpleName();
     private View rootView;
     private FragmentScanTabBinding binding;
     private ScanTabPresenter scanTabPresenter;
     private AppAlertDialog productDetailsDialog;
+    private int count = 0;
 
     @Override
     protected void initializePresenter() {
@@ -47,9 +47,15 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
             rootView = binding.getRoot();
         }
         setTitle();
+       /* count = count + 1;
+        if (count > 1) {
+            Intent intent = new Intent(getActivity(), QrcodeBarcodeScanActivity.class);
+            intent.putExtra(IntentConstants.SCANNED_TITLE, getString(R.string.title_user_qr_code));
+            startActivityForResult(intent, RequestCodes.USER_PROFILE_SCAN);
+           // onScanClick();
+        }*/
         return rootView;
     }
-
     public void onScanClick() {
         Intent intent = new Intent(getActivity(), QrcodeBarcodeScanActivity.class);
         intent.putExtra(IntentConstants.SCANNED_TITLE, getString(R.string.title_user_qr_code));

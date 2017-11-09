@@ -92,7 +92,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
 
     @Override
     public void doAddAddressApi(final AddUserAddress addUserAddress) {
-        getView().showProgress(appContext.getString(R.string.progress_favorites)); //TODO
+        getView().showProgress(appContext.getString(R.string.progress_favorites));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
                     @Override

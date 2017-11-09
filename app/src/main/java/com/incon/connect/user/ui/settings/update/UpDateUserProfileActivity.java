@@ -91,6 +91,7 @@ public class UpDateUserProfileActivity extends BaseActivity implements
                             IntentConstants.ADDRESS_COMMA));
                     upDateUserProfile.setLocation(data.getStringExtra(
                             IntentConstants.LOCATION_COMMA));
+                    binding.setUpDateUserProfile(upDateUserProfile);
                     break;
                 default:
                     break;

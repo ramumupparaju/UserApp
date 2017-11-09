@@ -190,7 +190,6 @@ public class AddOfferMerchantFragment extends BaseFragment implements
 
                     String dobInYYYYMMDD = DateUtils.convertDateToOtherFormat(
                             selectedDateTime.getTime(), DateFormatterConstants.YYYY_MM_DD);
-                    //TODO  Have to show Time Picker
 *//*
                     Pair<String, Integer> startdate = binding.getAddOfferRequest().
                             validateUserInfo((String) binding.edittextAddAnOffer.getTag());

@@ -82,4 +82,33 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
         AppApiService.getInstance().deleteApi(interestId).subscribe(observer);
         addDisposable(observer);
     }
+
+
+
+    @Override
+    public void buyrequestApi(int userId) {
+        getView().showProgress(appContext.getString(R.string.progress_buy_request));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object buyRequestResponce) {
+                        getView().loadBuyRequestResponce(buyRequestResponce);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                        getView().showErrorMessage(errorDetails.second);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().buyrequestApi(userId).subscribe(observer);
+        addDisposable(observer);
+    }
 }

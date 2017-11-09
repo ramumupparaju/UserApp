@@ -15,6 +15,7 @@ import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemInterestFragmentBinding;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -38,8 +39,27 @@ public class InterestAdapter extends RecyclerView.Adapter
     public void onBindViewHolder(ViewHolder holder, int position) {
         ProductInfoResponse interestResponse = filteredInterestList.get(position);
         holder.bind(interestResponse);
-
     }
+
+    private Comparator comparator = new Comparator<ProductInfoResponse>() {
+        @Override
+        public int compare(ProductInfoResponse o1, ProductInfoResponse o2) {
+            try {
+                /*Date a = DateUtils.convertStringToDate(o1.getCreatedDate(),
+                        AppConstants.DateFormatterConstants.YYYY_MM_DD, TueoConstants
+                                .DateFormatterConstants.YYYY_MM_DD);
+                Date b = DateUtils.convertStringToDate(o2.getCreatedDate(),
+                        AppConstants.DateFormatterConstants.YYYY_MM_DD, TueoConstants
+                                .DateFormatterConstants.YYYY_MM_DD);
+                return (a.compareTo(b));*/
+            } catch (Exception e) {
+
+            }
+
+            return -1;
+
+        }
+    };
     @Override
     public int getItemCount() {
         return filteredInterestList.size();
