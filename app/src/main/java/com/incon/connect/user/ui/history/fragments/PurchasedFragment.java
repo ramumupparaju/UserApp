@@ -393,6 +393,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables = new int[0];
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_location))) {
+                showLocationDialog();
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             } else if (tag == 2 && topClickedText.equals(getString(

@@ -1,12 +1,14 @@
 package com.incon.connect.user.ui.history.fragments;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import com.incon.connect.user.custom.view.AppNoteDialog;
 import com.incon.connect.user.databinding.BottomSheetInterestBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentInterestBinding;
+import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.history.adapter.InterestAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
 import com.incon.connect.user.utils.SharedPrefsUtils;
@@ -237,13 +240,13 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String otpString) {
-
                     }
 
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
+                                interestPresenter.buyrequestApi(userId);
                             default:
                                 break;
                         }
@@ -263,6 +266,8 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             changeBackgroundText(tag, view);
             String[] bottomOptions;
             int[] topDrawables;
+            ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
+                    productSelectedPosition);
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_note))) {
                 bottomOptions = new String[0];
@@ -278,8 +283,8 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     R.string.bottom_option_Call))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
+                callPhoneNumber(itemFromPosition.getMobileNumber());
             }
-
             else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_details))) {
                 bottomOptions = new String[5];
@@ -298,6 +303,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             }
             else  if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_location))) {
+                showLocationDialog();
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             }
@@ -440,6 +446,22 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
+
+    private void showLocationDialog() {
+        ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
+                productSelectedPosition);
+        if (TextUtils.isEmpty(itemFromPosition.getLocation())) {
+            AppUtils.shortToast(getActivity(), getString(R.string.error_location));
+            return;
+        }
+        Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
+        addressIntent.putExtra(IntentConstants.LOCATION_COMMA, itemFromPosition.getLocation());
+        addressIntent.putExtra(IntentConstants.ADDRESS_COMMA, itemFromPosition.getAddress());
+        startActivity(addressIntent);
+    }
+    private void callPhoneNumber(String phoneNumber) {
+        AppUtils.callPhoneNumber(getActivity(), phoneNumber);
+    }
     private CustomBottomViewBinding getCustomBottomView() {
         return DataBindingUtil.inflate(
                 LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
@@ -477,6 +499,12 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         bottomSheetDialog.dismiss();
         interestPresenter.interestApi(userId);
     }
+
+    @Override
+    public void loadBuyRequestResponce(Object buyRequestResponceList) {
+
+    }
+
     @Override
     public void onSearchClickListerner(String searchableText, String searchType) {
         AppUtils.hideSoftKeyboard(getActivity(), rootView);

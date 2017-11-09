@@ -13,14 +13,14 @@ public interface InterestContract {
 
     interface View extends BaseView {
         void loadInterestHistory(List<ProductInfoResponse> interestHistoryResponseList);
-
         void loadInterestDeleteHistory(Object interestHistoryResponseList);
+        void loadBuyRequestResponce(Object buyRequestResponceList);
 
     }
 
     interface Presenter {
         void interestApi(int userId);
-
+        void buyrequestApi(int userId);
         void deleteApi(int interestId);
     }
 
