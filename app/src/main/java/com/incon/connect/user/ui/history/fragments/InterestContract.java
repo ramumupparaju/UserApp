@@ -3,6 +3,7 @@ package com.incon.connect.user.ui.history.fragments;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.ui.BaseView;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public interface InterestContract {
 
     interface Presenter {
         void interestApi(int userId);
-        void buyrequestApi(int userId);
+        void buyRequestApi(HashMap<String, String> favoritesMap);
         void deleteApi(int interestId);
     }
 

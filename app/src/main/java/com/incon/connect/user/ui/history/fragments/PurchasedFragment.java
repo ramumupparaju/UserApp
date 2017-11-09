@@ -228,12 +228,11 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             int length = length1;
             LinearLayout.LayoutParams params =
                     new LinearLayout.LayoutParams(
-                            0,
-                            ViewGroup.LayoutParams.MATCH_PARENT, length);
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT);
             params.setMargins(1, 1, 1, 1);
             for (int i = 0; i < length; i++) {
                 LinearLayout linearLayout = new LinearLayout(getContext());
-                linearLayout.setWeightSum(1f);
                 linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
                 CustomBottomViewBinding customBottomView = getCustomBottomView();
                 customBottomView.viewTv.setText(bottomOptions[i]);
@@ -367,6 +366,16 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
+            } else  if (tag == 1 && topClickedText.equals(getString(
+                    R.string.bottom_option_find_service_center))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+
+            } else  if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_service_request))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+
             } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_details))) {
                 bottomOptions = new String[3];
@@ -439,6 +448,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     };
 
+
+
+    private void navigateToAddressActivity() {
+        Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
+        startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
+    }
 
     private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
         @Override

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.callbacks.TextAddressDialogCallback;
@@ -39,6 +40,8 @@ public class AppUserAddressDialog extends Dialog implements View.OnClickListener
                 context.getString(R.string.action_submit));
         binding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(this);
         binding.includeRegisterBottomButtons.buttonRight.setOnClickListener(this);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(contentView);
         setCancelable(false);
         getWindow().setBackgroundDrawableResource(R.drawable.dialog_shadow);

@@ -98,8 +98,9 @@
     <string name="scan_end_date_hint">Scan End Date</string>
 
     <!-- actions -->
+    <string name="action_no_data">No data to show</string>
     <string name="action_changepassword">CHANGE PASSWORD</string>
-    <string name="action_add">Add</string>
+    <string name="action_add_location">Add Location</string>
     <string name="action_back">Back</string>
     <string name="action_next">Next</string>
     <string name="action_login">Login</string>

@@ -247,12 +247,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                //TODO have to call api
-                                /*HashMap<String, String> verifyOTP = new HashMap<>();
-                                verifyOTP.put(ApiRequestKeyConstants.BODY_MOBILE_NUMBER,
-                                        phoneNumber);
-                                verifyOTP.put(ApiRequestKeyConstants.BODY_OTP, enteredOtp);
-                                loginPresenter.validateOTP(verifyOTP);*/
+                               /* HashMap<String, String> buyRequestApi = new HashMap<>();
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
+                                        String.valueOf(userId));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
+                                        interestList.get(productSelectedPosition).getWarrantyId());
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
+                                        buyRequestComment);
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
+                                        buyRequestComment);
+                                interestPresenter.buyRequestApi(buyRequestApi);*/ // TODO
                                 break;
                             case AlertDialogCallback.CANCEL:
                                 buyRequestDialog.dismiss();

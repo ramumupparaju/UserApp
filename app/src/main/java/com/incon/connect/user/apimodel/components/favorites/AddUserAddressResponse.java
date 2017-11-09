@@ -39,6 +39,15 @@ public class AddUserAddressResponse {
     @SerializedName("contact")
     @Expose
     private String contact;
+    private boolean isSelected = false;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public Integer getId() {
         return id;

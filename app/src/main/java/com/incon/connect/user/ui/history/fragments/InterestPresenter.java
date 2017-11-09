@@ -11,6 +11,7 @@ import com.incon.connect.user.apimodel.components.productinforesponse.ProductInf
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;
@@ -86,7 +87,7 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
 
 
     @Override
-    public void buyrequestApi(int userId) {
+    public void buyRequestApi(HashMap<String, String> buyRequestsMap) {
         getView().showProgress(appContext.getString(R.string.progress_buy_request));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
@@ -108,7 +109,7 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().buyrequestApi(userId).subscribe(observer);
+        AppApiService.getInstance().buyRequestApi(buyRequestsMap).subscribe(observer);
         addDisposable(observer);
     }
 }
