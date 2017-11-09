@@ -439,64 +439,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     };
 
-    /*   TextView viewById = (TextView) view.findViewById(R.id.view_tv);
-       String topClickedText = viewById.getText().toString();
-       Integer tag = (Integer) view.getTag();
-       PurchasedHistoryResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
-               productSelectedPosition);
-       if (tag == 0 && topClickedText.equals(getString(
-               R.string.bottom_option_call_customer_care))) {
-           callPhoneNumber(itemFromPosition.getMobileNumber());
-       }
 
-       else if (tag == 1 && topClickedText.equals(getString(
-               R.string.bottom_option_find_service_center))) {
-       }
-
-       else if (tag == 2 && topClickedText.equals(getString(
-               R.string.bottom_option_find_service_center))) {
-       }
-
-       else if (tag == 0 && topClickedText.equals(getString(
-               R.string.bottom_option_details))) {
-           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-       }
-       else if (tag == 1 && topClickedText.equals(getString(
-               R.string.bottom_option_warranty))) {
-           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-       }   else if (tag == 2 && topClickedText.equals(getString(
-               R.string.bottom_option_bill))) {
-           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-       }    else if (tag == 3 && topClickedText.equals(getString(
-               R.string.bottom_option_past_history))) {
-           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-       }    else if (tag == 4 && topClickedText.equals(getString(
-               R.string.bottom_option_share))) {
-           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-       }    else if (tag == 5 && topClickedText.equals(getString(
-               R.string.bottom_option_transfer))) {
-           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-       }   else if (tag == 6 && topClickedText.equals(getString(
-               R.string.bottom_option_feedback))) {
-           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-       }   else if (tag == 7 && topClickedText.equals(getString(
-               R.string.bottom_option_suggestions))) {
-           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-       }
-
-       else if (tag == 0 && topClickedText.equals(getString(
-               R.string.bottom_option_Call))) {
-           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-       } else if (tag == 1 && topClickedText.equals(getString(
-               R.string.bottom_option_location))) {
-           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-       }   else if (tag == 2 && topClickedText.equals(getString(
-               R.string.bottom_option_feedback))) {
-           AppUtils.shortToast(getActivity(), getString(R.string.sample_test));
-       }
-   }
-};
-*/
     private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
