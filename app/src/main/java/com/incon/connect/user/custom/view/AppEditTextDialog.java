@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
-import com.incon.connect.user.databinding.ViewVerifyOtpBinding;
+import com.incon.connect.user.databinding.ViewEditTextDialogBinding;
 
 public class AppEditTextDialog extends Dialog implements View.OnClickListener {
     private final Context context;
@@ -19,7 +19,7 @@ public class AppEditTextDialog extends Dialog implements View.OnClickListener {
     private final String title; // required
     private final String leftButtonText; // required
     private final String rightButtonText; // required
-    private EditText editTextOtp; // required
+    private EditText editTextNotes; // required
     private final TextAlertDialogCallback mAlertDialogCallback; // required
 
     /**
@@ -35,23 +35,21 @@ public class AppEditTextDialog extends Dialog implements View.OnClickListener {
     }
 
     public void showDialog() {
-        ViewVerifyOtpBinding viewVerifyOtpBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(context), R.layout.view_verify_otp, null, false);
-        View contentView = viewVerifyOtpBinding.getRoot();
+        ViewEditTextDialogBinding viewEditTextDialogBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(context), R.layout.view_edit_text_dialog, null, false);
+        View contentView = viewEditTextDialogBinding.getRoot();
 
-        editTextOtp = viewVerifyOtpBinding.edittextUsername;
-        viewVerifyOtpBinding.textVerifyTitle.setText(title);
+        editTextNotes = viewEditTextDialogBinding.edittextUsername;
+        viewEditTextDialogBinding.textVerifyTitle.setText(title);
 
-        if (TextUtils.isEmpty(leftButtonText)) {
-
-        } else
-        viewVerifyOtpBinding.includeRegisterBottomButtons.buttonLeft.setText(
-                context.getString(R.string.action_back));
-        viewVerifyOtpBinding.includeRegisterBottomButtons.buttonRight.setText(
-                context.getString(R.string.action_next));
-        viewVerifyOtpBinding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(this);
-        viewVerifyOtpBinding.includeRegisterBottomButtons.buttonRight.setOnClickListener(this);
-        viewVerifyOtpBinding.resendOtpTv.setOnClickListener(this);
+        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonLeft.setText(
+                TextUtils.isEmpty(leftButtonText) ? context.getString(
+                        R.string.action_back) : leftButtonText);
+        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonRight.setText(
+                TextUtils.isEmpty(leftButtonText) ? context.getString(
+                        R.string.action_next) : rightButtonText);
+        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(this);
+        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonRight.setOnClickListener(this);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(contentView);
@@ -66,14 +64,11 @@ public class AppEditTextDialog extends Dialog implements View.OnClickListener {
             return;
         }
         switch (view.getId()) {
-            case R.id.resend_otp_tv:
-                mAlertDialogCallback.alertDialogCallback(TextAlertDialogCallback.RESEND_OTP);
-                break;
             case R.id.button_left:
                 mAlertDialogCallback.alertDialogCallback(TextAlertDialogCallback.CANCEL);
                 break;
             case R.id.button_right:
-                mAlertDialogCallback.enteredText(editTextOtp.getText().toString());
+                mAlertDialogCallback.enteredText(editTextNotes.getText().toString());
                 mAlertDialogCallback.alertDialogCallback(TextAlertDialogCallback.OK);
                 break;
             default:

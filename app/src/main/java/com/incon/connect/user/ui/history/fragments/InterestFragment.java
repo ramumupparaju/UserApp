@@ -236,8 +236,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     };
 
     private void showBuyRequestDialog() {
-        final String phoneNumber = SharedPrefsUtils.loginProvider().getStringPreference(
-                LoginPrefs.USER_PHONE_NUMBER);
         buyRequestDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
@@ -264,6 +262,8 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                         }
                     }
                 }).title(getString(R.string.bottom_option_buy_request))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
                 .build();
         buyRequestDialog.showDialog();
     }
