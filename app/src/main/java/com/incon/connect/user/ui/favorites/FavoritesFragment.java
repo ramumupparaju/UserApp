@@ -142,14 +142,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-
                                 if ((TextUtils.isEmpty(addUserAddress.getName()))
                                         &&
-                                        ((TextUtils.isEmpty(addUserAddress.getName())))) {
+                                        ((TextUtils.isEmpty(addUserAddress.getAddress())))) {
                                     showErrorMessage(getString(R.string.error_name_address));
                                     return;
                                 }
-
                                 favoritesPresenter.doAddAddressApi(addUserAddress);
                                 break;
                             case AlertDialogCallback.CANCEL:

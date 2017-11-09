@@ -85,7 +85,7 @@ public interface AppServiceObservable {
     Observable<Object> deleteApi(@Path("interestId") int interestId);
 
 
-    @GET("user/user/buyrequest/{userId}")
+    @GET("user/buyrequest/{userId}")
     Observable<Object> buyrequestApi(@Path("userId") int userId);
 
     @GET("user/history/return/{userId}")
