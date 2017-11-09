@@ -23,7 +23,7 @@ import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
-import com.incon.connect.user.custom.view.AppNotesDialog;
+import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.databinding.BottomSheetInterestBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentInterestBinding;
@@ -49,9 +49,10 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private ProductInfoResponse interestHistoryResponse;
     private BottomSheetDialog bottomSheetDialog;
     private AppAlertDialog detailsDialog;
-    private AppNotesDialog noteDialog;
+    private AppEditTextDialog buyRequestDialog;
     private int userId;
     private int productSelectedPosition = -1;
+    private String buyRequestComment;
     @Override
     protected void initializePresenter() {
         interestPresenter = new InterestPresenter();
@@ -234,26 +235,37 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     };
 
-    private void showNoteDialog() {
-        noteDialog = new AppNotesDialog.AlertDialogBuilder(getActivity(), new
+    private void showBuyRequestDialog() {
+        final String phoneNumber = SharedPrefsUtils.loginProvider().getStringPreference(
+                LoginPrefs.USER_PHONE_NUMBER);
+        buyRequestDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
-                    public void enteredText(String otpString) {
+                    public void enteredText(String commentString) {
+                        buyRequestComment = commentString;
                     }
 
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                interestPresenter.buyrequestApi(userId);
+                                //TODO have to call api
+                                /*HashMap<String, String> verifyOTP = new HashMap<>();
+                                verifyOTP.put(ApiRequestKeyConstants.BODY_MOBILE_NUMBER,
+                                        phoneNumber);
+                                verifyOTP.put(ApiRequestKeyConstants.BODY_OTP, enteredOtp);
+                                loginPresenter.validateOTP(verifyOTP);*/
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                buyRequestDialog.dismiss();
+                                break;
                             default:
                                 break;
                         }
                     }
-                }).title(getString(R.string.dialog_note_buyRequest, "notes"))
+                }).title(getString(R.string.bottom_option_buy_request))
                 .build();
-        noteDialog.showDialog();
-
+        buyRequestDialog.showDialog();
     }
 
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
@@ -271,7 +283,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     R.string.bottom_option_note))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-                showNoteDialog();
+                showBuyRequestDialog();
             }
             else  if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_main_features))) {
