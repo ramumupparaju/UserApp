@@ -108,9 +108,7 @@ public class QrcodeBarcodeScanActivity extends BaseActivity implements QrCodeBar
     @Override
     public void onPause() {
         super.onPause();
-        if (android.os.Build.VERSION.SDK_INT < 23) {
-            binding.qrcodeScanner.pause();
-        }
+        binding.qrcodeScanner.pause();
     }
 
 
