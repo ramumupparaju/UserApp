@@ -47,13 +47,10 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
             rootView = binding.getRoot();
         }
         setTitle();
-       /* count = count + 1;
+        count = count + 1;
         if (count > 1) {
-            Intent intent = new Intent(getActivity(), QrcodeBarcodeScanActivity.class);
-            intent.putExtra(IntentConstants.SCANNED_TITLE, getString(R.string.title_user_qr_code));
-            startActivityForResult(intent, RequestCodes.USER_PROFILE_SCAN);
-           // onScanClick();
-        }*/
+            onScanClick();
+        }
         return rootView;
     }
     public void onScanClick() {

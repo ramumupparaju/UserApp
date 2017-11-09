@@ -27,8 +27,8 @@
         <ImageView
             android:id="@+id/im_scann"
             style="@style/scan_image"
-            android:onClick="@{() -> scanning.onScanClick()}"
             app:srcCompat="@drawable/connect_icon"/>
+        <!-- android:onClick="@{() -> scanning.onScanClick()}"-->
 
 
     </LinearLayout>

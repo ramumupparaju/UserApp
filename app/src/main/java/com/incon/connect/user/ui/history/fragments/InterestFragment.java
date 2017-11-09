@@ -249,7 +249,11 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
                                 interestPresenter.buyrequestApi(userId);
+                                break;
+                            case AlertDialogCallback.CANCEL:
                                 noteDialog.dismiss();
+                                break;
+
                             default:
                                 break;
                         }

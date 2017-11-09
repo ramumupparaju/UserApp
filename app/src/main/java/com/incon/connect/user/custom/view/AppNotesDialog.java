@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.incon.connect.user.R;
+import com.incon.connect.user.callbacks.TextAddressDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.databinding.ViewNoteBuyrequestBinding;
 
@@ -35,7 +36,13 @@ public class AppNotesDialog extends Dialog implements View.OnClickListener {
                 LayoutInflater.from(context), R.layout.view_note_buyrequest, null,
                 false);
         View contentView = binding.getRoot();
-        binding.buttonSubmit.setOnClickListener(this);
+        //binding.buttonSubmit.setOnClickListener(this);
+        binding.buyRequestBottomButtons.buttonLeft.setText(
+                context.getString(R.string.action_cancel));
+        binding.buyRequestBottomButtons.buttonRight.setText(
+                context.getString(R.string.action_submit));
+        binding.buyRequestBottomButtons.buttonLeft.setOnClickListener(this);
+        binding.buyRequestBottomButtons.buttonRight.setOnClickListener(this);
         setContentView(contentView);
         setCancelable(false);
         getWindow().setBackgroundDrawableResource(R.drawable.dialog_shadow);
@@ -48,7 +55,19 @@ public class AppNotesDialog extends Dialog implements View.OnClickListener {
         if (mAlertDialogCallback == null) {
             return;
         }
-        mAlertDialogCallback.alertDialogCallback(TextAlertDialogCallback.OK);
+
+        switch (view.getId()) {
+            case R.id.button_left:
+                mAlertDialogCallback.alertDialogCallback(TextAddressDialogCallback.CANCEL);
+                break;
+            case R.id.button_right:
+                mAlertDialogCallback.alertDialogCallback(TextAddressDialogCallback.OK);
+                break;
+            default:
+                break;
+        }
+
+        //mAlertDialogCallback.alertDialogCallback(TextAlertDialogCallback.OK);
 
     }
 

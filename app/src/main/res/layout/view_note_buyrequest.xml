@@ -29,7 +29,7 @@
                 android:textColor="@color/colorForgotPasswordHintText"
                 android:textSize="14sp"/>
         </com.incon.connect.user.custom.view.CustomTextInputLayout>
-
+<!--
         <Button
             android:id="@+id/button_submit"
             style="@style/style_submit_button"
@@ -38,7 +38,16 @@
             android:layout_marginLeft="@dimen/margin_30"
             android:layout_marginRight="@dimen/margin_30"
             android:layout_marginTop="@dimen/margin_20"
-            android:text="Submit"/>
+            android:text="Submit"/>-->
+
+        <!-- layout for bottom buttons -->
+        <include
+            layout="@layout/view_registration_bottom_buttons"
+            android:id="@+id/buy_request_bottom_buttons"
+            android:layout_below="@+id/input_layout_notes_buyrequest"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            />
 
 
     </RelativeLayout>
