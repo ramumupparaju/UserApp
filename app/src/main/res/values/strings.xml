@@ -283,6 +283,7 @@
     <string name="dialog_warning_title">Warning</string>
     <string name="dialog_warning_message">Sensor Calibration with ocpied bed not successfully completed. It is highly recomended that you complete calibration. Calibration can be automatically performaed during notmal sleep but data collection will be delayed.</string>
     <string name="dialog_verify_title">Please enter the verification code which\n was sent to %1$s.</string>
+    <string name="dialog_note_buyRequest">Please Enter The Note</string>
     <string name="dialog_logout">Are you sure you want to logout?</string>
 
     <!-- Forgot password -->
@@ -349,6 +350,7 @@
     <string name="user_address_hint">Address</string>
     <string name="register_postalcode_hint">Postal Code</string>
     <string name="register_verify_email_hint">Verification Code</string>
+    <string name="enter_note">Enter Note</string>
     <string name="register_hint_password">Minimum 8 characters with least one number</string>
     <string name="register_why_timezone">Knowing your time zone is important so we can send notifications and schedule phone calls at the right times of day.</string>
     <string name="register_why_zip_code">The zip code and timezone of the person with asthma and

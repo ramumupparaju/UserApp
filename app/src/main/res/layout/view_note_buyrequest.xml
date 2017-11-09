@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        style="@style/MatchWrap"
+        android:background="@drawable/dialog_background">
+
+        <!-- note title -->
+        <com.incon.connect.user.custom.view.CustomTextInputLayout
+            android:id="@+id/input_layout_note_buyrequest"
+            style="@style/MatchWrap"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/enter_note"
+            android:textColorHint="@color/colorForgotPasswordHintText"
+            app:errorEnabled="true"
+            app:fontName="fonts/OpenSans-Regular.ttf"
+            app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edittext_note"
+                style="@style/MatchWrap"
+                android:inputType="numberSigned"
+                android:maxLines="1"
+                android:paddingEnd="2dp"
+                android:paddingStart="2.1dp"
+                android:text=""
+                android:textColor="@color/colorForgotPasswordHintText"
+                android:textSize="14sp"/>
+        </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+        <Button
+            android:layout_below="@+id/input_layout_note_buyrequest"
+            android:id="@+id/button_submit"
+            style="@style/style_tueo_button"
+            android:text="Submit"
+            fontPath="fonts/OpenSans-Bold.ttf"
+            android:layout_marginLeft="@dimen/margin_30"
+            android:layout_marginRight="@dimen/margin_30"
+            android:layout_marginTop="@dimen/margin_20" />
+
+
+
+    </RelativeLayout>
+</layout>
