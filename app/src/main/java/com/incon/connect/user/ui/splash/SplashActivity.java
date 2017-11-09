@@ -58,7 +58,6 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
                 if (isLoggedIn) {
                     intent = new Intent(SplashActivity.this, HomeActivity.class);
                 } else {
-                    //TODO need to replace home activity with login activity
                     intent = new Intent(SplashActivity.this, LoginActivity.class);
                 }
                 startActivity(intent);
