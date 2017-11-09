@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,18 +24,23 @@ import com.incon.connect.user.apimodel.components.favorites.AddUserAddressRespon
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
+import com.incon.connect.user.callbacks.TextAddressDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
+import com.incon.connect.user.custom.view.AppServiceDialog;
+import com.incon.connect.user.custom.view.AppUserAddressDialog;
 import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.CustomBottomViewProductBinding;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
+import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
 import com.incon.connect.user.utils.SharedPrefsUtils;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,6 +66,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private AppCheckBoxListDialog productLocationDialog;
     private List<AddUserAddressResponse> productLocationList;
     private Integer addressId;
+    private AppUserAddressDialog dialog;
+    private  AddUserAddress addUserAddress;
+    private MaterialBetterSpinner serviceRequestSpinner;
+    private AppServiceDialog appServiceDialog;
 
     @Override
     protected void initializePresenter() {
@@ -118,7 +128,16 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         purchasedPresenter.purchased(userId);
         purchasedPresenter.doGetAddressApi(userId);
     }
+    void loadGenderSpinnerData() {
+        String[] genderTypeList = getResources().getStringArray(R.array.gender_options_list);
 
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.view_spinner, genderTypeList);
+        arrayAdapter.setDropDownViewResource(R.layout.view_spinner);
+//        serviceRequestSpinner = binding.spinnerGender;
+        serviceRequestSpinner.setAdapter(arrayAdapter);
+
+    }
     private IClickCallback iClickCallback = new IClickCallback() {
         @Override
         public void onClickPosition(int position) {
@@ -228,12 +247,11 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             int length = length1;
             LinearLayout.LayoutParams params =
                     new LinearLayout.LayoutParams(
-                            0,
-                            ViewGroup.LayoutParams.MATCH_PARENT, length);
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT);
             params.setMargins(1, 1, 1, 1);
             for (int i = 0; i < length; i++) {
                 LinearLayout linearLayout = new LinearLayout(getContext());
-                linearLayout.setWeightSum(1f);
                 linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
                 CustomBottomViewBinding customBottomView = getCustomBottomView();
                 customBottomView.viewTv.setText(bottomOptions[i]);
@@ -367,6 +385,18 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
+            } else  if (tag == 1 && topClickedText.equals(getString(
+                    R.string.bottom_option_find_service_center))) {
+                showAddressDialog();
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+
+            } else  if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_service_request))) {
+                showServiceDialog();
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+
             } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_details))) {
                 bottomOptions = new String[3];
@@ -439,6 +469,67 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     };
 
+    private void showServiceDialog() {
+        appServiceDialog = new AppServiceDialog.AlertDialogBuilder(
+                getActivity(), new TextAlertDialogCallback() {
+            @Override
+            public void enteredText(String otpString) {
+
+            }
+
+            @Override
+            public void alertDialogCallback(byte dialogStatus) {
+
+            }
+        }).build();
+        appServiceDialog.showDialog();
+
+    }
+
+    private void showAddressDialog() {
+        addUserAddress = new AddUserAddress();
+        SharedPrefsUtils sharedPrefsUtils = SharedPrefsUtils.loginProvider();
+        addUserAddress.setSubscriberId(sharedPrefsUtils.getIntegerPreference(LoginPrefs.USER_ID,
+                DEFAULT_VALUE));
+        addUserAddress.setAdressType("1"); //TODO have to remove hard coding
+        addUserAddress.setContact(sharedPrefsUtils.getStringPreference(LoginPrefs
+                .USER_PHONE_NUMBER));
+        dialog = new AppUserAddressDialog.AlertDialogBuilder(getActivity(),
+                new TextAddressDialogCallback() {
+                    @Override
+                    public void openAddressActivity() {
+                        navigateToAddressActivity();
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                if ((TextUtils.isEmpty(addUserAddress.getName()))
+                                        &&
+                                        ((TextUtils.isEmpty(addUserAddress.getAddress())))) {
+                                    showErrorMessage(getString(R.string.error_name_address));
+                                    return;
+                                }
+//                                favoritesPresenter.doAddAddressApi(addUserAddress);
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                dialog.dismiss();
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                    }
+                }).addUserAddress(addUserAddress).build();
+        dialog.showDialog();
+    }
+    private void navigateToAddressActivity() {
+        Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
+        startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
+    }
 
     private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
         @Override
