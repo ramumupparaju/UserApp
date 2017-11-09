@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SnapHelper;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,7 +82,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         //getting customer id to fetch addresses and product info
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
-//        userId = 45; // TODO have to remove and uncomment above
 
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
@@ -142,13 +142,13 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                /*if ((TextUtils.isEmpty(addUserAddress.getName()))) {
+                                if ((TextUtils.isEmpty(addUserAddress.getName()))) {
                                     showErrorMessage(getString(R.string.error_name_address));
                                     return;
                                 } else if ((TextUtils.isEmpty(addUserAddress.getName()))) {
                                     showErrorMessage(getString(R.string.error_name_address));
                                     return;
-                                }*/ //TODO have to add conditions
+                                } //TODO have to add conditions
                                 favoritesPresenter.doAddAddressApi(addUserAddress);
                                 break;
                             case AlertDialogCallback.CANCEL:
