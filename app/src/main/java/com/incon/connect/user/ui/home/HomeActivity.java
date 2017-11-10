@@ -69,6 +69,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         binding.bottomNavigationView.setTextVisibility(true);
         setBottomNavigationViewListeners();
         handleBottomViewOnKeyBoardUp();
+
+        SharedPrefsUtils.cacheProvider().setBooleanPreference(CachePrefs.IS_SCAN_FIRST, true);
+
         binding.bottomNavigationView.setCurrentItem(TAB_SCAN);
 
         //changed preference as otp verified
@@ -213,7 +216,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                     public void onGlobalLayout() {
                         int heightDiff = rootView.getRootView().getHeight() - rootView.getHeight();
                         binding.bottomNavigationView.setVisibility(View.VISIBLE);
-                        if (heightDiff > DeviceUtils.dpToPx(HomeActivity.this, 200)) {
+                        if (heightDiff > DeviceUtils.convertDpToPx(200)) {
                             // if more than 200 dp, it's probably a keyboard...
                             binding.bottomNavigationView.setVisibility(View.GONE);
                         }

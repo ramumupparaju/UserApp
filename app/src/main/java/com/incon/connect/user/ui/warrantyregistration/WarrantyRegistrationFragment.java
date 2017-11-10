@@ -1,7 +1,6 @@
 package com.incon.connect.user.ui.warrantyregistration;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -351,12 +350,6 @@ public class WarrantyRegistrationFragment extends BaseFragment implements
                 .button1Text(getString(R.string.action_ok))
                 .build();
         warrantyStatusDialog.showDialog();
-    }
-
-    private void dismissDialog(Dialog dialog) {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
     }
 
     @Override

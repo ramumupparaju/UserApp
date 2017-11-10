@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SnapHelper;
@@ -48,7 +47,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
     private HorizontalRecycleViewAdapter addressessAdapter;
     private FavoritesAdapter favoritesAdapter;
-    private int addressSelectedPosition = 0;
+    private int addressSelectedPosition = -1;
     private int productSelectedPosition = -1;
     private AppUserAddressDialog dialog;
     private AddUserAddress addUserAddress;
@@ -108,9 +107,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         favoritesAdapter.setClickCallback(iProductClickCallback);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                getContext(), gridLayoutManager.getOrientation());
-        binding.favoritesRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
         binding.favoritesRecyclerview.setLayoutManager(gridLayoutManager);
 
@@ -213,16 +209,21 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 addressessAdapter.clearSelection();
                 addressessAdapter.getItemFromPosition(position).setSelected(true);
                 addressessAdapter.notifyDataSetChanged();
+                onRefreshListener.onRefresh();
             }
-            onRefreshListener.onRefresh();
         }
     };
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
             new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
+                    if (addressSelectedPosition == -1) {
+                        return;
+                    }
                     AddUserAddressResponse singleAddressResponse = addressessAdapter.
                             getItemFromPosition(addressSelectedPosition);
+                    binding.addressesRecyclerview.getLayoutManager().scrollToPosition(
+                            addressSelectedPosition);
                     favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());
                 }
             };
@@ -253,6 +254,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         }
         binding.addAddressView.getRoot().setVisibility(View.VISIBLE);
         dismissSwipeRefresh();
+
+        if (favoritesResponseList.size() > 0) {
+            iAddressClickCallback.onClickPosition(0);
+        } else {
+            loadFavoritesProducts(null);
+        }
     }
 
     @Override

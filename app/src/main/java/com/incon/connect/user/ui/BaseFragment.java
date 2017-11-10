@@ -1,5 +1,6 @@
 package com.incon.connect.user.ui;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,12 @@ public abstract class BaseFragment extends Fragment implements BaseView, AppCons
         presenter = basePresenter;
         if (presenter != null) {
             this.presenter.initialize(null);
+        }
+    }
+
+    public void dismissDialog(Dialog dialog) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
         }
     }
 

@@ -164,6 +164,7 @@ public interface AppConstants {
         String IS_AAP_OFFLINE_IMAGE = "isAapOfflineImage";
         String EXTRACT_ZIP = "extractZip";
         String FILTER_NAME = "filterName";
+        String IS_SCAN_FIRST = "isScanFirst";
     }
 
     interface LoginPrefs {
@@ -196,7 +197,7 @@ public interface AppConstants {
         String BODY_MERCHANT_ID = "merchantId";
         String BODY_QRCODE_ID = "qrcodeid";
         String BODY_COMMENTS = "comments";
-        String BODY_USER_ID = "userid";
+        String BODY_USER_ID = "userId";
         String BODY_ADDRESS_ID = "addressId";
         String BODY_WARRANTY_ID = "warrantyId";
         String BODY_PRODUCT_CODE = "code";
