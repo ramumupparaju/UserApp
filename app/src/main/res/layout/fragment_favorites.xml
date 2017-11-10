@@ -23,7 +23,7 @@
             android:layout_toLeftOf="@id/add_address_view"
             android:fadeScrollbars="false"
             android:scrollbarSize="4dp"
-            android:scrollbarThumbVertical="@drawable/scrollbar"
+            android:scrollbarThumbHorizontal="@drawable/scrollbar"
             android:scrollbars="horizontal"/>
 
 
