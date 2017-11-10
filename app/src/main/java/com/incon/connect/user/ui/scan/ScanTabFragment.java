@@ -23,6 +23,7 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
     private FragmentScanTabBinding binding;
     private ScanTabPresenter scanTabPresenter;
     private AppAlertDialog productDetailsDialog;
+    private int count = 0;
 
     @Override
     protected void initializePresenter() {
@@ -44,14 +45,19 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
                     inflater, R.layout.fragment_scan_tab, container, false);
             binding.setScanning(this);
             rootView = binding.getRoot();
-
+            count++;
             SharedPrefsUtils sharedPrefsUtils = SharedPrefsUtils.cacheProvider();
             boolean isScanFirst = sharedPrefsUtils.getBooleanPreference(
                     CachePrefs.IS_SCAN_FIRST, false);
             if (isScanFirst) {
+                count++;
                 sharedPrefsUtils.setBooleanPreference(CachePrefs.IS_SCAN_FIRST, true);
             } else {
-                onScanClick();
+                if (!isScanFirst && count == 1) {
+                    count = 0;
+                    onScanClick();
+                }
+
             }
 
         }
