@@ -70,7 +70,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         setBottomNavigationViewListeners();
         handleBottomViewOnKeyBoardUp();
 
-        SharedPrefsUtils.cacheProvider().setBooleanPreference(CachePrefs.IS_SCAN_FIRST, false);
+        SharedPrefsUtils.cacheProvider().setBooleanPreference(CachePrefs.IS_SCAN_FIRST, true);
 
         binding.bottomNavigationView.setCurrentItem(TAB_SCAN);
 

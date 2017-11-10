@@ -49,7 +49,7 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
             boolean isScanFirst = sharedPrefsUtils.getBooleanPreference(
                     CachePrefs.IS_SCAN_FIRST, false);
             if (isScanFirst) {
-                sharedPrefsUtils.setBooleanPreference(CachePrefs.IS_SCAN_FIRST, true);
+                sharedPrefsUtils.setBooleanPreference(CachePrefs.IS_SCAN_FIRST, false);
             } else {
                 onScanClick();
             }
