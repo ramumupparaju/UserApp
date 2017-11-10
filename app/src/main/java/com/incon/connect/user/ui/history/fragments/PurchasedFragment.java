@@ -222,7 +222,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 showFavoriteOptionsDialog();
             }
             bottomSheetPurchasedBinding.secondTopRow.removeAllViews();
-            bottomSheetPurchasedBinding.topRow.removeAllViews();
             int length1 = bottomOptions.length;
             bottomSheetPurchasedBinding.topRow.setVisibility(View.VISIBLE);
             int length = length1;
@@ -386,7 +385,46 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[0] = R.drawable.ic_option_return_policy;
                 topDrawables[1] = R.drawable.ic_option_sp_instructions;
                 topDrawables[2] = R.drawable.ic_option_howtouse;
-            } else if (tag == 0 && topClickedText.equals(getString(
+            }
+            else if (tag == 1 && topClickedText.equals(getString(
+                    R.string.bottom_option_warranty))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                showInformationDialog(itemFromPosition.getInformation());
+            }
+            else if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_bill))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            }
+            else if (tag == 3 && topClickedText.equals(getString(
+                    R.string.bottom_option_past_history))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            }
+            else if (tag == 4 && topClickedText.equals(getString(
+                    R.string.bottom_option_share))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                shareProductDetails(itemFromPosition);
+            }
+            else if (tag == 5 && topClickedText.equals(getString(
+                    R.string.bottom_option_transfer))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            }
+            else if (tag == 6 && topClickedText.equals(getString(
+                    R.string.bottom_option_feedback))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            }
+            else if (tag == 7 && topClickedText.equals(getString(
+                    R.string.bottom_option_suggestions))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            }
+
+            else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_Call))) {
                 callPhoneNumber(itemFromPosition.getMobileNumber());
                 bottomOptions = new String[0];
@@ -409,17 +447,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     R.string.bottom_option_feedback))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            } else if (tag == 3) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-                changeBackgroundText(tag, view);
-            } else if (tag == 4) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 5) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else {
+            }   else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             }
@@ -448,7 +476,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     };
 
-
+    private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
+        Intent i = new Intent(android.content.Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT, "ConnectIncon");
+        i.putExtra(android.content.Intent.EXTRA_TEXT,
+                productSelectedPosition.getProductImageUrl());
+        startActivity(Intent.createChooser(i, "Share via"));
+    }
 
     private void navigateToAddressActivity() {
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
@@ -464,7 +499,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             changeBackgroundText(tag, view);
             ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
-       /* if (tag == 0 && topClickedText.equals(getString(
+        if (tag == 0 && topClickedText.equals(getString(
         R.string.bottom_option_call_customer_care))) {
         }
         else if (tag == 1 && topClickedText.equals(getString(
@@ -485,7 +520,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
         else  if (tag == 0 && topClickedText.equals(getString(
         R.string.bottom_option_feedback))) {
-        }*/
+        }
         }
 
     };
