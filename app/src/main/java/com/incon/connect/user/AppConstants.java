@@ -164,6 +164,7 @@ public interface AppConstants {
         String IS_AAP_OFFLINE_IMAGE = "isAapOfflineImage";
         String EXTRACT_ZIP = "extractZip";
         String FILTER_NAME = "filterName";
+        String IS_SCAN_FIRST = "isScanFirst";
     }
 
     interface LoginPrefs {

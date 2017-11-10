@@ -23,7 +23,6 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
     private FragmentScanTabBinding binding;
     private ScanTabPresenter scanTabPresenter;
     private AppAlertDialog productDetailsDialog;
-    private int count = 0;
 
     @Override
     protected void initializePresenter() {
@@ -45,14 +44,21 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
                     inflater, R.layout.fragment_scan_tab, container, false);
             binding.setScanning(this);
             rootView = binding.getRoot();
+
+            SharedPrefsUtils sharedPrefsUtils = SharedPrefsUtils.cacheProvider();
+            boolean isScanFirst = sharedPrefsUtils.getBooleanPreference(
+                    CachePrefs.IS_SCAN_FIRST, false);
+            if (isScanFirst) {
+                sharedPrefsUtils.setBooleanPreference(CachePrefs.IS_SCAN_FIRST, true);
+            } else {
+                onScanClick();
+            }
+
         }
         setTitle();
-        count = count + 1;
-        if (count > 1) {
-            onScanClick();
-        }
         return rootView;
     }
+
     public void onScanClick() {
         Intent intent = new Intent(getActivity(), QrcodeBarcodeScanActivity.class);
         intent.putExtra(IntentConstants.SCANNED_TITLE, getString(R.string.title_user_qr_code));
