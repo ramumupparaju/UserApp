@@ -25,10 +25,11 @@
             />
 
         <ImageView
+         android:onClick="@{() -> scanning.onScanClick()}"
             android:id="@+id/im_scann"
             style="@style/scan_image"
             app:srcCompat="@drawable/connect_icon"/>
-        <!-- android:onClick="@{() -> scanning.onScanClick()}"-->
+
 
 
     </LinearLayout>

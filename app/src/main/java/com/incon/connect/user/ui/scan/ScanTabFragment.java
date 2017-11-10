@@ -47,10 +47,10 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
             rootView = binding.getRoot();
         }
         setTitle();
-        count = count + 1;
+        /*count = count + 1;
         if (count > 1) {
             onScanClick();
-        }
+        }*/
         return rootView;
     }
     public void onScanClick() {
