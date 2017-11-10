@@ -255,7 +255,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                                 buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
                                         String.valueOf(productInfoResponse.getMerchantId()));
                                 buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
-                                        String.valueOf(productInfoResponse.getCodeId()));
+                                        String.valueOf(productInfoResponse.getQrcodeId()));
                                 buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
                                         buyRequestComment);
                                 interestPresenter.buyRequestApi(buyRequestApi);
@@ -313,7 +313,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[2] = R.drawable.ic_option_howtouse;
                 topDrawables[3] = R.drawable.ic_option_warranty;
                 topDrawables[4] = R.drawable.ic_option_share;
-                changeBackgroundText(tag, view);
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_location))) {
                 showLocationDialog();
