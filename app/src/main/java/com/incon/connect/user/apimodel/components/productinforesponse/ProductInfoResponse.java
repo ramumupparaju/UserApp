@@ -92,6 +92,15 @@ public class ProductInfoResponse extends BaseObservable {
     @SerializedName("interestId")
     @Expose
     private Integer interestId;
+    @SerializedName("qrcodeId")
+    @Expose
+    private Integer qrcodeId;
+    @SerializedName("merchantId")
+    @Expose
+    private Integer merchantId;
+    @SerializedName("requestedDate")
+    @Expose
+    private long requestedDate;
 
     @SerializedName("userId")
     @Expose
@@ -100,6 +109,30 @@ public class ProductInfoResponse extends BaseObservable {
     @Expose
     private String addressId;
     private transient boolean isSelected;
+
+    public Integer getQrcodeId() {
+        return qrcodeId;
+    }
+
+    public void setQrcodeId(Integer qrcodeId) {
+        this.qrcodeId = qrcodeId;
+    }
+
+    public Integer getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(Integer merchantId) {
+        this.merchantId = merchantId;
+    }
+
+    public long getRequestedDate() {
+        return requestedDate;
+    }
+
+    public void setRequestedDate(long requestedDate) {
+        this.requestedDate = requestedDate;
+    }
 
     public String getUserId() {
         return userId;
