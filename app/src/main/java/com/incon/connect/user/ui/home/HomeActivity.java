@@ -69,6 +69,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         binding.bottomNavigationView.setTextVisibility(true);
         setBottomNavigationViewListeners();
         handleBottomViewOnKeyBoardUp();
+
+        SharedPrefsUtils.cacheProvider().setBooleanPreference(CachePrefs.IS_SCAN_FIRST, false);
+
         binding.bottomNavigationView.setCurrentItem(TAB_SCAN);
 
         //changed preference as otp verified
