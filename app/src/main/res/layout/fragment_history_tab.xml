@@ -55,6 +55,7 @@
                 android:layout_height="wrap_content" />
 
             <include
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 layout="@layout/item_list_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

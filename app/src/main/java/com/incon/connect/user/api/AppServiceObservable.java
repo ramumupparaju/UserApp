@@ -84,9 +84,8 @@ public interface AppServiceObservable {
     @GET("user/history/deleteinterested/{interestId}")
     Observable<Object> deleteApi(@Path("interestId") int interestId);
 
-
-    @GET("user/buyrequest/{userId}")
-    Observable<Object> buyrequestApi(@Path("userId") int userId);
+    @POST("user/buyrequest")
+    Observable<Object> buyRequestApi(@Body HashMap<String, String> buyRequestBody);
 
     @GET("user/history/return/{userId}")
     Observable<List<ProductInfoResponse>> returnApi(@Path("userId") int userId);

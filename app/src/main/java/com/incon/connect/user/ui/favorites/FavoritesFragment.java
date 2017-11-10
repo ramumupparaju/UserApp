@@ -87,9 +87,10 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
 
         //sets add address view
-        binding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new);
-        binding.addAddressView.homeText.setText(getString(R.string.action_add));
-        binding.addAddressView.homeImageview.setOnClickListener(this);
+        binding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
+        binding.addAddressView.homeText.setText(getString(R.string.action_add_location));
+        binding.addAddressView.getRoot().setOnClickListener(this);
+        binding.addAddressView.getRoot().setVisibility(View.GONE);
 
         //top recyclerview
         addressessAdapter = new HorizontalRecycleViewAdapter();
@@ -209,6 +210,9 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         public void onClickPosition(int position) {
             if (addressSelectedPosition != position) {
                 addressSelectedPosition = position;
+                addressessAdapter.clearSelection();
+                addressessAdapter.getItemFromPosition(position).setSelected(true);
+                addressessAdapter.notifyDataSetChanged();
             }
             onRefreshListener.onRefresh();
         }
@@ -247,6 +251,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
+        binding.addAddressView.getRoot().setVisibility(View.VISIBLE);
         dismissSwipeRefresh();
     }
 
@@ -255,9 +260,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         if (favoritesResponseList == null) {
             favoritesResponseList = new ArrayList<>();
         }
+        if (favoritesResponseList.size() == 0) {
+            binding.noItemsTextview.setVisibility(View.VISIBLE);
+        } else {
+            binding.noItemsTextview.setVisibility(View.GONE);
+        }
         favoritesAdapter.setData(favoritesResponseList);
         dismissSwipeRefresh();
     }
-
-
 }

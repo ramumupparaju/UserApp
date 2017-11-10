@@ -32,6 +32,12 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
         this.clickCallback = clickCallback;
     }
 
+    public void clearSelection() {
+        for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
+            addUserAddressResponse.setSelected(false);
+        }
+    }
+
     @Override
     public HorizontalRecycleViewAdapter.ViewHolder onCreateViewHolder(
             ViewGroup parent, int viewType) {
@@ -45,6 +51,8 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
     public void onBindViewHolder(ViewHolder holder, int position) {
         AddUserAddressResponse singleAddressResponse = addressResponsesList.get(position);
         holder.binding.homeText.setText(singleAddressResponse.getName());
+        holder.binding.viewStatus.setVisibility(singleAddressResponse.isSelected() ? View.VISIBLE
+                : View.GONE);
     }
 
     public AddUserAddressResponse getItemFromPosition(int position) {

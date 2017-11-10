@@ -132,8 +132,8 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.deleteApi(interestId));
     }
 
-    public Observable<Object> buyrequestApi(int userId) {
-        return addNetworkCheck(serviceInstance.buyrequestApi(userId));
+    public Observable<Object> buyRequestApi(HashMap<String, String> buyRequestBody) {
+        return addNetworkCheck(serviceInstance.buyRequestApi(buyRequestBody));
     }
 
     public Observable<List<ProductInfoResponse>> returnApi(int userId) {
