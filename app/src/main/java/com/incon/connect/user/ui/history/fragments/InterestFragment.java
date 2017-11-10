@@ -500,7 +500,12 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             binding.interestTextview.setVisibility(View.VISIBLE);
             dismissSwipeRefresh();
         } else {
-            interestAdapter.setData(interestHistoryResponseList);
+            List<ProductInfoResponse> interestHistoryResponseLastToFirst = new ArrayList<>();
+            for (int i = interestHistoryResponseList.size() - 1;
+                 i >= 0; i--) {
+                interestHistoryResponseLastToFirst.add(interestHistoryResponseList.get(i));
+            }
+            interestAdapter.setData(interestHistoryResponseLastToFirst);
             dismissSwipeRefresh();
         }
     }
