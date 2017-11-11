@@ -595,21 +595,24 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     }
 
     @Override
-    public void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses) {
-        if (productInfoResponses == null) {
-            productInfoResponses = new ArrayList<>();
+    public void loadPurchasedHistory(List<ProductInfoResponse> purchasedHistoryResponseList) {
+        if (purchasedHistoryResponseList == null) {
+            purchasedHistoryResponseList = new ArrayList<>();
         }
 
-        if (productInfoResponses.size() == 0) {
+        if (purchasedHistoryResponseList.size() == 0) {
             binding.purchasedTextview.setVisibility(View.VISIBLE);
             dismissSwipeRefresh();
         } else {
-            purchasedAdapter.setData(productInfoResponses);
+            List<ProductInfoResponse> purchasedHistoryResponseLastToFirst = new ArrayList<>();
+            for (int i = purchasedHistoryResponseList.size() - 1;
+                 i >= 0; i--) {
+                purchasedHistoryResponseLastToFirst.add(purchasedHistoryResponseList.get(i));
+            }
+            purchasedAdapter.setData(purchasedHistoryResponseLastToFirst);
             dismissSwipeRefresh();
         }
 
-        /*purchasedAdapter.setData(purchasedHistoryResponseList);
-        dismissSwipeRefresh();*/
     }
 
     @Override
