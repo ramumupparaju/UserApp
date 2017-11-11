@@ -52,6 +52,8 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private int userId;
     private int productSelectedPosition = -1;
     private String buyRequestComment;
+    private AppEditTextDialog feedBackDialog;
+    private String feedBackComment;
 
     @Override
     protected void initializePresenter() {
@@ -294,11 +296,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     R.string.bottom_option_main_features))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            } else if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_Call))) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-                callPhoneNumber(itemFromPosition.getMobileNumber());
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_details))) {
                 bottomOptions = new String[5];
@@ -313,7 +310,20 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[2] = R.drawable.ic_option_howtouse;
                 topDrawables[3] = R.drawable.ic_option_warranty;
                 topDrawables[4] = R.drawable.ic_option_share;
-            } else if (tag == 1 && topClickedText.equals(getString(
+            }
+            else if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_feedback))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                showFeedBackDialog();
+            }
+            else if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_Call))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                callPhoneNumber(itemFromPosition.getMobileNumber());
+            }
+            else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_location))) {
                 showLocationDialog();
                 bottomOptions = new String[0];
@@ -352,6 +362,35 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     };
 
+    private void showFeedBackDialog() {
+
+        feedBackDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                        feedBackComment = commentString;
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                feedBackDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.bottom_option_feedback))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        feedBackDialog.showDialog();
+    }
+
     private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -371,11 +410,22 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     R.string.bottom_option_warranty))) {
             } else if (tag == 4 && topClickedText.equals(getString(
                     R.string.bottom_option_share))) {
+                shareProductDetails(itemFromPosition);
             } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
             }
         }
     };
+
+    private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
+        Intent i = new Intent(android.content.Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT, "ConnectIncon");
+        i.putExtra(android.content.Intent.EXTRA_TEXT,
+                productSelectedPosition.getProductImageUrl());
+        startActivity(Intent.createChooser(i, "Share via"));
+
+    }
 
     private void showInterestProductDeleteDialog(String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
