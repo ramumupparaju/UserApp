@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="schemas.android.com/apk/res/android">;
-    <item android:state_pressed="false">
-        <shape android:shape="oval">
-            <solid android:color="@color/tueo_theme"/>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" >
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorTap"/>
+            <corners android:radius="92.2dp"/>
         </shape>
     </item>
-    <item android:state_pressed="true">
-        <shape android:shape="oval">
-            <solid android:color="#c20586"/>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorPrimary"/>
+            <corners android:radius="92.2dp"/>
         </shape>
     </item>
 </selector>
