@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SnapHelper;
@@ -108,9 +107,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         favoritesAdapter.setClickCallback(iProductClickCallback);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                getContext(), gridLayoutManager.getOrientation());
-        binding.favoritesRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
         binding.favoritesRecyclerview.setLayoutManager(gridLayoutManager);
 

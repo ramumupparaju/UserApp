@@ -75,7 +75,15 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{productinforesponse.mobileNumber}"
+                    android:text="@{productinforesponse.status}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"
+                    />
+
+                <TextView
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:text="@{productinforesponse.warrantyId}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
