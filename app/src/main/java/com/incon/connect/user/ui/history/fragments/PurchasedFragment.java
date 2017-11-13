@@ -621,7 +621,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             binding.swiperefresh.setRefreshing(false);
         }
     }
-
+// load purchased data
     @Override
     public void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses) {
         if (productInfoResponses == null) {
@@ -636,8 +636,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             dismissSwipeRefresh();
         }
 
-        /*purchasedAdapter.setData(purchasedHistoryResponseList);
-        dismissSwipeRefresh();*/
     }
 
     @Override

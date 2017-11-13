@@ -52,6 +52,7 @@ public class QrcodeBarcodeScanActivity extends BaseActivity implements QrCodeBar
         }
     }
 
+    // qr code scan
     private void startQRScan() {
         PermissionUtils.getInstance().grantPermission(
                 this,
@@ -83,6 +84,7 @@ public class QrcodeBarcodeScanActivity extends BaseActivity implements QrCodeBar
 
     }
 
+    // barcode result
     public BarcodeCallback qrcodeCallback = new BarcodeCallback() {
         @Override
         public void barcodeResult(BarcodeResult result) {

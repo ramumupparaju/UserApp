@@ -168,7 +168,6 @@ public class RegistrationUserFragment extends BaseFragment implements
                     updateUiAfterValidation(validate.first, validate.second);
                 }
             };
-
     void loadGenderSpinnerData() {
         String[] genderTypeList = getResources().getStringArray(R.array.gender_options_list);
 
@@ -179,6 +178,8 @@ public class RegistrationUserFragment extends BaseFragment implements
         genderSpinner.setAdapter(arrayAdapter);
 
     }
+
+    // validations
     private void loadValidationErrors() {
 
         errorMap = new HashMap<>();
