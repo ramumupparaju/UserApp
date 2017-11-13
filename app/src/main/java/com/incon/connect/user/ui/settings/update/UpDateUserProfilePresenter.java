@@ -32,6 +32,7 @@ public class UpDateUserProfilePresenter extends BasePresenter<UpDateUserProfileC
     }
 
     public void upDateUserProfile(int userId, UpDateUserProfile upDateUserProfile) {
+        userId = 82;
         getView().showProgress(appContext.getString(R.string.progress_updateuserprofile));
         DisposableObserver<LoginResponse> observer = new
                 DisposableObserver<LoginResponse>() {

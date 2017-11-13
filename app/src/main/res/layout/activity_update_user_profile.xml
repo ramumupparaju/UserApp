@@ -58,15 +58,7 @@
                         android:textColor="@color/white"
                         android:textSize="15.5sp"/>
 
-                    <TextView
-                        android:id="@+id/toolbar_text_store"
-                        style="@style/BothWrap"
-                        fontPath="fonts/OpenSans-Bold.ttf"
-                        android:layout_centerInParent="true"
-                        android:text="@string/action_update_store_profile"
-                        android:textColor="@color/white"
-                        android:textSize="15.5sp"
-                        android:visibility="gone"/>
+
 
                     <ImageView
                         android:id="@+id/toolbar_edit_image"
