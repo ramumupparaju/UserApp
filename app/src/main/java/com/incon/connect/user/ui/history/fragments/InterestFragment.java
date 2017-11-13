@@ -92,6 +92,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
+    // load bottom sheet
     private void loadBottomSheet() {
         bottomSheetInterestBinding = DataBindingUtil.inflate(LayoutInflater.from(
                 getActivity()), R.layout.bottom_sheet_interest, null, false);
@@ -121,6 +122,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         interestPresenter.interestApi(userId);
     }
 
+    //recyclerview click event
     private IClickCallback iClickCallback = new IClickCallback() {
         @Override
         public void onClickPosition(int position) {
@@ -135,6 +137,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     };
 
+    // bottom sheet creation
     private void createBottomSheetView(int position) {
         productSelectedPosition = position;
         bottomSheetInterestBinding.topRow.setVisibility(View.GONE);
@@ -173,6 +176,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
+    // bottom sheet click event
     private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -237,6 +241,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     };
 
+    //buy request dialog
     private void showBuyRequestDialog() {
         buyRequestDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
@@ -276,6 +281,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         buyRequestDialog.showDialog();
     }
 
+    // bottom sheet top view click event
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -310,20 +316,17 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[2] = R.drawable.ic_option_howtouse;
                 topDrawables[3] = R.drawable.ic_option_warranty;
                 topDrawables[4] = R.drawable.ic_option_share;
-            }
-            else if (tag == 2 && topClickedText.equals(getString(
+            } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 showFeedBackDialog();
-            }
-            else if (tag == 0 && topClickedText.equals(getString(
+            } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_Call))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 callPhoneNumber(itemFromPosition.getMobileNumber());
-            }
-            else if (tag == 1 && topClickedText.equals(getString(
+            } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_location))) {
                 showLocationDialog();
                 bottomOptions = new String[0];
@@ -362,6 +365,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     };
 
+    // feedback dialog
     private void showFeedBackDialog() {
 
         feedBackDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
@@ -391,6 +395,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         feedBackDialog.showDialog();
     }
 
+    // bottom sheet second top view click event
     private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -416,7 +421,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             }
         }
     };
-
+    // share product details
     private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
         Intent i = new Intent(android.content.Intent.ACTION_SEND);
         i.setType("text/plain");
@@ -453,6 +458,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         detailsDialog.showDialog();
     }
 
+    // changeing text colore
     private void changeBackgroundText(Integer tag, View view) {
         if (view instanceof LinearLayout) {
             View topRootView = (View) view.getParent();
@@ -502,7 +508,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
-
+    //location dialog
     private void showLocationDialog() {
         ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
                 productSelectedPosition);
@@ -525,6 +531,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
     }
 
+    // data re load
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
             new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
@@ -540,6 +547,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
+    // load interest data
     @Override
     public void loadInterestHistory(List<ProductInfoResponse> interestHistoryResponseList) {
         if (interestHistoryResponseList == null) {
@@ -559,6 +567,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
+    // delete interest items
     @Override
     public void loadInterestDeleteHistory(Object interestHistoryResponseList) {
         bottomSheetDialog.dismiss();
@@ -571,6 +580,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         dismissDialog(buyRequestDialog);
     }
 
+    // product search
     @Override
     public void onSearchClickListerner(String searchableText, String searchType) {
         AppUtils.hideSoftKeyboard(getActivity(), rootView);

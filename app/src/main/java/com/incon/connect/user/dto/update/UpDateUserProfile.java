@@ -52,6 +52,7 @@ public class UpDateUserProfile  extends BaseObservable {
 
     public void setAddress(String address) {
         this.address = address;
+        notifyChange();
     }
 
     public String getCountry() {

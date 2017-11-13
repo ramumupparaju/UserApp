@@ -3,7 +3,6 @@ package com.incon.connect.user.api;
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.BuildConfig;
 import com.incon.connect.user.apimodel.base.ApiBaseResponse;
-import com.incon.connect.user.apimodel.components.addoffer.AddOfferMerchantFragmentResponse;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
@@ -16,7 +15,6 @@ import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOt
 import com.incon.connect.user.custom.exception.NoConnectivityException;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
-import com.incon.connect.user.dto.addoffer.AddOfferRequest;
 import com.incon.connect.user.dto.asignqrcode.AssignQrCode;
 import com.incon.connect.user.dto.login.LoginUserData;
 import com.incon.connect.user.dto.notifications.PushRegistrarBody;
@@ -217,6 +215,12 @@ public class AppApiService implements AppConstants {
     //warranty registration request otp api
     public Observable<Object> warrantyRequestOtp(String phoneNumber) {
         return addNetworkCheck(serviceInstance.warrantyRequestOtp(phoneNumber));
+    }
+
+    //add new model api
+    public Observable<ModelSearchResponse> addingNewModel(int merchantId,
+                                                          AddNewModel addNewModelBody) {
+        return addNetworkCheck(serviceInstance.addingNewModel(merchantId, addNewModelBody));
     }
 
     /* public Observable<Object> assignQrCodeToProduct(AssignQrCode qrCode) {
