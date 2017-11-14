@@ -26,6 +26,8 @@ import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
+import com.incon.connect.user.custom.view.AppEditTextDialog;
+import com.incon.connect.user.custom.view.AppFeedBackDialog;
 import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.CustomBottomViewProductBinding;
@@ -60,6 +62,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private AppCheckBoxListDialog productLocationDialog;
     private List<AddUserAddressResponse> productLocationList;
     private Integer addressId;
+    private AppEditTextDialog buyRequestDialog;
+    private AppFeedBackDialog buyFeedBackRequestDialog;
+    private String buyRequestComment;
 
     @Override
     protected void initializePresenter() {
@@ -378,11 +383,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
             } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_details))) {
-                bottomOptions = new String[3];
+                bottomOptions = new String[4];
                 bottomOptions[0] = getString(R.string.bottom_option_return_policy);
                 bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
                 bottomOptions[2] = getString(R.string.bottom_option_how_to_use);
-                topDrawables = new int[3];
+                bottomOptions[3] = getString(R.string.bottom_option_description);
+                topDrawables = new int[4];
                 topDrawables[0] = R.drawable.ic_option_return_policy;
                 topDrawables[1] = R.drawable.ic_option_sp_instructions;
                 topDrawables[2] = R.drawable.ic_option_howtouse;
@@ -421,11 +427,13 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
             else if (tag == 5 && topClickedText.equals(getString(
                     R.string.bottom_option_transfer))) {
+                showBuyRequestDialog();
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             }
             else if (tag == 6 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
+                showFeedBackDialog();
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             }
@@ -495,6 +503,47 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     };
 
+    private void showFeedBackDialog() {
+        buyFeedBackRequestDialog = new AppFeedBackDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                        buyRequestComment = commentString;
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                HashMap<String, String> buyRequestApi = new HashMap<>();
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
+                                        String.valueOf(userId));
+                              /*  ProductInfoResponse productInfoResponse = interestAdapter.
+                                        getItemFromPosition(productSelectedPosition);
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
+                                        String.valueOf(productInfoResponse.getMerchantId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
+                                        String.valueOf(productInfoResponse.getQrcodeId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
+                                        buyRequestComment);
+                                interestPresenter.buyRequestApi(buyRequestApi);*/
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                buyFeedBackRequestDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(
+                R.string.action_feedback))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        buyFeedBackRequestDialog.showDialog();
+
+    }
+
     private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
         Intent i = new Intent(android.content.Intent.ACTION_SEND);
         i.setType("text/plain");
@@ -508,7 +557,44 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
         startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
     }
+    private void showBuyRequestDialog() {
+        buyRequestDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                        buyRequestComment = commentString;
+                    }
 
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                HashMap<String, String> buyRequestApi = new HashMap<>();
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
+                                        String.valueOf(userId));
+                              /*  ProductInfoResponse productInfoResponse = interestAdapter.
+                                        getItemFromPosition(productSelectedPosition);
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
+                                        String.valueOf(productInfoResponse.getMerchantId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
+                                        String.valueOf(productInfoResponse.getQrcodeId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
+                                        buyRequestComment);
+                                interestPresenter.buyRequestApi(buyRequestApi);*/
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                buyRequestDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.bottom_option_transfer))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        buyRequestDialog.showDialog();
+    }
     private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {

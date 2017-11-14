@@ -84,6 +84,7 @@
     <string name="title_user_qr_code">Place user qr code to scan</string>
     <string name="title_warranty_serial_barcode">Place user  Serial no Barcode</string>
     <string name="title_warranty_batch_barcode">Place user Batch no Barcode</string>
+    <string name="action_enter_transfer_phone_number">Transfer Phone number</string>
 
     <!--Assign product-->
     <string name="hint_product_assigned_success">Assigned SuccessFully</string>

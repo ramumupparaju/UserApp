@@ -3,7 +3,6 @@ package com.incon.connect.user.custom.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +11,9 @@ import android.widget.EditText;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
-import com.incon.connect.user.databinding.ViewEditTextDialogBinding;
+import com.incon.connect.user.databinding.ViewFeedBackDialogBinding;
 
-public class AppEditTextDialog extends Dialog implements View.OnClickListener {
+public class AppFeedBackDialog extends Dialog implements View.OnClickListener {
     private final Context context;
     //All final attributes
     private final String title; // required
@@ -26,7 +25,7 @@ public class AppEditTextDialog extends Dialog implements View.OnClickListener {
     /**
      * @param builder
      */
-    private AppEditTextDialog(AlertDialogBuilder builder) {
+    private AppFeedBackDialog(AlertDialogBuilder builder) {
         super(builder.context);
         this.context = builder.context;
         this.title = builder.title;
@@ -36,26 +35,25 @@ public class AppEditTextDialog extends Dialog implements View.OnClickListener {
     }
 
     public void showDialog() {
-        ViewEditTextDialogBinding viewEditTextDialogBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(context), R.layout.view_edit_text_dialog, null, false);
-        View contentView = viewEditTextDialogBinding.getRoot();
+        ViewFeedBackDialogBinding viewFeedBackDialogBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(context), R.layout.view_feed_back_dialog, null, false);
+        View contentView = viewFeedBackDialogBinding.getRoot();
 
-        editTextNotes = viewEditTextDialogBinding.edittextUsername;
-        viewEditTextDialogBinding.textVerifyTitle.setText(title);
+        editTextNotes = viewFeedBackDialogBinding.edittextUsername;
+        viewFeedBackDialogBinding.textVerifyTitle.setText(title);
         if (title.equals(getContext().getString(
-                R.string.bottom_option_transfer))) {
-            viewEditTextDialogBinding.edittextUsername.setInputType(InputType.TYPE_CLASS_NUMBER);
-            viewEditTextDialogBinding.inputLayoutVerify.setHint(getContext().getString(
-                    R.string.action_enter_transfer_phone_number));
+                R.string.action_feedback))) {
+            viewFeedBackDialogBinding.inputLayoutVerify.setHint(getContext().getString(
+                    R.string.action_feedback));
         }
-        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonLeft.setText(
+        viewFeedBackDialogBinding.includeRegisterBottomButtons.buttonLeft.setText(
                 TextUtils.isEmpty(leftButtonText) ? context.getString(
                         R.string.action_back) : leftButtonText);
-        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonRight.setText(
+        viewFeedBackDialogBinding.includeRegisterBottomButtons.buttonRight.setText(
                 TextUtils.isEmpty(leftButtonText) ? context.getString(
                         R.string.action_next) : rightButtonText);
-        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(this);
-        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonRight.setOnClickListener(this);
+        viewFeedBackDialogBinding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(this);
+        viewFeedBackDialogBinding.includeRegisterBottomButtons.buttonRight.setOnClickListener(this);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(contentView);
@@ -111,8 +109,8 @@ public class AppEditTextDialog extends Dialog implements View.OnClickListener {
         }
 
         //Return the finally constructed User object
-        public AppEditTextDialog build() {
-            AppEditTextDialog dialog = new AppEditTextDialog(
+        public AppFeedBackDialog build() {
+            AppFeedBackDialog dialog = new AppFeedBackDialog(
                     this);
             dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
             return dialog;
