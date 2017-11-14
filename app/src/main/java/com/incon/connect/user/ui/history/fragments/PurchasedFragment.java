@@ -390,11 +390,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
             } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_details))) {
-                bottomOptions = new String[3];
+                bottomOptions = new String[4];
                 bottomOptions[0] = getString(R.string.bottom_option_return_policy);
                 bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
                 bottomOptions[2] = getString(R.string.bottom_option_how_to_use);
-                topDrawables = new int[3];
+                bottomOptions[3] = getString(R.string.bottom_option_description);
+                topDrawables = new int[4];
                 topDrawables[0] = R.drawable.ic_option_return_policy;
                 topDrawables[1] = R.drawable.ic_option_sp_instructions;
                 topDrawables[2] = R.drawable.ic_option_howtouse;
@@ -470,6 +471,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     R.string.bottom_option_feedback))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
+                showFeedBackDialog();
             } else if (tag == 3) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];

@@ -24,6 +24,7 @@ import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
+import com.incon.connect.user.custom.view.AppFeedBackDialog;
 import com.incon.connect.user.databinding.BottomSheetInterestBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentInterestBinding;
@@ -52,7 +53,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private int userId;
     private int productSelectedPosition = -1;
     private String buyRequestComment;
-    private AppEditTextDialog feedBackDialog;
+    private AppFeedBackDialog feedBackDialog;
     private String feedBackComment;
 
     @Override
@@ -335,6 +336,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     R.string.bottom_option_review))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
+                showFeedBackDialog();
             } else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
@@ -368,18 +370,29 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     // feedback dialog
     private void showFeedBackDialog() {
 
-        feedBackDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+        feedBackDialog = new AppFeedBackDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String commentString) {
-                        feedBackComment = commentString;
+                        buyRequestComment = commentString;
                     }
 
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-
+                                HashMap<String, String> buyRequestApi = new HashMap<>();
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
+                                        String.valueOf(userId));
+                              /*  ProductInfoResponse productInfoResponse = interestAdapter.
+                                        getItemFromPosition(productSelectedPosition);
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
+                                        String.valueOf(productInfoResponse.getMerchantId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
+                                        String.valueOf(productInfoResponse.getQrcodeId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
+                                        buyRequestComment);
+                                interestPresenter.buyRequestApi(buyRequestApi);*/
                                 break;
                             case AlertDialogCallback.CANCEL:
                                 feedBackDialog.dismiss();
@@ -388,7 +401,8 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                                 break;
                         }
                     }
-                }).title(getString(R.string.bottom_option_feedback))
+                }).title(getString(
+                R.string.action_feedback))
                 .leftButtonText(getString(R.string.action_cancel))
                 .rightButtonText(getString(R.string.action_submit))
                 .build();
