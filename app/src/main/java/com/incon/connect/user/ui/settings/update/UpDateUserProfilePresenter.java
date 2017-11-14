@@ -31,6 +31,7 @@ public class UpDateUserProfilePresenter extends BasePresenter<UpDateUserProfileC
         appContext = ConnectApplication.getAppContext();
     }
 
+    // upDate user profile api implemenatation
     public void upDateUserProfile(int userId, UpDateUserProfile upDateUserProfile) {
         getView().showProgress(appContext.getString(R.string.progress_updateuserprofile));
         DisposableObserver<LoginResponse> observer = new

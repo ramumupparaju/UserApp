@@ -47,7 +47,8 @@ public class UserQrCodeFragment extends BaseFragment {
         setTitle();
         return rootView;
     }
-// loading qr code
+
+    // loading qr code
     private void loadQrcode() {
         Bundle bundle = getArguments();
         String data = bundle.getString(BundleConstants.QRCODE_DATA);

@@ -35,7 +35,8 @@
             android:layout_marginBottom="@dimen/margin_5"
             android:layout_marginTop="@dimen/margin_5"
             android:background="@color/tueo_theme"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            />
     </LinearLayout>
 
 </layout>

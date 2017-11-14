@@ -119,7 +119,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         showAddressDialog();
     }
 
-    // address gialog
+    // address dialog
     private void showAddressDialog() {
         addUserAddress = new AddUserAddress();
         SharedPrefsUtils sharedPrefsUtils = SharedPrefsUtils.loginProvider();
@@ -202,7 +202,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             }
         }
     };
-    //recyclerview click event
+    // top recyclerview click event
     private IClickCallback iAddressClickCallback = new IClickCallback() {
         @Override
         public void onClickPosition(int position) {
@@ -215,7 +215,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             }
         }
     };
-    // data re load
+    // data reload
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
             new SwipeRefreshLayout.OnRefreshListener() {
                 @Override

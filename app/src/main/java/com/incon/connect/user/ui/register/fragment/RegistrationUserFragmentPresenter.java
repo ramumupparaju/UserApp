@@ -38,7 +38,7 @@ public class RegistrationUserFragmentPresenter extends
         loginDataManagerImpl = new LoginDataManagerImpl();
     }
 
-
+    // register api implemenatation
     public void register(Registration registrationBody) {
         getView().showProgress(appContext.getString(R.string.progress_registering));
         DisposableObserver<LoginResponse> observer = new DisposableObserver<LoginResponse>() {
@@ -76,7 +76,7 @@ public class RegistrationUserFragmentPresenter extends
     ValidateOtpContract.View otpView = new ValidateOtpContract.View() {
         @Override
         public void validateOTP(LoginResponse loginResponse) {
-      // save login data to shared preferences
+            // save login data to shared preferences
             loginDataManagerImpl.saveLoginDataToPrefs(loginResponse);
             getView().hideProgress();
             getView().navigateToHomeScreen();
@@ -108,6 +108,7 @@ public class RegistrationUserFragmentPresenter extends
         }
     };
 
+    // register request otp api implemenatation
     @Override
     public void registerRequestOtp(String phoneNumber) {
         getView().showProgress(appContext.getString(R.string.progress_resend));
@@ -133,6 +134,7 @@ public class RegistrationUserFragmentPresenter extends
 
     }
 
+    // register request password otp api implemenatation
     @Override
     public void registerRequestPasswordOtp(String phoneNumber) {
 

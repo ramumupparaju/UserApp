@@ -36,6 +36,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         loginDataManagerImpl = new LoginDataManagerImpl();
     }
 
+    // login implemenatation
     @Override
     public void doLogin(LoginUserData loginUserData) {
         getView().showProgress(appContext.getString(R.string.progress_login));
@@ -63,6 +64,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         addDisposable(observer);
     }
 
+    // validate otp implemenatation
     @Override
     public void validateOTP(HashMap<String, String> verify) {
         getView().showProgress(appContext.getString(R.string.validating_code));
@@ -125,7 +127,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     ValidateOtpContract.View otpView = new ValidateOtpContract.View() {
         @Override
         public void validateOTP(LoginResponse loginResponse) {
-// save login data to shared preferences
+            // save login data to shared preferences
             loginDataManagerImpl.saveLoginDataToPrefs(loginResponse);
             getView().hideProgress();
             getView().navigateToHomePage(loginResponse);

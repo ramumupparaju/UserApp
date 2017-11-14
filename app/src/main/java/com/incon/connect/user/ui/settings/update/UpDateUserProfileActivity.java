@@ -75,10 +75,12 @@ public class UpDateUserProfileActivity extends BaseActivity implements
                     getIntegerPreference(USER_ID, DEFAULT_VALUE), upDateUserProfile);
         }
     }
+
     public void onAddressClick() {
         Intent addressIntent = new Intent(this, RegistrationMapActivity.class);
         startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -279,7 +281,7 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         }
     }
 
-
+    // validations
     private void loadValidationErrors() {
 
         errorMap = new HashMap<>();
@@ -331,6 +333,7 @@ public class UpDateUserProfileActivity extends BaseActivity implements
     public void loadUpDateUserProfileResponce(LoginResponse loginResponse) {
         enableEditMode(false);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
