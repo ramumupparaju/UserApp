@@ -186,11 +186,9 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             int[] topDrawables;
             changeBackgroundText(tag, view);
             if (tag == 0) {
-                bottomOptions = new String[1];
-                bottomOptions[0] = getString(R.string.bottom_option_note);
-                topDrawables = new int[1];
-                topDrawables[0] = R.drawable.ic_option_details;
-
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                showBuyRequestDialog();
             } else if (tag == 1) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_main_features);
@@ -294,12 +292,15 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             int[] topDrawables;
             ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
                     productSelectedPosition);
-            if (tag == 0 && topClickedText.equals(getString(
+          /*  if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_note))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 showBuyRequestDialog();
-            } else if (tag == 0 && topClickedText.equals(getString(
+            }
+            else*/
+
+                if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_main_features))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
@@ -427,6 +428,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     R.string.bottom_option_how_to_use))) {
             } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_warranty))) {
+                showInformationDialog("Warranty status now: "
+                        + itemFromPosition.getWarrantyId()
+                        + "\n"
+                        + "Purchased date:"
+                        + " "
+                        + "\n"
+                        + "Warranty covers:"
+                        + " "
+                        + "\n"
+                        + "Warranty ends on:" + itemFromPosition.getWarrantyEndDate());
             } else if (tag == 4 && topClickedText.equals(getString(
                     R.string.bottom_option_share))) {
                 shareProductDetails(itemFromPosition);
@@ -522,6 +533,27 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
+    private void showInformationDialog(String messageInfo) {
+        detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
+                AlertDialogCallback() {
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                detailsDialog.dismiss();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                detailsDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(messageInfo)
+                .button1Text(getString(R.string.action_ok))
+                .build();
+        detailsDialog.showDialog();
+    }
     //location dialog
     private void showLocationDialog() {
         ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
