@@ -34,6 +34,7 @@ import com.incon.connect.user.databinding.CustomBottomViewProductBinding;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.ui.RegistrationMapActivity;
+import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
 import com.incon.connect.user.utils.SharedPrefsUtils;
@@ -420,6 +421,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     R.string.bottom_option_bill))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
+                Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
+                startActivity(billFormatIntent);
             }
             else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_past_history))) {
