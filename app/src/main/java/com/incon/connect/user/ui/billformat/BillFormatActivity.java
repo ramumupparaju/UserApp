@@ -30,9 +30,10 @@ public class BillFormatActivity extends BaseActivity {
     @Override
     protected void onCreateView(Bundle saveInstanceState) {
         binding = DataBindingUtil.setContentView(this, getLayoutId());
-        binding.setBillFormatActivity(this);
         productInfoResponse = new ProductInfoResponse();
         binding.setProductinforesponse(productInfoResponse);
+        binding.setBillFormatActivity(this);
+
     }
 
     @Override

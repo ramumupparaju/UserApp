@@ -139,7 +139,7 @@
                         android:text="@={register.dateOfBirthToShow}"/>
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
-                 <!--dummy view for dob click event -->
+                <!--dummy view for dob click event -->
                 <View
                     android:id="@+id/view_dob"
                     android:layout_width="match_parent"
@@ -184,6 +184,7 @@
                     app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor"
                     app:passwordToggleEnabled="true"
                     >
+
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edittext_register_password"
                         style="@style/Register_TextInputEditText"
