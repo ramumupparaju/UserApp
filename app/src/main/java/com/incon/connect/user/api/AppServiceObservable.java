@@ -151,6 +151,11 @@ public interface AppServiceObservable {
     @GET("warranty/requestotp/{phoneNumber}/password")
     Observable<Object> warrantyRequestOtp(@Path("phoneNumber") String phoneNumber);
 
+    //transfer product api
+    @GET("user/transfer/{phoneNumber}/{userId}")
+    Observable<Object> transferRequest(@Path("phoneNumber") String phoneNumber,
+                                       @Path("userId") int userId);
+
     // new user registation  api
     @POST("user/newuser/{phoneNumber}")
     Observable<UserInfoResponse> newUserRegistation(@Path("phoneNumber")

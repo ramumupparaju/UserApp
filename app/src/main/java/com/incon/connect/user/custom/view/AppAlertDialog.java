@@ -3,6 +3,7 @@ package com.incon.connect.user.custom.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -41,6 +42,8 @@ public class AppAlertDialog extends Dialog implements View.OnClickListener {
         TextView titleTv = ((TextView) contentView.findViewById(R.id.dialog_title_textView));
         if (!TextUtils.isEmpty(title)) {
             titleTv.setText(title);
+            titleTv.setMovementMethod(new ScrollingMovementMethod());
+
         } else {
             titleTv.setVisibility(View.GONE);
         }

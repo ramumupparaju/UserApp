@@ -18,11 +18,13 @@ public interface PurchasedContract {
         void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses);
         void loadAddresses(List<AddUserAddressResponse> favoritesResponseList);
         void addedToFavorite();
+        void transferMobileNumber(Object response);
     }
 
     interface Presenter {
         void purchased(int userId);
         void doGetAddressApi(int userId);
+        void doTransferProductApi(String phoneNumber , int userId);
         void addToFavotites(HashMap<String, String> favoritesMap);
     }
 

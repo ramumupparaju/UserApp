@@ -124,10 +124,55 @@ public class ProductInfoResponse extends BaseObservable {
     @SerializedName("storeContactNumber")
     @Expose
     private String storeContactNumber;
+    //    for interest
+    @SerializedName("warrantyYears")
+    @Expose
+    private Integer warrantyYears;
+    @SerializedName("warrantyMonths")
+    @Expose
+    private Integer warrantyMonths;
+    @SerializedName("warrantyDays")
+    @Expose
+    private Integer warrantyDays;
+    @SerializedName("warrantyConditions")
+    @Expose
+    private String warrantyConditions;
     private transient boolean isSelected;
 
     public Integer getQrcodeId() {
         return qrcodeId;
+    }
+
+    public Integer getWarrantyYears() {
+        return warrantyYears;
+    }
+
+    public void setWarrantyYears(Integer warrantyYears) {
+        this.warrantyYears = warrantyYears;
+    }
+
+    public Integer getWarrantyMonths() {
+        return warrantyMonths;
+    }
+
+    public void setWarrantyMonths(Integer warrantyMonths) {
+        this.warrantyMonths = warrantyMonths;
+    }
+
+    public Integer getWarrantyDays() {
+        return warrantyDays;
+    }
+
+    public void setWarrantyDays(Integer warrantyDays) {
+        this.warrantyDays = warrantyDays;
+    }
+
+    public String getWarrantyConditions() {
+        return warrantyConditions;
+    }
+
+    public void setWarrantyConditions(String warrantyConditions) {
+        this.warrantyConditions = warrantyConditions;
     }
 
     public void setQrcodeId(Integer qrcodeId) {

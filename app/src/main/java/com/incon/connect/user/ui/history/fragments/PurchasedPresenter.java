@@ -95,6 +95,32 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         favoritesPresenter.doGetAddressApi(userId);
     }
 
+    @Override
+    public void doTransferProductApi(String phoneNumber, int userId) {
+        getView().showProgress(appContext.getString(R.string.progress_adding_to_favorites));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object o) {
+                        getView().transferMobileNumber(o);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().transferRequest(phoneNumber,userId).subscribe(observer);
+        addDisposable(observer);
+    }
+
     FavoritesContract.View favoritesView = new FavoritesContract.View() {
         @Override
         public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
