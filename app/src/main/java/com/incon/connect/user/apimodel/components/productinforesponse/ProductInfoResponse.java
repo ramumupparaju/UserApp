@@ -108,6 +108,22 @@ public class ProductInfoResponse extends BaseObservable {
     @SerializedName("addressId")
     @Expose
     private String addressId;
+
+    @SerializedName("specialInstruction")
+    @Expose
+    private String specialInstruction;
+    @SerializedName("returnPolicy")
+    @Expose
+    private String returnPolicy;
+    @SerializedName("purchasedDate")
+    @Expose
+    private long purchasedDate;
+    @SerializedName("storeLocation")
+    @Expose
+    private String storeLocation;
+    @SerializedName("storeContactNumber")
+    @Expose
+    private String storeContactNumber;
     private transient boolean isSelected;
 
     public Integer getQrcodeId() {
@@ -175,6 +191,46 @@ public class ProductInfoResponse extends BaseObservable {
 
     public String getCategory() {
         return category;
+    }
+
+    public String getSpecialInstruction() {
+        return specialInstruction;
+    }
+
+    public void setSpecialInstruction(String specialInstruction) {
+        this.specialInstruction = specialInstruction;
+    }
+
+    public String getReturnPolicy() {
+        return returnPolicy;
+    }
+
+    public void setReturnPolicy(String returnPolicy) {
+        this.returnPolicy = returnPolicy;
+    }
+
+    public long getPurchasedDate() {
+        return purchasedDate;
+    }
+
+    public void setPurchasedDate(long purchasedDate) {
+        this.purchasedDate = purchasedDate;
+    }
+
+    public String getStoreLocation() {
+        return storeLocation;
+    }
+
+    public void setStoreLocation(String storeLocation) {
+        this.storeLocation = storeLocation;
+    }
+
+    public String getStoreContactNumber() {
+        return storeContactNumber;
+    }
+
+    public void setStoreContactNumber(String storeContactNumber) {
+        this.storeContactNumber = storeContactNumber;
     }
 
     public void setCategory(String category) {
