@@ -396,7 +396,10 @@
     <string name="purchased_brand">Brand</string>
     <string name="purchased_product_image">Product Image</string>
     <string name="purchased_product_info">Product Info</string>
-
+    <string name="purchased_warranty_status_now">Warranty Status Now : </string>
+    <string name="purchased_purchased_date">Purchased Date :</string>
+    <string name="purchased_warranty_covers_date">Warranty Covers :</string>
+    <string name="purchased_warranty_ends_on">"Warranty Ends on :"</string>
 
     <!--add offers-->
     <string name="add_offer_brand">Brand</string>
