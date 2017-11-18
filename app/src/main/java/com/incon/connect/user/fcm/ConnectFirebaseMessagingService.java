@@ -1,11 +1,12 @@
 package com.incon.connect.user.fcm;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -52,9 +53,15 @@ public class ConnectFirebaseMessagingService extends FirebaseMessagingService
         String title = bundle.getString(BUNDLE_TITLE);
         String message = bundle.getString(BUNDLE_TEXT);
         String extras = bundle.getString(BUNDLE_EXTRAS);
-        NotificationCompat.Builder notification = new NotificationCompat
-        .Builder(context);
-        notification.setAutoCancel(true)
+
+        Notification.Builder notificationBuilder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationBuilder = new Notification.Builder(context,
+                    context.getResources().getString(R.string.notification_id_channel));
+        } else {
+            notificationBuilder = new Notification.Builder(context);
+        }
+        notificationBuilder.setAutoCancel(true)
                 .setContentText(message)
                 .setContentTitle(title)
                 .setSmallIcon(R.mipmap.ic_launcher);
@@ -87,8 +94,8 @@ public class ConnectFirebaseMessagingService extends FirebaseMessagingService
         handleAlarmIntent.putExtras(bundle);
         PendingIntent pendingIntent = PendingIntent
                 .getService(context, notifyId, handleAlarmIntent, 0);
-        notification.setContentIntent(pendingIntent);
-        notificationManager.notify(notifyId, notification.build());
+        notificationBuilder.setContentIntent(pendingIntent);
+        notificationManager.notify(notifyId, notificationBuilder.build());
     }
 
 }

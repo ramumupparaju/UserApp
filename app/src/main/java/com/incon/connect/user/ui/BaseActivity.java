@@ -124,12 +124,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         clearData();
         sharedPrefsUtils.setStringPreference(LoginPrefs.USER_PHONE_NUMBER, phoneNumber);
         Intent intent = new Intent(this, LoginActivity.class);
-        // This is a convenient way to make the proper Intent to launch and
-        // reset an application's task.
-        ComponentName cn = intent.getComponent();
-        Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
-        startActivity(mainIntent);
-        finish();
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent
+                .FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     public void clearData() {

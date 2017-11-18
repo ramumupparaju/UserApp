@@ -4,7 +4,7 @@ apply plugin: 'checkstyle'
 apply from: 'configuration.gradle'
 
 android {
-
+    flavorDimensions "default"
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion
     defaultConfig {
@@ -57,27 +57,6 @@ android {
     dataBinding {
         enabled = true
     }
-
-    // noinspection GroovyAssignabilityCheck
-    task checkstyle(type: Checkstyle) {
-        //NOTE: Restrict to Rewards related code only and ignore other third party code.
-        source 'src/main/java/com/incon/connect/user'
-        include '**/*.java'
-        exclude '**/gen/**'
-        exclude '**/R.java'
-        exclude '**/BuildConfig.java'
-
-        ignoreFailures false
-        showViolations true
-
-        configFile file("${project.rootDir}/config/checkstyle.xml")
-
-        classpath = files() + configurations.compile
-    }
-    // inspection GroovyAssignabilityCheck
-
-    preBuild.dependsOn('checkstyle')
-
 }
 
 configurations.all {
