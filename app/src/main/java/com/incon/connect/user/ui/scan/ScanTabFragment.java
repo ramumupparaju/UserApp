@@ -17,6 +17,7 @@ import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.qrcodescan.QrcodeBarcodeScanActivity;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
+
 public class ScanTabFragment extends BaseFragment implements ScanTabContract.View {
     private static final String TAG = ScanTabFragment.class.getSimpleName();
     private View rootView;
@@ -95,6 +96,7 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
     }
 
     private void showProductDetailsDialog(Object productInfoResponse) {
+
         productDetailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override
@@ -108,7 +110,9 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
                                 break;
                         }
                     }
-                }).title("Added Product to Interest List")
+                })
+                .title("Main Features" + "\n" + "Warranty" + "\n" + "Product Description" + "\n"
+                        + "Reviews and Feed Back" + "\n" + "price")
                 //TODO have to change
                 .button1Text(getString(R.string.action_ok))
                 .build();
