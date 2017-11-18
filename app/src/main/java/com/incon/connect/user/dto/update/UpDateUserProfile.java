@@ -52,6 +52,7 @@ public class UpDateUserProfile  extends BaseObservable {
 
     public void setAddress(String address) {
         this.address = address;
+        notifyChange();
     }
 
     public String getCountry() {
@@ -77,21 +78,23 @@ public class UpDateUserProfile  extends BaseObservable {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    @Bindable
     public String getGender() {
         return gender;
     }
 
     public void setGender(String gender) {
         this.gender = gender;
+        notifyChange();
     }
-
+    @Bindable
     public String getLocation() {
         return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
+        notifyChange();
     }
 
     public String getMobileNumber() {
@@ -101,13 +104,14 @@ public class UpDateUserProfile  extends BaseObservable {
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
-
+    @Bindable
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+        notifyChange();
     }
     @Bindable
     public String getDateOfBirthToShow() {

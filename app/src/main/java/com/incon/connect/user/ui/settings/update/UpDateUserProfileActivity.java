@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
-import android.text.method.KeyListener;
 import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
@@ -51,7 +50,6 @@ public class UpDateUserProfileActivity extends BaseActivity implements
     private UpDateUserProfile upDateUserProfile;
     private HashMap<Integer, String> errorMap;
     private Animation shakeAnim;
-    private KeyListener listener;
 
     @Override
     protected int getLayoutId() {
@@ -77,10 +75,12 @@ public class UpDateUserProfileActivity extends BaseActivity implements
                     getIntegerPreference(USER_ID, DEFAULT_VALUE), upDateUserProfile);
         }
     }
+
     public void onAddressClick() {
         Intent addressIntent = new Intent(this, RegistrationMapActivity.class);
         startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -91,7 +91,6 @@ public class UpDateUserProfileActivity extends BaseActivity implements
                             IntentConstants.ADDRESS_COMMA));
                     upDateUserProfile.setLocation(data.getStringExtra(
                             IntentConstants.LOCATION_COMMA));
-                    binding.setUpDateUserProfile(upDateUserProfile);
                     break;
                 default:
                     break;
@@ -282,7 +281,7 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         }
     }
 
-
+    // validations
     private void loadValidationErrors() {
 
         errorMap = new HashMap<>();
@@ -333,5 +332,11 @@ public class UpDateUserProfileActivity extends BaseActivity implements
     @Override
     public void loadUpDateUserProfileResponce(LoginResponse loginResponse) {
         enableEditMode(false);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        upDateUserProfilePresenter.disposeAll();
     }
 }

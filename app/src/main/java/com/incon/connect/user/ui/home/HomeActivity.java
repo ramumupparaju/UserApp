@@ -121,7 +121,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                 }
             };
 
-
+    // generating qr code to user
     public void onUserQrCodeClick() {
         String userData = SharedPrefsUtils.loginProvider().getStringPreference(
                 LoginPrefs.USER_UUID);

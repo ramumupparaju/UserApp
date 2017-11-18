@@ -32,6 +32,7 @@ public class ProductScanPresenter extends BasePresenter<ProductScanContract.View
         appContext = ConnectApplication.getAppContext();
     }
 
+    // product info using qr code api implemenatation
     @Override
     public void productInfoUsingQrCode(String qrCode) {
         HashMap<String, String> qrCodeMap = new HashMap<>();

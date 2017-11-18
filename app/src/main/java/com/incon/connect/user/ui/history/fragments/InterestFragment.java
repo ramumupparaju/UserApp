@@ -24,6 +24,7 @@ import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
+import com.incon.connect.user.custom.view.AppFeedBackDialog;
 import com.incon.connect.user.databinding.BottomSheetInterestBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentInterestBinding;
@@ -52,6 +53,8 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private int userId;
     private int productSelectedPosition = -1;
     private String buyRequestComment;
+    private AppFeedBackDialog feedBackDialog;
+    private String feedBackComment;
 
     @Override
     protected void initializePresenter() {
@@ -90,6 +93,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
+    // load bottom sheet
     private void loadBottomSheet() {
         bottomSheetInterestBinding = DataBindingUtil.inflate(LayoutInflater.from(
                 getActivity()), R.layout.bottom_sheet_interest, null, false);
@@ -119,6 +123,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         interestPresenter.interestApi(userId);
     }
 
+    //recyclerview click event
     private IClickCallback iClickCallback = new IClickCallback() {
         @Override
         public void onClickPosition(int position) {
@@ -133,6 +138,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     };
 
+    // bottom sheet creation
     private void createBottomSheetView(int position) {
         productSelectedPosition = position;
         bottomSheetInterestBinding.topRow.setVisibility(View.GONE);
@@ -171,6 +177,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
+    // bottom sheet click event
     private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -179,11 +186,9 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             int[] topDrawables;
             changeBackgroundText(tag, view);
             if (tag == 0) {
-                bottomOptions = new String[1];
-                bottomOptions[0] = getString(R.string.bottom_option_note);
-                topDrawables = new int[1];
-                topDrawables[0] = R.drawable.ic_option_details;
-
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                showBuyRequestDialog();
             } else if (tag == 1) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_main_features);
@@ -235,6 +240,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     };
 
+    //buy request dialog
     private void showBuyRequestDialog() {
         buyRequestDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
@@ -274,6 +280,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         buyRequestDialog.showDialog();
     }
 
+    // bottom sheet top view click event
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -285,20 +292,18 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             int[] topDrawables;
             ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
                     productSelectedPosition);
-            if (tag == 0 && topClickedText.equals(getString(
+          /*  if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_note))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 showBuyRequestDialog();
-            } else if (tag == 0 && topClickedText.equals(getString(
+            }
+            else*/
+
+                if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_main_features))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            } else if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_Call))) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-                callPhoneNumber(itemFromPosition.getMobileNumber());
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_details))) {
                 bottomOptions = new String[5];
@@ -313,6 +318,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[2] = R.drawable.ic_option_howtouse;
                 topDrawables[3] = R.drawable.ic_option_warranty;
                 topDrawables[4] = R.drawable.ic_option_share;
+            } else if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_feedback))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                showFeedBackDialog();
+            } else if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_Call))) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                callPhoneNumber(itemFromPosition.getMobileNumber());
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_location))) {
                 showLocationDialog();
@@ -322,6 +337,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     R.string.bottom_option_review))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
+                showFeedBackDialog();
             } else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
@@ -352,6 +368,49 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     };
 
+    // feedback dialog
+    private void showFeedBackDialog() {
+
+        feedBackDialog = new AppFeedBackDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                        buyRequestComment = commentString;
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                HashMap<String, String> buyRequestApi = new HashMap<>();
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
+                                        String.valueOf(userId));
+                              /*  ProductInfoResponse productInfoResponse = interestAdapter.
+                                        getItemFromPosition(productSelectedPosition);
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
+                                        String.valueOf(productInfoResponse.getMerchantId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
+                                        String.valueOf(productInfoResponse.getQrcodeId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
+                                        buyRequestComment);
+                                interestPresenter.buyRequestApi(buyRequestApi);*/
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                feedBackDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(
+                R.string.action_feedback))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        feedBackDialog.showDialog();
+    }
+
+    // bottom sheet second top view click event
     private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -369,13 +428,34 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     R.string.bottom_option_how_to_use))) {
             } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_warranty))) {
+                showInformationDialog("Warranty status now: "
+                        + itemFromPosition.getWarrantyId()
+                        + "\n"
+                        + "Purchased date:"
+                        + " "
+                        + "\n"
+                        + "Warranty covers:"
+                        + " "
+                        + "\n"
+                        + "Warranty ends on:" + itemFromPosition.getWarrantyEndDate());
             } else if (tag == 4 && topClickedText.equals(getString(
                     R.string.bottom_option_share))) {
+                shareProductDetails(itemFromPosition);
             } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
             }
         }
     };
+    // share product details
+    private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
+        Intent i = new Intent(android.content.Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT, "ConnectIncon");
+        i.putExtra(android.content.Intent.EXTRA_TEXT,
+                productSelectedPosition.getProductImageUrl());
+        startActivity(Intent.createChooser(i, "Share via"));
+
+    }
 
     private void showInterestProductDeleteDialog(String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
@@ -403,6 +483,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         detailsDialog.showDialog();
     }
 
+    // changeing text colore
     private void changeBackgroundText(Integer tag, View view) {
         if (view instanceof LinearLayout) {
             View topRootView = (View) view.getParent();
@@ -452,7 +533,28 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
-
+    private void showInformationDialog(String messageInfo) {
+        detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
+                AlertDialogCallback() {
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                detailsDialog.dismiss();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                detailsDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(messageInfo)
+                .button1Text(getString(R.string.action_ok))
+                .build();
+        detailsDialog.showDialog();
+    }
+    //location dialog
     private void showLocationDialog() {
         ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
                 productSelectedPosition);
@@ -475,6 +577,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
     }
 
+    // data re load
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
             new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
@@ -490,6 +593,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
+    // load interest data
     @Override
     public void loadInterestHistory(List<ProductInfoResponse> interestHistoryResponseList) {
         if (interestHistoryResponseList == null) {
@@ -509,6 +613,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
+    // delete interest items
     @Override
     public void loadInterestDeleteHistory(Object interestHistoryResponseList) {
         bottomSheetDialog.dismiss();
@@ -521,6 +626,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         dismissDialog(buyRequestDialog);
     }
 
+    // product search
     @Override
     public void onSearchClickListerner(String searchableText, String searchType) {
         AppUtils.hideSoftKeyboard(getActivity(), rootView);

@@ -31,6 +31,7 @@ public class ScanTabPresenter extends BasePresenter<ScanTabContract.View> implem
         appContext = ConnectApplication.getAppContext();
     }
 
+    // user interested using qr code api implemenatation
     @Override
     public void userInterestedUsingQrCode(int customerId, String qrCode) {
         HashMap<String, String> qrCodeMap = new HashMap<>();

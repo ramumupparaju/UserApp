@@ -26,12 +26,15 @@ import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
+import com.incon.connect.user.custom.view.AppEditTextDialog;
+import com.incon.connect.user.custom.view.AppFeedBackDialog;
 import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.CustomBottomViewProductBinding;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.ui.RegistrationMapActivity;
+import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
 import com.incon.connect.user.utils.SharedPrefsUtils;
@@ -60,6 +63,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private AppCheckBoxListDialog productLocationDialog;
     private List<AddUserAddressResponse> productLocationList;
     private Integer addressId;
+    private AppEditTextDialog buyRequestDialog;
+    private AppFeedBackDialog buyFeedBackRequestDialog;
+    private String buyRequestComment;
 
     @Override
     protected void initializePresenter() {
@@ -89,6 +95,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         return rootView;
     }
 
+    // load bottom sheet
     private void loadBottomSheet() {
         bottomSheetPurchasedBinding = DataBindingUtil.inflate(LayoutInflater.from(
                 getActivity()), R.layout.bottom_sheet_purchased, null, false);
@@ -119,6 +126,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         purchasedPresenter.doGetAddressApi(userId);
     }
 
+    //recyclerview click event
     private IClickCallback iClickCallback = new IClickCallback() {
         @Override
         public void onClickPosition(int position) {
@@ -133,6 +141,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     };
 
+    // bottom sheet creation
     private void createBottomSheetView(int position) {
         productSelectedPosition = position;
         bottomSheetPurchasedBinding.topRow.setVisibility(View.GONE);
@@ -169,6 +178,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     }
 
+    // bottom sheet click event
     private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -222,6 +232,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 showFavoriteOptionsDialog();
             }
             bottomSheetPurchasedBinding.secondTopRow.removeAllViews();
+            bottomSheetPurchasedBinding.topRow.removeAllViews();
             int length1 = bottomOptions.length;
             bottomSheetPurchasedBinding.topRow.setVisibility(View.VISIBLE);
             int length = length1;
@@ -245,6 +256,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     };
 
+    //  favorite options
     private void showFavoriteOptionsDialog() {
         if (productLocationList == null) {
             //TODO add error message
@@ -300,6 +312,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         productLocationDialog.setRadioType(true);
     }
 
+    // changeing text colore
     private void changeBackgroundText(Integer tag, View view) {
         if (view instanceof LinearLayout) {
             View topRootView = (View) view.getParent();
@@ -348,6 +361,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     }
 
+    // bottom sheet top view click event
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -377,25 +391,38 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
             } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_details))) {
-                bottomOptions = new String[3];
+                bottomOptions = new String[4];
                 bottomOptions[0] = getString(R.string.bottom_option_return_policy);
                 bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
                 bottomOptions[2] = getString(R.string.bottom_option_how_to_use);
-                topDrawables = new int[3];
+                bottomOptions[3] = getString(R.string.bottom_option_description);
+                topDrawables = new int[4];
                 topDrawables[0] = R.drawable.ic_option_return_policy;
                 topDrawables[1] = R.drawable.ic_option_sp_instructions;
                 topDrawables[2] = R.drawable.ic_option_howtouse;
-            }
-            else if (tag == 1 && topClickedText.equals(getString(
+                topDrawables[3] = R.drawable.ic_option_details;
+
+            }  else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_warranty))) {
+                showInformationDialog("Warranty status now: "
+                        + itemFromPosition.getWarrantyId()
+                        + "\n"
+                        + "Purchased date:"
+                        + " "
+                        + "\n"
+                        + "Warranty covers:"
+                        + " "
+                        + "\n"
+                        + "Warranty ends on:" + itemFromPosition.getWarrantyEndDate());
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-                showInformationDialog(itemFromPosition.getInformation());
-            }
-            else if (tag == 2 && topClickedText.equals(getString(
+
+            }  else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_bill))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
+                Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
+                startActivity(billFormatIntent);
             }
             else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_past_history))) {
@@ -410,11 +437,13 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
             else if (tag == 5 && topClickedText.equals(getString(
                     R.string.bottom_option_transfer))) {
+                showBuyRequestDialog();
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             }
             else if (tag == 6 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
+                showFeedBackDialog();
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             }
@@ -422,9 +451,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     R.string.bottom_option_suggestions))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-
-            else if (tag == 0 && topClickedText.equals(getString(
+            } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_Call))) {
                 callPhoneNumber(itemFromPosition.getMobileNumber());
                 bottomOptions = new String[0];
@@ -447,7 +474,18 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     R.string.bottom_option_feedback))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }   else {
+                showFeedBackDialog();
+            } else if (tag == 3) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                changeBackgroundText(tag, view);
+            } else if (tag == 4) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            } else if (tag == 5) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+            } else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             }
@@ -476,6 +514,47 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     };
 
+    private void showFeedBackDialog() {
+        buyFeedBackRequestDialog = new AppFeedBackDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                        buyRequestComment = commentString;
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                HashMap<String, String> buyRequestApi = new HashMap<>();
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
+                                        String.valueOf(userId));
+                              /*  ProductInfoResponse productInfoResponse = interestAdapter.
+                                        getItemFromPosition(productSelectedPosition);
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
+                                        String.valueOf(productInfoResponse.getMerchantId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
+                                        String.valueOf(productInfoResponse.getQrcodeId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
+                                        buyRequestComment);
+                                interestPresenter.buyRequestApi(buyRequestApi);*/
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                buyFeedBackRequestDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(
+                R.string.action_feedback))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        buyFeedBackRequestDialog.showDialog();
+
+    }
+
     private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
         Intent i = new Intent(android.content.Intent.ACTION_SEND);
         i.setType("text/plain");
@@ -489,7 +568,44 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
         startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
     }
+    private void showBuyRequestDialog() {
+        buyRequestDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                        buyRequestComment = commentString;
+                    }
 
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                HashMap<String, String> buyRequestApi = new HashMap<>();
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
+                                        String.valueOf(userId));
+                              /*  ProductInfoResponse productInfoResponse = interestAdapter.
+                                        getItemFromPosition(productSelectedPosition);
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
+                                        String.valueOf(productInfoResponse.getMerchantId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
+                                        String.valueOf(productInfoResponse.getQrcodeId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
+                                        buyRequestComment);
+                                interestPresenter.buyRequestApi(buyRequestApi);*/
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                buyRequestDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.bottom_option_transfer))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        buyRequestDialog.showDialog();
+    }
     private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -499,15 +615,21 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             changeBackgroundText(tag, view);
             ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
-        if (tag == 0 && topClickedText.equals(getString(
-        R.string.bottom_option_call_customer_care))) {
-        }
-        else if (tag == 1 && topClickedText.equals(getString(
-                R.string.bottom_option_special_instructions))) {
-        }   else if (tag == 2 && topClickedText.equals(getString(
-                R.string.bottom_option_how_to_use))) {
-        }
-        else if (tag == 0 && topClickedText.equals(getString(
+            if (tag == 0 && topClickedText.equals(getString(
+                    R.string.bottom_option_return_policy))) {
+                showInformationDialog(itemFromPosition.getInformation());
+            }
+            else if (tag == 1 && topClickedText.equals(getString(
+                    R.string.bottom_option_special_instructions))) {
+                showInformationDialog(itemFromPosition.getInformation());
+            }   else if (tag == 2 && topClickedText.equals(getString(
+                    R.string.bottom_option_how_to_use))) {
+                showInformationDialog(itemFromPosition.getInformation());
+            }  else if (tag == 3 && topClickedText.equals(getString(
+                    R.string.bottom_option_description))) {
+                showInformationDialog(itemFromPosition.getInformation());
+            }
+       /*  else if (tag == 0 && topClickedText.equals(getString(
         R.string.bottom_option_return_policy))) {
         }   else if (tag == 1 && topClickedText.equals(getString(
         R.string.bottom_option_special_instructions))) {
@@ -520,7 +642,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
         else  if (tag == 0 && topClickedText.equals(getString(
         R.string.bottom_option_feedback))) {
-        }
+        }*/
         }
 
     };
@@ -617,6 +739,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         this.productLocationList = productLocationList;
     }
 
+    // add product to favorites list
     @Override
     public void addedToFavorite() {
         if (productLocationDialog != null && productLocationDialog.isShowing()) {
@@ -625,6 +748,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     }
 
+    // product search
     @Override
     public void onSearchClickListerner(String searchableText, String searchType) {
         AppUtils.hideSoftKeyboard(getActivity(), rootView);
