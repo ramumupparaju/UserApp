@@ -435,6 +435,7 @@
     <!-- Change current password-->
     <string name="new_password_hint">New Password</string>
     <string name="confirm_password_hint">Confirm Password</string>
+    <string name="notification_id_channel">Notification</string>
 
 
 </resources>

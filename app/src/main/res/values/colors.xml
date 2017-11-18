@@ -7,6 +7,7 @@
     <color name="tueo_theme">#42acf0</color>
     <color name="text_color">#9eabb1</color>
     <color name="colorTap">#3497d6</color>
+    <color name="design_textinput_error_color_light">#FFD50000</color>
 
     <!-- list selector for prelollipop-->
     <color name="list_selector">#6042acf0</color>

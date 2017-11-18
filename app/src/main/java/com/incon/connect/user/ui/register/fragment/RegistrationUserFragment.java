@@ -349,11 +349,9 @@ public class RegistrationUserFragment extends BaseFragment implements
         }
         Intent intent = new Intent(getActivity(),
                 HomeActivity.class);
-        // This is a convenient way to make the proper Intent to launch and
-        // reset an application's task.
-        ComponentName cn = intent.getComponent();
-        Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
-        startActivity(mainIntent);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent
+                .FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
