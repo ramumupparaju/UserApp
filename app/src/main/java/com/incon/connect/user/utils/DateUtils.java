@@ -164,6 +164,22 @@ public class DateUtils implements AppConstants.DateFormatterConstants {
         return 0;
     }
 
+    public static long convertDifferenceDateIndays(long date1, long date2) {
+        long days = 0;
+
+        try {
+            long diff = date1 - date2;
+            long seconds = diff / 1000;
+            long minutes = seconds / 60;
+            long hours = minutes / 60;
+             days = hours / 24;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return days;
+    }
+
     public static String convertMillisToStringFormat(long milliSeconds,
                                                      String outputDateFormat) {
         try {

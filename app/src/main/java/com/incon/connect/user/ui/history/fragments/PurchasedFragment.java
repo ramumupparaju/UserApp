@@ -37,6 +37,7 @@ import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
+import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
@@ -404,16 +405,27 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
             }  else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_warranty))) {
-                showInformationDialog("Warranty status now: "
-                        + itemFromPosition.getWarrantyId()
+                String purchasedDate = DateUtils.convertMillisToStringFormat(
+                        itemFromPosition.getPurchasedDate() , DateFormatterConstants.DD_MM_YYYY);
+                String warrantyEndDate = DateUtils.convertMillisToStringFormat(
+                        itemFromPosition.getWarrantyEndDate() , DateFormatterConstants.DD_MM_YYYY);
+                long noOfDays = DateUtils.convertDifferenceDateIndays(
+                        itemFromPosition.getPurchasedDate()
+                        , itemFromPosition.getPurchasedDate());
+                showInformationDialog(getString(
+                        R.string.purchased_warranty_status_now)
+                        + noOfDays + " Days Left "
                         + "\n"
-                        + "Purchased date:"
+                        + getString(
+                        R.string.purchased_purchased_date)
+                        + purchasedDate
+                        + "\n"
+                        + getString(
+                        R.string.purchased_warranty_covers_date)
                         + " "
                         + "\n"
-                        + "Warranty covers:"
-                        + " "
-                        + "\n"
-                        + "Warranty ends on:" + itemFromPosition.getWarrantyEndDate());
+                        + getString(
+                        R.string.purchased_warranty_ends_on) + warrantyEndDate);
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
@@ -443,7 +455,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
             else if (tag == 6 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
-                showFeedBackDialog();
+//                showFeedBackDialog();
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             }
@@ -453,7 +465,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables = new int[0];
             } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_Call))) {
-                callPhoneNumber(itemFromPosition.getMobileNumber());
+                callPhoneNumber(itemFromPosition.getStoreContactNumber());
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
@@ -474,7 +486,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     R.string.bottom_option_feedback))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-                showFeedBackDialog();
+//                showFeedBackDialog();
             } else if (tag == 3) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
@@ -617,14 +629,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     productSelectedPosition);
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_return_policy))) {
-                showInformationDialog(itemFromPosition.getInformation());
+                showInformationDialog(itemFromPosition.getReturnPolicy());
             }
             else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_special_instructions))) {
-                showInformationDialog(itemFromPosition.getInformation());
+                showInformationDialog(itemFromPosition.getSpecialInstruction());
             }   else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_how_to_use))) {
-                showInformationDialog(itemFromPosition.getInformation());
+//                showInformationDialog(itemFromPosition.getInformation());
             }  else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_description))) {
                 showInformationDialog(itemFromPosition.getInformation());

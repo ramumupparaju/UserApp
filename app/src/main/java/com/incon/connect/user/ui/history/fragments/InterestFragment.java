@@ -322,7 +322,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     R.string.bottom_option_feedback))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-                showFeedBackDialog();
+//                showFeedBackDialog();
             } else if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_Call))) {
                 bottomOptions = new String[0];
@@ -337,7 +337,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     R.string.bottom_option_review))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-                showFeedBackDialog();
+//                showFeedBackDialog();
             } else {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
