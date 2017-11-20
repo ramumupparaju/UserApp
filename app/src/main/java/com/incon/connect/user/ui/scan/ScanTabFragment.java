@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.databinding.FragmentScanTabBinding;
@@ -17,6 +18,9 @@ import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.qrcodescan.QrcodeBarcodeScanActivity;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ScanTabFragment extends BaseFragment implements ScanTabContract.View {
     private static final String TAG = ScanTabFragment.class.getSimpleName();
@@ -24,7 +28,9 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
     private FragmentScanTabBinding binding;
     private ScanTabPresenter scanTabPresenter;
     private AppAlertDialog productDetailsDialog;
+    private  ProductInfoResponse response;
     private int count = 0;
+    private List<ProductInfoResponse> filteredInterestList = new ArrayList<>();
 
     @Override
     protected void initializePresenter() {
@@ -44,6 +50,8 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
         if (rootView == null) {
             binding = DataBindingUtil.inflate(
                     inflater, R.layout.fragment_scan_tab, container, false);
+             response = new ProductInfoResponse();
+            binding.setProductinforesponse(response);
             binding.setScanning(this);
             rootView = binding.getRoot();
             count++;
@@ -60,6 +68,11 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
                 }
 
             }
+
+           // showProductDetailsDialog(response.getPrice());
+           // showProductDetailsDialog(response.getPrice());
+           // showProductDetailsDialog(response.getPrice());
+
 
         }
         setTitle();
@@ -95,6 +108,7 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
         showProductDetailsDialog(productInfoResponse);
     }
 
+
     private void showProductDetailsDialog(Object productInfoResponse) {
 
         productDetailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
@@ -111,9 +125,28 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
                         }
                     }
                 })
-                .title("Main Features" + "\n" + "Warranty" + "\n" + "Product Description" + "\n"
-                        + "Reviews and Feed Back" + "\n" + "price")
-                //TODO have to change
+
+                .title(
+                       getString(
+                                R.string.bottom_option_main_features)
+                                + response.getInformation()
+                                + "\n"
+                                + getString(
+                                R.string.bottom_option_warranty)
+                                + response.getWarrantyDays()
+                                + "\n"
+                                + getString(
+                                R.string.error_product_description)
+                                + response.getInformation()
+                                + "\n"
+                                + getString(
+                                R.string.bottom_option_feedback)
+                                +response.getInformation()
+                                + "\n"
+                                + getString(
+                                R.string.bottom_option_price)
+                                + response.getPrice()
+                        )
                 .button1Text(getString(R.string.action_ok))
                 .build();
         productDetailsDialog.showDialog();

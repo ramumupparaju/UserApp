@@ -278,7 +278,7 @@
             android:layout_below="@id/text_sn"
             android:layout_marginTop="20dp"
             android:text="@{productinforesponse.price}"
-            android:textColor="@color/ebony_clay"
+            android:textColor="#FFD50000"
             android:textSize="18sp"/>
 
 
