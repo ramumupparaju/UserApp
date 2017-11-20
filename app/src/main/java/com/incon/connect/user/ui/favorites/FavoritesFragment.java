@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SnapHelper;
@@ -37,8 +38,11 @@ import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
+import com.incon.connect.user.ui.history.HistoryTabFragment;
 import com.incon.connect.user.ui.history.adapter.InterestAdapter;
+import com.incon.connect.user.ui.history.fragments.PurchasedFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
+import com.incon.connect.user.ui.scan.ScanTabFragment;
 import com.incon.connect.user.utils.GravitySnapHelper;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
@@ -87,11 +91,18 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         if (rootView == null) {
             binding = DataBindingUtil.inflate(
                     inflater, R.layout.fragment_favorites, container, false);
+            binding.setFavorites(this);
             rootView = binding.getRoot();
             initViews();
         }
         setTitle();
         return rootView;
+    }
+
+    // add product
+    public void onLayoutClick() {
+        ((HomeActivity) getActivity()).replaceFragment(
+                HistoryTabFragment.class, getArguments());
     }
 
     private void initViews() {
@@ -124,14 +135,18 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         favoritesAdapter = new FavoritesAdapter();
         favoritesAdapter.setClickCallback(iProductClickCallback);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        LinearLayoutManager secondLinearLayoutManager = new LinearLayoutManager(getContext());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                getContext(), linearLayoutManager.getOrientation());
+        binding.favoritesRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
-        binding.favoritesRecyclerview.setLayoutManager(gridLayoutManager);
+        binding.favoritesRecyclerview.setLayoutManager(secondLinearLayoutManager);
 
         //api call to get addresses
         favoritesPresenter.doGetAddressApi(userId);
         loadBottomSheet();
     }
+
     // load bottom sheet
     private void loadBottomSheet() {
         bottomSheetInterestBinding = DataBindingUtil.inflate(LayoutInflater.from(
@@ -145,6 +160,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             }
         });
     }
+
     @Override
     public void onClick(View view) {
         showAddressDialog();
@@ -293,6 +309,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             bottomSheetInterestBinding.bottomRow.addView(linearLayout, params);
         }
     }
+
     private CustomBottomViewBinding getCustomBottomView() {
         return DataBindingUtil.inflate(
                 LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
@@ -475,9 +492,9 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                     R.string.bottom_option_how_to_use))) {
             } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_warranty))) {
-                if (itemFromPosition.getWarrantyYears()!=null){
+                if (itemFromPosition.getWarrantyYears() != null) {
                     showInformationDialog("Warranty: "
-                            + itemFromPosition.getWarrantyYears() +"Year");
+                            + itemFromPosition.getWarrantyYears() + "Year");
                 } else {
                     showInformationDialog("No Warranty Exists");
                 }
@@ -495,7 +512,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, productSelectedPosition.getInformation()
-                +" Price "+productSelectedPosition.getMrp());
+                + " Price " + productSelectedPosition.getMrp());
         sendIntent.setType("text/plain");
         sendIntent.setPackage("com.whatsapp");
         startActivity(sendIntent);
@@ -527,6 +544,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 .build();
         detailsDialog.showDialog();
     }
+
     private void showInformationDialog(String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
@@ -548,6 +566,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 .build();
         detailsDialog.showDialog();
     }
+
     //location dialog
     private void showLocationDialog() {
         ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(

@@ -1,6 +1,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="favorites"
+            type="com.incon.connect.user.ui.favorites.FavoritesFragment"/>
+    </data>
 
     <RelativeLayout
         style="@style/MatchWrap"
@@ -51,6 +57,38 @@
                 android:scrollbarThumbVertical="@drawable/scrollbar"
                 android:scrollbars="vertical"/>
         </android.support.v4.widget.SwipeRefreshLayout>
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/margin_220"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:onClick="@{() -> favorites.onLayoutClick()}"
+            >
+
+            <ImageView
+                android:id="@+id/ad_new_model_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:srcCompat="@drawable/ic_add_new_location"/>
+
+            <TextView
+                android:id="@+id/home_text"
+                style="@style/BothWrap"
+                android:layout_below="@+id/ad_new_model_button"
+                android:layout_marginTop="@dimen/margin_10"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/action_add_product"
+                android:textColor="@color/ebony_clay"
+                android:textSize="15.4sp"
+                />
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 </layout>
