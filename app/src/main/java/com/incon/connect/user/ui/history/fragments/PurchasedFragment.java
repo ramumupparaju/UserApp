@@ -568,12 +568,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     }
 
     private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
-        Intent i = new Intent(android.content.Intent.ACTION_SEND);
-        i.setType("text/plain");
-        i.putExtra(android.content.Intent.EXTRA_SUBJECT, "ConnectIncon");
-        i.putExtra(android.content.Intent.EXTRA_TEXT,
-                productSelectedPosition.getProductImageUrl());
-        startActivity(Intent.createChooser(i, "Share via"));
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, productSelectedPosition.getInformation()
+                +" Price "+productSelectedPosition.getMrp());
+        sendIntent.setType("text/plain");
+        sendIntent.setPackage("com.whatsapp");
+        startActivity(sendIntent);
+
     }
 
     private void navigateToAddressActivity() {
@@ -592,18 +594,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                HashMap<String, String> buyRequestApi = new HashMap<>();
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
-                                        String.valueOf(userId));
-                              /*  ProductInfoResponse productInfoResponse = interestAdapter.
-                                        getItemFromPosition(productSelectedPosition);
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
-                                        String.valueOf(productInfoResponse.getMerchantId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
-                                        String.valueOf(productInfoResponse.getQrcodeId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
-                                        buyRequestComment);
-                                interestPresenter.buyRequestApi(buyRequestApi);*/
+                                purchasedPresenter.doTransferProductApi(buyRequestComment,
+                                        userId);
+                                buyRequestDialog.dismiss();
+                                AppUtils.hideSoftKeyboard(getContext(),getView());
                                 break;
                             case AlertDialogCallback.CANCEL:
                                 buyRequestDialog.dismiss();
@@ -758,6 +752,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             productLocationDialog.dismiss();
         }
 
+    }
+
+    @Override
+    public void transferMobileNumber(Object o) {
     }
 
     // product search

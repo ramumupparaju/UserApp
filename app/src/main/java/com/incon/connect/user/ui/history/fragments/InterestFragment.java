@@ -300,8 +300,9 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             }
             else*/
 
-                if (tag == 0 && topClickedText.equals(getString(
+            if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_main_features))) {
+                showInformationDialog(itemFromPosition.getInformation());
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             } else if (tag == 1 && topClickedText.equals(getString(
@@ -422,22 +423,26 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     productSelectedPosition);
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_return_policy))) {
+                String returnPolicy = itemFromPosition.getReturnPolicy();
+                if (returnPolicy != null) {
+                    showInformationDialog(returnPolicy);
+                }
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_special_instructions))) {
+                String specialInstruction = itemFromPosition.getSpecialInstruction();
+                if (specialInstruction != null) {
+                    showInformationDialog(specialInstruction);
+                }
             } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_how_to_use))) {
             } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_warranty))) {
-                showInformationDialog("Warranty status now: "
-                        + itemFromPosition.getWarrantyId()
-                        + "\n"
-                        + "Purchased date:"
-                        + " "
-                        + "\n"
-                        + "Warranty covers:"
-                        + " "
-                        + "\n"
-                        + "Warranty ends on:" + itemFromPosition.getWarrantyEndDate());
+                if (itemFromPosition.getWarrantyYears()!=null){
+                    showInformationDialog("Warranty: "
+                            + itemFromPosition.getWarrantyYears() +"Year");
+                } else {
+                    showInformationDialog("No Warranty Exists");
+                }
             } else if (tag == 4 && topClickedText.equals(getString(
                     R.string.bottom_option_share))) {
                 shareProductDetails(itemFromPosition);
@@ -448,12 +453,13 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     };
     // share product details
     private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
-        Intent i = new Intent(android.content.Intent.ACTION_SEND);
-        i.setType("text/plain");
-        i.putExtra(android.content.Intent.EXTRA_SUBJECT, "ConnectIncon");
-        i.putExtra(android.content.Intent.EXTRA_TEXT,
-                productSelectedPosition.getProductImageUrl());
-        startActivity(Intent.createChooser(i, "Share via"));
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, productSelectedPosition.getInformation()
+                +" Price "+productSelectedPosition.getMrp());
+        sendIntent.setType("text/plain");
+        sendIntent.setPackage("com.whatsapp");
+        startActivity(sendIntent);
 
     }
 

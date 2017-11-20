@@ -217,6 +217,10 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.warrantyRequestOtp(phoneNumber));
     }
 
+    //transfer request otp api
+    public Observable<Object> transferRequest(String phoneNumber , int userId) {
+        return addNetworkCheck(serviceInstance.transferRequest(phoneNumber, userId));
+    }
     //add new model api
     public Observable<ModelSearchResponse> addingNewModel(int merchantId,
                                                           AddNewModel addNewModelBody) {
