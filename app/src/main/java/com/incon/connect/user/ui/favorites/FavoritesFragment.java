@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SnapHelper;
 import android.text.TextUtils;
@@ -38,17 +37,16 @@ import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
-import com.incon.connect.user.ui.history.HistoryTabFragment;
-import com.incon.connect.user.ui.history.adapter.InterestAdapter;
 import com.incon.connect.user.ui.history.fragments.PurchasedFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
-import com.incon.connect.user.ui.scan.ScanTabFragment;
 import com.incon.connect.user.utils.GravitySnapHelper;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.incon.connect.user.ui.BaseActivity.TRANSACTION_TYPE_REPLACE;
 
 /**
  * Created by PC on 11/4/2017.
@@ -100,10 +98,19 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     }
 
     // add product
-    public void onLayoutClick() {
-        ((HomeActivity) getActivity()).replaceFragment(
-                PurchasedFragment.class, getArguments());
+    public void onProductAddClick() {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(BundleConstants.FROM_FAVORITES, true);
+        AddUserAddressResponse singleAddressResponse = addressessAdapter.
+                getItemFromPosition(addressSelectedPosition);
+        ((HomeActivity) getActivity()).setToolbarTitle(
+                singleAddressResponse.getName());
+        bundle.putInt(BundleConstants.ADDRESS_ID, singleAddressResponse.getId());
+        ((HomeActivity) getActivity()).replaceFragmentAndAddToStackWithTargetFragment(
+                PurchasedFragment.class, this, RequestCodes.PRODUCT_ADD_FRAGMENT,
+                bundle, 0, 0, TRANSACTION_TYPE_REPLACE);
     }
+
 
     private void initViews() {
         //getting customer id to fetch addresses and product info
@@ -233,6 +240,11 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                         }
                         addUserAddress.setLocation(stringLocation);
                     }
+                    break;
+                case RequestCodes.PRODUCT_ADD_FRAGMENT:
+                    //After adding new  product refrehes list
+                    onRefreshListener.onRefresh();
+                    setTitle();
                     break;
                 default:
                     break;

@@ -65,7 +65,7 @@
             android:layout_marginLeft="@dimen/margin_220"
             android:background="#ffffff"
             android:gravity="center"
-            android:onClick="@{() -> favorites.onLayoutClick()}"
+            android:onClick="@{() -> favorites.onProductAddClick()}"
             android:orientation="vertical"
             >
 

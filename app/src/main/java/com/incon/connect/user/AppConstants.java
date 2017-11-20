@@ -151,6 +151,9 @@ public interface AppConstants {
         String WARRANTY_DATA = "warrantyData";
         String ADD_NEW_MODEL_DATA = "addnewmodelData";
         String LOCATION_ADDRESS = "locationAddress";
+
+        String FROM_FAVORITES = "fromFavorites";
+        String ADDRESS_ID = "addressId";
     }
 
     interface PushSubTypeConstants {
@@ -230,6 +233,7 @@ public interface AppConstants {
         int ADD_NEW_MODEL = 118;
         int LOCATION_LATLNG_FROM_ADDRESS = 119;
         int LOCATION_ADDRESS_FROM_LATLNG = 120;
+        int PRODUCT_ADD_FRAGMENT = 121;
 
     }
 

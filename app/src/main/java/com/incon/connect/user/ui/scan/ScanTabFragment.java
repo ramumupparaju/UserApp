@@ -130,7 +130,7 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
                         + response.getWarrantyDays()
                         + "\n"
                         + getString(
-                        R.string.error_product_description)
+                        R.string.bottom_option_description)
                         + response.getInformation()
                         + "\n"
                         + getString(
