@@ -65,8 +65,8 @@
             android:layout_marginLeft="@dimen/margin_220"
             android:background="#ffffff"
             android:gravity="center"
-            android:orientation="vertical"
             android:onClick="@{() -> favorites.onLayoutClick()}"
+            android:orientation="vertical"
             >
 
             <ImageView
