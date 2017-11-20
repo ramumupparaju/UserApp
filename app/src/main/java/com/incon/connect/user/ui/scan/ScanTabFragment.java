@@ -28,7 +28,7 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
     private FragmentScanTabBinding binding;
     private ScanTabPresenter scanTabPresenter;
     private AppAlertDialog productDetailsDialog;
-    private  ProductInfoResponse response;
+    private ProductInfoResponse response;
     private int count = 0;
     private List<ProductInfoResponse> filteredInterestList = new ArrayList<>();
 
@@ -50,7 +50,7 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
         if (rootView == null) {
             binding = DataBindingUtil.inflate(
                     inflater, R.layout.fragment_scan_tab, container, false);
-             response = new ProductInfoResponse();
+            response = new ProductInfoResponse();
             binding.setProductinforesponse(response);
             binding.setScanning(this);
             rootView = binding.getRoot();
@@ -68,11 +68,6 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
                 }
 
             }
-
-           // showProductDetailsDialog(response.getPrice());
-           // showProductDetailsDialog(response.getPrice());
-           // showProductDetailsDialog(response.getPrice());
-
 
         }
         setTitle();
@@ -126,27 +121,26 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
                     }
                 })
 
-                .title(
-                       getString(
-                                R.string.bottom_option_main_features)
-                                + response.getInformation()
-                                + "\n"
-                                + getString(
-                                R.string.bottom_option_warranty)
-                                + response.getWarrantyDays()
-                                + "\n"
-                                + getString(
-                                R.string.error_product_description)
-                                + response.getInformation()
-                                + "\n"
-                                + getString(
-                                R.string.bottom_option_feedback)
-                                +response.getInformation()
-                                + "\n"
-                                + getString(
-                                R.string.bottom_option_price)
-                                + response.getPrice()
-                        )
+                .title(getString(
+                        R.string.bottom_option_main_features)
+                        + response.getInformation()
+                        + "\n"
+                        + getString(
+                        R.string.bottom_option_warranty)
+                        + response.getWarrantyDays()
+                        + "\n"
+                        + getString(
+                        R.string.error_product_description)
+                        + response.getInformation()
+                        + "\n"
+                        + getString(
+                        R.string.bottom_option_feedback)
+                        + response.getInformation()
+                        + "\n"
+                        + getString(
+                        R.string.bottom_option_price)
+                        + response.getPrice()
+                )
                 .button1Text(getString(R.string.action_ok))
                 .build();
         productDetailsDialog.showDialog();

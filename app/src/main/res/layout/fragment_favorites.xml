@@ -70,15 +70,15 @@
             >
 
             <ImageView
-                android:id="@+id/ad_new_model_button"
+                android:id="@+id/add_product"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:srcCompat="@drawable/ic_add_new_location"/>
+                app:srcCompat="@drawable/ic_add_product"/>
 
             <TextView
                 android:id="@+id/home_text"
                 style="@style/BothWrap"
-                android:layout_below="@+id/ad_new_model_button"
+                android:layout_below="@+id/add_product"
                 android:layout_marginTop="@dimen/margin_10"
                 android:ellipsize="end"
                 android:maxLines="1"

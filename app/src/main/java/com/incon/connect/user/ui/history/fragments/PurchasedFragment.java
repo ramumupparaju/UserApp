@@ -156,7 +156,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         bottomDrawables[0] = R.drawable.ic_option_service_support;
         bottomDrawables[1] = R.drawable.ic_option_product;
         bottomDrawables[2] = R.drawable.ic_option_customer;
-        bottomDrawables[3] = R.drawable.ic_option_favorites;
+        bottomDrawables[3] = R.drawable.ic_option_favorite;
 
         bottomSheetPurchasedBinding.bottomRow.removeAllViews();
         int length = bottomNames.length;
