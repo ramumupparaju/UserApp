@@ -131,6 +131,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
 
         Bundle bundle = getArguments();
+        if (bundle != null)
         isFromFavorites = bundle.getBoolean(BundleConstants.FROM_FAVORITES);
 
     }

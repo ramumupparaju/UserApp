@@ -179,7 +179,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         SharedPrefsUtils sharedPrefsUtils = SharedPrefsUtils.loginProvider();
         addUserAddress.setSubscriberId(sharedPrefsUtils.getIntegerPreference(LoginPrefs.USER_ID,
                 DEFAULT_VALUE));
-        addUserAddress.setAdressType("1"); //TODO have to remove hard coding
+        addUserAddress.setAdressType(Favorites.ADDRESS_TYPE_ONE);
         addUserAddress.setContact(sharedPrefsUtils.getStringPreference(LoginPrefs
                 .USER_PHONE_NUMBER));
         dialog = new AppUserAddressDialog.AlertDialogBuilder(getActivity(),
@@ -195,8 +195,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
                                 if ((TextUtils.isEmpty(addUserAddress.getName()))
-                                        &&
-                                        ((TextUtils.isEmpty(addUserAddress.getAddress())))) {
+                                        && ((TextUtils.isEmpty(addUserAddress.getAddress())))) {
                                     showErrorMessage(getString(R.string.error_name_address));
                                     return;
                                 }

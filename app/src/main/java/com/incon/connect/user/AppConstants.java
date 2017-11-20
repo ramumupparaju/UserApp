@@ -281,6 +281,7 @@ public interface AppConstants {
         int ADD_OFFER_SCAN_START_DATE = 2;
         int ADD_OFFER_SCAN_END_DATE = 3;
     }
+
     interface ErrorCodes {
         int UNKNOWN = 0;
         int NETWORK_ERROR = 1;
@@ -319,6 +320,7 @@ public interface AppConstants {
         int PRICE = 7;
         int INVOICENUMBER = 8;
     }
+
     interface AddNewModelValidation {
         int MODEL = 1;
         int INVALID_MODEL = 2;
@@ -331,6 +333,10 @@ public interface AppConstants {
         int NOTE = 9;
     }
 
+
+    interface Favorites {
+        String ADDRESS_TYPE_ONE = "1";
+    }
 
     interface AddOfferValidation {
         int MODEL = 1;
@@ -346,7 +352,4 @@ public interface AppConstants {
 
     }
 
-    interface ActivityResult {
-        String IS_REGISTRATION_SUCCESS = "is_registration_success";
-    }
 }
