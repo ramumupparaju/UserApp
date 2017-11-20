@@ -102,7 +102,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     // add product
     public void onLayoutClick() {
         ((HomeActivity) getActivity()).replaceFragment(
-                HistoryTabFragment.class, getArguments());
+                PurchasedFragment.class, getArguments());
     }
 
     private void initViews() {
