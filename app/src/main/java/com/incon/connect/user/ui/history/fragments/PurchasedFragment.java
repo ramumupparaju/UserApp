@@ -69,7 +69,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private AppEditTextDialog buyRequestDialog;
     private AppFeedBackDialog buyFeedBackRequestDialog;
     private String buyRequestComment;
-    private boolean isFromFavorites;
+    private boolean isFromFavorites = false;
 
     @Override
     protected void initializePresenter() {
@@ -132,7 +132,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
         Bundle bundle = getArguments();
         if (bundle != null)
-        isFromFavorites = bundle.getBoolean(BundleConstants.FROM_FAVORITES);
+            isFromFavorites = bundle.getBoolean(BundleConstants.FROM_FAVORITES);
 
     }
 
@@ -744,6 +744,15 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     public void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses) {
         if (productInfoResponses == null) {
             productInfoResponses = new ArrayList<>();
+        }
+
+        if (isFromFavorites) {
+            for (ProductInfoResponse productInfoRespons : productInfoResponses) {
+                String addressId = productInfoRespons.getAddressId();
+                if (addressId != null) {
+                    productInfoResponses.remove(productInfoRespons);
+                }
+            }
         }
 
         if (productInfoResponses.size() == 0) {
