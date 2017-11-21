@@ -16,6 +16,7 @@ import com.incon.connect.user.ui.BaseActivity;
 public class BillFormatActivity extends BaseActivity implements BillFormatContract.View{
     private ActivityBillFormatBinding binding;
     private BillFormatPresenter billFormatPresenter ;
+    private ProductInfoResponse productInfoResponse ;
 
 
     @Override
@@ -31,9 +32,10 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
     @Override
     protected void onCreateView(Bundle saveInstanceState) {
         binding = DataBindingUtil.setContentView(this, getLayoutId());
-        ProductInfoResponse productInfoResponse = new ProductInfoResponse();
+         productInfoResponse = new ProductInfoResponse();
         binding.setProductinforesponse(productInfoResponse);
         binding.setBillFormatActivity(this);
+        productInfoResponse.setPrice("Price :" + productInfoResponse.getPrice());
 
     }
 
