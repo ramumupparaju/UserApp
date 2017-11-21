@@ -72,6 +72,7 @@ public class RegistrationUserFragment extends BaseFragment implements
     public void setTitle() {
         // do nothing
     }
+
     @Override
     protected View onPrepareView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -96,7 +97,7 @@ public class RegistrationUserFragment extends BaseFragment implements
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case RequestCodes.TERMS_AND_CONDITIONS:
-                   callRegisterApi();
+                    callRegisterApi();
                     break;
                 case RequestCodes.ADDRESS_LOCATION:
                     register.setAddress(data.getStringExtra(IntentConstants.ADDRESS_COMMA));
@@ -114,12 +115,14 @@ public class RegistrationUserFragment extends BaseFragment implements
         register.setGender(String.valueOf(register.getGender().charAt(0)));
         registrationUserInfoFragPresenter.register(register);
     }
+
     private void loadData() {
         shakeAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
         loadGenderSpinnerData();
         loadValidationErrors();
         setFocusListenersForEditText();
     }
+
     public void onAddressClick() {
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
         startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
@@ -150,6 +153,7 @@ public class RegistrationUserFragment extends BaseFragment implements
         datePicker.setCancelable(false);
         datePicker.show();
     }
+
     // Date Listener
     private DatePickerDialog.OnDateSetListener datePickerListener =
             new DatePickerDialog.OnDateSetListener() {
@@ -168,6 +172,7 @@ public class RegistrationUserFragment extends BaseFragment implements
                     updateUiAfterValidation(validate.first, validate.second);
                 }
             };
+
     void loadGenderSpinnerData() {
         String[] genderTypeList = getResources().getStringArray(R.array.gender_options_list);
 
@@ -224,6 +229,8 @@ public class RegistrationUserFragment extends BaseFragment implements
 
         errorMap.put(RegistrationValidation.ADDRESS_REQ, getString(R.string.error_address_req));
     }
+
+    // focus listener
     private void setFocusListenersForEditText() {
 
         TextView.OnEditorActionListener onEditorActionListener =
@@ -281,6 +288,7 @@ public class RegistrationUserFragment extends BaseFragment implements
         View viewByTag = binding.getRoot().findViewWithTag(tag);
         setFieldError(viewByTag, validationId);
     }
+
     private void setFieldError(View view, int validationId) {
 
         if (view instanceof TextInputEditText) {
@@ -297,6 +305,7 @@ public class RegistrationUserFragment extends BaseFragment implements
             ((RegistrationActivity) getActivity()).focusOnView(binding.scrollviewUserInfo, view);
         }
     }
+
     /**
      * called from registration activity when user click on next in bottom bars
      * validate user , if all fields ok then call next screen
@@ -322,12 +331,14 @@ public class RegistrationUserFragment extends BaseFragment implements
 
         return validation.second == VALIDATION_SUCCESS;
     }
+
     @Override
     public void navigateToRegistrationActivityNext() {
-       // ((RegistrationActivity) getActivity()).navigateToNext();
+        // ((RegistrationActivity) getActivity()).navigateToNext();
         Intent eulaIntent = new Intent(getActivity(), TermsAndConditionActivity.class);
         startActivityForResult(eulaIntent, RequestCodes.TERMS_AND_CONDITIONS);
     }
+
     @Override
     public void navigateToHomeScreen() {
         PushPresenter pushPresenter = new PushPresenter();
@@ -351,6 +362,7 @@ public class RegistrationUserFragment extends BaseFragment implements
         showOtpDialog();
     }
 
+    // otp dialog
     private void showOtpDialog() {
         final String mobileNumber = register.getMobileNumber();
         dialog = new AppOtpDialog.AlertDialogBuilder(getActivity(), new
@@ -389,6 +401,7 @@ public class RegistrationUserFragment extends BaseFragment implements
         dialog.showDialog();
 
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

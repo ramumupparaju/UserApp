@@ -30,16 +30,16 @@
     <string name="bottom_option_location">Location</string>
     <string name="bottom_option_details">Details</string>
     <string name="bottom_option_note">Note</string>
-    <string name="bottom_option_main_features">Main Features</string>
-    <string name="bottom_option_warranty">Warranty</string>
+    <string name="bottom_option_main_features">Main Features :</string>
+    <string name="bottom_option_warranty">Warranty :</string>
     <string name="bottom_option_suggestions">Suggestions</string>
     <string name="bottom_option_bill">Bill</string>
     <string name="bottom_option_past_history">Past History</string>
     <string name="bottom_option_share">Share</string>
     <string name="bottom_option_transfer">Transfer</string>
-    <string name="bottom_option_feedback">Feedback</string>
+    <string name="bottom_option_feedback">Feedback :</string>
     <string name="bottom_option_review">Review</string>
-    <string name="bottom_option_price">Price</string>
+    <string name="bottom_option_price">Price :</string>
     <string name="bottom_option_delete">Delete</string>
     <string name="bottom_option_showroom">Showroom</string>
     <string name="bottom_option_buy_request">Buy request</string>
@@ -102,6 +102,7 @@
 
     <!-- actions -->
     <string name="action_no_data">No data to show</string>
+    <string name="action_add_product">Add Product</string>
     <string name="action_changepassword">CHANGE PASSWORD</string>
     <string name="action_add_location">Add Location</string>
     <string name="action_back">Back</string>
@@ -208,7 +209,7 @@
     <string name="error_product_invalid_model">Invalid Model</string>
     <string name="error_product_price">Price is required</string>
     <string name="error_product_mrp_price">MRP Price is required</string>
-    <string name="error_product_description">Description is required</string>
+    <string name="error_product_description">Description is required :</string>
     <string name="error_product_serial">Serial is required</string>
     <string name="error_product_batch">Batch is required</string>
     <string name="error_product_invoice_number">InvoiceNumber is required</string>

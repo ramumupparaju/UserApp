@@ -1,10 +1,12 @@
 package com.incon.connect.user.ui.history.fragments;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -67,6 +69,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private AppEditTextDialog buyRequestDialog;
     private AppFeedBackDialog buyFeedBackRequestDialog;
     private String buyRequestComment;
+    private boolean isFromFavorites = false;
 
     @Override
     protected void initializePresenter() {
@@ -125,6 +128,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
         purchasedPresenter.purchased(userId);
         purchasedPresenter.doGetAddressApi(userId);
+
+
+        Bundle bundle = getArguments();
+        if (bundle != null)
+            isFromFavorites = bundle.getBoolean(BundleConstants.FROM_FAVORITES);
+
     }
 
     //recyclerview click event
@@ -137,14 +146,22 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                             getItemFromPosition(position);
             purchasedHistoryResponse.setSelected(true);
             purchasedAdapter.notifyDataSetChanged();
-            createBottomSheetView(position);
-            bottomSheetDialog.show();
+
+            productSelectedPosition = position;
+
+            //checking if it is from favorites screens
+            if (isFromFavorites) {
+                addressId = getArguments().getInt(BundleConstants.ADDRESS_ID);
+                callAddFavoriteApi();
+            } else {
+                createBottomSheetView(position);
+                bottomSheetDialog.show();
+            }
         }
     };
 
     // bottom sheet creation
     private void createBottomSheetView(int position) {
-        productSelectedPosition = position;
         bottomSheetPurchasedBinding.topRow.setVisibility(View.GONE);
         String[] bottomNames = new String[4];
         bottomNames[0] = getString(R.string.bottom_option_service);
@@ -156,7 +173,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         bottomDrawables[0] = R.drawable.ic_option_service_support;
         bottomDrawables[1] = R.drawable.ic_option_product;
         bottomDrawables[2] = R.drawable.ic_option_customer;
-        bottomDrawables[3] = R.drawable.ic_option_favorites;
+        bottomDrawables[3] = R.drawable.ic_option_favorite;
 
         bottomSheetPurchasedBinding.bottomRow.removeAllViews();
         int length = bottomNames.length;
@@ -289,15 +306,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                ProductInfoResponse itemFromPosition = purchasedAdapter.
-                                        getItemFromPosition(productSelectedPosition);
-                                HashMap<String, String> favoritesMap = new HashMap<>();
-                                favoritesMap.put(ApiRequestKeyConstants.BODY_USER_ID,
-                                        String.valueOf(userId));
-                                favoritesMap.put(BODY_ADDRESS_ID, String.valueOf(addressId));
-                                favoritesMap.put(BODY_WARRANTY_ID,
-                                        itemFromPosition.getWarrantyId());
-                                purchasedPresenter.addToFavotites(favoritesMap);
+                                callAddFavoriteApi();
                                 break;
                             case AlertDialogCallback.CANCEL:
                                 productLocationDialog.dismiss();
@@ -311,6 +320,19 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 .build();
         productLocationDialog.showDialog();
         productLocationDialog.setRadioType(true);
+    }
+
+    private void callAddFavoriteApi() {
+        ProductInfoResponse itemFromPosition = purchasedAdapter.
+                getItemFromPosition(productSelectedPosition);
+        HashMap<String, String> favoritesMap = new HashMap<>();
+        favoritesMap.put(ApiRequestKeyConstants.BODY_USER_ID,
+                String.valueOf(userId));
+        favoritesMap.put(BODY_ADDRESS_ID, String.valueOf(addressId));
+        favoritesMap.put(BODY_WARRANTY_ID,
+                itemFromPosition.getWarrantyId());
+        purchasedPresenter.addToFavotites(favoritesMap);
+
     }
 
     // changeing text colore
@@ -380,13 +402,13 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
-            } else  if (tag == 1 && topClickedText.equals(getString(
+            } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_find_service_center))) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
-            } else  if (tag == 2 && topClickedText.equals(getString(
+            } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_service_request))) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
@@ -405,12 +427,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[2] = R.drawable.ic_option_howtouse;
                 topDrawables[3] = R.drawable.ic_option_details;
 
-            }  else if (tag == 1 && topClickedText.equals(getString(
+            } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_warranty))) {
                 String purchasedDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getPurchasedDate() , DateFormatterConstants.DD_MM_YYYY);
+                        itemFromPosition.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY);
                 String warrantyEndDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getWarrantyEndDate() , DateFormatterConstants.DD_MM_YYYY);
+                        itemFromPosition.getWarrantyEndDate(), DateFormatterConstants.DD_MM_YYYY);
                 long noOfDays = DateUtils.convertDifferenceDateIndays(
                         itemFromPosition.getPurchasedDate()
                         , itemFromPosition.getPurchasedDate());
@@ -431,39 +453,34 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
-            }  else if (tag == 2 && topClickedText.equals(getString(
+            } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_bill))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
                 startActivity(billFormatIntent);
-            }
-            else if (tag == 3 && topClickedText.equals(getString(
+            } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_past_history))) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-            else if (tag == 4 && topClickedText.equals(getString(
+            } else if (tag == 4 && topClickedText.equals(getString(
                     R.string.bottom_option_share))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 shareProductDetails(itemFromPosition);
-            }
-            else if (tag == 5 && topClickedText.equals(getString(
+            } else if (tag == 5 && topClickedText.equals(getString(
                     R.string.bottom_option_transfer))) {
                 showBuyRequestDialog();
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-            else if (tag == 6 && topClickedText.equals(getString(
+            } else if (tag == 6 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
 //                showFeedBackDialog();
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-            else if (tag == 7 && topClickedText.equals(getString(
+            } else if (tag == 7 && topClickedText.equals(getString(
                     R.string.bottom_option_suggestions))) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
@@ -579,7 +596,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, productSelectedPosition.getInformation()
-                +" Price "+productSelectedPosition.getMrp());
+                + " Price " + productSelectedPosition.getMrp());
         sendIntent.setType("text/plain");
         sendIntent.setPackage("com.whatsapp");
         startActivity(sendIntent);
@@ -590,6 +607,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
         startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
     }
+
     private void showBuyRequestDialog() {
         buyRequestDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
@@ -605,7 +623,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                                 purchasedPresenter.doTransferProductApi(buyRequestComment,
                                         userId);
                                 buyRequestDialog.dismiss();
-                                AppUtils.hideSoftKeyboard(getContext(),getView());
+                                AppUtils.hideSoftKeyboard(getContext(), getView());
                                 break;
                             case AlertDialogCallback.CANCEL:
                                 buyRequestDialog.dismiss();
@@ -620,6 +638,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 .build();
         buyRequestDialog.showDialog();
     }
+
     private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -632,15 +651,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_return_policy))) {
                 showInformationDialog(itemFromPosition.getReturnPolicy());
-            }
-            else if (tag == 1 && topClickedText.equals(getString(
+            } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_special_instructions))) {
                 showInformationDialog(itemFromPosition.getSpecialInstruction());
-            }   else if (tag == 2 && topClickedText.equals(getString(
+            } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_how_to_use))) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
 //                showInformationDialog(itemFromPosition.getInformation());
-            }  else if (tag == 3 && topClickedText.equals(getString(
+            } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_description))) {
                 showInformationDialog(itemFromPosition.getInformation());
             }
@@ -737,6 +755,15 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             productInfoResponses = new ArrayList<>();
         }
 
+        if (isFromFavorites) {
+            for (ProductInfoResponse productInfoRespons : productInfoResponses) {
+                String addressId = productInfoRespons.getAddressId();
+                if (addressId != null) {
+                    productInfoResponses.remove(productInfoRespons);
+                }
+            }
+        }
+
         if (productInfoResponses.size() == 0) {
             binding.purchasedTextview.setVisibility(View.VISIBLE);
             dismissSwipeRefresh();
@@ -761,6 +788,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             productLocationDialog.dismiss();
         }
 
+        if (isFromFavorites) {
+            Fragment targetFragment = getTargetFragment();
+            if (targetFragment != null) {
+                targetFragment.onActivityResult(getTargetRequestCode(),
+                        Activity.RESULT_OK, null);
+            }
+            getActivity().onBackPressed();
+        }
     }
 
     @Override

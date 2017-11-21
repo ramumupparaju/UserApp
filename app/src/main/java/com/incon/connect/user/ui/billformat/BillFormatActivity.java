@@ -13,9 +13,10 @@ import com.incon.connect.user.ui.BaseActivity;
  * Created by PC on 11/15/2017.
  */
 
-public class BillFormatActivity extends BaseActivity {
-    private ProductInfoResponse productInfoResponse;
+public class BillFormatActivity extends BaseActivity implements BillFormatContract.View{
     private ActivityBillFormatBinding binding;
+    private BillFormatPresenter billFormatPresenter ;
+
 
     @Override
     protected int getLayoutId() {
@@ -30,9 +31,10 @@ public class BillFormatActivity extends BaseActivity {
     @Override
     protected void onCreateView(Bundle saveInstanceState) {
         binding = DataBindingUtil.setContentView(this, getLayoutId());
-        binding.setBillFormatActivity(this);
-        productInfoResponse = new ProductInfoResponse();
+        ProductInfoResponse productInfoResponse = new ProductInfoResponse();
         binding.setProductinforesponse(productInfoResponse);
+        binding.setBillFormatActivity(this);
+
     }
 
     @Override

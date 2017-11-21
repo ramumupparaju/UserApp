@@ -8,6 +8,10 @@
         <variable
             name="scanning"
             type="com.incon.connect.user.ui.scan.ScanTabFragment"/>
+        <variable
+            name="productinforesponse"
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
+
     </data>
 
     <LinearLayout

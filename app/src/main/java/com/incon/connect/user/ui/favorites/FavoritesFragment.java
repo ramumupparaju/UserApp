@@ -7,7 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SnapHelper;
 import android.text.TextUtils;
@@ -29,7 +29,7 @@ import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppUserAddressDialog;
-import com.incon.connect.user.databinding.BottomSheetFavouriteBinding;
+import com.incon.connect.user.databinding.BottomSheetInterestBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
@@ -38,6 +38,7 @@ import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
+import com.incon.connect.user.ui.history.adapter.InterestAdapter;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.GravitySnapHelper;
@@ -46,6 +47,8 @@ import com.incon.connect.user.utils.SharedPrefsUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.incon.connect.user.ui.BaseActivity.TRANSACTION_TYPE_REPLACE;
 
 /**
  * Created by PC on 11/4/2017.
@@ -88,12 +91,28 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         if (rootView == null) {
             binding = DataBindingUtil.inflate(
                     inflater, R.layout.fragment_favorites, container, false);
+            binding.setFavorites(this);
             rootView = binding.getRoot();
             initViews();
         }
         setTitle();
         return rootView;
     }
+
+    // add product
+    public void onProductAddClick() {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(BundleConstants.FROM_FAVORITES, true);
+        AddUserAddressResponse singleAddressResponse = addressessAdapter.
+                getItemFromPosition(addressSelectedPosition);
+        ((HomeActivity) getActivity()).setToolbarTitle(
+                singleAddressResponse.getName());
+        bundle.putInt(BundleConstants.ADDRESS_ID, singleAddressResponse.getId());
+        ((HomeActivity) getActivity()).replaceFragmentAndAddToStackWithTargetFragment(
+                PurchasedFragment.class, this, RequestCodes.PRODUCT_ADD_FRAGMENT,
+                bundle, 0, 0, TRANSACTION_TYPE_REPLACE);
+    }
+
 
     private void initViews() {
         //getting customer id to fetch addresses and product info
@@ -125,9 +144,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         favoritesAdapter = new FavoritesAdapter();
         favoritesAdapter.setClickCallback(iProductClickCallback);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        LinearLayoutManager secondLinearLayoutManager = new LinearLayoutManager(getContext());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                getContext(), linearLayoutManager.getOrientation());
+        binding.favoritesRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
-        binding.favoritesRecyclerview.setLayoutManager(gridLayoutManager);
+        binding.favoritesRecyclerview.setLayoutManager(secondLinearLayoutManager);
 
         //api call to get addresses
         favoritesPresenter.doGetAddressApi(userId);
@@ -157,7 +179,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         SharedPrefsUtils sharedPrefsUtils = SharedPrefsUtils.loginProvider();
         addUserAddress.setSubscriberId(sharedPrefsUtils.getIntegerPreference(LoginPrefs.USER_ID,
                 DEFAULT_VALUE));
-        addUserAddress.setAdressType("1"); //TODO have to remove hard coding
+        addUserAddress.setAdressType(Favorites.ADDRESS_TYPE_ONE);
         addUserAddress.setContact(sharedPrefsUtils.getStringPreference(LoginPrefs
                 .USER_PHONE_NUMBER));
         dialog = new AppUserAddressDialog.AlertDialogBuilder(getActivity(),
@@ -173,8 +195,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
                                 if ((TextUtils.isEmpty(addUserAddress.getName()))
-                                        &&
-                                        ((TextUtils.isEmpty(addUserAddress.getAddress())))) {
+                                        && ((TextUtils.isEmpty(addUserAddress.getAddress())))) {
                                     showErrorMessage(getString(R.string.error_name_address));
                                     return;
                                 }
@@ -218,6 +239,11 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                         }
                         addUserAddress.setLocation(stringLocation);
                     }
+                    break;
+                case RequestCodes.PRODUCT_ADD_FRAGMENT:
+                    //After adding new  product refrehes list
+                    onRefreshListener.onRefresh();
+                    setTitle();
                     break;
                 default:
                     break;
@@ -291,6 +317,11 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             bottomRootView.setOnClickListener(bottomViewClickListener);
             bottomSheetFavouriteBinding.bottomRow.addView(linearLayout, params);
         }
+    }
+
+    private CustomBottomViewBinding getCustomBottomView() {
+        return DataBindingUtil.inflate(
+                LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
     }
 
     // bottom sheet click event
@@ -370,14 +401,14 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             }
         }
     };
-    
+
     private CustomBottomViewBinding getCustomBottomView() {
         return DataBindingUtil.inflate(
                 LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
     }
 
-    
-    
+
+
     // share product details
     private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
         Intent sendIntent = new Intent();

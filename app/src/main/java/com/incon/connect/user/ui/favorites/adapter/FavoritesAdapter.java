@@ -76,10 +76,16 @@ public class FavoritesAdapter extends RecyclerView.Adapter
 
         public void bind(ProductInfoResponse favoritesResponse) {
             binding.setVariable(BR.favoritesResponse, favoritesResponse);
+
+            AppUtils.loadImageFromApi(binding.brandImageview, favoritesResponse
+                    .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, favoritesResponse
                     .getProductImageUrl());
-            binding.productName.setText(favoritesResponse.getProductName() + "\n "
-                    + favoritesResponse.getPrice());
+
+           /* binding.productName.setText(favoritesResponse.getProductName() + "\n "
+                    + favoritesResponse.getPrice());*/
+            binding.layoutFavoriteItem.setSelected(favoritesResponse.isSelected());
+
             binding.executePendingBindings();
         }
 
