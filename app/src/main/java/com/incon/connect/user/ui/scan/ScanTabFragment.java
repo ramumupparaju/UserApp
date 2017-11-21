@@ -29,7 +29,6 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
     private ScanTabPresenter scanTabPresenter;
     private AppAlertDialog productDetailsDialog;
     private ProductInfoResponse response;
-    private int count = 0;
     private List<ProductInfoResponse> filteredInterestList = new ArrayList<>();
 
     @Override
@@ -54,21 +53,14 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
             binding.setProductinforesponse(response);
             binding.setScanning(this);
             rootView = binding.getRoot();
-            count++;
             SharedPrefsUtils sharedPrefsUtils = SharedPrefsUtils.cacheProvider();
             boolean isScanFirst = sharedPrefsUtils.getBooleanPreference(
                     CachePrefs.IS_SCAN_FIRST, false);
             if (isScanFirst) {
-                count++;
-                sharedPrefsUtils.setBooleanPreference(CachePrefs.IS_SCAN_FIRST, true);
+                sharedPrefsUtils.setBooleanPreference(CachePrefs.IS_SCAN_FIRST, false);
             } else {
-                if (!isScanFirst && count == 1) {
-                    count = 0;
-                    onScanClick();
-                }
-
+                onScanClick();
             }
-
         }
         setTitle();
         return rootView;
