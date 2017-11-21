@@ -29,7 +29,7 @@ import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppUserAddressDialog;
-import com.incon.connect.user.databinding.BottomSheetInterestBinding;
+import com.incon.connect.user.databinding.BottomSheetFavouriteBinding;
 import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
@@ -38,7 +38,7 @@ import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
-import com.incon.connect.user.ui.history.adapter.InterestAdapter;
+import com.incon.connect.user.ui.history.fragments.PurchasedFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.GravitySnapHelper;
@@ -319,11 +319,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         }
     }
 
-    private CustomBottomViewBinding getCustomBottomView() {
-        return DataBindingUtil.inflate(
-                LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
-    }
-
     // bottom sheet click event
     private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
         @Override
@@ -440,11 +435,13 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
             } else  if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_find_service_center))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
             } else  if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_service_request))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
@@ -514,11 +511,13 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             else if (tag == 6 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
 //                showFeedBackDialog();
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             }
             else if (tag == 7 && topClickedText.equals(getString(
                     R.string.bottom_option_suggestions))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             } else if (tag == 0 && topClickedText.equals(getString(
@@ -542,6 +541,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 topDrawables = new int[0];
             } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 //                showFeedBackDialog();
