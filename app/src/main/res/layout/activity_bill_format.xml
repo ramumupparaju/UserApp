@@ -25,55 +25,51 @@
         <RelativeLayout
             style="@style/BothMatch"
             >
-
-
-
-                <RelativeLayout
-                    android:id="@+id/text_invoice"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@color/colorPrimaryDark">
-
-                    <TextView
-                        style="@style/BothWrap"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/margin_5"
-                        android:text="INVOICE"
-                        android:textColor="#ffffff"
-                        android:textSize="18sp"/>
-                </RelativeLayout>
-
+            <RelativeLayout
+                android:id="@+id/text_invoice"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/colorPrimaryDark">
 
                 <TextView
-                    android:id="@+id/text_dop"
                     style="@style/BothWrap"
-                    android:layout_below="@id/text_invoice"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Date of purchase :"
-                    android:textColor="@color/black"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:text="INVOICE"
+                    android:textColor="#ffffff"
                     android:textSize="18sp"/>
+            </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/text_bill_id"
-                    style="@style/BothWrap"
-                    android:layout_below="@id/text_dop"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Bill ID :"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"/>
 
-                <TextView
-                    android:id="@+id/text_invoice_no"
-                    style="@style/BothWrap"
-                    android:layout_below="@id/text_bill_id"
-                    android:layout_marginRight="@dimen/margin_50"
-                    android:layout_marginTop="10dp"
-                    android:text="Invoice NO :"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/text_dop"
+                style="@style/BothWrap"
+                android:layout_below="@id/text_invoice"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="10dp"
+                android:text="Date of purchase :"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
 
+            <TextView
+                android:id="@+id/text_bill_id"
+                style="@style/BothWrap"
+                android:layout_below="@id/text_dop"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="10dp"
+                android:text="Bill ID :"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/text_invoice_no"
+                style="@style/BothWrap"
+                android:layout_below="@id/text_bill_id"
+                android:layout_marginRight="@dimen/margin_50"
+                android:layout_marginTop="10dp"
+                android:text="Invoice NO :"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
 
             <View
                 android:id="@+id/view_line"
@@ -189,8 +185,6 @@
                     style="@style/BothMatch"
                     android:layout_alignLeft="@+id/view_center"
                     >
-
-
                     <RelativeLayout
                         android:id="@+id/text_customer_details"
                         android:layout_width="match_parent"
