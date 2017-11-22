@@ -72,6 +72,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private String buyRequestComment;
     private boolean isFromFavorites = false;
 
+
     @Override
     protected void initializePresenter() {
         purchasedPresenter = new PurchasedPresenter();
@@ -166,20 +167,43 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     // bottom sheet creation
     private void createBottomSheetView(int position) {
         bottomSheetPurchasedBinding.topRow.setVisibility(View.GONE);
-        String[] bottomNames = new String[4];
-        bottomNames[0] = getString(R.string.bottom_option_service);
-        bottomNames[1] = getString(R.string.bottom_option_product);
-        bottomNames[2] = getString(R.string.bottom_option_showroom);
-        bottomNames[3] = getString(R.string.bottom_option_add_as_favorite);
+        int length;
+        int[] bottomDrawables;
+        String[] bottomNames;
+        if (purchasedAdapter.
+                getItemFromPosition(position).getAddressId() != null) {
+            bottomNames = new String[3];
+            bottomNames[0] = getString(R.string.bottom_option_service);
+            bottomNames[1] = getString(R.string.bottom_option_product);
+            bottomNames[2] = getString(R.string.bottom_option_showroom);
+//            bottomNames[3] = getString(R.string.bottom_option_add_as_favorite);
 
-        int[] bottomDrawables = new int[4];
-        bottomDrawables[0] = R.drawable.ic_option_service_support;
-        bottomDrawables[1] = R.drawable.ic_option_product;
-        bottomDrawables[2] = R.drawable.ic_option_customer;
-        bottomDrawables[3] = R.drawable.ic_option_favorite;
+            bottomDrawables = new int[3];
+            bottomDrawables[0] = R.drawable.ic_option_service_support;
+            bottomDrawables[1] = R.drawable.ic_option_product;
+            bottomDrawables[2] = R.drawable.ic_option_customer;
+            length = bottomNames.length;
+
+//            bottomDrawables[3] = R.drawable.ic_option_favorite;
+
+        } else {
+            bottomNames = new String[4];
+            bottomNames[0] = getString(R.string.bottom_option_service);
+            bottomNames[1] = getString(R.string.bottom_option_product);
+            bottomNames[2] = getString(R.string.bottom_option_showroom);
+            bottomNames[3] = getString(R.string.bottom_option_add_as_favorite);
+
+            bottomDrawables = new int[4];
+            bottomDrawables[0] = R.drawable.ic_option_service_support;
+            bottomDrawables[1] = R.drawable.ic_option_product;
+            bottomDrawables[2] = R.drawable.ic_option_customer;
+            bottomDrawables[3] = R.drawable.ic_option_favorite;
+            length = bottomNames.length;
+
+        }
 
         bottomSheetPurchasedBinding.bottomRow.removeAllViews();
-        int length = bottomNames.length;
+//        int length = bottomNames.length;
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.MATCH_PARENT, length);

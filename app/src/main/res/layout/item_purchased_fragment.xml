@@ -84,7 +84,14 @@
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
-
+                <ImageView
+                    android:id="@+id/favourite_icon"
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:textColor="@color/ebony_clay"
+                    android:background="@drawable/ic_option_favorite"
+                    android:textSize="12.4sp"
+                    />
 
             </LinearLayout>
 

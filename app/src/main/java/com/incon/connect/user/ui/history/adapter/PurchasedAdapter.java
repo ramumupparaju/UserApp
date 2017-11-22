@@ -114,6 +114,11 @@ public class PurchasedAdapter extends RecyclerView.Adapter
             AppUtils.loadImageFromApi(binding.productImageview, purchasedHistoryResponse
                     .getProductImageUrl());
             binding.layoutPurchsedItem.setSelected(purchasedHistoryResponse.isSelected());
+            if (purchasedHistoryResponse.getAddressId() !=  null) {
+                binding.favouriteIcon.setVisibility(View.VISIBLE);
+            } else {
+                binding.favouriteIcon.setVisibility(View.GONE);
+            }
             binding.executePendingBindings();
         }
 
