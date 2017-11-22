@@ -16,7 +16,7 @@
         <include
             android:id="@+id/add_address_view"
             layout="@layout/item_favorites_horizontal_recyclview"
-            android:layout_width="120dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:paddingLeft="@dimen/margin_5"
@@ -25,7 +25,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/addresses_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_toLeftOf="@id/add_address_view"
             android:fadeScrollbars="false"
             android:scrollbarSize="4dp"
@@ -58,37 +58,16 @@
                 android:scrollbars="vertical"/>
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/add_product"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/margin_220"
-            android:background="@null"
-            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
             android:onClick="@{() -> favorites.onProductAddClick()}"
-            android:orientation="vertical"
-            >
-
-            <ImageView
-                android:id="@+id/add_product"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                app:srcCompat="@drawable/ic_favourite_products"/>
-
-            <TextView
-                android:id="@+id/home_text"
-                style="@style/BothWrap"
-                android:visibility="gone"
-                android:layout_below="@+id/add_product"
-                android:layout_marginTop="@dimen/margin_10"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/action_add_product"
-                android:textColor="@color/ebony_clay"
-                android:textSize="15.4sp"
-                />
-
-        </LinearLayout>
+            app:srcCompat="@drawable/ic_favourite_products"/>
 
     </RelativeLayout>
 

@@ -36,8 +36,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter
     public void onBindViewHolder(ViewHolder holder, int position) {
         ProductInfoResponse favoritesResponse = favoritestResponseList.get(position);
         holder.bind(favoritesResponse);
-        //holder.binding.productImageImageview.setImageResource((Integer) favoritesImages.get
-        //(position));
     }
 
     public ProductInfoResponse getItemFromPosition(int position) {
@@ -82,10 +80,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter
             AppUtils.loadImageFromApi(binding.productImageview, favoritesResponse
                     .getProductImageUrl());
 
-           /* binding.productName.setText(favoritesResponse.getProductName() + "\n "
-                    + favoritesResponse.getPrice());*/
             binding.layoutFavoriteItem.setSelected(favoritesResponse.isSelected());
-
             binding.executePendingBindings();
         }
 
