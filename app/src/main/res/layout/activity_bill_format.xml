@@ -89,14 +89,14 @@
                 <View
                     android:id="@+id/view_center"
                     android:layout_width="1dp"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
                     android:background="@color/dusty_gray"/>
 
                 <View
                     android:id="@+id/view_left"
                     android:layout_width="1dp"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_2"
                     android:background="@color/dusty_gray"/>
 
