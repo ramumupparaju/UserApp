@@ -10,98 +10,99 @@
     </data>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-
-    <LinearLayout
-        android:id="@+id/layout_favorite_item"
-        style="@style/MatchWrap"
-        android:background="@drawable/list_item_selector"
-        android:minHeight="70dp"
-        android:orientation="horizontal"
-        android:weightSum="3"
-        >
-        <LinearLayout
-            style="@style/Zero_wrap"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/brand_imageview"
-                style="@style/m75w75"
-                android:layout_gravity="center"/>
-
-        </LinearLayout>
 
         <LinearLayout
-            style="@style/Zero_wrap"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/product_imageview"
-                style="@style/m75w75"
-                android:layout_gravity="center"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/Zero_wrap"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
+            android:id="@+id/layout_favorite_item"
+            style="@style/MatchWrap"
+            android:background="@drawable/list_item_selector"
+            android:minHeight="70dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
             >
 
             <LinearLayout
-                style="@style/BothWrap"
-                android:gravity="start"
+                style="@style/Zero_wrap"
+                android:layout_gravity="center"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:text="@{favoritesResponse.productName}"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"
-                    />
+                <ImageView
+                    android:id="@+id/brand_imageview"
+                    style="@style/m75w75"
+                    android:layout_gravity="center"/>
 
-                <TextView
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{favoritesResponse.price}"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"
-                    />
+            </LinearLayout>
 
-                <TextView
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{favoritesResponse.status}"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"
-                    />
+            <LinearLayout
+                style="@style/Zero_wrap"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/product_imageview"
+                    style="@style/m75w75"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Zero_wrap"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <LinearLayout
                     style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{favoritesResponse.warrantyId}"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"
-                    />
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/BothWrap"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:text="@{favoritesResponse.productName}"
+                        android:textColor="@color/ebony_clay"
+                        android:textSize="12.4sp"
+                        />
+
+                    <TextView
+                        style="@style/BothWrap"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:text="@{favoritesResponse.price}"
+                        android:textColor="@color/ebony_clay"
+                        android:textSize="12.4sp"
+                        />
+
+                    <TextView
+                        style="@style/BothWrap"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:text="@{favoritesResponse.status}"
+                        android:textColor="@color/ebony_clay"
+                        android:textSize="12.4sp"
+                        />
+
+                    <TextView
+                        style="@style/BothWrap"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:text="@{favoritesResponse.warrantyId}"
+                        android:textColor="@color/ebony_clay"
+                        android:textSize="12.4sp"
+                        />
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
 
 
         </LinearLayout>
-
-
-    </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/progress_layout"
@@ -133,8 +134,6 @@
         </RelativeLayout>
 
     </LinearLayout>
-
-
 
 
 </layout>
