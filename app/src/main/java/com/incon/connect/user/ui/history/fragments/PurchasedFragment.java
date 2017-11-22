@@ -407,11 +407,13 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_find_service_center))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
             } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_service_request))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
@@ -462,6 +464,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 startActivity(billFormatIntent);
             } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_past_history))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             } else if (tag == 4 && topClickedText.equals(getString(
@@ -477,10 +480,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             } else if (tag == 6 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
 //                showFeedBackDialog();
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             } else if (tag == 7 && topClickedText.equals(getString(
                     R.string.bottom_option_suggestions))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             } else if (tag == 0 && topClickedText.equals(getString(
@@ -491,10 +496,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_find_service_center))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_service_request))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             } else if (tag == 1 && topClickedText.equals(getString(
@@ -504,6 +511,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables = new int[0];
             } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 //                showFeedBackDialog();
@@ -651,6 +659,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 showInformationDialog(itemFromPosition.getSpecialInstruction());
             } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_how_to_use))) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
 //                showInformationDialog(itemFromPosition.getInformation());
             } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_description))) {
