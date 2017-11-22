@@ -19,6 +19,7 @@ public interface PurchasedContract {
         void loadAddresses(List<AddUserAddressResponse> favoritesResponseList);
         void addedToFavorite();
         void transferMobileNumber(Object response);
+        void deleteProduct(Object response);
     }
 
     interface Presenter {
@@ -26,6 +27,7 @@ public interface PurchasedContract {
         void doGetAddressApi(int userId);
         void doTransferProductApi(String phoneNumber , int userId);
         void addToFavotites(HashMap<String, String> favoritesMap);
+        void deleteProduct(int userId);
     }
 
 }

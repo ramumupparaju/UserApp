@@ -63,7 +63,6 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_10"
-                    android:visibility="gone"
                     android:text="@{productinforesponse.productName}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
@@ -74,6 +73,7 @@
                     android:layout_marginTop="@dimen/margin_8"
                     android:text="@{ '\u20B9'+ productinforesponse.price}"
                     android:textColor="@color/ebony_clay"
+                    android:visibility="invisible"
                     android:textSize="12.4sp"
                     />
 

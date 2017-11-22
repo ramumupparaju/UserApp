@@ -50,6 +50,7 @@ public class AppAlertDialog extends Dialog implements View.OnClickListener {
         TextView contentTv = ((TextView) contentView.findViewById(R.id.dialog_content_textView));
         if (!TextUtils.isEmpty(content)) {
             contentTv.setVisibility(View.VISIBLE);
+            contentTv.setMovementMethod(new ScrollingMovementMethod());
             contentTv.setText(content);
         } else {
             contentTv.setVisibility(View.GONE);

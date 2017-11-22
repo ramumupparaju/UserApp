@@ -18,6 +18,8 @@ import com.incon.connect.user.utils.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.incon.connect.user.AppConstants.UpDateUserProfileValidation.MIN_DAYS;
+
 /**
  * Created on 13 Jun 2017 4:05 PM.
  */
@@ -123,7 +125,7 @@ public class PurchasedAdapter extends RecyclerView.Adapter
             long noOfDays = DateUtils.convertDifferenceDateIndays(
                     purchasedHistoryResponse.getPurchasedDate()
                     , purchasedHistoryResponse.getPurchasedDate());
-            if (noOfDays >= 7) {
+            if (noOfDays >= MIN_DAYS) {
                 binding.warrentyIcon.setBackgroundColor(
                         binding.getRoot().getResources().getColor(R.color.green));
             } else if (noOfDays == 0){

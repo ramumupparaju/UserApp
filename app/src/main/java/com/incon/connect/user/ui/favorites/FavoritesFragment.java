@@ -410,7 +410,9 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
 
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_main_features))) {
-                showInformationDialog(itemFromPosition.getInformation());
+                showInformationDialog(getString(
+                        R.string.bottom_option_main_features),
+                        itemFromPosition.getInformation());
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             } else if (tag == 1 && topClickedText.equals(getString(
@@ -491,23 +493,27 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                     R.string.bottom_option_return_policy))) {
                 String returnPolicy = itemFromPosition.getReturnPolicy();
                 if (returnPolicy != null) {
-                    showInformationDialog(returnPolicy);
+                    showInformationDialog(getString(
+                            R.string.bottom_option_return_policy) ,returnPolicy);
                 }
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_special_instructions))) {
                 String specialInstruction = itemFromPosition.getSpecialInstruction();
                 if (specialInstruction != null) {
-                    showInformationDialog(specialInstruction);
+                    showInformationDialog(getString(
+                            R.string.bottom_option_special_instructions), specialInstruction);
                 }
             } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_how_to_use))) {
             } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_warranty))) {
                 if (itemFromPosition.getWarrantyYears() != null) {
-                    showInformationDialog("Warranty: "
+                    showInformationDialog(getString(
+                            R.string.bottom_option_warranty),
                             + itemFromPosition.getWarrantyYears() + "Year");
                 } else {
-                    showInformationDialog("No Warranty Exists");
+                    showInformationDialog(getString(
+                            R.string.bottom_option_warranty),"No Warranty Exists");
                 }
             } else if (tag == 4 && topClickedText.equals(getString(
                     R.string.bottom_option_share))) {
@@ -556,7 +562,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         detailsDialog.showDialog();
     }
 
-    private void showInformationDialog(String messageInfo) {
+    private void showInformationDialog(String title ,String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override
@@ -572,11 +578,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                                 break;
                         }
                     }
-                }).title(messageInfo)
-                .button1Text(getString(R.string.action_ok))
+                }).title(title).content(messageInfo)
                 .build();
         detailsDialog.showDialog();
+        detailsDialog.setCancelable(true);
     }
+
 
     //location dialog
     private void showLocationDialog() {

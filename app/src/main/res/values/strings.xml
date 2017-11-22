@@ -291,6 +291,7 @@
     <string name="dialog_verify_title">Please enter the verification code which\n was sent to %1$s.</string>
     <string name="dialog_notes_buyRequest">Please Enter The Notes</string>
     <string name="dialog_logout">Are you sure you want to logout?</string>
+    <string name="dialog_delete">Are you sure you want to delete?</string>
 
     <!-- Forgot password -->
     <string name="login_username_hint">Phone number</string>

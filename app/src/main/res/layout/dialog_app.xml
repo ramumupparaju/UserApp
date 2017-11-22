@@ -7,22 +7,24 @@
 
     <TextView
         android:id="@+id/dialog_title_textView"
-        style="@style/Match200"
+        style="@style/MatchWrap"
         android:lineSpacingExtra="@dimen/text_size_13"
         android:scrollbars="vertical"
         android:padding="@dimen/margin_20"
-        android:textColor="@color/colorEulaMessage"
-        android:textSize="@dimen/text_size_15" />
+        android:gravity="center"
+        android:text="@string/action_description"
+        android:textColor="@color/tueo_theme"
+        android:textSize="@dimen/text_size_18" />
 
     <TextView
         android:id="@+id/dialog_content_textView"
         style="@style/MatchWrap"
         android:gravity="center_horizontal"
         android:paddingBottom="@dimen/margin_20"
-        android:paddingTop="@dimen/margin_30"
+        android:text="@string/action_add_as_favorite"
         android:textColor="@color/colorEulaMessage"
-        android:textSize="@dimen/text_size_18"
-        android:visibility="gone" />
+        android:textSize="@dimen/text_size_15"
+        android:visibility="visible" />
 
 
     <Button

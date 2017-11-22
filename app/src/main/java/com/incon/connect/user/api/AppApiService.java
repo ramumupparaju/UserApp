@@ -136,6 +136,10 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.addToFavotites(favoriteMap));
     }
 
+    // add favourites  api
+    public Observable<Object> deleteProduct(int warrantyId) {
+        return addNetworkCheck(serviceInstance.deleteProduct(warrantyId));
+    }
     //add product to interest api
     public Observable<List<ProductInfoResponse>> interestApi(int userId) {
         return addNetworkCheck(serviceInstance.interestApi(userId));
