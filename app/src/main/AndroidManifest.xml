@@ -123,7 +123,13 @@
         <activity
             android:name="com.incon.connect.user.ui.billformat.BillFormatActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="landscape">
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.incon.connect.user.ui.scan.ProductDetails"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait">
         </activity>
 
 
