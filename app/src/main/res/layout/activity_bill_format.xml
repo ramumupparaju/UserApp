@@ -13,157 +13,514 @@
 
     </data>
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+    <ScrollView
+        android:id="@+id/scrollview_user_info"
+        style="@style/BothMatch"
+        android:fadeScrollbars="false"
+        android:scrollbarSize="4dp"
+        android:scrollbarThumbVertical="@drawable/scrollbar"
+        android:scrollbars="vertical">
 
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark">
+        <RelativeLayout style="@style/BothMatch">
+
+            <RelativeLayout
+                android:id="@+id/text_invoice"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/colorPrimaryDark">
+
+                <TextView
+                    style="@style/BothWrap"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:text="INVOICE"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_below="@id/text_invoice"
+                android:orientation="vertical"
+                android:id="@+id/layout_invoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
 
             <TextView
-                android:background="@drawable/btn_nevada_selector"
-                android:layout_weight="1"
+                android:id="@+id/text_dop"
+                style="@style/BothWrap"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Date of purchase"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/text_bill_id"
+                style="@style/BothWrap"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Bill ID"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/text_invoice_no"
+                style="@style/BothWrap"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Invoice NO"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_toRightOf="@+id/layout_invoice"
+                android:layout_below="@id/text_invoice"
+                android:orientation="vertical"
+                android:id="@+id/layout_invoice_values"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:id="@+id/text_dop_values"
+                    style="@style/BothWrap"
+                    android:layout_marginTop="10dp"
+                    android:text=": 22/1/1993"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_bill_id_values"
+                    style="@style/BothWrap"
+                    android:layout_marginTop="10dp"
+                    android:text=": 25"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_invoice_no_values"
+                    style="@style/BothWrap"
+                    android:layout_marginRight="@dimen/margin_50"
+                    android:layout_marginTop="10dp"
+                    android:text=": hi"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/text_showroom_details"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/layout_invoice"
+                android:layout_marginTop="@dimen/margin_5"
+                android:background="@color/colorPrimaryDark">
+
+                <TextView
+                    style="@style/BothWrap"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:text="Show room details"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_showroom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="sample"
-                android:textColor="#ffffff"
-                />
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/text_showroom_details"
+                android:orientation="vertical">
 
-            <TextView
-                android:background="@drawable/btn_nevada_selector"
-                android:layout_weight="1"
+                <TextView
+                    android:id="@+id/text_showroom_name"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="Show Room Name:"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_showroom_address"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="Address"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_contact_details"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="Contact Details"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_showroom_gstn"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="GSTN"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_showroom_values"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="sample"
-                android:textColor="#ffffff"
-                />
+                android:layout_below="@id/text_showroom_details"
+                android:layout_toRightOf="@+id/layout_showroom"
+                android:orientation="vertical">
 
-            <TextView
-                android:background="@drawable/btn_nevada_selector"
-                android:layout_weight="1"
+                <TextView
+                    android:id="@+id/text_showroom_name_value"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=": incon"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_showroom_address_value"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=": Manikond"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_contact_details_value"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=":9876543210:"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_showroom_gstn_value"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=":12345678"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_customer"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/layout_showroom"
+                android:layout_marginTop="@dimen/margin_5"
+                android:background="@color/colorPrimaryDark">
+
+                <TextView
+                    style="@style/BothWrap"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:text="Customer details"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_customer_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="sample"
-                android:textColor="#ffffff"
-                />
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/layout_customer"
+                android:orientation="vertical">
 
-            <TextView
-                android:background="@drawable/btn_nevada_selector"
-                android:layout_weight="1"
+
+                <TextView
+                    android:id="@+id/text_customer_name"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="Customer Name"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_customer_address"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="Address"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_customer_contact_details"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="Contact Details"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_customer_details_values"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="sample"
-                android:textColor="#ffffff"/>
+                android:layout_toRightOf="@+id/layout_customer_details"
+                android:layout_below="@+id/layout_customer"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/text_customer_name_values"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=": Ramu"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_customer_address_values"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=": manikonda"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_customer_contact_details_values"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=": 9876543210"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/layout_product_details"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/layout_customer_details"
+                android:layout_marginTop="@dimen/margin_5"
+                android:background="@color/colorPrimaryDark">
+                <TextView
+                    style="@style/BothWrap"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:text="Product details"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_below="@+id/layout_product_details"
+                android:id="@+id/layout_product_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
 
             <TextView
-                android:background="@drawable/btn_nevada_selector"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="sample"
-                android:textColor="#ffffff"/>
+                android:id="@+id/text_product_name"
+                style="@style/BothWrap"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginTop="10dp"
+                android:text="Product name"
+                android:textColor="@color/ebony_clay"
+                android:textSize="15sp" />
 
             <TextView
-                android:background="@drawable/btn_nevada_selector"
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="sample"
-                android:textColor="#ffffff"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:id="@+id/text_model_number"
+                style="@style/BothWrap"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginTop="10dp"
+                android:text="Model no"
+                android:textColor="@color/ebony_clay"
+                android:textSize="15sp" />
 
-        </TableRow>
-        <View
-            android:id="@+id/view_below_center"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#ffffff"
-            />
-
-        <TableRow
-            android:layout_below="@id/tableRow1"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:gravity="center_horizontal"
-            >
+            <TextView
+                android:id="@+id/text_sn"
+                style="@style/BothWrap"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginTop="10dp"
+                android:text="S/N"
+                android:textColor="@color/ebony_clay"
+                android:textSize="15sp" />
 
 
             <TextView
-                android:background="#dcdcdc"
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="sample"
-                android:textColor="#ffffff"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:id="@+id/text_price"
+                style="@style/BothWrap"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginTop="10dp"
+                android:text="Price"
+                android:textColor="@color/ebony_clay"
+                android:textSize="15sp" />
+
 
             <TextView
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="sample"
-                android:textColor="#000000"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:id="@+id/text_discount"
+                style="@style/BothWrap"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginTop="10dp"
+                android:text="Discount"
+                android:textColor="@color/ebony_clay"
+                android:textSize="15sp" />
+
 
             <TextView
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="sample"
-                android:textColor="#000000"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/text_gst"
+                style="@style/BothWrap"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginTop="10dp"
+                android:text="GST"
+                android:textColor="@color/ebony_clay"
+                android:textSize="15sp" />
+
 
             <TextView
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="sample"
-                android:textColor="#000000"
-                android:layout_weight="1"
+                android:id="@+id/text_total"
+                style="@style/BothWrap"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginTop="10dp"
+                android:text="Total"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_below="@+id/layout_product_details"
+                android:layout_toRightOf="@+id/layout_product_detail"
+                android:orientation="vertical"
+                android:id="@+id/layout_product_detail_valus"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+
+
+
+                <TextView
+                    android:id="@+id/text_product_name_valus"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=": Samsung"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_model_number_valus"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=": 1234567898"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_sn_valus"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=": mko"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_price_valus"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=": 25"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_discount_valus"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=": 25"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_gst_valus"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=": 20"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_total_valus"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text=": 100"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
             <TextView
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="sample"
-                android:textColor="#000000"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:id="@+id/text_terms_conditions"
+                style="@style/BothWrap"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/layout_product_detail"
+                android:layout_marginTop="20dp"
+                android:text="Terms and conditions"
+                android:textColor="@color/ebony_clay"
+                android:textSize="18sp" />
 
             <TextView
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="sample"
-                android:textColor="#000000"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_below="@id/text_terms_conditions"
+                android:id="@+id/text_connect"
+                style="@style/BothWrap"
+                android:layout_marginTop="@dimen/margin_20"
+                android:layout_alignParentBottom="true"
+                android:text="Powered by CONNECT"
+                android:textColor="@color/ebony_clay"
+                android:textSize="18sp" />
 
 
-        </TableRow>
+        </RelativeLayout>
 
-    </TableLayout>
+
+    </ScrollView>
 
 </layout>

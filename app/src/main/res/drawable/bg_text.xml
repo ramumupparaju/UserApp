@@ -4,7 +4,7 @@
         android:drawable="@drawable/btn_register_type_unchecked"
         android:state_checked="true"
         android:state_pressed="true" />-->
-    <item android:drawable="#ffffff"
+    <item android:drawable="@color/white"
           android:state_selected="true" />
     <item android:drawable="@color/colorPrimary" />
 </selector>
