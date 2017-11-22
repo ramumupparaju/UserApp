@@ -19,6 +19,11 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:orientation="vertical">
+            <ImageView
+                android:id="@+id/warrenty_icon"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_width="4dp"
+                android:layout_height="4dp" />
 
             <ImageView
                 android:id="@+id/brand_imageview"
@@ -51,11 +56,14 @@
             <LinearLayout
                 style="@style/BothWrap"
                 android:gravity="start"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:orientation="vertical">
 
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_10"
+                    android:visibility="gone"
                     android:text="@{productinforesponse.productName}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
@@ -64,7 +72,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{productinforesponse.price}"
+                    android:text="@{ '\u20B9'+ productinforesponse.price}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
@@ -72,7 +80,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{productinforesponse.status}"
+                    android:text="@{`Status ` + productinforesponse.status}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
@@ -82,6 +90,7 @@
                     android:layout_marginTop="@dimen/margin_8"
                     android:text="@{productinforesponse.warrantyId}"
                     android:textColor="@color/ebony_clay"
+                    android:visibility="invisible"
                     android:textSize="12.4sp"
                     />
                 <ImageView
@@ -100,4 +109,4 @@
 
     </LinearLayout>
 
-     </layout>
+</layout>
