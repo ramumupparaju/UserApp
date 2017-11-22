@@ -44,6 +44,7 @@ import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_ADDRESS_ID;
@@ -127,12 +128,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
         purchasedPresenter.purchased(userId);
-        purchasedPresenter.doGetAddressApi(userId);
 
 
         Bundle bundle = getArguments();
-        if (bundle != null)
+        if (bundle != null) {
             isFromFavorites = bundle.getBoolean(BundleConstants.FROM_FAVORITES);
+        } else {
+            purchasedPresenter.doGetAddressApi(userId);
+        }
 
     }
 
@@ -756,10 +759,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
 
         if (isFromFavorites) {
-            for (ProductInfoResponse productInfoRespons : productInfoResponses) {
-                String addressId = productInfoRespons.getAddressId();
-                if (addressId != null) {
-                    productInfoResponses.remove(productInfoRespons);
+            for (Iterator<ProductInfoResponse> iter = productInfoResponses.listIterator(); iter.hasNext(); ) {
+                ProductInfoResponse singleProductData = iter.next();
+                if (singleProductData.getAddressId() != null) {
+                    iter.remove();
                 }
             }
         }

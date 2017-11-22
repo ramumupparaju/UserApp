@@ -116,7 +116,7 @@ public interface AppServiceObservable {
     Observable<UserInfoResponse> userInfoUsingQrCode(@Path("qrCode") String qrCode);
 
     // user intereste api
-    @POST("user/interested/{customerId}/")
+    @POST("user/interested/{customerId}")
     Observable<Object> userInterestedUsingQrCode(@Path("customerId") int customerId, @Body
             HashMap<String,
                     String> qrCode);
