@@ -16,9 +16,7 @@ import com.incon.connect.user.databinding.FragmentScanTabBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.qrcodescan.QrcodeBarcodeScanActivity;
-import com.incon.connect.user.ui.settings.update.UpDateUserProfileActivity;
 import com.incon.connect.user.utils.SharedPrefsUtils;
-
 
 
 public class ScanTabFragment extends BaseFragment implements ScanTabContract.View {
@@ -90,9 +88,12 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
 
     @Override
     public void userInterestedResponce(ProductInfoResponse productInfoResponse) {
-        showProductDetailsDialog(productInfoResponse);
-        /*Intent addressIntent = new Intent(getActivity(), ProductDetails.class);
-        startActivity(addressIntent);*/
+        //showProductDetailsDialog(productInfoResponse);
+        Intent addressIntent = new Intent(getActivity(), ProductDetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, productInfoResponse);
+        addressIntent.putExtras(bundle);
+        startActivity(addressIntent);
 
     }
 
