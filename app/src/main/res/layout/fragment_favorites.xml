@@ -60,12 +60,13 @@
 
         <ImageView
             android:id="@+id/add_product"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/margin_10"
             android:layout_marginRight="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_10"
             android:onClick="@{() -> favorites.onProductAddClick()}"
             app:srcCompat="@drawable/ic_favourite_products"/>
 

@@ -225,8 +225,10 @@
 
 
     <!-- progress messages -->
+
     <string name="progress_addoffer_merchant_fragment">Loading AddOffer Merchant Fragment..
         .</string>
+    <string name="hint_warranty_period">Warranty expires in %1$d</string>
     <string name="progress_adding_to_favorites">Adding to favorites...</string>
     <string name="progress_purchased_history">Loading Purchased History...</string>
     <string name="progress_interest_history">Loading Interest History...</string>
