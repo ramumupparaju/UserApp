@@ -141,6 +141,42 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("warrantyConditions")
     @Expose
     private String warrantyConditions;
+
+    @SerializedName("color")
+    @Expose
+    private String color;
+    @SerializedName("productSpecification")
+    @Expose
+    private String productSpecification;
+
+    @SerializedName("productDimensions")
+    @Expose
+    private String productDimensions;
+
+    public String getProductDimensions() {
+        return productDimensions;
+    }
+
+    public void setProductDimensions(String productDimensions) {
+        this.productDimensions = productDimensions;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getProductSpecification() {
+        return productSpecification;
+    }
+
+    public void setProductSpecification(String productSpecification) {
+        this.productSpecification = productSpecification;
+    }
+
     private transient boolean isSelected;
 
     @SerializedName("id")

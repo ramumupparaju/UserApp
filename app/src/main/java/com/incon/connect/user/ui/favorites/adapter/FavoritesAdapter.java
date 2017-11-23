@@ -12,9 +12,12 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemFavoritesFragmentBinding;
+import com.incon.connect.user.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.incon.connect.user.AppConstants.UpDateUserProfileValidation.MIN_DAYS;
 
 /**
  * Created on 13 Jun 2017 4:05 PM.
@@ -81,6 +84,26 @@ public class FavoritesAdapter extends RecyclerView.Adapter
                     .getProductImageUrl());
 
             binding.layoutFavoriteItem.setSelected(favoritesResponse.isSelected());
+            long noOfDays = DateUtils.convertDifferenceDateIndays(
+                    favoritesResponse.getPurchasedDate()
+                    , favoritesResponse.getPurchasedDate());
+
+            if (noOfDays != 0) {
+                binding.warrantyPeriod.setVisibility(View.VISIBLE);
+                binding.warrantyPeriod.setText(binding.warrantyPeriod.getContext().getString(R.string.hint_warranty_period, noOfDays));
+            } else  {
+                binding.warrantyPeriod.setVisibility(View.GONE);
+            }
+            if (noOfDays >= MIN_DAYS) {
+                binding.warrentyIcon.setBackgroundColor(
+                        binding.getRoot().getResources().getColor(R.color.green));
+            } else if (noOfDays == 0){
+                binding.warrentyIcon.setBackgroundColor(
+                        binding.getRoot().getResources().getColor(R.color.red));
+            } else {
+                binding.warrentyIcon.setBackgroundColor(
+                        binding.getRoot().getResources().getColor(R.color.orange));
+            }
             binding.executePendingBindings();
         }
 
