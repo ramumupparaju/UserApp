@@ -8,6 +8,9 @@ import com.incon.connect.user.apimodel.components.productinforesponse.ProductInf
 import com.incon.connect.user.databinding.ActivityBillFormatBinding;
 import com.incon.connect.user.ui.BaseActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by PC on 11/15/2017.
@@ -26,7 +29,6 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
 
     @Override
     protected void initializePresenter() {
-
     }
 
     @Override
@@ -35,7 +37,7 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
          productInfoResponse = new ProductInfoResponse();
         binding.setProductinforesponse(productInfoResponse);
         binding.setBillFormatActivity(this);
-        productInfoResponse.setPrice("Price :" + productInfoResponse.getPrice());
+      //  productInfoResponse.setPrice("Price :" + productInfoResponse.getPrice());
 
     }
 

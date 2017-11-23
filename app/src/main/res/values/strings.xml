@@ -18,7 +18,7 @@
     <string name="bottom_option_product">Product</string>
     <string name="bottom_option_special_instructions">Special Instructions </string>
     <string name="bottom_option_how_to_use">How to use</string>
-    <string name="bottom_option_description">Description</string>
+    <string name="bottom_option_description">Description:</string>
     <string name="bottom_option_service">Service/Support</string>
     <string name="bottom_option_satus_update">Satus Update</string>
     <string name="bottom_option_add_as_favorite">Add as favorite</string>
@@ -225,8 +225,10 @@
 
 
     <!-- progress messages -->
+
     <string name="progress_addoffer_merchant_fragment">Loading AddOffer Merchant Fragment..
         .</string>
+    <string name="hint_warranty_period">Warranty expires in %1$d</string>
     <string name="progress_adding_to_favorites">Adding to favorites...</string>
     <string name="progress_purchased_history">Loading Purchased History...</string>
     <string name="progress_interest_history">Loading Interest History...</string>
@@ -291,6 +293,7 @@
     <string name="dialog_verify_title">Please enter the verification code which\n was sent to %1$s.</string>
     <string name="dialog_notes_buyRequest">Please Enter The Notes</string>
     <string name="dialog_logout">Are you sure you want to logout?</string>
+    <string name="dialog_delete">Are you sure you want to delete?</string>
 
     <!-- Forgot password -->
     <string name="login_username_hint">Phone number</string>

@@ -79,6 +79,10 @@ public interface AppServiceObservable {
     @POST("user/addtofavourites")
     Observable<Object> addToFavotites(@Body HashMap<String, String> favoriteMap);
 
+    // add favourites  api
+    @GET("user/history/deletepurchased/{warrantyId}")
+    Observable<Object> deleteProduct(@Path("warrantyId") int warrantyId);
+
     //assign qr code to product api
     @POST("product/assign")
     Observable<Object> assignQrCodeToProduct(@Body AssignQrCode qrCode);
@@ -117,7 +121,7 @@ public interface AppServiceObservable {
 
     // user intereste api
     @POST("user/interested/{customerId}")
-    Observable<Object> userInterestedUsingQrCode(@Path("customerId") int customerId, @Body
+    Observable<ProductInfoResponse> userInterestedUsingQrCode(@Path("customerId") int customerId, @Body
             HashMap<String,
                     String> qrCode);
 

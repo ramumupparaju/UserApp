@@ -27,6 +27,7 @@ import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
+import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppFeedBackDialog;
@@ -71,6 +72,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private AppFeedBackDialog buyFeedBackRequestDialog;
     private String buyRequestComment;
     private boolean isFromFavorites = false;
+    private AppAlertVerticalTwoButtonsDialog dialogDelete;
+
 
     @Override
     protected void initializePresenter() {
@@ -166,20 +169,47 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     // bottom sheet creation
     private void createBottomSheetView(int position) {
         bottomSheetPurchasedBinding.topRow.setVisibility(View.GONE);
-        String[] bottomNames = new String[4];
-        bottomNames[0] = getString(R.string.bottom_option_service);
-        bottomNames[1] = getString(R.string.bottom_option_product);
-        bottomNames[2] = getString(R.string.bottom_option_showroom);
-        bottomNames[3] = getString(R.string.bottom_option_add_as_favorite);
+        int length;
+        int[] bottomDrawables;
+        String[] bottomNames;
+        if (purchasedAdapter.
+                getItemFromPosition(position).getAddressId() != null) {
+            bottomNames = new String[4];
+            bottomNames[0] = getString(R.string.bottom_option_service);
+            bottomNames[1] = getString(R.string.bottom_option_product);
+            bottomNames[2] = getString(R.string.bottom_option_showroom);
+            bottomNames[3] = getString(R.string.bottom_option_delete);
+//            bottomNames[3] = getString(R.string.bottom_option_add_as_favorite);
 
-        int[] bottomDrawables = new int[4];
-        bottomDrawables[0] = R.drawable.ic_option_service_support;
-        bottomDrawables[1] = R.drawable.ic_option_product;
-        bottomDrawables[2] = R.drawable.ic_option_customer;
-        bottomDrawables[3] = R.drawable.ic_option_favorite;
+            bottomDrawables = new int[4];
+            bottomDrawables[0] = R.drawable.ic_option_service_support;
+            bottomDrawables[1] = R.drawable.ic_option_product;
+            bottomDrawables[2] = R.drawable.ic_option_customer;
+            bottomDrawables[3] = R.drawable.ic_option_delete;
+            length = bottomNames.length;
+
+//            bottomDrawables[3] = R.drawable.ic_option_favorite;
+
+        } else {
+            bottomNames = new String[5];
+            bottomNames[0] = getString(R.string.bottom_option_service);
+            bottomNames[1] = getString(R.string.bottom_option_product);
+            bottomNames[2] = getString(R.string.bottom_option_showroom);
+            bottomNames[3] = getString(R.string.bottom_option_delete);
+            bottomNames[4] = getString(R.string.bottom_option_add_as_favorite);
+
+            bottomDrawables = new int[5];
+            bottomDrawables[0] = R.drawable.ic_option_service_support;
+            bottomDrawables[1] = R.drawable.ic_option_product;
+            bottomDrawables[2] = R.drawable.ic_option_customer;
+            bottomDrawables[3] = R.drawable.ic_option_delete;
+            bottomDrawables[4] = R.drawable.ic_option_favorite;
+            length = bottomNames.length;
+
+        }
 
         bottomSheetPurchasedBinding.bottomRow.removeAllViews();
-        int length = bottomNames.length;
+//        int length = bottomNames.length;
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.MATCH_PARENT, length);
@@ -246,6 +276,11 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[0] = R.drawable.ic_option_call;
                 topDrawables[1] = R.drawable.ic_option_location;
                 topDrawables[2] = R.drawable.ic_option_feedback;
+                changeBackgroundText(tag, view);
+            } else if (tag == 3) {
+                bottomOptions = new String[0];
+                topDrawables = new int[0];
+                showDeleteDialog();
                 changeBackgroundText(tag, view);
             } else {
                 bottomOptions = new String[0];
@@ -439,7 +474,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 long noOfDays = DateUtils.convertDifferenceDateIndays(
                         itemFromPosition.getPurchasedDate()
                         , itemFromPosition.getPurchasedDate());
+                String warrantyConditions = itemFromPosition.getWarrantyConditions();
                 showInformationDialog(getString(
+                        R.string.bottom_option_warranty) ,getString(
                         R.string.purchased_warranty_status_now)
                         + noOfDays + " Days Left "
                         + "\n"
@@ -449,7 +486,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                         + "\n"
                         + getString(
                         R.string.purchased_warranty_covers_date)
-                        + " "
+                        + warrantyConditions
                         + "\n"
                         + getString(
                         R.string.purchased_warranty_ends_on) + warrantyEndDate);
@@ -642,6 +679,35 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         buyRequestDialog.showDialog();
     }
 
+    private void showDeleteDialog() {
+        final ProductInfoResponse itemFromPosition = purchasedAdapter.
+                getItemFromPosition(productSelectedPosition);
+        dialogDelete = new AppAlertVerticalTwoButtonsDialog.AlertDialogBuilder(getActivity(), new
+                AlertDialogCallback() {
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                dialogDelete.dismiss();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+//                                onLogoutClick();
+                                purchasedPresenter.deleteProduct(Integer.parseInt(
+                                        itemFromPosition.getWarrantyId()));
+                                dialogDelete.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.dialog_delete))
+                .button1Text(getString(R.string.action_cancel))
+                .button2Text(getString(R.string.action_ok))
+                .build();
+        dialogDelete.showDialog();
+        dialogDelete.setButtonBlueUnselectBackground();
+    }
+
     private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -653,17 +719,26 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     productSelectedPosition);
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_return_policy))) {
-                showInformationDialog(itemFromPosition.getReturnPolicy());
+                showInformationDialog(getString(
+                        R.string.bottom_option_return_policy) , itemFromPosition.getReturnPolicy());
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_special_instructions))) {
-                showInformationDialog(itemFromPosition.getSpecialInstruction());
+                showInformationDialog(getString(
+                        R.string.bottom_option_special_instructions) ,
+                        itemFromPosition.getSpecialInstruction());
             } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_how_to_use))) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
 //                showInformationDialog(itemFromPosition.getInformation());
             } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_description))) {
-                showInformationDialog(itemFromPosition.getInformation());
+                showInformationDialog(getString(
+                        R.string.bottom_option_description) ,itemFromPosition.getInformation()
+                        + itemFromPosition.getProductSpecification()
+                        + itemFromPosition.getColor()
+                        + itemFromPosition.getProductDimensions()
+
+                );
             }
        /*  else if (tag == 0 && topClickedText.equals(getString(
         R.string.bottom_option_return_policy))) {
@@ -683,7 +758,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     };
 
-    private void showInformationDialog(String messageInfo) {
+    private void showInformationDialog(String title ,String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override
@@ -699,10 +774,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                                 break;
                         }
                     }
-                }).title(messageInfo)
-                .button1Text(getString(R.string.action_ok))
+                }).title(title).content(messageInfo)
                 .build();
         detailsDialog.showDialog();
+        detailsDialog.setCancelable(true);
     }
 
     private void showLocationDialog() {
@@ -775,8 +850,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             dismissSwipeRefresh();
         }
 
-        /*purchasedAdapter.setData(purchasedHistoryResponseList);
-        dismissSwipeRefresh();*/
     }
 
     @Override
@@ -803,6 +876,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     @Override
     public void transferMobileNumber(Object o) {
+    }
+
+    @Override
+    public void deleteProduct(Object response) {
+            onRefreshListener.onRefresh();
+            AppUtils.showSnackBar(getView(),getString(R.string.action_delete));
     }
 
     // product search

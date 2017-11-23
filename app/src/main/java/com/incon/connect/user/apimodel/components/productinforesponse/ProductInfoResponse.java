@@ -1,15 +1,20 @@
 package com.incon.connect.user.apimodel.components.productinforesponse;
 
 import android.databinding.BaseObservable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.incon.connect.user.apimodel.components.qrcodebaruser.Store;
 
 /**
  * Created by PC on 11/8/2017.
  */
 
-public class ProductInfoResponse extends BaseObservable {
+public class ProductInfoResponse extends BaseObservable implements Parcelable {
+
+
     @SerializedName("serialNumber")
     @Expose
     private String serialNumber;
@@ -86,9 +91,7 @@ public class ProductInfoResponse extends BaseObservable {
     @SerializedName("address")
     @Expose
     private String address;
-    @SerializedName("location")
-    @Expose
-    private String location;
+
     @SerializedName("interestId")
     @Expose
     private Integer interestId;
@@ -137,7 +140,220 @@ public class ProductInfoResponse extends BaseObservable {
     @SerializedName("warrantyConditions")
     @Expose
     private String warrantyConditions;
+
+    @SerializedName("color")
+    @Expose
+    private String color;
+    @SerializedName("productSpecification")
+    @Expose
+    private String productSpecification;
+
+    @SerializedName("productDimensions")
+    @Expose
+    private String productDimensions;
+
+    public String getProductDimensions() {
+        return productDimensions;
+    }
+
+    public void setProductDimensions(String productDimensions) {
+        this.productDimensions = productDimensions;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getProductSpecification() {
+        return productSpecification;
+    }
+
+    public void setProductSpecification(String productSpecification) {
+        this.productSpecification = productSpecification;
+    }
+
     private transient boolean isSelected;
+
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("location")
+    @Expose
+    private String location;
+    @SerializedName("msisdn")
+    @Expose
+    private String msisdn;
+    @SerializedName("usertype")
+    @Expose
+    private Integer usertype;
+    @SerializedName("store")
+    @Expose
+    private Store store;
+    @SerializedName("uuid")
+    @Expose
+    private String uuid;
+    @SerializedName("country")
+    @Expose
+    private String country;
+    @SerializedName("dob")
+    @Expose
+    private String dob;
+    @SerializedName("gender")
+    @Expose
+    private String gender;
+
+    public ProductInfoResponse() {
+
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMsisdn() {
+        return msisdn;
+    }
+
+    public void setMsisdn(String msisdn) {
+        this.msisdn = msisdn;
+    }
+
+    public Integer getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(Integer usertype) {
+        this.usertype = usertype;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+
+    public ProductInfoResponse(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        name = in.readString();
+        email = in.readString();
+        location = in.readString();
+        msisdn = in.readString();
+        usertype = in.readByte() == 0x00 ? null : in.readInt();
+        store = (Store) in.readValue(Store.class.getClassLoader());
+        uuid = in.readString();
+        country = in.readString();
+        dob = in.readString();
+        gender = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
+        dest.writeString(name);
+        dest.writeString(email);
+        dest.writeString(location);
+        dest.writeString(msisdn);
+        if (usertype == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(usertype);
+        }
+        dest.writeValue(store);
+        dest.writeString(uuid);
+        dest.writeString(country);
+        dest.writeString(dob);
+        dest.writeString(gender);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<ProductInfoResponse> CREATOR =
+            new Parcelable.Creator<ProductInfoResponse>() {
+                @Override
+                public ProductInfoResponse createFromParcel(Parcel in) {
+                    return new ProductInfoResponse(in);
+                }
+
+                @Override
+                public ProductInfoResponse[] newArray(int size) {
+                    return new ProductInfoResponse[size];
+                }
+            };
 
     public Integer getQrcodeId() {
         return qrcodeId;
