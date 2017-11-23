@@ -5,54 +5,82 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.incon.connect.user.R;
 import com.incon.connect.user.AppConstants;
+import com.incon.connect.user.R;
 import com.incon.connect.user.ui.home.HomeActivity;
+import com.incon.connect.user.utils.SharedPrefsUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Map;
+
+import static com.incon.connect.user.AppConstants.LoginPrefs.LOGGED_IN;
 
 /**
  * ` * Created by radar on 30/12/16.
  */
 public class ConnectFirebaseMessagingService extends FirebaseMessagingService
         implements AppConstants.PushConstants {
-    private final static String TAG = "ConnectFirebase";
+
+    private static final String TAG = ConnectFirebaseMessagingService.class.getName();
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        super.onMessageReceived(remoteMessage);
 
-        Map<String, String> data = remoteMessage.getData();
-        Log.d(TAG, "From: " + data);
-        Log.d(TAG, "Message from Server: " + remoteMessage);
+        //Calling method to generate notification
+        sendNotification(remoteMessage.getData());
 
         Bundle bundle = new Bundle();
-        for (Map.Entry<String, String> entry : data.entrySet()) {
+        for (Map.Entry<String, String> entry : remoteMessage.getData().entrySet()) {
             bundle.putString(entry.getKey(), entry.getValue());
-            Log.d(TAG, entry.getKey() + ": " + entry.getValue());
         }
-        processCustomMessage(this, bundle);
+
     }
 
+    private void sendNotification(Map<String, String> messageBody) {
 
-    /**
-     * ?????????
-     *
-     * @param context
-     * @param bundle
-     */
+        String title = messageBody.get("title");
+        String description = messageBody.get("body");
+        String payload = messageBody.get("payload");
+        int notificationId = Integer.parseInt(messageBody.get("notId"));
+        String pushType = null;
+        int alertId = AppConstants.DEAULT_VALUE;
+        int accountId = -1;
+        try {
+            JSONObject jsonObject = new JSONObject(payload);
+            pushType = jsonObject.getString("type");
+            JSONObject data = jsonObject.getJSONObject("data");
+            if (data != null) {
+                alertId = data.optInt("alertId");
+                accountId = data.optInt("accountId");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-    private void processCustomMessage(Context context, Bundle bundle) {
-        NotificationManager notificationManager = (NotificationManager)
-                context.getSystemService(NOTIFICATION_SERVICE);
-        String title = bundle.getString(BUNDLE_TITLE);
-        String message = bundle.getString(BUNDLE_TEXT);
-        String extras = bundle.getString(BUNDLE_EXTRAS);
+        Context context = getApplicationContext();
+        Intent intent = new Intent(context, HomeActivity.class);
+        /*if (!TextUtils.isEmpty(pushType)) {
+            intent.putExtra(TueoConstants.PushIntentConstants.PUSH_TYPE, pushType);
+            if (pushType.equals(
+                    TueoConstants.PushSubTypeConstants.NEW_ALERT_INTERACTION_NAVIGATE)) {
+                intent.putExtra(TueoConstants.PushIntentConstants.PUSH_ALERT_ID, alertId);
+            }
+        }*/
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP
+                | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+        int iUniqueId = (int) (System.currentTimeMillis() & 0xfffffff);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, iUniqueId, intent, 0);
 
         Notification.Builder notificationBuilder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -61,41 +89,57 @@ public class ConnectFirebaseMessagingService extends FirebaseMessagingService
         } else {
             notificationBuilder = new Notification.Builder(context);
         }
-        notificationBuilder.setAutoCancel(true)
-                .setContentText(message)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationBuilder.setColor(ContextCompat.getColor(context, R.color
+                    .colorPrimary));
+        }
+
+        notificationBuilder.setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setContentTitle(title)
-                .setSmallIcon(R.mipmap.ic_launcher);
-        /*if (!TextUtils.isEmpty(extras)) {
-            try {
-                JSONObject extraJson = new JSONObject(extras);
-                if (null != extraJson && extraJson.length() > 0) {
-                    String sound = extraJson.getString(BUNDLE_SOUND);
-                    if (sound.contains(BUNDLE_SOUND_RED_ALERT)) {
-                        notification.setSound(Uri.parse("android.resource://"
-                        + context.getPackageName() + "/" + R.raw.red_alert));
-                    } else if (sound.contains(BUNDLE_SOUND_SIREN_ALERT)) {
-                        notification.setSound(Uri.parse("android.resource://"
-                         + context.getPackageName() + "/" + R.raw.siren_alert));
-                    } else {
-                        Uri defaultSoundUri = RingtoneManager.getDefaultUri(
-                        RingtoneManager.TYPE_NOTIFICATION);
-                        notification.setSound(defaultSoundUri);
-                    }
-                    int showPopup = extraJson.getInt(BUNDLE_SHOW_POPUP);
-                    if (showPopup == AppConstants.BooleanConstants.IS_TRUE) {
-                        openDialog(context, bundle);
-                    }
-                }
-            } catch (JSONException e) {
-            }
-        }*/
-        int notifyId = 0;
-        Intent handleAlarmIntent = new Intent(this, HomeActivity.class);
-        handleAlarmIntent.putExtras(bundle);
-        PendingIntent pendingIntent = PendingIntent
-                .getService(context, notifyId, handleAlarmIntent, 0);
-        notificationBuilder.setContentIntent(pendingIntent);
-        notificationManager.notify(notifyId, notificationBuilder.build());
+//                .setContentText(message)
+                .setStyle(new Notification.BigTextStyle().bigText(description))
+                .setContentText(description)
+                .setAutoCancel(true)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setDefaults(Notification.FLAG_AUTO_CANCEL | Notification.DEFAULT_LIGHTS
+                        | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
+                .setContentIntent(contentIntent);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(
+                Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(notificationId, notificationBuilder.build());
+
+        //checks whether user is logged or not, and sends local broadcast to refresh screens
+        boolean isLoggedIn = SharedPrefsUtils.loginProvider().
+                getBooleanPreference(LOGGED_IN, false);
+        // checks if loggedin user and notification user matches
+        if (isLoggedIn) {
+            sendLocalBroadcast(payload);
+        }
     }
 
+    private void sendLocalBroadcast(String payload) {
+
+        /*try {
+            JSONObject jsonObject = new JSONObject(payload);
+            String pushType = jsonObject.getString("type");
+            if (!pushType.equals(TueoConstants.PushSubTypeConstants.GENERIC)
+                    && !pushType.equals(TueoConstants.PushSubTypeConstants.NEW_TASK_GENERAL)) {
+                AlertsMainFragment.doRefresh = true;
+                DashboardMainFragment.doRefresh = true;
+            } else if (pushType.equals(TueoConstants.PushSubTypeConstants.NEW_TASK_GENERAL)) {
+                DashboardMainFragment.doRefresh = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
+        // refreshes the current visible screen.
+        Intent intent = new Intent(AppConstants.PushSubTypeConstants.CONNECT_PUSH);
+        // You can also include some extra data.
+        intent.putExtra(AppConstants.PushIntentConstants.PUSH_PAYLOAD, payload);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
 }

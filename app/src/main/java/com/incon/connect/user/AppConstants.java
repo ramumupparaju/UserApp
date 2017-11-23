@@ -16,6 +16,7 @@ public interface AppConstants {
     int VALIDATION_ZIPCODE_LENGTH = 5;
     String DELIMITOR = "-";
     int DEFAULT_GOOGLE_MAP_ZOOM_LEVEL = 16;
+    int DEAULT_VALUE = Integer.MAX_VALUE;
 
 
     interface FilterConstants {
@@ -354,4 +355,7 @@ public interface AppConstants {
 
     }
 
+    public class PushIntentConstants {
+        public static final String PUSH_PAYLOAD = "pushPayload";
+    }
 }

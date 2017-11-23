@@ -166,8 +166,9 @@ public interface AppServiceObservable {
                                                             String phoneNumber);
 
     // push token  api
-    @POST("registerPush")
-    Observable<Object> pushTokenApi(@Body PushRegistrarBody pushRegistrarBody);
+    @POST("user/updatefcmtoken/{userId}")
+    Observable<Object> pushTokenApi(@Path("userId") int userId, @Body PushRegistrarBody
+            pushRegistrarBody);
 
 
 }

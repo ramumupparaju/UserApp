@@ -12,7 +12,7 @@ public class PushRegistrarBody {
     @SerializedName("uid")
     @Expose
     private String uId;
-    @SerializedName("push_key")
+    @SerializedName("fcmToken")
     @Expose
     private String pushKey;
     @SerializedName("os_version")

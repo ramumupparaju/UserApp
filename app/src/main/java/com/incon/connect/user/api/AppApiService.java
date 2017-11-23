@@ -235,8 +235,8 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.assignQrCodeToProduct(qrCode));
     }*/
 // push token  api
-    public Observable<Object> pushTokenApi(PushRegistrarBody pushRegistrarBody) {
-        return addNetworkCheck(serviceInstance.pushTokenApi(pushRegistrarBody));
+    public Observable<Object> pushTokenApi(int userId, PushRegistrarBody pushRegistrarBody) {
+        return addNetworkCheck(serviceInstance.pushTokenApi(userId, pushRegistrarBody));
     }
 
 }
