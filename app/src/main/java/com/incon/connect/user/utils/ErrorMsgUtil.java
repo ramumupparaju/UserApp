@@ -51,7 +51,10 @@ public class ErrorMsgUtil {
                         ? errorResponseBody.getString("errorInfo")
                         : "";
             } catch (Exception ex) {
+                errMsg = e1.getMessage();
             }
+        } else {
+            errMsg = e.getMessage();
         }
         return new Pair<>(errorCode, errMsg);
     }

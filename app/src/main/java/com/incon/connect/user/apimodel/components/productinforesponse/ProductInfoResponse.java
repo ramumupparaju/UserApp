@@ -7,7 +7,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.incon.connect.user.apimodel.components.qrcodebaruser.Store;
-import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 
 /**
  * Created by PC on 11/8/2017.
@@ -155,7 +154,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("location")
     @Expose
     private String location;
-    @SerializedName("mobileNumber")
+    @SerializedName("msisdn")
     @Expose
     private String msisdn;
     @SerializedName("usertype")
