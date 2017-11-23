@@ -190,8 +190,8 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("location")
     @Expose
     private String location;
-   /* @SerializedName("mobileNumber")
-    @Expose*/
+    @SerializedName("msisdn")
+    @Expose
     private String msisdn;
     @SerializedName("usertype")
     @Expose
