@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="billFormatActivity"
-            type="com.incon.connect.user.ui.billformat.BillFormatActivity" />
+            name="settingsBillFormatActivity"
+            type="com.incon.connect.user.ui.settings.billformat.SettingsBillFormatActivity" />
 
         <variable
             name="productinforesponse"
@@ -46,32 +46,32 @@
                 android:layout_height="wrap_content">
 
 
-            <TextView
-                android:id="@+id/text_dop"
-                style="@style/BothWrap"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:text="Date of purchase"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/text_dop"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Date of purchase"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/text_bill_id"
-                style="@style/BothWrap"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:text="Bill ID"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/text_bill_id"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Bill ID"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/text_invoice_no"
-                style="@style/BothWrap"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:text="Invoice NO"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/text_invoice_no"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Invoice NO"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -350,72 +350,72 @@
 
 
 
-            <TextView
-                android:id="@+id/text_product_name"
-                style="@style/BothWrap"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:layout_marginTop="10dp"
-                android:text="Product name"
-                android:textColor="@color/ebony_clay"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/text_product_name"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="Product name"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/text_model_number"
-                style="@style/BothWrap"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:layout_marginTop="10dp"
-                android:text="Model no"
-                android:textColor="@color/ebony_clay"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/text_model_number"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="Model no"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/text_sn"
-                style="@style/BothWrap"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:layout_marginTop="10dp"
-                android:text="S/N"
-                android:textColor="@color/ebony_clay"
-                android:textSize="15sp" />
-
-
-            <TextView
-                android:id="@+id/text_price"
-                style="@style/BothWrap"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:layout_marginTop="10dp"
-                android:text="Price"
-                android:textColor="@color/ebony_clay"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/text_sn"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="S/N"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
 
 
-            <TextView
-                android:id="@+id/text_discount"
-                style="@style/BothWrap"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:layout_marginTop="10dp"
-                android:text="Discount"
-                android:textColor="@color/ebony_clay"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/text_price"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="Price"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
 
 
-            <TextView
-                android:id="@+id/text_gst"
-                style="@style/BothWrap"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:layout_marginTop="10dp"
-                android:text="GST"
-                android:textColor="@color/ebony_clay"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/text_discount"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="Discount"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
 
 
-            <TextView
-                android:id="@+id/text_total"
-                style="@style/BothWrap"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:layout_marginTop="10dp"
-                android:text="Total"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/text_gst"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="GST"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/text_total"
+                    style="@style/BothWrap"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginTop="10dp"
+                    android:text="Total"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
             </LinearLayout>
 
 

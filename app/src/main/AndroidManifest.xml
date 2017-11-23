@@ -127,7 +127,7 @@
         </activity>
 
         <activity
-            android:name="com.incon.connect.user.ui.scan.ProductDetails"
+            android:name="com.incon.connect.user.ui.scan.ProductDetailsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
         </activity>

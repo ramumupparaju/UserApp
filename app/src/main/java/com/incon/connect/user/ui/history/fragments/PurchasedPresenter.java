@@ -43,7 +43,6 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                     @Override
                     public void onNext(List<ProductInfoResponse> productInfoResponses) {
                         getView().loadPurchasedHistory(productInfoResponses);
-                        getView().hideProgress();
                     }
 
                     @Override
@@ -55,6 +54,8 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
 
                     @Override
                     public void onComplete() {
+                        getView().hideProgress();
+
                     }
                 };
         AppApiService.getInstance().purchasedApi(userId).subscribe(observer);

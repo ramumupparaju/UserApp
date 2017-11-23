@@ -152,6 +152,7 @@ public interface AppConstants {
         String WARRANTY_DATA = "warrantyData";
         String ADD_NEW_MODEL_DATA = "addnewmodelData";
         String LOCATION_ADDRESS = "locationAddress";
+        String PRODUCT_INFO_RESPONSE = "productInfoResponse";
 
         String FROM_FAVORITES = "fromFavorites";
         String ADDRESS_ID = "addressId";
