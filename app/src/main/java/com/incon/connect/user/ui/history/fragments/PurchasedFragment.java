@@ -337,7 +337,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                                 break;
                             }
                         }
-
                     }
 
                     @Override
@@ -724,8 +723,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     productSelectedPosition);
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_return_policy))) {
-                showInformationDialog(getString(
-                        R.string.bottom_option_return_policy) , itemFromPosition.getReturnPolicy());
+                showInformationDialog(getString(R.string.bottom_option_return_policy) , itemFromPosition.getReturnPolicy());
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_special_instructions))) {
                 showInformationDialog(getString(

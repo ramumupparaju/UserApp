@@ -50,7 +50,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/favorites_recyclerview"
-                style="@style/BothMatch"
+                style="@style/MatchWrap"
                 android:layout_marginTop="@dimen/margin_10"
                 android:fadeScrollbars="false"
                 android:scrollbarSize="4dp"
