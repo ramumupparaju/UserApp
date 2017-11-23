@@ -142,6 +142,7 @@ public interface AppConstants {
         int ZIPCODE_REQ = 9;
         int ZIPCODE_INVALID = 12;
         int TIMEZONE_REQ = 8;
+        int MIN_DAYS = 7;
     }
 
 

@@ -29,7 +29,11 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
+                <ImageView
+                    android:id="@+id/warrenty_icon"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_width="4dp"
+                    android:layout_height="4dp" />
                 <ImageView
                     android:id="@+id/brand_imageview"
                     style="@style/m75w75"
@@ -52,7 +56,8 @@
 
             <LinearLayout
                 style="@style/Zero_wrap"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical"
@@ -72,24 +77,16 @@
                         />
 
                     <TextView
+                        android:id="@+id/warranty_period"
                         style="@style/BothWrap"
                         android:layout_marginTop="@dimen/margin_8"
-                        android:text="@{favoritesResponse.price}"
                         android:textColor="@color/ebony_clay"
                         android:textSize="12.4sp"
                         />
 
                     <TextView
                         style="@style/BothWrap"
-                        android:layout_marginTop="@dimen/margin_8"
-                        android:text="@{favoritesResponse.status}"
-                        android:textColor="@color/ebony_clay"
-                        android:textSize="12.4sp"
-                        />
-
-                    <TextView
-                        style="@style/BothWrap"
-                        android:layout_marginTop="@dimen/margin_8"
+                        android:layout_marginTop="@dimen/margin_8" android:visibility="gone"
                         android:text="@{favoritesResponse.warrantyId}"
                         android:textColor="@color/ebony_clay"
                         android:textSize="12.4sp"
@@ -103,35 +100,6 @@
 
 
         </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/progress_layout"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_margin="@dimen/margin_10">
-
-            <ProgressBar
-                android:id="@+id/warranty_progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:max="100"
-                android:progress="14"
-                android:scaleY="8"/>
-
-            <TextView
-                android:id="@+id/text_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/warranty_progress"
-                android:layout_alignLeft="@id/warranty_progress"
-                android:layout_alignRight="@id/warranty_progress"
-                android:layout_alignTop="@id/warranty_progress"
-                android:background="@android:color/transparent"
-                android:gravity="center"
-                android:text="12/100"/>
-
-        </RelativeLayout>
 
     </LinearLayout>
 

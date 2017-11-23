@@ -88,6 +88,33 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
     }
 
     @Override
+    public void deleteProduct(int warrantyId) {
+        getView().showProgress(appContext.getString(R.string.progress_adding_to_favorites));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object o) {
+                        getView().deleteProduct(o);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().deleteProduct(warrantyId).subscribe(observer);
+        addDisposable(observer);
+
+    }
+
+    @Override
     public void doGetAddressApi(int userId) {
         FavoritesPresenter favoritesPresenter = new FavoritesPresenter();
         favoritesPresenter.initialize(null);
