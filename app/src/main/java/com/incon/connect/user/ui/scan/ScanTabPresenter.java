@@ -8,6 +8,7 @@ import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
@@ -39,10 +40,10 @@ public class ScanTabPresenter extends BasePresenter<ScanTabContract.View> implem
                 qrCode);
 
         getView().showProgress(appContext.getString(R.string.progress_product_details));
-        DisposableObserver<Object> observer = new
-                DisposableObserver<Object>() {
+        DisposableObserver<ProductInfoResponse> observer = new
+                DisposableObserver<ProductInfoResponse>() {
                     @Override
-                    public void onNext(Object userInfoResponse) {
+                    public void onNext(ProductInfoResponse userInfoResponse) {
                         getView().userInterestedResponce(userInfoResponse);
                     }
 

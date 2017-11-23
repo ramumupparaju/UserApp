@@ -18,7 +18,7 @@
     <string name="bottom_option_product">Product</string>
     <string name="bottom_option_special_instructions">Special Instructions </string>
     <string name="bottom_option_how_to_use">How to use</string>
-    <string name="bottom_option_description">Description</string>
+    <string name="bottom_option_description">Description:</string>
     <string name="bottom_option_service">Service/Support</string>
     <string name="bottom_option_satus_update">Satus Update</string>
     <string name="bottom_option_add_as_favorite">Add as favorite</string>

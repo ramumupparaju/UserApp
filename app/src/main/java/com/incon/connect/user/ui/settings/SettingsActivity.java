@@ -16,6 +16,7 @@ import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.databinding.ActivitySettingsBinding;
 import com.incon.connect.user.dto.settings.SettingsItem;
 import com.incon.connect.user.ui.BaseActivity;
+import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.changepassword.ChangePasswordActivity;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.settings.adapters.SettingsAdapter;
@@ -135,8 +136,8 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
                 break;
 
             case MenuConstants.BILLFORMAT:
-                AppUtils.shortToast(SettingsActivity.this, getString(
-                        R.string.title_menu_bill_format));
+                Intent billFormatIntent = new Intent(this, BillFormatActivity.class);
+                startActivity(billFormatIntent);
                 break;
             case MenuConstants.TIMEINGS:
                 AppUtils.shortToast(SettingsActivity.this, getString(
