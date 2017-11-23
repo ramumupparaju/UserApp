@@ -13,15 +13,15 @@
 
         <ImageView
             android:id="@+id/home_imageview"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             app:srcCompat="@drawable/ic_location_default"
             />
 
         <TextView
             android:id="@+id/home_text"
             style="@style/BothWrap"
-            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_5"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/ebony_clay"

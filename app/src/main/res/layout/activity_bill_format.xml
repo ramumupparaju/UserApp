@@ -32,7 +32,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="INVOICE"
                     android:textColor="#ffffff"
                     android:textSize="15sp" />
@@ -293,11 +293,11 @@
 
 
                 <TextView
+                    android:text="@{`:` + productinforesponse.name}"
                     android:id="@+id/text_customer_name_values"
                     style="@style/BothWrap"
                     android:layout_marginLeft="@dimen/margin_5"
                     android:layout_marginTop="10dp"
-                    android:text=": Ramu"
                     android:textColor="@color/ebony_clay"
                     android:textSize="15sp" />
 
@@ -307,7 +307,8 @@
                     style="@style/BothWrap"
                     android:layout_marginLeft="@dimen/margin_5"
                     android:layout_marginTop="10dp"
-                    android:text=": manikonda"
+                    android:text="@{`:` + productinforesponse.address}"
+
                     android:textColor="@color/ebony_clay"
                     android:textSize="15sp" />
 
@@ -317,7 +318,7 @@
                     style="@style/BothWrap"
                     android:layout_marginLeft="@dimen/margin_5"
                     android:layout_marginTop="10dp"
-                    android:text=": 9876543210"
+                    android:text="@{`:` + productinforesponse.mobileNumber}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="15sp" />
 
@@ -434,7 +435,7 @@
                     style="@style/BothWrap"
                     android:layout_marginLeft="@dimen/margin_5"
                     android:layout_marginTop="10dp"
-                    android:text=": Samsung"
+                    android:text="@{`:` + productinforesponse.productName}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="15sp" />
 
@@ -443,7 +444,7 @@
                     style="@style/BothWrap"
                     android:layout_marginLeft="@dimen/margin_5"
                     android:layout_marginTop="10dp"
-                    android:text=": 1234567898"
+                    android:text="@{`:` + productinforesponse.mobileNumber}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="15sp" />
 
@@ -462,7 +463,7 @@
                     style="@style/BothWrap"
                     android:layout_marginLeft="@dimen/margin_5"
                     android:layout_marginTop="10dp"
-                    android:text=": 25"
+                    android:text="@{`: ` + productinforesponse.price}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="15sp" />
 

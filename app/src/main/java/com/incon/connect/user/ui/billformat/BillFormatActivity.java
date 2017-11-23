@@ -15,7 +15,6 @@ import com.incon.connect.user.ui.BaseActivity;
 
 public class BillFormatActivity extends BaseActivity implements BillFormatContract.View{
     private ActivityBillFormatBinding binding;
-    private BillFormatPresenter billFormatPresenter ;
     private ProductInfoResponse productInfoResponse ;
 
 
@@ -34,6 +33,8 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
          productInfoResponse = new ProductInfoResponse();
         binding.setProductinforesponse(productInfoResponse);
         binding.setBillFormatActivity(this);
+        Bundle bundle = getIntent().getExtras();
+        productInfoResponse = bundle.getParcelable(BundleConstants.PRODUCT_INFO_RESPONSE);
 
     }
 

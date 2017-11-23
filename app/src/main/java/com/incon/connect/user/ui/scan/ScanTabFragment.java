@@ -88,12 +88,12 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
 
     @Override
     public void userInterestedResponce(ProductInfoResponse productInfoResponse) {
-        //showProductDetailsDialog(productInfoResponse);
-        Intent addressIntent = new Intent(getActivity(), ProductDetailsActivity.class);
+        showProductDetailsDialog(productInfoResponse);
+        /*Intent addressIntent = new Intent(getActivity(), ProductDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, productInfoResponse);
         addressIntent.putExtras(bundle);
-        startActivity(addressIntent);
+        startActivity(addressIntent);*/
 
     }
 
@@ -121,22 +121,23 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
                         + "\n"
                         + getString(
                         R.string.bottom_option_warranty)
-                        + response.getWarrantyDays()
+                        + productInfoResponse.getWarrantyDays()
                         + "\n"
                         + getString(
                         R.string.bottom_option_description)
-                        + response.getInformation()
+                        + productInfoResponse.getInformation()
                         + "\n"
                         + getString(
                         R.string.bottom_option_feedback)
-                        + response.getInformation()
+                        + productInfoResponse.getInformation()
                         + "\n"
                         + getString(
                         R.string.bottom_option_price)
-                        + response.getPrice()
+                        + productInfoResponse.getPrice()
                 )
                 .button1Text(getString(R.string.action_ok))
                 .build();
         productDetailsDialog.showDialog();
+        productDetailsDialog.setCancelable(true);
     }
 }
