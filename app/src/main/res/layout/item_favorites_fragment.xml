@@ -56,7 +56,8 @@
 
             <LinearLayout
                 style="@style/Zero_wrap"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical"
