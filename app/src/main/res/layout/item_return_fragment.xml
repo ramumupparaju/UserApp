@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-
         <variable
             name="productinforesponse"
             type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
     </data>
-
 
     <LinearLayout
         android:id="@+id/layout_return_item"
@@ -16,18 +12,19 @@
         android:background="@drawable/list_item_selector"
         android:minHeight="70dp"
         android:orientation="horizontal"
-        android:weightSum="3">
-
+        android:weightSum="3"
+        >
         <LinearLayout
             style="@style/Zero_wrap"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_weight="1">
 
             <ImageView
                 android:id="@+id/brand_imageview"
                 style="@style/m75w75"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                />
 
         </LinearLayout>
 
@@ -35,12 +32,14 @@
             style="@style/Zero_wrap"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <ImageView
                 android:id="@+id/product_imageview"
                 style="@style/m75w75"
-                android:layout_gravity="center"/>
+                android:layout_margin="25dp"
+                />
 
         </LinearLayout>
 
@@ -54,7 +53,9 @@
 
             <LinearLayout
                 style="@style/BothWrap"
-                android:gravity="start"
+                android:gravity="left"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_gravity="left"
                 android:orientation="vertical">
 
                 <TextView
@@ -68,7 +69,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{productinforesponse.price}"
+                    android:text="@{'\u20B9'+productinforesponse.price}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
@@ -87,4 +88,5 @@
         </LinearLayout>
 
     </LinearLayout>
+
 </layout>

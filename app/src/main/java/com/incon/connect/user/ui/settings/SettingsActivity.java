@@ -20,6 +20,7 @@ import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.changepassword.ChangePasswordActivity;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.settings.adapters.SettingsAdapter;
+import com.incon.connect.user.ui.settings.billformat.SettingsBillFormatActivity;
 import com.incon.connect.user.ui.settings.update.UpDateUserProfileActivity;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
@@ -136,7 +137,7 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
                 break;
 
             case MenuConstants.BILLFORMAT:
-                Intent billFormatIntent = new Intent(this, BillFormatActivity.class);
+                Intent billFormatIntent = new Intent(this, SettingsBillFormatActivity.class);
                 startActivity(billFormatIntent);
                 break;
             case MenuConstants.TIMEINGS:

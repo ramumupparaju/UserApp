@@ -1,7 +1,6 @@
 package com.incon.connect.user.ui.scan.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,35 +20,35 @@ import java.util.List;
 
 public class ProductListAdapter extends BaseExpandableListAdapter {
     private Context _context;
-    private List<String> _listDataHeader;
-    private HashMap<String, List<String>> _listDataChild;
+    private List<String> _listTitle;
+    private HashMap<String, List<String>> _listDec;
     private List<ProductInfoResponse> responseList = new ArrayList<>();
 
     public ProductListAdapter(Context context, List<String> listDataHeader,
                                  HashMap<String, List<String>> listChildData) {
         this._context = context;
-        this._listDataHeader = listDataHeader;
-        this._listDataChild = listChildData;
+        this._listTitle = listDataHeader;
+        this._listDec = listChildData;
     }
     @Override
     public int getGroupCount() {
-        return this._listDataHeader.size();
+        return this._listTitle.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+        return this._listDec.get(this._listTitle.get(groupPosition))
                 .size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+        return this._listTitle.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+        return this._listDec.get(this._listTitle.get(groupPosition))
                 .get(childPosition);
     }
 
@@ -77,10 +76,9 @@ public class ProductListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.item_list_titel, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
+        TextView txtTitle = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
+        txtTitle.setText(headerTitle);
 
         return convertView;
     }
@@ -95,16 +93,15 @@ public class ProductListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.item_list_desc, null);
         }
 
-        TextView txtListChild = (TextView) convertView
+        TextView listDec = (TextView) convertView
                 .findViewById(R.id.product_list_item);
-
-        txtListChild.setText(childText);
+        listDec.setText(childText);
         return convertView;
 
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="productinforesponse"
@@ -94,11 +95,11 @@
                     android:textSize="12.4sp"
                     />
                 <ImageView
+                    app:srcCompat="@drawable/ic_option_favorite"
                     android:id="@+id/favourite_icon"
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
                     android:textColor="@color/ebony_clay"
-                    android:background="@drawable/ic_option_favorite"
                     android:textSize="12.4sp"
                     />
 

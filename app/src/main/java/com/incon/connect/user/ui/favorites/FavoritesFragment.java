@@ -481,6 +481,9 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, itemFromPosition);
+                billFormatIntent.putExtras(bundle);
                 startActivity(billFormatIntent);
             }
             else if (tag == 3 && topClickedText.equals(getString(
