@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "588645254743",
-    "firebase_url": "https://connectapp-1507024966996.firebaseio.com",
-    "project_id": "connectapp-1507024966996",
-    "storage_bucket": "connectapp-1507024966996.appspot.com"
+    "project_number": "432876221677",
+    "firebase_url": "https://connect-user-fe1e6.firebaseio.com",
+    "project_id": "connect-user-fe1e6",
+    "storage_bucket": "connect-user-fe1e6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:588645254743:android:99bb4b291136deab",
+        "mobilesdk_app_id": "1:432876221677:android:9c30aa08a8a829f2",
         "android_client_info": {
           "package_name": "com.incon.connect.user"
         }
       },
       "oauth_client": [
         {
-          "client_id": "588645254743-empf4q3icrakp71spokcpfmkmtv94e19.apps.googleusercontent.com",
+          "client_id": "432876221677-hgrugbipkb6tdr4i0iq7i5tgv6ou7lr7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB-c-E8xK7xxYXjDROPFgW6al27DiOOX68"
+          "current_key": "AIzaSyAXNZjJEqOYA9H_BJ9G0CqDV1RGZ18OhrA"
         }
       ],
       "services": {
