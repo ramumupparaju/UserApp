@@ -14,62 +14,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 public class AppUtils {
-
-    public static List<ProductInfoResponse> searchData(List<ProductInfoResponse> sourceList, String
-            searchableString, String
-            searchType) {
-        List<ProductInfoResponse> filteredInterestList = new ArrayList<>();
-        filteredInterestList.clear();
-        if (searchType.equalsIgnoreCase(AppConstants.FilterConstants.NAME)) {
-            for (ProductInfoResponse interestHistoryResponse
-                    : sourceList) {
-                if (interestHistoryResponse.getProductName() != null
-                        && interestHistoryResponse.getProductName().toLowerCase().startsWith(
-                        searchableString.toLowerCase())) {
-                    filteredInterestList.add(interestHistoryResponse);
-                }
-            }
-        } else if (searchType.equalsIgnoreCase(AppConstants.FilterConstants.BRAND)) {
-            for (ProductInfoResponse purchasedHistoryResponse
-                    : sourceList) {
-                if (purchasedHistoryResponse.getBrandName() != null && purchasedHistoryResponse
-                        .getBrandName().toLowerCase().startsWith(
-                                searchableString.toLowerCase())) {
-                    filteredInterestList.add(purchasedHistoryResponse);
-                }
-            }
-        } else {
-            filteredInterestList.addAll(sourceList);
-        }
-        return filteredInterestList;
-    }
-
-    private Comparator comparator = new Comparator<ProductInfoResponse>() {
-        @Override
-        public int compare(ProductInfoResponse o1, ProductInfoResponse o2) {
-            /*try {
-                Date a = DateUtils.convertStringToDate(o1.getCreatedDate(),
-                        AppConstants.DateFormatterConstants.YYYY_MM_DD, TueoConstants
-                                .DateFormatterConstants.YYYY_MM_DD);
-                Date b = DateUtils.convertStringToDate(o2.getCreatedDate(),
-                        AppConstants.DateFormatterConstants.YYYY_MM_DD, TueoConstants
-                                .DateFormatterConstants.YYYY_MM_DD);
-                return (a.compareTo(b));
-            } catch (Exception e) {
-
-            }*/
-
-            return -1;
-
-        }
-    };
 
     public static void shortToast(Context context, String toastMessage) {
         Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
