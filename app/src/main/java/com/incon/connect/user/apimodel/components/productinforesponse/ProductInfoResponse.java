@@ -74,6 +74,9 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("statusDate")
+    @Expose
+    private Long statusDate;
     @SerializedName("warrantyEndDate")
     @Expose
     private Long warrantyEndDate;
@@ -297,6 +300,13 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         this.gender = gender;
     }
 
+    public Long getStatusDate() {
+        return statusDate;
+    }
+
+    public void setStatusDate(Long statusDate) {
+        this.statusDate = statusDate;
+    }
 
     public ProductInfoResponse(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();

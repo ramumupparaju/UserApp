@@ -2,6 +2,7 @@ package com.incon.connect.user.ui.history.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,6 @@ import com.incon.connect.user.apimodel.components.productinforesponse.ProductInf
 import com.incon.connect.user.databinding.ItemPurchasedFragmentBinding;
 import com.incon.connect.user.ui.BaseRecyclerViewAdapter;
 import com.incon.connect.user.utils.DateUtils;
-
-import java.util.Random;
 
 import static com.incon.connect.user.AppConstants.UpDateUserProfileValidation.MIN_DAYS;
 
@@ -52,24 +51,22 @@ public class PurchasedAdapter extends BaseRecyclerViewAdapter {
             binding.setVariable(BR.productinforesponse, purchasedHistoryResponse);
             TextView statusInfo = binding.statusTv;
 
-            //TODO have to change from api
-            String [] statusArray = new String[3];
-            statusArray[0] = AppConstants.StatusConstants.DISPATCHED;
-            statusArray[1] = AppConstants.StatusConstants.INSTALLED;
-            statusArray[2] = AppConstants.StatusConstants.DELIVERED;
-
-            Random random = new Random();
-            purchasedHistoryResponse.setStatus(statusArray[random.nextInt(3)]);
             String statusInfoString = "";
-            if (purchasedHistoryResponse.getStatus().equals(AppConstants.StatusConstants.DISPATCHED)) {
-                statusInfoString = "Dispatches on 15-11-2017";
-            } else if (purchasedHistoryResponse.getStatus().equals(AppConstants.StatusConstants.INSTALLED)) {
+            String status = purchasedHistoryResponse.getStatus();
+            if (status.equals(AppConstants.StatusConstants.DISPATCHED)) {
+                Long statusDate1 = purchasedHistoryResponse.getStatusDate();
+                if (statusDate1 != null) {
+                    String statusDate = DateUtils.convertMillisToStringFormat(statusDate1, AppConstants.DateFormatterConstants.DD_MM_YYYY);
+                    if (!TextUtils.isEmpty(statusDate))
+                        statusInfoString = "Dispatches on " + statusDate;
+                }
+            } else if (status.equals(AppConstants.StatusConstants.INSTALLED)) {
                 statusInfoString = "Waiting for installation";
             } else {
                 statusInfoString = "Delivered";
             }
 
-            statusInfo.setText(statusInfo.getContext().getString(R.string.info_purchased_status, statusInfoString));
+            statusInfo.setText(statusInfo.getContext().getString(R.string.info_purchased_status, statusInfoString + (":" + status)));
             AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, purchasedHistoryResponse

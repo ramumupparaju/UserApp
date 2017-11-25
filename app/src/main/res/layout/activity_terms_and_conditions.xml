@@ -24,7 +24,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginTop="48dp"
             android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/ic_connect_logo_svg"
+            android:src="@drawable/connect_icon"
             />
 
         <WebView

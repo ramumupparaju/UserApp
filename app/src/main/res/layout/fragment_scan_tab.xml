@@ -31,7 +31,7 @@
             android:id="@+id/im_scann"
             style="@style/scan_image"
             android:onClick="@{() -> scanning.onScanClick()}"
-            app:srcCompat="@drawable/connect_icon" />
+            android:src="@drawable/scan_text_icon" />
 
 
     </LinearLayout>
