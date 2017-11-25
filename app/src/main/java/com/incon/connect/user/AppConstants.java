@@ -20,10 +20,11 @@ public interface AppConstants {
 
 
     interface StatusConstants {
-        String PENDING = "P";
-        String DISPATCHED = "S";
-        String INSTALLED = "I";
-        String DELIVERED  = "D";
+        String PENDING = "PEN";
+        String DISPATCHES_ON = "DSN";
+        String DISPATCHED = "DSD";
+        String DELIVERED = "DEL";
+        String INSTALLED = "INS";
     }
 
     interface FilterConstants {
@@ -210,7 +211,7 @@ public interface AppConstants {
         String BODY_MERCHANT_ID = "merchantId";
         String BODY_QRCODE_ID = "qrcodeid";
         String BODY_COMMENTS = "comments";
-        String BODY_USER_ID = "userId";
+        String BODY_USER_ID = "userid";
         String BODY_ADDRESS_ID = "addressId";
         String BODY_WARRANTY_ID = "warrantyId";
         String BODY_PRODUCT_CODE = "code";

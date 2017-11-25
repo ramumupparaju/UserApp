@@ -8,10 +8,10 @@
     <TextView
         android:id="@+id/dialog_title_textView"
         style="@style/MatchWrap"
-        android:lineSpacingExtra="@dimen/text_size_13"
-        android:scrollbars="vertical"
-        android:padding="@dimen/margin_20"
         android:gravity="center"
+        android:lineSpacingExtra="@dimen/text_size_13"
+        android:padding="@dimen/margin_20"
+        android:scrollbars="vertical"
         android:text="@string/action_description"
         android:textColor="@color/tueo_theme"
         android:textSize="@dimen/text_size_18" />
@@ -30,11 +30,11 @@
     <Button
         android:id="@+id/dialog_first_button"
         style="@style/style_submit_button"
-        android:text="@string/action_submit"
         fontPath="fonts/OpenSans-Bold.ttf"
         android:layout_marginLeft="@dimen/margin_30"
         android:layout_marginRight="@dimen/margin_30"
-        android:layout_marginTop="@dimen/margin_20" />
+        android:layout_marginTop="@dimen/margin_20"
+        android:text="@string/action_submit" />
 
     <Button
         android:id="@+id/dialog_second_button"

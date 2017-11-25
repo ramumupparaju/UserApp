@@ -93,11 +93,12 @@
 
                     <ImageView
                         android:id="@+id/favourite_icon"
-                        style="@style/BothWrap"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_marginTop="@dimen/margin_8"
+                        android:src="@drawable/ic_user_favorite"
                         android:textColor="@color/ebony_clay"
-                        android:textSize="12.4sp"
-                        app:srcCompat="@drawable/ic_option_favorite" />
+                        android:textSize="12.4sp" />
 
                 </LinearLayout>
 

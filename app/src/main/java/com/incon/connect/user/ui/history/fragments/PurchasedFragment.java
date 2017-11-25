@@ -191,19 +191,27 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 //            bottomDrawables[3] = R.drawable.ic_option_favorite;
 
         } else {
-            bottomNames = new String[5];
+            ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(productSelectedPosition);
+
+            boolean showFav = false;
+            if (productInfoResponse.getStatus().equalsIgnoreCase(StatusConstants.INSTALLED)) {
+                showFav = true;
+            }
+            bottomNames = new String[showFav ? 5 : 4];
             bottomNames[0] = getString(R.string.bottom_option_service);
             bottomNames[1] = getString(R.string.bottom_option_product);
             bottomNames[2] = getString(R.string.bottom_option_showroom);
             bottomNames[3] = getString(R.string.bottom_option_delete);
-            bottomNames[4] = getString(R.string.bottom_option_add_as_favorite);
+            if (showFav)
+                bottomNames[4] = getString(R.string.bottom_option_add_as_favorite);
 
             bottomDrawables = new int[5];
             bottomDrawables[0] = R.drawable.ic_option_service_support;
             bottomDrawables[1] = R.drawable.ic_option_product;
             bottomDrawables[2] = R.drawable.ic_option_customer;
             bottomDrawables[3] = R.drawable.ic_option_delete;
-            bottomDrawables[4] = R.drawable.ic_option_favorite;
+            if (showFav)
+                bottomDrawables[4] = R.drawable.ic_user_favorite;
             length = bottomNames.length;
 
         }
@@ -474,7 +482,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                         itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
                 String warrantyConditions = itemFromPosition.getWarrantyConditions();
                 showInformationDialog(getString(
-                        R.string.bottom_option_warranty) ,getString(
+                        R.string.bottom_option_warranty), getString(
                         R.string.purchased_warranty_status_now)
                         + noOfDays + " Days Left "
                         + "\n"
@@ -722,11 +730,11 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     productSelectedPosition);
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_return_policy))) {
-                showInformationDialog(getString(R.string.bottom_option_return_policy) , itemFromPosition.getReturnPolicy());
+                showInformationDialog(getString(R.string.bottom_option_return_policy), itemFromPosition.getReturnPolicy());
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_special_instructions))) {
                 showInformationDialog(getString(
-                        R.string.bottom_option_special_instructions) ,
+                        R.string.bottom_option_special_instructions),
                         itemFromPosition.getSpecialInstruction());
             } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_how_to_use))) {
@@ -735,7 +743,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_description))) {
                 showInformationDialog(getString(
-                        R.string.bottom_option_description) ,itemFromPosition.getInformation()
+                        R.string.bottom_option_description), itemFromPosition.getInformation()
                         + itemFromPosition.getProductSpecification()
                         + itemFromPosition.getColor()
                         + itemFromPosition.getProductDimensions()
@@ -760,7 +768,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     };
 
-    private void showInformationDialog(String title ,String messageInfo) {
+    private void showInformationDialog(String title, String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override
@@ -882,8 +890,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     @Override
     public void deleteProduct(Object response) {
-            onRefreshListener.onRefresh();
-            AppUtils.showSnackBar(getView(),getString(R.string.action_delete));
+        onRefreshListener.onRefresh();
+        AppUtils.showSnackBar(getView(), getString(R.string.action_delete));
     }
 
     // product search

@@ -7,15 +7,16 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.databinding.ActivityBillFormatBinding;
 import com.incon.connect.user.ui.BaseActivity;
+import com.incon.connect.user.utils.DateUtils;
 
 
 /**
  * Created by PC on 11/15/2017.
  */
 
-public class BillFormatActivity extends BaseActivity implements BillFormatContract.View{
+public class BillFormatActivity extends BaseActivity implements BillFormatContract.View {
     private ActivityBillFormatBinding binding;
-    private ProductInfoResponse productInfoResponse ;
+    private ProductInfoResponse productInfoResponse;
 
 
     @Override
@@ -30,11 +31,13 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
     @Override
     protected void onCreateView(Bundle saveInstanceState) {
         binding = DataBindingUtil.setContentView(this, getLayoutId());
-         productInfoResponse = new ProductInfoResponse();
+        productInfoResponse = new ProductInfoResponse();
         binding.setProductinforesponse(productInfoResponse);
         binding.setBillFormatActivity(this);
         Bundle bundle = getIntent().getExtras();
         productInfoResponse = bundle.getParcelable(BundleConstants.PRODUCT_INFO_RESPONSE);
+
+        binding.textDopValues.setText(": " + DateUtils.convertMillisToStringFormat(productInfoResponse.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY));
 
     }
 

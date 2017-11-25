@@ -53,14 +53,22 @@ public class PurchasedAdapter extends BaseRecyclerViewAdapter {
 
             String statusInfoString = "";
             String status = purchasedHistoryResponse.getStatus();
-            if (status.equals(AppConstants.StatusConstants.DISPATCHED)) {
+            if (status.equals(AppConstants.StatusConstants.PENDING)) {
+                statusInfoString = "Pending";
+            } else if (status.equals(AppConstants.StatusConstants.DISPATCHES_ON)) {
                 Long statusDate1 = purchasedHistoryResponse.getStatusDate();
                 if (statusDate1 != null) {
                     String statusDate = DateUtils.convertMillisToStringFormat(statusDate1, AppConstants.DateFormatterConstants.DD_MM_YYYY);
                     if (!TextUtils.isEmpty(statusDate))
                         statusInfoString = "Dispatches on " + statusDate;
                 }
+            } else if (status.equals(AppConstants.StatusConstants.DISPATCHED)) {
+
+                statusInfoString = "Dispatched";
             } else if (status.equals(AppConstants.StatusConstants.INSTALLED)) {
+                long purchasedDate = purchasedHistoryResponse.getPurchasedDate();
+                long days = DateUtils.convertDifferenceDateIndays(purchasedDate, System.currentTimeMillis());
+                if (days <= 1)
                 statusInfoString = "Waiting for installation";
             } else {
                 statusInfoString = "Delivered";
