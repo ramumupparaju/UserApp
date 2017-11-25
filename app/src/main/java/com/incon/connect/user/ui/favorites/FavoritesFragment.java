@@ -172,6 +172,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             }
         });
     }
+
     @Override
     public void onClick(View view) {
         showAddressDialog();
@@ -261,15 +262,11 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         public void onClickPosition(int position) {
             favoritesAdapter.clearSelection();
             ProductInfoResponse interestHistoryResponse =
-                    favoritesAdapter.
-                            getItemFromPosition(position);
+                    favoritesAdapter.getItemFromPosition(position);
             favoritesAdapter.notifyDataSetChanged();
             interestHistoryResponse.setSelected(true);
             createBottomSheetView(position);
             bottomSheetDialog.show();
-          /*  if (productSelectedPosition != position) {
-                productSelectedPosition = position;
-            }*/
         }
     };
     // top recyclerview click event
@@ -322,6 +319,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             bottomSheetFavouriteBinding.bottomRow.addView(linearLayout, params);
         }
     }
+
     // bottom sheet click event
     private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
         @Override
@@ -424,13 +422,13 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
-            } else  if (tag == 1 && topClickedText.equals(getString(
+            } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_find_service_center))) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
-            } else  if (tag == 2 && topClickedText.equals(getString(
+            } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_service_request))) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
@@ -449,15 +447,14 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 topDrawables[2] = R.drawable.ic_option_howtouse;
                 topDrawables[3] = R.drawable.ic_option_details;
 
-            }  else if (tag == 1 && topClickedText.equals(getString(
+            } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_warranty))) {
                 String purchasedDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getPurchasedDate() , DateFormatterConstants.DD_MM_YYYY);
+                        itemFromPosition.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY);
                 String warrantyEndDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getWarrantyEndDate() , DateFormatterConstants.DD_MM_YYYY);
+                        itemFromPosition.getWarrantyEndDate(), DateFormatterConstants.DD_MM_YYYY);
                 long noOfDays = DateUtils.convertDifferenceDateIndays(
-                        itemFromPosition.getPurchasedDate()
-                        , itemFromPosition.getPurchasedDate());
+                        itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
                 showInformationDialog(getString(
                         R.string.bottom_option_warranty), getString(
                         R.string.purchased_warranty_status_now)
@@ -476,7 +473,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
 
-            }  else if (tag == 2 && topClickedText.equals(getString(
+            } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_bill))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
@@ -485,32 +482,27 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, itemFromPosition);
                 billFormatIntent.putExtras(bundle);
                 startActivity(billFormatIntent);
-            }
-            else if (tag == 3 && topClickedText.equals(getString(
+            } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_past_history))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-            else if (tag == 4 && topClickedText.equals(getString(
+            } else if (tag == 4 && topClickedText.equals(getString(
                     R.string.bottom_option_share))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 shareProductDetails(itemFromPosition);
-            }
-            else if (tag == 5 && topClickedText.equals(getString(
+            } else if (tag == 5 && topClickedText.equals(getString(
                     R.string.bottom_option_transfer))) {
                 showBuyRequestDialog();
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-            else if (tag == 6 && topClickedText.equals(getString(
+            } else if (tag == 6 && topClickedText.equals(getString(
                     R.string.bottom_option_feedback))) {
 //                showFeedBackDialog();
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
-            }
-            else if (tag == 7 && topClickedText.equals(getString(
+            } else if (tag == 7 && topClickedText.equals(getString(
                     R.string.bottom_option_suggestions))) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                 bottomOptions = new String[0];
@@ -595,7 +587,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 String returnPolicy = itemFromPosition.getReturnPolicy();
                 if (returnPolicy != null) {
                     showInformationDialog(getString(
-                            R.string.bottom_option_return_policy) ,returnPolicy);
+                            R.string.bottom_option_return_policy), returnPolicy);
                 }
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_special_instructions))) {
@@ -611,10 +603,10 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 if (itemFromPosition.getWarrantyYears() != null) {
                     showInformationDialog(getString(
                             R.string.bottom_option_warranty),
-                            + itemFromPosition.getWarrantyYears() + "Year");
+                            +itemFromPosition.getWarrantyYears() + "Year");
                 } else {
                     showInformationDialog(getString(
-                            R.string.bottom_option_warranty),"No Warranty Exists");
+                            R.string.bottom_option_warranty), "No Warranty Exists");
                 }
             } else if (tag == 4 && topClickedText.equals(getString(
                     R.string.bottom_option_share))) {
@@ -663,7 +655,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         detailsDialog.showDialog();
     }
 
-    private void showInformationDialog(String title ,String messageInfo) {
+    private void showInformationDialog(String title, String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override
@@ -684,6 +676,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         detailsDialog.showDialog();
         detailsDialog.setCancelable(true);
     }
+
     //location dialog
     private void showLocationDialog() {
         ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(
@@ -888,8 +881,10 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             favoritesResponseList = new ArrayList<>();
         }
         if (favoritesResponseList.size() == 0) {
+            binding.listHeader.setVisibility(View.GONE);
             binding.noItemsTextview.setVisibility(View.VISIBLE);
         } else {
+            binding.listHeader.setVisibility(View.VISIBLE);
             binding.noItemsTextview.setVisibility(View.GONE);
         }
         favoritesAdapter.setData(favoritesResponseList);

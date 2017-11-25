@@ -8,6 +8,8 @@
     <string name="error_model_message">No models found, Please Add New Model by clicking on
         the below Button
     </string>
+
+    <string name="info_purchased_status">Status: %1$s</string>
     <string name="error_socket">Unable to process your request. Please try again</string>
     <string name="error_no_connectivity">Looks like you are offline, please check internet
         connectivity</string>

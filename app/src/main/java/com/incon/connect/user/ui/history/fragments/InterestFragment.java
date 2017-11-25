@@ -303,7 +303,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_main_features))) {
                 showInformationDialog(getString(
-                        R.string.bottom_option_main_features) ,itemFromPosition.getInformation());
+                        R.string.bottom_option_main_features), itemFromPosition.getInformation());
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             } else if (tag == 1 && topClickedText.equals(getString(
@@ -427,23 +427,23 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 String returnPolicy = itemFromPosition.getReturnPolicy();
                 if (returnPolicy != null) {
                     showInformationDialog(getString(
-                            R.string.bottom_option_return_policy) ,returnPolicy);
+                            R.string.bottom_option_return_policy), returnPolicy);
                 }
             } else if (tag == 1 && topClickedText.equals(getString(
                     R.string.bottom_option_special_instructions))) {
                 String specialInstruction = itemFromPosition.getSpecialInstruction();
                 if (specialInstruction != null) {
                     showInformationDialog(getString(
-                            R.string.bottom_option_special_instructions) ,specialInstruction);
+                            R.string.bottom_option_special_instructions), specialInstruction);
                 }
             } else if (tag == 2 && topClickedText.equals(getString(
                     R.string.bottom_option_how_to_use))) {
             } else if (tag == 3 && topClickedText.equals(getString(
                     R.string.bottom_option_warranty))) {
-                if (itemFromPosition.getWarrantyYears()!=null){
+                if (itemFromPosition.getWarrantyYears() != null) {
                     showInformationDialog(getString(
-                            R.string.bottom_option_warranty) ,
-                            + itemFromPosition.getWarrantyYears() +"Year");
+                            R.string.bottom_option_warranty),
+                            +itemFromPosition.getWarrantyYears() + "Year");
                 } else {
                     showInformationDialog(getString(
                             R.string.bottom_option_warranty), "No Warranty Exists");
@@ -456,12 +456,13 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             }
         }
     };
+
     // share product details
     private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, productSelectedPosition.getInformation()
-                +" Price "+productSelectedPosition.getMrp());
+                + " Price " + productSelectedPosition.getMrp());
         sendIntent.setType("text/plain");
         sendIntent.setPackage("com.whatsapp");
         startActivity(sendIntent);
@@ -475,9 +476,8 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                interestPresenter.deleteApi(interestAdapter.
-                                        getInterestDateFromPosition(
-                                                productSelectedPosition).getInterestId());
+                                interestPresenter.deleteApi(interestAdapter.getItemFromPosition(
+                                        productSelectedPosition).getInterestId());
                                 detailsDialog.dismiss();
                                 break;
                             case AlertDialogCallback.CANCEL:
@@ -544,7 +544,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
     }
 
-    private void showInformationDialog(String title ,String messageInfo) {
+    private void showInformationDialog(String title, String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override
@@ -565,6 +565,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         detailsDialog.showDialog();
         detailsDialog.setCancelable(true);
     }
+
     //location dialog
     private void showLocationDialog() {
         ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(

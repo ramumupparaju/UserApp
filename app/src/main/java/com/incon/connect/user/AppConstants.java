@@ -19,6 +19,13 @@ public interface AppConstants {
     int DEAULT_VALUE = Integer.MAX_VALUE;
 
 
+    interface StatusConstants {
+        String PENDING = "P";
+        String DISPATCHED = "S";
+        String INSTALLED = "I";
+        String DELIVERED  = "D";
+    }
+
     interface FilterConstants {
         String NONE = "none";
         String NAME = "name";

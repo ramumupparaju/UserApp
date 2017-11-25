@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="scanning"
-            type="com.incon.connect.user.ui.scan.ScanTabFragment"/>
+            type="com.incon.connect.user.ui.scan.ScanTabFragment" />
+
         <variable
             name="productinforesponse"
-            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
 
     </data>
 
@@ -25,8 +25,7 @@
             android:id="@+id/text_scanuid"
             style="@style/BothWrap"
             android:layout_centerHorizontal="true"
-            android:text="@string/action_scanuid"
-            />
+            android:text="@string/action_scanuid" />
 
         <ImageView
             android:id="@+id/im_scann"

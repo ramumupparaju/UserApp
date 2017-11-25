@@ -78,26 +78,23 @@ public class FavoritesAdapter extends RecyclerView.Adapter
         public void bind(ProductInfoResponse favoritesResponse) {
             binding.setVariable(BR.favoritesResponse, favoritesResponse);
 
-            AppUtils.loadImageFromApi(binding.brandImageview, favoritesResponse
-                    .getProductLogoUrl());
-            AppUtils.loadImageFromApi(binding.productImageview, favoritesResponse
-                    .getProductImageUrl());
+            AppUtils.loadImageFromApi(binding.brandImageview, favoritesResponse.getProductLogoUrl());
+            AppUtils.loadImageFromApi(binding.productImageview, favoritesResponse.getProductImageUrl());
 
+            binding.productName.setText(favoritesResponse.getProductName());
             binding.layoutFavoriteItem.setSelected(favoritesResponse.isSelected());
-            long noOfDays = DateUtils.convertDifferenceDateIndays(
-                    favoritesResponse.getPurchasedDate()
-                    , favoritesResponse.getPurchasedDate());
-
+            long noOfDays = DateUtils.convertDifferenceDateIndays(favoritesResponse.getWarrantyEndDate(),
+                    System.currentTimeMillis());
             if (noOfDays != 0) {
                 binding.warrantyPeriod.setVisibility(View.VISIBLE);
                 binding.warrantyPeriod.setText(binding.warrantyPeriod.getContext().getString(R.string.hint_warranty_period, noOfDays));
-            } else  {
+            } else {
                 binding.warrantyPeriod.setVisibility(View.GONE);
             }
             if (noOfDays >= MIN_DAYS) {
                 binding.warrentyIcon.setBackgroundColor(
                         binding.getRoot().getResources().getColor(R.color.green));
-            } else if (noOfDays == 0){
+            } else if (noOfDays == 0) {
                 binding.warrentyIcon.setBackgroundColor(
                         binding.getRoot().getResources().getColor(R.color.red));
             } else {

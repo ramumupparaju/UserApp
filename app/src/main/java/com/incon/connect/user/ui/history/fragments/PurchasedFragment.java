@@ -471,8 +471,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 String warrantyEndDate = DateUtils.convertMillisToStringFormat(
                         itemFromPosition.getWarrantyEndDate(), DateFormatterConstants.DD_MM_YYYY);
                 long noOfDays = DateUtils.convertDifferenceDateIndays(
-                        itemFromPosition.getPurchasedDate()
-                        , itemFromPosition.getPurchasedDate());
+                        itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
                 String warrantyConditions = itemFromPosition.getWarrantyConditions();
                 showInformationDialog(getString(
                         R.string.bottom_option_warranty) ,getString(

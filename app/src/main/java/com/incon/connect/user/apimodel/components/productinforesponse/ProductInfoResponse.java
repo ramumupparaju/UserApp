@@ -1,6 +1,7 @@
 package com.incon.connect.user.apimodel.components.productinforesponse;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -586,12 +587,14 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         this.productId = productId;
     }
 
+    @Bindable
     public String getProductName() {
         return productName;
     }
 
     public void setProductName(String productName) {
         this.productName = productName;
+        notifyChange();
     }
 
     public String getInformation() {
