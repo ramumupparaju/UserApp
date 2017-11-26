@@ -23,7 +23,7 @@ public interface AppConstants {
         String PENDING = "PEN";
         String DISPATCHES_ON = "DSN";
         String DISPATCHED = "DSD";
-        String DELIVERED = "DEL";
+        String DELIVERED = "DLD";
         String INSTALLED = "INS";
     }
 
