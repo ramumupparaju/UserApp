@@ -853,6 +853,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
 
         if (productInfoResponses.size() == 0) {
+            if (isFromFavorites) {
+                binding.purchasedTextview.setText(getString(R.string.error_no_products_for_favorites));
+            }
             binding.purchasedTextview.setVisibility(View.VISIBLE);
             dismissSwipeRefresh();
         } else {
