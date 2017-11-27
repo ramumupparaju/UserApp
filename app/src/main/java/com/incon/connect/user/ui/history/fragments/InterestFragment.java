@@ -494,56 +494,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         detailsDialog.showDialog();
     }
 
-    // changeing text colore
-    private void changeBackgroundText(Integer tag, View view) {
-        if (view instanceof LinearLayout) {
-            View topRootView = (View) view.getParent();
-            View topRootView1 = (View) topRootView.getParent();
-//                    here we get count of 4
-            for (int j = 0; j < ((ViewGroup) topRootView1).getChildCount(); j++) {
-                View childView1 = ((ViewGroup) topRootView1).getChildAt(j);
-
-                if (j == tag) {
-                    if (childView1 instanceof LinearLayout) {
-                        for (int k = 0; k < ((ViewGroup) childView1).getChildCount(); k++) {
-                            View childView2 = ((ViewGroup) childView1).getChildAt(k);
-                            if (childView2 instanceof LinearLayout) {
-                                for (int l = 0;
-                                     l < ((ViewGroup) childView2).getChildCount(); l++) {
-                                    View childView3
-                                            = ((ViewGroup) childView2).getChildAt(l);
-                                    if (childView3 instanceof TextView) {
-                                        ((TextView) childView3).setTextColor(getResources()
-                                                .getColor(R.color.colorPrimary));
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-                } else {
-                    if (childView1 instanceof LinearLayout) {
-                        for (int k = 0; k < ((ViewGroup) childView1).getChildCount(); k++) {
-                            View childView2 = ((ViewGroup) childView1).getChildAt(k);
-                            if (childView2 instanceof LinearLayout) {
-                                for (int l = 0;
-                                     l < ((ViewGroup) childView2).getChildCount(); l++) {
-                                    View childView3
-                                            = ((ViewGroup) childView2).getChildAt(l);
-                                    if (childView3 instanceof TextView) {
-                                        ((TextView) childView3).setTextColor(getResources()
-                                                .getColor(R.color.colorAccent));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-            }
-        }
-    }
-
     private void showInformationDialog(String title, String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
