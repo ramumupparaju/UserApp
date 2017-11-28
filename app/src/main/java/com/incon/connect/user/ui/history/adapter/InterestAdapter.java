@@ -45,9 +45,10 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
         }
 
         public void bind(ProductInfoResponse interestHistoryResponse) {
-            binding.interestDate.setText(DateUtils.convertMillisToStringFormat(System.currentTimeMillis()
+            binding.interestDate.setText(DateUtils.convertMillisToStringFormat(interestHistoryResponse.getRequestedDate()
                     , AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM_SS));
             binding.setVariable(BR.productinforesponse, interestHistoryResponse);
+            
             AppUtils.loadImageFromApi(binding.brandImageview, interestHistoryResponse
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, interestHistoryResponse
