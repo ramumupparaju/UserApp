@@ -24,7 +24,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     private Integer codeId;
     @SerializedName("batchCode")
     @Expose
-    private Object batchCode;
+    private String batchCode;
     @SerializedName("mobileNumber")
     @Expose
     private String mobileNumber;
@@ -308,64 +308,6 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         this.statusDate = statusDate;
     }
 
-    public ProductInfoResponse(Parcel in) {
-        id = in.readByte() == 0x00 ? null : in.readInt();
-        name = in.readString();
-        email = in.readString();
-        location = in.readString();
-        msisdn = in.readString();
-        usertype = in.readByte() == 0x00 ? null : in.readInt();
-        store = (Store) in.readValue(Store.class.getClassLoader());
-        uuid = in.readString();
-        country = in.readString();
-        dob = in.readString();
-        gender = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(id);
-        }
-        dest.writeString(name);
-        dest.writeString(email);
-        dest.writeString(location);
-        dest.writeString(msisdn);
-        if (usertype == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(usertype);
-        }
-        dest.writeValue(store);
-        dest.writeString(uuid);
-        dest.writeString(country);
-        dest.writeString(dob);
-        dest.writeString(gender);
-    }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<ProductInfoResponse> CREATOR =
-            new Parcelable.Creator<ProductInfoResponse>() {
-                @Override
-                public ProductInfoResponse createFromParcel(Parcel in) {
-                    return new ProductInfoResponse(in);
-                }
-
-                @Override
-                public ProductInfoResponse[] newArray(int size) {
-                    return new ProductInfoResponse[size];
-                }
-            };
-
     public Integer getQrcodeId() {
         return qrcodeId;
     }
@@ -437,6 +379,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     public void setAddressId(String addressId) {
         this.addressId = addressId;
     }
+
     public Integer getCodeId() {
         return codeId;
     }
@@ -449,7 +392,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         return batchCode;
     }
 
-    public void setBatchCode(Object batchCode) {
+    public void setBatchCode(String batchCode) {
         this.batchCode = batchCode;
     }
 
@@ -585,6 +528,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     public void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
+
     public void setBatchNumber(String batchNumber) {
         this.batchNumber = batchNumber;
     }
@@ -703,4 +647,216 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         this.mrp = mrp;
     }
 
+
+    protected ProductInfoResponse(Parcel in) {
+        serialNumber = in.readString();
+        codeId = in.readByte() == 0x00 ? null : in.readInt();
+        batchCode = in.readString();
+        mobileNumber = in.readString();
+        batchNumber = in.readString();
+        productModel = in.readString();
+        category = in.readString();
+        productId = in.readByte() == 0x00 ? null : in.readInt();
+        categoryId = in.readByte() == 0x00 ? null : in.readInt();
+        productName = in.readString();
+        division = in.readString();
+        divisionId = in.readByte() == 0x00 ? null : in.readInt();
+        information = in.readString();
+        brandId = in.readString();
+        brandName = in.readString();
+        price = in.readString();
+        warrantyId = in.readString();
+        invoiceNumber = in.readString();
+        status = in.readString();
+        statusDate = in.readByte() == 0x00 ? null : in.readLong();
+        warrantyEndDate = in.readByte() == 0x00 ? null : in.readLong();
+        productLogoUrl = in.readString();
+        productImageUrl = in.readString();
+        productQrCode = in.readString();
+        mrp = in.readByte() == 0x00 ? null : in.readInt();
+        address = in.readString();
+        interestId = in.readByte() == 0x00 ? null : in.readInt();
+        qrcodeId = in.readByte() == 0x00 ? null : in.readInt();
+        merchantId = in.readByte() == 0x00 ? null : in.readInt();
+        requestedDate = in.readLong();
+        userId = in.readString();
+        addressId = in.readString();
+        specialInstruction = in.readString();
+        returnPolicy = in.readString();
+        purchasedDate = in.readLong();
+        storeLocation = in.readString();
+        storeContactNumber = in.readString();
+        warrantyYears = in.readByte() == 0x00 ? null : in.readInt();
+        warrantyMonths = in.readByte() == 0x00 ? null : in.readInt();
+        warrantyDays = in.readByte() == 0x00 ? null : in.readInt();
+        warrantyConditions = in.readString();
+        color = in.readString();
+        productSpecification = in.readString();
+        productDimensions = in.readString();
+        isSelected = in.readByte() != 0x00;
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        name = in.readString();
+        email = in.readString();
+        location = in.readString();
+        msisdn = in.readString();
+        usertype = in.readByte() == 0x00 ? null : in.readInt();
+        store = (Store) in.readValue(Store.class.getClassLoader());
+        uuid = in.readString();
+        country = in.readString();
+        dob = in.readString();
+        gender = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(serialNumber);
+        if (codeId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(codeId);
+        }
+        dest.writeValue(batchCode);
+        dest.writeString(mobileNumber);
+        dest.writeString(batchNumber);
+        dest.writeString(productModel);
+        dest.writeString(category);
+        if (productId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(productId);
+        }
+        if (categoryId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(categoryId);
+        }
+        dest.writeString(productName);
+        dest.writeString(division);
+        if (divisionId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(divisionId);
+        }
+        dest.writeString(information);
+        dest.writeString(brandId);
+        dest.writeString(brandName);
+        dest.writeString(price);
+        dest.writeString(warrantyId);
+        dest.writeString(invoiceNumber);
+        dest.writeString(status);
+        if (statusDate == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(statusDate);
+        }
+        if (warrantyEndDate == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(warrantyEndDate);
+        }
+        dest.writeString(productLogoUrl);
+        dest.writeString(productImageUrl);
+        dest.writeString(productQrCode);
+        if (mrp == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(mrp);
+        }
+        dest.writeString(address);
+        if (interestId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(interestId);
+        }
+        if (qrcodeId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(qrcodeId);
+        }
+        if (merchantId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(merchantId);
+        }
+        dest.writeLong(requestedDate);
+        dest.writeString(userId);
+        dest.writeString(addressId);
+        dest.writeString(specialInstruction);
+        dest.writeString(returnPolicy);
+        dest.writeLong(purchasedDate);
+        dest.writeString(storeLocation);
+        dest.writeString(storeContactNumber);
+        if (warrantyYears == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(warrantyYears);
+        }
+        if (warrantyMonths == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(warrantyMonths);
+        }
+        if (warrantyDays == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(warrantyDays);
+        }
+        dest.writeString(warrantyConditions);
+        dest.writeString(color);
+        dest.writeString(productSpecification);
+        dest.writeString(productDimensions);
+        dest.writeByte((byte) (isSelected ? 0x01 : 0x00));
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
+        dest.writeString(name);
+        dest.writeString(email);
+        dest.writeString(location);
+        dest.writeString(msisdn);
+        if (usertype == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(usertype);
+        }
+        dest.writeValue(store);
+        dest.writeString(uuid);
+        dest.writeString(country);
+        dest.writeString(dob);
+        dest.writeString(gender);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<ProductInfoResponse> CREATOR = new Parcelable.Creator<ProductInfoResponse>() {
+        @Override
+        public ProductInfoResponse createFromParcel(Parcel in) {
+            return new ProductInfoResponse(in);
+        }
+
+        @Override
+        public ProductInfoResponse[] newArray(int size) {
+            return new ProductInfoResponse[size];
+        }
+    };
 }
