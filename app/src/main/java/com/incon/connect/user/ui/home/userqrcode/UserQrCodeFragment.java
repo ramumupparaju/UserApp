@@ -31,7 +31,7 @@ public class UserQrCodeFragment extends BaseFragment {
 
     @Override
     public void setTitle() {
-        ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.user_qr_code));
+        ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.user_uid));
     }
 
     @Override
@@ -48,6 +48,7 @@ public class UserQrCodeFragment extends BaseFragment {
         return rootView;
     }
 
+    // loading qr code
     private void loadQrcode() {
         Bundle bundle = getArguments();
         String data = bundle.getString(BundleConstants.QRCODE_DATA);

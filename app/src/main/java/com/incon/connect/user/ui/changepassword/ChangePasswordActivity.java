@@ -82,11 +82,9 @@ public class ChangePasswordActivity extends BaseActivity implements ChangePasswo
             // home screen
             Intent intent = new Intent(this,
                     HomeActivity.class);
-            // This is a convenient way to make the proper Intent to launch and
-            // reset an application's task.
-            ComponentName cn = intent.getComponent();
-            Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
-            startActivity(mainIntent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent
+                    .FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
         finish();
     }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <data>
+        <variable
+            name="productDetails"
+            type="com.incon.connect.user.ui.scan.ProductDetailsActivity"/>
+        <variable
+            name="productinforesponse"
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/map_view"
+        style="@style/BothMatch"
+        android:layout_margin="@dimen/margin_50"
+        >
+        <ExpandableListView
+            android:id="@+id/expandale_list"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
+
+        <Button
+            android:layout_below="@+id/expandale_list"
+            android:id="@+id/button_ok"
+            style="@style/style_submit_button"
+            android:text="@string/action_submit"
+            fontPath="fonts/OpenSans-Bold.ttf"
+            android:onClick="@{() -> productDetails.onOkClick()}"
+            android:layout_marginLeft="@dimen/margin_30"
+            android:layout_marginRight="@dimen/margin_30"
+            android:layout_marginTop="@dimen/margin_20"
+            />
+
+
+    </RelativeLayout>
+</layout>

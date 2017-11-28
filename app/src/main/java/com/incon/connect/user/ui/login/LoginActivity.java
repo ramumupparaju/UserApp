@@ -57,7 +57,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         binding.setActivity(this);
 
 //        LoginUserData loginUserData = new LoginUserData();
-        LoginUserData loginUserData = new LoginUserData("9966038949", "qwerty123");
+        LoginUserData loginUserData = new LoginUserData("9494437172", "qwerty123");
         String phoneNumberPreference = SharedPrefsUtils.loginProvider().
                 getStringPreference(LoginPrefs.USER_PHONE_NUMBER);
         if (!TextUtils.isEmpty(phoneNumberPreference)) {
@@ -65,7 +65,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             binding.edittextPassword.requestFocus();
         }
         binding.setUser(loginUserData);
-
         boolean isOtpVerifiedFailed = SharedPrefsUtils.loginProvider().getBooleanPreference(
                 LoginPrefs.IS_REGISTERED, false);
         boolean isForgotOtpVerifiedFailed = SharedPrefsUtils.loginProvider().getBooleanPreference(
@@ -79,9 +78,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             registrationIntent.putExtra(IntentConstants.USER_PHONE_NUMBER, phoneNumber);
             startActivity(registrationIntent);
         }
-
     }
-
     private void showOtpDialog() {
         final String phoneNumber = SharedPrefsUtils.loginProvider().getStringPreference(
                 LoginPrefs.USER_PHONE_NUMBER);

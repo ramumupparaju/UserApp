@@ -29,9 +29,11 @@ public class DateUtils implements AppConstants.DateFormatterConstants {
         monthNames.put("11", "Nov");
         monthNames.put("12", "Dec");
     }
+
     /**
      * Returns Today, Yesterday, the day of the week within one week, or a
      * symptomSelectedDate if greater.
+     *
      * @param milliSeconds
      * @return
      */
@@ -94,10 +96,6 @@ public class DateUtils implements AppConstants.DateFormatterConstants {
 
         return timeBarDayText;
     }
-
-
-
-
 
 
     /////////////////////////////////After api changes
@@ -164,6 +162,18 @@ public class DateUtils implements AppConstants.DateFormatterConstants {
         return 0;
     }
 
+    public static long convertDifferenceDateIndays(long date1, long date2) {
+        Calendar c1 = Calendar.getInstance();
+        c1.setTimeInMillis(date1);
+        Calendar c2 = Calendar.getInstance();
+        c2.setTimeInMillis(date2);
+        Date d1 = c1.getTime();
+        Date d2 = c2.getTime();
+        long diff = d1.getTime() - d2.getTime();
+
+        return (int) (diff / (1000 * 60 * 60 * 24));
+    }
+
     public static String convertMillisToStringFormat(long milliSeconds,
                                                      String outputDateFormat) {
         try {
@@ -225,7 +235,7 @@ public class DateUtils implements AppConstants.DateFormatterConstants {
     }
 
     public static String getDateFromDayMonthYear(String year, String nameOfMonth, int dayOfMonth) {
-        return  year + "-"
+        return year + "-"
                 + DateUtils.convertMonthNameToNumber(nameOfMonth)
                 + "-" + DateUtils.convertSingleDigitToTwoDigits(
                 dayOfMonth);

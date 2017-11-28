@@ -24,9 +24,7 @@ public class LoginResponse extends ApiBaseResponse {
     @SerializedName("usertype")
     @Expose
     private Integer usertype;
-    @SerializedName("store")
-    @Expose
-    private StoreResponse store;
+
     @SerializedName("uuid")
     @Expose
     private String uuid;
@@ -39,10 +37,22 @@ public class LoginResponse extends ApiBaseResponse {
     @SerializedName("gender")
     @Expose
     private String gender;
+    @SerializedName("mobileNumber")
+    @Expose
+    private String mobileNumber;
+    @SerializedName("address")
+    @Expose
+    private String address;
     private String password;
     private transient String confirmPassword;
-    private String address;
-    private String phoneNumber;
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
 
     public Integer getId() {
         return id;
@@ -79,6 +89,7 @@ public class LoginResponse extends ApiBaseResponse {
     public void setAddress(String address) {
         this.address = address;
     }
+
     public String getPassword() {
         return password;
     }
@@ -107,14 +118,6 @@ public class LoginResponse extends ApiBaseResponse {
         this.msisdn = msisdn;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public Integer getUsertype() {
         return usertype;
     }
@@ -123,13 +126,6 @@ public class LoginResponse extends ApiBaseResponse {
         this.usertype = usertype;
     }
 
-    public StoreResponse getStore() {
-        return store;
-    }
-
-    public void setStore(StoreResponse store) {
-        this.store = store;
-    }
 
     public String getUuid() {
         return uuid;

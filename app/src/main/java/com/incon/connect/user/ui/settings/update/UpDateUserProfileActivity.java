@@ -6,17 +6,21 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
-import android.text.method.KeyListener;
+import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.updateuserprofile.UpDateUserProfileResponce;
+import com.incon.connect.user.apimodel.components.login.LoginResponse;
+import com.incon.connect.user.custom.view.CustomAutoCompleteView;
+import com.incon.connect.user.custom.view.CustomTextInputLayout;
 import com.incon.connect.user.databinding.ActivityUpdateUserProfileBinding;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
 import com.incon.connect.user.ui.BaseActivity;
@@ -29,13 +33,11 @@ import java.util.HashMap;
 import java.util.TimeZone;
 
 import static com.incon.connect.user.AppConstants.LoginPrefs.USER_ADDRESS;
-import static com.incon.connect.user.AppConstants.LoginPrefs.USER_CONFIRM_PASSWORD;
 import static com.incon.connect.user.AppConstants.LoginPrefs.USER_DOB;
 import static com.incon.connect.user.AppConstants.LoginPrefs.USER_EMAIL_ID;
 import static com.incon.connect.user.AppConstants.LoginPrefs.USER_GENDER;
 import static com.incon.connect.user.AppConstants.LoginPrefs.USER_ID;
 import static com.incon.connect.user.AppConstants.LoginPrefs.USER_NAME;
-import static com.incon.connect.user.AppConstants.LoginPrefs.USER_PASSWORD;
 import static com.incon.connect.user.AppConstants.LoginPrefs.USER_PHONE_NUMBER;
 
 /**
@@ -48,7 +50,6 @@ public class UpDateUserProfileActivity extends BaseActivity implements
     private UpDateUserProfile upDateUserProfile;
     private HashMap<Integer, String> errorMap;
     private Animation shakeAnim;
-    private KeyListener listener;
 
     @Override
     protected int getLayoutId() {
@@ -64,20 +65,22 @@ public class UpDateUserProfileActivity extends BaseActivity implements
 
     private void enableEditMode(boolean isEditable) {
         binding.setIsEditable(isEditable);
-        binding.spinnerGender.setKeyListener(isEditable ? listener : null);
+        binding.spinnerGender.setDropDownHeight(
+                isEditable ? LinearLayout.LayoutParams.WRAP_CONTENT : 0);
     }
 
     public void onSubmitClick() {
-//        validateFields();
-
-        upDateUserProfilePresenter.upDateUserProfile(SharedPrefsUtils.loginProvider().
-                getIntegerPreference(USER_ID, DEFAULT_VALUE), upDateUserProfile);
+        if (validateFields()) {
+            upDateUserProfilePresenter.upDateUserProfile(SharedPrefsUtils.loginProvider().
+                    getIntegerPreference(USER_ID, DEFAULT_VALUE), upDateUserProfile);
+        }
     }
 
     public void onAddressClick() {
         Intent addressIntent = new Intent(this, RegistrationMapActivity.class);
         startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -106,11 +109,16 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         upDateUserProfile = new UpDateUserProfile();
         binding.setUpDateUserProfile(upDateUserProfile);
         enableEditMode(false);
-
-        listener = binding.spinnerGender.getKeyListener();
-
         initializeToolbar();
         loadData();
+        initViews();
+    }
+
+    private void initViews() {
+
+        shakeAnim = AnimationUtils.loadAnimation(this, R.anim.shake);
+        loadValidationErrors();
+        setFocusForViews();
     }
 
     private void initializeToolbar() {
@@ -140,7 +148,7 @@ public class UpDateUserProfileActivity extends BaseActivity implements
 
         upDateUserProfile.setName(sharedPrefsUtils.getStringPreference(USER_NAME));
 
-        upDateUserProfile.setPhoneNumber(sharedPrefsUtils.getStringPreference(
+        upDateUserProfile.setMobileNumber(sharedPrefsUtils.getStringPreference(
                 USER_PHONE_NUMBER));
 
         upDateUserProfile.setGender(sharedPrefsUtils.getStringPreference(
@@ -149,14 +157,8 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         upDateUserProfile.setDob(sharedPrefsUtils.getStringPreference(
                 USER_DOB));
 
-        upDateUserProfile.setUserEmail(sharedPrefsUtils.getStringPreference(
+        upDateUserProfile.setEmail(sharedPrefsUtils.getStringPreference(
                 USER_EMAIL_ID));
-
-        upDateUserProfile.setPassword(sharedPrefsUtils.getStringPreference(
-                USER_PASSWORD));
-
-        upDateUserProfile.setConfirmPassword(sharedPrefsUtils.getStringPreference(
-                USER_CONFIRM_PASSWORD));
 
         upDateUserProfile.setAddress(sharedPrefsUtils.getStringPreference(
                 USER_ADDRESS));
@@ -210,6 +212,76 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         binding.spinnerGender.setAdapter(arrayAdapter);
     }
 
+
+    private boolean validateFields() {
+        binding.inputLayoutUpDateUserName.setError(null);
+        binding.inputLayoutUpDatePhone.setError(null);
+        binding.spinnerGender.setError(null);
+        binding.inputLayoutUpDateDob.setError(null);
+        binding.inputLayoutUpDateEmailid.setError(null);
+        binding.inputLayoutUpDateAddress.setError(null);
+
+        Pair<String, Integer> validation = binding.getUpDateUserProfile().
+                validateUpDateUserProfile(null);
+        updateUiAfterValidation(validation.first, validation.second);
+        return validation.second == VALIDATION_SUCCESS;
+    }
+
+
+    private void setFocusForViews() {
+        binding.edittextUpDateUserName.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextUpDatePhone.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextUpDateDob.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextUpDateEmailid.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextUpDateAddress.setOnFocusChangeListener(onFocusChangeListener);
+    }
+
+    View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean hasFocus) {
+            Object fieldId = view.getTag();
+            if (fieldId != null) {
+                Pair<String, Integer> validation = binding.getUpDateUserProfile().
+                        validateUpDateUserProfile((String) fieldId);
+                if (!hasFocus) {
+                    if (view instanceof TextInputEditText) {
+                        TextInputEditText textInputEditText = (TextInputEditText) view;
+                        textInputEditText.setText(textInputEditText.getText().toString().trim());
+                    }
+                    updateUiAfterValidation(validation.first, validation.second);
+                }
+            }
+        }
+    };
+
+
+    private void updateUiAfterValidation(String tag, int validationId) {
+        if (tag == null) {
+            return;
+        }
+        View viewByTag = binding.getRoot().findViewWithTag(tag);
+        setFieldError(viewByTag, validationId);
+
+    }
+
+    private void setFieldError(View view, int validationId) {
+
+        if (view instanceof TextInputEditText) {
+            ((CustomTextInputLayout) view.getParent().getParent())
+                    .setError(validationId == VALIDATION_SUCCESS ? null
+                            : errorMap.get(validationId));
+        } else if (view instanceof CustomAutoCompleteView) {
+            ((CustomTextInputLayout) view.getParent().getParent())
+                    .setError(validationId == VALIDATION_SUCCESS ? null
+                            : errorMap.get(validationId));
+        }
+
+        if (validationId != VALIDATION_SUCCESS) {
+            view.startAnimation(shakeAnim);
+        }
+    }
+
+    // validations
     private void loadValidationErrors() {
 
         errorMap = new HashMap<>();
@@ -258,7 +330,13 @@ public class UpDateUserProfileActivity extends BaseActivity implements
     }
 
     @Override
-    public void loadUpDateUserProfileResponce(UpDateUserProfileResponce merchantId) {
+    public void loadUpDateUserProfileResponce(LoginResponse loginResponse) {
         enableEditMode(false);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        upDateUserProfilePresenter.disposeAll();
     }
 }

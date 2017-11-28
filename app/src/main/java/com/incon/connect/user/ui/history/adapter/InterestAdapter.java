@@ -6,23 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse;
-import com.incon.connect.user.callbacks.IClickCallback;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.databinding.ItemInterestFragmentBinding;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.incon.connect.user.ui.BaseRecyclerViewAdapter;
 
 /**
  * Created by PC on 10/2/2017.
  */
 
-public class InterestAdapter extends RecyclerView.Adapter
-        <InterestAdapter.ViewHolder> {
-    private List<InterestHistoryResponse> lnterestList = new ArrayList<>();
-    private IClickCallback clickCallback;
+public class InterestAdapter extends BaseRecyclerViewAdapter {
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -32,41 +28,27 @@ public class InterestAdapter extends RecyclerView.Adapter
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        InterestHistoryResponse interestResponse = lnterestList.get(position);
-        holder.bind(interestResponse);
-
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ProductInfoResponse interestResponse = filteredList.get(position);
+        ((InterestAdapter.ViewHolder) holder).bind(interestResponse);
     }
 
-    @Override
-    public int getItemCount() {
-        return lnterestList.size();
-    }
-    public  void setData(List<InterestHistoryResponse> interestHistoryResponseList) {
-        lnterestList = interestHistoryResponseList;
-        notifyDataSetChanged();
-
-    }
-    public void clearData() {
-        lnterestList.clear();
-        notifyDataSetChanged();
-    }
-
-    public void setClickCallback(IClickCallback clickCallback) {
-        this.clickCallback = clickCallback;
-    }
-
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ItemInterestFragmentBinding binding;
+
         public ViewHolder(ItemInterestFragmentBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             binding.getRoot().setOnClickListener(this);
         }
-        public void bind(InterestHistoryResponse interestHistoryResponse) {
-            binding.setVariable(BR.interestHistoryResponse, interestHistoryResponse);
+
+        public void bind(ProductInfoResponse interestHistoryResponse) {
+            binding.setVariable(BR.productinforesponse, interestHistoryResponse);
+            AppUtils.loadImageFromApi(binding.brandImageview, interestHistoryResponse
+                    .getProductLogoUrl());
+            AppUtils.loadImageFromApi(binding.productImageview, interestHistoryResponse
+                    .getProductImageUrl());
+            binding.layoutInterestItem.setSelected(interestHistoryResponse.isSelected());
             binding.executePendingBindings();
         }
 
@@ -76,6 +58,5 @@ public class InterestAdapter extends RecyclerView.Adapter
 
         }
     }
-
 
 }

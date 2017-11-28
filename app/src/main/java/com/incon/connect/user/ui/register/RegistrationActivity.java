@@ -42,9 +42,6 @@ public class RegistrationActivity extends BaseActivity implements RegistrationCo
                     if (currentRegistionFragment instanceof RegistrationUserFragment) {
                         ((RegistrationUserFragment) currentRegistionFragment).onClickNext();
                     }
-                    /*else if (currentRegistionFragment instanceof RegistrationStoreFragment) {
-                        ((RegistrationStoreFragment) currentRegistionFragment).onClickNext();
-                    }*/
                     break;
                 default:
                     //do nothing
@@ -99,7 +96,7 @@ public class RegistrationActivity extends BaseActivity implements RegistrationCo
                     public void onGlobalLayout() {
                         int heightDiff = rootView.getRootView().getHeight() - rootView.getHeight();
                         binding.includeRegisterBottomButtons.getRoot().setVisibility(View.VISIBLE);
-                        if (heightDiff > DeviceUtils.dpToPx(RegistrationActivity.this, 200)) {
+                        if (heightDiff > DeviceUtils.convertDpToPx(200)) {
                             // if more than 200 dp, it's probably a keyboard...
                             binding.includeRegisterBottomButtons.getRoot().setVisibility(View.GONE);
                         }

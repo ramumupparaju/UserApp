@@ -1,14 +1,23 @@
 package com.incon.connect.user.ui.notifications;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.incon.connect.user.AppConstants;
+import com.incon.connect.user.api.AppApiService;
+import com.incon.connect.user.dto.notifications.PushRegistrarBody;
 import com.incon.connect.user.ui.BasePresenter;
+import com.incon.connect.user.utils.DeviceUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
+
+import java.util.TimeZone;
+
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * Created on 31 May 2017 11:19 AM.
- *
  */
 public class PushPresenter extends BasePresenter<PushContract.View> implements
         PushContract.Presenter {
@@ -22,14 +31,13 @@ public class PushPresenter extends BasePresenter<PushContract.View> implements
     @Override
     public void pushRegisterApi() {
 
-        if (SharedPrefsUtils.loginProvider()
-                .getIntegerPreference(AppConstants.LoginPrefs.USER_ID, AppConstants
-                        .DEFAULT_VALUE) == AppConstants.DEFAULT_VALUE) {
+        int userId = SharedPrefsUtils.loginProvider()
+                .getIntegerPreference(AppConstants.LoginPrefs.USER_ID, AppConstants.DEFAULT_VALUE);
+        if (userId == AppConstants.DEFAULT_VALUE) {
             return;
         }
 
-        //TODO enable
-       /* PushRegistrarBody pushRegistrarBody = new PushRegistrarBody();
+        PushRegistrarBody pushRegistrarBody = new PushRegistrarBody();
 
         pushRegistrarBody.setuId(DeviceUtils.getUniqueID());
         pushRegistrarBody.setPushKey(FirebaseInstanceId.getInstance().getToken());
@@ -56,8 +64,8 @@ public class PushPresenter extends BasePresenter<PushContract.View> implements
                     }
                 };
 
-        AppApiService.getInstance().pushTokenApi(pushRegistrarBody).subscribe(observer);
-        addDisposable(observer);*/
+        AppApiService.getInstance().pushTokenApi(userId, pushRegistrarBody).subscribe(observer);
+        addDisposable(observer);
     }
 
 }

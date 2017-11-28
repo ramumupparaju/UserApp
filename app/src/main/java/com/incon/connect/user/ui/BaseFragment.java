@@ -1,14 +1,19 @@
 package com.incon.connect.user.ui;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.incon.connect.user.AppConstants;
+import com.incon.connect.user.R;
 
 public abstract class BaseFragment extends Fragment implements BaseView, AppConstants {
 
@@ -30,6 +35,12 @@ public abstract class BaseFragment extends Fragment implements BaseView, AppCons
         }
     }
 
+    public void dismissDialog(Dialog dialog) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
 
     @Nullable
     @Override
@@ -40,6 +51,56 @@ public abstract class BaseFragment extends Fragment implements BaseView, AppCons
         v = onPrepareView(inflater, container, savedInstanceState);
         return v;
     }
+
+    // changeing text colore
+    public void changeBackgroundText(Integer tag, View view) {
+        if (view instanceof LinearLayout) {
+            View topRootView = (View) view.getParent();
+            View topRootView1 = (View) topRootView.getParent();
+//                    here we get count of 4
+            for (int j = 0; j < ((ViewGroup) topRootView1).getChildCount(); j++) {
+                View childView1 = ((ViewGroup) topRootView1).getChildAt(j);
+                if (j == tag) {
+                    if (childView1 instanceof LinearLayout) {
+                        for (int k = 0; k < ((ViewGroup) childView1).getChildCount(); k++) {
+                            View childView2 = ((ViewGroup) childView1).getChildAt(k);
+                            if (childView2 instanceof LinearLayout) {
+                                for (int l = 0;
+                                     l < ((ViewGroup) childView2).getChildCount(); l++) {
+                                    View childView3
+                                            = ((ViewGroup) childView2).getChildAt(l);
+                                    if (childView3 instanceof TextView) {
+                                        ((TextView) childView3).setTextColor(
+                                                ContextCompat.getColor(
+                                                        getActivity(), R.color.colorPrimary));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (childView1 instanceof LinearLayout) {
+                        for (int k = 0; k < ((ViewGroup) childView1).getChildCount(); k++) {
+                            View childView2 = ((ViewGroup) childView1).getChildAt(k);
+                            if (childView2 instanceof LinearLayout) {
+                                for (int l = 0;
+                                     l < ((ViewGroup) childView2).getChildCount(); l++) {
+                                    View childView3
+                                            = ((ViewGroup) childView2).getChildAt(l);
+                                    if (childView3 instanceof TextView) {
+                                        ((TextView) childView3).setTextColor(getResources()
+                                                .getColor(R.color.colorAccent));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
 
     @Override
     public void onResume() {

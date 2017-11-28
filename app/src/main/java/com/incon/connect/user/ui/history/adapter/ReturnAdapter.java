@@ -6,58 +6,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.history.purchased.ReturnHistoryResponse;
-import com.incon.connect.user.callbacks.IClickCallback;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.databinding.ItemReturnFragmentBinding;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.incon.connect.user.ui.BaseRecyclerViewAdapter;
 
 /**
  * Created by PC on 10/2/2017.
  */
 
-public class ReturnAdapter extends  RecyclerView.Adapter
-        <ReturnAdapter.ViewHolder>  {
-    private List<ReturnHistoryResponse> returnList = new ArrayList<>();
-    private IClickCallback clickCallback;
+public class ReturnAdapter extends BaseRecyclerViewAdapter {
 
     @Override
     public ReturnAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ItemReturnFragmentBinding binding = DataBindingUtil.inflate(layoutInflater,
                 R.layout.item_return_fragment, parent, false);
-        return  new ViewHolder(binding);
+        return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(ReturnAdapter.ViewHolder holder, int position) {
-        ReturnHistoryResponse returnHistoryResponse = returnList.get(position);
-        holder.bind(returnHistoryResponse);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ProductInfoResponse returnHistoryResponse = filteredList.get(position);
+        ((ReturnAdapter.ViewHolder) holder).bind(returnHistoryResponse);
     }
-
-    @Override
-    public int getItemCount() {
-        return returnList.size();
-    }
-
-
-    public void setData(List<ReturnHistoryResponse> returnHistoryResponseList) {
-        returnList = returnHistoryResponseList;
-        notifyDataSetChanged();
-    }
-
-    public void clearData() {
-        returnList.clear();
-        notifyDataSetChanged();
-    }
-
-    public void setClickCallback(IClickCallback clickCallback) {
-        this.clickCallback = clickCallback;
-    }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ItemReturnFragmentBinding binding;
@@ -68,10 +42,14 @@ public class ReturnAdapter extends  RecyclerView.Adapter
             binding.getRoot().setOnClickListener(this);
         }
 
-
-        public void bind(ReturnHistoryResponse returnHistoryResponse) {
-            binding.setVariable(BR.returnHistoryResponse
+        public void bind(ProductInfoResponse returnHistoryResponse) {
+            binding.setVariable(BR.productinforesponse
                     , returnHistoryResponse);
+            AppUtils.loadImageFromApi(binding.brandImageview, returnHistoryResponse
+                    .getProductLogoUrl());
+            AppUtils.loadImageFromApi(binding.productImageview, returnHistoryResponse
+                    .getProductImageUrl());
+            binding.layoutReturnItem.setSelected(returnHistoryResponse.isSelected());
             binding.executePendingBindings();
         }
 

@@ -1,11 +1,10 @@
 apply plugin: 'com.android.application'
 
-
 apply plugin: 'checkstyle'
 apply from: 'configuration.gradle'
 
 android {
-
+    flavorDimensions "default"
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion
     defaultConfig {
@@ -41,7 +40,7 @@ android {
         moonz_dev {
             buildConfigField 'String', 'SERVICE_ENDPOINT', "\"http://ec2-52-11-96-200.us-west-2.compute.amazonaws.com:9898/connect/\""
             buildConfigField 'boolean', 'LOG_VALUE', 'true'
-            resValue "string", "app_name", "Connect dev"
+            resValue "string", "app_name", "Connect User dev"
         }
         /*client_staging {
             buildConfigField 'String', 'SERVICE_ENDPOINT', "\"http://ec2-52-11-96-200.us-west-2.compute.amazonaws.com:9898/connect/\""
@@ -58,27 +57,6 @@ android {
     dataBinding {
         enabled = true
     }
-
-    // noinspection GroovyAssignabilityCheck
-    task checkstyle(type: Checkstyle) {
-        //NOTE: Restrict to Rewards related code only and ignore other third party code.
-        source 'src/main/java/com/incon/connect/user'
-        include '**/*.java'
-        exclude '**/gen/**'
-        exclude '**/R.java'
-        exclude '**/BuildConfig.java'
-
-        ignoreFailures false
-        showViolations true
-
-        configFile file("${project.rootDir}/config/checkstyle.xml")
-
-        classpath = files() + configurations.compile
-    }
-    // inspection GroovyAssignabilityCheck
-
-    preBuild.dependsOn('checkstyle')
-
 }
 
 configurations.all {

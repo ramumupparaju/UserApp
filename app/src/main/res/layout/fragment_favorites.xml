@@ -1,0 +1,80 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="favorites"
+            type="com.incon.connect.user.ui.favorites.FavoritesFragment" />
+    </data>
+
+    <RelativeLayout
+        style="@style/MatchWrap"
+        android:background="@color/white"
+        android:paddingTop="@dimen/margin_10">
+
+        <include
+            android:id="@+id/add_address_view"
+            layout="@layout/item_favorites_horizontal_recyclview"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="@dimen/margin_5"
+            android:paddingRight="@dimen/margin_5" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/addresses_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_toLeftOf="@id/add_address_view"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="4dp"
+            android:scrollbarThumbHorizontal="@drawable/scrollbar"
+            android:scrollbars="horizontal" />
+
+        <include
+            android:id="@+id/list_header"
+            layout="@layout/item_list_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addresses_recyclerview" />
+
+        <TextView
+            android:id="@+id/no_items_textview"
+            style="@style/BothMatch"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/action_no_data"
+            android:visibility="gone" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefresh"
+            style="@style/BothMatch"
+            android:layout_below="@+id/list_header"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/favorites_recyclerview"
+                style="@style/BothMatch"
+                android:layout_marginTop="@dimen/margin_10"
+                android:fadeScrollbars="false"
+                android:scrollbarSize="4dp"
+                android:scrollbarThumbVertical="@drawable/scrollbar"
+                android:scrollbars="vertical" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <ImageView
+            android:id="@+id/add_product"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:onClick="@{() -> favorites.onProductAddClick()}"
+            android:paddingBottom="@dimen/margin_10"
+            app:srcCompat="@drawable/ic_favourite_products" />
+
+    </RelativeLayout>
+
+</layout>

@@ -4,12 +4,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Pair;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
-import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
+
+import java.util.HashMap;
 
 import io.reactivex.observers.DisposableObserver;
 
@@ -29,69 +32,19 @@ public class ScanTabPresenter extends BasePresenter<ScanTabContract.View> implem
         appContext = ConnectApplication.getAppContext();
     }
 
+    // user interested using qr code api implemenatation
     @Override
-    public void userInfoUsingPhoneNumber(final String phoneNumber) {
-        getView().showProgress(appContext.getString(R.string.progress_user_details));
-        DisposableObserver<UserInfoResponse> observer = new
-                DisposableObserver<UserInfoResponse>() {
-                    @Override
-                    public void onNext(UserInfoResponse userInfoResponse) {
-                        if (userInfoResponse.getMsisdn() == null) {
-                            newUserRegistration(phoneNumber);
-                        } else {
-                            getView().hideProgress();
-                            getView().userInfo(userInfoResponse);
-                        }
-                    }
+    public void userInterestedUsingQrCode(int customerId, String qrCode) {
+        HashMap<String, String> qrCodeMap = new HashMap<>();
+        qrCodeMap.put(AppConstants.ApiRequestKeyConstants.BODY_PRODUCT_CODE,
+                qrCode);
 
+        getView().showProgress(appContext.getString(R.string.progress_product_details));
+        DisposableObserver<ProductInfoResponse> observer = new
+                DisposableObserver<ProductInfoResponse>() {
                     @Override
-                    public void onError(Throwable e) {
-                        getView().hideProgress();
-                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
-                        getView().handleException(errorDetails);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                    }
-                };
-        AppApiService.getInstance().userInfoUsingPhoneNumber(phoneNumber).subscribe(observer);
-        addDisposable(observer);
-    }
-
-    @Override
-    public void newUserRegistration(String phoneNumber) {
-        DisposableObserver<UserInfoResponse> observer = new
-                DisposableObserver<UserInfoResponse>() {
-                    @Override
-                    public void onNext(UserInfoResponse userInfoResponse) {
-                            getView().hideProgress();
-                            getView().userInfo(userInfoResponse);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        getView().hideProgress();
-                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
-                        getView().handleException(errorDetails);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                    }
-                };
-        AppApiService.getInstance().newUserRegistation(phoneNumber).subscribe(observer);
-        addDisposable(observer);
-    }
-
-    @Override
-    public void userInfoUsingQrCode(String qrCode) {
-        getView().showProgress(appContext.getString(R.string.progress_user_details));
-        DisposableObserver<UserInfoResponse> observer = new
-                DisposableObserver<UserInfoResponse>() {
-                    @Override
-                    public void onNext(UserInfoResponse userInfoResponse) {
-                        getView().userInfo(userInfoResponse);
+                    public void onNext(ProductInfoResponse userInfoResponse) {
+                        getView().userInterestedResponce(userInfoResponse);
                     }
 
                     @Override
@@ -106,7 +59,8 @@ public class ScanTabPresenter extends BasePresenter<ScanTabContract.View> implem
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().userInfoUsingQrCode(qrCode).subscribe(observer);
+        AppApiService.getInstance().userInterestedUsingQrCode(customerId, qrCodeMap).
+                subscribe(observer);
         addDisposable(observer);
     }
 

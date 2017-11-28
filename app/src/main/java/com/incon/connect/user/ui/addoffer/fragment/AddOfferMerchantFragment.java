@@ -66,7 +66,7 @@ public class AddOfferMerchantFragment extends BaseFragment implements
 
     @Override
     public void setTitle() {
-        ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.title_offers));
+        ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.title_status));
     }
 
     @Override
@@ -79,8 +79,8 @@ public class AddOfferMerchantFragment extends BaseFragment implements
             binding.setAddOfferRequest(addOfferRequest);
             binding.setAddOfferMerchantFragment(this);
             rootView = binding.getRoot();
-            addOfferMerchantPresenter.getCategories(SharedPrefsUtils.loginProvider().
-                    getIntegerPreference(LoginPrefs.STORE_ID, DEFAULT_VALUE));
+          /*  addOfferMerchantPresenter.getCategories(SharedPrefsUtils.loginProvider().
+                    getIntegerPreference(LoginPrefs.STORE_ID, DEFAULT_VALUE));*/
             initViews();
         }
         setTitle();
@@ -190,7 +190,6 @@ public class AddOfferMerchantFragment extends BaseFragment implements
 
                     String dobInYYYYMMDD = DateUtils.convertDateToOtherFormat(
                             selectedDateTime.getTime(), DateFormatterConstants.YYYY_MM_DD);
-                    //TODO  Have to show Time Picker
 *//*
                     Pair<String, Integer> startdate = binding.getAddOfferRequest().
                             validateUserInfo((String) binding.edittextAddAnOffer.getTag());

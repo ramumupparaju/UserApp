@@ -83,8 +83,8 @@ public class AddOfferMerchantPresenter extends BasePresenter<AddOfferMerchantCon
 
                     }
                 };
-        AppApiService.getInstance().addOffer(addOfferRequest).subscribe(observer);
-        addDisposable(observer);
+       // AppApiService.getInstance().addOffer(addOfferRequest).subscribe(observer);
+      //  addDisposable(observer);
 
     }
 

@@ -2,32 +2,30 @@ package com.incon.connect.user.ui.history.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.incon.connect.user.BR;
-import com.incon.connect.user.R;
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
-import com.incon.connect.user.apimodel.components.history.purchased.PurchasedHistoryResponse;
-import com.incon.connect.user.callbacks.IClickCallback;
+import com.incon.connect.user.BR;
+import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.databinding.ItemPurchasedFragmentBinding;
+import com.incon.connect.user.ui.BaseRecyclerViewAdapter;
+import com.incon.connect.user.utils.DateUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.incon.connect.user.AppConstants.UpDateUserProfileValidation.MIN_DAYS;
 
 /**
  * Created on 13 Jun 2017 4:05 PM.
  */
-public class PurchasedAdapter extends RecyclerView.Adapter
-        <PurchasedAdapter.ViewHolder> {
-    private List<PurchasedHistoryResponse> purchasedHistoryResponseList = new ArrayList<>();
-    private List<PurchasedHistoryResponse> filteredPurchasedList = new ArrayList<>();
-    private IClickCallback clickCallback;
+public class PurchasedAdapter extends BaseRecyclerViewAdapter {
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PurchasedAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ItemPurchasedFragmentBinding binding = DataBindingUtil.inflate(layoutInflater,
                 R.layout.item_purchased_fragment, parent, false);
@@ -35,69 +33,10 @@ public class PurchasedAdapter extends RecyclerView.Adapter
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        PurchasedHistoryResponse purchasedHistoryResponse = filteredPurchasedList.get(position);
-        holder.bind(purchasedHistoryResponse);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ProductInfoResponse purchasedHistoryResponse = filteredList.get(position);
+        ((PurchasedAdapter.ViewHolder) holder).bind(purchasedHistoryResponse);
     }
-
-    @Override
-    public int getItemCount() {
-        return filteredPurchasedList.size();
-    }
-
-    public PurchasedHistoryResponse getItemFromPosition(int position) {
-        return filteredPurchasedList.get(position);
-    }
-
-
-    public void setData(List<PurchasedHistoryResponse> purchasedHistoryResponseList) {
-        this.purchasedHistoryResponseList = purchasedHistoryResponseList;
-        filteredPurchasedList.addAll(purchasedHistoryResponseList);
-        notifyDataSetChanged();
-    }
-
-    public void searchData(String searchableString, String searchType) {
-        filteredPurchasedList.clear();
-        if (searchType.equalsIgnoreCase(AppConstants.FilterConstants.NAME)) {
-            for (PurchasedHistoryResponse purchasedHistoryResponse
-                    : purchasedHistoryResponseList) {
-                if (purchasedHistoryResponse.getProductName() != null
-                        && purchasedHistoryResponse.getProductName().toLowerCase().startsWith(
-                        searchableString.toLowerCase())) {
-                    filteredPurchasedList.add(purchasedHistoryResponse);
-                }
-            }
-        } else if (searchType.equalsIgnoreCase(AppConstants.FilterConstants.BRAND)) {
-            for (PurchasedHistoryResponse purchasedHistoryResponse
-                    : purchasedHistoryResponseList) {
-                if (purchasedHistoryResponse.getBrandName() != null && purchasedHistoryResponse
-                        .getBrandName().toLowerCase().startsWith(
-                                searchableString.toLowerCase())) {
-                    filteredPurchasedList.add(purchasedHistoryResponse);
-                }
-            }
-        } else {
-            filteredPurchasedList.addAll(purchasedHistoryResponseList);
-        }
-        notifyDataSetChanged();
-    }
-
-    public void clearData() {
-        filteredPurchasedList.clear();
-        notifyDataSetChanged();
-    }
-
-    public void setClickCallback(IClickCallback clickCallback) {
-        this.clickCallback = clickCallback;
-    }
-
-    public void clearSelection() {
-        for (PurchasedHistoryResponse purchasedHistoryResponse : filteredPurchasedList) {
-            purchasedHistoryResponse.setSelected(false);
-        }
-        notifyDataSetChanged();
-    }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ItemPurchasedFragmentBinding binding;
@@ -108,14 +47,57 @@ public class PurchasedAdapter extends RecyclerView.Adapter
             binding.getRoot().setOnClickListener(this);
         }
 
+        public void bind(ProductInfoResponse purchasedHistoryResponse) {
+            binding.setVariable(BR.productinforesponse, purchasedHistoryResponse);
+            TextView statusInfo = binding.statusTv;
 
-        public void bind(PurchasedHistoryResponse purchasedHistoryResponse) {
-            binding.setVariable(BR.purchasedHistoryResponse, purchasedHistoryResponse);
+            String statusInfoString = "";
+            String status = purchasedHistoryResponse.getStatus();
+            if (status.equals(AppConstants.StatusConstants.PENDING)) {
+                statusInfoString = "Pending";
+            } else if (status.equals(AppConstants.StatusConstants.DISPATCHES_ON)) {
+                Long statusDate1 = purchasedHistoryResponse.getStatusDate();
+                if (statusDate1 != null) {
+                    String statusDate = DateUtils.convertMillisToStringFormat(statusDate1, AppConstants.DateFormatterConstants.DD_MM_YYYY);
+                    if (!TextUtils.isEmpty(statusDate))
+                        statusInfoString = "Dispatches on " + statusDate;
+                }
+            } else if (status.equals(AppConstants.StatusConstants.DISPATCHED)) {
+
+                statusInfoString = "Dispatched";
+            } else if (status.equals(AppConstants.StatusConstants.INSTALLED)) {
+                long purchasedDate = purchasedHistoryResponse.getPurchasedDate();
+                long days = DateUtils.convertDifferenceDateIndays(purchasedDate, System.currentTimeMillis());
+                if (days <= 1)
+                statusInfoString = "Waiting for installation";
+            } else {
+                statusInfoString = "Delivered";
+            }
+
+            statusInfo.setText(statusInfo.getContext().getString(R.string.info_purchased_status, statusInfoString + (":" + status)));
             AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
                     .getProductLogoUrl());
-            AppUtils.loadImageFromApi(binding.productImageImageview, purchasedHistoryResponse
+            AppUtils.loadImageFromApi(binding.productImageview, purchasedHistoryResponse
                     .getProductImageUrl());
             binding.layoutPurchsedItem.setSelected(purchasedHistoryResponse.isSelected());
+            if (purchasedHistoryResponse.getAddressId() != null) {
+                binding.favouriteIcon.setVisibility(View.VISIBLE);
+            } else {
+                binding.favouriteIcon.setVisibility(View.GONE);
+            }
+            long noOfDays = DateUtils.convertDifferenceDateIndays(
+                    purchasedHistoryResponse.getWarrantyEndDate()
+                    , purchasedHistoryResponse.getPurchasedDate());
+            if (noOfDays >= MIN_DAYS) {
+                binding.warrentyIcon.setBackgroundColor(
+                        binding.getRoot().getResources().getColor(R.color.green));
+            } else if (noOfDays == 0) {
+                binding.warrentyIcon.setBackgroundColor(
+                        binding.getRoot().getResources().getColor(R.color.red));
+            } else {
+                binding.warrentyIcon.setBackgroundColor(
+                        binding.getRoot().getResources().getColor(R.color.orange));
+            }
             binding.executePendingBindings();
         }
 

@@ -1,7 +1,7 @@
 package com.incon.connect.user.ui.scan;
 
 
-import com.incon.connect.user.apimodel.components.qrcodeproduct.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.ui.BaseView;
 
 /**

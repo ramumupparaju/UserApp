@@ -2,6 +2,8 @@ package com.incon.connect.user.dto.update;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.text.TextUtils;
+import android.util.Pair;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -23,30 +25,27 @@ public class UpDateUserProfile  extends BaseObservable {
     @SerializedName("dob")
     @Expose
     private String dob;
+    @SerializedName("email")
+    @Expose
+    private String email;
     @SerializedName("gender")
     @Expose
     private String gender;
     @SerializedName("location")
     @Expose
     private String location;
+    @SerializedName("mobileNumber")
+    @Expose
+    private String mobileNumber;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("userEmail")
-    @Expose
-    private String userEmail;
 
-    private String phoneNumber;
-
-    private String password;
-    private transient String confirmPassword;
+    public  UpDateUserProfile() {
+    }
 
     private transient String dateOfBirthToShow;
 
-    public  UpDateUserProfile() {
-
-    }
-    @Bindable
     public String getAddress() {
         return address;
     }
@@ -71,14 +70,13 @@ public class UpDateUserProfile  extends BaseObservable {
     public void setDob(String dob) {
         this.dob = dob;
     }
-    @Bindable
-    public String getPhoneNumber() {
-        return phoneNumber;
+
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        notifyChange();
+    public void setEmail(String email) {
+        this.email = email;
     }
     @Bindable
     public String getGender() {
@@ -89,13 +87,22 @@ public class UpDateUserProfile  extends BaseObservable {
         this.gender = gender;
         notifyChange();
     }
-
+    @Bindable
     public String getLocation() {
         return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
+        notifyChange();
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
     @Bindable
     public String getName() {
@@ -105,33 +112,6 @@ public class UpDateUserProfile  extends BaseObservable {
     public void setName(String name) {
         this.name = name;
         notifyChange();
-    }
-    @Bindable
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-        notifyChange();
-    }
-    @Bindable
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-        notifyChange();
-    }
-
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
     }
     @Bindable
     public String getDateOfBirthToShow() {
@@ -144,6 +124,74 @@ public class UpDateUserProfile  extends BaseObservable {
                 .DateFormatterConstants.MM_DD_YYYY, AppConstants.DateFormatterConstants
                 .MM_DD_YYYY);
         notifyChange();
+    }
+
+    public Pair<String, Integer> validateUpDateUserProfile(String tag) {
+
+        int fieldId = AppConstants.VALIDATION_FAILURE;
+        if (tag == null) {
+            for (int i = 0; i <= 5; i++) {
+                fieldId = validateFields(i, true);
+                if (fieldId != AppConstants.VALIDATION_SUCCESS) {
+                    tag = i + "";
+                    break;
+                }
+            }
+        } else {
+            fieldId = validateFields(Integer.parseInt(tag), false);
+        }
+
+        return new Pair<>(tag, fieldId);
+    }
+
+    private int validateFields(int id, boolean emptyValidation) {
+        switch (id) {
+            case 0:
+                boolean nameEmpty = TextUtils.isEmpty(name);
+                if (emptyValidation && nameEmpty) {
+                    return AppConstants.RegistrationValidation.NAME_REQ;
+                }
+                break;
+
+            case 1:
+                boolean mobileNumberEmpty = TextUtils.isEmpty(mobileNumber);
+                if (emptyValidation && mobileNumberEmpty) {
+                    return AppConstants.RegistrationValidation.PHONE_REQ;
+                }
+                break;
+
+            case 2:
+                boolean genderEmpty = TextUtils.isEmpty(gender);
+                if (emptyValidation && genderEmpty) {
+                    return AppConstants.RegistrationValidation.GENDER_REQ;
+                }
+                break;
+
+            case 3:
+                boolean dobEmpty = TextUtils.isEmpty(dateOfBirthToShow);
+                if (emptyValidation && dobEmpty) {
+                    return AppConstants.RegistrationValidation.DOB_REQ;
+                }
+                break;
+            case 4:
+                boolean userEmailEmpty = TextUtils.isEmpty(email);
+                if (emptyValidation && userEmailEmpty) {
+                    return AppConstants.RegistrationValidation.EMAIL_REQ;
+                }
+                break;
+
+
+            case 5:
+                boolean addressEmpty = TextUtils.isEmpty(address);
+                if (emptyValidation && addressEmpty) {
+                    return AppConstants.RegistrationValidation.ADDRESS_REQ;
+                }
+                break;
+
+            default:
+                return AppConstants.VALIDATION_SUCCESS;
+        }
+        return AppConstants.VALIDATION_SUCCESS;
     }
 
 }

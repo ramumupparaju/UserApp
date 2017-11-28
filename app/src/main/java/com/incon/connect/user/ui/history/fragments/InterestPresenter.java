@@ -7,10 +7,11 @@ import android.util.Pair;
 import com.incon.connect.user.R;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.api.AppApiService;
-import com.incon.connect.user.apimodel.components.history.purchased.InterestHistoryResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;
@@ -29,12 +30,14 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
         super.initialize(extras);
         appContext = ConnectApplication.getAppContext();
     }
-    public void interest(int userId) {
+
+    @Override
+    public void interestApi(int userId) {
         getView().showProgress(appContext.getString(R.string.progress_interest_history));
-        DisposableObserver<List<InterestHistoryResponse>> observer = new
-                DisposableObserver<List<InterestHistoryResponse>>() {
+        DisposableObserver<List<ProductInfoResponse>> observer = new
+                DisposableObserver<List<ProductInfoResponse>>() {
                     @Override
-                    public void onNext(List<InterestHistoryResponse> historyResponse) {
+                    public void onNext(List<ProductInfoResponse> historyResponse) {
                         getView().loadInterestHistory(historyResponse);
                     }
 
@@ -50,7 +53,63 @@ public class InterestPresenter extends BasePresenter<InterestContract.View> impl
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().interestApi(2).subscribe(observer);
+        AppApiService.getInstance().interestApi(userId).subscribe(observer);
+        addDisposable(observer);
+    }
+
+    @Override
+    public void deleteApi(int interestId) {
+        getView().showProgress(appContext.getString(R.string.progress_interest_history));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object historyResponse) {
+                        getView().loadInterestDeleteHistory(historyResponse);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                        getView().showErrorMessage(errorDetails.second);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().deleteApi(interestId).subscribe(observer);
+        addDisposable(observer);
+    }
+
+
+
+    @Override
+    public void buyRequestApi(HashMap<String, String> buyRequestsMap) {
+        getView().showProgress(appContext.getString(R.string.progress_buy_request));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object buyRequestResponce) {
+                        getView().loadBuyRequestResponce(buyRequestResponce);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                        getView().showErrorMessage(errorDetails.second);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().buyRequestApi(buyRequestsMap).subscribe(observer);
         addDisposable(observer);
     }
 }

@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/toolbar_left_iv"
-                android:layout_height="64dp"
                 android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:layout_centerVertical="true"
                 android:paddingEnd="25dp"
                 android:paddingStart="15dp"
@@ -39,15 +39,15 @@
                 android:textSize="15.5sp" />
 
             <ImageView
-                android:layout_centerVertical="true"
-                android:layout_height="64dp"
-                android:layout_width="64dp"
                 android:id="@+id/toolbar_right_iv"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:paddingEnd="15dp"
                 android:paddingStart="15dp"
                 android:visibility="visible"
-                app:srcCompat="@drawable/ic_connect_logo_svg" />
+                app:srcCompat="@drawable/ic_uid_scan" />
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>

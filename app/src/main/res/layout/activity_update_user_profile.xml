@@ -58,15 +58,7 @@
                         android:textColor="@color/white"
                         android:textSize="15.5sp"/>
 
-                    <TextView
-                        android:id="@+id/toolbar_text_store"
-                        style="@style/BothWrap"
-                        fontPath="fonts/OpenSans-Bold.ttf"
-                        android:layout_centerInParent="true"
-                        android:text="@string/action_update_store_profile"
-                        android:textColor="@color/white"
-                        android:textSize="15.5sp"
-                        android:visibility="gone"/>
+
 
                     <ImageView
                         android:id="@+id/toolbar_edit_image"
@@ -131,7 +123,7 @@
                     android:maxLength="@integer/character_limit_45"
                     android:maxLines="1"
                     android:tag="1"
-                    android:text="@={upDateUserProfile.phoneNumber}"/>
+                    android:text="@={upDateUserProfile.mobileNumber}"/>
             </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
             <!-- Gender -->
@@ -209,7 +201,7 @@
                     android:focusable="@{isEditable ? true : false }"
                     android:focusableInTouchMode="@{isEditable ? true : false }"
                     android:tag="4"
-                    android:text="@={upDateUserProfile.userEmail}"
+                    android:text="@={upDateUserProfile.email}"
                     />
             </com.incon.connect.user.custom.view.CustomTextInputLayout>
 

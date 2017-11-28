@@ -81,8 +81,8 @@ public class AddNewModelPresenter extends BasePresenter<AddNewModelContract.View
                     public void onComplete() {
                     }
                 };
-        AppApiService.getInstance().addingNewModel(merchantId, addNewModel).subscribe(observer);
-        addDisposable(observer);
+       // AppApiService.getInstance().addingNewModel(merchantId, addNewModel).subscribe(observer);
+       // addDisposable(observer);
     }
 
 }

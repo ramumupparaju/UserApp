@@ -22,9 +22,10 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import com.incon.connect.user.R;
 import com.incon.connect.user.AppUtils;
-import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
+import com.incon.connect.user.R;
+import com.incon.connect.user.callbacks.AlertDialogCallback;
+import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppOtpDialog;
 import com.incon.connect.user.custom.view.CustomTextInputLayout;
 import com.incon.connect.user.databinding.FragmentRegistrationUserBinding;
@@ -36,11 +37,11 @@ import com.incon.connect.user.ui.notifications.PushPresenter;
 import com.incon.connect.user.ui.register.RegistrationActivity;
 import com.incon.connect.user.ui.termsandcondition.TermsAndConditionActivity;
 import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.SharedPrefsUtils;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.TimeZone;
 
 
@@ -56,8 +57,8 @@ public class RegistrationUserFragment extends BaseFragment implements
     private Animation shakeAnim;
     private HashMap<Integer, String> errorMap;
     private MaterialBetterSpinner genderSpinner;
-    private List<CategoryResponse> categoryResponseList;
     private AppOtpDialog dialog;
+    private String enteredOtp;
 
     @Override
     protected void initializePresenter() {
@@ -96,7 +97,7 @@ public class RegistrationUserFragment extends BaseFragment implements
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case RequestCodes.TERMS_AND_CONDITIONS:
-                   callRegisterApi();
+                    callRegisterApi();
                     break;
                 case RequestCodes.ADDRESS_LOCATION:
                     register.setAddress(data.getStringExtra(IntentConstants.ADDRESS_COMMA));
@@ -107,13 +108,13 @@ public class RegistrationUserFragment extends BaseFragment implements
                     break;
             }
         }
-
     }
 
     private void callRegisterApi() {
+
+        register.setGender(String.valueOf(register.getGender().charAt(0)));
         registrationUserInfoFragPresenter.register(register);
     }
-
 
     private void loadData() {
         shakeAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
@@ -183,6 +184,7 @@ public class RegistrationUserFragment extends BaseFragment implements
 
     }
 
+    // validations
     private void loadValidationErrors() {
 
         errorMap = new HashMap<>();
@@ -226,9 +228,9 @@ public class RegistrationUserFragment extends BaseFragment implements
                 getString(R.string.error_re_enter_password_does_not_match));
 
         errorMap.put(RegistrationValidation.ADDRESS_REQ, getString(R.string.error_address_req));
-
     }
 
+    // focus listener
     private void setFocusListenersForEditText() {
 
         TextView.OnEditorActionListener onEditorActionListener =
@@ -285,7 +287,6 @@ public class RegistrationUserFragment extends BaseFragment implements
 
         View viewByTag = binding.getRoot().findViewWithTag(tag);
         setFieldError(viewByTag, validationId);
-
     }
 
     private void setFieldError(View view, int validationId) {
@@ -312,9 +313,7 @@ public class RegistrationUserFragment extends BaseFragment implements
     public void onClickNext() {
         if (validateFields()) {
             navigateToRegistrationActivityNext();
-        } /*else {
-            navigateToRegistrationActivityNext(); // TODO have to comment
-        }*/
+        }
     }
 
     private boolean validateFields() {
@@ -335,15 +334,9 @@ public class RegistrationUserFragment extends BaseFragment implements
 
     @Override
     public void navigateToRegistrationActivityNext() {
-       // ((RegistrationActivity) getActivity()).navigateToNext();
+        // ((RegistrationActivity) getActivity()).navigateToNext();
         Intent eulaIntent = new Intent(getActivity(), TermsAndConditionActivity.class);
         startActivityForResult(eulaIntent, RequestCodes.TERMS_AND_CONDITIONS);
-    }
-
-    @Override
-    public void uploadUserData(int userId) {
-
-        navigateToHomeScreen();
     }
 
     @Override
@@ -356,17 +349,64 @@ public class RegistrationUserFragment extends BaseFragment implements
         }
         Intent intent = new Intent(getActivity(),
                 HomeActivity.class);
-        // This is a convenient way to make the proper Intent to launch and
-        // reset an application's task.
-        ComponentName cn = intent.getComponent();
-        Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
-        startActivity(mainIntent);
-
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent
+                .FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
     public void validateOTP() {
+        SharedPrefsUtils.loginProvider().setBooleanPreference(LoginPrefs.IS_REGISTERED, true);
+        SharedPrefsUtils.loginProvider().setStringPreference(LoginPrefs.USER_PHONE_NUMBER,
+                register.getMobileNumber());
+        showOtpDialog();
+    }
 
+    // otp dialog
+    private void showOtpDialog() {
+        final String mobileNumber = register.getMobileNumber();
+        dialog = new AppOtpDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String otpString) {
+                        enteredOtp = otpString;
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                if (TextUtils.isEmpty(enteredOtp)) {
+                                    showErrorMessage(getString(R.string.error_otp_req));
+                                    return;
+                                }
+                                HashMap<String, String> verifyOTP = new HashMap<>();
+                                verifyOTP.put(ApiRequestKeyConstants.BODY_MOBILE_NUMBER,
+                                        mobileNumber);
+                                verifyOTP.put(ApiRequestKeyConstants.BODY_OTP, enteredOtp);
+                                registrationUserInfoFragPresenter.validateOTP(verifyOTP);
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                dialog.dismiss();
+                                break;
+                            case TextAlertDialogCallback.RESEND_OTP:
+                                registrationUserInfoFragPresenter.registerRequestOtp(mobileNumber);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.dialog_verify_title, mobileNumber))
+                .build();
+        dialog.showDialog();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        registrationUserInfoFragPresenter.disposeAll();
     }
 
 }

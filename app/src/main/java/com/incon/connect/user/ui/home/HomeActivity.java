@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +20,7 @@ import com.incon.connect.user.databinding.ToolBarBinding;
 import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.addoffer.fragment.AddOfferMerchantFragment;
-import com.incon.connect.user.ui.buyrequets.BuyRequestFragment;
+import com.incon.connect.user.ui.favorites.FavoritesFragment;
 import com.incon.connect.user.ui.history.HistoryTabFragment;
 import com.incon.connect.user.ui.home.asignqrcode.fragment.ProductAssignFragment;
 import com.incon.connect.user.ui.home.userqrcode.UserQrCodeFragment;
@@ -68,6 +69,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         binding.bottomNavigationView.setTextVisibility(true);
         setBottomNavigationViewListeners();
         handleBottomViewOnKeyBoardUp();
+
+        SharedPrefsUtils.cacheProvider().setBooleanPreference(CachePrefs.IS_SCAN_FIRST, true);
+
         binding.bottomNavigationView.setCurrentItem(TAB_SCAN);
 
         //changed preference as otp verified
@@ -117,13 +121,17 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                 }
             };
 
-
+    // generating qr code to user
     public void onUserQrCodeClick() {
-        //TODO need to data from response
+        String userData = SharedPrefsUtils.loginProvider().getStringPreference(
+                LoginPrefs.USER_UUID);
+        if (TextUtils.isEmpty(userData)) {
+            showErrorMessage(getString(R.string.error_uuid));
+            return;
+        }
         Bundle bundle = new Bundle();
-        bundle.putString(BundleConstants.QRCODE_DATA, "1-45-1507817691174");
-        replaceFragmentAndAddToStack(
-                UserQrCodeFragment.class, bundle);
+        bundle.putString(BundleConstants.QRCODE_DATA, userData);
+        replaceFragmentAndAddToStack(UserQrCodeFragment.class, bundle);
     }
 
     @Override
@@ -177,7 +185,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                 aClass = HistoryTabFragment.class;
                 break;
             case R.id.action_buy_requests_favorites:
-                aClass = BuyRequestFragment.class;
+                aClass = FavoritesFragment.class;
                 break;
             case R.id.action_scan:
                 aClass = ScanTabFragment.class;
@@ -208,7 +216,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                     public void onGlobalLayout() {
                         int heightDiff = rootView.getRootView().getHeight() - rootView.getHeight();
                         binding.bottomNavigationView.setVisibility(View.VISIBLE);
-                        if (heightDiff > DeviceUtils.dpToPx(HomeActivity.this, 200)) {
+                        if (heightDiff > DeviceUtils.convertDpToPx(200)) {
                             // if more than 200 dp, it's probably a keyboard...
                             binding.bottomNavigationView.setVisibility(View.GONE);
                         }

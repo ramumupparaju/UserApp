@@ -16,7 +16,16 @@ public interface AppConstants {
     int VALIDATION_ZIPCODE_LENGTH = 5;
     String DELIMITOR = "-";
     int DEFAULT_GOOGLE_MAP_ZOOM_LEVEL = 16;
+    int DEAULT_VALUE = Integer.MAX_VALUE;
 
+
+    interface StatusConstants {
+        String PENDING = "PEN";
+        String DISPATCHES_ON = "DSN";
+        String DISPATCHED = "DSD";
+        String DELIVERED = "DLD";
+        String INSTALLED = "INS";
+    }
 
     interface FilterConstants {
         String NONE = "none";
@@ -142,6 +151,7 @@ public interface AppConstants {
         int ZIPCODE_REQ = 9;
         int ZIPCODE_INVALID = 12;
         int TIMEZONE_REQ = 8;
+        int MIN_DAYS = 7;
     }
 
 
@@ -150,6 +160,11 @@ public interface AppConstants {
         String SCANNED_QRCODE = "scannedQrcode";
         String WARRANTY_DATA = "warrantyData";
         String ADD_NEW_MODEL_DATA = "addnewmodelData";
+        String LOCATION_ADDRESS = "locationAddress";
+        String PRODUCT_INFO_RESPONSE = "productInfoResponse";
+
+        String FROM_FAVORITES = "fromFavorites";
+        String ADDRESS_ID = "addressId";
     }
 
     interface PushSubTypeConstants {
@@ -163,6 +178,7 @@ public interface AppConstants {
         String IS_AAP_OFFLINE_IMAGE = "isAapOfflineImage";
         String EXTRACT_ZIP = "extractZip";
         String FILTER_NAME = "filterName";
+        String IS_SCAN_FIRST = "isScanFirst";
     }
 
     interface LoginPrefs {
@@ -179,19 +195,7 @@ public interface AppConstants {
         String USER_POSTAL_CODE = "userPostalCode";
         String USER_PASSWORD = "userPassword";
         String USER_CONFIRM_PASSWORD = "userConfirmPassword";
-
-        //store details
-        String STORE_ID = "storeId";
-        String STORE_NAME = "storeName";
-        String STORE_EMAIL_ID = "storeEmailId";
-        String STORE_PHONE_NUMBER = "storePhoneNumber";
-        String STORE_LOGO = "storeLogo";
-        String STORE_GSTN = "storeGstn";
-        String STORE_ADDRESS = "storeAddress";
-        String STORE_CITY = "storeCity";
-        String STORE_STATE = "storeState";
-        String STORE_POSTAL_CODE = "storePostalCode";
-        String STORE_CATEGORY_NAME = "StoreCategoryName";
+        String USER_UUID = "uuid";
 
 
         String IS_REGISTERED = "isRegistered";
@@ -203,7 +207,13 @@ public interface AppConstants {
 
     interface ApiRequestKeyConstants {
         String BODY_EMAIL = "email";
+        String BODY_CUSTOMER_ID = "customerId";
+        String BODY_MERCHANT_ID = "merchantId";
+        String BODY_QRCODE_ID = "qrcodeid";
+        String BODY_COMMENTS = "comments";
         String BODY_USER_ID = "userid";
+        String BODY_ADDRESS_ID = "addressId";
+        String BODY_WARRANTY_ID = "warrantyId";
         String BODY_PRODUCT_CODE = "code";
         String BODY_OTP = "otp";
         String BODY_MOBILE_NUMBER = "mobileNumber";
@@ -232,6 +242,10 @@ public interface AppConstants {
         int SERIAL_NO_SCAN = 116;
         int BATCH_NO_SCAN = 117;
         int ADD_NEW_MODEL = 118;
+        int LOCATION_LATLNG_FROM_ADDRESS = 119;
+        int LOCATION_ADDRESS_FROM_LATLNG = 120;
+        int PRODUCT_ADD_FRAGMENT = 121;
+
     }
 
     interface TimeConstants {
@@ -278,6 +292,7 @@ public interface AppConstants {
         int ADD_OFFER_SCAN_START_DATE = 2;
         int ADD_OFFER_SCAN_END_DATE = 3;
     }
+
     interface ErrorCodes {
         int UNKNOWN = 0;
         int NETWORK_ERROR = 1;
@@ -288,12 +303,11 @@ public interface AppConstants {
 
     interface MenuConstants {
         int PROFILE = 0;
-        int STORESETTINGS = 1;
-        int CHANGE_PWD = 2;
-        int BILLFORMAT = 3;
-        int TIMEINGS = 4;
-        int CONTACTDETAILS = 5;
-        int LOGOUT = 6;
+        int CHANGE_PWD = 1;
+        int BILLFORMAT = 2;
+        int TIMEINGS = 3;
+        int CONTACTDETAILS = 4;
+        int LOGOUT = 5;
 
 
     }
@@ -317,6 +331,7 @@ public interface AppConstants {
         int PRICE = 7;
         int INVOICENUMBER = 8;
     }
+
     interface AddNewModelValidation {
         int MODEL = 1;
         int INVALID_MODEL = 2;
@@ -329,6 +344,10 @@ public interface AppConstants {
         int NOTE = 9;
     }
 
+
+    interface Favorites {
+        String ADDRESS_TYPE_ONE = "1";
+    }
 
     interface AddOfferValidation {
         int MODEL = 1;
@@ -344,7 +363,7 @@ public interface AppConstants {
 
     }
 
-    interface ActivityResult {
-        String IS_REGISTRATION_SUCCESS = "is_registration_success";
+    public class PushIntentConstants {
+        public static final String PUSH_PAYLOAD = "pushPayload";
     }
 }

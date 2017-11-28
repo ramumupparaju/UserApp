@@ -1,81 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="scanning"
-            type="com.incon.connect.user.ui.scan.ScanTabFragment"/>
+            type="com.incon.connect.user.ui.scan.ScanTabFragment" />
+
+        <variable
+            name="productinforesponse"
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
+
     </data>
 
     <LinearLayout
         android:id="@+id/scan_ui"
         style="@style/BothMatch"
-
         android:background="@color/white"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/text_scanuid"
             style="@style/BothWrap"
-            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_40"
-            android:text="@string/action_scanuid"
-            />
+            android:text="@string/action_scanuid" />
 
         <ImageView
             android:id="@+id/im_scann"
             style="@style/scan_image"
             android:onClick="@{() -> scanning.onScanClick()}"
-            app:srcCompat="@drawable/ic_connect_logo_svg"/>
+            android:src="@drawable/scan_text_icon" />
 
-        <TextView
-            android:id="@+id/text_or"
-            style="@style/BothWrap"
-            android:layout_alignStart="@+id/text_scanuid"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_30"
-            android:text="@string/action_or"/>
-
-
-        <!--phone number-->
-        <LinearLayout
-            style="@style/MatchWrap"
-            android:layout_marginLeft="@dimen/margin_30"
-            android:layout_marginRight="@dimen/margin_30"
-            android:layout_marginTop="@dimen/margin_30"
-            android:background="@drawable/bg_edittext"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="@dimen/margin_10">
-
-            <EditText
-                android:id="@+id/edittext_mobile_number"
-                style="@style/MatchWrap"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_weight="1"
-                android:background="@null"
-                android:focusable="true"
-                android:hint="@string/action_enter_customer_phone_number"
-                android:imeOptions="actionDone"
-                android:inputType="phone"
-                android:maxLines="@integer/character_limit_1"
-                android:textColor="@color/black"/>
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/phone_number_done_iv"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:onClick="@{()->scanning.onDoneClick()}"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                app:srcCompat="@drawable/ic_right_arrow"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 

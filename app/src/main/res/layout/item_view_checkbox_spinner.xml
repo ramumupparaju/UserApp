@@ -9,7 +9,9 @@
             type="com.incon.connect.user.dto.dialog.CheckedModelSpinner"/>
     </data>
 
-    <RelativeLayout style="@style/MatchWrap" >
+    <RelativeLayout
+        style="@style/MatchWrap"
+        android:clickable="true">
 
         <CheckBox
             android:id="@+id/checkbox_spinner_format"
@@ -17,7 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/margin_10"
-            android:checked="@={model.checked}"/>
+            android:checked="@={model.checked}"
+            android:clickable="false"/>
 
         <TextView
             android:id="@+id/standard_spinner_format"
