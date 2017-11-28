@@ -1,6 +1,5 @@
 package com.incon.connect.user.ui.home;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.addoffer.fragment.AddOfferMerchantFragment;
 import com.incon.connect.user.ui.favorites.FavoritesFragment;
 import com.incon.connect.user.ui.history.HistoryTabFragment;
-import com.incon.connect.user.ui.home.asignqrcode.fragment.ProductAssignFragment;
 import com.incon.connect.user.ui.home.userqrcode.UserQrCodeFragment;
 import com.incon.connect.user.ui.notifications.fragment.NotificationsFragment;
 import com.incon.connect.user.ui.scan.ScanTabFragment;
@@ -132,31 +130,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         Bundle bundle = new Bundle();
         bundle.putString(BundleConstants.QRCODE_DATA, userData);
         replaceFragmentAndAddToStack(UserQrCodeFragment.class, bundle);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case RequestCodes.PRODUCT_ASSIGN_SCAN:
-                    if (data != null) {
-                        homePresenter.checkQrCodeValidity(
-                                data.getStringExtra(IntentConstants.SCANNED_CODE));
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public void navigateToProductAssignScreen(String qrCode) {
-        Bundle bundle = new Bundle();
-        bundle.putString(BundleConstants.SCANNED_QRCODE, qrCode);
-        replaceFragmentAndAddToStack(
-                ProductAssignFragment.class, bundle);
     }
 
     public void replaceToolBar(View toolBarView) {

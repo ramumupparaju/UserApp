@@ -20,6 +20,8 @@ public interface AppConstants {
 
 
     interface StatusConstants {
+        String BUY_REQUEST_ACCEPT = "A";
+        String BUY_REQUEST_REJECT = "R";
         String PENDING = "PEN";
         String DISPATCHES_ON = "DSN";
         String DISPATCHED = "DSD";
@@ -35,8 +37,6 @@ public interface AppConstants {
 
     interface WarrantyRegistrationConstants {
         int MINIMUM_MODELNUMBER_TO_SEARCH = 2;
-        String STATUS_PRODUCT_DELIVERED = "D";
-        String STATUS_PRODUCT_NOT_DELIVERED = "P";
     }
 
     interface GoogleMapConstants {
@@ -209,9 +209,10 @@ public interface AppConstants {
         String BODY_EMAIL = "email";
         String BODY_CUSTOMER_ID = "customerId";
         String BODY_MERCHANT_ID = "merchantId";
-        String BODY_QRCODE_ID = "qrcodeid";
+        String BODY_INTEREST_ID = "interestId";
+        String BODY_QRCODE_ID = "qrCodeId";
         String BODY_COMMENTS = "comments";
-        String BODY_USER_ID = "userid";
+        String BODY_USER_ID = "userId";
         String BODY_ADDRESS_ID = "addressId";
         String BODY_WARRANTY_ID = "warrantyId";
         String BODY_PRODUCT_CODE = "code";
@@ -219,13 +220,6 @@ public interface AppConstants {
         String BODY_MOBILE_NUMBER = "mobileNumber";
         String STORE_LOGO = "logo";
         String BODY_PASSWORD = "password";
-        String BODY_MODULE_ID = "moduleId";
-        String HEADER_AUTHORIZATION = "Authorization";
-        String HEADER_API_KEY = "api_key";
-        String QUERY_EMAIL = "email";
-        String BODY_CURRENT_PASSWORD = "currentPassword";
-        String BODY_NEW_PASSWORD = "newPassword";
-        String BODY_NEW_EMAIL = "newEmail";
     }
 
     interface RequestCodes {
