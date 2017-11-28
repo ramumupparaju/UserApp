@@ -71,6 +71,18 @@
             </LinearLayout>
 
         </RelativeLayout>
+        <TextView
+            android:id="@+id/comment_tv"
+            style="@style/MatchWrap"
+            android:layout_below="@id/views_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/margin_3"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingRight="@dimen/margin_10"
+            android:textColor="@color/ebony_clay"
+            android:textSize="12.4sp"/>
 
     </RelativeLayout>
 </layout>
