@@ -86,7 +86,7 @@
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{productinforesponse.warrantyId}"
+                    android:text="@{productinforesponse.Store.name}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />

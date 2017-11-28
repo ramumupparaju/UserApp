@@ -45,6 +45,8 @@ public class ReturnAdapter extends BaseRecyclerViewAdapter {
         public void bind(ProductInfoResponse returnHistoryResponse) {
             binding.setVariable(BR.productinforesponse
                     , returnHistoryResponse);
+            // TODO have to set return date
+          /*  binding.returnDate.setText(Da);*/
             AppUtils.loadImageFromApi(binding.brandImageview, returnHistoryResponse
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, returnHistoryResponse

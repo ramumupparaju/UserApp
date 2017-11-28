@@ -69,11 +69,12 @@ public class PurchasedAdapter extends BaseRecyclerViewAdapter {
                 long purchasedDate = purchasedHistoryResponse.getPurchasedDate();
                 long days = DateUtils.convertDifferenceDateIndays(purchasedDate, System.currentTimeMillis());
                 if (days <= 1)
-                statusInfoString = "Waiting for installation";
+                    statusInfoString = "Waiting for installation";
             } else {
                 statusInfoString = "Delivered";
             }
-
+            binding.purchasedDate.setText(DateUtils.convertMillisToStringFormat(purchasedHistoryResponse
+                    .getPurchasedDate(), AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM_SS));
             statusInfo.setText(statusInfo.getContext().getString(R.string.info_purchased_status, statusInfoString + (":" + status)));
             AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
                     .getProductLogoUrl());
