@@ -215,6 +215,14 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("gender")
     @Expose
     private String gender;
+   /* public static Creator<ProductInfoResponse> getCREATOR() {
+        return CREATOR;
+    }*/
+
+    @SerializedName("returnDate")
+    @Expose
+    private long returnDate;
+
 
     public ProductInfoResponse() {
 
@@ -646,7 +654,12 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     public void setMrp(Integer mrp) {
         this.mrp = mrp;
     }
-
+    public long getReturnDate() {
+        return returnDate;
+    }
+    public void setReturnDate(long returnDate) {
+        this.returnDate = returnDate;
+    }
 
     protected ProductInfoResponse(Parcel in) {
         serialNumber = in.readString();
@@ -679,6 +692,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         qrcodeId = in.readByte() == 0x00 ? null : in.readInt();
         merchantId = in.readByte() == 0x00 ? null : in.readInt();
         requestedDate = in.readLong();
+        returnDate = in.readLong();
         userId = in.readString();
         addressId = in.readString();
         specialInstruction = in.readString();
@@ -794,6 +808,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
             dest.writeInt(merchantId);
         }
         dest.writeLong(requestedDate);
+        dest.writeLong(returnDate);
         dest.writeString(userId);
         dest.writeString(addressId);
         dest.writeString(specialInstruction);

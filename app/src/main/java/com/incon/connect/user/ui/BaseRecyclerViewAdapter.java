@@ -10,7 +10,6 @@ import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.utils.DateUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -28,8 +27,7 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     public Comparator comparator = new Comparator<ProductInfoResponse>() {
         @Override
         public int compare(ProductInfoResponse o1, ProductInfoResponse o2) {
-            if (BaseRecyclerViewAdapter.this instanceof PurchasedAdapter)
-            {
+            if (BaseRecyclerViewAdapter.this instanceof PurchasedAdapter) {
                 try {
                     Date a = DateUtils.convertMillsToDate(o1.getPurchasedDate());
                     Date b = DateUtils.convertMillsToDate(o2.getPurchasedDate());
@@ -37,20 +35,15 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                 } catch (Exception e) {
 
                 }
-            }
-
-           /* else  if (BaseRecyclerViewAdapter.this instanceof InterestAdapter)
-            {
+            } else if (BaseRecyclerViewAdapter.this instanceof InterestAdapter) {
                 try {
-                    Date a = DateUtils.convertMillsToDate(o1.gets());
-                    Date b = DateUtils.convertMillsToDate(o2.getPurchasedDate());
+                    Date a = DateUtils.convertMillsToDate(o1.getRequestedDate());
+                    Date b = DateUtils.convertMillsToDate(o2.getRequestedDate());
                     return (a.compareTo(b));
                 } catch (Exception e) {
 
                 }
             }
-            */
-
 
             return -1;
 

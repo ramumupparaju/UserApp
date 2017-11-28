@@ -74,7 +74,7 @@ public class PurchasedAdapter extends BaseRecyclerViewAdapter {
                 statusInfoString = "Delivered";
             }
             binding.purchasedDate.setText(DateUtils.convertMillisToStringFormat(purchasedHistoryResponse
-                    .getPurchasedDate(), AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM_SS));
+                    .getPurchasedDate(), AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
             statusInfo.setText(statusInfo.getContext().getString(R.string.info_purchased_status, statusInfoString + (":" + status)));
             AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
                     .getProductLogoUrl());

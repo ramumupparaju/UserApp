@@ -51,7 +51,13 @@
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"/>
 
-
+                <TextView
+                    android:id="@+id/interest_date"
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"
+                    />
                 <TextView
                     android:id="@+id/store_name"
                     style="@style/BothWrap"
@@ -60,13 +66,7 @@
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp"
                     />
-                <TextView
-                    android:id="@+id/interest_date"
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"
-                    />
+
 
             </LinearLayout>
 
