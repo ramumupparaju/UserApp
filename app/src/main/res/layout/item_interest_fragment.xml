@@ -51,6 +51,13 @@
                     android:textSize="12.4sp" />
 
                 <TextView
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@{'\u20B9' + productinforesponse.price}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp" />
+
+                <TextView
                     android:id="@+id/store_name"
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
@@ -69,11 +76,24 @@
             android:layout_below="@id/views_layout"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/margin_3"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingRight="@dimen/margin_10"
+            android:text="@{`Merchant Comments :` + productinforesponse.merchantComments}"
+            android:textColor="@color/ebony_clay"
+            android:textSize="12.4sp" />
+
+        <TextView
+            android:id="@+id/status_tv"
+            style="@style/MatchWrap"
+            android:layout_below="@id/comment_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/margin_3"
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:paddingLeft="@dimen/margin_10"
             android:paddingRight="@dimen/margin_10"
-            android:text="@{productinforesponse.merchantComments}"
+            android:text="@{productinforesponse.status}"
             android:textColor="@color/ebony_clay"
             android:textSize="12.4sp" />
 
