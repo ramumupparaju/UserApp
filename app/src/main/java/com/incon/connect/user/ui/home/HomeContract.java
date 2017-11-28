@@ -9,11 +9,9 @@ import com.incon.connect.user.ui.BaseView;
 public interface HomeContract {
 
     interface View extends BaseView {
-        void navigateToProductAssignScreen(String qrCode);
     }
 
     interface Presenter {
-        void checkQrCodeValidity(String qrCode);
     }
 
 }

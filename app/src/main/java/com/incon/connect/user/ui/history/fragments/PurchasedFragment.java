@@ -7,7 +7,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -194,7 +193,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(productSelectedPosition);
 
             boolean showFav = false;
-            if (productInfoResponse.getStatus().equalsIgnoreCase(StatusConstants.INSTALLED)) {
+            if (productInfoResponse.getStatus().equalsIgnoreCase(StatusConstants.INSTALLED) && productInfoResponse.getAddressId() == null) {
                 showFav = true;
             }
             bottomNames = new String[showFav ? 5 : 4];
@@ -797,7 +796,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         if (isFromFavorites) {
             for (Iterator<ProductInfoResponse> iter = productInfoResponses.listIterator(); iter.hasNext(); ) {
                 ProductInfoResponse singleProductData = iter.next();
-                if (singleProductData.getAddressId() != null) {
+                if (!singleProductData.getStatus().equalsIgnoreCase(StatusConstants.INSTALLED) || singleProductData.getAddressId() != null) {
                     iter.remove();
                 }
             }

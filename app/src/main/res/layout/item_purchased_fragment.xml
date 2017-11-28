@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="productinforesponse"
-            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
     </data>
 
     <RelativeLayout
@@ -24,36 +24,28 @@
 
             <ImageView
                 android:id="@+id/warrenty_icon"
-                style="@style/warranty_status_icon"/>
+                style="@style/warranty_status_icon" />
 
             <ImageView
                 android:id="@+id/brand_imageview"
-                style="@style/image_product_icon"
-                android:layout_marginLeft="@dimen/margin_30"
-                android:layout_marginTop="@dimen/margin_5"/>
+                style="@style/image_product_icon" />
 
             <ImageView
                 android:id="@+id/product_imageview"
                 style="@style/image_product_icon"
-                android:layout_marginTop="@dimen/margin_5"
-                android:layout_toRightOf="@id/brand_imageview"
-                />
+                android:layout_toRightOf="@id/brand_imageview" />
 
             <LinearLayout
                 android:id="@+id/product_info_layout"
-                style="@style/BothWrap"
-                android:layout_gravity="left"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_toRightOf="@id/product_imageview"
-                android:gravity="start"
-                android:orientation="vertical">
+                style="@style/linear_layout_product_details"
+                android:layout_toRightOf="@id/product_imageview">
 
                 <TextView
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_10"
                     android:text="@{productinforesponse.productName}"
                     android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"/>
+                    android:textSize="12.4sp" />
 
 
                 <TextView
@@ -61,8 +53,7 @@
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_8"
                     android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"
-                    />
+                    android:textSize="12.4sp" />
 
                 <ImageView
                     android:id="@+id/favourite_icon"
@@ -71,7 +62,7 @@
                     android:layout_marginTop="@dimen/margin_8"
                     android:src="@drawable/ic_user_favorite"
                     android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"/>
+                    android:textSize="12.4sp" />
 
             </LinearLayout>
 
@@ -88,6 +79,6 @@
             android:paddingLeft="@dimen/margin_10"
             android:paddingRight="@dimen/margin_10"
             android:textColor="@color/ebony_clay"
-            android:textSize="12.4sp"/>
+            android:textSize="12.4sp" />
     </RelativeLayout>
 </layout>

@@ -20,7 +20,6 @@ import com.incon.connect.user.dto.login.LoginUserData;
 import com.incon.connect.user.dto.notifications.PushRegistrarBody;
 import com.incon.connect.user.dto.registration.Registration;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
-import com.incon.connect.user.dto.warrantyregistration.WarrantyRegistration;
 import com.incon.connect.user.utils.NetworkUtil;
 
 import java.util.HashMap;
@@ -203,11 +202,6 @@ public class AppApiService implements AppConstants {
     //FetchCategories api
     public Observable<List<FetchCategories>> getCategories(int merchantId) {
         return addNetworkCheck(serviceInstance.getCategories(merchantId));
-    }
-
-    //warranty registration api
-    public Observable<Object> warrantyRegisterApi(WarrantyRegistration warrantyRegistration) {
-        return addNetworkCheck(serviceInstance.warrantyRegisterApi(warrantyRegistration));
     }
 
     //warranty registration validate otp api

@@ -158,6 +158,12 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("mainFeatures")
     @Expose
     private String mainFeatures;
+    @SerializedName("storeName")
+    @Expose
+    private String storeName;
+    @SerializedName("merchantComments")
+    @Expose
+    private String merchantComments;
 
     public String getProductDimensions() {
         return productDimensions;
@@ -227,6 +233,26 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
 
     public ProductInfoResponse() {
 
+    }
+
+    @Bindable
+    public String getMerchantComments() {
+        return merchantComments;
+    }
+
+    public void setMerchantComments(String merchantComments) {
+        this.merchantComments = merchantComments;
+        notifyChange();
+    }
+
+    @Bindable
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+        notifyChange();
     }
 
     public String getMainFeatures() {

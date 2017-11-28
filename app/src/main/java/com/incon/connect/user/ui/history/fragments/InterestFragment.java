@@ -260,6 +260,8 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                                         getItemFromPosition(productSelectedPosition);
                                 buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
                                         String.valueOf(productInfoResponse.getMerchantId()));
+                                buyRequestApi.put(ApiRequestKeyConstants.BODY_INTEREST_ID,
+                                        String.valueOf(productInfoResponse.getInterestId()));
                                 buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
                                         String.valueOf(productInfoResponse.getQrcodeId()));
                                 buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,

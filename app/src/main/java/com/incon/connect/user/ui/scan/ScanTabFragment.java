@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
@@ -16,7 +15,6 @@ import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.databinding.FragmentScanTabBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
-import com.incon.connect.user.ui.qrcodescan.QrcodeBarcodeScanActivity;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 
