@@ -2,7 +2,9 @@ package com.incon.connect.user.ui.scan;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.text.TextUtils;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.databinding.ActivityProductDetailsBinding;
@@ -19,10 +21,8 @@ import java.util.List;
 
 public class ProductDetailsActivity extends BaseActivity {
     private ActivityProductDetailsBinding binding;
-    private ProductListAdapter productListAdapter;
-    private ProductInfoResponse response;
-    List<String> listTitle;
-    HashMap<String, List<String>> listDec;
+    private List<String> listTitle;
+    private HashMap<String, List<String>> listDec;
 
     @Override
     protected int getLayoutId() {
@@ -37,14 +37,8 @@ public class ProductDetailsActivity extends BaseActivity {
     @Override
     protected void onCreateView(Bundle saveInstanceState) {
         binding = DataBindingUtil.setContentView(this, getLayoutId());
+        binding.setProductDetails(this);
         initViews();
-        productListAdapter = new ProductListAdapter(this, listTitle, listDec);
-        binding.expandaleList.setAdapter(productListAdapter);
-//        response = new ProductInfoResponse();
-
-        response = getIntent().getExtras().getParcelable(BundleConstants.PRODUCT_INFO_RESPONSE);
-
-
     }
 
     public void onOkClick() {
@@ -52,47 +46,61 @@ public class ProductDetailsActivity extends BaseActivity {
     }
 
     private void initViews() {
+        ProductInfoResponse response = getIntent().getExtras().getParcelable(BundleConstants.PRODUCT_INFO_RESPONSE);
 
-        listTitle = new ArrayList<String>();
-        listDec = new HashMap<String, List<String>>();
+        listTitle = new ArrayList<>();
+        listDec = new HashMap<>();
+
+        // Adding Parents data
+        /*listTitle.add(getString(
+                R.string.bottom_option_feedback));*/ //TODO have to add in 2nd version
 
         // Adding child data
-        listTitle.add(getString(
-                R.string.bottom_option_main_features));
-       /* listDataHeader.add(getString(
-                R.string.bottom_option_warranty));*/
-        listTitle.add(getString(
-                R.string.bottom_option_description));
-        listTitle.add(getString(
-                R.string.bottom_option_feedback));
-        listTitle.add(getString(
-                R.string.bottom_option_price));
-        // Adding child data
-        List<String> mainFeatures = new ArrayList<String>();
-        mainFeatures.add(response.getInformation());
-        //mainFeatures.add("mainFeatures");
+        String mainFeaturesString = response.getInformation();
+        if (!TextUtils.isEmpty(mainFeaturesString)) {
+            String titleMainFeaturesString = getString(R.string.bottom_option_main_features);
+            listTitle.add(titleMainFeaturesString);
+            List<String> mainFeatures = new ArrayList<String>();
+            mainFeatures.add(mainFeaturesString);
+            listDec.put(titleMainFeaturesString, mainFeatures);
+        }
 
-        /*List<Integer> warrenty = new ArrayList<>();
-        warrenty.add(response.getWarrantyDays());*/
+        String warrantyString = response.getInformation();
+        if (!TextUtils.isEmpty(warrantyString)) {
+            String titleWarrantyString = getString(R.string.bottom_option_warranty);
+            listTitle.add(titleWarrantyString);
+            List<String> warranty = new ArrayList<>();
+            warranty.add(warrantyString);
+            listDec.put(titleWarrantyString, warranty);
+        }
 
-        List<String> description = new ArrayList<String>();
-        description.add(response.getInformation());
-        //description.add("description");
+        String descString = response.getInformation();
+        if (!TextUtils.isEmpty(descString)) {
+            String titleDescString = getString(R.string.bottom_option_description);
+            listTitle.add(titleDescString);
+            List<String> description = new ArrayList<String>();
+            description.add(descString);
+            listDec.put(titleDescString, description);
+        }
 
+/*
         List<String> feedBack = new ArrayList<String>();
         feedBack.add(response.getInformation());
-       // feedBack.add("feedBack");
+*/
 
-        List<String> price = new ArrayList<String>();
-        price.add(response.getPrice());
-        //price.add("price");
+        String priceString = response.getPrice();
+        if (!TextUtils.isEmpty(priceString)) {
+            String titlePricestring = getString(R.string.bottom_option_price);
+            listTitle.add(titlePricestring);
+            List<String> price = new ArrayList<String>();
+            price.add(priceString);
+            listDec.put(titlePricestring, price);
+        }
 
-        listDec.put(listTitle.get(0), mainFeatures);
-        //   listDataChild.put(listDataHeader.get(1), warrenty);
-        listDec.put(listTitle.get(1), description);
-        listDec.put(listTitle.get(2), feedBack);
-        listDec.put(listTitle.get(3), price);
+//        listDec.put(listTitle.get(2), feedBack); //TODO have to add in 2nd ver
 
+        ProductListAdapter productListAdapter = new ProductListAdapter(this, listTitle, listDec);
+        binding.expandaleList.setAdapter(productListAdapter);
 
     }
 }

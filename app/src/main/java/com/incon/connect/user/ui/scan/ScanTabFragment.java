@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
@@ -63,10 +64,14 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
     }
 
     public void onScanClick() {
+        scanTabPresenter.userInterestedUsingQrCode(SharedPrefsUtils.loginProvider().
+                        getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE),
+                "1-853-1511850039998");
+        /*
         Intent intent = new Intent(getActivity(), QrcodeBarcodeScanActivity.class);
         intent.putExtra(IntentConstants.SCANNED_TITLE, getString(R.string.title_user_qr_code));
         startActivityForResult(intent, RequestCodes.USER_PROFILE_SCAN);
-    }
+    */}
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -88,18 +93,14 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
 
     @Override
     public void userInterestedResponce(ProductInfoResponse productInfoResponse) {
-        showProductDetailsDialog(productInfoResponse);
-        /*Intent addressIntent = new Intent(getActivity(), ProductDetailsActivity.class);
+        Intent addressIntent = new Intent(getActivity(), ProductDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, productInfoResponse);
         addressIntent.putExtras(bundle);
-        startActivity(addressIntent);*/
-
+        startActivity(addressIntent);
     }
 
-
     private void showProductDetailsDialog(ProductInfoResponse productInfoResponse) {
-
         productDetailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override

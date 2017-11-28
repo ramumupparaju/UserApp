@@ -3,9 +3,11 @@
     >
 
     <data>
+
         <variable
             name="productDetails"
             type="com.incon.connect.user.ui.scan.ProductDetailsActivity"/>
+
         <variable
             name="productinforesponse"
             type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
@@ -14,23 +16,25 @@
     <RelativeLayout
         android:id="@+id/map_view"
         style="@style/BothMatch"
-        android:layout_margin="@dimen/margin_50"
+        android:padding="@dimen/margin_5"
         >
+
         <ExpandableListView
             android:id="@+id/expandale_list"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/button_ok"/>
 
         <Button
-            android:layout_below="@+id/expandale_list"
             android:id="@+id/button_ok"
             style="@style/style_submit_button"
-            android:text="@string/action_submit"
             fontPath="fonts/OpenSans-Bold.ttf"
-            android:onClick="@{() -> productDetails.onOkClick()}"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/margin_30"
             android:layout_marginRight="@dimen/margin_30"
             android:layout_marginTop="@dimen/margin_20"
+            android:onClick="@{() -> productDetails.onOkClick()}"
+            android:text="@string/action_ok"
             />
 
 
