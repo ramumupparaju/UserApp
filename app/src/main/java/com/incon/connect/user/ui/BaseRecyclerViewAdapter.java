@@ -5,9 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
+import com.incon.connect.user.ui.history.adapter.InterestAdapter;
+import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
+import com.incon.connect.user.ui.history.adapter.ReturnAdapter;
+import com.incon.connect.user.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,17 +28,23 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     public Comparator comparator = new Comparator<ProductInfoResponse>() {
         @Override
         public int compare(ProductInfoResponse o1, ProductInfoResponse o2) {
-            /*try {
-                Date a = DateUtils.convertStringToDate(o1.getCreatedDate(),
-                        AppConstants.DateFormatterConstants.YYYY_MM_DD, TueoConstants
-                                .DateFormatterConstants.YYYY_MM_DD);
-                Date b = DateUtils.convertStringToDate(o2.getCreatedDate(),
-                        AppConstants.DateFormatterConstants.YYYY_MM_DD, TueoConstants
-                                .DateFormatterConstants.YYYY_MM_DD);
-                return (a.compareTo(b));
+            try {
+                Date a = null;
+                Date b = null;
+                if (BaseRecyclerViewAdapter.this instanceof PurchasedAdapter) {
+                    a = DateUtils.convertMillsToDate(o1.getPurchasedDate());
+                    b = DateUtils.convertMillsToDate(o2.getPurchasedDate());
+                } else if (BaseRecyclerViewAdapter.this instanceof InterestAdapter) {
+                    a = DateUtils.convertMillsToDate(o1.getRequestedDate());
+                    b = DateUtils.convertMillsToDate(o2.getRequestedDate());
+                } else if (BaseRecyclerViewAdapter.this instanceof ReturnAdapter) {
+                    a = DateUtils.convertMillsToDate(o1.getReturnDate());
+                    b = DateUtils.convertMillsToDate(o2.getReturnDate());
+                }
+                return (b.compareTo(a));
             } catch (Exception e) {
 
-            }*/
+            }
 
             return -1;
 
@@ -52,6 +64,7 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         this.allDataResponseList = returnHistoryResponseList;
         filteredList.clear();
         filteredList.addAll(returnHistoryResponseList);
+        Collections.sort(filteredList, comparator);
         notifyDataSetChanged();
     }
 

@@ -1,111 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="productinforesponse"
-            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
     </data>
 
     <RelativeLayout
         android:id="@+id/layout_purchsed_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/list_item_selector">
+        android:background="@drawable/list_item_selector"
+        android:padding="@dimen/margin_5">
 
-        <LinearLayout
+
+        <RelativeLayout
             android:id="@+id/views_layout"
-            style="@style/MatchWrap"
-            android:minHeight="70dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/warrenty_icon"
+                style="@style/warranty_status_icon"/>
+
+            <ImageView
+                android:id="@+id/brand_imageview"
+                style="@style/image_product_icon"
+                android:layout_marginLeft="@dimen/margin_30"
+                android:layout_marginTop="@dimen/margin_5"/>
+
+            <ImageView
+                android:id="@+id/product_imageview"
+                style="@style/image_product_icon"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_toRightOf="@id/brand_imageview"
+                />
 
             <LinearLayout
-                style="@style/Zero_wrap"
-                android:layout_gravity="center"
-                android:layout_weight="1"
+                android:id="@+id/product_info_layout"
+                style="@style/BothWrap"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_toRightOf="@id/product_imageview"
+                android:gravity="start"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/warrenty_icon"
-                    android:layout_width="4dp"
-                    android:layout_height="4dp"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin" />
-
-                <ImageView
-                    android:id="@+id/brand_imageview"
-                    style="@style/m75w75"
-                    android:layout_gravity="center" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/Zero_wrap"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/product_imageview"
-                    style="@style/m75w75"
-                    android:layout_gravity="center" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/Zero_wrap"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <LinearLayout
+                <TextView
                     style="@style/BothWrap"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:gravity="start"
-                    android:orientation="vertical">
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@{productinforesponse.productName}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"/>
 
-                    <TextView
-                        style="@style/BothWrap"
-                        android:layout_marginTop="@dimen/margin_10"
-                        android:text="@{productinforesponse.productName}"
-                        android:textColor="@color/ebony_clay"
-                        android:textSize="12.4sp" />
 
-                    <TextView
-                        style="@style/BothWrap"
-                        android:layout_marginTop="@dimen/margin_8"
-                        android:text="@{ '\u20B9'+ productinforesponse.price}"
-                        android:textColor="@color/ebony_clay"
-                        android:textSize="12.4sp"
-                        android:visibility="invisible" />
+                <TextView
+                    android:id="@+id/purchased_date"
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"
+                    />
 
-                    <TextView
-                        style="@style/BothWrap"
-                        android:layout_marginTop="@dimen/margin_8"
-                        android:text="@{productinforesponse.warrantyId}"
-                        android:textColor="@color/ebony_clay"
-                        android:textSize="12.4sp"
-                        android:visibility="invisible" />
-
-                    <ImageView
-                        android:id="@+id/favourite_icon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="@dimen/margin_8"
-                        android:src="@drawable/ic_user_favorite"
-                        android:textColor="@color/ebony_clay"
-                        android:textSize="12.4sp" />
-
-                </LinearLayout>
-
+                <ImageView
+                    android:id="@+id/favourite_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:src="@drawable/ic_user_favorite"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"/>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/status_tv"
@@ -118,8 +88,6 @@
             android:paddingLeft="@dimen/margin_10"
             android:paddingRight="@dimen/margin_10"
             android:textColor="@color/ebony_clay"
-            android:textSize="12.4sp" />
+            android:textSize="12.4sp"/>
     </RelativeLayout>
-
-
 </layout>

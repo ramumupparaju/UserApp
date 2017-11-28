@@ -223,6 +223,14 @@ public class DateUtils implements AppConstants.DateFormatterConstants {
     }
 
 
+    public static Date convertMillsToDate(long milliseconds) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliseconds);
+
+        return calendar.getTime();
+    }
+
+
     public static String convertUTCMillsToDateString(String format, long milliseconds) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliseconds);

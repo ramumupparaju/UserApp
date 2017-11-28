@@ -258,8 +258,10 @@ public interface AppConstants {
     interface DateFormatterConstants {
         String FROM_API_MILLIS = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
         String FROM_API = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-        String LOCAL_DATE_DD_MM_YYYY_HH_MM_SS =
-                "dd-MM-yyyy HH:mm:ss"; //14-08-1987 18:30:00
+       /* String LOCAL_DATE_DD_MM_YYYY_HH_MM_SS =
+                "dd-MM-yyyy HH:mm:ss"; //14-08-1987 18:30:00*/
+        String LOCAL_DATE_DD_MM_YYYY_HH_MM =
+                "dd-MM-yyyy HH:mm"; //14-08-1987 18:30
         String MMMM_YYYY = "MMMM - yyyy"; //June - 2017
         String DD_E_MMMM_YYYY = "dd-E-MMMM-yyyy"; //14-Thursday-Jun-1987
         String MM_DD_YYYY = "MM/dd/yyyy"; //14-Thursday-Jun-1987
