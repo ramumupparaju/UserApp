@@ -75,7 +75,6 @@
             style="@style/MatchWrap"
             android:layout_below="@id/views_layout"
             android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/margin_3"
             android:gravity="center"
             android:paddingLeft="@dimen/margin_10"
             android:paddingRight="@dimen/margin_10"

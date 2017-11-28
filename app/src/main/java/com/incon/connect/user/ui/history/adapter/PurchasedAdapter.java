@@ -68,8 +68,11 @@ public class PurchasedAdapter extends BaseRecyclerViewAdapter {
             } else if (status.equals(AppConstants.StatusConstants.INSTALLED)) {
                 long purchasedDate = purchasedHistoryResponse.getPurchasedDate();
                 long days = DateUtils.convertDifferenceDateIndays(purchasedDate, System.currentTimeMillis());
-                if (days <= 1)
+                if (days < -1)
+                    statusInfoString = "";
+                else {
                     statusInfoString = "Waiting for installation";
+                }
             } else {
                 statusInfoString = "Delivered";
             }
