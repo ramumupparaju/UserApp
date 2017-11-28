@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
         <variable
             name="productDetails"
-            type="com.incon.connect.user.ui.scan.ProductDetailsActivity"/>
+            type="com.incon.connect.user.ui.scan.ProductDetailsActivity" />
 
         <variable
             name="productinforesponse"
-            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
     </data>
 
     <RelativeLayout
         android:id="@+id/map_view"
         style="@style/BothMatch"
-        android:padding="@dimen/margin_5"
-        >
+        android:padding="@dimen/margin_5">
 
         <ExpandableListView
             android:id="@+id/expandale_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/button_ok"/>
+            android:layout_above="@+id/button_ok"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="4dp"
+            android:scrollbarThumbVertical="@drawable/scrollbar"
+            android:scrollbars="vertical" />
 
         <Button
             android:id="@+id/button_ok"
@@ -34,8 +36,7 @@
             android:layout_marginRight="@dimen/margin_30"
             android:layout_marginTop="@dimen/margin_20"
             android:onClick="@{() -> productDetails.onOkClick()}"
-            android:text="@string/action_ok"
-            />
+            android:text="@string/action_ok" />
 
 
     </RelativeLayout>

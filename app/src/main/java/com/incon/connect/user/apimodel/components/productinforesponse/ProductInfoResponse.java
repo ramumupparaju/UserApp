@@ -155,6 +155,9 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("productDimensions")
     @Expose
     private String productDimensions;
+    @SerializedName("mainFeatures")
+    @Expose
+    private String mainFeatures;
 
     public String getProductDimensions() {
         return productDimensions;
@@ -181,6 +184,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     }
 
     private transient boolean isSelected;
+
 
     @SerializedName("id")
     @Expose
@@ -215,9 +219,6 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("gender")
     @Expose
     private String gender;
-   /* public static Creator<ProductInfoResponse> getCREATOR() {
-        return CREATOR;
-    }*/
 
     @SerializedName("returnDate")
     @Expose
@@ -226,6 +227,14 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
 
     public ProductInfoResponse() {
 
+    }
+
+    public String getMainFeatures() {
+        return mainFeatures;
+    }
+
+    public void setMainFeatures(String mainFeatures) {
+        this.mainFeatures = mainFeatures;
     }
 
     public Integer getId() {
@@ -654,9 +663,11 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     public void setMrp(Integer mrp) {
         this.mrp = mrp;
     }
+
     public long getReturnDate() {
         return returnDate;
     }
+
     public void setReturnDate(long returnDate) {
         this.returnDate = returnDate;
     }
@@ -707,6 +718,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         color = in.readString();
         productSpecification = in.readString();
         productDimensions = in.readString();
+        mainFeatures = in.readString();
         isSelected = in.readByte() != 0x00;
         id = in.readByte() == 0x00 ? null : in.readInt();
         name = in.readString();
@@ -838,6 +850,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         dest.writeString(color);
         dest.writeString(productSpecification);
         dest.writeString(productDimensions);
+        dest.writeString(mainFeatures);
         dest.writeByte((byte) (isSelected ? 0x01 : 0x00));
         if (id == null) {
             dest.writeByte((byte) (0x00));
