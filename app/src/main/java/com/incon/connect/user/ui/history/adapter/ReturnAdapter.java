@@ -47,9 +47,8 @@ public class ReturnAdapter extends BaseRecyclerViewAdapter {
         public void bind(ProductInfoResponse returnHistoryResponse) {
             binding.setVariable(BR.productinforesponse
                     , returnHistoryResponse);
-            binding.returnDate.setText(DateUtils.convertMillisToStringFormat(System
-                            .currentTimeMillis()
-                    , AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
+            binding.returnDate.setText(DateUtils.convertMillisToStringFormat(returnHistoryResponse
+                    .getReturnDate(), AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
             AppUtils.loadImageFromApi(binding.brandImageview, returnHistoryResponse
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, returnHistoryResponse

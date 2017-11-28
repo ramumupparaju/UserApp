@@ -7,6 +7,7 @@ import com.incon.connect.user.apimodel.components.productinforesponse.ProductInf
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.ui.history.adapter.InterestAdapter;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
+import com.incon.connect.user.ui.history.adapter.ReturnAdapter;
 import com.incon.connect.user.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -27,22 +28,22 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     public Comparator comparator = new Comparator<ProductInfoResponse>() {
         @Override
         public int compare(ProductInfoResponse o1, ProductInfoResponse o2) {
-            if (BaseRecyclerViewAdapter.this instanceof PurchasedAdapter) {
-                try {
-                    Date a = DateUtils.convertMillsToDate(o1.getPurchasedDate());
-                    Date b = DateUtils.convertMillsToDate(o2.getPurchasedDate());
-                    return (a.compareTo(b));
-                } catch (Exception e) {
-
+            try {
+                Date a = null;
+                Date b = null;
+                if (BaseRecyclerViewAdapter.this instanceof PurchasedAdapter) {
+                    a = DateUtils.convertMillsToDate(o1.getPurchasedDate());
+                    b = DateUtils.convertMillsToDate(o2.getPurchasedDate());
+                } else if (BaseRecyclerViewAdapter.this instanceof InterestAdapter) {
+                    a = DateUtils.convertMillsToDate(o1.getRequestedDate());
+                    b = DateUtils.convertMillsToDate(o2.getRequestedDate());
+                } else if (BaseRecyclerViewAdapter.this instanceof ReturnAdapter) {
+                    a = DateUtils.convertMillsToDate(o1.getReturnDate());
+                    b = DateUtils.convertMillsToDate(o2.getReturnDate());
                 }
-            } else if (BaseRecyclerViewAdapter.this instanceof InterestAdapter) {
-                try {
-                    Date a = DateUtils.convertMillsToDate(o1.getRequestedDate());
-                    Date b = DateUtils.convertMillsToDate(o2.getRequestedDate());
-                    return (a.compareTo(b));
-                } catch (Exception e) {
+                return (b.compareTo(a));
+            } catch (Exception e) {
 
-                }
             }
 
             return -1;
