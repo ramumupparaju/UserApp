@@ -195,7 +195,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("name")
+    @SerializedName("customerName")
     @Expose
     private String name;
     @SerializedName("email")
