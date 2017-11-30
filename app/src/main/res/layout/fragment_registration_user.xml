@@ -114,7 +114,7 @@
                     android:focusable="true"
                     android:hint="@string/register_gender_hint"
                     android:tag="2"
-                    android:text="@={register.gender}"
+                    android:text="@={register.genderType}"
                     app:errorEnabled="true"
                     app:met_floatingLabel="highlight"
                     app:met_textColor="@color/colorForgotPasswordHintText"
