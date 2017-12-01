@@ -38,8 +38,13 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         if (rootView == null) {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_status,
                     container, false);
+
             createStatusView();
             rootView = binding.getRoot();
+        }
+
+        else {
+            ((ViewGroup) rootView.getParent()).removeView(rootView);
         }
         setTitle();
         return rootView;
@@ -60,16 +65,17 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         statusNames[7] = getString(R.string.status_feedback);
 
         statusDrawables = new int[8];
-        statusDrawables[0] = R.drawable.ic_add_new_location;
-        statusDrawables[1] = R.drawable.ic_add_new_location;
-        statusDrawables[2] = R.drawable.ic_add_new_location;
-        statusDrawables[3] = R.drawable.ic_add_new_location;
-        statusDrawables[4] = R.drawable.ic_add_new_location;
-        statusDrawables[5] = R.drawable.ic_add_new_location;
-        statusDrawables[6] = R.drawable.ic_add_new_location;
-        statusDrawables[7] = R.drawable.ic_add_new_location;
+        statusDrawables[0] = R.drawable.ic_option_complaint;
+        statusDrawables[1] = R.drawable.ic_option_received;
+        statusDrawables[2] = R.drawable.ic_option_attending;
+        statusDrawables[3] = R.drawable.ic_option_checkup;
+        statusDrawables[4] = R.drawable.ic_option_approval;
+        statusDrawables[5] = R.drawable.ic_option_repair_done;
+        statusDrawables[6] = R.drawable.ic_option_payment;
+        statusDrawables[7] = R.drawable.ic_options_feedback;
         length = statusNames.length;
-      //  binding.viewLayout.removeAllViews();
+      //binding.viewLayout.removeAllViews();
+     // binding.statusScrollview.removeAllViews();
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.MATCH_PARENT, length);
@@ -82,7 +88,8 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
             binding.viewLogo.setImageResource(statusDrawables[i]);
             View statusRootView = binding.getRoot();
             statusRootView.setTag(i);
-            linearLayout.addView(statusRootView);
+            //linearLayout.addView(statusRootView);
+            binding.viewLayout.addView(linearLayout, params);
         }
     }
 }
