@@ -88,7 +88,7 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
             binding.viewLogo.setImageResource(statusDrawables[i]);
             View statusRootView = binding.getRoot();
             statusRootView.setTag(i);
-            //linearLayout.addView(statusRootView);
+            linearLayout.addView(statusRootView);
             binding.viewLayout.addView(linearLayout, params);
         }
     }
