@@ -1,0 +1,22 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <LinearLayout
+        style="@style/BothMatch">
+
+        <HorizontalScrollView
+            android:layout_marginTop="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="4dp"
+            android:scrollbarThumbHorizontal="@drawable/scrollbar"
+            android:scrollbars="horizontal">
+
+        </HorizontalScrollView>
+
+
+
+    </LinearLayout>
+</layout>
