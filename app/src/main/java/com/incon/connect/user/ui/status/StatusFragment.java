@@ -49,8 +49,7 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         int length;
         int[] statusDrawables;
         String[] statusNames;
-/*Complaint – received – attending – checkup – approval – repair done – payment – feedback*/
-                statusNames = new String[8];
+        statusNames = new String[8];
         statusNames[0] = getString(R.string.status_complaint);
         statusNames[1] = getString(R.string.status_received);
         statusNames[2] = getString(R.string.status_attending);
@@ -70,11 +69,11 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         statusDrawables[6] = R.drawable.ic_add_new_location;
         statusDrawables[7] = R.drawable.ic_add_new_location;
         length = statusNames.length;
-
+      //  binding.viewLayout.removeAllViews();
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.MATCH_PARENT, length);
-      //  params.setMargins(1, 1, 1, 1);
+        //  params.setMargins(1, 1, 1, 1);
         for (int i = 0; i < length; i++) {
             LinearLayout linearLayout = new LinearLayout(getContext());
             linearLayout.setWeightSum(4f);
