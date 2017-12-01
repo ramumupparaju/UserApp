@@ -56,7 +56,14 @@
     <string name="bottom_option_share_customer_delivered">Delivered</string>
     <string name="bottom_option_share_customer_installed">Installed</string>
     <string name="bottom_option_share_customer_return_product">Return Product</string>
-
+    <string name="status_complaint">Complaint</string>
+    <string name="status_received">Received</string>
+    <string name="status_attending">Attending</string>
+    <string name="status_checkup">Checkup</string>
+    <string name="status_approval">Approval</string>
+    <string name="status_repair_done">Repair Done</string>
+    <string name="status_payment">Payment</string>
+    <string name="status_feedback">Feedback</string>
 
     <!--warrantyregistration-->
     <string name="action_add_as_favorite">Add as favorite</string>

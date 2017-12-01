@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.databinding.FragmentStatusBinding;
-import com.incon.connect.user.databinding.StatusViewBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
 
@@ -50,33 +49,41 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         int length;
         int[] statusDrawables;
         String[] statusNames;
+/*Complaint – received – attending – checkup – approval – repair done – payment – feedback*/
+                statusNames = new String[8];
+        statusNames[0] = getString(R.string.status_complaint);
+        statusNames[1] = getString(R.string.status_received);
+        statusNames[2] = getString(R.string.status_attending);
+        statusNames[3] = getString(R.string.status_checkup);
+        statusNames[4] = getString(R.string.status_approval);
+        statusNames[5] = getString(R.string.status_repair_done);
+        statusNames[6] = getString(R.string.status_payment);
+        statusNames[7] = getString(R.string.status_feedback);
 
-        statusNames = new String[4];
-        statusNames[0] = getString(R.string.bottom_option_service);
-        statusNames[1] = getString(R.string.bottom_option_product);
-        statusNames[2] = getString(R.string.bottom_option_showroom);
-        statusNames[3] = getString(R.string.bottom_option_delete);
-
-        statusDrawables = new int[4];
-        statusDrawables[0] = R.drawable.ic_option_service_support;
-        statusDrawables[1] = R.drawable.ic_option_product;
-        statusDrawables[2] = R.drawable.ic_option_customer;
-        statusDrawables[3] = R.drawable.ic_option_delete;
+        statusDrawables = new int[8];
+        statusDrawables[0] = R.drawable.ic_add_new_location;
+        statusDrawables[1] = R.drawable.ic_add_new_location;
+        statusDrawables[2] = R.drawable.ic_add_new_location;
+        statusDrawables[3] = R.drawable.ic_add_new_location;
+        statusDrawables[4] = R.drawable.ic_add_new_location;
+        statusDrawables[5] = R.drawable.ic_add_new_location;
+        statusDrawables[6] = R.drawable.ic_add_new_location;
+        statusDrawables[7] = R.drawable.ic_add_new_location;
         length = statusNames.length;
 
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.MATCH_PARENT, length);
-        params.setMargins(1, 1, 1, 1);
+      //  params.setMargins(1, 1, 1, 1);
         for (int i = 0; i < length; i++) {
             LinearLayout linearLayout = new LinearLayout(getContext());
             linearLayout.setWeightSum(4f);
             linearLayout.setGravity(Gravity.CENTER);
             binding.viewTv.setText(statusNames[i]);
             binding.viewLogo.setImageResource(statusDrawables[i]);
-           /* View statusRootView = binding.getRoot();
+            View statusRootView = binding.getRoot();
             statusRootView.setTag(i);
-            linearLayout.addView(statusRootView);*/
+            linearLayout.addView(statusRootView);
         }
     }
 }

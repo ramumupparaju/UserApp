@@ -93,7 +93,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             // handle events from here using android binding
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_purchased,
                     container, false);
-
             loadBottomSheet();
             initViews();
             rootView = binding.getRoot();
