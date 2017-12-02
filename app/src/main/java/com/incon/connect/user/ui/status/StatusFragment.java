@@ -76,6 +76,7 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         length = statusNames.length;
       //binding.viewLayout.removeAllViews();
      // binding.statusScrollview.removeAllViews();
+      binding.layoutParent.removeAllViews();
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.MATCH_PARENT, length);
@@ -89,7 +90,7 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
             View statusRootView = binding.getRoot();
             statusRootView.setTag(i);
             linearLayout.addView(statusRootView);
-            binding.viewLayout.addView(linearLayout, params);
+            binding.layoutParent.addView(linearLayout, params);
         }
     }
 }
