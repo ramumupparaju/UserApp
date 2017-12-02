@@ -264,9 +264,4 @@ public class Registration extends BaseObservable {
         return VALIDATION_SUCCESS;
     }
 
-
-
-
-
-
 }
