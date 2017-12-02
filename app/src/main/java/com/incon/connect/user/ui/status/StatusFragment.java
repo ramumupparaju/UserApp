@@ -44,9 +44,6 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
             rootView = binding.getRoot();
         }
 
-        else {
-            ((ViewGroup) rootView.getParent()).removeView(rootView);
-        }
         setTitle();
         return rootView;
     }
@@ -75,7 +72,7 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         statusDrawables[6] = R.drawable.ic_option_payment;
         statusDrawables[7] = R.drawable.ic_options_feedback;
         length = statusNames.length;
-     binding.layoutParent.removeAllViews();
+        binding.layoutParent.removeAllViews();
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.MATCH_PARENT, length);
@@ -93,7 +90,6 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
             binding.layoutParent.addView(linearLayout, params);
         }
     }
-
 
     private StatusViewBinding getStatusView() {
         return DataBindingUtil.inflate(

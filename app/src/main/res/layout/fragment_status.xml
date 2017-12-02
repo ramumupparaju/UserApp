@@ -1,5 +1,4 @@
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         style="@style/BothMatch"
@@ -17,44 +16,9 @@
 
             <LinearLayout
                 android:id="@+id/layout_parent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                >
+                style="@style/BothMatch"
+                android:orientation="horizontal">
 
-                <!--<LinearLayout
-                    android:id="@+id/view_layout"
-                    style="@style/MatchWrap"
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/margin_5">
-
-                    <ImageView
-                        android:id="@+id/view_logo"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_horizontal"
-                        app:srcCompat="@drawable/ic_tab_notifications"/>
-
-                    <TextView
-                        android:id="@+id/view_tv"
-                        style="@style/BothWrap"
-                        android:layout_below="@+id/view_logo"
-                        android:layout_gravity="center_horizontal"
-                        android:padding="@dimen/margin_5"
-                        android:text="ramu mupparju"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_10"/>
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="50dp"
-                    android:layout_height="5dp"
-                    android:layout_gravity="center"
-                    android:background="@color/red"/>
--->
             </LinearLayout>
 
         </HorizontalScrollView>
