@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.databinding.FragmentStatusBinding;
+import com.incon.connect.user.databinding.StatusViewBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
 
@@ -74,24 +75,29 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         statusDrawables[6] = R.drawable.ic_option_payment;
         statusDrawables[7] = R.drawable.ic_options_feedback;
         length = statusNames.length;
-      //binding.viewLayout.removeAllViews();
-     // binding.statusScrollview.removeAllViews();
-      binding.layoutParent.removeAllViews();
+     binding.layoutParent.removeAllViews();
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
                         0, ViewGroup.LayoutParams.MATCH_PARENT, length);
         //  params.setMargins(1, 1, 1, 1);
         for (int i = 0; i < length; i++) {
             LinearLayout linearLayout = new LinearLayout(getContext());
-            linearLayout.setWeightSum(4f);
+            linearLayout.setWeightSum(1f);
             linearLayout.setGravity(Gravity.CENTER);
-            binding.viewTv.setText(statusNames[i]);
-            binding.viewLogo.setImageResource(statusDrawables[i]);
-            View statusRootView = binding.getRoot();
+            StatusViewBinding statusView = getStatusView();
+            statusView.viewTv.setText(statusNames[i]);
+            statusView.viewLogo.setImageResource(statusDrawables[i]);
+            View statusRootView = statusView.getRoot();
             statusRootView.setTag(i);
             linearLayout.addView(statusRootView);
             binding.layoutParent.addView(linearLayout, params);
         }
+    }
+
+
+    private StatusViewBinding getStatusView() {
+        return DataBindingUtil.inflate(
+                LayoutInflater.from(getActivity()), R.layout.status_view, null, false);
     }
 }
 
