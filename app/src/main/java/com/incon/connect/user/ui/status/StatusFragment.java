@@ -2,6 +2,9 @@ package com.incon.connect.user.ui.status;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +13,23 @@ import android.widget.LinearLayout;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.databinding.FragmentStatusBinding;
+import com.incon.connect.user.databinding.ItemStatusFragmentBinding;
 import com.incon.connect.user.databinding.StatusViewBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
+import com.incon.connect.user.ui.status.adapter.StatusAdapter;
 
 /**
  * Created by PC on 12/1/2017.
  */
 
 public class StatusFragment extends BaseFragment implements StatusContract.View {
-    FragmentStatusBinding binding;
+   private FragmentStatusBinding binding;
+   private StatusAdapter statusAdapter;
+    ItemStatusFragmentBinding itemStatusFragmentBinding;
 
     private View rootView;
+
 
     @Override
     protected void initializePresenter() {
@@ -39,7 +47,7 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         if (rootView == null) {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_status,
                     container, false);
-
+            //initViews();
             createStatusView();
             rootView = binding.getRoot();
         }
@@ -47,6 +55,18 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         setTitle();
         return rootView;
     }
+
+  /* private void initViews() {
+        statusAdapter = new StatusAdapter();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                getContext(), linearLayoutManager.getOrientation());
+        binding.statusRecyclerview.addItemDecoration(dividerItemDecoration);
+        binding.statusRecyclerview.setAdapter(statusAdapter);
+        binding.statusRecyclerview.setLayoutManager(linearLayoutManager);
+
+
+    }*/
 
     private void createStatusView() {
         int length;
@@ -95,6 +115,7 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         return DataBindingUtil.inflate(
                 LayoutInflater.from(getActivity()), R.layout.status_view, null, false);
     }
+
 }
 
 
