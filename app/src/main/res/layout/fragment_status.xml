@@ -1,6 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+  <LinearLayout
         style="@style/BothMatch"
         android:background="@color/white">
 
@@ -24,4 +24,28 @@
         </HorizontalScrollView>
 
     </LinearLayout>
+
+   <!-- <RelativeLayout
+        style="@style/BothMatch"
+        android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/status_recyclerview"
+                    style="@style/MatchWrap"
+                    android:fadeScrollbars="false"
+                    android:scrollbarSize="4dp"
+                    android:scrollbarThumbVertical="@drawable/scrollbar"
+                    android:scrollbars="vertical"/>
+            </LinearLayout>
+
+
+    </RelativeLayout>-->
+
+
+
+
 </layout>

@@ -40,7 +40,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-       // holder.imageviewStatus.setImageResource(statusImages[position]);
+        //holder.imageviewStatus.setImageResource(statusImages[position]);
 
     }
     @Override
@@ -49,11 +49,11 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        //ImageView imageviewStatus;
+       // ImageView imageviewStatus;
 
         public ViewHolder(ItemStatusFragmentBinding binding) {
             super(binding.getRoot());
-           // imageviewStatus = (ImageView) itemView.findViewById(R.id.imageview_status);
+          //  imageviewStatus = (ImageView) itemView.findViewById(R.id.imageview_status);
         }
 
     }

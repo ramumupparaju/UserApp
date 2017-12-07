@@ -9,7 +9,7 @@
             type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
     </data>
 
-    <!--<RelativeLayout
+  <!-- <RelativeLayout
         android:id="@+id/layout_purchsed_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,8 @@
             />
 
     </RelativeLayout>-->
-     <LinearLayout
+
+  <LinearLayout
         style="@style/BothMatch"
         android:background="@color/white">
 
@@ -33,6 +34,7 @@
             android:id="@+id/status_scrollview"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:layout_marginTop="100dp"
             android:fadeScrollbars="false"
             android:scrollbarSize="4dp"
             android:scrollbarThumbHorizontal="@drawable/scrollbar"
@@ -48,5 +50,6 @@
         </HorizontalScrollView>
 
     </LinearLayout>
+
 
 </layout>

@@ -2,9 +2,6 @@ package com.incon.connect.user.ui.status;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,16 +44,25 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         if (rootView == null) {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_status,
                     container, false);
-            //initViews();
+           // initViews();
             createStatusView();
+            //initializeView();
             rootView = binding.getRoot();
         }
+
 
         setTitle();
         return rootView;
     }
 
-  /* private void initViews() {
+  /*  private void initializeView() {
+        LayoutInflater layoutInflater = getLayoutInflater();
+        itemStatusFragmentBinding = DataBindingUtil.inflate(layoutInflater,
+                R.layout.item_status_fragment, null, false);
+        createStatusView();
+    }*/
+
+   /* private void initViews() {
         statusAdapter = new StatusAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
@@ -64,10 +70,8 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         binding.statusRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.statusRecyclerview.setAdapter(statusAdapter);
         binding.statusRecyclerview.setLayoutManager(linearLayoutManager);
-
-
-    }*/
-
+    }
+*/
     private void createStatusView() {
         int length;
         int[] statusDrawables;
