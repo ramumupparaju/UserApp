@@ -60,7 +60,7 @@
 
                 </LinearLayout>
 
-
+                <!-- invoice values -->
                 <LinearLayout
                     android:id="@+id/layout_invoice_values"
                     style="@style/bill_header_linear_layout">
@@ -143,7 +143,7 @@
                         android:text="Total"/>
                 </LinearLayout>
 
-
+                <!--product details values-->
                 <LinearLayout
                     android:id="@+id/layout_product_detail_valus"
                     style="@style/bill_header_linear_layout">
@@ -157,13 +157,11 @@
                     <TextView
                         android:id="@+id/text_model_number_valus"
                         style="@style/bill_header_left_text_view"
-                        android:text="@{`:` + productinforesponse.productModel}"/>
+                        android:text="@{`:` + productinforesponse.modelNumber}"/>
 
                     <TextView
                         android:id="@+id/text_sn_valus"
                         style="@style/bill_header_left_text_view"
-                        android:text=""
-
                         />
 
 
@@ -176,21 +174,18 @@
                     <TextView
                         android:id="@+id/text_discount_valus"
                         style="@style/bill_header_left_text_view"
-                        android:text=""
                         />
 
 
                     <TextView
                         android:id="@+id/text_gst_valus"
                         style="@style/bill_header_left_text_view"
-                        android:text=""
                         />
-
 
                     <TextView
                         android:id="@+id/text_total_valus"
                         style="@style/bill_header_left_text_view"
-                        android:text=""/>
+                        />
                 </LinearLayout>
             </LinearLayout>
 
@@ -216,7 +211,7 @@
                     <TextView
                         android:id="@+id/text_showroom_name"
                         style="@style/bill_header_right_text_view"
-                        android:text="Show Room Name:"/>
+                        android:text="Store Name"/>
 
 
                     <TextView
@@ -235,31 +230,47 @@
                         style="@style/bill_header_right_text_view"
                         android:text="GSTN"/>
                 </LinearLayout>
-
+                <!--show room values-->
                 <LinearLayout
                     android:id="@+id/layout_showroom_values"
                     style="@style/bill_header_linear_layout">
 
                     <TextView
+                        android:textSize="@dimen/text_size_13"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="@dimen/margin_0"
+                        android:layout_marginTop="@dimen/margin_9"
                         android:id="@+id/text_showroom_name_value"
-                        style="@style/bill_header_left_text_view"
-                        android:text="@{`: ` + productinforesponse.Store.name}"/>
+                        style="@style/BothWrap"
+                        android:text="@{`: ` + productinforesponse.storeName}"/>
 
                     <TextView
+                        android:textSize="@dimen/text_size_13"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="@dimen/margin_0"
+                        android:layout_marginTop="@dimen/margin_9"
                         android:id="@+id/text_showroom_address_value"
-                        style="@style/bill_header_left_text_view"
-                        android:text="@{`: ` + productinforesponse.Store.address}"/>
+                        style="@style/BothWrap"
+                        android:text="@{`: ` + productinforesponse.storeAddress}"/>
 
 
                     <TextView
+                        android:textSize="@dimen/text_size_13"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="@dimen/margin_0"
+                        android:layout_marginTop="@dimen/margin_9"
                         android:id="@+id/text_contact_details_value"
-                        style="@style/bill_header_left_text_view"
-                        android:text="@{`: ` + productinforesponse.Store.contactNumber}"/>
+                        style="@style/BothWrap"
+                        android:text="@{`: ` + productinforesponse.storeContactNumber}"/>
 
                     <TextView
+                        android:textSize="@dimen/text_size_13"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="@dimen/margin_0"
+                        android:layout_marginTop="@dimen/margin_9"
                         android:id="@+id/text_showroom_gstn_value"
-                        style="@style/bill_header_left_text_view"
-                        android:text=""/>
+                        style="@style/BothWrap"
+                        />
                 </LinearLayout>
             </LinearLayout>
 
@@ -301,6 +312,7 @@
 
                 </LinearLayout>
 
+                <!--customer values-->
                 <LinearLayout
                     android:id="@+id/layout_customer_details_values"
                     style="@style/bill_header_linear_layout">

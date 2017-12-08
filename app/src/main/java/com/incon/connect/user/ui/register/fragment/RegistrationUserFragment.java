@@ -112,7 +112,7 @@ public class RegistrationUserFragment extends BaseFragment implements
 
     private void callRegisterApi() {
 
-        register.setGender(String.valueOf(register.getGender().charAt(0)));
+        register.setGenderType(String.valueOf(register.getGenderType().charAt(0)));
         registrationUserInfoFragPresenter.register(register);
     }
 

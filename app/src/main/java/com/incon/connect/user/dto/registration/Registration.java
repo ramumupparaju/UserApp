@@ -33,7 +33,7 @@ public class Registration extends BaseObservable {
     private String email;
     @SerializedName("gender")
     @Expose
-    private String gender;
+    private String genderType;
     @SerializedName("location")
     @Expose
     private String location;
@@ -92,12 +92,14 @@ public class Registration extends BaseObservable {
         this.email = email;
     }
 
-    public String getGender() {
-        return gender;
+    @Bindable
+    public String getGenderType() {
+        return genderType;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setGenderType(String genderType) {
+        this.genderType = genderType;
+        notifyChange();
     }
 
     public String getLocation() {
@@ -183,7 +185,7 @@ public class Registration extends BaseObservable {
                 break;
 
             case 2:
-                boolean genderTypeEmpty = TextUtils.isEmpty(getGender());
+                boolean genderTypeEmpty = TextUtils.isEmpty(getGenderType());
                 if (emptyValidation && genderTypeEmpty) {
                     return AppConstants.RegistrationValidation.GENDER_REQ;
                 }
@@ -261,10 +263,5 @@ public class Registration extends BaseObservable {
         }
         return VALIDATION_SUCCESS;
     }
-
-
-
-
-
 
 }

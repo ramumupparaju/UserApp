@@ -47,6 +47,9 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("productName")
     @Expose
     private String productName;
+    @SerializedName("modelNumber")
+    @Expose
+    private String modelNumber;
     @SerializedName("division")
     @Expose
     private String division;
@@ -95,7 +98,9 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("address")
     @Expose
     private String address;
-
+    @SerializedName("customerContact")
+    @Expose
+    private String customerContact;
     @SerializedName("interestId")
     @Expose
     private Integer interestId;
@@ -131,6 +136,12 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("storeContactNumber")
     @Expose
     private String storeContactNumber;
+    @SerializedName("storeName")
+    @Expose
+    private String storeName;
+    @SerializedName("storeAddress")
+    @Expose
+    private String storeAddress;
     //    for interest
     @SerializedName("warrantyYears")
     @Expose
@@ -158,39 +169,9 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("mainFeatures")
     @Expose
     private String mainFeatures;
-    @SerializedName("storeName")
-    @Expose
-    private String storeName;
     @SerializedName("merchantComments")
     @Expose
     private String merchantComments;
-
-    public String getProductDimensions() {
-        return productDimensions;
-    }
-
-    public void setProductDimensions(String productDimensions) {
-        this.productDimensions = productDimensions;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getProductSpecification() {
-        return productSpecification;
-    }
-
-    public void setProductSpecification(String productSpecification) {
-        this.productSpecification = productSpecification;
-    }
-
-    private transient boolean isSelected;
-
 
     @SerializedName("id")
     @Expose
@@ -229,6 +210,59 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("returnDate")
     @Expose
     private long returnDate;
+    public static Creator<ProductInfoResponse> getCREATOR() {
+        return CREATOR;
+    }
+
+    public String getModelNumber() {
+        return modelNumber;
+    }
+
+    public void setModelNumber(String modelNumber) {
+        this.modelNumber = modelNumber;
+    }
+    public String getCustomerContact() {
+        return customerContact;
+    }
+
+    public void setCustomerContact(String customerContact) {
+        this.customerContact = customerContact;
+    }
+
+    public String getStoreAddress() {
+        return storeAddress;
+    }
+
+
+    public void setStoreAddress(String storeAddress) {
+        this.storeAddress = storeAddress;
+    }
+
+    public String getProductDimensions() {
+        return productDimensions;
+    }
+
+    public void setProductDimensions(String productDimensions) {
+        this.productDimensions = productDimensions;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getProductSpecification() {
+        return productSpecification;
+    }
+
+    public void setProductSpecification(String productSpecification) {
+        this.productSpecification = productSpecification;
+    }
+
+    private transient boolean isSelected;
 
 
     public ProductInfoResponse() {
@@ -709,6 +743,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         productId = in.readByte() == 0x00 ? null : in.readInt();
         categoryId = in.readByte() == 0x00 ? null : in.readInt();
         productName = in.readString();
+        modelNumber = in.readString();
         division = in.readString();
         divisionId = in.readByte() == 0x00 ? null : in.readInt();
         information = in.readString();
@@ -737,6 +772,8 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         purchasedDate = in.readLong();
         storeLocation = in.readString();
         storeContactNumber = in.readString();
+        storeName = in.readString();
+        storeAddress = in.readString();
         warrantyYears = in.readByte() == 0x00 ? null : in.readInt();
         warrantyMonths = in.readByte() == 0x00 ? null : in.readInt();
         warrantyDays = in.readByte() == 0x00 ? null : in.readInt();
@@ -791,6 +828,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
             dest.writeInt(categoryId);
         }
         dest.writeString(productName);
+        dest.writeString(modelNumber);
         dest.writeString(division);
         if (divisionId == null) {
             dest.writeByte((byte) (0x00));
@@ -854,6 +892,8 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         dest.writeLong(purchasedDate);
         dest.writeString(storeLocation);
         dest.writeString(storeContactNumber);
+        dest.writeString(storeName);
+        dest.writeString(storeAddress);
         if (warrantyYears == null) {
             dest.writeByte((byte) (0x00));
         } else {

@@ -65,9 +65,8 @@ public class ScanTabFragment extends BaseFragment implements ScanTabContract.Vie
     public void onScanClick() {
         /*scanTabPresenter.userInterestedUsingQrCode(SharedPrefsUtils.loginProvider().
                         getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE),
-                "1-853-1511850039998");*/
-
-        Intent intent = new Intent(getActivity(), QrcodeBarcodeScanActivity.class);
+                "1-853-1511850039998");
+        */Intent intent = new Intent(getActivity(), QrcodeBarcodeScanActivity.class);
         intent.putExtra(IntentConstants.SCANNED_TITLE, getString(R.string.title_user_qr_code));
         startActivityForResult(intent, RequestCodes.USER_PROFILE_SCAN);
     }

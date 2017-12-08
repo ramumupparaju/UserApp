@@ -1,0 +1,51 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <LinearLayout
+        style="@style/BothMatch"
+        android:background="@color/white">
+
+        <HorizontalScrollView
+            android:id="@+id/status_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="100dp"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="4dp"
+            android:scrollbarThumbHorizontal="@drawable/scrollbar"
+            android:scrollbars="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_parent"
+                style="@style/BothMatch"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+   <!-- <RelativeLayout
+        style="@style/BothMatch"
+        android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/status_recyclerview"
+                    style="@style/MatchWrap"
+                    android:fadeScrollbars="false"
+                    android:scrollbarSize="4dp"
+                    android:scrollbarThumbVertical="@drawable/scrollbar"
+                    android:scrollbars="vertical"/>
+            </LinearLayout>
+
+
+    </RelativeLayout>-->
+
+
+
+
+</layout>

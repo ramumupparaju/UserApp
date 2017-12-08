@@ -2,6 +2,7 @@ package com.incon.connect.user.ui.history.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,32 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
             binding.interestDate.setText(DateUtils.convertMillisToStringFormat(interestHistoryResponse.getRequestedDate()
                     , AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
             binding.setVariable(BR.productinforesponse, interestHistoryResponse);
-            
+
+            String status = interestHistoryResponse.getStatus();
+            if (!TextUtils.isEmpty(status)) {
+                if (status.equalsIgnoreCase(AppConstants.StatusConstants.PENDING)) {
+                    status = "Request pending";
+                } else if (status.equalsIgnoreCase(AppConstants.StatusConstants.BUY_REQUEST_ACCEPT)) {
+                    status = "Request accepted";
+                } else if (status.equalsIgnoreCase(AppConstants.StatusConstants.BUY_REQUEST_REJECT)) {
+                    status = "Request rejected";
+                } else {
+                    status = "";
+                }
+            }
+            if (TextUtils.isEmpty(status)) {
+                binding.statusTv.setVisibility(View.GONE);
+            } else {
+                binding.statusTv.setVisibility(View.VISIBLE);
+                binding.statusTv.setText("Status:" + status);
+            }
+
+            String merchantComments = interestHistoryResponse.getMerchantComments();
+            if (TextUtils.isEmpty(merchantComments)) {
+                binding.commentTv.setVisibility(View.INVISIBLE);
+            } else {
+                binding.commentTv.setVisibility(View.VISIBLE);
+            }
             AppUtils.loadImageFromApi(binding.brandImageview, interestHistoryResponse
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, interestHistoryResponse

@@ -25,6 +25,7 @@ import com.incon.connect.user.ui.home.userqrcode.UserQrCodeFragment;
 import com.incon.connect.user.ui.notifications.fragment.NotificationsFragment;
 import com.incon.connect.user.ui.scan.ScanTabFragment;
 import com.incon.connect.user.ui.settings.SettingsActivity;
+import com.incon.connect.user.ui.status.StatusFragment;
 import com.incon.connect.user.utils.DeviceUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -164,7 +165,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                 aClass = ScanTabFragment.class;
                 break;
             case R.id.action_offers_status:
-                aClass = AddOfferMerchantFragment.class;
+                aClass = StatusFragment.class;
                 break;
             case R.id.action_notifications:
                 aClass = NotificationsFragment.class;

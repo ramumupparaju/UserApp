@@ -4,12 +4,12 @@
     <data>
 
         <variable
-            name="billFormatActivity"
-            type="com.incon.connect.user.ui.settings.billformat.SettingsBillFormatActivity"/>
+            name="settingsBillFormatActivity"
+            type="com.incon.connect.user.ui.settings.billformat.SettingsBillFormatActivity" />
 
         <variable
             name="productinforesponse"
-            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
 
     </data>
 
@@ -189,6 +189,7 @@
 
                     <TextView
                         android:id="@+id/text_total_valus"
+
                         style="@style/bill_header_left_text_view"
                         android:text=""/>
                 </LinearLayout>
