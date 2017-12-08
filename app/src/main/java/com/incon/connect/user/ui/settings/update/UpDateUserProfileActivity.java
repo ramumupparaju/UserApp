@@ -68,7 +68,6 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         binding.spinnerGender.setDropDownHeight(
                 isEditable ? LinearLayout.LayoutParams.WRAP_CONTENT : 0);
     }
-
     public void onSubmitClick() {
         if (validateFields()) {
             upDateUserProfilePresenter.upDateUserProfile(SharedPrefsUtils.loginProvider().
