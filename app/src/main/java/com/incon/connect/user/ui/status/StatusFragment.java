@@ -46,7 +46,7 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
                     container, false);
            // initViews();
             createStatusView();
-            //initializeView();
+            initializeView();
             rootView = binding.getRoot();
         }
 
@@ -55,12 +55,12 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         return rootView;
     }
 
-  /*  private void initializeView() {
+   private void initializeView() {
         LayoutInflater layoutInflater = getLayoutInflater();
         itemStatusFragmentBinding = DataBindingUtil.inflate(layoutInflater,
                 R.layout.item_status_fragment, null, false);
         createStatusView();
-    }*/
+    }
 
    /* private void initViews() {
         statusAdapter = new StatusAdapter();

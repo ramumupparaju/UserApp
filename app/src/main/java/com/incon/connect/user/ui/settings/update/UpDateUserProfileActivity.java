@@ -153,7 +153,7 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         upDateUserProfile.setGender(sharedPrefsUtils.getStringPreference(
                 USER_GENDER));
 
-        upDateUserProfile.setDob(sharedPrefsUtils.getStringPreference(
+        upDateUserProfile.setDateOfBirthToShow(sharedPrefsUtils.getStringPreference(
                 USER_DOB));
 
         upDateUserProfile.setEmail(sharedPrefsUtils.getStringPreference(
