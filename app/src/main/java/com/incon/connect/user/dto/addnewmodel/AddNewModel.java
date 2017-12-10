@@ -112,13 +112,14 @@ public class AddNewModel extends BaseObservable implements Parcelable {
         this.divisionName = divisionName;
         notifyChange();
     }
-
+    @Bindable
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+        notifyChange();
     }
 
     public Integer getCategoryId() {

@@ -69,13 +69,15 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
             binding.setAddNewModelFragment(this);
             rootView = binding.getRoot();
             initViews();
+
             /*addNewModelPresenter.getCategories(SharedPrefsUtils.loginProvider().
                     getIntegerPreference(LoginPrefs.STORE_ID, DEFAULT_VALUE));*/
+
         }
         setTitle();
         return rootView;
     }
-
+    // category spinner
     private void loadCategorySpinnerData() {
         String[] stringCategoryList = new String[fetchCategorieList.size()];
         for (int i = 0; i < fetchCategorieList.size(); i++) {
@@ -97,11 +99,15 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
                     categorySelectedPos = position;
                     binding.spinnerBrand.setVisibility(View.GONE);
                 }
+                //For avoiding double tapping issue
+                if (binding.spinnerCategory.getOnItemClickListener() != null) {
+                    binding.spinnerCategory.onItemClick(parent, view, position, id);
+                }
 
             }
         });
     }
-
+    // division spinner
     private void loadDivisionSpinnerData(List<Division> divisions) {
 
         if (divisions.size() == 0) {
@@ -130,6 +136,10 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
                     loadBrandSpinnerData(divisions1.getBrands());
                     binding.spinnerBrand.setText("");
                 }
+                //For avoiding double tapping issue
+                if (binding.spinnerDivision.getOnItemClickListener() != null) {
+                    binding.spinnerDivision.onItemClick(parent, view, position, id);
+                }
             }
         });
     }
@@ -154,6 +164,10 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 addNewModel.setBrandId(brandList.get(position).getId());
                 addNewModel.setBrandName(brandList.get(position).getName());
+                //For avoiding double tapping issue
+                if (binding.spinnerBrand.getOnItemClickListener() != null) {
+                    binding.spinnerBrand.onItemClick(parent, view, position, id);
+                }
             }
         });
     }
@@ -167,7 +181,7 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
 
     private void setFocusForViews() {
         binding.edittextModelNumber.setOnFocusChangeListener(onFocusChangeListener);
-        binding.edittextDescription.setOnFocusChangeListener(onFocusChangeListener);
+        binding.edittextName.setOnFocusChangeListener(onFocusChangeListener);
         binding.edittextMrpPrice.setOnFocusChangeListener(onFocusChangeListener);
         binding.edittextPrice.setOnFocusChangeListener(onFocusChangeListener);
         binding.edittextNotes.setOnFocusChangeListener(onFocusChangeListener);
@@ -195,7 +209,7 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
 
     private boolean validateFields() {
         binding.inputLayoutModelNumber.setError(null);
-        binding.inputLayoutDescription.setError(null);
+        binding.inputLayoutName.setError(null);
         binding.spinnerCategory.setError(null);
         binding.spinnerDivision.setError(null);
         binding.spinnerBrand.setError(null);
@@ -237,8 +251,8 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
     private void loadValidationErrors() {
         errorMap = new HashMap<>();
         errorMap.put(AddNewModelValidation.MODEL, getString(R.string.error_product_model));
-        errorMap.put(AddNewModelValidation.DESCRIPTION, getString(
-                R.string.error_product_description));
+        errorMap.put(AddNewModelValidation.NAME, getString(
+                R.string.error_product_name));
         errorMap.put(AddNewModelValidation.CATEGORY, getString(R.string.error_product_category));
         errorMap.put(AddNewModelValidation.DIVISION, getString(R.string.error_product_division));
         errorMap.put(AddNewModelValidation.BRAND, getString(R.string.error_product_brand));

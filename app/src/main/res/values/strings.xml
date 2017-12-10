@@ -224,6 +224,7 @@
     <string name="error_product_serial">Serial is required</string>
     <string name="error_product_batch">Batch is required</string>
     <string name="error_product_invoice_number">InvoiceNumber is required</string>
+    <string name="error_product_name">Name is required</string>
     <string name="error_product_category">Category is required</string>
     <string name="error_product_division">Division is required</string>
     <string name="error_product_brand">Brand is required</string>
@@ -336,6 +337,7 @@
     <string name="add_new__type">Type</string>
     <string name="add_new_notes">Notes</string>
 
+
     <!-- Registration -->
     <string name="register_userinfo_title">User Information</string>
     <string name="register_userinfo_subtitle">Please enter information for the person who will be using the app.</string>
@@ -429,6 +431,7 @@
     <string name="title_status">Status</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_qr_code_scanner">QR Code Scanner</string>
+    <string name="action_name">Name</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

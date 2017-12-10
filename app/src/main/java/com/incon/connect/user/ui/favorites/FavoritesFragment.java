@@ -35,6 +35,7 @@ import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.RegistrationMapActivity;
+import com.incon.connect.user.ui.addnewmodel.AddNewModelFragment;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
@@ -113,12 +114,17 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                 bundle, 0, 0, TRANSACTION_TYPE_REPLACE);
     }
 
-
-
     public void onParentProductClick() {
         binding.addProduct.setVisibility(View.VISIBLE);
         binding.customProduct.setVisibility(View.VISIBLE);
     }
+
+    public void onAddNewModel() {
+        ((HomeActivity) getActivity()).replaceFragmentAndAddToStackWithTargetFragment(
+                AddNewModelFragment.class, this, RequestCodes.ADD_NEW_MODEL_FRAGMENT,
+                null, 0, 0, TRANSACTION_TYPE_REPLACE);
+    }
+
 
 
     private void initViews() {

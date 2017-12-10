@@ -36,7 +36,6 @@
                 <com.incon.connect.user.custom.view.CustomTextInputLayout
                     android:id="@+id/input_layout_model_number"
                     style="@style/Register_TextInputLayout"
-                    android:layout_toLeftOf="@+id/im_barcode_model"
                     android:hint="@string/add_new__model_no"
                     app:errorEnabled="true"
                     app:fontName="fonts/OpenSans-Regular.ttf"
@@ -55,25 +54,25 @@
 
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
-                <!-- Description -->
+                <!-- Name -->
                 <com.incon.connect.user.custom.view.CustomTextInputLayout
-                    android:id="@+id/input_layout_description"
+                    android:id="@+id/input_layout_name"
                     style="@style/Register_TextInputLayout"
                     android:layout_below="@id/input_layout_model_number"
-                    android:hint="@string/action_description"
+                    android:hint="@string/action_name"
                     app:errorEnabled="true"
                     app:fontName="fonts/OpenSans-Regular.ttf"
                     app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
 
                     <android.support.design.widget.TextInputEditText
-                        android:id="@+id/edittext_description"
+                        android:id="@+id/edittext_name"
                         style="@style/Add_new_model_TextInputEditText"
                         android:focusable="true"
                         android:imeOptions="actionNext"
                         android:inputType="textMultiLine"
                         android:scrollHorizontally="false"
                         android:tag="1"
-                        android:text="@={addNewModel.description}"/>
+                        android:text="@={addNewModel.name}"/>
 
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
@@ -81,7 +80,7 @@
                 <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
                     android:id="@+id/spinner_category"
                     style="@style/spinnerItemStyle"
-                    android:layout_below="@id/input_layout_description"
+                    android:layout_below="@id/input_layout_name"
                     android:layout_marginBottom="@dimen/margin_24"
                     android:focusable="true"
                     android:hint="@string/add_new__category"
@@ -223,13 +222,8 @@
                     android:textColor="@color/tueo_theme"
                     android:textSize="@dimen/text_size_13"/>
 
-
             </LinearLayout>
-
         </RelativeLayout>
-
-
     </ScrollView>
-
 
 </layout>
