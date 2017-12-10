@@ -9,7 +9,7 @@
             type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
     </data>
 
-  <!-- <RelativeLayout
+ <RelativeLayout
         android:id="@+id/layout_purchsed_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,9 +24,9 @@
             app:srcCompat="@drawable/ic_tab_notifications"
             />
 
-    </RelativeLayout>-->
+    </RelativeLayout>
 
-  <LinearLayout
+  <!--<LinearLayout
         style="@style/BothMatch"
         android:background="@color/white">
 
@@ -50,6 +50,6 @@
         </HorizontalScrollView>
 
     </LinearLayout>
-
+-->
 
 </layout>
