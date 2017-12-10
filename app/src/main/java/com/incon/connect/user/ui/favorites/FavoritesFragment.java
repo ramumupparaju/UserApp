@@ -114,6 +114,13 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     }
 
 
+
+    public void onParentProductClick() {
+        binding.addProduct.setVisibility(View.VISIBLE);
+        binding.customProduct.setVisibility(View.VISIBLE);
+    }
+
+
     private void initViews() {
         //getting customer id to fetch addresses and product info
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
