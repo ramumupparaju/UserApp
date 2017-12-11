@@ -51,9 +51,16 @@
                     android:textSize="12.4sp" />
 
                 <TextView
+                    android:id="@+id/interest_mrp"
                     style="@style/BothWrap"
                     android:layout_marginTop="@dimen/margin_10"
-                    android:text="@{'\u20B9' + productinforesponse.price}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp" />
+
+                <TextView
+                    android:id="@+id/interest_price"
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_10"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp" />
 

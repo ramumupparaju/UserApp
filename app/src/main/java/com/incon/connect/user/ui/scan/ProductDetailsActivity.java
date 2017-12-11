@@ -73,6 +73,17 @@ public class ProductDetailsActivity extends BaseActivity {
             listDec.put(titlePricestring, price);
         }
 
+
+
+        String mrpString = String.valueOf(response.getMrp());
+        if (!TextUtils.isEmpty(mrpString)) {
+            String titlePricestring = getString(R.string.bottom_option_mrp);
+            listTitle.add(titlePricestring);
+            List<String> mrp = new ArrayList<String>();
+            mrp.add(mrpString);
+            listDec.put(titlePricestring, mrp);
+        }
+
         String descString = response.getInformation();
         if (!TextUtils.isEmpty(descString)) {
             String titleDescString = getString(R.string.bottom_option_description);
