@@ -80,8 +80,6 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
             AppUtils.loadImageFromApi(binding.productImageview, interestHistoryResponse
                     .getProductImageUrl());
             binding.layoutInterestItem.setSelected(interestHistoryResponse.isSelected());
-            binding.interestMrp.setText("MRP:" + interestHistoryResponse.getMrp());
-            binding.interestPrice.setText("PRICE:" + interestHistoryResponse.getPrice());
             binding.executePendingBindings();
         }
 

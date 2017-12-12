@@ -35,7 +35,8 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         Bundle bundle = getIntent().getExtras();
         productInfoResponse = bundle.getParcelable(BundleConstants.PRODUCT_INFO_RESPONSE);
         binding.setProductinforesponse(productInfoResponse);
-        binding.textDopValues.setText(": " + DateUtils.convertMillisToStringFormat(productInfoResponse.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY));
+      //  binding.textDopValues.setText(": " + DateUtils.convertMillisToStringFormat
+                //(productInfoResponse.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY));
 
     }
 
