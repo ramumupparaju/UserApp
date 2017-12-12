@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
     <data>
 
         <variable
@@ -162,7 +162,8 @@
                     <TextView
                         android:id="@+id/text_sn_valus"
                         style="@style/bill_header_left_text_view"
-                        />
+                        android:text="@{`:` + productinforesponse.serialNumber}"/>
+
 
 
                     <TextView
@@ -196,84 +197,157 @@
                 android:layout_marginTop="10dp"
                 android:text="Showroom details"/>
 
-
             <LinearLayout
                 android:id="@+id/showroom_details_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/MatchWrap"
                 android:layout_below="@id/showroom_details"
-                android:weightSum="2">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/layout_showroom"
-                    style="@style/bill_header_linear_layout">
+                    style="@style/MatchWrap"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/text_showroom_name"
-                        style="@style/bill_header_right_text_view"
+                        style="@style/bill_store_text_view"
+                        android:layout_weight=".3"
                         android:text="Store Name"/>
 
+                    <TextView
+                        style="@style/bill_store_text_view"
+                        android:id="@+id/text_showroom_name_value"
+                        android:layout_weight=".7"
+                        android:text="@{`: ` + productinforesponse.storeName}"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/MatchWrap"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/text_showroom_address"
-                        style="@style/bill_header_right_text_view"
+                        style="@style/bill_store_text_view"
+                        android:layout_weight=".3"
                         android:text="Address"/>
 
+                    <TextView
+                        style="@style/bill_store_text_view"
+                        android:layout_weight=".7"
+                        android:text="@{`: ` + productinforesponse.storeAddress}"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/MatchWrap"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/text_contact_details"
-                        style="@style/bill_header_right_text_view"
+                        style="@style/bill_store_text_view"
+                        android:layout_weight=".3"
                         android:text="Contact Details"/>
 
                     <TextView
-                        android:id="@+id/text_showroom_gstn"
-                        style="@style/bill_header_right_text_view"
-                        android:text="GSTN"/>
-                </LinearLayout>
-                <!--show room values-->
-                <LinearLayout
-                    android:id="@+id/layout_showroom_values"
-                    style="@style/bill_header_linear_layout">
-
-                    <TextView
-                        android:textSize="@dimen/text_size_13"
-                        android:textColor="@color/black"
-                        android:layout_marginLeft="@dimen/margin_0"
-                        android:layout_marginTop="@dimen/margin_9"
-                        android:id="@+id/text_showroom_name_value"
-                        style="@style/BothWrap"
-                        android:text="@{`: ` + productinforesponse.storeName}"/>
-
-                    <TextView
-                        android:textSize="@dimen/text_size_13"
-                        android:textColor="@color/black"
-                        android:layout_marginLeft="@dimen/margin_0"
-                        android:layout_marginTop="@dimen/margin_9"
-                        android:id="@+id/text_showroom_address_value"
-                        style="@style/BothWrap"
-                        android:text="@{`: ` + productinforesponse.storeAddress}"/>
-
-
-                    <TextView
-                        android:textSize="@dimen/text_size_13"
-                        android:textColor="@color/black"
-                        android:layout_marginLeft="@dimen/margin_0"
-                        android:layout_marginTop="@dimen/margin_9"
-                        android:id="@+id/text_contact_details_value"
-                        style="@style/BothWrap"
+                        style="@style/bill_store_text_view"
+                        android:layout_weight=".7"
                         android:text="@{`: ` + productinforesponse.storeContactNumber}"/>
+                </LinearLayout>
+
+                <LinearLayout
+
+                    style="@style/MatchWrap"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:textSize="@dimen/text_size_13"
-                        android:textColor="@color/black"
-                        android:layout_marginLeft="@dimen/margin_0"
-                        android:layout_marginTop="@dimen/margin_9"
-                        android:id="@+id/text_showroom_gstn_value"
-                        style="@style/BothWrap"
-                        />
+                        style="@style/bill_store_text_view"
+                        android:layout_weight=".3"
+                        android:text="GSTIN"/>
+
+                    <TextView
+                        style="@style/bill_store_text_view"
+                        android:layout_weight=".7"
+                        android:text=":Z3ER9000879654TG"/>
                 </LinearLayout>
             </LinearLayout>
 
+
+            <!-- <LinearLayout
+                 android:id="@+id/showroom_details_layout"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@id/showroom_details"
+                 android:weightSum="2">
+
+                 <LinearLayout
+                     android:id="@+id/layout_showroom"
+                     style="@style/bill_header_linear_layout">
+
+                     <TextView
+                         android:id="@+id/text_showroom_name"
+                         style="@style/bill_header_right_text_view"
+                         android:text="Store Name"/>
+
+
+                     <TextView
+                         android:id="@+id/text_showroom_address"
+                         style="@style/bill_header_right_text_view"
+                         android:text="Address"/>
+
+
+                     <TextView
+                         android:id="@+id/text_contact_details"
+                         style="@style/bill_header_right_text_view"
+                         android:text="Contact Details"/>
+
+                     <TextView
+                         android:id="@+id/text_showroom_gstn"
+                         style="@style/bill_header_right_text_view"
+                         android:text="GSTN"/>
+                 </LinearLayout>
+                 &lt;!&ndash;show room values&ndash;&gt;
+                 <LinearLayout
+                     android:id="@+id/layout_showroom_values"
+                     style="@style/bill_header_linear_layout">
+
+                     <TextView
+                         android:textSize="@dimen/text_size_13"
+                         android:textColor="@color/black"
+                         android:layout_marginLeft="@dimen/margin_0"
+                         android:layout_marginTop="@dimen/margin_9"
+                         android:id="@+id/text_showroom_name_value"
+                         style="@style/BothWrap"
+                         android:text="@{`: ` + productinforesponse.storeName}"/>
+
+
+                         <TextView
+                             android:textSize="@dimen/text_size_13"
+                             android:textColor="@color/black"
+                             android:layout_marginLeft="@dimen/margin_0"
+                             android:layout_marginTop="@dimen/margin_9"
+                             android:id="@+id/text_showroom_address_value"
+                             style="@style/BothWrap"
+                             android:text="@{`: ` + productinforesponse.storeAddress}"/>
+
+                     <TextView
+                         android:textSize="@dimen/text_size_13"
+                         android:textColor="@color/black"
+                         android:layout_marginLeft="@dimen/margin_0"
+                         android:layout_marginTop="@dimen/margin_9"
+                         android:id="@+id/text_contact_details_value"
+                         style="@style/BothWrap"
+                         android:text="@{`: ` + productinforesponse.storeContactNumber}"/>
+
+                     <TextView
+                         android:textSize="@dimen/text_size_13"
+                         android:textColor="@color/black"
+                         android:layout_marginLeft="@dimen/margin_0"
+                         android:layout_marginTop="@dimen/margin_9"
+                         android:id="@+id/text_showroom_gstn_value"
+                         style="@style/BothWrap"
+                         />
+                 </LinearLayout>
+             </LinearLayout>
+ -->
             <TextView
                 android:id="@+id/customer_details"
                 style="@style/bill_header_text_view"
