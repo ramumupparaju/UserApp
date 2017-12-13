@@ -13,16 +13,21 @@
 
     </data>
 
+    <RelativeLayout
+        style="@style/BothMatch"
+        android:layout_marginBottom="@dimen/margin_5"
+        android:background="@drawable/btn_roundedcorner_gray"
+        >
+
     <ScrollView
         android:id="@+id/scrollview_user_info"
         style="@style/BothMatch">
 
         <RelativeLayout
             style="@style/BothMatch"
-            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginBottom="@dimen/margin_5"
             android:background="@drawable/btn_roundedcorner_gray"
-            android:layout_marginBottom="@dimen/margin_10"
-
             >
 
             <TextView
@@ -431,5 +436,7 @@
 
 
     </ScrollView>
+    </RelativeLayout>
+
 
 </layout>
