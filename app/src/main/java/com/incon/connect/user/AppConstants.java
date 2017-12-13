@@ -207,6 +207,7 @@ public interface AppConstants {
     }
 
     interface ApiRequestKeyConstants {
+        String HEADER_AUTHORIZATION = "Authorization";
         String BODY_EMAIL = "email";
         String BODY_CUSTOMER_ID = "customerId";
         String BODY_MERCHANT_ID = "merchantId";

@@ -2,10 +2,12 @@ package com.incon.connect.user.ui.login;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Pair;
 
-import com.incon.connect.user.R;
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.ConnectApplication;
+import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.login.LoginResponse;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
@@ -17,6 +19,7 @@ import com.incon.connect.user.ui.register.fragment.RegistrationUserFragmentPrese
 import com.incon.connect.user.ui.validateotp.ValidateOtpContract;
 import com.incon.connect.user.ui.validateotp.ValidateOtpPresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
+import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.HashMap;
 
@@ -39,6 +42,11 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     // login implemenatation
     @Override
     public void doLogin(LoginUserData loginUserData) {
+        String credentials = loginUserData.getPhoneNumber() + ":" + loginUserData.getPassword();
+        final String basic = "Basic " + Base64.encodeToString(credentials.getBytes(),
+                Base64.NO_WRAP);
+        SharedPrefsUtils.loginProvider().setStringPreference(AppConstants.LoginPrefs
+                .ACCESS_TOKEN, basic);
         getView().showProgress(appContext.getString(R.string.progress_login));
         DisposableObserver<LoginResponse> observer = new DisposableObserver<LoginResponse>() {
             @Override

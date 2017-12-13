@@ -1,7 +1,9 @@
 package com.incon.connect.user.api;
 
 import com.google.gson.GsonBuilder;
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.BuildConfig;
+import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -71,8 +73,10 @@ public class ServiceGenerator {
 
             Request original = chain.request();
 
+            String authorizationToken = SharedPrefsUtils.loginProvider().getStringPreference(AppConstants.LoginPrefs.ACCESS_TOKEN);
             Request request = original.newBuilder()
                     .header(CONTENT_TYPE, CONTENT_TYPE_VALUE)
+                    .header(AppConstants.ApiRequestKeyConstants.HEADER_AUTHORIZATION, authorizationToken)
                     .method(original.method(), original.body())
                     .build();
 
