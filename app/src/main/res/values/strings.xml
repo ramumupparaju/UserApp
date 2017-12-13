@@ -84,6 +84,7 @@
         successfully</string>
     <string name="action_product_status">Is product delivered</string>
     <string name="action_description">Description</string>
+    <string name="action_skip">Skip</string>
 
     <!--product Assign-->
     <string name="user_qr_code">User QR code</string>

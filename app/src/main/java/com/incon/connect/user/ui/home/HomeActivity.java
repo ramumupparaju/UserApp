@@ -18,7 +18,6 @@ import com.incon.connect.user.databinding.ActivityHomeBinding;
 import com.incon.connect.user.databinding.ToolBarBinding;
 import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.BaseFragment;
-import com.incon.connect.user.ui.addoffer.fragment.AddOfferMerchantFragment;
 import com.incon.connect.user.ui.favorites.FavoritesFragment;
 import com.incon.connect.user.ui.history.HistoryTabFragment;
 import com.incon.connect.user.ui.home.userqrcode.UserQrCodeFragment;
