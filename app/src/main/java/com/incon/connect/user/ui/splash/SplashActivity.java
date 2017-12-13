@@ -54,7 +54,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
             public void run() {
 
                 boolean isLoggedIn = SharedPrefsUtils.loginProvider().
-                        getBooleanPreference(LOGGED_IN, true);
+                        getBooleanPreference(LOGGED_IN, false);
                 Intent intent;
                 if (isLoggedIn) {
                     intent = new Intent(SplashActivity.this, HomeActivity.class);
