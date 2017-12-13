@@ -13,9 +13,9 @@ import java.util.HashMap;
 public class RegistrationUserFragmentContract {
 
     public interface View extends BaseView {
-        void navigateToRegistrationActivityNext();
-        void navigateToHomeScreen();
-        void validateOTP();
+            void navigateToRegistrationActivityNext();
+            void navigateToHomeScreen();
+            void validateOTP();
     }
 
     interface Presenter {
