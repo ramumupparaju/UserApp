@@ -143,6 +143,10 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
     </style>
+    <style name="ZeroWrap">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 
     <!--style match_zero-->
     <style name="MatchZero">
@@ -256,6 +260,12 @@
         <item name="android:layout_marginLeft">@dimen/margin_10</item>
     </style>
 
+    <style name="bill_store_text_view" parent="@style/ZeroWrap">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_13</item>
+        <item name="android:layout_marginTop">@dimen/margin_9</item>
+        <item name="android:layout_marginLeft">@dimen/margin_10</item>
+    </style>
     <style name="bill_header_linear_layout" parent="@style/BothWrap">
         <item name="android:orientation">vertical</item>
         <item name="android:layout_weight">1</item>

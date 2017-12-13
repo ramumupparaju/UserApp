@@ -44,6 +44,7 @@
     <string name="bottom_option_feedback">Feedback :</string>
     <string name="bottom_option_review">Review</string>
     <string name="bottom_option_price">Price :</string>
+    <string name="bottom_option_mrp">MRP :</string>
     <string name="bottom_option_delete">Delete</string>
     <string name="bottom_option_showroom">Showroom</string>
     <string name="bottom_option_buy_request">Buy request</string>
