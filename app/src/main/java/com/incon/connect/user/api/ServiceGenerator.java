@@ -1,8 +1,12 @@
 package com.incon.connect.user.api;
 
+import android.text.TextUtils;
+
 import com.google.gson.GsonBuilder;
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.BuildConfig;
+import com.incon.connect.user.ConnectApplication;
+import com.incon.connect.user.R;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.io.IOException;
@@ -74,6 +78,9 @@ public class ServiceGenerator {
             Request original = chain.request();
 
             String authorizationToken = SharedPrefsUtils.loginProvider().getStringPreference(AppConstants.LoginPrefs.ACCESS_TOKEN);
+            if (TextUtils.isEmpty(authorizationToken)) {
+                authorizationToken = ConnectApplication.getAppContext().getString(R.string.default_key);
+            }
             Request request = original.newBuilder()
                     .header(CONTENT_TYPE, CONTENT_TYPE_VALUE)
                     .header(AppConstants.ApiRequestKeyConstants.HEADER_AUTHORIZATION, authorizationToken)
