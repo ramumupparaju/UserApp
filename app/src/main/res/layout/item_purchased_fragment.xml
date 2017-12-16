@@ -43,36 +43,37 @@
                     style="@style/image_product_icon"
                     android:layout_toRightOf="@id/brand_imageview" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/product_info_layout"
-                    style="@style/linear_layout_product_details"
+                    style="@style/BothMatch"
                     android:layout_toRightOf="@id/product_imageview">
 
                     <TextView
+                        android:id="@+id/purchased_name"
                         style="@style/BothWrap"
                         fontPath="fonts/OpenSans-Bold.ttf"
                         android:layout_marginTop="@dimen/margin_5"
-                        android:text="iphone7 plus"
+                        android:text="@{productinforesponse.productName}"
                         android:textAllCaps="true"
                         android:textColor="@color/ebony_clay"
                         android:textSize="12.4sp" />
 
                     <TextView
                         style="@style/BothWrap"
-                        android:layout_marginTop="@dimen/margin_3"
+                        android:layout_below="@id/purchased_name"
+                        android:layout_marginTop="@dimen/margin_1"
                         android:text="@{`Model No :` +productinforesponse.modelNumber}"
                         android:textColor="@color/ebony_clay"
                         android:textSize="10sp" />
+                </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/purchased_date"
-                        style="@style/BothWrap"
-                        android:layout_marginTop="@dimen/margin_10"
-                        android:textColor="@color/ebony_clay"
-                        android:textSize="12.4sp" />
-
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/purchased_date"
+                    style="@style/BothMatch"
+                    android:layout_below="@id/product_imageview"
+                    android:layout_toRightOf="@id/product_imageview"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp" />
             </RelativeLayout>
 
 
@@ -88,11 +89,11 @@
 
             <ImageView
                 android:id="@+id/warrenty_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentBottom="true"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
                 android:layout_alignParentRight="true"
-                android:layout_toLeftOf="@id/favourite_icon" />
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="@dimen/margin_10" />
 
             <TextView
                 android:id="@+id/status_tv"
