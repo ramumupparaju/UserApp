@@ -21,7 +21,7 @@
         <RelativeLayout
             android:id="@+id/layout_purchsed_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="90dp"
             android:padding="@dimen/margin_5">
 
 
@@ -45,7 +45,8 @@
 
                 <RelativeLayout
                     android:id="@+id/product_info_layout"
-                    style="@style/BothMatch"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
                     android:layout_toRightOf="@id/product_imageview">
 
                     <TextView
@@ -62,7 +63,7 @@
                         style="@style/BothWrap"
                         android:layout_below="@id/purchased_name"
                         android:layout_marginTop="@dimen/margin_1"
-                        android:text="@{`Model No :` +productinforesponse.modelNumber}"
+                        android:text="@{`Model No :` + productinforesponse.modelNumber}"
                         android:textColor="@color/ebony_clay"
                         android:textSize="10sp" />
                 </RelativeLayout>
@@ -70,10 +71,12 @@
                 <TextView
                     android:id="@+id/purchased_date"
                     style="@style/BothMatch"
-                    android:layout_below="@id/product_imageview"
+                    android:layout_below="@id/product_info_layout"
                     android:layout_toRightOf="@id/product_imageview"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp" />
+
+
             </RelativeLayout>
 
 
@@ -94,6 +97,22 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="@dimen/margin_10" />
+
+            <ImageView
+                android:id="@+id/merchant_icon"
+                android:layout_width="12dp"
+                android:layout_height="48dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/views_layout" />
+
+            <TextView
+                android:id="@+id/merchant_name"
+                style="@style/BothWrap"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="@{`Merchant Name :` + productinforesponse.storeName}"
+                android:textColor="@color/black"
+                android:textSize="12.4sp" />
 
             <TextView
                 android:id="@+id/status_tv"
