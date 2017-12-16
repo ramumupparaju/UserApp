@@ -15,10 +15,8 @@
         android:id="@+id/card_view"
         style="@style/MatchWrap"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_5"
-        android:background="@drawable/list_item_selector"
-        app:cardElevation="@dimen/corner_radius"
-        card_view:cardCornerRadius="4dp">
+        android:layout_margin="@dimen/margin_3"
+        app:cardCornerRadius="@dimen/corner_radius">
 
         <RelativeLayout
             android:id="@+id/layout_purchsed_item"
@@ -30,20 +28,21 @@
             <RelativeLayout
                 android:id="@+id/views_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_item_selector">
 
-                <ImageView
-                    android:id="@+id/warrenty_icon"
-                    style="@style/warranty_status_icon" />
 
                 <ImageView
                     android:id="@+id/brand_imageview"
-                    style="@style/image_product_icon" />
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/apple" />
 
                 <ImageView
                     android:id="@+id/product_imageview"
                     style="@style/image_product_icon"
-                    android:layout_toRightOf="@id/brand_imageview" />
+                    android:layout_toRightOf="@id/brand_imageview"
+                    android:src="@drawable/iphone" />
 
                 <LinearLayout
                     android:id="@+id/product_info_layout"
@@ -52,31 +51,51 @@
 
                     <TextView
                         style="@style/BothWrap"
-                        android:layout_marginTop="@dimen/margin_10"
-                        android:text="@{productinforesponse.productName}"
+                        android:layout_marginTop="@dimen/margin_5"
+                        android:text="iphone7 plus"
+                        android:textAllCaps="true"
+                        fontPath="fonts/OpenSans-Bold.ttf"
                         android:textColor="@color/ebony_clay"
                         android:textSize="12.4sp" />
 
+                    <TextView
+                        style="@style/BothWrap"
+                        android:layout_marginTop="@dimen/margin_3"
+                        android:text="@{`Model No :` +productinforesponse.modelNumber}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/ebony_clay"
+                        android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/purchased_date"
                         style="@style/BothWrap"
-                        android:layout_marginTop="@dimen/margin_8"
+                        android:layout_marginTop="@dimen/margin_10"
                         android:textColor="@color/ebony_clay"
                         android:textSize="12.4sp" />
 
-                    <ImageView
-                        android:id="@+id/favourite_icon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="@dimen/margin_8"
-                        android:src="@drawable/ic_user_favorite"
-                        android:textColor="@color/ebony_clay"
-                        android:textSize="12.4sp" />
 
                 </LinearLayout>
 
+
+                <ImageView
+                    android:id="@+id/warrenty_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:src="@drawable/warranty"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true" />
+
             </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/favourite_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin_5"
+                android:src="@drawable/fav"
+                android:textColor="@color/ebony_clay"
+                android:textSize="12.4sp" />
 
             <TextView
                 android:id="@+id/status_tv"

@@ -10,8 +10,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -46,13 +44,13 @@ public class AppUtils {
     }
 
     public static void loadImageFromApi(ImageView imageView, String url) {
-        RequestOptions requestOptions = new RequestOptions();
+        /*RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.ic_placeholder);
         requestOptions.error(R.drawable.ic_placeholder);
         Glide.with(imageView.getContext())
                 .setDefaultRequestOptions(requestOptions)
                 .load(BuildConfig.SERVICE_ENDPOINT + url)
-                .into(imageView);
+                .into(imageView);*/
     }
 
     public static void showSoftKeyboard(Context ctx, View v) {
