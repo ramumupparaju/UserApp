@@ -179,6 +179,7 @@ public interface AppConstants {
         String EXTRACT_ZIP = "extractZip";
         String FILTER_NAME = "filterName";
         String IS_SCAN_FIRST = "isScanFirst";
+        String TUTORIAL_SHOWED = "tutorialShowed";
     }
 
     interface LoginPrefs {

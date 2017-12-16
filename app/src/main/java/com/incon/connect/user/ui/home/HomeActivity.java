@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.incon.connect.user.R;
@@ -18,7 +20,6 @@ import com.incon.connect.user.databinding.ActivityHomeBinding;
 import com.incon.connect.user.databinding.ToolBarBinding;
 import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.BaseFragment;
-import com.incon.connect.user.ui.addoffer.fragment.AddOfferMerchantFragment;
 import com.incon.connect.user.ui.favorites.FavoritesFragment;
 import com.incon.connect.user.ui.history.HistoryTabFragment;
 import com.incon.connect.user.ui.home.userqrcode.UserQrCodeFragment;
@@ -202,5 +203,18 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         bnve.enableAnimation(false);
         bnve.enableShiftingMode(false);
         bnve.enableItemShiftingMode(false);
+
+        BottomNavigationView bottomNavigationView = binding.bottomNavigationView;
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView)
+                bottomNavigationView.getChildAt(0);
+        for (int i = 0; i < menuView.getChildCount(); i++) {
+            final View iconView =
+                    menuView.getChildAt(i).findViewById(android.support.design.R.id.icon);
+            final ViewGroup.LayoutParams layoutParams =
+                    iconView.getLayoutParams();
+            layoutParams.height = (int) DeviceUtils.convertPxToDp(20);
+            layoutParams.width = (int) DeviceUtils.convertPxToDp(20);
+            iconView.setLayoutParams(layoutParams);
+        }
     }
 }

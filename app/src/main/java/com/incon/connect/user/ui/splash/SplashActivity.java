@@ -8,6 +8,7 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.login.LoginActivity;
+import com.incon.connect.user.ui.tutorial.TutorialActivity;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import static com.incon.connect.user.AppConstants.LoginPrefs.LOGGED_IN;
@@ -58,7 +59,13 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
                 if (isLoggedIn) {
                     intent = new Intent(SplashActivity.this, HomeActivity.class);
                 } else {
-                    intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    boolean isTutorialShowed = SharedPrefsUtils.appProvider().
+                            getBooleanPreference(CachePrefs.TUTORIAL_SHOWED, false);
+                    if (isTutorialShowed) {
+                        intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    } else {
+                        intent = new Intent(SplashActivity.this, TutorialActivity.class);
+                    }
                 }
                 startActivity(intent);
                 finish();

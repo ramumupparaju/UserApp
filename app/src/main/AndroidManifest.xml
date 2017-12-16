@@ -47,6 +47,11 @@
         </activity>
 
         <activity
+            android:name="com.incon.connect.user.ui.tutorial.TutorialActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name="com.incon.connect.user.ui.login.LoginActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"/>

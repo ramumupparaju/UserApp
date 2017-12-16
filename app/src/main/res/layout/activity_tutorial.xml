@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/BothMatch">
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        style="@style/BothMatch"
+        android:layout_above="@+id/tutorial_continue" />
+
+    <com.incon.connect.user.custom.view.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_15"
+        android:padding="@dimen/margin_5" />
+
+    <TextView
+        android:id="@+id/tutorial_skip"
+        style="@style/BothWrap"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/colorAccent"
+        android:onClick="loadFragments"
+        android:padding="@dimen/margin_15"
+        android:text="@string/action_skip" />
+
+    <Button
+        android:id="@+id/tutorial_continue"
+        style="@style/tutorial_bottom_bar"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent"
+        android:text="@string/action_continue" />
+
+</RelativeLayout>

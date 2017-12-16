@@ -295,4 +295,10 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    <style name="tutorial_bottom_bar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+    </style>
+
+
 </resources>
