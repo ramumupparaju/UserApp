@@ -14,13 +14,13 @@
     </data>
 
     <ScrollView
+        android:background="@drawable/btn_roundedcorner_gray"
         android:id="@+id/scrollview_user_info"
         style="@style/BothMatch">
 
         <RelativeLayout
             style="@style/BothMatch"
             android:layout_margin="@dimen/margin_10"
-            android:background="@drawable/btn_roundedcorner_gray"
             android:paddingBottom="@dimen/margin_10">
 
             <TextView

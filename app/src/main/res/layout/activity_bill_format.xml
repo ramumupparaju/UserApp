@@ -13,15 +13,23 @@
 
     </data>
 
+  <!--  <RelativeLayout
+        style="@style/BothMatch"
+        android:layout_marginBottom="@dimen/margin_5"
+        android:background="@drawable/btn_roundedcorner_gray"
+        >-->
+
     <ScrollView
+        android:background="@drawable/btn_roundedcorner_gray"
         android:id="@+id/scrollview_user_info"
         style="@style/BothMatch">
 
         <RelativeLayout
             style="@style/BothMatch"
-            android:layout_margin="@dimen/margin_10"
-            android:background="@drawable/btn_roundedcorner_gray"
-            android:paddingBottom="@dimen/margin_10">
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/margin_10"
+
+            >
 
             <TextView
                 android:id="@+id/text_invoice"
@@ -420,8 +428,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_20"
-                android:paddingBottom="@dimen/margin_12"
-                android:text="Powered by CONNECT"
+                android:paddingBottom="@dimen/margin_20"
+                android:text="POEERED BY CONNECT"
                 android:textColor="@color/ebony_clay"
                 android:textSize="12sp"/>
 
@@ -429,5 +437,7 @@
 
 
     </ScrollView>
+   <!-- </RelativeLayout>-->
+
 
 </layout>
