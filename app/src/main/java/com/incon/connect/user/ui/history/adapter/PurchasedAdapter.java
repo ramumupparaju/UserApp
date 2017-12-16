@@ -93,15 +93,14 @@ public class PurchasedAdapter extends BaseRecyclerViewAdapter {
                     purchasedHistoryResponse.getWarrantyEndDate()
                     , purchasedHistoryResponse.getPurchasedDate());
             if (noOfDays >= MIN_DAYS) {
-                /*binding.warrentyIcon.setBackgroundColor(
-                        binding.getRoot().getResources().getColor(R.color.green));*/
-            } /*else if (noOfDays == 0) {
+                binding.warrentyIcon.setBackgroundColor(
+                        binding.getRoot().getResources().getColor(R.color.green));
+            } else if (noOfDays == 0) {
                 binding.warrentyIcon.setBackgroundColor(
                         binding.getRoot().getResources().getColor(R.color.red));
-            }*/ else {
-                binding.warrentyIcon.setVisibility(View.INVISIBLE);
-                /*binding.warrentyIcon.setBackgroundColor(
-                        binding.getRoot().getResources().getColor(R.color.orange));*/
+            } else {
+                binding.warrentyIcon.setBackgroundColor(
+                        binding.getRoot().getResources().getColor(R.color.orange));
             }
             binding.executePendingBindings();
         }
