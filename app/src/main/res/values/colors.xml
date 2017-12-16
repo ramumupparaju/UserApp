@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/tueo_theme</color>
+    <color name="colorPrimary">@color/dull_lavender</color>
     <color name="colorPrimaryDark">#2e78a8</color>
     <color name="colorAccent">#c2c2c2</color>
 

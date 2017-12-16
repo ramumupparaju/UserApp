@@ -5,17 +5,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/search_layout"
-            layout="@layout/search_ui"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/main_container"
             style="@style/MatchWrap"
-            android:layout_below="@id/search_layout">
-
+            >
             <android.support.design.widget.AppBarLayout
                 android:id="@+id/appbar"
                 style="@style/MatchWrap"
@@ -33,8 +26,14 @@
                         android:layout_height="match_parent"
                         android:layout_below="@+id/appbar"
                         app:layout_collapseMode="parallax">
+                        <include
+                            android:id="@+id/search_layout"
+                            layout="@layout/search_ui"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
                         <android.support.design.widget.TabLayout
+                            android:layout_below="@+id/search_layout"
                             android:id="@+id/tab_layout"
                             style="@style/MatchWrap"
                             android:layout_gravity="fill"
@@ -48,11 +47,7 @@
                             app:tabSelectedTextColor="@color/dull_lavender"
                             app:tabTextColor="@color/white" />
 
-                        <include
-                            layout="@layout/item_list_header"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tab_layout" />
+
                     </RelativeLayout>
 
                 </android.support.design.widget.CollapsingToolbarLayout>
