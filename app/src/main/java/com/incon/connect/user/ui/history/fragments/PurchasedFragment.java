@@ -121,9 +121,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         purchasedAdapter = new PurchasedAdapter();
         purchasedAdapter.setClickCallback(iClickCallback);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+        /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 getContext(), linearLayoutManager.getOrientation());
-        binding.purchasedRecyclerview.addItemDecoration(dividerItemDecoration);
+        binding.purchasedRecyclerview.addItemDecoration(dividerItemDecoration);*/
         binding.purchasedRecyclerview.setAdapter(purchasedAdapter);
         binding.purchasedRecyclerview.setLayoutManager(linearLayoutManager);
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
