@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -15,7 +14,10 @@
         android:id="@+id/card_view"
         style="@style/MatchWrap"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_3"
+        android:layout_marginBottom="@dimen/margin_3"
+        android:layout_marginLeft="@dimen/margin_8"
+        android:layout_marginRight="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_3"
         app:cardCornerRadius="@dimen/corner_radius">
 
         <RelativeLayout
@@ -25,61 +27,66 @@
             android:padding="@dimen/margin_5">
 
 
-            <RelativeLayout
-                android:id="@+id/views_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/list_item_selector">
+            <!--brand image-->
+            <ImageView
+                android:id="@+id/brand_imageview"
+                android:layout_width="45dp"
+                android:layout_height="32dp"
+                android:alpha="70" />
 
+            <!--product image-->
+            <ImageView
+                android:id="@+id/product_imageview"
+                style="@style/image_product_icon"
+                android:layout_toRightOf="@id/brand_imageview" />
 
-                <ImageView
-                    android:id="@+id/brand_imageview"
-                    android:layout_width="48dp"
-                    android:layout_height="32dp"
-                    android:alpha="70" />
+            <!--product name-->
+            <TextView
+                android:id="@+id/purchased_name"
+                style="@style/BothWrap"
+                fontPath="fonts/OpenSans-Bold.ttf"
+                android:layout_toRightOf="@id/product_imageview"
+                android:text="@={productinforesponse.productName}"
+                android:textAllCaps="true"
+                android:textColor="@color/ebony_clay"
+                android:textSize="12.4sp" />
 
-                <ImageView
-                    android:id="@+id/product_imageview"
-                    style="@style/image_product_icon"
-                    android:layout_toRightOf="@id/brand_imageview" />
+            <!--product model number-->
+            <TextView
+                android:id="@+id/model_number_tv"
+                style="@style/BothWrap"
+                android:layout_below="@id/purchased_name"
+                android:layout_toRightOf="@id/product_imageview"
+                android:text="@{`Mod No :` + productinforesponse.modelNumber}"
+                android:textColor="@color/ebony_clay"
+                android:textSize="10sp" />
 
-                <RelativeLayout
-                    android:id="@+id/product_info_layout"
-                    android:layout_width="100dp"
-                    android:layout_height="60dp"
-                    android:layout_toRightOf="@id/product_imageview">
+            <!--product purchased date-->
+            <TextView
+                android:id="@+id/purchased_date"
+                style="@style/BothWrap"
+                android:layout_width="80dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/product_imageview"
+                android:textColor="@color/ebony_clay"
+                android:textSize="12.4sp" />
 
-                    <TextView
-                        android:id="@+id/purchased_name"
-                        style="@style/BothWrap"
-                        fontPath="fonts/OpenSans-Bold.ttf"
-                        android:layout_marginTop="@dimen/margin_5"
-                        android:text="@{productinforesponse.productName}"
-                        android:textAllCaps="true"
-                        android:textColor="@color/ebony_clay"
-                        android:textSize="12.4sp" />
+            <!--merchant name-->
+            <TextView
+                android:id="@+id/merchant_name"
+                style="@style/MatchWrap"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/margin_3"
+                android:layout_marginRight="@dimen/margin_3"
+                android:layout_toRightOf="@id/purchased_date"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:maxLines="1"
+                android:text="Bajaj Electronics"
+                android:textColor="@color/black"
+                android:textSize="12.4sp" />
 
-                    <TextView
-                        style="@style/BothWrap"
-                        android:layout_below="@id/purchased_name"
-                        android:layout_marginTop="@dimen/margin_1"
-                        android:text="@{`Model No :` + productinforesponse.modelNumber}"
-                        android:textColor="@color/ebony_clay"
-                        android:textSize="10sp" />
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/purchased_date"
-                    style="@style/BothMatch"
-                    android:layout_below="@id/product_info_layout"
-                    android:layout_toRightOf="@id/product_imageview"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp" />
-
-
-            </RelativeLayout>
-
-
+            <!--favorite icon-->
             <ImageView
                 android:id="@+id/favourite_icon"
                 android:layout_width="24dp"
@@ -87,9 +94,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_5"
                 android:src="@drawable/fav"
-                android:textColor="@color/ebony_clay"
                 android:textSize="12.4sp" />
 
+            <!--warranty icon-->
             <ImageView
                 android:id="@+id/warrenty_icon"
                 android:layout_width="8dp"
@@ -98,35 +105,12 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="@dimen/margin_10" />
 
+            <!--Dummy view for showing selection-->
             <ImageView
-                android:id="@+id/merchant_icon"
-                android:layout_width="12dp"
-                android:layout_height="48dp"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@id/views_layout" />
-
-            <TextView
-                android:id="@+id/merchant_name"
-                style="@style/BothWrap"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:text="@{`Merchant Name :` + productinforesponse.storeName}"
-                android:textColor="@color/black"
-                android:textSize="12.4sp" />
-
-            <TextView
-                android:id="@+id/status_tv"
-                style="@style/MatchWrap"
-                android:layout_below="@id/views_layout"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/margin_3"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
-                android:paddingLeft="@dimen/margin_10"
-                android:paddingRight="@dimen/margin_10"
-                android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp"
-                android:visibility="gone" />
+                android:id="@+id/views_layout"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:background="@color/alpha_corn_flower_blue" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </layout>

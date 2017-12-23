@@ -20,6 +20,7 @@
     <style name="dialog_theme" parent="Theme.AppCompat.Light.Dialog">
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:textColorPrimary">@color/black</item>
@@ -82,7 +83,6 @@
     </style>
 
 
-
     <!--style match_match-->
     <style name="BothMatch" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">match_parent</item>
@@ -143,6 +143,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
     </style>
+
     <style name="ZeroWrap">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -266,6 +267,7 @@
         <item name="android:layout_marginTop">@dimen/margin_9</item>
         <item name="android:layout_marginLeft">@dimen/margin_10</item>
     </style>
+
     <style name="bill_header_linear_layout" parent="@style/BothWrap">
         <item name="android:orientation">vertical</item>
         <item name="android:layout_weight">1</item>
@@ -286,6 +288,7 @@
         <item name="android:layout_height">75dp</item>
         <item name="android:layout_marginLeft">15dp</item>
         <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_centerVertical">true</item>
     </style>
 
     <style name="linear_layout_product_details" parent="BothWrap">
