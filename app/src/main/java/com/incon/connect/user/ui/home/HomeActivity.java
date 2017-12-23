@@ -212,7 +212,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                     menuView.getChildAt(i).findViewById(android.support.design.R.id.icon);
             final ViewGroup.LayoutParams layoutParams =
                     iconView.getLayoutParams();
-            layoutParams.height = (int) DeviceUtils.convertPxToDp(23);
+            layoutParams.height = (int) DeviceUtils.convertPxToDp(24);
             layoutParams.width = (int) DeviceUtils.convertPxToDp(20);
             iconView.setLayoutParams(layoutParams);
         }
