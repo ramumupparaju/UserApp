@@ -33,7 +33,7 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ProductInfoResponse interestResponse = filteredList.get(position);
-        ((InterestAdapter.ViewHolder) holder).bind(interestResponse);
+        ((InterestAdapter.ViewHolder) holder).bind(interestResponse, position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -45,10 +45,11 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
             binding.getRoot().setOnClickListener(this);
         }
 
-        public void bind(ProductInfoResponse interestHistoryResponse) {
-            binding.interestDate.setText(DateUtils.convertMillisToStringFormat(interestHistoryResponse.getRequestedDate()
-                    , AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
+        public void bind(ProductInfoResponse interestHistoryResponse, int position) {
             binding.setVariable(BR.productinforesponse, interestHistoryResponse);
+
+            binding.interestDate.setText(DateUtils.convertMillisToStringFormat(interestHistoryResponse.getRequestedDate()
+                    , AppConstants.DateFormatterConstants.DD_MM_YYYY));
 
             String status = interestHistoryResponse.getStatus();
             if (!TextUtils.isEmpty(status)) {
@@ -79,7 +80,9 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, interestHistoryResponse
                     .getProductImageUrl());
-            binding.layoutInterestItem.setSelected(interestHistoryResponse.isSelected());
+
+
+            binding.viewsLayout.setVisibility(interestHistoryResponse.isSelected() ? View.VISIBLE : View.GONE);
             binding.executePendingBindings();
         }
 

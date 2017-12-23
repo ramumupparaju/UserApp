@@ -38,6 +38,7 @@
             <ImageView
                 android:id="@+id/product_imageview"
                 style="@style/image_product_icon"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/brand_imageview" />
 
             <!--product name-->
@@ -45,9 +46,11 @@
                 android:id="@+id/purchased_name"
                 style="@style/BothWrap"
                 fontPath="fonts/OpenSans-Bold.ttf"
+                android:layout_toLeftOf="@id/warrenty_icon"
                 android:layout_toRightOf="@id/product_imageview"
                 android:text="@={productinforesponse.productName}"
                 android:textAllCaps="true"
+                android:maxLines="2"
                 android:textColor="@color/ebony_clay"
                 android:textSize="12.4sp" />
 
@@ -82,7 +85,7 @@
                 android:ellipsize="end"
                 android:gravity="right"
                 android:maxLines="1"
-                android:text="Bajaj Electronics"
+                android:text="@{productinforesponse.storeName}"
                 android:textColor="@color/black"
                 android:textSize="12.4sp" />
 

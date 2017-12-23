@@ -1,111 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="productinforesponse"
-            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
     </data>
 
-    <RelativeLayout
-        android:id="@+id/layout_interest_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/list_item_selector"
-        android:padding="@dimen/margin_5">
-
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        style="@style/MatchWrap"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/margin_3"
+        android:layout_marginLeft="@dimen/margin_8"
+        android:layout_marginRight="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_3"
+        app:cardCornerRadius="@dimen/corner_radius">
 
         <RelativeLayout
-            android:id="@+id/views_layout"
+            android:id="@+id/layout_interest_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="90dp"
+            android:padding="@dimen/margin_5">
 
+            <!--brand image-->
             <ImageView
-                android:layout_marginTop="@dimen/margin_25"
                 android:id="@+id/brand_imageview"
-                style="@style/image_product_icon"/>
+                android:layout_width="45dp"
+                android:layout_height="32dp"
+                android:alpha="70" />
 
+            <!--product image-->
             <ImageView
-                android:layout_marginTop="@dimen/margin_25"
                 android:id="@+id/product_imageview"
                 style="@style/image_product_icon"
-                android:layout_toRightOf="@id/brand_imageview"/>
+                android:layout_toRightOf="@id/brand_imageview" />
 
-            <LinearLayout
-                android:id="@+id/product_info_layout"
-                style="@style/linear_layout_product_details"
-                android:layout_toRightOf="@id/product_imageview">
+            <!--product name-->
+            <TextView
+                android:id="@+id/product_name"
+                style="@style/BothWrap"
+                fontPath="fonts/OpenSans-Bold.ttf"
+                android:layout_toRightOf="@id/product_imageview"
+                android:maxLines="2"
+                android:text="@={productinforesponse.productName}"
+                android:textAllCaps="true"
+                android:textColor="@color/ebony_clay"
+                android:textSize="12.4sp" />
 
-                <TextView
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:text="@{productinforesponse.productName}"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"/>
+            <TextView
+                android:id="@+id/interest_price"
+                style="@style/BothWrap"
+                android:layout_below="@id/product_name"
+                android:layout_toRightOf="@id/product_imageview"
+                android:text="@{`Offer :` +productinforesponse.price}"
+                android:textColor="@color/ebony_clay"
+                android:textSize="12.4sp" />
 
-                <TextView
-                    android:id="@+id/interest_date"
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"/>
+            <TextView
+                android:id="@+id/interest_mrp"
+                style="@style/BothWrap"
+                android:layout_below="@id/interest_price"
+                android:layout_toRightOf="@id/product_imageview"
+                android:text="@{`MRP :` +productinforesponse.mrp}"
+                android:textColor="@color/ebony_clay"
+                android:textSize="12.4sp" />
 
-                <TextView
-                    android:id="@+id/interest_mrp"
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:text="@{`MRP :` +productinforesponse.mrp}"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"/>
+            <!--Scan date-->
+            <TextView
+                android:id="@+id/interest_date"
+                style="@style/BothWrap"
+                android:layout_width="80dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/product_imageview"
+                android:textColor="@color/ebony_clay"
+                android:textSize="12.4sp" />
 
-                <TextView
-                    android:id="@+id/interest_price"
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:text="@{`Price :` +productinforesponse.price}"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"/>
+            <!--merchant name-->
+            <TextView
+                android:id="@+id/store_name"
+                style="@style/MatchWrap"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/margin_3"
+                android:layout_marginRight="@dimen/margin_3"
+                android:layout_toRightOf="@id/interest_date"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:maxLines="1"
+                android:text="@{productinforesponse.storeName}"
+                android:textColor="@color/black"
+                android:textSize="12.4sp" />
 
-                <TextView
-                    android:id="@+id/store_name"
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:text="@{productinforesponse.storeName}"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"/>
+            <TextView
+                android:id="@+id/comment_tv"
+                style="@style/MatchWrap"
+                android:layout_below="@id/product_imageview"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
+                android:text="@{`Merchant Comments :` + productinforesponse.merchantComments}"
+                android:textColor="@color/ebony_clay"
+                android:textSize="12.4sp" />
 
+            <TextView
+                android:id="@+id/status_tv"
+                style="@style/MatchWrap"
+                android:layout_below="@id/comment_tv"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/margin_3"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
+                android:text="@{productinforesponse.status}"
+                android:textColor="@color/ebony_clay"
+                android:textSize="12.4sp" />
 
-            </LinearLayout>
+            <!--Dummy view for showing selection-->
+            <ImageView
+                android:id="@+id/views_layout"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:background="@color/alpha_corn_flower_blue" />
 
         </RelativeLayout>
-
-        <TextView
-            android:id="@+id/comment_tv"
-            style="@style/MatchWrap"
-            android:layout_below="@id/views_layout"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:paddingLeft="@dimen/margin_10"
-            android:paddingRight="@dimen/margin_10"
-            android:text="@{`Merchant Comments :` + productinforesponse.merchantComments}"
-            android:textColor="@color/ebony_clay"
-            android:textSize="12.4sp"/>
-
-        <TextView
-            android:id="@+id/status_tv"
-            style="@style/MatchWrap"
-            android:layout_below="@id/comment_tv"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/margin_3"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:paddingLeft="@dimen/margin_10"
-            android:paddingRight="@dimen/margin_10"
-            android:text="@{productinforesponse.status}"
-            android:textColor="@color/ebony_clay"
-            android:textSize="12.4sp"/>
-
-    </RelativeLayout>
+    </android.support.v7.widget.CardView>
 </layout>

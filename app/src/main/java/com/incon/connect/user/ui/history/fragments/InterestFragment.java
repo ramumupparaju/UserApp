@@ -113,9 +113,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         interestAdapter = new InterestAdapter();
         interestAdapter.setClickCallback(iClickCallback);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                getContext(), linearLayoutManager.getOrientation());
-        binding.interestRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.interestRecyclerview.setAdapter(interestAdapter);
         binding.interestRecyclerview.setLayoutManager(linearLayoutManager);
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
