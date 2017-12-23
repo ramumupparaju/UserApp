@@ -19,7 +19,7 @@
                     style="@style/MatchWrap"
                     android:fitsSystemWindows="true"
                     app:contentScrim="?attr/colorPrimary"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+                    app:layout_scrollFlags="scroll|enterAlways|snap">
 
                     <RelativeLayout
                         android:layout_width="match_parent"

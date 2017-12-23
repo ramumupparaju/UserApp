@@ -55,9 +55,9 @@ public class TutorialActivity extends BaseActivity implements View.OnClickListen
 
 
         mResources = new int[]{
-                R.drawable.tutorial_1,
-                R.drawable.tutorial_2,
-                R.drawable.tutorial_3};
+                R.drawable.tut1,
+                R.drawable.tut2,
+                R.drawable.tut3};
 
         mTutorialPagerAdapter = new TutorialPagerAdapter(this, mResources);
         mViewPager.setAdapter(mTutorialPagerAdapter);
