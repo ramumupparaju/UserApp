@@ -23,8 +23,7 @@
         <RelativeLayout
             android:id="@+id/layout_purchsed_item"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:padding="@dimen/margin_5">
+            android:layout_height="90dp">
 
 
             <!--brand image-->
@@ -32,6 +31,7 @@
                 android:id="@+id/brand_imageview"
                 android:layout_width="45dp"
                 android:layout_height="32dp"
+                android:layout_marginLeft="@dimen/margin_10"
                 android:alpha="70" />
 
             <!--product image-->
@@ -46,11 +46,12 @@
                 android:id="@+id/purchased_name"
                 style="@style/BothWrap"
                 fontPath="fonts/OpenSans-Bold.ttf"
-                android:layout_toLeftOf="@id/warrenty_icon"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_toLeftOf="@id/status_layout"
                 android:layout_toRightOf="@id/product_imageview"
+                android:maxLines="2"
                 android:text="@={productinforesponse.productName}"
                 android:textAllCaps="true"
-                android:maxLines="2"
                 android:textColor="@color/ebony_clay"
                 android:textSize="12.4sp" />
 
@@ -80,7 +81,7 @@
                 style="@style/MatchWrap"
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/margin_3"
-                android:layout_marginRight="@dimen/margin_3"
+                android:layout_marginRight="@dimen/margin_10"
                 android:layout_toRightOf="@id/purchased_date"
                 android:ellipsize="end"
                 android:gravity="right"
@@ -89,24 +90,31 @@
                 android:textColor="@color/black"
                 android:textSize="12.4sp" />
 
-            <!--favorite icon-->
-            <ImageView
-                android:id="@+id/favourite_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+            <LinearLayout
+                android:id="@+id/status_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_5"
-                android:src="@drawable/fav"
-                android:textSize="12.4sp" />
+                android:layout_marginRight="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_5"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <!--warranty icon-->
-            <ImageView
-                android:id="@+id/warrenty_icon"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="@dimen/margin_10" />
+                <!--favorite icon-->
+                <ImageView
+                    android:id="@+id/favourite_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/fav"
+                    android:textSize="12.4sp" />
+
+                <!--warranty icon-->
+                <ImageView
+                    android:id="@+id/warrenty_icon"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="@dimen/margin_5" />
+            </LinearLayout>
 
             <!--Dummy view for showing selection-->
             <ImageView
