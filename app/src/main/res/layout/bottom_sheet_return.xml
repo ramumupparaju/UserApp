@@ -12,7 +12,7 @@
             android:text="12"/>
 
         <LinearLayout
-            android:id="@+id/top_row"
+            android:id="@+id/second_row"
             style="@style/MatchWrap"
             android:orientation="horizontal"
             android:visibility="gone"
@@ -21,7 +21,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/bottom_row"
+            android:id="@+id/first_row"
             style="@style/MatchWrap"
             android:orientation="horizontal">
 

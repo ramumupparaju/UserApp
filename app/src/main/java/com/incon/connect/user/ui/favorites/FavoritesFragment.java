@@ -30,15 +30,14 @@ import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppUserAddressDialog;
 import com.incon.connect.user.databinding.BottomSheetFavouriteBinding;
-import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
-import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.addnewmodel.AddNewModelFragment;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
+import com.incon.connect.user.ui.history.base.BaseProductOptionsFragment;
 import com.incon.connect.user.ui.history.fragments.PurchasedFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.utils.DateUtils;
@@ -55,7 +54,7 @@ import static com.incon.connect.user.ui.BaseActivity.TRANSACTION_TYPE_REPLACE;
  * Created by PC on 11/4/2017.
  */
 
-public class FavoritesFragment extends BaseFragment implements FavoritesContract.View,
+public class FavoritesFragment extends BaseProductOptionsFragment implements FavoritesContract.View,
         View.OnClickListener {
     private FragmentFavoritesBinding binding;
     private FavoritesPresenter favoritesPresenter;
@@ -173,11 +172,9 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     }
 
     // load bottom sheet
-    private void loadBottomSheet() {
-        bottomSheetFavouriteBinding = DataBindingUtil.inflate(LayoutInflater.from(
-                getActivity()), R.layout.bottom_sheet_favourite, null, false);
-        bottomSheetDialog = new BottomSheetDialog(getActivity());
-        bottomSheetDialog.setContentView(bottomSheetFavouriteBinding.getRoot());
+    @Override
+    public void loadBottomSheet() {
+        super.loadBottomSheet();
         bottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
@@ -304,32 +301,25 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         bottomNames[0] = getString(R.string.bottom_option_service);
         bottomNames[1] = getString(R.string.bottom_option_product);
         bottomNames[2] = getString(R.string.bottom_option_showroom);
-//        bottomNames[3] = getString(R.string.bottom_option_add_as_favorite);
 
         int[] bottomDrawables = new int[3];
         bottomDrawables[0] = R.drawable.ic_option_service_support;
         bottomDrawables[1] = R.drawable.ic_option_product;
         bottomDrawables[2] = R.drawable.ic_option_customer;
-//        bottomDrawables[3] = R.drawable.ic_option_favorites;
 
         bottomSheetFavouriteBinding.bottomRow.removeAllViews();
         int length = bottomNames.length;
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(
-                        0, ViewGroup.LayoutParams.MATCH_PARENT, length);
-//        params.setMargins(1, 1, 1, 1);
         for (int i = 0; i < length; i++) {
-            LinearLayout linearLayout = new LinearLayout(getContext());
-            linearLayout.setWeightSum(1f);
-            linearLayout.setGravity(Gravity.CENTER);
-            CustomBottomViewBinding customBottomView = getCustomBottomView();
-            customBottomView.viewTv.setText(bottomNames[i]);
-            customBottomView.viewLogo.setImageResource(bottomDrawables[i]);
-            View bottomRootView = customBottomView.getRoot();
-            bottomRootView.setTag(i);
-            linearLayout.addView(bottomRootView);
-            bottomRootView.setOnClickListener(bottomViewClickListener);
-            bottomSheetFavouriteBinding.bottomRow.addView(linearLayout, params);
+
+            LinearLayout customBottomView = getCustomBottomView();
+
+            getBottomTextView(customBottomView).setText(bottomNames[i]);
+            getBottomImageView(customBottomView).setImageResource(bottomDrawables[i]);
+
+            customBottomView.setTag(i);
+
+            customBottomView.setOnClickListener(bottomViewClickListener);
+            bottomSheetFavouriteBinding.bottomRow.addView(customBottomView);
         }
     }
 
@@ -391,31 +381,20 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
             int length1 = bottomOptions.length;
             bottomSheetFavouriteBinding.topRow.setVisibility(View.VISIBLE);
             int length = length1;
-            LinearLayout.LayoutParams params =
-                    new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT);
-            params.setMargins(1, 1, 1, 1);
             for (int i = 0; i < length; i++) {
-                LinearLayout linearLayout = new LinearLayout(getContext());
-                linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-                CustomBottomViewBinding customBottomView = getCustomBottomView();
-                customBottomView.viewTv.setText(bottomOptions[i]);
-                customBottomView.viewLogo.setImageResource(topDrawables[i]);
-                View topRootView = customBottomView.getRoot();
-                topRootView.setTag(i);
-                linearLayout.addView(topRootView);
-                topRootView.setOnClickListener(topViewClickListener);
-                bottomSheetFavouriteBinding.topRow.addView(linearLayout, params);
+
+                LinearLayout customBottomView = getCustomBottomView();
+
+                getBottomTextView(customBottomView).setText(bottomOptions[i]);
+                getBottomImageView(customBottomView).setImageResource(topDrawables[i]);
+
+                customBottomView.setTag(i);
+
+                customBottomView.setOnClickListener(topViewClickListener);
+                bottomSheetFavouriteBinding.topRow.addView(customBottomView);
             }
         }
     };
-
-    private CustomBottomViewBinding getCustomBottomView() {
-        return DataBindingUtil.inflate(
-                LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
-    }
-
 
     // bottom sheet top view click event
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
@@ -568,18 +547,15 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
                             0, ViewGroup.LayoutParams.WRAP_CONTENT, length);
             params.setMargins(1, 1, 1, 1);
             for (int i = 0; i < length; i++) {
-                LinearLayout linearLayout = new LinearLayout(getContext());
-                linearLayout.setWeightSum(1f);
-                linearLayout.setGravity(Gravity.CENTER);
-                CustomBottomViewBinding customBottomView = getCustomBottomView();
-                customBottomView.viewTv.setText(bottomOptions[i]);
-                customBottomView.viewTv.setTextSize(10f);
-                customBottomView.viewLogo.setImageResource(topDrawables[i]);
-                View bottomRootView = customBottomView.getRoot();
-                bottomRootView.setTag(i);
-                linearLayout.addView(bottomRootView);
-                bottomRootView.setOnClickListener(secondtopViewClickListener);
-                bottomSheetFavouriteBinding.secondTopRow.addView(linearLayout, params);
+                LinearLayout customBottomView = getCustomBottomView();
+
+                getBottomTextView(customBottomView).setText(bottomOptions[i]);
+                getBottomImageView(customBottomView).setImageResource(topDrawables[i]);
+
+                customBottomView.setTag(i);
+
+                customBottomView.setOnClickListener(secondtopViewClickListener);
+                bottomSheetFavouriteBinding.secondTopRow.addView(customBottomView);
             }
         }
     };

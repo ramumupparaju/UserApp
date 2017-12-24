@@ -30,9 +30,9 @@
     <application
         android:name="com.incon.connect.user.ConnectApplication"
         android:allowBackup="true"
-        android:icon="@drawable/connect_icon_service"
+        android:icon="@drawable/connect_icon"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/connect_icon_service"
+        android:roundIcon="@drawable/connect_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity

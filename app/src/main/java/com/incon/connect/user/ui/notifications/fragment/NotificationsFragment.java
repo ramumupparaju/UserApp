@@ -9,15 +9,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.notifications.NotificationsResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.BottomSheetNotificationsBinding;
-import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentNotificationsBinding;
-import com.incon.connect.user.ui.BaseFragment;
+import com.incon.connect.user.ui.history.base.BaseProductOptionsFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.notifications.fragment.adapter.NotificationsAdapter;
 
@@ -29,7 +29,7 @@ import java.util.Random;
  * Created by PC on 10/2/2017.
  */
 
-public class NotificationsFragment extends BaseFragment {
+public class NotificationsFragment extends BaseProductOptionsFragment {
     private View rootView;
     private FragmentNotificationsBinding binding;
     private NotificationsAdapter notificationsAdapter;
@@ -108,14 +108,22 @@ public class NotificationsFragment extends BaseFragment {
 
         bottomSheetNotificationsBinding.topRow.setVisibility(View.GONE);
         bottomSheetNotificationsBinding.bottomRow.removeAllViews();
-//TODO have to create based on response
         int noOfViews = new Random().nextInt(4);
+
+        //TODO have to create based on response
         for (int i = 0; i < noOfViews; i++) {
-            CustomBottomViewBinding customBottomView = getCustomBottomView();
-            customBottomView.viewTv.setText("position :" + i);
-            View bottomRootView = customBottomView.getRoot();
-            bottomRootView.setOnClickListener(bottomViewClickListener);
-            bottomSheetNotificationsBinding.bottomRow.addView(bottomRootView);
+
+
+            LinearLayout customBottomView = getCustomBottomView();
+
+            getBottomTextView(customBottomView).setText("position :" + i);
+//            getBottomImageView(customBottomView).setImageResource(bottomDrawables[i]);
+
+            customBottomView.setTag(i);
+
+            customBottomView.setOnClickListener(bottomViewClickListener);
+            bottomSheetNotificationsBinding.bottomRow.addView(customBottomView);
+
         }
     }
 
@@ -128,11 +136,16 @@ public class NotificationsFragment extends BaseFragment {
             String bottomClickedText = viewById.getText().toString();
             int noOfViews = new Random().nextInt(4);
             for (int i = 0; i < noOfViews; i++) {
-                CustomBottomViewBinding customBottomView = getCustomBottomView();
-                customBottomView.viewTv.setText(bottomClickedText + i);
-                View topRootView = customBottomView.getRoot();
-                topRootView.setOnClickListener(topViewClickListener);
-                bottomSheetNotificationsBinding.topRow.addView(topRootView);
+
+
+                LinearLayout customBottomView = getCustomBottomView();
+
+                getBottomTextView(customBottomView).setText(bottomClickedText + i);
+
+                customBottomView.setTag(i);
+
+                customBottomView.setOnClickListener(topViewClickListener);
+                bottomSheetNotificationsBinding.topRow.addView(customBottomView);
             }
         }
     };
@@ -145,12 +158,6 @@ public class NotificationsFragment extends BaseFragment {
             showErrorMessage(topClickedText);
         }
     };
-
-    private CustomBottomViewBinding getCustomBottomView() {
-        return DataBindingUtil.inflate(
-                LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
-    }
-
 
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
             new SwipeRefreshLayout.OnRefreshListener() {

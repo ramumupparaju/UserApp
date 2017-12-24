@@ -7,7 +7,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/second_top_row"
+            android:id="@+id/third_row"
             style="@style/BothMatch"
             android:orientation="horizontal"
             android:visibility="gone">
@@ -22,7 +22,7 @@
             android:scrollbars="horizontal">
 
             <LinearLayout
-                android:id="@+id/top_row"
+                android:id="@+id/second_row"
                 style="@style/BothMatch"
                 android:orientation="horizontal"
                 android:visibility="gone">
@@ -31,7 +31,7 @@
         </HorizontalScrollView>
 
         <LinearLayout
-            android:id="@+id/bottom_row"
+            android:id="@+id/first_row"
             style="@style/MatchWrap"
             android:orientation="horizontal">
 

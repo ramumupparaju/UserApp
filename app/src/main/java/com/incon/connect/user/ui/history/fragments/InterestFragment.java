@@ -6,10 +6,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +24,6 @@ import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppFeedBackDialog;
 import com.incon.connect.user.databinding.BottomSheetInterestBinding;
-import com.incon.connect.user.databinding.CustomBottomViewBinding;
 import com.incon.connect.user.databinding.FragmentInterestBinding;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.history.adapter.InterestAdapter;
@@ -154,23 +151,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
 
         bottomSheetInterestBinding.bottomRow.removeAllViews();
         int length = bottomNames.length;
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(
-                        0, ViewGroup.LayoutParams.WRAP_CONTENT, length);
-        params.setMargins(1, 1, 1, 1);
         for (int i = 0; i < length; i++) {
-            LinearLayout linearLayout = new LinearLayout(getContext());
-            linearLayout.setWeightSum(1f);
-            linearLayout.setGravity(Gravity.CENTER);
-            CustomBottomViewBinding customBottomView = getCustomBottomView();
-            customBottomView.viewTv.setText(bottomNames[i]);
-            customBottomView.viewTv.setTextSize(10f);
-            customBottomView.viewLogo.setImageResource(bottomDrawables[i]);
-            View bottomRootView = customBottomView.getRoot();
-            bottomRootView.setTag(i);
-            linearLayout.addView(bottomRootView);
-            bottomRootView.setOnClickListener(bottomViewClickListener);
-            bottomSheetInterestBinding.bottomRow.addView(linearLayout, params);
+            LinearLayout customBottomView = getCustomBottomView();
+
+            getBottomTextView(customBottomView).setText(bottomNames[i]);
+            getBottomImageView(customBottomView).setImageResource(bottomDrawables[i]);
+
+            customBottomView.setTag(i);
+
+            customBottomView.setOnClickListener(bottomViewClickListener);
+            bottomSheetInterestBinding.bottomRow.addView(customBottomView);
         }
     }
 
@@ -215,24 +205,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             int length1 = bottomOptions.length;
             bottomSheetInterestBinding.topRow.setVisibility(View.VISIBLE);
             int length = length1;
-            LinearLayout.LayoutParams params =
-                    new LinearLayout.LayoutParams(
-                            0,
-                            ViewGroup.LayoutParams.MATCH_PARENT, length);
-            params.setMargins(1, 1, 1, 1);
             for (int i = 0; i < length; i++) {
-                LinearLayout linearLayout = new LinearLayout(getContext());
-                linearLayout.setWeightSum(1f);
-                linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-                CustomBottomViewBinding customBottomView = getCustomBottomView();
-                customBottomView.viewTv.setText(bottomOptions[i]);
-                customBottomView.viewTv.setTextSize(10f);
-                customBottomView.viewLogo.setImageResource(topDrawables[i]);
-                View topRootView = customBottomView.getRoot();
-                topRootView.setTag(i);
-                topRootView.setOnClickListener(topViewClickListener);
-                linearLayout.addView(topRootView);
-                bottomSheetInterestBinding.topRow.addView(linearLayout, params);
+                LinearLayout customBottomView = getCustomBottomView();
+
+                getBottomTextView(customBottomView).setText(bottomOptions[i]);
+                getBottomImageView(customBottomView).setImageResource(topDrawables[i]);
+
+                customBottomView.setTag(i);
+
+                customBottomView.setOnClickListener(topViewClickListener);
+                bottomSheetInterestBinding.topRow.addView(customBottomView);
             }
         }
     };
@@ -353,18 +335,16 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                             0, ViewGroup.LayoutParams.WRAP_CONTENT, length);
             params.setMargins(1, 1, 1, 1);
             for (int i = 0; i < length; i++) {
-                LinearLayout linearLayout = new LinearLayout(getContext());
-                linearLayout.setWeightSum(1f);
-                linearLayout.setGravity(Gravity.CENTER);
-                CustomBottomViewBinding customBottomView = getCustomBottomView();
-                customBottomView.viewTv.setText(bottomOptions[i]);
-                customBottomView.viewTv.setTextSize(10f);
-                customBottomView.viewLogo.setImageResource(topDrawables[i]);
-                View bottomRootView = customBottomView.getRoot();
-                bottomRootView.setTag(i);
-                linearLayout.addView(bottomRootView);
-                bottomRootView.setOnClickListener(secondtopViewClickListener);
-                bottomSheetInterestBinding.secondtopRow.addView(linearLayout, params);
+
+                LinearLayout customBottomView = getCustomBottomView();
+
+                getBottomTextView(customBottomView).setText(bottomOptions[i]);
+                getBottomImageView(customBottomView).setImageResource(topDrawables[i]);
+
+                customBottomView.setTag(i);
+
+                customBottomView.setOnClickListener(secondtopViewClickListener);
+                bottomSheetInterestBinding.secondtopRow.addView(customBottomView);
             }
         }
     };
@@ -386,15 +366,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                                 HashMap<String, String> buyRequestApi = new HashMap<>();
                                 buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
                                         String.valueOf(userId));
-                              /*  ProductInfoResponse productInfoResponse = interestAdapter.
-                                        getItemFromPosition(productSelectedPosition);
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
-                                        String.valueOf(productInfoResponse.getMerchantId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
-                                        String.valueOf(productInfoResponse.getQrcodeId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
-                                        buyRequestComment);
-                                interestPresenter.buyRequestApi(buyRequestApi);*/
                                 break;
                             case AlertDialogCallback.CANCEL:
                                 feedBackDialog.dismiss();
@@ -531,11 +502,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
 
     private void callPhoneNumber(String phoneNumber) {
         AppUtils.callPhoneNumber(getActivity(), phoneNumber);
-    }
-
-    private CustomBottomViewBinding getCustomBottomView() {
-        return DataBindingUtil.inflate(
-                LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
     }
 
     // data re load

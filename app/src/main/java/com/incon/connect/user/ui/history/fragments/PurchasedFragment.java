@@ -5,13 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +27,6 @@ import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppFeedBackDialog;
-import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
-import com.incon.connect.user.databinding.CustomBottomViewBinding;
-import com.incon.connect.user.databinding.CustomBottomViewProductBinding;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.ui.RegistrationMapActivity;
@@ -60,8 +54,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private FragmentPurchasedBinding binding;
     private PurchasedAdapter purchasedAdapter;
     private int userId;
-    private BottomSheetDialog bottomSheetDialog;
-    private BottomSheetPurchasedBinding bottomSheetPurchasedBinding;
     private int productSelectedPosition = -1;
     private AppAlertDialog detailsDialog;
     private AppCheckBoxListDialog productLocationDialog;
@@ -102,11 +94,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     }
 
     // load bottom sheet
-    private void loadBottomSheet() {
-        bottomSheetPurchasedBinding = DataBindingUtil.inflate(LayoutInflater.from(
-                getActivity()), R.layout.bottom_sheet_purchased, null, false);
-        bottomSheetDialog = new BottomSheetDialog(getActivity());
-        bottomSheetDialog.setContentView(bottomSheetPurchasedBinding.getRoot());
+    @Override
+    public void loadBottomSheet() {
+        super.loadBottomSheet();
         bottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
@@ -121,9 +111,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         purchasedAdapter = new PurchasedAdapter();
         purchasedAdapter.setClickCallback(iClickCallback);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                getContext(), linearLayoutManager.getOrientation());
-        binding.purchasedRecyclerview.addItemDecoration(dividerItemDecoration);*/
         binding.purchasedRecyclerview.setAdapter(purchasedAdapter);
         binding.purchasedRecyclerview.setLayoutManager(linearLayoutManager);
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
@@ -158,15 +145,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 addressId = getArguments().getInt(BundleConstants.ADDRESS_ID);
                 callAddFavoriteApi();
             } else {
-                createBottomSheetView(position);
+                createBottomSheetFirstRow(position);
                 bottomSheetDialog.show();
             }
         }
     };
 
-    // bottom sheet creation
-    private void createBottomSheetView(int position) {
-        bottomSheetPurchasedBinding.topRow.setVisibility(View.GONE);
+    // bottom sheet first row creation
+    private void createBottomSheetFirstRow(int position) {
         int length;
         int[] bottomDrawables;
         String[] bottomNames;
@@ -177,7 +163,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             bottomNames[1] = getString(R.string.bottom_option_product);
             bottomNames[2] = getString(R.string.bottom_option_showroom);
             bottomNames[3] = getString(R.string.bottom_option_delete);
-//            bottomNames[3] = getString(R.string.bottom_option_add_as_favorite);
 
             bottomDrawables = new int[4];
             bottomDrawables[0] = R.drawable.ic_option_service_support;
@@ -186,11 +171,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             bottomDrawables[3] = R.drawable.ic_option_delete;
             length = bottomNames.length;
 
-//            bottomDrawables[3] = R.drawable.ic_option_favorite;
-
         } else {
             ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(productSelectedPosition);
-
             boolean showFav = false;
             if (productInfoResponse.getStatus().equalsIgnoreCase(StatusConstants.INSTALLED) && productInfoResponse.getAddressId() == null) {
                 showFav = true;
@@ -214,29 +196,16 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
         }
 
-        bottomSheetPurchasedBinding.bottomRow.removeAllViews();
-//        int length = bottomNames.length;
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(
-                        0, ViewGroup.LayoutParams.MATCH_PARENT, length);
-//        params.setMargins(1, 1, 1, 1);
-        for (int i = 0; i < length; i++) {
-            LinearLayout linearLayout = new LinearLayout(getContext());
-            linearLayout.setWeightSum(1f);
-            linearLayout.setGravity(Gravity.CENTER);
-            CustomBottomViewBinding customBottomView = getCustomBottomView();
-            customBottomView.viewTv.setText(bottomNames[i]);
-            customBottomView.viewLogo.setImageResource(bottomDrawables[i]);
-            View bottomRootView = customBottomView.getRoot();
-            bottomRootView.setTag(i);
-            linearLayout.addView(bottomRootView);
-            bottomRootView.setOnClickListener(bottomViewClickListener);
-            bottomSheetPurchasedBinding.bottomRow.addView(linearLayout, params);
-        }
+        bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
+        bottomSheetPurchasedBinding.secondRow.setVisibility(View.GONE);
+        bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
+        bottomSheetPurchasedBinding.firstRow.removeAllViews();
+        bottomSheetPurchasedBinding.firstRow.setWeightSum(length);
+        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, bottomNames, bottomDrawables, bottomSheetFirstRowClickListener);
     }
 
     // bottom sheet click event
-    private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
+    private View.OnClickListener bottomSheetFirstRowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Integer tag = (Integer) view.getTag();
@@ -293,28 +262,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables = new int[0];
                 showFavoriteOptionsDialog();
             }
-            bottomSheetPurchasedBinding.secondTopRow.removeAllViews();
-            bottomSheetPurchasedBinding.topRow.removeAllViews();
-            int length1 = bottomOptions.length;
-            bottomSheetPurchasedBinding.topRow.setVisibility(View.VISIBLE);
-            int length = length1;
-            LinearLayout.LayoutParams params =
-                    new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT);
-            params.setMargins(1, 1, 1, 1);
-            for (int i = 0; i < length; i++) {
-                LinearLayout linearLayout = new LinearLayout(getContext());
-                linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-                CustomBottomViewBinding customBottomView = getCustomBottomView();
-                customBottomView.viewTv.setText(bottomOptions[i]);
-                customBottomView.viewLogo.setImageResource(topDrawables[i]);
-                View topRootView = customBottomView.getRoot();
-                topRootView.setTag(i);
-                linearLayout.addView(topRootView);
-                topRootView.setOnClickListener(topViewClickListener);
-                bottomSheetPurchasedBinding.topRow.addView(linearLayout, params);
-            }
+
+            bottomSheetPurchasedBinding.secondRow.setVisibility(View.VISIBLE);
+            bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
+            bottomSheetPurchasedBinding.secondRow.removeAllViews();
+            bottomSheetPurchasedBinding.secondRow.setWeightSum(bottomOptions.length);
+            setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, bottomOptions, topDrawables, bottomSheetSecondRowClickListener);
         }
     };
 
@@ -379,7 +332,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     }
 
     // bottom sheet top view click event
-    private View.OnClickListener topViewClickListener = new View.OnClickListener() {
+    private View.OnClickListener bottomSheetSecondRowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
@@ -526,28 +479,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
             }
-            bottomSheetPurchasedBinding.secondTopRow.removeAllViews();
-            int length1 = bottomOptions.length;
-            bottomSheetPurchasedBinding.secondTopRow.setVisibility(View.VISIBLE);
-            int length = length1;
-            LinearLayout.LayoutParams params =
-                    new LinearLayout.LayoutParams(
-                            0, ViewGroup.LayoutParams.WRAP_CONTENT, length);
-            params.setMargins(1, 1, 1, 1);
-            for (int i = 0; i < length; i++) {
-                LinearLayout linearLayout = new LinearLayout(getContext());
-                linearLayout.setWeightSum(1f);
-                linearLayout.setGravity(Gravity.CENTER);
-                CustomBottomViewBinding customBottomView = getCustomBottomView();
-                customBottomView.viewTv.setText(bottomOptions[i]);
-                customBottomView.viewTv.setTextSize(10f);
-                customBottomView.viewLogo.setImageResource(topDrawables[i]);
-                View bottomRootView = customBottomView.getRoot();
-                bottomRootView.setTag(i);
-                linearLayout.addView(bottomRootView);
-                bottomRootView.setOnClickListener(secondtopViewClickListener);
-                bottomSheetPurchasedBinding.secondTopRow.addView(linearLayout, params);
-            }
+
+
+            bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
+            bottomSheetPurchasedBinding.thirdRow.removeAllViews();
+            bottomSheetPurchasedBinding.thirdRow.setWeightSum(bottomOptions.length);
+            setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, bottomOptions, topDrawables, bottomSheetThirdRowClickListener);
         }
     };
 
@@ -566,15 +503,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                                 HashMap<String, String> buyRequestApi = new HashMap<>();
                                 buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
                                         String.valueOf(userId));
-                              /*  ProductInfoResponse productInfoResponse = interestAdapter.
-                                        getItemFromPosition(productSelectedPosition);
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
-                                        String.valueOf(productInfoResponse.getMerchantId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
-                                        String.valueOf(productInfoResponse.getQrcodeId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
-                                        buyRequestComment);
-                                interestPresenter.buyRequestApi(buyRequestApi);*/
                                 break;
                             case AlertDialogCallback.CANCEL:
                                 buyFeedBackRequestDialog.dismiss();
@@ -668,7 +596,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         dialogDelete.setButtonBlueUnselectBackground();
     }
 
-    private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
+    private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             TextView viewById = (TextView) view.findViewById(R.id.view_tv);
@@ -699,20 +627,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
                 );
             }
-       /*  else if (tag == 0 && topClickedText.equals(getString(
-        R.string.bottom_option_return_policy))) {
-        }   else if (tag == 1 && topClickedText.equals(getString(
-        R.string.bottom_option_special_instructions))) {
-        }   else if (tag == 2 && topClickedText.equals(getString(
-        R.string.bottom_option_how_to_use))) {
-        }  else if (tag == 3 && topClickedText.equals(getString(
-        R.string.bottom_option_warranty))) {
-        }  else if (tag == 4 && topClickedText.equals(getString(
-        R.string.bottom_option_share))) {
-        }
-        else  if (tag == 0 && topClickedText.equals(getString(
-        R.string.bottom_option_feedback))) {
-        }*/
         }
 
     };
@@ -756,17 +670,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     private void callPhoneNumber(String phoneNumber) {
         AppUtils.callPhoneNumber(getActivity(), phoneNumber);
-    }
-
-    private CustomBottomViewBinding getCustomBottomView() {
-        return DataBindingUtil.inflate(
-                LayoutInflater.from(getActivity()), R.layout.custom_bottom_view, null, false);
-    }
-
-    private CustomBottomViewProductBinding getCustomBottomProductView() {
-        return DataBindingUtil.inflate(
-                LayoutInflater.from(getActivity()), R.layout.custom_bottom_view_product, null,
-                false);
     }
 
 
