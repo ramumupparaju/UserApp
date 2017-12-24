@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
@@ -23,7 +22,6 @@ import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppFeedBackDialog;
-import com.incon.connect.user.databinding.BottomSheetInterestBinding;
 import com.incon.connect.user.databinding.FragmentInterestBinding;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.history.adapter.InterestAdapter;
@@ -43,8 +41,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private View rootView;
     private InterestPresenter interestPresenter;
     private InterestAdapter interestAdapter;
-    private BottomSheetInterestBinding bottomSheetInterestBinding;
-    private BottomSheetDialog bottomSheetDialog;
     private AppAlertDialog detailsDialog;
     private AppEditTextDialog buyRequestDialog;
     private int userId;
@@ -91,11 +87,9 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     }
 
     // load bottom sheet
-    private void loadBottomSheet() {
-        bottomSheetInterestBinding = DataBindingUtil.inflate(LayoutInflater.from(
-                getActivity()), R.layout.bottom_sheet_interest, null, false);
-        bottomSheetDialog = new BottomSheetDialog(getActivity());
-        bottomSheetDialog.setContentView(bottomSheetInterestBinding.getRoot());
+    @Override
+    public void loadBottomSheet() {
+        super.loadBottomSheet();
         bottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
@@ -133,7 +127,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     };
 
     // bottom sheet creation
-    private void createBottomSheetView(int position) {
+    private void createBottomSheetView(int position) /*{
         productSelectedPosition = position;
         bottomSheetInterestBinding.topRow.setVisibility(View.GONE);
 
@@ -162,12 +156,12 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             customBottomView.setOnClickListener(bottomViewClickListener);
             bottomSheetInterestBinding.bottomRow.addView(customBottomView);
         }
-    }
+    }*/{}
 
     // bottom sheet click event
     private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view) /*{
             Integer tag = (Integer) view.getTag();
             String[] bottomOptions;
             int[] topDrawables;
@@ -216,7 +210,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 customBottomView.setOnClickListener(topViewClickListener);
                 bottomSheetInterestBinding.topRow.addView(customBottomView);
             }
-        }
+        }*/{}
     };
 
     //buy request dialog
@@ -264,7 +258,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     // bottom sheet top view click event
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view) /*{
             TextView viewById = (TextView) view.findViewById(R.id.view_tv);
             String topClickedText = viewById.getText().toString();
             Integer tag = (Integer) view.getTag();
@@ -273,13 +267,13 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             int[] topDrawables;
             ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
                     productSelectedPosition);
-          /*  if (tag == 0 && topClickedText.equals(getString(
+          *//*  if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_note))) {
                 bottomOptions = new String[0];
                 topDrawables = new int[0];
                 showBuyRequestDialog();
             }
-            else*/
+            else*//*
 
             if (tag == 0 && topClickedText.equals(getString(
                     R.string.bottom_option_main_features))) {
@@ -346,7 +340,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 customBottomView.setOnClickListener(secondtopViewClickListener);
                 bottomSheetInterestBinding.secondtopRow.addView(customBottomView);
             }
-        }
+        }*/{}
     };
 
     // feedback dialog

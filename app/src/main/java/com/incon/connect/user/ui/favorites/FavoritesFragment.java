@@ -294,7 +294,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     };
 
     // bottom sheet creation
-    private void createBottomSheetView(int position) {
+    private void createBottomSheetView(int position) /*{
         productSelectedPosition = position;
         bottomSheetFavouriteBinding.topRow.setVisibility(View.GONE);
         String[] bottomNames = new String[3];
@@ -321,12 +321,12 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             customBottomView.setOnClickListener(bottomViewClickListener);
             bottomSheetFavouriteBinding.bottomRow.addView(customBottomView);
         }
-    }
+    }*/ {}
 
     // bottom sheet click event
     private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view) /*{
             Integer tag = (Integer) view.getTag();
             String[] bottomOptions;
             int[] topDrawables;
@@ -393,13 +393,13 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 customBottomView.setOnClickListener(topViewClickListener);
                 bottomSheetFavouriteBinding.topRow.addView(customBottomView);
             }
-        }
+        }*/{}
     };
 
     // bottom sheet top view click event
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view) /*{
             ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(
                     productSelectedPosition);
             TextView viewById = (TextView) view.findViewById(R.id.view_tv);
@@ -557,7 +557,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 customBottomView.setOnClickListener(secondtopViewClickListener);
                 bottomSheetFavouriteBinding.secondTopRow.addView(customBottomView);
             }
-        }
+        }*/{}
     };
 
 

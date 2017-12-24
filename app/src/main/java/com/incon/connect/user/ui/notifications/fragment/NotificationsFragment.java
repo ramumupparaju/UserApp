@@ -65,7 +65,8 @@ public class NotificationsFragment extends BaseProductOptionsFragment {
         return rootView;
     }
 
-    private void loadBottomSheet() {
+    @Override
+    public void loadBottomSheet() {
         bottomSheetNotificationsBinding = DataBindingUtil.inflate(LayoutInflater.from(
                 getActivity()), R.layout.bottom_sheet_notifications, null, false);
 
@@ -102,7 +103,7 @@ public class NotificationsFragment extends BaseProductOptionsFragment {
         }
     };
 
-    private void createBottomSheetView(int position) {
+    private void createBottomSheetView(int position) /*{
 
         bottomSheetNotificationsBinding.sheetTitle.setText("item : " + position);
 
@@ -125,11 +126,11 @@ public class NotificationsFragment extends BaseProductOptionsFragment {
             bottomSheetNotificationsBinding.bottomRow.addView(customBottomView);
 
         }
-    }
+    }*/{}
 
     private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view) /*{
             bottomSheetNotificationsBinding.topRow.removeAllViews();
             bottomSheetNotificationsBinding.topRow.setVisibility(View.VISIBLE);
             TextView viewById = (TextView) view.findViewById(R.id.view_tv);
@@ -147,7 +148,7 @@ public class NotificationsFragment extends BaseProductOptionsFragment {
                 customBottomView.setOnClickListener(topViewClickListener);
                 bottomSheetNotificationsBinding.topRow.addView(customBottomView);
             }
-        }
+        }*/{}
     };
 
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {

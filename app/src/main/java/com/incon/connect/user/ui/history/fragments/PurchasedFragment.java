@@ -156,44 +156,31 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         int length;
         int[] bottomDrawables;
         String[] bottomNames;
-        if (purchasedAdapter.
-                getItemFromPosition(position).getAddressId() != null) {
-            bottomNames = new String[4];
-            bottomNames[0] = getString(R.string.bottom_option_service);
-            bottomNames[1] = getString(R.string.bottom_option_product);
-            bottomNames[2] = getString(R.string.bottom_option_showroom);
-            bottomNames[3] = getString(R.string.bottom_option_delete);
-
-            bottomDrawables = new int[4];
-            bottomDrawables[0] = R.drawable.ic_option_service_support;
-            bottomDrawables[1] = R.drawable.ic_option_product;
-            bottomDrawables[2] = R.drawable.ic_option_customer;
-            bottomDrawables[3] = R.drawable.ic_option_delete;
-            length = bottomNames.length;
-
+        ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(productSelectedPosition);
+        // checking whether product is installed or not
+        if (productInfoResponse.getStatus().equalsIgnoreCase(StatusConstants.INSTALLED) && productInfoResponse.getAddressId() == null) {
+            length = 5;
+        } else if (productInfoResponse.getAddressId() != null) { //checking whether it is already installed or not
+            length = 4;
         } else {
-            ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(productSelectedPosition);
-            boolean showFav = false;
-            if (productInfoResponse.getStatus().equalsIgnoreCase(StatusConstants.INSTALLED) && productInfoResponse.getAddressId() == null) {
-                showFav = true;
-            }
-            bottomNames = new String[showFav ? 5 : 4];
-            bottomNames[0] = getString(R.string.bottom_option_service);
-            bottomNames[1] = getString(R.string.bottom_option_product);
-            bottomNames[2] = getString(R.string.bottom_option_showroom);
-            bottomNames[3] = getString(R.string.bottom_option_delete);
-            if (showFav)
-                bottomNames[4] = getString(R.string.bottom_option_add_as_favorite);
+            length = 4;
+        }
 
-            bottomDrawables = new int[5];
-            bottomDrawables[0] = R.drawable.ic_option_service_support;
-            bottomDrawables[1] = R.drawable.ic_option_product;
-            bottomDrawables[2] = R.drawable.ic_option_customer;
-            bottomDrawables[3] = R.drawable.ic_option_delete;
-            if (showFav)
-                bottomDrawables[4] = R.drawable.ic_user_favorite;
-            length = bottomNames.length;
+        bottomNames = new String[length];
+        bottomNames[0] = getString(R.string.bottom_option_service);
+        bottomNames[1] = getString(R.string.bottom_option_product);
+        bottomNames[2] = getString(R.string.bottom_option_showroom);
+        bottomNames[3] = getString(R.string.bottom_option_delete);
 
+        bottomDrawables = new int[length];
+        bottomDrawables[0] = R.drawable.ic_option_service_support;
+        bottomDrawables[1] = R.drawable.ic_option_product;
+        bottomDrawables[2] = R.drawable.ic_option_customer;
+        bottomDrawables[3] = R.drawable.ic_option_delete;
+
+        if (length == 5) {
+            bottomNames[4] = getString(R.string.bottom_option_add_as_favorite);
+            bottomDrawables[4] = R.drawable.ic_user_favorite;
         }
 
         bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
@@ -201,14 +188,15 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
         bottomSheetPurchasedBinding.firstRow.setWeightSum(length);
-        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, bottomNames, bottomDrawables, bottomSheetFirstRowClickListener);
+        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, bottomNames, bottomDrawables, bottomSheetFirstRowClickListener, "-1");
     }
 
     // bottom sheet click event
     private View.OnClickListener bottomSheetFirstRowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Integer tag = (Integer) view.getTag();
+            String unparsedTag = (String) view.getTag();
+            Integer tag = Integer.valueOf(unparsedTag);
             String[] bottomOptions;
             int[] topDrawables;
             changeBackgroundText(tag, view);
@@ -251,23 +239,19 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 topDrawables[0] = R.drawable.ic_option_call;
                 topDrawables[1] = R.drawable.ic_option_location;
                 topDrawables[2] = R.drawable.ic_option_feedback;
-                changeBackgroundText(tag, view);
             } else if (tag == 3) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
                 showDeleteDialog();
-                changeBackgroundText(tag, view);
+                return;
             } else {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
                 showFavoriteOptionsDialog();
+                return;
             }
 
             bottomSheetPurchasedBinding.secondRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.secondRow.removeAllViews();
             bottomSheetPurchasedBinding.secondRow.setWeightSum(bottomOptions.length);
-            setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, bottomOptions, topDrawables, bottomSheetSecondRowClickListener);
+            setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, bottomOptions, topDrawables, bottomSheetSecondRowClickListener, unparsedTag);
         }
     };
 
@@ -335,156 +319,122 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private View.OnClickListener bottomSheetSecondRowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            String unparsedTag = (String) view.getTag();
+            String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
+
+
             ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
-            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
-            String topClickedText = viewById.getText().toString();
-            Integer tag = (Integer) view.getTag();
-            String[] bottomOptions;
-            int[] topDrawables;
-            changeBackgroundText(tag, view);
-            if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_call_customer_care))) {
-                callPhoneNumber(itemFromPosition.getMobileNumber());
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
+            TextView viewById = view.findViewById(R.id.view_tv);
+//            changeBackgroundText(unparsedTag, view); //todo have to set selected one as highlighted remaining as grey
 
-            } else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_find_service_center))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
+            String[] bottomOptions = new String[0];
+            int[] topDrawables = new int[0];
 
-            } else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_service_request))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
+            int firstRowTag = Integer.parseInt(tagArray[0]);
+            int secondRowTag = Integer.parseInt(tagArray[1]);
 
-            } else if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_details))) {
-                bottomOptions = new String[4];
-                bottomOptions[0] = getString(R.string.bottom_option_return_policy);
-                bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
-                bottomOptions[2] = getString(R.string.bottom_option_how_to_use);
-                bottomOptions[3] = getString(R.string.bottom_option_description);
-                topDrawables = new int[4];
-                topDrawables[0] = R.drawable.ic_option_return_policy;
-                topDrawables[1] = R.drawable.ic_option_sp_instructions;
-                topDrawables[2] = R.drawable.ic_option_howtouse;
-                topDrawables[3] = R.drawable.ic_option_details;
+            // service/support
+            if (firstRowTag == 0) {
 
-            } else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_warranty))) {
-                String purchasedDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY);
-                String warrantyEndDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getWarrantyEndDate(), DateFormatterConstants.DD_MM_YYYY);
-                long noOfDays = DateUtils.convertDifferenceDateIndays(
-                        itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
-                String warrantyConditions = itemFromPosition.getWarrantyConditions();
-                showInformationDialog(getString(
-                        R.string.bottom_option_warranty), getString(
-                        R.string.purchased_warranty_status_now)
-                        + noOfDays + " Days Left "
-                        + "\n"
-                        + getString(
-                        R.string.purchased_purchased_date)
-                        + purchasedDate
-                        + "\n"
-                        + getString(
-                        R.string.purchased_warranty_covers_date)
-                        + warrantyConditions
-                        + "\n"
-                        + getString(
-                        R.string.purchased_warranty_ends_on) + warrantyEndDate);
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
+                //call customer care
+                if (secondRowTag == 0) {
+                    callPhoneNumber(itemFromPosition.getMobileNumber());
+                    return;
+                } else if (secondRowTag == 1) { // find service center
+                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                    bottomOptions = new String[0];
+                    topDrawables = new int[0];
+                } else if (secondRowTag == 2) { // service request
+                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                    bottomOptions = new String[0];
+                    topDrawables = new int[0];
+                }
+            } else if (firstRowTag == 1) { // product
 
-            } else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_bill))) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
+                if (secondRowTag == 0) { // details
+                    bottomOptions = new String[4];
+                    bottomOptions[0] = getString(R.string.bottom_option_return_policy);
+                    bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
+                    bottomOptions[2] = getString(R.string.bottom_option_how_to_use);
+                    bottomOptions[3] = getString(R.string.bottom_option_description);
+                    topDrawables = new int[4];
+                    topDrawables[0] = R.drawable.ic_option_return_policy;
+                    topDrawables[1] = R.drawable.ic_option_sp_instructions;
+                    topDrawables[2] = R.drawable.ic_option_howtouse;
+                    topDrawables[3] = R.drawable.ic_option_details;
+                } else if (secondRowTag == 1) { // warranty
 
-                Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, itemFromPosition);
-                billFormatIntent.putExtras(bundle);
-                startActivity(billFormatIntent);
+                    String purchasedDate = DateUtils.convertMillisToStringFormat(
+                            itemFromPosition.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY);
+                    String warrantyEndDate = DateUtils.convertMillisToStringFormat(
+                            itemFromPosition.getWarrantyEndDate(), DateFormatterConstants.DD_MM_YYYY);
+                    long noOfDays = DateUtils.convertDifferenceDateIndays(
+                            itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
+                    String warrantyConditions = itemFromPosition.getWarrantyConditions();
+                    showInformationDialog(getString(
+                            R.string.bottom_option_warranty), getString(
+                            R.string.purchased_warranty_status_now)
+                            + noOfDays + " Days Left "
+                            + "\n"
+                            + getString(
+                            R.string.purchased_purchased_date)
+                            + purchasedDate
+                            + "\n"
+                            + getString(
+                            R.string.purchased_warranty_covers_date)
+                            + warrantyConditions
+                            + "\n"
+                            + getString(
+                            R.string.purchased_warranty_ends_on) + warrantyEndDate);
+                    return;
+                } else if (secondRowTag == 2) { // bill
+                    Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, itemFromPosition);
+                    billFormatIntent.putExtras(bundle);
+                    startActivity(billFormatIntent);
+                    return;
+                } else if (secondRowTag == 3) { // past history
+                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                    bottomOptions = new String[0];
+                    topDrawables = new int[0];
+                } else if (secondRowTag == 4) { // share
+                    shareProductDetails(itemFromPosition);
+                    return;
+                } else if (secondRowTag == 5) { // transfer
+                    showBuyRequestDialog();
+                    return;
+                } else if (secondRowTag == 6) { // feed back
+                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                    bottomOptions = new String[0];
+                    topDrawables = new int[0];
+                } else if (secondRowTag == 7) { // suggestions
+                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                    bottomOptions = new String[0];
+                    topDrawables = new int[0];
+                }
+            } else if (firstRowTag == 2) { // showroom
 
-            } else if (tag == 3 && topClickedText.equals(getString(
-                    R.string.bottom_option_past_history))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 4 && topClickedText.equals(getString(
-                    R.string.bottom_option_share))) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-                shareProductDetails(itemFromPosition);
-            } else if (tag == 5 && topClickedText.equals(getString(
-                    R.string.bottom_option_transfer))) {
-                showBuyRequestDialog();
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 6 && topClickedText.equals(getString(
-                    R.string.bottom_option_feedback))) {
-//                showFeedBackDialog();
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 7 && topClickedText.equals(getString(
-                    R.string.bottom_option_suggestions))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_Call))) {
-                callPhoneNumber(itemFromPosition.getStoreContactNumber());
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
+                if (secondRowTag == 0) { // call
+                    callPhoneNumber(itemFromPosition.getStoreContactNumber());
+                    return;
+                } else if (secondRowTag == 1) { // location
+                    showLocationDialog();
 
-            } else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_find_service_center))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_service_request))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_location))) {
-                showLocationDialog();
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_feedback))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-//                showFeedBackDialog();
-            } else if (tag == 3) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-                changeBackgroundText(tag, view);
-            } else if (tag == 4) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 5) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
+                    return;
+                } else if (secondRowTag == 2) { // feed back
+                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                    bottomOptions = new String[0];
+                    topDrawables = new int[0];
+                }
             }
 
 
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.removeAllViews();
             bottomSheetPurchasedBinding.thirdRow.setWeightSum(bottomOptions.length);
-            setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, bottomOptions, topDrawables, bottomSheetThirdRowClickListener);
+            setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, bottomOptions, topDrawables, bottomSheetThirdRowClickListener, unparsedTag);
         }
     };
 

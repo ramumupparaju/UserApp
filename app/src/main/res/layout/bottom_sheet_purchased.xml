@@ -1,6 +1,4 @@
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         style="@style/MatchWrap"
@@ -10,25 +8,13 @@
             android:id="@+id/third_row"
             style="@style/BothMatch"
             android:orientation="horizontal"
-            android:visibility="gone">
-        </LinearLayout>
+            android:visibility="gone" />
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fadeScrollbars="false"
-            android:scrollbarSize="4dp"
-            android:scrollbarThumbHorizontal="@drawable/scrollbar"
-            android:scrollbars="horizontal">
-
-            <LinearLayout
-                android:id="@+id/second_row"
-                style="@style/BothMatch"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-            </LinearLayout>
-        </HorizontalScrollView>
+        <LinearLayout
+            android:id="@+id/second_row"
+            style="@style/BothMatch"
+            android:orientation="horizontal"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/first_row"

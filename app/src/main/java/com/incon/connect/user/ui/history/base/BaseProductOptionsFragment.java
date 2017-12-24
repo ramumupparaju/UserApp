@@ -1,15 +1,16 @@
 package com.incon.connect.user.ui.history.base;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.BottomSheetDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +19,10 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.utils.DeviceUtils;
+import com.incon.connect.user.utils.Logger;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 
 public abstract class BaseProductOptionsFragment extends BaseFragment {
@@ -34,32 +39,78 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
         bottomSheetDialog.setContentView(bottomSheetPurchasedBinding.getRoot());
     }
 
-    public void setBottomViewOptions(LinearLayout parentLayout, String[] namesArray, int[] imagesArray, View.OnClickListener onClickListener) {
-        for (int i = 0; i < namesArray.length; i++) {
-            LinearLayout customBottomView = getCustomBottomView();
+    /**
+     * if options is grater than 5 we are adding horizontall scrollview else adding in linear layout
+     *
+     * @param tag             if it is -1, it firt child not need to add prefix
+     * @param parentLayout
+     * @param namesArray
+     * @param imagesArray
+     * @param onClickListener
+     */
+    public void setBottomViewOptions(LinearLayout parentLayout, String[] namesArray, int[] imagesArray, View.OnClickListener onClickListener, String tag) {
+        int length = namesArray.length;
+
+        boolean isScrollAdded = length > 5 ? true : false;
+        HorizontalScrollView horizontalScrollView = null;
+        LinearLayout linearLayout = null;
+        //Implemented in scroll view
+        if (isScrollAdded) {
+            horizontalScrollView = getcustomHorizontalScroll();
+            linearLayout = new LinearLayout(getActivity());
+            horizontalScrollView.addView(linearLayout);
+            parentLayout.addView(horizontalScrollView);
+        }
+
+        for (int i = 0; i < length; i++) {
+            LinearLayout customBottomView = getCustomBottomView(isScrollAdded);
 
             getBottomTextView(customBottomView).setText(namesArray[i]);
             getBottomImageView(customBottomView).setImageResource(imagesArray[i]);
 
-            customBottomView.setTag(i);
+
+            String finalTag;
+            if (tag.equalsIgnoreCase("-1")) {
+                finalTag = String.valueOf(i);
+            } else {
+                finalTag = tag + COMMA_SEPARATOR + i;
+            }
+            Logger.e("Test tag", finalTag + " , tag1");
+            customBottomView.setTag(finalTag);
             customBottomView.setOnClickListener(onClickListener);
-            parentLayout.addView(customBottomView);
+            if (horizontalScrollView != null) {
+                linearLayout.addView(customBottomView);
+            } else {
+                parentLayout.addView(customBottomView);
+            }
         }
     }
 
-    public LinearLayout getCustomBottomView() {
+    private HorizontalScrollView getcustomHorizontalScroll() {
+        HorizontalScrollView horizontalScrollView = new HorizontalScrollView(getActivity());
+        horizontalScrollView.setScrollBarSize((int) DeviceUtils.convertPxToDp(4));
+        horizontalScrollView.setHorizontalScrollBarEnabled(true);
+        return horizontalScrollView;
+    }
 
-        int dp5 = (int) DeviceUtils.convertDpToPx(5);
+    public LinearLayout getCustomBottomView(boolean isScroll) {
+
+        int dp5 = (int) DeviceUtils.convertPxToDp(5);
         Context context = getContext();
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setPadding(dp5, dp5, dp5, dp5);
         linearLayout.setGravity(Gravity.CENTER);
-        LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
-        llp.weight = 1;
-        linearLayout.setLayoutParams(llp);
+        LinearLayout.LayoutParams llp;
 
-        int dp24 = (int) DeviceUtils.convertDpToPx(24);
+        if (isScroll) {
+            llp = new LinearLayout.LayoutParams((int) DeviceUtils.convertPxToDp(80), ViewGroup.LayoutParams.WRAP_CONTENT);
+        } else {
+            llp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            llp.weight = 1;
+        }
+        linearLayout.setLayoutParams(llp);
+        int dp24 = (int) DeviceUtils.convertPxToDp(24);
         ImageView imageView = new ImageView(context);
         imageView.setId(R.id.view_logo);
         LinearLayout.LayoutParams imageViewLayoutParams = new LinearLayout.LayoutParams(dp24, dp24);
