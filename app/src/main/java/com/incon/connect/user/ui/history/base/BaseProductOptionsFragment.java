@@ -4,14 +4,13 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,9 +19,6 @@ import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.utils.DeviceUtils;
 import com.incon.connect.user.utils.Logger;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 
 public abstract class BaseProductOptionsFragment extends BaseFragment {
@@ -111,7 +107,7 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
         }
         linearLayout.setLayoutParams(llp);
         int dp24 = (int) DeviceUtils.convertPxToDp(24);
-        ImageView imageView = new ImageView(context);
+        AppCompatImageView imageView = new AppCompatImageView(context);
         imageView.setId(R.id.view_logo);
         LinearLayout.LayoutParams imageViewLayoutParams = new LinearLayout.LayoutParams(dp24, dp24);
         imageView.setLayoutParams(imageViewLayoutParams);
@@ -134,8 +130,8 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
         return linearLayout;
     }
 
-    public ImageView getBottomImageView(LinearLayout linearLayout) {
-        return ((ImageView) linearLayout.findViewById(R.id.view_logo));
+    public AppCompatImageView getBottomImageView(LinearLayout linearLayout) {
+        return ((AppCompatImageView) linearLayout.findViewById(R.id.view_logo));
     }
 
     public TextView getBottomTextView(LinearLayout linearLayout) {
