@@ -4,7 +4,7 @@
 
     <RelativeLayout
         style="@style/BothMatch"
-        android:background="@color/white">
+        android:background="@color/mercury">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"

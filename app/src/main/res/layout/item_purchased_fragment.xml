@@ -43,7 +43,7 @@
 
             <!--product name-->
             <TextView
-                android:id="@+id/purchased_name"
+                android:id="@+id/product_name"
                 style="@style/BothWrap"
                 fontPath="fonts/OpenSans-Bold.ttf"
                 android:layout_marginTop="@dimen/margin_5"
@@ -59,7 +59,7 @@
             <TextView
                 android:id="@+id/model_number_tv"
                 style="@style/BothWrap"
-                android:layout_below="@id/purchased_name"
+                android:layout_below="@id/product_name"
                 android:layout_toRightOf="@id/product_imageview"
                 android:text="@{`Mod No :` + productinforesponse.modelNumber}"
                 android:textColor="@color/ebony_clay"
