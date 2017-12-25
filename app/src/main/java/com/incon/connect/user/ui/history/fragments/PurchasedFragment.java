@@ -188,69 +188,69 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, bottomNames, bottomDrawables, bottomSheetFirstRowClickListener, "-1");
     }
 
-    // bottom sheet click event
-    private View.OnClickListener bottomSheetFirstRowClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            String unparsedTag = (String) view.getTag();
-            Integer tag = Integer.valueOf(unparsedTag);
-            String[] bottomOptions;
-            int[] topDrawables;
-            changeSelectedViews(bottomSheetPurchasedBinding.firstRow, unparsedTag);
-            if (tag == 0) {
-                bottomOptions = new String[3];
-                bottomOptions[0] = getString(R.string.bottom_option_call_customer_care);
-                bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
-                bottomOptions[2] = getString(R.string.bottom_option_service_request);
-                topDrawables = new int[3];
-                topDrawables[0] = R.drawable.ic_option_call;
-                topDrawables[1] = R.drawable.ic_option_find_service_center;
-                topDrawables[2] = R.drawable.ic_option_service_request;
+        // bottom sheet click event
+        private View.OnClickListener bottomSheetFirstRowClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String unparsedTag = (String) view.getTag();
+                Integer tag = Integer.valueOf(unparsedTag);
+                String[] bottomOptions;
+                int[] topDrawables;
+                changeSelectedViews(bottomSheetPurchasedBinding.firstRow, unparsedTag);
+                if (tag == 0) {
+                    bottomOptions = new String[3];
+                    bottomOptions[0] = getString(R.string.bottom_option_call_customer_care);
+                    bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
+                    bottomOptions[2] = getString(R.string.bottom_option_service_request);
+                    topDrawables = new int[3];
+                    topDrawables[0] = R.drawable.ic_option_call;
+                    topDrawables[1] = R.drawable.ic_option_find_service_center;
+                    topDrawables[2] = R.drawable.ic_option_service_request;
 
-            } else if (tag == 1) {
-                bottomOptions = new String[8];
-                bottomOptions[0] = getString(R.string.bottom_option_details);
-                bottomOptions[1] = getString(R.string.bottom_option_warranty);
-                bottomOptions[2] = getString(R.string.bottom_option_bill);
-                bottomOptions[3] = getString(R.string.bottom_option_past_history);
-                bottomOptions[4] = getString(R.string.bottom_option_share);
-                bottomOptions[5] = getString(R.string.bottom_option_transfer);
-                bottomOptions[6] = getString(R.string.bottom_option_feedback);
-                bottomOptions[7] = getString(R.string.bottom_option_suggestions);
+                } else if (tag == 1) {
+                    bottomOptions = new String[8];
+                    bottomOptions[0] = getString(R.string.bottom_option_details);
+                    bottomOptions[1] = getString(R.string.bottom_option_warranty);
+                    bottomOptions[2] = getString(R.string.bottom_option_bill);
+                    bottomOptions[3] = getString(R.string.bottom_option_past_history);
+                    bottomOptions[4] = getString(R.string.bottom_option_share);
+                    bottomOptions[5] = getString(R.string.bottom_option_transfer);
+                    bottomOptions[6] = getString(R.string.bottom_option_feedback);
+                    bottomOptions[7] = getString(R.string.bottom_option_suggestions);
 
-                topDrawables = new int[8];
-                topDrawables[0] = R.drawable.ic_option_details;
-                topDrawables[1] = R.drawable.ic_option_warranty;
-                topDrawables[2] = R.drawable.ic_option_bill;
-                topDrawables[3] = R.drawable.ic_option_pasthistory;
-                topDrawables[4] = R.drawable.ic_option_share;
-                topDrawables[5] = R.drawable.ic_option_transfer;
-                topDrawables[6] = R.drawable.ic_option_feedback;
-                topDrawables[7] = R.drawable.ic_option_suggestions;
-            } else if (tag == 2) {
-                bottomOptions = new String[3];
-                bottomOptions[0] = getString(R.string.bottom_option_Call);
-                bottomOptions[1] = getString(R.string.bottom_option_location);
-                bottomOptions[2] = getString(R.string.bottom_option_feedback);
-                topDrawables = new int[3];
-                topDrawables[0] = R.drawable.ic_option_call;
-                topDrawables[1] = R.drawable.ic_option_location;
-                topDrawables[2] = R.drawable.ic_option_feedback;
-            } else if (tag == 3) {
-                showDeleteDialog();
-                return;
-            } else {
-                showFavoriteOptionsDialog();
-                return;
+                    topDrawables = new int[8];
+                    topDrawables[0] = R.drawable.ic_option_details;
+                    topDrawables[1] = R.drawable.ic_option_warranty;
+                    topDrawables[2] = R.drawable.ic_option_bill;
+                    topDrawables[3] = R.drawable.ic_option_pasthistory;
+                    topDrawables[4] = R.drawable.ic_option_share;
+                    topDrawables[5] = R.drawable.ic_option_transfer;
+                    topDrawables[6] = R.drawable.ic_option_feedback;
+                    topDrawables[7] = R.drawable.ic_option_suggestions;
+                } else if (tag == 2) {
+                    bottomOptions = new String[3];
+                    bottomOptions[0] = getString(R.string.bottom_option_Call);
+                    bottomOptions[1] = getString(R.string.bottom_option_location);
+                    bottomOptions[2] = getString(R.string.bottom_option_feedback);
+                    topDrawables = new int[3];
+                    topDrawables[0] = R.drawable.ic_option_call;
+                    topDrawables[1] = R.drawable.ic_option_location;
+                    topDrawables[2] = R.drawable.ic_option_feedback;
+                } else if (tag == 3) {
+                    showDeleteDialog();
+                    return;
+                } else {
+                    showFavoriteOptionsDialog();
+                    return;
+                }
+
+                bottomSheetPurchasedBinding.secondRow.setVisibility(View.VISIBLE);
+                bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
+                bottomSheetPurchasedBinding.secondRow.removeAllViews();
+                bottomSheetPurchasedBinding.secondRow.setWeightSum(bottomOptions.length);
+                setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, bottomOptions, topDrawables, bottomSheetSecondRowClickListener, unparsedTag);
             }
-
-            bottomSheetPurchasedBinding.secondRow.setVisibility(View.VISIBLE);
-            bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
-            bottomSheetPurchasedBinding.secondRow.removeAllViews();
-            bottomSheetPurchasedBinding.secondRow.setWeightSum(bottomOptions.length);
-            setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, bottomOptions, topDrawables, bottomSheetSecondRowClickListener, unparsedTag);
-        }
-    };
+        };
 
     //  favorite options
     private void showFavoriteOptionsDialog() {
@@ -318,8 +318,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         public void onClick(View view) {
             String unparsedTag = (String) view.getTag();
             String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
-
-
             ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.secondRow, unparsedTag);
