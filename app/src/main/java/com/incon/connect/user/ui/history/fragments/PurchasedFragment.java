@@ -12,7 +12,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.incon.connect.user.AppUtils;
@@ -546,7 +545,36 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         dialogDelete.setButtonBlueUnselectBackground();
     }
 
+
     private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String unparsedTag = (String) view.getTag();
+            String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
+
+
+            ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
+                    productSelectedPosition);
+            TextView viewById = view.findViewById(R.id.view_tv);
+//            changeBackgroundText(unparsedTag, view); //todo have to set selected one as highlighted remaining as grey
+
+            String[] bottomOptions = new String[0];
+            int[] topDrawables = new int[0];
+
+            int firstRowTag = Integer.parseInt(tagArray[0]);
+            int secondRowTag = Integer.parseInt(tagArray[1]);
+            int RowTag = Integer.parseInt(tagArray[2]);
+
+
+
+
+
+        }
+
+    };
+
+
+    /* private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             TextView viewById = (TextView) view.findViewById(R.id.view_tv);
@@ -580,7 +608,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
 
     };
-
+*/
     private void showInformationDialog(String title, String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
