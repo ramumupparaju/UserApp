@@ -52,7 +52,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private FragmentPurchasedBinding binding;
     private PurchasedAdapter purchasedAdapter;
     private int userId;
-    private int productSelectedPosition = -1;
     private AppAlertDialog detailsDialog;
     private AppCheckBoxListDialog productLocationDialog;
     private List<AddUserAddressResponse> productLocationList;

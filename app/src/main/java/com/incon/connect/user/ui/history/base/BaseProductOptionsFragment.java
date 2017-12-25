@@ -27,6 +27,7 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
 
     public BottomSheetDialog bottomSheetDialog;
     public BottomSheetPurchasedBinding bottomSheetPurchasedBinding;
+    public int productSelectedPosition = -1;
 
     // load bottom sheet
     public void loadBottomSheet() {
@@ -52,7 +53,7 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
                 LinearLayout childAt1 = (LinearLayout) horizontalScrollView.getChildAt(0);
                 linearLayout = (LinearLayout) childAt1.getChildAt(0);
             }
-            String tag = (String) childAt.getTag();
+            String tag = (String) linearLayout.getTag();
             boolean isSelectedView = tag.equalsIgnoreCase(selectedTag);
             (getBottomImageView(linearLayout)).setColorFilter(getResources().getColor(isSelectedView ? R.color.colorPrimary : R.color.colorAccent), PorterDuff.Mode.SRC_IN);
             (getBottomTextView(linearLayout)).setTextColor(ContextCompat.getColor(getActivity(), isSelectedView ? R.color.colorPrimary : R.color.colorAccent));
