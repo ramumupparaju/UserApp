@@ -26,7 +26,6 @@
 
         <!--brand image-->
         <ImageView
-            android:src="@drawable/warranty"
             android:id="@+id/brand_imageview"
             android:layout_width="45dp"
             android:layout_height="32dp"
@@ -35,7 +34,6 @@
 
         <!--product image-->
         <ImageView
-            android:src="@drawable/warranty"
             android:id="@+id/product_imageview"
             style="@style/image_product_icon"
             android:layout_centerVertical="true"
@@ -54,16 +52,6 @@
             android:textAllCaps="true"
             android:textColor="@color/ebony_clay"
             android:textSize="12.4sp" />
-
-        <!--product model number-->
-        <TextView
-            android:id="@+id/model_number_tv"
-            style="@style/BothWrap"
-            android:layout_below="@id/product_name"
-            android:layout_toRightOf="@id/product_imageview"
-            android:text="@{`Mod No :` + productinforesponse.modelNumber}"
-            android:textColor="@color/ebony_clay"
-            android:textSize="10sp" />
 
         <!--product return date-->
         <TextView
