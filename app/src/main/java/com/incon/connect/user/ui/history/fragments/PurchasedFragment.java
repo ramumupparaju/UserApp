@@ -12,7 +12,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
@@ -199,7 +198,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             String[] bottomOptions;
             int[] topDrawables;
             changeSelectedViews(bottomSheetPurchasedBinding.firstRow, unparsedTag);
-//            changeBackgroundText(tag, view);
             if (tag == 0) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_call_customer_care);
@@ -325,8 +323,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
             ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
-            TextView viewById = view.findViewById(R.id.view_tv);
-//            changeBackgroundText(unparsedTag, view); //todo have to set selected one as highlighted remaining as grey
+            changeSelectedViews(bottomSheetPurchasedBinding.secondRow, unparsedTag);
 
             String[] bottomOptions = new String[0];
             int[] topDrawables = new int[0];
@@ -556,18 +553,45 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
             ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
-            TextView viewById = view.findViewById(R.id.view_tv);
-//            changeBackgroundText(unparsedTag, view); //todo have to set selected one as highlighted remaining as grey
-
-            String[] bottomOptions = new String[0];
-            int[] topDrawables = new int[0];
+            changeSelectedViews(bottomSheetPurchasedBinding.thirdRow, unparsedTag);
 
             int firstRowTag = Integer.parseInt(tagArray[0]);
             int secondRowTag = Integer.parseInt(tagArray[1]);
-            int RowTag = Integer.parseInt(tagArray[2]);
+            int thirdRowTag = Integer.parseInt(tagArray[2]);
+
+            // product
+            if (firstRowTag == 1) {
+                // details
+                if (secondRowTag == 0) {
+                    // return policy
+                    if (thirdRowTag == 0) {
+                        showInformationDialog(getString(R.string.bottom_option_return_policy), itemFromPosition.getReturnPolicy());
+                    }
+                     // special instruction
+                    else if (thirdRowTag == 1) {
+                        showInformationDialog(getString(
+                                R.string.bottom_option_special_instructions),
+                                itemFromPosition.getSpecialInstruction());
+                    }
+                        //how to use
+                    else if (thirdRowTag == 2) {
+                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+           //                showInformationDialog(itemFromPosition.getInformation());
+                    }
+                         //description
+                    else if (thirdRowTag == 3) {
+                        showInformationDialog(getString(
+                                R.string.bottom_option_description), itemFromPosition.getInformation()
+                                + itemFromPosition.getProductSpecification()
+                                + itemFromPosition.getColor()
+                                + itemFromPosition.getProductDimensions());
+
+                    }
 
 
+                }
 
+            }
 
 
         }

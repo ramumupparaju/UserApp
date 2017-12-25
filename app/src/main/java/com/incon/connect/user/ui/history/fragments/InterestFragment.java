@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.incon.connect.user.AppUtils;
@@ -121,8 +120,83 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                             getItemFromPosition(position);
             interestAdapter.notifyDataSetChanged();
             interestHistoryResponse.setSelected(true);
-            createBottomSheetView(position);
+          //  createBottomSheetView(position);
+            createBottomSheetFirstRow(position);
             bottomSheetDialog.show();
+        }
+    };
+
+    private void createBottomSheetFirstRow(int position) {
+        int length;
+        int[] bottomDrawables;
+        String[] bottomNames;
+        length = 4;
+        bottomNames = new String[length];
+        bottomNames[0] = getString(R.string.bottom_option_buy_request);
+        bottomNames[1] = getString(R.string.bottom_option_product);
+        bottomNames[2] = getString(R.string.bottom_option_showroom);
+        bottomNames[3] = getString(R.string.bottom_option_delete);
+        bottomDrawables = new int[length];
+        bottomDrawables[0] = R.drawable.ic_option_customer;
+        bottomDrawables[1] = R.drawable.ic_option_product;
+        bottomDrawables[2] = R.drawable.ic_showroom;
+        bottomDrawables[3] = R.drawable.ic_option_delete;
+
+        bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
+        bottomSheetPurchasedBinding.secondRow.setVisibility(View.GONE);
+        bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
+        bottomSheetPurchasedBinding.firstRow.removeAllViews();
+        bottomSheetPurchasedBinding.firstRow.setWeightSum(length);
+        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, bottomNames, bottomDrawables, bottomSheetFirstRowClickListener, "-1");
+
+    }
+
+    // bottom sheet click event
+    private View.OnClickListener bottomSheetFirstRowClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String unparsedTag = (String) view.getTag();
+            Integer tag = Integer.valueOf(unparsedTag);
+            String[] bottomOptions;
+            int[] topDrawables;
+            changeSelectedViews(bottomSheetPurchasedBinding.firstRow, unparsedTag);
+            if (tag == 0) {
+                bottomOptions = new String[3];
+                bottomOptions[0] = getString(R.string.bottom_option_call_customer_care);
+                bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
+                bottomOptions[2] = getString(R.string.bottom_option_service_request);
+                topDrawables = new int[3];
+                topDrawables[0] = R.drawable.ic_option_call;
+                topDrawables[1] = R.drawable.ic_option_find_service_center;
+                topDrawables[2] = R.drawable.ic_option_service_request;
+
+            } else if (tag == 1) {
+                bottomOptions = new String[3];
+                bottomOptions[0] = getString(R.string.bottom_option_main_features);
+                bottomOptions[1] = getString(R.string.bottom_option_details);
+                bottomOptions[2] = getString(R.string.bottom_option_feedback);
+                topDrawables = new int[3];
+                topDrawables[0] = R.drawable.ic_options_features;
+                topDrawables[1] = R.drawable.ic_option_details;
+                topDrawables[2] = R.drawable.ic_option_feedback;
+            } else if (tag == 2) {
+                bottomOptions = new String[3];
+                bottomOptions[0] = getString(R.string.bottom_option_Call);
+                bottomOptions[1] = getString(R.string.bottom_option_location);
+                bottomOptions[2] = getString(R.string.bottom_option_review);
+                topDrawables = new int[3];
+                topDrawables[0] = R.drawable.ic_option_call;
+                topDrawables[1] = R.drawable.ic_option_location;
+                topDrawables[2] = R.drawable.ic_option_feedback;
+            } else  {
+                showInterestProductDeleteDialog(getString(R.string.dilog_delete));
+                return;
+            }
+
+                bottomSheetPurchasedBinding.secondRow.setVisibility(View.VISIBLE);
+            bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
+            bottomSheetPurchasedBinding.secondRow.removeAllViews();
+            bottomSheetPurchasedBinding.secondRow.setWeightSum(bottomOptions.length);
         }
     };
 
