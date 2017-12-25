@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -34,6 +35,22 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
         bottomSheetDialog = new BottomSheetDialog(getActivity());
         bottomSheetDialog.setContentView(bottomSheetPurchasedBinding.getRoot());
     }
+
+    /**
+     * chnaged selected views with primary and remaining as gray
+     */
+    public void changeSelectedViews(LinearLayout parentLayout, String selectedTag) {
+
+        for (int i = 0; i < parentLayout.getChildCount(); i++) {
+            View childAt = parentLayout.getChildAt(i);
+            LinearLayout linearLayout = (LinearLayout) childAt;
+            String tag = (String) childAt.getTag();
+            boolean isSelectedView = tag.equalsIgnoreCase(selectedTag);
+            (getBottomImageView(linearLayout)).setColorFilter(getResources().getColor(isSelectedView ? R.color.colorPrimary : R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+            (getBottomTextView(linearLayout)).setTextColor(ContextCompat.getColor(getActivity(), isSelectedView ? R.color.colorPrimary : R.color.colorAccent));
+        }
+    }
+
 
     /**
      * if options is grater than 5 we are adding horizontall scrollview else adding in linear layout
@@ -111,11 +128,12 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
         imageView.setId(R.id.view_logo);
         LinearLayout.LayoutParams imageViewLayoutParams = new LinearLayout.LayoutParams(dp24, dp24);
         imageView.setLayoutParams(imageViewLayoutParams);
-        imageView.setColorFilter(getResources().getColor(android.R.color.black), PorterDuff.Mode.SRC_IN);
+        imageView.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
         linearLayout.addView(imageView);
 
         TextView textView = new TextView(context);
         textView.setId(R.id.view_tv);
+        textView.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         textView.setLayoutParams(layoutParams);

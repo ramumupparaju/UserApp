@@ -198,7 +198,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             Integer tag = Integer.valueOf(unparsedTag);
             String[] bottomOptions;
             int[] topDrawables;
-            changeBackgroundText(tag, view);
+            changeSelectedViews(bottomSheetPurchasedBinding.firstRow, unparsedTag);
+//            changeBackgroundText(tag, view);
             if (tag == 0) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_call_customer_care);
