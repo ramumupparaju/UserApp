@@ -43,7 +43,15 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
 
         for (int i = 0; i < parentLayout.getChildCount(); i++) {
             View childAt = parentLayout.getChildAt(i);
-            LinearLayout linearLayout = (LinearLayout) childAt;
+
+            LinearLayout linearLayout;
+            if (childAt instanceof LinearLayout) {
+                linearLayout = (LinearLayout) childAt;
+            } else {
+                HorizontalScrollView horizontalScrollView = (HorizontalScrollView) childAt;
+                LinearLayout childAt1 = (LinearLayout) horizontalScrollView.getChildAt(0);
+                linearLayout = (LinearLayout) childAt1.getChildAt(0);
+            }
             String tag = (String) childAt.getTag();
             boolean isSelectedView = tag.equalsIgnoreCase(selectedTag);
             (getBottomImageView(linearLayout)).setColorFilter(getResources().getColor(isSelectedView ? R.color.colorPrimary : R.color.colorAccent), PorterDuff.Mode.SRC_IN);
