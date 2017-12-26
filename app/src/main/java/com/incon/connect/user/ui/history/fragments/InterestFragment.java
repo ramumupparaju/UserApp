@@ -306,12 +306,9 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     } else
                         // share product
                         shareProductDetails(itemFromPosition);
-
-
                 }
 
             }
-
 
         }
 
