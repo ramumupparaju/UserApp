@@ -30,6 +30,8 @@
     <string name="bottom_option_Call">Call</string>
     <string name="bottom_option_call_customer_care">Call customer care</string>
     <string name="bottom_option_find_service_center">Find service center</string>
+    <string name="bottom_option_individual">Individual</string>
+    <string name="bottom_option_manual">Manual</string>
     <string name="bottom_option_service_request">Service request</string>
     <string name="bottom_option_location">Location</string>
     <string name="bottom_option_details">Details</string>
@@ -38,6 +40,7 @@
     <string name="bottom_option_warranty">Warranty :</string>
     <string name="bottom_option_suggestions">Suggestions</string>
     <string name="bottom_option_bill">Bill</string>
+    <string name="bottom_option_add">Add</string>
     <string name="bottom_option_past_history">Past History</string>
     <string name="bottom_option_share">Share</string>
     <string name="bottom_option_transfer">Transfer</string>

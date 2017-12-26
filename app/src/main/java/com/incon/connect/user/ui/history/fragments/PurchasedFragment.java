@@ -198,14 +198,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 int[] topDrawables;
                 changeSelectedViews(bottomSheetPurchasedBinding.firstRow, unparsedTag);
                 if (tag == 0) {
-                    bottomOptions = new String[3];
-                    bottomOptions[0] = getString(R.string.bottom_option_call_customer_care);
-                    bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
-                    bottomOptions[2] = getString(R.string.bottom_option_service_request);
-                    topDrawables = new int[3];
+                    bottomOptions = new String[2];
+                    bottomOptions[0] = getString(R.string.bottom_option_individual);
+                    bottomOptions[1] = getString(R.string.bottom_option_manual);
+                    //bottomOptions[2] = getString(R.string.bottom_option_service_request);
+                    topDrawables = new int[2];
                     topDrawables[0] = R.drawable.ic_option_call;
                     topDrawables[1] = R.drawable.ic_option_find_service_center;
-                    topDrawables[2] = R.drawable.ic_option_service_request;
+                    //topDrawables[2] = R.drawable.ic_option_service_request;
 
                 } else if (tag == 1) {
                     bottomOptions = new String[8];
@@ -251,6 +251,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, bottomOptions, topDrawables, bottomSheetSecondRowClickListener, unparsedTag);
             }
         };
+
+
 
     //  favorite options
     private void showFavoriteOptionsDialog() {
@@ -331,20 +333,52 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             // service/support
             if (firstRowTag == 0) {
 
-                //call customer care
+                //individual
                 if (secondRowTag == 0) {
-                    callPhoneNumber(itemFromPosition.getMobileNumber());
-                    return;
-                } else if (secondRowTag == 1) { // find service center
+                   /* callPhoneNumber(itemFromPosition.getMobileNumber());
+                    return;*/
+                    bottomOptions = new String[3];
+                    bottomOptions[0] = getString(R.string.bottom_option_Call);
+                    bottomOptions[1] = getString(R.string.bottom_option_service_request);
+                    bottomOptions[2] = getString(R.string.bottom_option_add);
+
+                    topDrawables = new int[3];
+                    topDrawables[0] = R.drawable.ic_option_details;
+                    topDrawables[1] = R.drawable.ic_option_return_product;
+                    topDrawables[2] = R.drawable.ic_option_bill;
+
+                } else
+
+                    if (secondRowTag == 1) {
+
+                   /* // find service center
                     AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                     bottomOptions = new String[0];
-                    topDrawables = new int[0];
-                } else if (secondRowTag == 2) { // service request
+                    topDrawables = new int[0];*/
+
+                        bottomOptions = new String[4];
+                        bottomOptions[0] = getString(R.string.bottom_option_Call);
+                        bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
+                        bottomOptions[2] = getString(R.string.bottom_option_service_request);
+                        bottomOptions[3] = getString(R.string.bottom_option_add);
+
+                        topDrawables = new int[4];
+                        topDrawables[0] = R.drawable.ic_option_details;
+                        topDrawables[1] = R.drawable.ic_option_return_product;
+                        topDrawables[2] = R.drawable.ic_option_bill;
+                        topDrawables[3] = R.drawable.ic_option_bill;
+
+                }
+
+               /* else if (secondRowTag == 2) { // service request
                     AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                     bottomOptions = new String[0];
                     topDrawables = new int[0];
                 }
-            } else if (firstRowTag == 1) { // product
+*/
+            }
+
+            else if (firstRowTag == 1) { // product
 
                 if (secondRowTag == 0) { // details
                     bottomOptions = new String[4];
@@ -556,8 +590,45 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             int secondRowTag = Integer.parseInt(tagArray[1]);
             int thirdRowTag = Integer.parseInt(tagArray[2]);
 
+            if(firstRowTag == 0){
+                if(secondRowTag == 0) {
+                    if (thirdRowTag == 0) {
+                       callPhoneNumber(itemFromPosition.getMobileNumber());
+                    return;
+                    }
+                    else if (thirdRowTag == 1) {
+                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+
+                    }
+                    else if (thirdRowTag == 2) {
+                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                    }
+                }
+
+               else if(secondRowTag == 1) {
+
+                    if (thirdRowTag == 0) {
+                        callPhoneNumber(itemFromPosition.getMobileNumber());
+                        return;
+                    }
+                    else if (thirdRowTag == 1) {
+                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+
+                    }
+                    else if (thirdRowTag == 2) {
+                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                    }
+
+                    else if (thirdRowTag == 3) {
+                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                    }
+                }
+
+            }
+
+
             // product
-            if (firstRowTag == 1) {
+           else if (firstRowTag == 1) {
                 // details
                 if (secondRowTag == 0) {
                     // return policy
@@ -582,6 +653,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                                 + itemFromPosition.getProductSpecification()
                                 + itemFromPosition.getColor()
                                 + itemFromPosition.getProductDimensions());
+                        return;
 
                     }
 
@@ -589,6 +661,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 }
 
             }
+
+
 
 
         }
