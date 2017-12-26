@@ -18,6 +18,7 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
+import com.incon.connect.user.callbacks.CustomAddOptionsCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
@@ -25,6 +26,7 @@ import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppFeedBackDialog;
+import com.incon.connect.user.custom.view.CustomAddOptionsDialog;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.ui.RegistrationMapActivity;
@@ -61,6 +63,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private String buyRequestComment;
     private boolean isFromFavorites = false;
     private AppAlertVerticalTwoButtonsDialog dialogDelete;
+    private CustomAddOptionsDialog customAddOptionsDialog;
 
 
     @Override
@@ -621,6 +624,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
                     else if (thirdRowTag == 3) {
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                        showCustomAddOptionDialog();
                     }
                 }
 
@@ -654,57 +658,41 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                                 + itemFromPosition.getColor()
                                 + itemFromPosition.getProductDimensions());
                         return;
-
                     }
+                }
+            }
 
+        }
 
+    };
+
+    private void showCustomAddOptionDialog() {
+        customAddOptionsDialog = new CustomAddOptionsDialog.AlertDialogBuilder(getContext(), new CustomAddOptionsCallback() {
+            @Override
+            public void alertDialogCallback(byte dialogStatus) {
+
+                switch (dialogStatus) {
+                    case AlertDialogCallback.OK:
+
+                        break;
+                    case AlertDialogCallback.CANCEL:
+                        buyRequestDialog.dismiss();
+                        break;
+                    default:
+                        break;
                 }
 
             }
+        }).title(getString(R.string.bottom_option_transfer))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        customAddOptionsDialog.showDialog();
 
 
+    }
 
 
-        }
-
-    };
-
-
-    /* private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
-            String topClickedText = viewById.getText().toString();
-            Integer tag = (Integer) view.getTag();
-            changeBackgroundText(tag, view);
-            ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
-                    productSelectedPosition);
-            if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_return_policy))) {
-                showInformationDialog(getString(R.string.bottom_option_return_policy), itemFromPosition.getReturnPolicy());
-            } else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_special_instructions))) {
-                showInformationDialog(getString(
-                        R.string.bottom_option_special_instructions),
-                        itemFromPosition.getSpecialInstruction());
-            } else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_how_to_use))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-//                showInformationDialog(itemFromPosition.getInformation());
-            } else if (tag == 3 && topClickedText.equals(getString(
-                    R.string.bottom_option_description))) {
-                showInformationDialog(getString(
-                        R.string.bottom_option_description), itemFromPosition.getInformation()
-                        + itemFromPosition.getProductSpecification()
-                        + itemFromPosition.getColor()
-                        + itemFromPosition.getProductDimensions()
-
-                );
-            }
-        }
-
-    };
-*/
     private void showInformationDialog(String title, String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {

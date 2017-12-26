@@ -16,6 +16,19 @@
         <item>Female</item>
     </string-array>
 
+
+    <!-- Add dropdown options -->
+    <string-array
+        name="add_options_list">
+        <item>Problem</item>
+        <item>Others</item>
+    </string-array>
+
+
+
+
+
+
     <!-- image capture options -->
     <string-array
         name="select_image_list">

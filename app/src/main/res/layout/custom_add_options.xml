@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="productinforesponse"
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
+    </data>
+
+
+
+    <RelativeLayout
+        style="@style/MatchWrap"
+        android:background="@drawable/dialog_background"
+        >
+
+        <!-- spinner -->
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/spinner_add_options"
+            style="@style/spinnerItemStyle"
+            android:layout_marginTop="@dimen/margin_10"
+            android:focusable="true"
+            app:errorEnabled="true"
+            app:met_floatingLabel="highlight"
+            app:met_textColor="@color/colorForgotPasswordHintText"
+            app:met_textColorHint="@color/colorForgotPasswordHintText"/>
+
+        <!-- edit text comment -->
+        <com.incon.connect.user.custom.view.CustomTextInputLayout
+            android:id="@+id/input_comment"
+            style="@style/Register_TextInputLayout"
+            android:layout_below="@+id/spinner_add_options"
+            android:layout_marginTop="10dp"
+            android:hint="@string/user_comment_hint"
+            app:errorEnabled="true"
+            app:fontName="fonts/OpenSans-Regular.ttf"
+            app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edittext_comment"
+                style="@style/Register_TextInputEditText"
+                android:focusable="true"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:maxLength="@integer/character_limit_200"
+                android:maxLines="1"
+                android:paddingEnd="2dp"
+                android:paddingStart="2.1dp"
+            />
+        </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+        <!-- Date and time picker -->
+        <com.incon.connect.user.custom.view.CustomTextInputLayout
+            android:id="@+id/input_layout_date_time"
+            style="@style/Register_TextInputLayout"
+            android:layout_below="@id/input_comment"
+            android:hint="@string/register_date_time_hint"
+            app:errorEnabled="true"
+            app:fontName="fonts/OpenSans-Regular.ttf"
+            app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edittext_register_dob"
+                style="@style/Register_TextInputEditText"
+                android:enabled="false"
+                />
+        </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+        <!--dummy view for dob click event -->
+        <View
+            android:id="@+id/view_dob"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignBottom="@+id/input_layout_date_time"
+            android:layout_alignEnd="@+id/input_layout_date_time"
+            android:layout_alignStart="@+id/input_layout_date_time"
+            android:layout_alignTop="@+id/input_layout_date_time"
+            android:background="@null"
+            />
+        <RadioGroup
+            android:layout_below="@+id/input_layout_date_time"
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Small "
+            app:fontName="fonts/OpenSans-Regular.ttf"
+            android:textSize="18sp"/>
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Medium"
+            android:textSize="18sp"/>
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Large"
+            android:textSize="18sp"/>
+    </RadioGroup>
+
+        <!-- layout for bottom buttons -->
+        <include
+            android:id="@+id/include_register_bottom_buttons"
+            layout="@layout/view_registration_bottom_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_below="@id/radioGroup"/>
+
+
+
+    </RelativeLayout>
+</layout>

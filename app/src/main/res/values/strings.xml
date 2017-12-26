@@ -362,6 +362,7 @@
     <string name="register_timezone_hint">Time Zone</string>
     <string name="register_zipcode_hint">Zip Code</string>
     <string name="register_dateofbirth_hint">Date of Birth</string>
+    <string name="register_date_time_hint">Date and Time</string>
     <string name="register_gender_hint">Gender</string>
     <string name="register_category_hint">Category</string>
     <string name="register_gstn_hint">GSTN</string>
@@ -373,6 +374,7 @@
     <string name="register_country_hint">Country</string>
     <string name="register_city_hint">City</string>
     <string name="user_name_hint">Name</string>
+    <string name="user_comment_hint">Comment</string>
     <string name="user__hint">Name</string>
     <string name="user_contact_hint">Contact</string>
     <string name="user_address_hint">Address</string>
