@@ -1,9 +1,11 @@
 package com.incon.connect.user.ui.history.fragments;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,21 +14,24 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
-import com.incon.connect.user.callbacks.CustomAddOptionsCallback;
+import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
+import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppFeedBackDialog;
-import com.incon.connect.user.custom.view.CustomAddOptionsDialog;
+import com.incon.connect.user.custom.view.ServiceRequestDialog;
+import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.ui.RegistrationMapActivity;
@@ -37,9 +42,11 @@ import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TimeZone;
 
 import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_ADDRESS_ID;
 import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_WARRANTY_ID;
@@ -63,7 +70,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private String buyRequestComment;
     private boolean isFromFavorites = false;
     private AppAlertVerticalTwoButtonsDialog dialogDelete;
-    private CustomAddOptionsDialog customAddOptionsDialog;
+    private ServiceRequestDialog serviceRequestDialog;
+    private TimeSlotAlertDialog timeSlotAlertDialog;
 
 
     @Override
@@ -184,77 +192,77 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
 
         bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
+        bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.secondRow.setVisibility(View.GONE);
+        bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
         bottomSheetPurchasedBinding.firstRow.setWeightSum(length);
         setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, bottomNames, bottomDrawables, bottomSheetFirstRowClickListener, "-1");
     }
 
-        // bottom sheet click event
-        private View.OnClickListener bottomSheetFirstRowClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String unparsedTag = (String) view.getTag();
-                Integer tag = Integer.valueOf(unparsedTag);
-                String[] bottomOptions;
-                int[] topDrawables;
-                changeSelectedViews(bottomSheetPurchasedBinding.firstRow, unparsedTag);
-                if (tag == 0) {
-                    bottomOptions = new String[2];
-                    bottomOptions[0] = getString(R.string.bottom_option_individual);
-                    bottomOptions[1] = getString(R.string.bottom_option_manual);
-                    //bottomOptions[2] = getString(R.string.bottom_option_service_request);
-                    topDrawables = new int[2];
-                    topDrawables[0] = R.drawable.ic_option_call;
-                    topDrawables[1] = R.drawable.ic_option_find_service_center;
-                    //topDrawables[2] = R.drawable.ic_option_service_request;
+    // bottom sheet click event
+    private View.OnClickListener bottomSheetFirstRowClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String unparsedTag = (String) view.getTag();
+            Integer tag = Integer.valueOf(unparsedTag);
+            String[] bottomOptions;
+            int[] topDrawables;
+            changeSelectedViews(bottomSheetPurchasedBinding.firstRow, unparsedTag);
+            if (tag == 0) {
+                bottomOptions = new String[2];
+                bottomOptions[0] = getString(R.string.bottom_option_individual);
+                bottomOptions[1] = getString(R.string.bottom_option_authorized);
+                topDrawables = new int[2];
+                topDrawables[0] = R.drawable.ic_option_call;
+                topDrawables[1] = R.drawable.ic_option_find_service_center;
+            } else if (tag == 1) {
+                bottomOptions = new String[8];
+                bottomOptions[0] = getString(R.string.bottom_option_details);
+                bottomOptions[1] = getString(R.string.bottom_option_warranty);
+                bottomOptions[2] = getString(R.string.bottom_option_bill);
+                bottomOptions[3] = getString(R.string.bottom_option_past_history);
+                bottomOptions[4] = getString(R.string.bottom_option_share);
+                bottomOptions[5] = getString(R.string.bottom_option_transfer);
+                bottomOptions[6] = getString(R.string.bottom_option_feedback);
+                bottomOptions[7] = getString(R.string.bottom_option_suggestions);
 
-                } else if (tag == 1) {
-                    bottomOptions = new String[8];
-                    bottomOptions[0] = getString(R.string.bottom_option_details);
-                    bottomOptions[1] = getString(R.string.bottom_option_warranty);
-                    bottomOptions[2] = getString(R.string.bottom_option_bill);
-                    bottomOptions[3] = getString(R.string.bottom_option_past_history);
-                    bottomOptions[4] = getString(R.string.bottom_option_share);
-                    bottomOptions[5] = getString(R.string.bottom_option_transfer);
-                    bottomOptions[6] = getString(R.string.bottom_option_feedback);
-                    bottomOptions[7] = getString(R.string.bottom_option_suggestions);
-
-                    topDrawables = new int[8];
-                    topDrawables[0] = R.drawable.ic_option_details;
-                    topDrawables[1] = R.drawable.ic_option_warranty;
-                    topDrawables[2] = R.drawable.ic_option_bill;
-                    topDrawables[3] = R.drawable.ic_option_pasthistory;
-                    topDrawables[4] = R.drawable.ic_option_share;
-                    topDrawables[5] = R.drawable.ic_option_transfer;
-                    topDrawables[6] = R.drawable.ic_option_feedback;
-                    topDrawables[7] = R.drawable.ic_option_suggestions;
-                } else if (tag == 2) {
-                    bottomOptions = new String[3];
-                    bottomOptions[0] = getString(R.string.bottom_option_Call);
-                    bottomOptions[1] = getString(R.string.bottom_option_location);
-                    bottomOptions[2] = getString(R.string.bottom_option_feedback);
-                    topDrawables = new int[3];
-                    topDrawables[0] = R.drawable.ic_option_call;
-                    topDrawables[1] = R.drawable.ic_option_location;
-                    topDrawables[2] = R.drawable.ic_option_feedback;
-                } else if (tag == 3) {
-                    showDeleteDialog();
-                    return;
-                } else {
-                    showFavoriteOptionsDialog();
-                    return;
-                }
-
-                bottomSheetPurchasedBinding.secondRow.setVisibility(View.VISIBLE);
-                bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
-                bottomSheetPurchasedBinding.secondRow.removeAllViews();
-                bottomSheetPurchasedBinding.secondRow.setWeightSum(bottomOptions.length);
-                setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, bottomOptions, topDrawables, bottomSheetSecondRowClickListener, unparsedTag);
+                topDrawables = new int[8];
+                topDrawables[0] = R.drawable.ic_option_details;
+                topDrawables[1] = R.drawable.ic_option_warranty;
+                topDrawables[2] = R.drawable.ic_option_bill;
+                topDrawables[3] = R.drawable.ic_option_pasthistory;
+                topDrawables[4] = R.drawable.ic_option_share;
+                topDrawables[5] = R.drawable.ic_option_transfer;
+                topDrawables[6] = R.drawable.ic_option_feedback;
+                topDrawables[7] = R.drawable.ic_option_suggestions;
+            } else if (tag == 2) {
+                bottomOptions = new String[3];
+                bottomOptions[0] = getString(R.string.bottom_option_Call);
+                bottomOptions[1] = getString(R.string.bottom_option_location);
+                bottomOptions[2] = getString(R.string.bottom_option_feedback);
+                topDrawables = new int[3];
+                topDrawables[0] = R.drawable.ic_option_call;
+                topDrawables[1] = R.drawable.ic_option_location;
+                topDrawables[2] = R.drawable.ic_option_feedback;
+            } else if (tag == 3) {
+                showDeleteDialog();
+                return;
+            } else {
+                showFavoriteOptionsDialog();
+                return;
             }
-        };
 
+            bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.VISIBLE);
+            bottomSheetPurchasedBinding.secondRow.setVisibility(View.VISIBLE);
+            bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
+            bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
+            bottomSheetPurchasedBinding.secondRow.removeAllViews();
+            bottomSheetPurchasedBinding.secondRow.setWeightSum(bottomOptions.length);
+            setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, bottomOptions, topDrawables, bottomSheetSecondRowClickListener, unparsedTag);
+        }
+    };
 
 
     //  favorite options
@@ -338,8 +346,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
                 //individual
                 if (secondRowTag == 0) {
-                   /* callPhoneNumber(itemFromPosition.getMobileNumber());
-                    return;*/
                     bottomOptions = new String[3];
                     bottomOptions[0] = getString(R.string.bottom_option_Call);
                     bottomOptions[1] = getString(R.string.bottom_option_service_request);
@@ -349,39 +355,20 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     topDrawables[0] = R.drawable.ic_option_details;
                     topDrawables[1] = R.drawable.ic_option_return_product;
                     topDrawables[2] = R.drawable.ic_option_bill;
+                } else if (secondRowTag == 1) { // authorized
+                    bottomOptions = new String[4];
+                    bottomOptions[0] = getString(R.string.bottom_option_Call);
+                    bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
+                    bottomOptions[2] = getString(R.string.bottom_option_service_request);
+                    bottomOptions[3] = getString(R.string.bottom_option_add);
 
-                } else
-
-                    if (secondRowTag == 1) {
-
-                   /* // find service center
-                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                    bottomOptions = new String[0];
-                    topDrawables = new int[0];*/
-
-                        bottomOptions = new String[4];
-                        bottomOptions[0] = getString(R.string.bottom_option_Call);
-                        bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
-                        bottomOptions[2] = getString(R.string.bottom_option_service_request);
-                        bottomOptions[3] = getString(R.string.bottom_option_add);
-
-                        topDrawables = new int[4];
-                        topDrawables[0] = R.drawable.ic_option_details;
-                        topDrawables[1] = R.drawable.ic_option_return_product;
-                        topDrawables[2] = R.drawable.ic_option_bill;
-                        topDrawables[3] = R.drawable.ic_option_bill;
-
+                    topDrawables = new int[4];
+                    topDrawables[0] = R.drawable.ic_option_details;
+                    topDrawables[1] = R.drawable.ic_option_return_product;
+                    topDrawables[2] = R.drawable.ic_option_bill;
+                    topDrawables[3] = R.drawable.ic_option_bill;
                 }
-
-               /* else if (secondRowTag == 2) { // service request
-                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                    bottomOptions = new String[0];
-                    topDrawables = new int[0];
-                }
-*/
-            }
-
-            else if (firstRowTag == 1) { // product
+            } else if (firstRowTag == 1) { // product
 
                 if (secondRowTag == 0) { // details
                     bottomOptions = new String[4];
@@ -462,6 +449,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
 
 
+            bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.removeAllViews();
             bottomSheetPurchasedBinding.thirdRow.setWeightSum(bottomOptions.length);
@@ -593,38 +581,28 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             int secondRowTag = Integer.parseInt(tagArray[1]);
             int thirdRowTag = Integer.parseInt(tagArray[2]);
 
-            if(firstRowTag == 0){
-                if(secondRowTag == 0) {
-                    if (thirdRowTag == 0) {
-                       callPhoneNumber(itemFromPosition.getMobileNumber());
-                    return;
-                    }
-                    else if (thirdRowTag == 1) {
-                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-
-                    }
-                    else if (thirdRowTag == 2) {
-                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                    }
-                }
-
-               else if(secondRowTag == 1) {
-
-                    if (thirdRowTag == 0) {
+            if (firstRowTag == 0) { // service/support
+                if (secondRowTag == 0) { // inidividual
+                    if (thirdRowTag == 0) { // call
                         callPhoneNumber(itemFromPosition.getMobileNumber());
                         return;
-                    }
-                    else if (thirdRowTag == 1) {
+                    } else if (thirdRowTag == 1) { //service request
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
 
-                    }
-                    else if (thirdRowTag == 2) {
+                    } else if (thirdRowTag == 2) { // add
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                     }
+                } else if (secondRowTag == 1) { // authorized
 
-                    else if (thirdRowTag == 3) {
+                    if (thirdRowTag == 0) { // call
+                        callPhoneNumber(itemFromPosition.getMobileNumber());
+                        return;
+                    } else if (thirdRowTag == 1) { //find service center
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                        showCustomAddOptionDialog();
+                    } else if (thirdRowTag == 2) { // service center
+                        showServiceRequestDialog();
+                    } else if (thirdRowTag == 3) { // add
+                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                     }
                 }
 
@@ -632,25 +610,25 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
 
             // product
-           else if (firstRowTag == 1) {
+            else if (firstRowTag == 1) {
                 // details
                 if (secondRowTag == 0) {
                     // return policy
                     if (thirdRowTag == 0) {
                         showInformationDialog(getString(R.string.bottom_option_return_policy), itemFromPosition.getReturnPolicy());
                     }
-                     // special instruction
+                    // special instruction
                     else if (thirdRowTag == 1) {
                         showInformationDialog(getString(
                                 R.string.bottom_option_special_instructions),
                                 itemFromPosition.getSpecialInstruction());
                     }
-                        //how to use
+                    //how to use
                     else if (thirdRowTag == 2) {
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-           //                showInformationDialog(itemFromPosition.getInformation());
+                        //                showInformationDialog(itemFromPosition.getInformation());
                     }
-                         //description
+                    //description
                     else if (thirdRowTag == 3) {
                         showInformationDialog(getString(
                                 R.string.bottom_option_description), itemFromPosition.getInformation()
@@ -666,32 +644,97 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     };
 
-    private void showCustomAddOptionDialog() {
-        customAddOptionsDialog = new CustomAddOptionsDialog.AlertDialogBuilder(getContext(), new CustomAddOptionsCallback() {
+    private void showServiceRequestDialog() {
+        String[] problemsArray = new String[4];
+        problemsArray[0] = "Engine repaired";
+        problemsArray[1] = "Need service";
+        problemsArray[2] = "Power problem";
+        problemsArray[3] = "Others";
+
+        serviceRequestDialog = new ServiceRequestDialog.AlertDialogBuilder(getContext(), new ServiceRequestCallback() {
+            @Override
+            public void dateClicked(String date) {
+                showDatePickerToPlaceServiceRequest(date);
+            }
+
+            @Override
+            public void timeClicked() {
+                showTimePickerToPlaceServiceRequest();
+            }
+
             @Override
             public void alertDialogCallback(byte dialogStatus) {
-
                 switch (dialogStatus) {
                     case AlertDialogCallback.OK:
-
+                        //TODO have to call service request api
                         break;
                     case AlertDialogCallback.CANCEL:
-                        buyRequestDialog.dismiss();
+                        serviceRequestDialog.dismiss();
                         break;
                     default:
                         break;
                 }
 
             }
-        }).title(getString(R.string.bottom_option_transfer))
+        }).problemsArray(problemsArray)
                 .leftButtonText(getString(R.string.action_cancel))
                 .rightButtonText(getString(R.string.action_submit))
                 .build();
-        customAddOptionsDialog.showDialog();
-
-
+        serviceRequestDialog.showDialog();
     }
 
+    private void showTimePickerToPlaceServiceRequest() {
+        timeSlotAlertDialog = new TimeSlotAlertDialog.AlertDialogBuilder(getContext(), new TimeSlotAlertDialogCallback() {
+            @Override
+            public void selectedTimeSlot(String timeSlot) {
+                serviceRequestDialog.setTimeFromPicker(timeSlot);
+            }
+
+            @Override
+            public void alertDialogCallback(byte dialogStatus) {
+                timeSlotAlertDialog.dismiss();
+
+            }
+        }).build();
+        timeSlotAlertDialog.showDialog();
+    }
+
+    private void showDatePickerToPlaceServiceRequest(String date) {
+        AppUtils.hideSoftKeyboard(getContext(), getView());
+        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+        String selectedDate = date;
+        if (!TextUtils.isEmpty(selectedDate)) {
+            cal.setTimeInMillis(DateUtils.convertStringFormatToMillis(
+                    selectedDate, DateFormatterConstants.DD_MM_YYYY));
+        }
+
+        int customStyle = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                ? R.style.DatePickerDialogTheme : android.R.style.Theme_DeviceDefault_Light_Dialog;
+        DatePickerDialog datePicker = new DatePickerDialog(getContext(),
+                customStyle,
+                serviceRequestDatePickerListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
+        datePicker.setCancelable(false);
+        datePicker.show();
+    }
+
+    // date Listener
+    private DatePickerDialog.OnDateSetListener serviceRequestDatePickerListener =
+            new DatePickerDialog.OnDateSetListener() {
+                // when dialog box is closed, below method will be called.
+                public void onDateSet(DatePicker view, int selectedYear,
+                                      int selectedMonth, int selectedDay) {
+                    Calendar selectedDateTime = Calendar.getInstance();
+                    selectedDateTime.set(selectedYear, selectedMonth, selectedDay);
+
+                    String dobInDD_MM_YYYY = DateUtils.convertDateToOtherFormat(
+                            selectedDateTime.getTime(), DateFormatterConstants.DD_MM_YYYY);
+                    serviceRequestDialog.setDateFromPicker(dobInDD_MM_YYYY);
+
+                }
+            };
 
     private void showInformationDialog(String title, String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new

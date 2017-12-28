@@ -50,8 +50,9 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
                 linearLayout = (LinearLayout) childAt;
             } else {
                 HorizontalScrollView horizontalScrollView = (HorizontalScrollView) childAt;
-                LinearLayout childAt1 = (LinearLayout) horizontalScrollView.getChildAt(0);
-                linearLayout = (LinearLayout) childAt1.getChildAt(0);
+                LinearLayout childAt1 = (LinearLayout) horizontalScrollView.getChildAt(i);
+                changeSelectedViews(childAt1, selectedTag);
+                return;
             }
             String tag = (String) linearLayout.getTag();
             boolean isSelectedView = tag.equalsIgnoreCase(selectedTag);
@@ -59,7 +60,6 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
             (getBottomTextView(linearLayout)).setTextColor(ContextCompat.getColor(getActivity(), isSelectedView ? R.color.colorPrimary : R.color.colorAccent));
         }
     }
-
 
     /**
      * if options is grater than 5 we are adding horizontall scrollview else adding in linear layout
@@ -110,8 +110,7 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
 
     private HorizontalScrollView getcustomHorizontalScroll() {
         HorizontalScrollView horizontalScrollView = new HorizontalScrollView(getActivity());
-        horizontalScrollView.setScrollBarSize((int) DeviceUtils.convertPxToDp(4));
-        horizontalScrollView.setHorizontalScrollBarEnabled(true);
+        horizontalScrollView.setHorizontalScrollBarEnabled(false);
         return horizontalScrollView;
     }
 
@@ -132,18 +131,19 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
             llp.weight = 1;
         }
         linearLayout.setLayoutParams(llp);
-        int dp24 = (int) DeviceUtils.convertPxToDp(24);
+        int dp24 = (int) DeviceUtils.convertPxToDp(20);
         AppCompatImageView imageView = new AppCompatImageView(context);
         imageView.setId(R.id.view_logo);
         LinearLayout.LayoutParams imageViewLayoutParams = new LinearLayout.LayoutParams(dp24, dp24);
         imageView.setLayoutParams(imageViewLayoutParams);
-        imageView.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+        imageView.setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_IN);
         linearLayout.addView(imageView);
 
         TextView textView = new TextView(context);
         textView.setId(R.id.view_tv);
-        textView.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
+        textView.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
+        textView.setTextSize(DeviceUtils.convertSpToPixels(4, getActivity()));
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         textView.setLayoutParams(layoutParams);
         linearLayout.addView(textView);

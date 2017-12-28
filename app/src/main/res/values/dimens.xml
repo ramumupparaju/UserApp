@@ -6,7 +6,6 @@
     <dimen name="divider_margin_1">1dp</dimen>
 
 
-
     <dimen name="margin_0">0dp</dimen>
     <dimen name="margin_1">1dp</dimen>
     <dimen name="margin_2">2dp</dimen>
@@ -36,6 +35,7 @@
     <dimen name="margin_35">35dp</dimen>
     <dimen name="margin_38">38dp</dimen>
     <dimen name="margin_40">40dp</dimen>
+    <dimen name="margin_42">42dp</dimen>
     <dimen name="margin_45">45dp</dimen>
     <dimen name="margin_48">48dp</dimen>
     <dimen name="margin_50">50dp</dimen>

@@ -23,7 +23,7 @@
     <string name="bottom_option_how_to_use">How to use</string>
     <string name="bottom_option_description">Description:</string>
     <string name="product_specification">Product Specification:</string>
-    <string name="bottom_option_service">Service/Support</string>
+    <string name="bottom_option_service">Support</string>
     <string name="bottom_option_satus_update">Satus Update</string>
     <string name="bottom_option_add_as_favorite">Add as favorite</string>
     <string name="bottom_option_return">Return</string>
@@ -31,7 +31,7 @@
     <string name="bottom_option_call_customer_care">Call customer care</string>
     <string name="bottom_option_find_service_center">Find service center</string>
     <string name="bottom_option_individual">Individual</string>
-    <string name="bottom_option_manual">Manual</string>
+    <string name="bottom_option_authorized">Authorize</string>
     <string name="bottom_option_service_request">Service request</string>
     <string name="bottom_option_location">Location</string>
     <string name="bottom_option_details">Details</string>
@@ -399,6 +399,9 @@
     <string name="tab_interest">Interest</string>
     <string name="tab_return">Return</string>
     <string name="hint_warranty_date">Warranty ends on \n %1$s</string>
+    <string name="hint_problem_details">Problem details</string>
+    <string name="hint_time">Time</string>
+    <string name="hint_date">Date</string>
 
     <!--Settings -->
     <string name="title_menu_change_password">Change Password</string>
