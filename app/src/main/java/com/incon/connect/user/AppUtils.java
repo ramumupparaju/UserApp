@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -18,6 +21,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class AppUtils {
+
+    public static DisplayMetrics getDeviceMetrics(Context context) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        display.getMetrics(metrics);
+        return metrics;
+    }
 
     public static void shortToast(Context context, String toastMessage) {
         Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();

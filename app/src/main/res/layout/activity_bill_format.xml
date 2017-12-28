@@ -15,7 +15,7 @@
 
     <ScrollView
         android:id="@+id/scrollview_user_info"
-        style="@style/BothMatch">
+        style="@style/MatchWrap">
 
         <RelativeLayout style="@style/BothMatch">
 
