@@ -119,7 +119,8 @@
         <activity
             android:name="com.incon.connect.user.ui.billformat.BillFormatActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithCorners"></activity>
         <activity
             android:name=".ui.settings.billformat.SettingsBillFormatActivity"
             android:configChanges="orientation|keyboardHidden"

@@ -1,41 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
 
         <variable
             name="billFormatActivity"
-            type="com.incon.connect.user.ui.billformat.BillFormatActivity"/>
+            type="com.incon.connect.user.ui.billformat.BillFormatActivity" />
 
         <variable
             name="productinforesponse"
-            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
 
     </data>
 
-  <!--  <RelativeLayout
-        style="@style/BothMatch"
-        android:layout_marginBottom="@dimen/margin_5"
-        android:background="@drawable/btn_roundedcorner_gray"
-        >-->
-
     <ScrollView
-        android:background="@drawable/btn_roundedcorner_gray"
         android:id="@+id/scrollview_user_info"
         style="@style/BothMatch">
 
-        <RelativeLayout
-            style="@style/BothMatch"
-            android:layout_marginTop="@dimen/margin_10"
-            android:layout_marginBottom="@dimen/margin_10"
+        <RelativeLayout style="@style/BothMatch">
 
-            >
-
+            <!--title-->
             <TextView
                 android:id="@+id/text_invoice"
                 style="@style/bill_header_text_view"
-                android:background="@color/colorPrimaryDark"
-                android:text="INVOICE"/>
+                fontPath="fonts/OpenSans-Bold.ttf"
+                android:background="@drawable/bg_round_corners_blue"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:paddingBottom="@dimen/margin_20"
+                android:paddingLeft="@dimen/margin_5"
+                android:paddingRight="@dimen/margin_5"
+                android:paddingTop="@dimen/margin_20"
+                android:text="INVOICE"
+                android:textColor="@color/white" />
 
 
             <LinearLayout
@@ -54,17 +51,17 @@
                     <TextView
                         android:id="@+id/text_dop"
                         style="@style/bill_header_right_text_view"
-                        android:text="Date of purchase"/>
+                        android:text="Date of purchase" />
 
                     <TextView
                         android:id="@+id/text_bill_id"
                         style="@style/bill_header_right_text_view"
-                        android:text="Bill ID"/>
+                        android:text="Bill ID" />
 
                     <TextView
                         android:id="@+id/text_invoice_no"
                         style="@style/bill_header_right_text_view"
-                        android:text="Invoice NO"/>
+                        android:text="Invoice NO" />
 
                 </LinearLayout>
 
@@ -75,135 +72,121 @@
 
                     <TextView
                         android:id="@+id/text_dop_values"
-                        style="@style/bill_header_left_text_view"
-                        android:text="@{`: ` + productinforesponse.purchasedDate}"/>
+                        style="@style/bill_header_left_text_view" />
 
                     <TextView
                         android:id="@+id/text_bill_id_values"
                         style="@style/bill_header_left_text_view"
-                        android:text="@{`: ` + productinforesponse.warrantyId}"/>
+                        android:text="@{`: ` + productinforesponse.warrantyId}" />
 
                     <TextView
                         android:id="@+id/text_invoice_no_values"
                         style="@style/bill_header_left_text_view"
-                        android:text="@{`:` + productinforesponse.invoiceNumber}"/>
+                        android:text="@{`:` + productinforesponse.invoiceNumber}" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/product_details"
-                style="@style/bill_header_text_view"
-                android:layout_below="@id/invoice_layout"
-                android:layout_marginTop="10dp"
-                android:text="Product details"/>
-
             <LinearLayout
-                android:id="@+id/product_details_layout"
+                android:id="@+id/product_details_base"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/product_details"
-                android:weightSum="2">
+                android:layout_below="@id/invoice_layout"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@drawable/bg_round"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_5"
+                android:paddingTop="@dimen/margin_5">
+
+                <TextView
+                    android:id="@+id/product_details"
+                    style="@style/bill_header_text_view"
+                    android:text="Product details" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/black" />
 
                 <LinearLayout
-                    android:id="@+id/layout_product_detail"
-                    style="@style/bill_header_linear_layout">
+                    android:id="@+id/product_details_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/product_details"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:id="@+id/layout_product_detail"
+                        style="@style/bill_header_linear_layout">
 
 
-                    <TextView
-                        android:id="@+id/text_product_name"
-                        style="@style/bill_header_right_text_view"
-                        android:text="Product name"/>
+                        <TextView
+                            android:id="@+id/text_product_name"
+                            style="@style/bill_header_right_text_view"
+                            android:text="Product name" />
 
-                    <TextView
-                        android:id="@+id/text_model_number"
-                        style="@style/bill_header_right_text_view"
-                        android:text="Model no"/>
+                        <TextView
+                            android:id="@+id/text_model_number"
+                            style="@style/bill_header_right_text_view"
+                            android:text="Model no" />
 
-                    <TextView
-                        android:id="@+id/text_sn"
-                        style="@style/bill_header_right_text_view"
-                        android:text="S/N"/>
-
-
-                    <TextView
-                        android:id="@+id/text_price"
-                        style="@style/bill_header_right_text_view"
-                        android:text="Price"/>
+                        <TextView
+                            android:id="@+id/text_sn"
+                            style="@style/bill_header_right_text_view"
+                            android:text="S/N" />
 
 
-                    <TextView
-                        android:id="@+id/text_discount"
-                        style="@style/bill_header_right_text_view"
-                        android:text="Discount"/>
+                        <TextView
+                            android:id="@+id/text_price"
+                            style="@style/bill_header_right_text_view"
+                            android:text="Price" />
 
 
-                    <TextView
-                        android:id="@+id/text_gst"
-                        style="@style/bill_header_right_text_view"
-                        android:text="GST"/>
+                    </LinearLayout>
+
+                    <!--product details values-->
+                    <LinearLayout
+                        android:id="@+id/layout_product_detail_valus"
+                        style="@style/bill_header_linear_layout">
 
 
-                    <TextView
-                        android:id="@+id/text_total"
-                        style="@style/bill_header_right_text_view"
-                        android:text="Total"/>
+                        <TextView
+                            android:id="@+id/text_product_name_valus"
+                            style="@style/bill_header_left_text_view"
+                            android:text="@{`:` + productinforesponse.productName}" />
+
+                        <TextView
+                            android:id="@+id/text_model_number_valus"
+                            style="@style/bill_header_left_text_view"
+                            android:text="@{`:` + productinforesponse.modelNumber}" />
+
+                        <TextView
+                            android:id="@+id/text_sn_valus"
+                            style="@style/bill_header_left_text_view"
+                            android:text="@{`:` + productinforesponse.serialNumber}" />
+
+
+                        <TextView
+                            android:id="@+id/text_price_valus"
+                            style="@style/bill_header_left_text_view"
+                            android:text="@{`: ` + productinforesponse.price}" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
-                <!--product details values-->
-                <LinearLayout
-                    android:id="@+id/layout_product_detail_valus"
-                    style="@style/bill_header_linear_layout">
-
-
-                    <TextView
-                        android:id="@+id/text_product_name_valus"
-                        style="@style/bill_header_left_text_view"
-                        android:text="@{`:` + productinforesponse.productName}"/>
-
-                    <TextView
-                        android:id="@+id/text_model_number_valus"
-                        style="@style/bill_header_left_text_view"
-                        android:text="@{`:` + productinforesponse.modelNumber}"/>
-
-                    <TextView
-                        android:id="@+id/text_sn_valus"
-                        style="@style/bill_header_left_text_view"
-                        android:text="@{`:` + productinforesponse.serialNumber}"/>
-
-
-
-                    <TextView
-                        android:id="@+id/text_price_valus"
-                        style="@style/bill_header_left_text_view"
-                        android:text="@{`: ` + productinforesponse.price}"/>
-
-
-                    <TextView
-                        android:id="@+id/text_discount_valus"
-                        style="@style/bill_header_left_text_view"
-                        />
-
-
-                    <TextView
-                        android:id="@+id/text_gst_valus"
-                        style="@style/bill_header_left_text_view"
-                        />
-
-                    <TextView
-                        android:id="@+id/text_total_valus"
-                        style="@style/bill_header_left_text_view"
-                        />
-                </LinearLayout>
             </LinearLayout>
 
             <TextView
                 android:id="@+id/showroom_details"
                 style="@style/bill_header_text_view"
-                android:layout_below="@+id/product_details_layout"
+                android:layout_below="@+id/product_details_base"
                 android:layout_marginTop="10dp"
-                android:text="Showroom details"/>
+                android:text="Showroom details" />
 
             <LinearLayout
                 android:id="@+id/showroom_details_layout"
@@ -211,157 +194,34 @@
                 android:layout_below="@id/showroom_details"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    style="@style/MatchWrap"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/text_showroom_name_value"
+                    style="@style/bill_store_text_view_match"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@{productinforesponse.storeName}" />
 
-                    <TextView
-                        style="@style/bill_store_text_view"
-                        android:layout_weight=".3"
-                        android:text="Store Name"/>
+                <TextView
+                    style="@style/bill_store_text_view_match"
+                    android:text="@{productinforesponse.storeAddress}" />
 
-                    <TextView
-                        style="@style/bill_store_text_view"
-                        android:id="@+id/text_showroom_name_value"
-                        android:layout_weight=".7"
-                        android:text="@{`: ` + productinforesponse.storeName}"/>
-                </LinearLayout>
+                <TextView
+                    style="@style/bill_store_text_view_match"
+                    android:text="@{productinforesponse.storeContactNumber}" />
 
-                <LinearLayout
-                    style="@style/MatchWrap"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                <!--TODO have to insert correct value-->
+                <TextView
+                    style="@style/bill_store_text_view_match"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:text="Z3ER9000879654TG" />
 
-                    <TextView
-                        style="@style/bill_store_text_view"
-                        android:layout_weight=".3"
-                        android:text="Address"/>
-
-                    <TextView
-                        style="@style/bill_store_text_view"
-                        android:layout_weight=".7"
-                        android:text="@{`: ` + productinforesponse.storeAddress}"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/MatchWrap"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/bill_store_text_view"
-                        android:layout_weight=".3"
-                        android:text="Contact Details"/>
-
-                    <TextView
-                        style="@style/bill_store_text_view"
-                        android:layout_weight=".7"
-                        android:text="@{`: ` + productinforesponse.storeContactNumber}"/>
-                </LinearLayout>
-
-                <LinearLayout
-
-                    style="@style/MatchWrap"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/bill_store_text_view"
-                        android:layout_weight=".3"
-                        android:text="GSTIN"/>
-
-                    <TextView
-                        style="@style/bill_store_text_view"
-                        android:layout_weight=".7"
-                        android:text=":Z3ER9000879654TG"/>
-                </LinearLayout>
             </LinearLayout>
 
-
-            <!-- <LinearLayout
-                 android:id="@+id/showroom_details_layout"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_below="@id/showroom_details"
-                 android:weightSum="2">
-
-                 <LinearLayout
-                     android:id="@+id/layout_showroom"
-                     style="@style/bill_header_linear_layout">
-
-                     <TextView
-                         android:id="@+id/text_showroom_name"
-                         style="@style/bill_header_right_text_view"
-                         android:text="Store Name"/>
-
-
-                     <TextView
-                         android:id="@+id/text_showroom_address"
-                         style="@style/bill_header_right_text_view"
-                         android:text="Address"/>
-
-
-                     <TextView
-                         android:id="@+id/text_contact_details"
-                         style="@style/bill_header_right_text_view"
-                         android:text="Contact Details"/>
-
-                     <TextView
-                         android:id="@+id/text_showroom_gstn"
-                         style="@style/bill_header_right_text_view"
-                         android:text="GSTN"/>
-                 </LinearLayout>
-                 &lt;!&ndash;show room values&ndash;&gt;
-                 <LinearLayout
-                     android:id="@+id/layout_showroom_values"
-                     style="@style/bill_header_linear_layout">
-
-                     <TextView
-                         android:textSize="@dimen/text_size_13"
-                         android:textColor="@color/black"
-                         android:layout_marginLeft="@dimen/margin_0"
-                         android:layout_marginTop="@dimen/margin_9"
-                         android:id="@+id/text_showroom_name_value"
-                         style="@style/BothWrap"
-                         android:text="@{`: ` + productinforesponse.storeName}"/>
-
-
-                         <TextView
-                             android:textSize="@dimen/text_size_13"
-                             android:textColor="@color/black"
-                             android:layout_marginLeft="@dimen/margin_0"
-                             android:layout_marginTop="@dimen/margin_9"
-                             android:id="@+id/text_showroom_address_value"
-                             style="@style/BothWrap"
-                             android:text="@{`: ` + productinforesponse.storeAddress}"/>
-
-                     <TextView
-                         android:textSize="@dimen/text_size_13"
-                         android:textColor="@color/black"
-                         android:layout_marginLeft="@dimen/margin_0"
-                         android:layout_marginTop="@dimen/margin_9"
-                         android:id="@+id/text_contact_details_value"
-                         style="@style/BothWrap"
-                         android:text="@{`: ` + productinforesponse.storeContactNumber}"/>
-
-                     <TextView
-                         android:textSize="@dimen/text_size_13"
-                         android:textColor="@color/black"
-                         android:layout_marginLeft="@dimen/margin_0"
-                         android:layout_marginTop="@dimen/margin_9"
-                         android:id="@+id/text_showroom_gstn_value"
-                         style="@style/BothWrap"
-                         />
-                 </LinearLayout>
-             </LinearLayout>
- -->
             <TextView
                 android:id="@+id/customer_details"
                 style="@style/bill_header_text_view"
                 android:layout_below="@id/showroom_details_layout"
                 android:layout_marginTop="10dp"
-                android:text="Customer details"/>
+                android:text="Customer details" />
 
             <LinearLayout
                 android:id="@+id/customer_details_layout"
@@ -378,19 +238,19 @@
                     <TextView
                         android:id="@+id/text_customer_name"
                         style="@style/bill_header_right_text_view"
-                        android:text="Customer Name"/>
+                        android:text="Customer Name" />
 
 
                     <TextView
                         android:id="@+id/text_customer_address"
                         style="@style/bill_header_right_text_view"
-                        android:text="Address"/>
+                        android:text="Address" />
 
 
                     <TextView
                         android:id="@+id/text_customer_contact_details"
                         style="@style/bill_header_right_text_view"
-                        android:text="Contact Details"/>
+                        android:text="Contact Details" />
 
                 </LinearLayout>
 
@@ -403,41 +263,52 @@
                     <TextView
                         android:id="@+id/text_customer_name_values"
                         style="@style/bill_header_left_text_view"
-                        android:text="@{`:` + productinforesponse.name}"/>
+                        android:text="@{`:` + productinforesponse.name}" />
 
 
                     <TextView
                         android:id="@+id/text_customer_address_values"
                         style="@style/bill_header_left_text_view"
-                        android:text="@{`:` + productinforesponse.address}"/>
+                        android:text="@{`:` + productinforesponse.address}" />
 
 
                     <TextView
                         android:id="@+id/text_customer_contact_details_values"
                         style="@style/bill_header_left_text_view"
-                        android:text="@{`:` + productinforesponse.mobileNumber}"/>
+                        android:text="@{`:` + productinforesponse.mobileNumber}" />
 
                 </LinearLayout>
             </LinearLayout>
+
+
+            <View
+                android:id="@+id/line_separator"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@id/customer_details_layout"
+                android:layout_marginEnd="@dimen/margin_10"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@color/colorAccent" />
 
             <TextView
                 android:id="@+id/text_connect"
                 style="@style/BothWrap"
                 android:layout_alignParentBottom="true"
-                android:layout_below="@id/customer_details_layout"
+                android:layout_below="@id/line_separator"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_20"
+                android:layout_marginTop="@dimen/margin_10"
                 android:paddingBottom="@dimen/margin_20"
-                android:text="POEERED BY CONNECT"
+                android:text="POWERED BY CONNECT"
                 android:textColor="@color/ebony_clay"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
         </RelativeLayout>
 
 
     </ScrollView>
-   <!-- </RelativeLayout>-->
+    <!-- </RelativeLayout>-->
 
 
 </layout>

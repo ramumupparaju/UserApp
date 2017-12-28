@@ -2,6 +2,8 @@ package com.incon.connect.user.ui.billformat;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.WindowManager;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
@@ -30,14 +32,33 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
 
     @Override
     protected void onCreateView(Bundle saveInstanceState) {
+        // Make us non-modal, so that others can receive touch events.
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+        // ...but notify us that it happened.
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH, WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
+
+
         binding = DataBindingUtil.setContentView(this, getLayoutId());
         binding.setBillFormatActivity(this);
         Bundle bundle = getIntent().getExtras();
         productInfoResponse = bundle.getParcelable(BundleConstants.PRODUCT_INFO_RESPONSE);
         binding.setProductinforesponse(productInfoResponse);
-      //  binding.textDopValues.setText(": " + DateUtils.convertMillisToStringFormat
-                //(productInfoResponse.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY));
 
+
+        binding.textDopValues.setText(DateUtils.convertMillisToStringFormat(productInfoResponse.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY));
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        // If we've received a touch notification that the user has touched
+        // outside the app, finish the activity.
+        if (MotionEvent.ACTION_OUTSIDE == event.getAction()) {
+            finish();
+            return true;
+        }
+
+        // Delegate everything else to Activity.
+        return super.onTouchEvent(event);
     }
 
     @Override
