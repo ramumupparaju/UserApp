@@ -22,6 +22,7 @@ public interface PurchasedContract {
         void transferMobileNumber(Object response);
         void deleteProduct(Object response);
         void serviceRequest();
+        void nearByServiceCenters();
     }
 
     interface Presenter {
@@ -31,6 +32,7 @@ public interface PurchasedContract {
         void addToFavotites(HashMap<String, String> favoritesMap);
         void deleteProduct(int userId);
         void serviceRequest(int userId, ServiceRequest serviceRequest);
+        void nearByServiceCenters(int brandId);
     }
 
 }

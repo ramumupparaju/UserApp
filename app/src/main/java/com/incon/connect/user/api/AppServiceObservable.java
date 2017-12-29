@@ -64,7 +64,7 @@ public interface AppServiceObservable {
 
     @POST("user/validateotp")
     Observable<LoginResponse> validateOtp(@Body HashMap<String, String> verify);
-
+// forgotpassword api
     @POST("merchant/forgotpassword")
     Observable<ApiBaseResponse> forgotPassword(@Body HashMap<String, String> phoneNumber);
 

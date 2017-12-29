@@ -147,6 +147,36 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
     }
 
     @Override
+    public void nearByServiceCenters(int brandId) {
+
+        getView().showProgress(appContext.getString(R.string.progress_finding_service_centers));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object obj) {
+                        getView().nearByServiceCenters();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().findNearByServiceCenters(brandId).subscribe(observer);
+        addDisposable(observer);
+
+
+
+    }
+
+    @Override
     public void doGetAddressApi(int userId) {
         FavoritesPresenter favoritesPresenter = new FavoritesPresenter();
         favoritesPresenter.initialize(null);

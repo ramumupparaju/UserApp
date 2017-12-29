@@ -28,7 +28,7 @@ public class ServiceRequest {
     private Integer serviceCenterId;
     @SerializedName("status")
     @Expose
-    private StatusRequest status;
+    private Status status;
 
     public Integer getAssignedTo() {
         return assignedTo;
@@ -78,11 +78,11 @@ public class ServiceRequest {
         this.serviceCenterId = serviceCenterId;
     }
 
-    public StatusRequest getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(StatusRequest status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 }

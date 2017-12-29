@@ -65,7 +65,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private AppCheckBoxListDialog productLocationDialog;
     private List<AddUserAddressResponse> productLocationList;
     private Integer addressId;
-    private AppEditTextDialog buyRequestDialog;
+    private AppEditTextDialog transferDialog;
     private AppFeedBackDialog buyFeedBackRequestDialog;
     private String buyRequestComment;
     private boolean isFromFavorites = false;
@@ -421,7 +421,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     shareProductDetails(itemFromPosition);
                     return;
                 } else if (secondRowTag == 5) { // transfer
-                    showBuyRequestDialog();
+                    showTransferDialog();
                     return;
                 } else if (secondRowTag == 6) { // feed back
                     AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
@@ -504,8 +504,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
     }
 
-    private void showBuyRequestDialog() {
-        buyRequestDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+    private void showTransferDialog() {
+        transferDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String commentString) {
@@ -518,11 +518,11 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                             case AlertDialogCallback.OK:
                                 purchasedPresenter.doTransferProductApi(buyRequestComment,
                                         userId);
-                                buyRequestDialog.dismiss();
+                                transferDialog.dismiss();
                                 AppUtils.hideSoftKeyboard(getContext(), getView());
                                 break;
                             case AlertDialogCallback.CANCEL:
-                                buyRequestDialog.dismiss();
+                                transferDialog.dismiss();
                                 break;
                             default:
                                 break;
@@ -532,7 +532,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 .leftButtonText(getString(R.string.action_cancel))
                 .rightButtonText(getString(R.string.action_submit))
                 .build();
-        buyRequestDialog.showDialog();
+        transferDialog.showDialog();
     }
 
     private void showDeleteDialog() {
@@ -601,7 +601,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     } else if (thirdRowTag == 2) { // service center
                         showServiceRequestDialog();
                     } else if (thirdRowTag == 3) { // add
-                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+
+
                     }
                 }
 
@@ -666,6 +667,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 switch (dialogStatus) {
                     case AlertDialogCallback.OK:
                         //TODO have to call service request api
+
+                     //  purchasedPresenter.serviceRequest();
+
                         break;
                     case AlertDialogCallback.CANCEL:
                         serviceRequestDialog.dismiss();
@@ -676,8 +680,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
             }
         }).problemsArray(problemsArray)
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
                 .build();
         serviceRequestDialog.showDialog();
     }
@@ -856,7 +858,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     //service sequest
     @Override
     public void serviceRequest() {
-        // TODO  have to call service request api
+        // TODO  have to
+
+    }
+
+    @Override
+    public void nearByServiceCenters() {
 
     }
 

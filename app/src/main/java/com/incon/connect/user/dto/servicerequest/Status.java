@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by MY HOME on 29-Dec-17.
  */
 
-public class StatusRequest {
+public class Status {
     @SerializedName("id")
     @Expose
     private Integer id;

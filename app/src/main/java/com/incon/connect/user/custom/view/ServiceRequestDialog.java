@@ -1,26 +1,19 @@
 package com.incon.connect.user.custom.view;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
-import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
 import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.databinding.DialogServiceRequestBinding;
-import com.incon.connect.user.utils.DateUtils;
-
-import java.util.Calendar;
-import java.util.TimeZone;
+import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 
 /**
  * Created by PC on 12/26/2017.
@@ -30,19 +23,16 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
     private DialogServiceRequestBinding binding;
     private final Context context;
     private final ServiceRequestCallback serviceRequestCallback;
-    private final String leftButtonText; // required
-    private final String rightButtonText; // required
     private EditText editTextNotes;
     private String[] problemsArray;
     private int problemSelectedPosition = 0;
+    private ServiceRequest serviceRequest;
 
     public ServiceRequestDialog(AlertDialogBuilder builder) {
         super(builder.context);
         this.context = builder.context;
         this.problemsArray = builder.problemsArray;
         this.serviceRequestCallback = builder.callback;
-        this.leftButtonText = builder.leftButtonText;
-        this.rightButtonText = builder.rightButtonText;
     }
 
 
@@ -109,24 +99,12 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
     public static class AlertDialogBuilder {
         private final Context context;
         private final ServiceRequestCallback callback;
-        private String leftButtonText;
-        private String rightButtonText;
         private String[] problemsArray;
 
 
         public AlertDialogBuilder(Context context, ServiceRequestCallback callback) {
             this.context = context;
             this.callback = callback;
-        }
-
-        public AlertDialogBuilder leftButtonText(String leftButtonText) {
-            this.leftButtonText = leftButtonText;
-            return this;
-        }
-
-        public AlertDialogBuilder rightButtonText(String rightButtonText) {
-            this.rightButtonText = rightButtonText;
-            return this;
         }
 
         public AlertDialogBuilder problemsArray(String[] problemsArray) {

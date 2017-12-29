@@ -511,7 +511,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         interestPresenter.interestApi(userId);
     }
 
-
     @Override
     public void loadBuyRequestResponce(Object buyRequestResponceList) {
         dismissDialog(buyRequestDialog);

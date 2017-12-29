@@ -119,12 +119,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        loginPresenter.disposeAll();
-    }
-
-    @Override
     public void navigateToHomePage(LoginResponse loginResponse) {
         if (loginResponse == null) {
             clearData();
@@ -228,5 +222,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                     break;
             }
         }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loginPresenter.disposeAll();
     }
 }

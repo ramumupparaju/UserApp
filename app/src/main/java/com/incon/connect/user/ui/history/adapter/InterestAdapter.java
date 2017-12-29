@@ -67,7 +67,7 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
                 binding.statusTv.setVisibility(View.GONE);
             } else {
                 binding.statusTv.setVisibility(View.VISIBLE);
-                binding.statusTv.setText("StatusRequest:" + status);
+                binding.statusTv.setText("Status:" + status);
             }
 
             String merchantComments = interestHistoryResponse.getMerchantComments();
