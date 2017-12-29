@@ -76,7 +76,9 @@
         <activity
             android:name="com.incon.connect.user.ui.fullscreenimageview.FullScreenImageViewActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <activity
             android:name="com.incon.connect.user.ui.termsandcondition.TermsAndConditionActivity"
@@ -87,16 +89,32 @@
             android:name="com.incon.connect.user.ui.home.HomeActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+        </activity>
+
         <activity
             android:name="com.incon.connect.user.ui.RegistrationMapActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/dialog_theme"></activity>
+            android:theme="@style/dialog_theme">
+
+        </activity>
+
         <activity
+            android:name=".ui.servicecenters.ServiceCentersActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog_theme">
+
+        </activity>
+
+        <activity
+
             android:name="com.incon.connect.user.ui.settings.SettingsActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name="com.incon.connect.user.ui.changepassword.ChangePasswordActivity"
             android:configChanges="orientation|keyboardHidden"

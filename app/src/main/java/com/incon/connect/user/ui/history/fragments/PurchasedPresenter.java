@@ -9,6 +9,7 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.ui.favorites.FavoritesContract;
@@ -172,7 +173,32 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         AppApiService.getInstance().findNearByServiceCenters(brandId).subscribe(observer);
         addDisposable(observer);
 
+    }
 
+    @Override
+    public void getUsersListOfServiceCenters(int serviceCenterId) {
+        getView().showProgress(appContext.getString(R.string.progress_finding_service_centers));
+        DisposableObserver<List<UsersListOfServiceCenters>> observer = new
+                DisposableObserver<List<UsersListOfServiceCenters>>() {
+                    @Override
+                    public void onNext(List<UsersListOfServiceCenters> listOfServiceCenters) {
+                        getView().loadUsersListOfServiceCenters(listOfServiceCenters);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().getUsersListOfServiceCenters(serviceCenterId).subscribe(observer);
+        addDisposable(observer);
 
     }
 

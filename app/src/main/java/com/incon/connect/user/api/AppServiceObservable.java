@@ -9,6 +9,7 @@ import com.incon.connect.user.apimodel.components.productinforesponse.ProductInf
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
+import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
@@ -16,8 +17,8 @@ import com.incon.connect.user.dto.asignqrcode.AssignQrCode;
 import com.incon.connect.user.dto.login.LoginUserData;
 import com.incon.connect.user.dto.notifications.PushRegistrarBody;
 import com.incon.connect.user.dto.registration.Registration;
-import com.incon.connect.user.dto.update.UpDateUserProfile;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
+import com.incon.connect.user.dto.update.UpDateUserProfile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -79,6 +80,11 @@ public interface AppServiceObservable {
     // purchased history  api
     @GET("user/history/purchased/{userId}")
     Observable<List<ProductInfoResponse>> purchasedApi(@Path("userId") int userId);
+
+    // get users list of service centers
+    @GET("service/getuserslist/{serviceCenterId}")
+    Observable<List<UsersListOfServiceCenters>> getUsersListOfServiceCenters(@Path("serviceCenterId") int serviceCenterId);
+
 
     // add favourites  api
     @POST("user/addtofavourites")

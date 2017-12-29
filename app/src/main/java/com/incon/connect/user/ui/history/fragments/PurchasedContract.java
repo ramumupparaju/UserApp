@@ -3,6 +3,7 @@ package com.incon.connect.user.ui.history.fragments;
 
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.BaseView;
 
@@ -23,6 +24,7 @@ public interface PurchasedContract {
         void deleteProduct(Object response);
         void serviceRequest();
         void nearByServiceCenters();
+        void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters);
     }
 
     interface Presenter {
@@ -33,6 +35,7 @@ public interface PurchasedContract {
         void deleteProduct(int userId);
         void serviceRequest(int userId, ServiceRequest serviceRequest);
         void nearByServiceCenters(int brandId);
+        void getUsersListOfServiceCenters(int serviceCenterId);
     }
 
 }

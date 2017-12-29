@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <data>
+        <variable
+            name="serviceCentersActivity"
+            type="com.incon.connect.user.ui.servicecenters.ServiceCentersActivity"/>
+    </data>
+    <RelativeLayout
+        android:id="@+id/map_view"
+        style="@style/BothMatch"
+        android:layout_marginTop="@dimen/margin_10">
+        <fragment
+            android:id="@+id/map_monitor"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            style="@style/BothMatch" />
+
+        <!-- Register button -->
+        <Button
+            android:id="@+id/button_ok"
+            style="@style/MatchWrap"
+            fontPath="fonts/OpenSans-Bold.ttf"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/margin_24"
+            android:background="@drawable/btn_login_register_roundedcorner"
+            android:onClick="@{() -> serviceCentersActivity.onOkClick()}"
+            android:text="@string/action_close"
+            android:textAllCaps="true"
+            android:textColor="@color/tueo_theme"
+            android:textSize="@dimen/text_size_13"/>
+    </RelativeLayout>
+</layout>

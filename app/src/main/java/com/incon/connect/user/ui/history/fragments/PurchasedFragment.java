@@ -20,6 +20,7 @@ import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.ServiceRequestCallback;
@@ -38,6 +39,7 @@ import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
+import com.incon.connect.user.ui.servicecenters.ServiceCentersActivity;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
@@ -597,9 +599,11 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                         callPhoneNumber(itemFromPosition.getMobileNumber());
                         return;
                     } else if (thirdRowTag == 1) { //find service center
-                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                        Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
+                        startActivity(serviceCenters);
                     } else if (thirdRowTag == 2) { // service center
-                        showServiceRequestDialog();
+                        loadServiceRequesDialogData();
+
                     } else if (thirdRowTag == 3) { // add
 
 
@@ -607,7 +611,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 }
 
             }
-
 
             // product
             else if (firstRowTag == 1) {
@@ -644,7 +647,11 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     };
 
-    private void showServiceRequestDialog() {
+    private void loadServiceRequesDialogData() {
+        purchasedPresenter.getUsersListOfServiceCenters(11);
+    }
+
+    private void showServiceRequestDialog(List<UsersListOfServiceCenters> listOfServiceCenters) {
         String[] problemsArray = new String[4];
         problemsArray[0] = "Engine repaired";
         problemsArray[1] = "Need service";
@@ -668,7 +675,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     case AlertDialogCallback.OK:
                         //TODO have to call service request api
 
-                     //  purchasedPresenter.serviceRequest();
+                    // purchasedPresenter.serviceRequest();
 
                         break;
                     case AlertDialogCallback.CANCEL:
@@ -680,6 +687,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
             }
         }).problemsArray(problemsArray)
+                .loadUsersList(listOfServiceCenters)
                 .build();
         serviceRequestDialog.showDialog();
     }
@@ -864,6 +872,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     @Override
     public void nearByServiceCenters() {
+
+    }
+
+    @Override
+    public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters) {
+        showServiceRequestDialog(listOfServiceCenters);
 
     }
 

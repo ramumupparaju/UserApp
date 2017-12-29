@@ -11,9 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
+import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.databinding.DialogServiceRequestBinding;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
+
+import java.util.List;
 
 /**
  * Created by PC on 12/26/2017.
@@ -26,22 +30,23 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
     private EditText editTextNotes;
     private String[] problemsArray;
     private int problemSelectedPosition = 0;
+    private int usersSelectedPos = -1;
     private ServiceRequest serviceRequest;
+    private final List<UsersListOfServiceCenters> usersList;
 
     public ServiceRequestDialog(AlertDialogBuilder builder) {
         super(builder.context);
         this.context = builder.context;
+        this.usersList = builder.usersList;
         this.problemsArray = builder.problemsArray;
         this.serviceRequestCallback = builder.callback;
     }
-
 
     public void showDialog() {
         binding = DataBindingUtil.inflate(
                 LayoutInflater.from(context), R.layout.dialog_service_request, null, false);
         View contentView = binding.getRoot();
         editTextNotes = binding.edittextComment;
-
         binding.includeRegisterBottomButtons.buttonLeft.setText(context.getString(R.string.action_cancel));
         binding.includeRegisterBottomButtons.buttonRight.setText(context.getString(R.string.action_submit));
         binding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(this);
@@ -49,13 +54,33 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         binding.viewDate.setOnClickListener(this);
         binding.viewTime.setOnClickListener(this);
         loadProblemSpinner();
-//        loadDateAndTimePicker();
+        loadUsersSpinner();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(contentView);
         setCancelable(false);
         getWindow().setBackgroundDrawableResource(R.drawable.dialog_shadow);
         show();
+    }
+
+    private void loadUsersSpinner() {
+        String[] stringUsersList = new String[usersList.size()];
+        for (int i = 0; i < usersList.size(); i++) {
+            stringUsersList[i] = usersList.get(i).getName();
+        }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),
+                R.layout.view_spinner, stringUsersList);
+        arrayAdapter.setDropDownViewResource(R.layout.view_spinner);
+        binding.spinnerUsers.setAdapter(arrayAdapter);
+        binding.spinnerUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (usersSelectedPos != position) {
+                    usersSelectedPos = position;
+                }
+            }
+        });
+
     }
 
     private void loadProblemSpinner() {
@@ -100,6 +125,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         private final Context context;
         private final ServiceRequestCallback callback;
         private String[] problemsArray;
+        private List<UsersListOfServiceCenters> usersList;
 
 
         public AlertDialogBuilder(Context context, ServiceRequestCallback callback) {
@@ -112,12 +138,17 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             return this;
         }
 
+        public AlertDialogBuilder loadUsersList(List<UsersListOfServiceCenters> usersList) {
+            this.usersList = usersList;
+            return this;
+
+        }
+
         public ServiceRequestDialog build() {
             ServiceRequestDialog dialog = new ServiceRequestDialog(this);
             dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
             return dialog;
         }
-
     }
 
 

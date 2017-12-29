@@ -11,6 +11,7 @@ import com.incon.connect.user.apimodel.components.productinforesponse.ProductInf
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
+import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.custom.exception.NoConnectivityException;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
@@ -19,8 +20,8 @@ import com.incon.connect.user.dto.asignqrcode.AssignQrCode;
 import com.incon.connect.user.dto.login.LoginUserData;
 import com.incon.connect.user.dto.notifications.PushRegistrarBody;
 import com.incon.connect.user.dto.registration.Registration;
-import com.incon.connect.user.dto.update.UpDateUserProfile;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
+import com.incon.connect.user.dto.update.UpDateUserProfile;
 import com.incon.connect.user.utils.NetworkUtil;
 
 import java.util.HashMap;
@@ -133,6 +134,10 @@ public class AppApiService implements AppConstants {
     // purchased history  api
     public Observable<List<ProductInfoResponse>> purchasedApi(int userId) {
         return addNetworkCheck(serviceInstance.purchasedApi(userId));
+    }
+    // get users list of service centers api
+    public Observable<List<UsersListOfServiceCenters>> getUsersListOfServiceCenters(int serviceCenterId) {
+        return addNetworkCheck(serviceInstance.getUsersListOfServiceCenters(serviceCenterId));
     }
 
     // add favourites  api
