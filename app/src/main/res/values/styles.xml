@@ -284,7 +284,7 @@
     </style>
 
     <style name="bill_header_left_text_view" parent="@style/bill_header_right_text_view">
-        <item name="android:layout_marginLeft">@dimen/margin_0</item>
+        <item name="android:layout_marginLeft">@dimen/margin_10</item>
     </style>
 
 

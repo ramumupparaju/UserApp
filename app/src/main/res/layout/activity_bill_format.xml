@@ -181,12 +181,28 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/showroom_details_base"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/product_details_base"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@drawable/bg_round"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_5"
+                android:paddingTop="@dimen/margin_5">
+
             <TextView
                 android:id="@+id/showroom_details"
                 style="@style/bill_header_text_view"
-                android:layout_below="@+id/product_details_base"
                 android:layout_marginTop="10dp"
                 android:text="Showroom details" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/black" />
 
             <LinearLayout
                 android:id="@+id/showroom_details_layout"
@@ -215,72 +231,57 @@
                     android:text="Z3ER9000879654TG" />
 
             </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/customer_details_base"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/showroom_details_base"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@drawable/bg_round"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_5"
+                android:paddingTop="@dimen/margin_5">
 
             <TextView
                 android:id="@+id/customer_details"
                 style="@style/bill_header_text_view"
-                android:layout_below="@id/showroom_details_layout"
+                android:layout_below="@id/showroom_details_base"
                 android:layout_marginTop="10dp"
                 android:text="Customer details" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/black" />
 
             <LinearLayout
                 android:id="@+id/customer_details_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/MatchWrap"
                 android:layout_below="@id/customer_details"
-                android:weightSum="2">
-
-                <LinearLayout
-                    android:id="@+id/layout_customer_details"
-                    style="@style/bill_header_linear_layout">
-
-
-                    <TextView
-                        android:id="@+id/text_customer_name"
-                        style="@style/bill_header_right_text_view"
-                        android:text="Customer Name" />
-
-
-                    <TextView
-                        android:id="@+id/text_customer_address"
-                        style="@style/bill_header_right_text_view"
-                        android:text="Address" />
-
-
-                    <TextView
-                        android:id="@+id/text_customer_contact_details"
-                        style="@style/bill_header_right_text_view"
-                        android:text="Contact Details" />
-
-                </LinearLayout>
-
-                <!--customer values-->
-                <LinearLayout
-                    android:id="@+id/layout_customer_details_values"
-                    style="@style/bill_header_linear_layout">
-
+                android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/text_customer_name_values"
                         style="@style/bill_header_left_text_view"
-                        android:text="@{`:` + productinforesponse.name}" />
-
+                        android:text="@{ productinforesponse.name}" />
 
                     <TextView
                         android:id="@+id/text_customer_address_values"
                         style="@style/bill_header_left_text_view"
-                        android:text="@{`:` + productinforesponse.address}" />
-
+                        android:text="@{productinforesponse.address}" />
 
                     <TextView
                         android:id="@+id/text_customer_contact_details_values"
                         style="@style/bill_header_left_text_view"
-                        android:text="@{`:` + productinforesponse.mobileNumber}" />
+                        android:text="@{productinforesponse.mobileNumber}" />
 
                 </LinearLayout>
+
             </LinearLayout>
-
-
+         <!--
             <View
                 android:id="@+id/line_separator"
                 android:layout_width="match_parent"
@@ -289,13 +290,13 @@
                 android:layout_marginEnd="@dimen/margin_10"
                 android:layout_marginStart="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_10"
-                android:background="@color/colorAccent" />
+                android:background="@color/colorAccent" />-->
 
             <TextView
                 android:id="@+id/text_connect"
                 style="@style/BothWrap"
                 android:layout_alignParentBottom="true"
-                android:layout_below="@id/line_separator"
+                android:layout_below="@id/customer_details_base"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_10"
@@ -305,10 +306,6 @@
                 android:textSize="12sp" />
 
         </RelativeLayout>
-
-
     </ScrollView>
     <!-- </RelativeLayout>-->
-
-
 </layout>
