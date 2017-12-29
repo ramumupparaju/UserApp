@@ -17,6 +17,7 @@ import com.incon.connect.user.dto.login.LoginUserData;
 import com.incon.connect.user.dto.notifications.PushRegistrarBody;
 import com.incon.connect.user.dto.registration.Registration;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
+import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +53,11 @@ public interface AppServiceObservable {
     @POST("user/updateuser/{userId}")
     Observable<LoginResponse> upDateUserProfile(@Path(
             "userId") int userId, @Body UpDateUserProfile upDateUserProfile);
+
+    //  update status api
+    @POST("service/updateStatus/{userId}")
+    Observable<Object> serviceRequest(@Path(
+            "userId") int userId, @Body ServiceRequest serviceRequest);
 
     @POST("account/sendOtp")
     Observable<SendOtpResponse> sendOtp(@Body HashMap<String, String> email);

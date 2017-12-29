@@ -30,7 +30,7 @@
     <string name="bottom_option_Call">Call</string>
     <string name="bottom_option_call_customer_care">Call customer care</string>
     <string name="bottom_option_find_service_center">Find service center</string>
-    <string name="bottom_option_individual">Individual</string>
+    <string name="bottom_option_un_authorized">Un Authorize</string>
     <string name="bottom_option_authorized">Authorize</string>
     <string name="bottom_option_service_request">Service request</string>
     <string name="bottom_option_location">Location</string>
@@ -274,6 +274,7 @@
     <string name="progress_updateuserprofile">UpDateingUserProfile...</string>
     <string name="progress_updatestoreprofile">UpDateingStoreProfile...</string>
     <string name="progress_changepassword">Changing Password...</string>
+    <string name="progress_update_status">Update status..</string>
     <string name="progress_changeemail">Changing Email...</string>
     <string name="progress_forgotpassword">Forgot Password...</string>
     <string name="progress_alerts">Loading alerts info...</string>

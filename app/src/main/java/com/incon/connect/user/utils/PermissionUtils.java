@@ -33,7 +33,7 @@ public class PermissionUtils {
     private HashMap<String, Integer> resultMap;
 
     /**
-     * Status for permission denied when "Don't ask again" was checked.
+     * StatusRequest for permission denied when "Don't ask again" was checked.
      */
     public final static int PERMISSION_DENIED_FOREVER = -1;
     public final static int PERMISSION_GRANTED = 1;

@@ -21,8 +21,8 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
-import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
+import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
@@ -212,7 +212,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             changeSelectedViews(bottomSheetPurchasedBinding.firstRow, unparsedTag);
             if (tag == 0) {
                 bottomOptions = new String[2];
-                bottomOptions[0] = getString(R.string.bottom_option_individual);
+                bottomOptions[0] = getString(R.string.bottom_option_un_authorized);
                 bottomOptions[1] = getString(R.string.bottom_option_authorized);
                 topDrawables = new int[2];
                 topDrawables[0] = R.drawable.ic_option_call;
@@ -344,7 +344,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             // service/support
             if (firstRowTag == 0) {
 
-                //individual
+                //un authorized
                 if (secondRowTag == 0) {
                     bottomOptions = new String[3];
                     bottomOptions[0] = getString(R.string.bottom_option_Call);
@@ -447,7 +447,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     topDrawables = new int[0];
                 }
             }
-
 
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
@@ -582,7 +581,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             int thirdRowTag = Integer.parseInt(tagArray[2]);
 
             if (firstRowTag == 0) { // service/support
-                if (secondRowTag == 0) { // inidividual
+                if (secondRowTag == 0) { // un authorized
                     if (thirdRowTag == 0) { // call
                         callPhoneNumber(itemFromPosition.getMobileNumber());
                         return;
@@ -853,6 +852,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         onRefreshListener.onRefresh();
         AppUtils.showSnackBar(getView(), getString(R.string.action_delete));
     }
+
+    //service sequest
+    @Override
+    public void serviceRequest() {
+        // TODO  have to call service request api
+
+    }
+
 
     // product search
     @Override

@@ -20,6 +20,7 @@ import com.incon.connect.user.dto.login.LoginUserData;
 import com.incon.connect.user.dto.notifications.PushRegistrarBody;
 import com.incon.connect.user.dto.registration.Registration;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
+import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.utils.NetworkUtil;
 
 import java.util.HashMap;
@@ -95,7 +96,11 @@ public class AppApiService implements AppConstants {
             int userId, UpDateUserProfile upDateUserProfile) {
         return addNetworkCheck(serviceInstance.upDateUserProfile(userId, upDateUserProfile));
     }
-
+    //  update status api
+    public Observable<Object> serviceRequest(
+            int userId, ServiceRequest serviceRequest) {
+        return addNetworkCheck(serviceInstance.serviceRequest(userId, serviceRequest));
+    }
     //registration request otp
     public Observable<Object> registerRequestOtp(String phoneNumber) {
         return addNetworkCheck(serviceInstance.registerRequestOtp(phoneNumber));

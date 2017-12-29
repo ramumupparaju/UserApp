@@ -9,6 +9,7 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.ui.favorites.FavoritesContract;
 import com.incon.connect.user.ui.favorites.FavoritesPresenter;
@@ -35,6 +36,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         appContext = ConnectApplication.getAppContext();
     }
 
+    // purchased
     @Override
     public void purchased(int userId) {
         getView().showProgress(appContext.getString(R.string.progress_purchased_history));
@@ -62,6 +64,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         addDisposable(observer);
     }
 
+    // add favotites
     @Override
     public void addToFavotites(HashMap<String, String> favoritesMap) {
         getView().showProgress(appContext.getString(R.string.progress_adding_to_favorites));
@@ -88,6 +91,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         addDisposable(observer);
     }
 
+    // delete product
     @Override
     public void deleteProduct(int warrantyId) {
         getView().showProgress(appContext.getString(R.string.progress_adding_to_favorites));
@@ -113,6 +117,33 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         AppApiService.getInstance().deleteProduct(warrantyId).subscribe(observer);
         addDisposable(observer);
 
+    }
+
+    // service request
+    @Override
+    public void serviceRequest(int userId, ServiceRequest serviceRequest) {
+        getView().showProgress(appContext.getString(R.string.progress_update_status));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object obj) {
+                        getView().serviceRequest();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().serviceRequest(userId, serviceRequest).subscribe(observer);
+        addDisposable(observer);
     }
 
     @Override
@@ -145,7 +176,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().transferRequest(phoneNumber,userId).subscribe(observer);
+        AppApiService.getInstance().transferRequest(phoneNumber, userId).subscribe(observer);
         addDisposable(observer);
     }
 
