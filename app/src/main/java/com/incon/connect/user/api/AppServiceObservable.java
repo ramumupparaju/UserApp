@@ -78,6 +78,11 @@ public interface AppServiceObservable {
     @POST("user/addtofavourites")
     Observable<Object> addToFavotites(@Body HashMap<String, String> favoriteMap);
 
+       // fetch near by service centers  api
+    @POST("service/nearbycenters/{brandId}")
+    Observable<Object> findNearByServiceCenters(@Path("brandId") int brandId);
+
+
     // add favourites  api
     @GET("user/history/deletepurchased/{warrantyId}")
     Observable<Object> deleteProduct(@Path("warrantyId") int warrantyId);
