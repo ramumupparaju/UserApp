@@ -575,7 +575,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
 
 
-            ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
+            ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.thirdRow, unparsedTag);
 
@@ -586,23 +586,20 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             if (firstRowTag == 0) { // service/support
                 if (secondRowTag == 0) { // un authorized
                     if (thirdRowTag == 0) { // call
-                        callPhoneNumber(itemFromPosition.getMobileNumber());
+                        callPhoneNumber(productInfoResponse.getMobileNumber());
                         return;
                     } else if (thirdRowTag == 1) { //service request
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-
                     } else if (thirdRowTag == 2) { // add
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                     }
                 } else if (secondRowTag == 1) { // authorized
 
                     if (thirdRowTag == 0) { // call
-                        callPhoneNumber(itemFromPosition.getMobileNumber());
+                        callPhoneNumber(productInfoResponse.getMobileNumber());
                         return;
                     } else if (thirdRowTag == 1) { //find service center
-                        /*Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
-                        startActivity(serviceCenters);*/
-                        loadNearByServiceCenters();
+                        loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
                     } else if (thirdRowTag == 2) { // service center
                         loadServiceRequesDialogData();
                     } else if (thirdRowTag == 3) { // add
@@ -618,13 +615,13 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 if (secondRowTag == 0) {
                     // return policy
                     if (thirdRowTag == 0) {
-                        showInformationDialog(getString(R.string.bottom_option_return_policy), itemFromPosition.getReturnPolicy());
+                        showInformationDialog(getString(R.string.bottom_option_return_policy), productInfoResponse.getReturnPolicy());
                     }
                     // special instruction
                     else if (thirdRowTag == 1) {
                         showInformationDialog(getString(
                                 R.string.bottom_option_special_instructions),
-                                itemFromPosition.getSpecialInstruction());
+                                productInfoResponse.getSpecialInstruction());
                     }
                     //how to use
                     else if (thirdRowTag == 2) {
@@ -634,10 +631,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     //description
                     else if (thirdRowTag == 3) {
                         showInformationDialog(getString(
-                                R.string.bottom_option_description), itemFromPosition.getInformation()
-                                + itemFromPosition.getProductSpecification()
-                                + itemFromPosition.getColor()
-                                + itemFromPosition.getProductDimensions());
+                                R.string.bottom_option_description), productInfoResponse.getInformation()
+                                + productInfoResponse.getProductSpecification()
+                                + productInfoResponse.getColor()
+                                + productInfoResponse.getProductDimensions());
                         return;
                     }
                 }
@@ -646,9 +643,15 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
 
     };
+
+    private void loadNearByServiceCentersDialogData(String brandId) {
+        purchasedPresenter.nearByServiceCenters(Integer.parseInt(brandId));
+    }
+
     private void loadServiceRequesDialogData() {
         purchasedPresenter.getUsersListOfServiceCenters(11);
     }
+
     private void showServiceRequestDialog(List<UsersListOfServiceCenters> listOfServiceCenters) {
         String[] problemsArray = new String[4];
         problemsArray[0] = "Engine repaired";
@@ -875,9 +878,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     @Override
     public void loadNearByServiceCenters() {
-         Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
-
-                        startActivity(serviceCenters);
+        Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
+        startActivity(serviceCenters);
     }
 
     @Override

@@ -149,7 +149,6 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
 
     @Override
     public void nearByServiceCenters(int brandId) {
-
         getView().showProgress(appContext.getString(R.string.progress_finding_service_centers));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
@@ -172,7 +171,6 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                 };
         AppApiService.getInstance().findNearByServiceCenters(brandId).subscribe(observer);
         addDisposable(observer);
-
     }
 
     @Override
