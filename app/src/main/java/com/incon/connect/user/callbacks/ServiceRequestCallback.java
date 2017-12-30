@@ -8,4 +8,5 @@ public interface ServiceRequestCallback extends AlertDialogCallback {
 
     void dateClicked(String date);
     void timeClicked();
+    void enteredText(String comment);
 }

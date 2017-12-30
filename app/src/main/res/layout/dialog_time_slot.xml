@@ -19,18 +19,17 @@
                 android:id="@+id/button1"
                 style="@style/time_slot_buttons"
                 android:layout_marginRight="@dimen/margin_2"
-                android:text="Mon - Tue" />
-
+                android:text="@string/time_10_12" />
             <Button
                 android:id="@+id/button2"
                 style="@style/time_slot_buttons"
                 android:layout_marginRight="@dimen/margin_2"
-                android:text="Web - Thur" />
+                android:text="@string/time_12_15" />
 
             <Button
                 android:id="@+id/button3"
                 style="@style/time_slot_buttons"
-                android:text="Fri - Sun" />
+                android:text="@string/time_15_17" />
 
         </LinearLayout>
 
@@ -41,7 +40,7 @@
             android:layout_marginLeft="@dimen/margin_30"
             android:layout_marginRight="@dimen/margin_30"
             android:layout_marginTop="@dimen/margin_3"
-            android:text="@string/action_submit" />
+            android:text="@string/action_save" />
 
     </LinearLayout>
 

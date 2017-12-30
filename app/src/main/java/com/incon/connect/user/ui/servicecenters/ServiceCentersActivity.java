@@ -62,7 +62,6 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
 
     public void onOkClick() {
         return;
-
     }
 
 

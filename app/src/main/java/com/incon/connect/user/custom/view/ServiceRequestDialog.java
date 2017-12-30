@@ -3,20 +3,26 @@ package com.incon.connect.user.custom.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.databinding.DialogServiceRequestBinding;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
+import com.incon.connect.user.utils.DateUtils;
 
 import java.util.List;
+
+import static com.incon.connect.user.AppConstants.COMMA_SEPARATOR;
 
 /**
  * Created by PC on 12/26/2017.
@@ -33,12 +39,14 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
     private ServiceRequest serviceRequest;
     private final List<UsersListOfServiceCenters> usersList;
 
+
     public ServiceRequestDialog(AlertDialogBuilder builder) {
         super(builder.context);
         this.context = builder.context;
         this.usersList = builder.usersList;
         this.problemsArray = builder.problemsArray;
         this.serviceRequestCallback = builder.callback;
+        serviceRequest = new ServiceRequest();
     }
 
     public void showDialog() {
@@ -166,11 +174,60 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
                 serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.CANCEL);
                 break;
             case R.id.button_right:
-                serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.OK);
+                serviceRequestCallback.enteredText(editTextNotes.getText().toString());
+
+                if (validateFields()) {
+                    serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.OK);
+                }
                 break;
             default:
                 break;
         }
 
+    }
+
+    private boolean validateFields() {
+
+        String selectedTime = binding.edittextTime.getText().toString();
+        String selectedDate = binding.edittextDate.getText().toString();
+        int selectedPriority = binding.radioGroup.getCheckedRadioButtonId();
+        RadioButton radioButton = (RadioButton)findViewById(selectedPriority);
+        if (usersSelectedPos == -1) {
+            //todo show toast as select users
+            return false;
+        } else if (TextUtils.isEmpty(selectedDate)) {
+            // todo show toast as select date
+          //  AppUtils.shortToast(getContext(),getString);
+
+            return false;
+
+        } else if (TextUtils.isEmpty(selectedTime)) {
+            //todo show toast as select time
+
+            return false;
+        }else {
+
+            String[] selectedTimeArray = new String[0];
+            if (selectedTime.equalsIgnoreCase(context.getString(R.string.time_10_12))) {
+                selectedTimeArray = AppConstants.ServiceConstants.TIME_10_12.split(COMMA_SEPARATOR);
+            }
+
+            else  if (selectedTime.equalsIgnoreCase(context.getString(R.string.time_12_15))) {
+                selectedTimeArray = AppConstants.ServiceConstants.TIME_12_15.split(COMMA_SEPARATOR);
+            }
+            else  if (selectedTime.equalsIgnoreCase(context.getString(R.string.time_15_17))) {
+                selectedTimeArray = AppConstants.ServiceConstants.TIME_15_17.split(COMMA_SEPARATOR);
+            }
+
+
+            String dateFromString = selectedDate + " " + selectedTimeArray[0];
+            String dateToString = selectedDate + " " + selectedTimeArray[1];
+            serviceRequest.setComplaint(binding.spinnerProblem.getText().toString());
+            serviceRequest.setComments(binding.edittextComment.getText().toString());
+            serviceRequest.setPriority((Integer) radioButton.getTag());
+            serviceRequest.setPreferredDateFrom(String.valueOf(DateUtils.convertStringFormatToMillis(dateFromString, AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM)));
+            serviceRequest.setPreferredDateTo(String.valueOf(DateUtils.convertStringFormatToMillis(dateToString, AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM)));
+            return true;
+        }
     }
 }

@@ -147,7 +147,7 @@
                 android:layout_weight="1"
                 android:tag="1"
                 android:text="@string/action_high"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 app:fontName="fonts/OpenSans-Regular.ttf" />
 
             <RadioButton
@@ -155,8 +155,9 @@
                 style="@style/zerowrap"
                 android:layout_weight="1"
                 android:tag="2"
+                android:checked="true"
                 android:text="@string/action_medium"
-                android:textSize="18sp" />
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/radioButton3"
@@ -164,7 +165,7 @@
                 android:layout_weight="1"
                 android:tag="3"
                 android:text="@string/action_low"
-                android:textSize="18sp" />
+                android:textSize="12sp" />
         </RadioGroup>
 
         <!-- layout for bottom buttons -->

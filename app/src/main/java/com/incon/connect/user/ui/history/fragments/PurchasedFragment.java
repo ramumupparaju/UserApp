@@ -70,6 +70,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private AppEditTextDialog transferDialog;
     private AppFeedBackDialog buyFeedBackRequestDialog;
     private String buyRequestComment;
+    private String serviceRequestComment;
     private boolean isFromFavorites = false;
     private AppAlertVerticalTwoButtonsDialog dialogDelete;
     private ServiceRequestDialog serviceRequestDialog;
@@ -599,8 +600,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                         callPhoneNumber(itemFromPosition.getMobileNumber());
                         return;
                     } else if (thirdRowTag == 1) { //find service center
-                        Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
-                        startActivity(serviceCenters);
+                        /*Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
+                        startActivity(serviceCenters);*/
+                        loadNearByServiceCenters();
                     } else if (thirdRowTag == 2) { // service center
                         loadServiceRequesDialogData();
                     } else if (thirdRowTag == 3) { // add
@@ -644,11 +646,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
 
     };
-
     private void loadServiceRequesDialogData() {
         purchasedPresenter.getUsersListOfServiceCenters(11);
     }
-
     private void showServiceRequestDialog(List<UsersListOfServiceCenters> listOfServiceCenters) {
         String[] problemsArray = new String[4];
         problemsArray[0] = "Engine repaired";
@@ -668,12 +668,17 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
 
             @Override
+            public void enteredText(String commentString) {
+                serviceRequestComment = commentString;
+
+            }
+
+            @Override
             public void alertDialogCallback(byte dialogStatus) {
                 switch (dialogStatus) {
                     case AlertDialogCallback.OK:
                         //TODO have to call service request api
-
-                        // purchasedPresenter.serviceRequest();
+                        //purchasedPresenter.serviceRequest();
 
                         break;
                     case AlertDialogCallback.CANCEL:
@@ -870,8 +875,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     @Override
     public void loadNearByServiceCenters() {
-        // TODO have  to implemented code
+         Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
 
+                        startActivity(serviceCenters);
     }
 
     @Override
