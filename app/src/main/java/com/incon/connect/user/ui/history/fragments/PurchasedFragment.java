@@ -865,13 +865,13 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     //service sequest
     @Override
-    public void serviceRequest() {
+    public void loadServiceRequest() {
         // TODO  have to
 
     }
 
     @Override
-    public void nearByServiceCenters() {
+    public void loadNearByServiceCenters() {
 
     }
 

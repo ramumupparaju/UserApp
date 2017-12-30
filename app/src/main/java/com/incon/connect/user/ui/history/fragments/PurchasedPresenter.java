@@ -128,7 +128,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                 DisposableObserver<Object>() {
                     @Override
                     public void onNext(Object obj) {
-                        getView().serviceRequest();
+                        getView().loadServiceRequest();
                     }
 
                     @Override
@@ -155,7 +155,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                 DisposableObserver<Object>() {
                     @Override
                     public void onNext(Object obj) {
-                        getView().nearByServiceCenters();
+                        getView().loadNearByServiceCenters();
                     }
 
                     @Override

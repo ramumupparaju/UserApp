@@ -22,8 +22,8 @@ public interface PurchasedContract {
         void addedToFavorite();
         void transferMobileNumber(Object response);
         void deleteProduct(Object response);
-        void serviceRequest();
-        void nearByServiceCenters();
+        void loadServiceRequest();
+        void loadNearByServiceCenters();
         void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters);
     }
 
