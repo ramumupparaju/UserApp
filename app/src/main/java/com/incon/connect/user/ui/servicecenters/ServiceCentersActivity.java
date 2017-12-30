@@ -158,12 +158,12 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
     }
 
     @Override
-    public void serviceRequest() {
+    public void loadServiceRequest() {
 
     }
 
     @Override
-    public void nearByServiceCenters() {
+    public void loadNearByServiceCenters(){
 
     }
 
