@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.databinding.DialogServiceRequestBinding;
@@ -97,8 +96,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (problemSelectedPosition != position) {
                     problemSelectedPosition = position;
-                    if (problemSelectedPosition == 3) {
-                        //TODO have to show others edit text
+                    if (problemSelectedPosition == 3) { //todo
                         binding.edittextOthersComments.setVisibility(View.VISIBLE);
                     } else {
                         binding.edittextOthersComments.setVisibility(View.GONE);

@@ -603,9 +603,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                         startActivity(serviceCenters);
                     } else if (thirdRowTag == 2) { // service center
                         loadServiceRequesDialogData();
-
                     } else if (thirdRowTag == 3) { // add
-
 
                     }
                 }
@@ -675,7 +673,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     case AlertDialogCallback.OK:
                         //TODO have to call service request api
 
-                    // purchasedPresenter.serviceRequest();
+                        // purchasedPresenter.serviceRequest();
 
                         break;
                     case AlertDialogCallback.CANCEL:
@@ -881,7 +879,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         showServiceRequestDialog(listOfServiceCenters);
 
     }
-
 
     // product search
     @Override

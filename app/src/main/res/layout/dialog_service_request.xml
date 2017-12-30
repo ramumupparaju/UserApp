@@ -5,17 +5,17 @@
     <RelativeLayout
         style="@style/MatchWrap"
         android:background="@drawable/dialog_background">
-   <!--     &lt;!&ndash; spinner service centers &ndash;&gt;
-        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-            android:id="@+id/spinner_service"
-            style="@style/spinnerItemStyle"
-            android:layout_marginTop="@dimen/margin_10"
-            android:focusable="true"
-            android:hint="@string/hint_service_center"
-            app:errorEnabled="true"
-            app:met_floatingLabel="highlight"
-            app:met_textColor="@color/colorForgotPasswordHintText"
-            app:met_textColorHint="@color/colorForgotPasswordHintText" />-->
+        <!--     &lt;!&ndash; spinner service centers &ndash;&gt;
+             <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                 android:id="@+id/spinner_service"
+                 style="@style/spinnerItemStyle"
+                 android:layout_marginTop="@dimen/margin_10"
+                 android:focusable="true"
+                 android:hint="@string/hint_service_center"
+                 app:errorEnabled="true"
+                 app:met_floatingLabel="highlight"
+                 app:met_textColor="@color/colorForgotPasswordHintText"
+                 app:met_textColorHint="@color/colorForgotPasswordHintText" />-->
         <!-- spinner service centers -->
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
             android:id="@+id/spinner_users"
@@ -29,9 +29,9 @@
             app:met_textColorHint="@color/colorForgotPasswordHintText" />
 
         <LinearLayout
-            android:layout_below="@+id/spinner_users"
             android:id="@+id/problem_layout"
             style="@style/MatchWrap"
+            android:layout_below="@+id/spinner_users"
             android:orientation="vertical">
             <!-- spinner -->
             <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
@@ -145,7 +145,8 @@
                 android:id="@+id/radioButton1"
                 style="@style/zerowrap"
                 android:layout_weight="1"
-                android:text="Small "
+                android:tag="1"
+                android:text="@string/action_high"
                 android:textSize="18sp"
                 app:fontName="fonts/OpenSans-Regular.ttf" />
 
@@ -153,14 +154,16 @@
                 android:id="@+id/radioButton2"
                 style="@style/zerowrap"
                 android:layout_weight="1"
-                android:text="Medium"
+                android:tag="2"
+                android:text="@string/action_medium"
                 android:textSize="18sp" />
 
             <RadioButton
                 android:id="@+id/radioButton3"
                 style="@style/zerowrap"
                 android:layout_weight="1"
-                android:text="Large"
+                android:tag="3"
+                android:text="@string/action_low"
                 android:textSize="18sp" />
         </RadioGroup>
 
