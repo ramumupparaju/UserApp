@@ -228,8 +228,6 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
                 serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.CANCEL);
                 break;
             case R.id.button_right:
-                serviceRequestCallback.enteredText(editTextNotes.getText().toString());
-
                 if (validateFields()) {
                     serviceRequestCallback.doServiceRequestApi(serviceRequest);
                     serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.OK);
@@ -272,8 +270,6 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             } else if (selectedTime.equalsIgnoreCase(context.getString(R.string.time_15_17))) {
                 selectedTimeArray = AppConstants.ServiceConstants.TIME_15_17.split(COMMA_SEPARATOR);
             }
-
-
             serviceRequest.setServiceCenterId(serviceCentersList.get(serviceCenterSelectedPos).getId());
             if (usersSelectedPos != -1) {
                 serviceRequest.setCustomerId(usersList.get(usersSelectedPos).getId());
@@ -282,7 +278,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             String dateToString = selectedDate + " " + selectedTimeArray[1];
             serviceRequest.setComplaint(binding.spinnerProblem.getText().toString());
             serviceRequest.setComments(binding.edittextComment.getText().toString());
-            serviceRequest.setPriority((Integer) radioButton.getTag());
+            serviceRequest.setPriority(Integer.valueOf(radioButton.getTag().toString()));
             serviceRequest.setPreferredDateFrom(String.valueOf(DateUtils.convertStringFormatToMillis(dateFromString, AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM)));
             serviceRequest.setPreferredDateTo(String.valueOf(DateUtils.convertStringFormatToMillis(dateToString, AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM)));
             return true;
