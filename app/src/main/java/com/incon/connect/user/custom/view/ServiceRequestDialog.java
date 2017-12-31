@@ -14,12 +14,15 @@ import android.widget.RadioButton;
 
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
+import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.databinding.DialogServiceRequestBinding;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.utils.DateUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.incon.connect.user.AppConstants.COMMA_SEPARATOR;
@@ -33,11 +36,14 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
     private final Context context;
     private final ServiceRequestCallback serviceRequestCallback;
     private EditText editTextNotes;
-    private String[] problemsArray;
-    private int problemSelectedPosition = 0;
-    private int usersSelectedPos = -1;
     private ServiceRequest serviceRequest;
+
+    private final List<ServiceCenterResponse> serviceCentersList;
     private final List<UsersListOfServiceCenters> usersList;
+    private String[] problemsArray;
+    private int serviceCenterSelectedPos = 0;
+    private int usersSelectedPos = 0;
+    private int problemSelectedPosition = 0;
 
 
     public ServiceRequestDialog(AlertDialogBuilder builder) {
@@ -46,6 +52,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         this.usersList = builder.usersList;
         this.problemsArray = builder.problemsArray;
         this.serviceRequestCallback = builder.callback;
+        this.serviceCentersList = builder.serviceCenterResponseList;
         serviceRequest = new ServiceRequest();
     }
 
@@ -61,16 +68,47 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         binding.viewDate.setOnClickListener(this);
         binding.viewTime.setOnClickListener(this);
         loadProblemSpinner();
+        loadServiceCenterSpinner();
         loadUsersSpinner();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(contentView);
-        setCancelable(false);
+        setCancelable(true);
         getWindow().setBackgroundDrawableResource(R.drawable.dialog_shadow);
         show();
     }
 
+    private void loadServiceCenterSpinner() {
+        String[] stringServiceCentersList = new String[serviceCentersList.size()];
+        for (int i = 0; i < serviceCentersList.size(); i++) {
+            stringServiceCentersList[i] = serviceCentersList.get(i).getName();
+        }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(),
+                R.layout.view_spinner, stringServiceCentersList);
+        arrayAdapter.setDropDownViewResource(R.layout.view_spinner);
+        binding.spinnerService.setAdapter(arrayAdapter);
+        binding.spinnerService.setText(stringServiceCentersList[0]); //setting user name with index o
+        binding.spinnerService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (serviceCenterSelectedPos != position) {
+                    serviceCenterSelectedPos = position;
+                    serviceRequestCallback.getUsersListFromServiceCenterId(serviceCentersList.get(serviceCenterSelectedPos).getId());
+                }
+
+                //For avoiding double tapping issue
+                if (binding.spinnerService.getOnItemClickListener() != null) {
+                    binding.spinnerService.onItemClick(parent, view, position, id);
+                }
+            }
+        });
+    }
+
     private void loadUsersSpinner() {
+        if (usersList.size() == 0) {
+            binding.spinnerUsers.setVisibility(View.GONE);
+            return;
+        }
         String[] stringUsersList = new String[usersList.size()];
         for (int i = 0; i < usersList.size(); i++) {
             stringUsersList[i] = usersList.get(i).getName();
@@ -79,6 +117,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
                 R.layout.view_spinner, stringUsersList);
         arrayAdapter.setDropDownViewResource(R.layout.view_spinner);
         binding.spinnerUsers.setAdapter(arrayAdapter);
+        binding.spinnerUsers.setText(stringUsersList[0]); //setting user name with index o
         binding.spinnerUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -127,12 +166,19 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         binding.edittextTime.setText(timeSlot);
     }
 
+    public void setUsersData(List<UsersListOfServiceCenters> usersList) {
+        this.usersList.clear();
+        usersSelectedPos = 0;
+        this.usersList.addAll(usersList);
+        loadUsersSpinner();
+    }
+
     public static class AlertDialogBuilder {
         private final Context context;
         private final ServiceRequestCallback callback;
         private String[] problemsArray;
         private List<UsersListOfServiceCenters> usersList;
-
+        private ArrayList<ServiceCenterResponse> serviceCenterResponseList;
 
         public AlertDialogBuilder(Context context, ServiceRequestCallback callback) {
             this.context = context;
@@ -150,11 +196,19 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
 
         }
 
+        public AlertDialogBuilder loadServiceCentersData(ArrayList<ServiceCenterResponse> serviceCenterResponseList) {
+            this.serviceCenterResponseList = serviceCenterResponseList;
+            return this;
+        }
+
+
         public ServiceRequestDialog build() {
             ServiceRequestDialog dialog = new ServiceRequestDialog(this);
             dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
             return dialog;
         }
+
+
     }
 
 
@@ -177,6 +231,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
                 serviceRequestCallback.enteredText(editTextNotes.getText().toString());
 
                 if (validateFields()) {
+                    serviceRequestCallback.doServiceRequestApi(serviceRequest);
                     serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.OK);
                 }
                 break;
@@ -191,13 +246,15 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         String selectedTime = binding.edittextTime.getText().toString();
         String selectedDate = binding.edittextDate.getText().toString();
         int selectedPriority = binding.radioGroup.getCheckedRadioButtonId();
-        RadioButton radioButton = (RadioButton)findViewById(selectedPriority);
-        if (usersSelectedPos == -1) {
+        RadioButton radioButton = (RadioButton) findViewById(selectedPriority);
+
+        //no need to check users data
+        if (serviceCenterSelectedPos == -1) {
             //todo show toast as select users
             return false;
         } else if (TextUtils.isEmpty(selectedDate)) {
             // todo show toast as select date
-          //  AppUtils.shortToast(getContext(),getString);
+//              AppUtils.shortToast(getContext(), context.getString(R.string.));
 
             return false;
 
@@ -205,21 +262,22 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             //todo show toast as select time
 
             return false;
-        }else {
+        } else {
 
             String[] selectedTimeArray = new String[0];
             if (selectedTime.equalsIgnoreCase(context.getString(R.string.time_10_12))) {
                 selectedTimeArray = AppConstants.ServiceConstants.TIME_10_12.split(COMMA_SEPARATOR);
-            }
-
-            else  if (selectedTime.equalsIgnoreCase(context.getString(R.string.time_12_15))) {
+            } else if (selectedTime.equalsIgnoreCase(context.getString(R.string.time_12_15))) {
                 selectedTimeArray = AppConstants.ServiceConstants.TIME_12_15.split(COMMA_SEPARATOR);
-            }
-            else  if (selectedTime.equalsIgnoreCase(context.getString(R.string.time_15_17))) {
+            } else if (selectedTime.equalsIgnoreCase(context.getString(R.string.time_15_17))) {
                 selectedTimeArray = AppConstants.ServiceConstants.TIME_15_17.split(COMMA_SEPARATOR);
             }
 
 
+            serviceRequest.setServiceCenterId(serviceCentersList.get(serviceCenterSelectedPos).getId());
+            if (usersSelectedPos != -1) {
+                serviceRequest.setCustomerId(usersList.get(usersSelectedPos).getId());
+            }
             String dateFromString = selectedDate + " " + selectedTimeArray[0];
             String dateToString = selectedDate + " " + selectedTimeArray[1];
             serviceRequest.setComplaint(binding.spinnerProblem.getText().toString());
@@ -228,6 +286,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             serviceRequest.setPreferredDateFrom(String.valueOf(DateUtils.convertStringFormatToMillis(dateFromString, AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM)));
             serviceRequest.setPreferredDateTo(String.valueOf(DateUtils.convertStringFormatToMillis(dateToString, AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM)));
             return true;
+
         }
     }
 }

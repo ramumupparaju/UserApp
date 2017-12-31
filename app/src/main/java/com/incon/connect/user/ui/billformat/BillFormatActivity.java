@@ -1,23 +1,18 @@
 package com.incon.connect.user.ui.billformat;
 
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.databinding.ActivityBillFormatBinding;
 import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.utils.DateUtils;
-import com.incon.connect.user.utils.DeviceUtils;
 
 
 /**

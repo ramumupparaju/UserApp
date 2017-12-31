@@ -9,6 +9,7 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.BasePresenter;
@@ -150,11 +151,11 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
     @Override
     public void nearByServiceCenters(int brandId) {
         getView().showProgress(appContext.getString(R.string.progress_finding_service_centers));
-        DisposableObserver<Object> observer = new
-                DisposableObserver<Object>() {
+        DisposableObserver<List<ServiceCenterResponse>> observer = new
+                DisposableObserver<List<ServiceCenterResponse>>() {
                     @Override
-                    public void onNext(Object obj) {
-                        getView().loadNearByServiceCenters();
+                    public void onNext(List<ServiceCenterResponse> serviceCenterResponses) {
+                        getView().loadNearByServiceCenters(serviceCenterResponses);
                     }
 
                     @Override
