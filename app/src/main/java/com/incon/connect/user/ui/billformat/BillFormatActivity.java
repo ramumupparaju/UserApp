@@ -74,8 +74,4 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         return super.onTouchEvent(event);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 }
