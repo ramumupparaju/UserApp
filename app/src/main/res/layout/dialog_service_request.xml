@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         style="@style/MatchWrap"
         android:background="@drawable/dialog_background">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/spinners_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/margin_10"
+            >
             <!-- spinner service centers -->
             <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
                 android:id="@+id/spinner_service"
@@ -28,13 +30,15 @@
                 android:id="@+id/spinner_users"
                 style="@style/spinnerItemStyle"
                 android:layout_marginTop="@dimen/margin_10"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_service"
                 android:focusable="true"
                 android:hint="@string/hint_usres"
                 app:errorEnabled="true"
                 app:met_floatingLabel="highlight"
                 app:met_textColor="@color/colorForgotPasswordHintText"
-                app:met_textColorHint="@color/colorForgotPasswordHintText" />
-        </LinearLayout>
+                app:met_textColorHint="@color/colorForgotPasswordHintText"
+                />
+        </android.support.constraint.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/problem_layout"
