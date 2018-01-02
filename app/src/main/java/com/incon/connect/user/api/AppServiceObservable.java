@@ -9,6 +9,7 @@ import com.incon.connect.user.apimodel.components.productinforesponse.ProductInf
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
+import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
@@ -92,7 +93,7 @@ public interface AppServiceObservable {
 
        // fetch near by service centers  api
     @POST("service/nearbycenters/{brandId}")
-    Observable<Object> findNearByServiceCenters(@Path("brandId") int brandId);
+    Observable<List<ServiceCenterResponse>> findNearByServiceCenters(@Path("brandId") int brandId);
 
 
     // add favourites  api

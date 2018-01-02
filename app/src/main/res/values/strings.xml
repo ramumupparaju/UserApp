@@ -154,6 +154,14 @@
     <string name="action_update_pwd">Update Password</string>
     <string name="action_feedback">Feedback</string>
     <string name="action_development">Development</string>
+    <string name="action_high">High</string>
+    <string name="action_medium">Medium</string>
+    <string name="action_low">Low</string>
+
+    <!--service center time-->
+    <string name="time_10_12">10-12</string>
+    <string name="time_12_15">12-15</string>
+    <string name="time_15_17">15-17</string>
 
     <!--settings screen-->
     <string name="action_settings">Settings</string>

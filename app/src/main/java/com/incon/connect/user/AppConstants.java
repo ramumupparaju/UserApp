@@ -8,6 +8,7 @@ public interface AppConstants {
     String WEB_IMAGE = "http";
     String MULTIPART_FORM_DATA = "image/*";
     String COMMA_SEPARATOR = ",";
+    String HYPHEN_SEPARATOR = "-";
     int DEFAULT_VALUE = Integer.MIN_VALUE;
 
     String BUILD_FLAVOR = "moonz_dev";
@@ -27,6 +28,12 @@ public interface AppConstants {
         String DISPATCHED = "DSD";
         String DELIVERED = "DLD";
         String INSTALLED = "INS";
+    }
+
+    interface ServiceConstants {
+        String TIME_10_12 = "10:00,12:00";
+        String TIME_12_15 = "12:00,15:00";
+        String TIME_15_17 = "15:00,17:00";
     }
 
     interface FilterConstants {
@@ -124,6 +131,7 @@ public interface AppConstants {
         String ADDRESS_COMMA = "addressDetails";
         String LOCATION_COMMA = "locationDetails";
         String FROM_FORGOT_PASSWORD_SCREEN = "fromForgotPasswordScreen";
+        String SERVICE_CENTER_DATA = "serviceCenterResponse";
     }
 
 
@@ -256,8 +264,8 @@ public interface AppConstants {
     interface DateFormatterConstants {
         String FROM_API_MILLIS = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
         String FROM_API = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-       /* String LOCAL_DATE_DD_MM_YYYY_HH_MM_SS =
-                "dd-MM-yyyy HH:mm:ss"; //14-08-1987 18:30:00*/
+        /* String LOCAL_DATE_DD_MM_YYYY_HH_MM_SS =
+                 "dd-MM-yyyy HH:mm:ss"; //14-08-1987 18:30:00*/
         String LOCAL_DATE_DD_MM_YYYY_HH_MM =
                 "dd-MM-yyyy HH:mm"; //14-08-1987 18:30
         String MMMM_YYYY = "MMMM - yyyy"; //June - 2017
@@ -269,6 +277,7 @@ public interface AppConstants {
         String DD_SLASH_MM_SLASH_YYYY = "dd/MM/yyyy"; //14/07/2017
         //Mon, 10 Jul 2017 10:08:20 GM
         String DDMMMM_H_MMA = "ddMMMM, h:mma"; //14July, 2:30PM
+        String DD_MM_YYYY_HH_MMA = "dd-MM-yyyy hh:mma"; //14July, 2:30PM
         String YYYY_MM_DD_SLASH = "yyyy/MM/dd"; //2017/01/15
         String YYYY_MM_DD = "yyyy-MM-dd"; //2017-01-15
         String MMMM_SPACE_DD = "MMMM dd"; // March 24 at 11:26am

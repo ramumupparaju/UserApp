@@ -5,33 +5,41 @@
     <RelativeLayout
         style="@style/MatchWrap"
         android:background="@drawable/dialog_background">
-   <!--     &lt;!&ndash; spinner service centers &ndash;&gt;
-        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-            android:id="@+id/spinner_service"
-            style="@style/spinnerItemStyle"
-            android:layout_marginTop="@dimen/margin_10"
-            android:focusable="true"
-            android:hint="@string/hint_service_center"
-            app:errorEnabled="true"
-            app:met_floatingLabel="highlight"
-            app:met_textColor="@color/colorForgotPasswordHintText"
-            app:met_textColorHint="@color/colorForgotPasswordHintText" />-->
-        <!-- spinner service centers -->
-        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-            android:id="@+id/spinner_users"
-            style="@style/spinnerItemStyle"
-            android:layout_marginTop="@dimen/margin_10"
-            android:focusable="true"
-            android:hint="@string/hint_usres"
-            app:errorEnabled="true"
-            app:met_floatingLabel="highlight"
-            app:met_textColor="@color/colorForgotPasswordHintText"
-            app:met_textColorHint="@color/colorForgotPasswordHintText" />
 
         <LinearLayout
-            android:layout_below="@+id/spinner_users"
+            android:id="@+id/spinners_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- spinner service centers -->
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:id="@+id/spinner_service"
+                style="@style/spinnerItemStyle"
+                android:layout_marginTop="@dimen/margin_10"
+                android:focusable="true"
+                android:hint="@string/hint_service_center"
+                app:errorEnabled="true"
+                app:met_floatingLabel="highlight"
+                app:met_textColor="@color/colorForgotPasswordHintText"
+                app:met_textColorHint="@color/colorForgotPasswordHintText" />
+
+            <!-- spinner service centers -->
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:id="@+id/spinner_users"
+                style="@style/spinnerItemStyle"
+                android:layout_marginTop="@dimen/margin_10"
+                android:focusable="true"
+                android:hint="@string/hint_usres"
+                app:errorEnabled="true"
+                app:met_floatingLabel="highlight"
+                app:met_textColor="@color/colorForgotPasswordHintText"
+                app:met_textColorHint="@color/colorForgotPasswordHintText" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/problem_layout"
             style="@style/MatchWrap"
+            android:layout_below="@+id/spinners_layout"
             android:orientation="vertical">
             <!-- spinner -->
             <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
@@ -145,23 +153,27 @@
                 android:id="@+id/radioButton1"
                 style="@style/zerowrap"
                 android:layout_weight="1"
-                android:text="Small "
-                android:textSize="18sp"
+                android:tag="1"
+                android:text="@string/action_high"
+                android:textSize="12sp"
                 app:fontName="fonts/OpenSans-Regular.ttf" />
 
             <RadioButton
                 android:id="@+id/radioButton2"
                 style="@style/zerowrap"
                 android:layout_weight="1"
-                android:text="Medium"
-                android:textSize="18sp" />
+                android:checked="true"
+                android:tag="2"
+                android:text="@string/action_medium"
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/radioButton3"
                 style="@style/zerowrap"
                 android:layout_weight="1"
-                android:text="Large"
-                android:textSize="18sp" />
+                android:tag="3"
+                android:text="@string/action_low"
+                android:textSize="12sp" />
         </RadioGroup>
 
         <!-- layout for bottom buttons -->

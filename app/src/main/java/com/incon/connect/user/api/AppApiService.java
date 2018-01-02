@@ -11,6 +11,7 @@ import com.incon.connect.user.apimodel.components.productinforesponse.ProductInf
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
+import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.custom.exception.NoConnectivityException;
@@ -170,7 +171,7 @@ public class AppApiService implements AppConstants {
     }
 
     // fetch nearby service centers
-    public Observable<Object> findNearByServiceCenters(int brandId) {
+    public Observable<List<ServiceCenterResponse>> findNearByServiceCenters(int brandId) {
         return addNetworkCheck(serviceInstance.findNearByServiceCenters(brandId));
     }
 
