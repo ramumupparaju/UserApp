@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -841,6 +842,15 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     }
 
     @Override
+    public void handleException(Pair<Integer, String> error) {
+        super.handleException(error);
+        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
+            AppUtils.shortToast(getActivity(), error.second);
+        }
+    }
+
+
+    @Override
     public void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses) {
         if (productInfoResponses == null) {
             productInfoResponses = new ArrayList<>();
@@ -903,8 +913,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     //service sequest
     @Override
     public void loadServiceRequest() {
-        // TODO  have to implemented code
-
+        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
+            serviceRequestDialog.dismiss();
+        }
     }
 
     @Override
