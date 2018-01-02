@@ -14,7 +14,6 @@ import android.widget.RadioButton;
 
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.ServiceRequestCallback;
@@ -272,7 +271,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             }
             serviceRequest.setServiceCenterId(serviceCentersList.get(serviceCenterSelectedPos).getId());
             if (usersSelectedPos != -1) {
-                serviceRequest.setCustomerId(usersList.get(usersSelectedPos).getId());
+                serviceRequest.setPreferredUserId(usersList.get(usersSelectedPos).getId());
             }
             String dateFromString = selectedDate + " " + selectedTimeArray[0];
             String dateToString = selectedDate + " " + selectedTimeArray[1];

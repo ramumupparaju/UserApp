@@ -34,7 +34,7 @@ public interface PurchasedContract {
         void doTransferProductApi(String phoneNumber , int userId);
         void addToFavotites(HashMap<String, String> favoritesMap);
         void deleteProduct(int userId);
-        void serviceRequest(int userId, ServiceRequest serviceRequest);
+        void serviceRequest(ServiceRequest serviceRequest);
         void nearByServiceCenters(int brandId);
         void getUsersListOfServiceCenters(int serviceCenterId);
     }

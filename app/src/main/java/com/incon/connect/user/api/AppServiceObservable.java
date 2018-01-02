@@ -57,9 +57,8 @@ public interface AppServiceObservable {
             "userId") int userId, @Body UpDateUserProfile upDateUserProfile);
 
     //  update status api
-    @POST("service/addservicerequest/{userId}")
-    Observable<Object> serviceRequest(@Path(
-            "userId") int userId, @Body ServiceRequest serviceRequest);
+    @POST("service/addservicerequest")
+    Observable<Object> serviceRequest(@Body ServiceRequest serviceRequest);
 
     @POST("account/sendOtp")
     Observable<SendOtpResponse> sendOtp(@Body HashMap<String, String> email);

@@ -701,7 +701,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             @Override
             public void doServiceRequestApi(ServiceRequest serviceRequest) {
                 serviceRequest.setPurchaseId(Integer.valueOf(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId()));
-                purchasedPresenter.serviceRequest(userId, serviceRequest);
+                serviceRequest.setCustomerId(userId);
+                purchasedPresenter.serviceRequest(serviceRequest);
             }
 
             @Override

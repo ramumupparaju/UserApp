@@ -99,9 +99,8 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.upDateUserProfile(userId, upDateUserProfile));
     }
     //  update status api
-    public Observable<Object> serviceRequest(
-            int userId, ServiceRequest serviceRequest) {
-        return addNetworkCheck(serviceInstance.serviceRequest(userId, serviceRequest));
+    public Observable<Object> serviceRequest(ServiceRequest serviceRequest) {
+        return addNetworkCheck(serviceInstance.serviceRequest(serviceRequest));
     }
     //registration request otp
     public Observable<Object> registerRequestOtp(String phoneNumber) {

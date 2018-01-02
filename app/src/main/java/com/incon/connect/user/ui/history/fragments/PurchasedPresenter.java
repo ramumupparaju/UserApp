@@ -123,7 +123,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
 
     // service request
     @Override
-    public void serviceRequest(int userId, ServiceRequest serviceRequest) {
+    public void serviceRequest(ServiceRequest serviceRequest) {
         getView().showProgress(appContext.getString(R.string.progress_update_status));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
@@ -144,7 +144,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().serviceRequest(userId, serviceRequest).subscribe(observer);
+        AppApiService.getInstance().serviceRequest(serviceRequest).subscribe(observer);
         addDisposable(observer);
     }
 
