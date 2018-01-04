@@ -428,6 +428,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 .button2Text(getString(R.string.action_cancel))
                 .build();
         detailsDialog.showDialog();
+        detailsDialog.setCancelable(true);
     }
 
     private void showInformationDialog(String title, String messageInfo) {
