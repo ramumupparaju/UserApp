@@ -65,7 +65,8 @@ public interface AppServiceObservable {
 
     @POST("user/validateotp")
     Observable<LoginResponse> validateOtp(@Body HashMap<String, String> verify);
-// forgotpassword api
+
+    // forgotpassword api
     @POST("merchant/forgotpassword")
     Observable<ApiBaseResponse> forgotPassword(@Body HashMap<String, String> phoneNumber);
 
@@ -90,7 +91,7 @@ public interface AppServiceObservable {
     @POST("user/addtofavourites")
     Observable<Object> addToFavotites(@Body HashMap<String, String> favoriteMap);
 
-       // fetch near by service centers  api
+    // fetch near by service centers  api
     @POST("service/nearbycenters/{brandId}")
     Observable<List<ServiceCenterResponse>> findNearByServiceCenters(@Path("brandId") int brandId);
 

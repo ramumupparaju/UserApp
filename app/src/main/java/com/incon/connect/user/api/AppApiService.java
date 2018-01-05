@@ -98,10 +98,12 @@ public class AppApiService implements AppConstants {
             int userId, UpDateUserProfile upDateUserProfile) {
         return addNetworkCheck(serviceInstance.upDateUserProfile(userId, upDateUserProfile));
     }
+
     //  update status api
     public Observable<Object> serviceRequest(ServiceRequest serviceRequest) {
         return addNetworkCheck(serviceInstance.serviceRequest(serviceRequest));
     }
+
     //registration request otp
     public Observable<Object> registerRequestOtp(String phoneNumber) {
         return addNetworkCheck(serviceInstance.registerRequestOtp(phoneNumber));
@@ -135,6 +137,7 @@ public class AppApiService implements AppConstants {
     public Observable<List<ProductInfoResponse>> purchasedApi(int userId) {
         return addNetworkCheck(serviceInstance.purchasedApi(userId));
     }
+
     // get users list of service centers api
     public Observable<List<UsersListOfServiceCenters>> getUsersListOfServiceCenters(int serviceCenterId) {
         return addNetworkCheck(serviceInstance.getUsersListOfServiceCenters(serviceCenterId));
@@ -149,6 +152,7 @@ public class AppApiService implements AppConstants {
     public Observable<Object> deleteProduct(int warrantyId) {
         return addNetworkCheck(serviceInstance.deleteProduct(warrantyId));
     }
+
     //add product to interest api
     public Observable<List<ProductInfoResponse>> interestApi(int userId) {
         return addNetworkCheck(serviceInstance.interestApi(userId));
@@ -195,7 +199,7 @@ public class AppApiService implements AppConstants {
 
     // user intereste api
     public Observable<ProductInfoResponse> userInterestedUsingQrCode(int customerId,
-                                                        HashMap<String, String> qrCode) {
+                                                                     HashMap<String, String> qrCode) {
         return addNetworkCheck(serviceInstance.userInterestedUsingQrCode(customerId, qrCode));
     }
 
@@ -231,9 +235,10 @@ public class AppApiService implements AppConstants {
     }
 
     //transfer request otp api
-    public Observable<Object> transferRequest(String phoneNumber , int userId) {
+    public Observable<Object> transferRequest(String phoneNumber, int userId) {
         return addNetworkCheck(serviceInstance.transferRequest(phoneNumber, userId));
     }
+
     //add new model api
     public Observable<ModelSearchResponse> addingNewModel(int merchantId,
                                                           AddNewModel addNewModelBody) {
