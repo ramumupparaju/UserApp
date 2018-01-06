@@ -68,6 +68,9 @@
     <string name="status_repair_done">Repair Done</string>
     <string name="status_payment">Payment</string>
     <string name="status_feedback">Feedback</string>
+    <string name="date_selecte">Selecte Date</string>
+    <string name="time_selecte">Selecte Time</string>
+    <string name="user_selecte">Selecte User</string>
 
     <!--warrantyregistration-->
     <string name="action_add_as_favorite">Add as favorite</string>

@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.incon.connect.user.AppConstants;
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
@@ -248,15 +249,16 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         //no need to check users data
         if (serviceCenterSelectedPos == -1) {
             //todo show toast as select users
+            AppUtils.shortToast(getContext(), context.getString(R.string.user_selecte));
             return false;
         } else if (TextUtils.isEmpty(selectedDate)) {
             // todo show toast as select date
-//              AppUtils.shortToast(getContext(), context.getString(R.string.));
+             AppUtils.shortToast(getContext(), context.getString(R.string.date_selecte));
 
             return false;
 
         } else if (TextUtils.isEmpty(selectedTime)) {
-            //todo show toast as select time
+            AppUtils.shortToast(getContext(), context.getString(R.string.time_selecte));
 
             return false;
         } else {
