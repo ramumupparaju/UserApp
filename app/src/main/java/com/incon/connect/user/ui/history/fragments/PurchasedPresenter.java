@@ -41,7 +41,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
     // purchased
     @Override
     public void purchased(int userId) {
-        getView().showProgress(appContext.getString(R.string.progress_purchased_history));
+//        getView().showProgress(appContext.getString(R.string.progress_purchased_history));
         DisposableObserver<List<ProductInfoResponse>> observer = new
                 DisposableObserver<List<ProductInfoResponse>>() {
                     @Override

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
@@ -80,6 +81,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private TimeSlotAlertDialog timeSlotAlertDialog;
     private ArrayList<ServiceCenterResponse> serviceCenterResponseList;
     private boolean isFindServiceCenter;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     @Override
     protected void initializePresenter() {
@@ -100,9 +102,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             // handle events from here using android binding
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_purchased,
                     container, false);
+            rootView = binding.getRoot();
+            shimmerFrameLayout = rootView.findViewById(R.id
+                    .effect_shimmer);
             loadBottomSheet();
             initViews();
-            rootView = binding.getRoot();
+
         }
         setTitle();
         return rootView;
@@ -130,7 +135,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         binding.purchasedRecyclerview.setLayoutManager(linearLayoutManager);
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
-        purchasedPresenter.purchased(userId);
+        getProductsApi();
 
 
         Bundle bundle = getArguments();
@@ -140,6 +145,13 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             purchasedPresenter.doGetAddressApi(userId);
         }
 
+    }
+
+    private void getProductsApi() {
+        binding.purchasedRecyclerview.setVisibility(View.GONE);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmerAnimation();
+        purchasedPresenter.purchased(userId);
     }
 
     //recyclerview click event
@@ -830,7 +842,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 @Override
                 public void onRefresh() {
                     purchasedAdapter.clearData();
-                    purchasedPresenter.purchased(userId);
+                    getProductsApi();
                 }
             };
 
@@ -876,6 +888,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             dismissSwipeRefresh();
         }
 
+        binding.purchasedRecyclerview.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.stopShimmerAnimation();
+        shimmerFrameLayout.setVisibility(View.GONE);
     }
 
     @Override
