@@ -2,41 +2,53 @@ package com.incon.connect.user.ui.status;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.status.ServiceStatus;
+import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.FragmentStatusBinding;
-import com.incon.connect.user.databinding.ItemStatusFragmentBinding;
-import com.incon.connect.user.databinding.StatusViewBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
-import com.incon.connect.user.ui.status.adapter.StatusAdapter;
+import com.incon.connect.user.ui.status.adapter.adapter.ProductStatusAdapter;
+import com.incon.connect.user.ui.status.adapter.adapter.ServiceStatusAdapter;
+import com.incon.connect.user.utils.SharedPrefsUtils;
+
+import java.util.ArrayList;
 
 /**
  * Created by PC on 12/1/2017.
  */
 
 public class StatusFragment extends BaseFragment implements StatusContract.View {
-   private FragmentStatusBinding binding;
-   private StatusAdapter statusAdapter;
-    ItemStatusFragmentBinding itemStatusFragmentBinding;
-
+    private FragmentStatusBinding binding;
     private View rootView;
+    private StatusPresenter statusPresenter;
 
+    private ProductStatusAdapter productStatusAdapter;
+    private ArrayList<ProductInfoResponse> productsList;
+
+    private ServiceStatusAdapter serviceStatusAdapter;
+    private ArrayList<ServiceStatus> serviceStatusList;
+
+    private boolean isServiceRequest;
 
     @Override
     protected void initializePresenter() {
-
+        statusPresenter = new StatusPresenter();
+        statusPresenter.setView(this);
+        setBasePresenter(statusPresenter);
     }
 
     @Override
     public void setTitle() {
         ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.title_status));
-
     }
 
     @Override
@@ -44,82 +56,103 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         if (rootView == null) {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_status,
                     container, false);
-           // initViews();
-            createStatusView();
-            initializeView();
+            binding.setFragment(this);
             rootView = binding.getRoot();
+            initViews();
         }
-
 
         setTitle();
         return rootView;
     }
 
-   private void initializeView() {
-        LayoutInflater layoutInflater = getLayoutInflater();
-        itemStatusFragmentBinding = DataBindingUtil.inflate(layoutInflater,
-                R.layout.item_status_fragment, null, false);
-        createStatusView();
+    public void onCheckedChanged(boolean checked) {
+        this.isServiceRequest = checked;
+        setListUi();
     }
 
-   /* private void initViews() {
-        statusAdapter = new StatusAdapter();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                getContext(), linearLayoutManager.getOrientation());
-        binding.statusRecyclerview.addItemDecoration(dividerItemDecoration);
-        binding.statusRecyclerview.setAdapter(statusAdapter);
-        binding.statusRecyclerview.setLayoutManager(linearLayoutManager);
-    }
-*/
-    private void createStatusView() {
-        int length;
-        int[] statusDrawables;
-        String[] statusNames;
-        statusNames = new String[8];
-        statusNames[0] = getString(R.string.status_complaint);
-        statusNames[1] = getString(R.string.status_received);
-        statusNames[2] = getString(R.string.status_attending);
-        statusNames[3] = getString(R.string.status_checkup);
-        statusNames[4] = getString(R.string.status_approval);
-        statusNames[5] = getString(R.string.status_repair_done);
-        statusNames[6] = getString(R.string.status_payment);
-        statusNames[7] = getString(R.string.status_feedback);
 
-        statusDrawables = new int[8];
-        statusDrawables[0] = R.drawable.ic_option_complaint;
-        statusDrawables[1] = R.drawable.ic_option_received;
-        statusDrawables[2] = R.drawable.ic_option_attending;
-        statusDrawables[3] = R.drawable.ic_option_checkup;
-        statusDrawables[4] = R.drawable.ic_option_approval;
-        statusDrawables[5] = R.drawable.ic_option_repair_done;
-        statusDrawables[6] = R.drawable.ic_option_payment;
-        statusDrawables[7] = R.drawable.ic_options_feedback;
-        length = statusNames.length;
-        binding.layoutParent.removeAllViews();
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(
-                        0, ViewGroup.LayoutParams.MATCH_PARENT, length);
-        //  params.setMargins(1, 1, 1, 1);
-        for (int i = 0; i < length; i++) {
-            LinearLayout linearLayout = new LinearLayout(getContext());
-            linearLayout.setWeightSum(1f);
-            linearLayout.setGravity(Gravity.CENTER);
-            StatusViewBinding statusView = getStatusView();
-            statusView.viewTv.setText(statusNames[i]);
-            statusView.viewLogo.setImageResource(statusDrawables[i]);
-            View statusRootView = statusView.getRoot();
-            statusRootView.setTag(i);
-            linearLayout.addView(statusRootView);
-            binding.layoutParent.addView(linearLayout, params);
+    private void setListUi() {
+
+        if (isServiceRequest && serviceStatusList.size() == 0) {
+            binding.emptyData.setVisibility(View.VISIBLE);
+        } else if (!isServiceRequest && productsList.size() == 0) {
+            binding.emptyData.setVisibility(View.VISIBLE);
+        } else {
+            binding.emptyData.setVisibility(View.GONE);
         }
+        binding.serviceRequestsRecyclerview.setVisibility(isServiceRequest ? View.VISIBLE : View.GONE);
+        binding.productStatusRecyclerview.setVisibility(isServiceRequest ? View.GONE : View.VISIBLE);
     }
 
-    private StatusViewBinding getStatusView() {
-        return DataBindingUtil.inflate(
-                LayoutInflater.from(getActivity()), R.layout.status_view, null, false);
+    private void initViews() {
+        statusPresenter.fetchUserRequests(SharedPrefsUtils.loginProvider().getIntegerPreference
+                (LoginPrefs.USER_ID, DEFAULT_VALUE));
+        productsList = new ArrayList<>();
+        serviceStatusList = new ArrayList<>();
+
+        FragmentActivity activity = getActivity();
+        serviceStatusAdapter = new ServiceStatusAdapter(getActivity(), serviceStatusList);
+        serviceStatusAdapter.setClickCallback(iClickCallback);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                activity, linearLayoutManager.getOrientation());
+        binding.serviceRequestsRecyclerview.addItemDecoration(dividerItemDecoration);
+        binding.serviceRequestsRecyclerview.setAdapter(serviceStatusAdapter);
+        binding.serviceRequestsRecyclerview.setLayoutManager(linearLayoutManager);
+
+        productStatusAdapter = new ProductStatusAdapter(productsList);
+        productStatusAdapter.setClickCallback(iClickCallback);
+        linearLayoutManager = new LinearLayoutManager(activity);
+        dividerItemDecoration = new DividerItemDecoration(
+                activity, linearLayoutManager.getOrientation());
+        binding.productStatusRecyclerview.addItemDecoration(dividerItemDecoration);
+        binding.productStatusRecyclerview.setAdapter(productStatusAdapter);
+        binding.productStatusRecyclerview.setLayoutManager(linearLayoutManager);
+
+        setListUi();
     }
 
+    //recyclerview click event
+    private IClickCallback iClickCallback = new IClickCallback() {
+        @Override
+        public void onClickPosition(int position) {
+            //TODO have to enable
+            /*if (isServiceRequest) {
+                DesignationData designationResponse = serviceStatusList.get(position);
+                Intent intent = new Intent(AllUsersDesignationsActivity.this, AddDesignationsActivity.class);
+                intent.putExtra(IntentConstants.DESIGNATION_DATA, designationResponse);
+                intent.putExtra(IntentConstants.SERVICE_CENTER_DATA, serviceCenterId);
+                startActivityForResult(intent, RequestCodes.ADD_USER_DESIGNATION);
+            } else {
+                AddUser usersListOfServiceCenters = productsList.get(position);
+                Intent intent = new Intent(AllUsersDesignationsActivity.this, AddUserActivity.class);
+                intent.putParcelableArrayListExtra(IntentConstants.DESIGNATION_DATA, serviceStatusList);
+                intent.putExtra(IntentConstants.USER_DATA, usersListOfServiceCenters);
+                intent.putParcelableArrayListExtra(IntentConstants.USER_DATA_LIST, productsList);
+                startActivityForResult(intent, RequestCodes.ADD_USER_DESIGNATION);
+            }*/
+        }
+    };
+
+
+    @Override
+    public void loadServiceRequests(ArrayList<ProductInfoResponse> productStatusArrayList,
+                                    ArrayList<ServiceStatus> serviceStatusArrayList) {
+        if (productStatusArrayList == null) {
+            productStatusArrayList = new ArrayList<>();
+        }
+        if (serviceStatusArrayList == null) {
+            serviceStatusArrayList = new ArrayList<>();
+        }
+
+        this.productsList = productStatusArrayList;
+        this.serviceStatusList = serviceStatusArrayList;
+
+        productStatusAdapter.setData(productStatusArrayList);
+        serviceStatusAdapter.setData(serviceStatusArrayList);
+
+        setListUi();
+    }
 }
 
 

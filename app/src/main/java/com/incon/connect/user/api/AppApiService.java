@@ -12,6 +12,8 @@ import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
+import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.custom.exception.NoConnectivityException;
@@ -25,6 +27,7 @@ import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
 import com.incon.connect.user.utils.NetworkUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -237,6 +240,16 @@ public class AppApiService implements AppConstants {
     //transfer request otp api
     public Observable<Object> transferRequest(String phoneNumber, int userId) {
         return addNetworkCheck(serviceInstance.transferRequest(phoneNumber, userId));
+    }
+
+    //transfer request otp api
+    public Observable<ArrayList<ServiceStatus>> fetchUserRequests(int userId) {
+        return addNetworkCheck(serviceInstance.fetchUserRequests(userId));
+    }
+
+    // get status list api
+    public Observable<List<DefaultStatusData>> getStatusList() {
+        return addNetworkCheck(serviceInstance.getStatusList());
     }
 
     //add new model api

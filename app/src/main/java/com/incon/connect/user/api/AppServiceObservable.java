@@ -10,6 +10,8 @@ import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
+import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
@@ -21,6 +23,7 @@ import com.incon.connect.user.dto.registration.Registration;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +34,11 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface AppServiceObservable {
+
+
+    @GET("service/getstatuslist")
+    Observable<List<DefaultStatusData>> getStatusList();
+
     //default data api
     @GET("defaults")
     Observable<DefaultsResponse> defaultsApi();
@@ -172,6 +180,10 @@ public interface AppServiceObservable {
     @GET("user/transfer/{phoneNumber}/{userId}")
     Observable<Object> transferRequest(@Path("phoneNumber") String phoneNumber,
                                        @Path("userId") int userId);
+
+    //transfer product api
+    @GET("user/servicerequests/{userId}")
+    Observable<ArrayList< ServiceStatus>> fetchUserRequests(@Path("userId") int userId);
 
     // new user registation  api
     @POST("user/newuser/{phoneNumber}")
