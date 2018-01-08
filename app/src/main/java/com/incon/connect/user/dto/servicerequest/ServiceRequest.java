@@ -32,14 +32,14 @@ public class ServiceRequest {
     @SerializedName("serviceCenterId")
     @Expose
     private Integer serviceCenterId;
-    private Integer preferreduser;
+    private Integer preferredUser;
 
-    public Integer getPreferreduser() {
-        return preferreduser;
+    public Integer getPreferredUser() {
+        return preferredUser;
     }
 
-    public void setPreferreduser(Integer preferreduser) {
-        this.preferreduser = preferreduser;
+    public void setPreferredUser(Integer preferredUser) {
+        this.preferredUser = preferredUser;
     }
 
     public String getComments() {

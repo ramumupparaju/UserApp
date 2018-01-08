@@ -273,7 +273,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             }
             serviceRequest.setServiceCenterId(serviceCentersList.get(serviceCenterSelectedPos).getId());
             if (usersSelectedPos != -1) {
-                serviceRequest.setPreferreduser(usersList.get(usersSelectedPos).getId());
+                serviceRequest.setPreferredUser(usersList.get(usersSelectedPos).getId());
             }
             String dateFromString = selectedDate + " " + selectedTimeArray[0];
             String dateToString = selectedDate + " " + selectedTimeArray[1];
