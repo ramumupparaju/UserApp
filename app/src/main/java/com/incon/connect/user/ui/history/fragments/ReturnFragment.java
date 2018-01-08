@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
@@ -34,6 +35,7 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
     private int userId;
     private int productSelectedPosition;
     private AppAlertDialog detailsDialog;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     @Override
     protected void initializePresenter() {
@@ -53,8 +55,10 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
         if (rootView == null) {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_return,
                     container, false);
-            initViews();
             rootView = binding.getRoot();
+            shimmerFrameLayout = rootView.findViewById(R.id
+                    .effect_shimmer);
+            initViews();
         }
         setTitle();
         return rootView;
@@ -67,14 +71,21 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
         returnAdapter = new ReturnAdapter();
         returnAdapter.setClickCallback(iClickCallback);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                getContext(), linearLayoutManager.getOrientation());
-        binding.returnRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.returnRecyclerview.setAdapter(returnAdapter);
         binding.returnRecyclerview.setLayoutManager(linearLayoutManager);
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
+        getProductsApi();
+    }
+
+    private void getProductsApi() {
+
+        binding.returnRecyclerview.setVisibility(View.GONE);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmerAnimation();
         returnPresenter.returnHistory(userId);
+
+
     }
 
     private void dismissSwipeRefresh() {
@@ -98,7 +109,7 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
                 @Override
                 public void onRefresh() {
                     returnAdapter.clearData();
-                    returnPresenter.returnHistory(userId);
+                    getProductsApi();
                 }
             };
 
@@ -114,6 +125,10 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
             returnAdapter.setData(returnHistoryResponseList);
             dismissSwipeRefresh();
         }
+        binding.returnRecyclerview.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.stopShimmerAnimation();
+        shimmerFrameLayout.setVisibility(View.GONE);
+
     }
 
     @Override

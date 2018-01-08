@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
@@ -45,6 +46,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private String buyRequestComment;
     private AppFeedBackDialog feedBackDialog;
     private String feedBackComment;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     @Override
     protected void initializePresenter() {
@@ -65,10 +67,11 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             // handle events from here using android binding
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_interest,
                     container, false);
+            rootView = binding.getRoot();
+            shimmerFrameLayout = rootView.findViewById(R.id
+                    .effect_shimmer);
             initViews();
             loadBottomSheet();
-
-            rootView = binding.getRoot();
         }
         setTitle();
         return rootView;
@@ -105,7 +108,15 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         binding.interestRecyclerview.setLayoutManager(linearLayoutManager);
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
+        getProductsApi();
+    }
+
+    private void getProductsApi() {
+        binding.interestRecyclerview.setVisibility(View.GONE);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmerAnimation();
         interestPresenter.interestApi(userId);
+
     }
 
     //recyclerview click event
@@ -477,7 +488,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 @Override
                 public void onRefresh() {
                     interestAdapter.clearData();
-                    interestPresenter.interestApi(userId);
+                    getProductsApi();
                 }
             };
 
@@ -505,6 +516,10 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             interestAdapter.setData(interestHistoryResponseLastToFirst);
             dismissSwipeRefresh();
         }
+        binding.interestRecyclerview.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.stopShimmerAnimation();
+        shimmerFrameLayout.setVisibility(View.GONE);
+
     }
 
     // delete interest items

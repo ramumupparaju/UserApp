@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
@@ -67,6 +68,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private AppEditTextDialog buyRequestDialog;
     private String buyRequestComment;
     private AppAlertDialog detailsDialog;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     @Override
     protected void initializePresenter() {
@@ -88,6 +90,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                     inflater, R.layout.fragment_favorites, container, false);
             binding.setFavorites(this);
             rootView = binding.getRoot();
+            shimmerFrameLayout = rootView.findViewById(R.id
+                    .effect_shimmer);
             initViews();
         }
         setTitle();
@@ -163,6 +167,23 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         //api call to get addresses
         favoritesPresenter.doGetAddressApi(userId);
         loadBottomSheet();
+       // getProductsApi();
+
+    }
+
+    private void getProductsApi() {
+        binding.favoritesRecyclerview.setVisibility(View.GONE);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmerAnimation();
+        if (addressSelectedPosition == -1) {
+            return;
+        }
+        AddUserAddressResponse singleAddressResponse = addressessAdapter.
+                getItemFromPosition(addressSelectedPosition);
+        binding.addressesRecyclerview.getLayoutManager().scrollToPosition(
+                addressSelectedPosition);
+        favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());
+
     }
 
     // load bottom sheet
@@ -550,110 +571,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         }
     };
 
-    // bottom sheet creation
-    private void createBottomSheetView(int position) /*{
-        productSelectedPosition = position;
-        bottomSheetFavouriteBinding.topRow.setVisibility(View.GONE);
-        String[] bottomNames = new String[3];
-        bottomNames[0] = getString(R.string.bottom_option_service);
-        bottomNames[1] = getString(R.string.bottom_option_product);
-        bottomNames[2] = getString(R.string.bottom_option_showroom);
 
-        int[] bottomDrawables = new int[3];
-        bottomDrawables[0] = R.drawable.ic_option_service_support;
-        bottomDrawables[1] = R.drawable.ic_option_product;
-        bottomDrawables[2] = R.drawable.ic_option_customer;
 
-        bottomSheetFavouriteBinding.bottomRow.removeAllViews();
-        int length = bottomNames.length;
-        for (int i = 0; i < length; i++) {
-
-            LinearLayout customBottomView = getCustomBottomView();
-
-            getBottomTextView(customBottomView).setText(bottomNames[i]);
-            getBottomImageView(customBottomView).setImageResource(bottomDrawables[i]);
-
-            customBottomView.setTag(i);
-
-            customBottomView.setOnClickListener(bottomViewClickListener);
-            bottomSheetFavouriteBinding.bottomRow.addView(customBottomView);
-        }
-    }*/ {
-    }
-
-    // bottom sheet click event
-    private View.OnClickListener bottomViewClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) /*{
-            Integer tag = (Integer) view.getTag();
-            String[] bottomOptions;
-            int[] topDrawables;
-            changeBackgroundText(tag, view);
-            if (tag == 0) {
-                bottomOptions = new String[3];
-                bottomOptions[0] = getString(R.string.bottom_option_call_customer_care);
-                bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
-                bottomOptions[2] = getString(R.string.bottom_option_service_request);
-                topDrawables = new int[3];
-                topDrawables[0] = R.drawable.ic_option_call;
-                topDrawables[1] = R.drawable.ic_option_find_service_center;
-                topDrawables[2] = R.drawable.ic_option_service_request;
-
-            } else if (tag == 1) {
-                bottomOptions = new String[8];
-                bottomOptions[0] = getString(R.string.bottom_option_details);
-                bottomOptions[1] = getString(R.string.bottom_option_warranty);
-                bottomOptions[2] = getString(R.string.bottom_option_bill);
-                bottomOptions[3] = getString(R.string.bottom_option_past_history);
-                bottomOptions[4] = getString(R.string.bottom_option_share);
-                bottomOptions[5] = getString(R.string.bottom_option_transfer);
-                bottomOptions[6] = getString(R.string.bottom_option_feedback);
-                bottomOptions[7] = getString(R.string.bottom_option_suggestions);
-
-                topDrawables = new int[8];
-                topDrawables[0] = R.drawable.ic_option_details;
-                topDrawables[1] = R.drawable.ic_option_warranty;
-                topDrawables[2] = R.drawable.ic_option_bill;
-                topDrawables[3] = R.drawable.ic_option_pasthistory;
-                topDrawables[4] = R.drawable.ic_option_share;
-                topDrawables[5] = R.drawable.ic_option_transfer;
-                topDrawables[6] = R.drawable.ic_option_feedback;
-                topDrawables[7] = R.drawable.ic_option_suggestions;
-            } else if (tag == 2) {
-                bottomOptions = new String[3];
-                bottomOptions[0] = getString(R.string.bottom_option_Call);
-                bottomOptions[1] = getString(R.string.bottom_option_location);
-                bottomOptions[2] = getString(R.string.bottom_option_feedback);
-                topDrawables = new int[3];
-                topDrawables[0] = R.drawable.ic_option_call;
-                topDrawables[1] = R.drawable.ic_option_location;
-                topDrawables[2] = R.drawable.ic_option_feedback;
-                changeBackgroundText(tag, view);
-            } else {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-//                showFavoriteOptionsDialog();
-            }
-            bottomSheetFavouriteBinding.secondTopRow.removeAllViews();
-            bottomSheetFavouriteBinding.topRow.removeAllViews();
-            int length1 = bottomOptions.length;
-            bottomSheetFavouriteBinding.topRow.setVisibility(View.VISIBLE);
-            int length = length1;
-            for (int i = 0; i < length; i++) {
-
-                LinearLayout customBottomView = getCustomBottomView();
-
-                getBottomTextView(customBottomView).setText(bottomOptions[i]);
-                getBottomImageView(customBottomView).setImageResource(topDrawables[i]);
-
-                customBottomView.setTag(i);
-
-                customBottomView.setOnClickListener(topViewClickListener);
-                bottomSheetFavouriteBinding.topRow.addView(customBottomView);
-            }
-        }*/ {
-        }
-    };
 
     // bottom sheet top view click event
     private View.OnClickListener topViewClickListener = new View.OnClickListener() {
@@ -1029,6 +948,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
+                   // getProductsApi();
                     if (addressSelectedPosition == -1) {
                         return;
                     }
@@ -1086,7 +1006,14 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             binding.listHeader.setVisibility(View.VISIBLE);
             binding.noItemsTextview.setVisibility(View.GONE);
         }
-        favoritesAdapter.setData(favoritesResponseList);
-        dismissSwipeRefresh();
+        //{
+            favoritesAdapter.setData(favoritesResponseList);
+            dismissSwipeRefresh();
+       // }
+       /* binding.favoritesRecyclerview.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.stopShimmerAnimation();
+        shimmerFrameLayout.setVisibility(View.GONE)*/;
+
+
     }
 }
