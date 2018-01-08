@@ -574,171 +574,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
 
 
-    // bottom sheet top view click event
-    private View.OnClickListener topViewClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) /*{
-            ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(
-                    productSelectedPosition);
-            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
-            String topClickedText = viewById.getText().toString();
-            Integer tag = (Integer) view.getTag();
-            String[] bottomOptions;
-            int[] topDrawables;
-            changeBackgroundText(tag, view);
-            if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_call_customer_care))) {
-                callPhoneNumber(itemFromPosition.getMobileNumber());
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-
-            } else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_find_service_center))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-
-            } else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_service_request))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-
-            } else if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_details))) {
-                bottomOptions = new String[4];
-                bottomOptions[0] = getString(R.string.bottom_option_return_policy);
-                bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
-                bottomOptions[2] = getString(R.string.bottom_option_how_to_use);
-                bottomOptions[3] = getString(R.string.bottom_option_description);
-                topDrawables = new int[4];
-                topDrawables[0] = R.drawable.ic_option_return_policy;
-                topDrawables[1] = R.drawable.ic_option_sp_instructions;
-                topDrawables[2] = R.drawable.ic_option_howtouse;
-                topDrawables[3] = R.drawable.ic_option_details;
-
-            } else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_warranty))) {
-                String purchasedDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY);
-                String warrantyEndDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getWarrantyEndDate(), DateFormatterConstants.DD_MM_YYYY);
-                long noOfDays = DateUtils.convertDifferenceDateIndays(
-                        itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
-                showInformationDialog(getString(
-                        R.string.bottom_option_warranty), getString(
-                        R.string.purchased_warranty_status_now)
-                        + noOfDays + " Days Left "
-                        + "\n"
-                        + getString(
-                        R.string.purchased_purchased_date)
-                        + purchasedDate
-                        + "\n"
-                        + getString(
-                        R.string.purchased_warranty_covers_date)
-                        + " "
-                        + "\n"
-                        + getString(
-                        R.string.purchased_warranty_ends_on) + warrantyEndDate);
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-
-            } else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_bill))) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-                Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, itemFromPosition);
-                billFormatIntent.putExtras(bundle);
-                startActivity(billFormatIntent);
-            } else if (tag == 3 && topClickedText.equals(getString(
-                    R.string.bottom_option_past_history))) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 4 && topClickedText.equals(getString(
-                    R.string.bottom_option_share))) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-                shareProductDetails(itemFromPosition);
-            } else if (tag == 5 && topClickedText.equals(getString(
-                    R.string.bottom_option_transfer))) {
-                showBuyRequestDialog();
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 6 && topClickedText.equals(getString(
-                    R.string.bottom_option_feedback))) {
-//                showFeedBackDialog();
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 7 && topClickedText.equals(getString(
-                    R.string.bottom_option_suggestions))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_Call))) {
-                callPhoneNumber(itemFromPosition.getStoreContactNumber());
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-
-            } else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_find_service_center))) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_service_request))) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_location))) {
-                showLocationDialog();
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_feedback))) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-//                showFeedBackDialog();
-            } else if (tag == 3) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-                changeBackgroundText(tag, view);
-            } else if (tag == 4) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else if (tag == 5) {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            } else {
-                bottomOptions = new String[0];
-                topDrawables = new int[0];
-            }
-            bottomSheetFavouriteBinding.secondTopRow.removeAllViews();
-            int length1 = bottomOptions.length;
-            bottomSheetFavouriteBinding.secondTopRow.setVisibility(View.VISIBLE);
-            int length = length1;
-            LinearLayout.LayoutParams params =
-                    new LinearLayout.LayoutParams(
-                            0, ViewGroup.LayoutParams.WRAP_CONTENT, length);
-            params.setMargins(1, 1, 1, 1);
-            for (int i = 0; i < length; i++) {
-                LinearLayout customBottomView = getCustomBottomView();
-
-                getBottomTextView(customBottomView).setText(bottomOptions[i]);
-                getBottomImageView(customBottomView).setImageResource(topDrawables[i]);
-
-                customBottomView.setTag(i);
-
-                customBottomView.setOnClickListener(secondtopViewClickListener);
-                bottomSheetFavouriteBinding.secondTopRow.addView(customBottomView);
-            }
-        }*/ {
-        }
-    };
-
 
     // bottom sheet second top view click event
     private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
@@ -862,46 +697,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private void callPhoneNumber(String phoneNumber) {
         AppUtils.callPhoneNumber(getActivity(), phoneNumber);
     }
-   /* private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
-            String topClickedText = viewById.getText().toString();
-            Integer tag = (Integer) view.getTag();
-            changeBackgroundText(tag, view);
-            ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(
-                    productSelectedPosition);
-            if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_return_policy))) {
-                showInformationDialog(itemFromPosition.getReturnPolicy());
-            }
-            else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_special_instructions))) {
-                showInformationDialog(itemFromPosition.getSpecialInstruction());
-            }   else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_how_to_use))) {
-//                showInformationDialog(itemFromPosition.getInformation());
-            }  else if (tag == 3 && topClickedText.equals(getString(
-                    R.string.bottom_option_description))) {
-                showInformationDialog(itemFromPosition.getInformation());
-            }
-       *//*  else if (tag == 0 && topClickedText.equals(getString(
-        R.string.bottom_option_return_policy))) {
-        }   else if (tag == 1 && topClickedText.equals(getString(
-        R.string.bottom_option_special_instructions))) {
-        }   else if (tag == 2 && topClickedText.equals(getString(
-        R.string.bottom_option_how_to_use))) {
-        }  else if (tag == 3 && topClickedText.equals(getString(
-        R.string.bottom_option_warranty))) {
-        }  else if (tag == 4 && topClickedText.equals(getString(
-        R.string.bottom_option_share))) {
-        }
-        else  if (tag == 0 && topClickedText.equals(getString(
-        R.string.bottom_option_feedback))) {
-        }*//*
-        }
-
-    };*/
 
     //buy request dialog
     private void showBuyRequestDialog() {
@@ -948,15 +743,15 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                   // getProductsApi();
-                    if (addressSelectedPosition == -1) {
+                    getProductsApi();
+                   /* if (addressSelectedPosition == -1) {
                         return;
                     }
                     AddUserAddressResponse singleAddressResponse = addressessAdapter.
                             getItemFromPosition(addressSelectedPosition);
                     binding.addressesRecyclerview.getLayoutManager().scrollToPosition(
                             addressSelectedPosition);
-                    favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());
+                    favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());*/
                 }
             };
 
@@ -1006,13 +801,13 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             binding.listHeader.setVisibility(View.VISIBLE);
             binding.noItemsTextview.setVisibility(View.GONE);
         }
-        //{
+        {
             favoritesAdapter.setData(favoritesResponseList);
             dismissSwipeRefresh();
-       // }
-       /* binding.favoritesRecyclerview.setVisibility(View.VISIBLE);
+        }
+        binding.favoritesRecyclerview.setVisibility(View.VISIBLE);
         shimmerFrameLayout.stopShimmerAnimation();
-        shimmerFrameLayout.setVisibility(View.GONE)*/;
+        shimmerFrameLayout.setVisibility(View.GONE);
 
 
     }
