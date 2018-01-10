@@ -115,7 +115,7 @@
             android:onClick="@{() -> favorites.onAddNewModel()}"
             android:paddingBottom="@dimen/margin_10"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_favourite_products"/>
+            app:srcCompat="@drawable/ic_favourite_add_model"/>
 
         <ImageView
             android:id="@+id/parent_product"
