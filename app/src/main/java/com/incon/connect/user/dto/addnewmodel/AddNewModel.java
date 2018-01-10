@@ -238,9 +238,9 @@ public class AddNewModel extends BaseObservable implements Parcelable {
                 break;
 
             case 1:
-                boolean descEmpty = TextUtils.isEmpty(description);
-                if (emptyValidation && descEmpty) {
-                    return AppConstants.AddNewModelValidation.DESCRIPTION;
+                boolean nameEmpty = TextUtils.isEmpty(name);
+                if (emptyValidation && nameEmpty) {
+                    return AppConstants.AddNewModelValidation.NAME;
                 }
                 break;
 
