@@ -59,9 +59,11 @@
 
                 <TextView
                     android:id="@+id/warranty_period"
-                    style="@style/BothWrap"
+                    style="@style/MatchWrap"
                     android:layout_above="@+id/warranty_layout"
+                    android:layout_marginRight="@dimen/margin_5"
                     android:layout_toRightOf="@id/product_imageview"
+                    android:gravity="right"
                     android:maxLines="1"
                     android:textAllCaps="false"
                     android:textColor="@color/ebony_clay"
