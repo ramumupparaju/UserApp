@@ -158,9 +158,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         favoritesAdapter.setClickCallback(iProductClickCallback);
 
         LinearLayoutManager secondLinearLayoutManager = new LinearLayoutManager(getContext());
-        DividerItemDecoration dividerItemDecoration1 = new DividerItemDecoration(
-                getContext(), secondLinearLayoutManager.getOrientation());
-        binding.favoritesRecyclerview.addItemDecoration(dividerItemDecoration1);
         binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
         binding.favoritesRecyclerview.setLayoutManager(secondLinearLayoutManager);
 

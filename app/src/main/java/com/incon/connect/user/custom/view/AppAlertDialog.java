@@ -40,6 +40,7 @@ public class AppAlertDialog extends Dialog implements View.OnClickListener {
                 Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.dialog_app, null);
         TextView titleTv = ((TextView) contentView.findViewById(R.id.dialog_title_textView));
+
         if (!TextUtils.isEmpty(title)) {
             titleTv.setText(title);
             titleTv.setMovementMethod(new ScrollingMovementMethod());

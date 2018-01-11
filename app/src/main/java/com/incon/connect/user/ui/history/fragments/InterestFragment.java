@@ -19,6 +19,7 @@ import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
+import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppFeedBackDialog;
 import com.incon.connect.user.databinding.FragmentInterestBinding;
@@ -41,6 +42,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private InterestPresenter interestPresenter;
     private InterestAdapter interestAdapter;
     private AppAlertDialog detailsDialog;
+    private AppAlertVerticalTwoButtonsDialog dialogDelete;
     private AppEditTextDialog buyRequestDialog;
     private int userId;
     private String buyRequestComment;
@@ -417,29 +419,33 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     }
 
     private void showInterestProductDeleteDialog(String messageInfo) {
-        detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
+        dialogDelete = new AppAlertVerticalTwoButtonsDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                interestPresenter.deleteApi(interestAdapter.getItemFromPosition(
+                                dialogDelete.dismiss();
+                                /*interestPresenter.deleteApi(interestAdapter.getItemFromPosition(
                                         productSelectedPosition).getInterestId());
-                                detailsDialog.dismiss();
+                                detailsDialog.dismiss();*/
                                 break;
                             case AlertDialogCallback.CANCEL:
-                                detailsDialog.dismiss();
+                                interestPresenter.deleteApi(interestAdapter.getItemFromPosition(
+                                        productSelectedPosition).getInterestId());
+                                dialogDelete.dismiss();
                                 break;
                             default:
                                 break;
                         }
                     }
-                }).title(messageInfo)
-                .button1Text(getString(R.string.action_ok))
-                .button2Text(getString(R.string.action_cancel))
+                }).title(getString(R.string.dialog_delete))
+                .button1Text(getString(R.string.action_cancel))
+                .button2Text(getString(R.string.action_ok))
                 .build();
-        detailsDialog.showDialog();
-        detailsDialog.setCancelable(true);
+        dialogDelete.showDialog();
+        dialogDelete.setCancelable(true);
+        dialogDelete.setButtonBlueUnselectBackground();
     }
 
     private void showInformationDialog(String title, String messageInfo) {

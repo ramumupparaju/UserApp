@@ -10,8 +10,7 @@
 
     <RelativeLayout
         style="@style/MatchWrap"
-        android:background="@color/white"
-        android:paddingTop="@dimen/margin_10">
+        android:background="@color/mercury">
 
         <include
             android:id="@+id/add_address_view"

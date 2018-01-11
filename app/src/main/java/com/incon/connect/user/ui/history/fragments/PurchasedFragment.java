@@ -353,7 +353,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.secondRow, unparsedTag);
-
             String[] bottomOptions = new String[0];
             int[] topDrawables = new int[0];
 
@@ -466,8 +465,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     topDrawables = new int[0];
                 }
             }
-
-            bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.VISIBLE);
+            bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.removeAllViews();
             bottomSheetPurchasedBinding.thirdRow.setWeightSum(bottomOptions.length);
