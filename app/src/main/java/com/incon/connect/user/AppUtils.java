@@ -25,23 +25,6 @@ import com.google.gson.GsonBuilder;
 
 public class AppUtils {
 
-    public static int getViewWidth(View view) {
-        WindowManager wm =
-                (WindowManager) view.getContext().getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            Point size = new Point();
-            display.getSize(size);
-        }
-
-        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        view.measure(widthMeasureSpec, heightMeasureSpec);
-        return view.getMeasuredWidth(); //        view.getMeasuredHeight();
-    }
-
     public static int getScreenWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
