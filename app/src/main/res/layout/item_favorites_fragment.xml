@@ -81,7 +81,7 @@
                         android:id="@+id/progress_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/btn_stroke_dull_lavender" />
+                        android:background="@drawable/btn_stroke_astral_alpha" />
 
                     <View
                         android:id="@+id/progress_status_view"

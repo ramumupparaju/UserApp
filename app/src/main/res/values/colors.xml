@@ -57,6 +57,7 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="astral">#2E79A9</color>
+    <color name="astral_alpha">#662E79A9</color>
     <color name="blue_charcoal">#02131e</color>
     <color name="river_bed">#434f56</color>
     <color name="aqua">#00fbff</color>
