@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
@@ -67,6 +68,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private AppEditTextDialog buyRequestDialog;
     private String buyRequestComment;
     private AppAlertDialog detailsDialog;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     @Override
     protected void initializePresenter() {
@@ -88,6 +90,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                     inflater, R.layout.fragment_favorites, container, false);
             binding.setFavorites(this);
             rootView = binding.getRoot();
+            shimmerFrameLayout = rootView.findViewById(R.id
+                    .effect_shimmer);
             initViews();
         }
         setTitle();
@@ -111,6 +115,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     public void onParentProductClick() {
         binding.addProduct.setVisibility(View.VISIBLE);
         binding.customProduct.setVisibility(View.VISIBLE);
+      //  binding.parentProduct.setVisibility(View.GONE);
     }
 
     public void onAddNewModel() {
@@ -163,6 +168,20 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         //api call to get addresses
         favoritesPresenter.doGetAddressApi(userId);
         loadBottomSheet();
+    }
+
+    private void getProductsApi() {
+        binding.favoritesRecyclerview.setVisibility(View.GONE);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmerAnimation();
+        if (addressSelectedPosition == -1) {
+            return;
+        }
+        AddUserAddressResponse singleAddressResponse = addressessAdapter.
+                getItemFromPosition(addressSelectedPosition);
+        binding.addressesRecyclerview.getLayoutManager().scrollToPosition(
+                addressSelectedPosition);
+        favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());
     }
 
     // load bottom sheet
@@ -1029,14 +1048,15 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    if (addressSelectedPosition == -1) {
+                    getProductsApi();
+                    /*if (addressSelectedPosition == -1) {
                         return;
                     }
                     AddUserAddressResponse singleAddressResponse = addressessAdapter.
                             getItemFromPosition(addressSelectedPosition);
                     binding.addressesRecyclerview.getLayoutManager().scrollToPosition(
                             addressSelectedPosition);
-                    favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());
+                    favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());*/
                 }
             };
 

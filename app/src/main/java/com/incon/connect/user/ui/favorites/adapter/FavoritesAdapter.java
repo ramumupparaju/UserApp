@@ -12,7 +12,9 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemFavoritesFragmentBinding;
+import com.incon.connect.user.ui.BaseRecyclerViewAdapter;
 import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +24,12 @@ import static com.incon.connect.user.AppConstants.UpDateUserProfileValidation.MI
 /**
  * Created on 13 Jun 2017 4:05 PM.
  */
-public class FavoritesAdapter extends RecyclerView.Adapter
-        <FavoritesAdapter.ViewHolder> {
+public class FavoritesAdapter extends BaseRecyclerViewAdapter {
     private List<ProductInfoResponse> favoritestResponseList = new ArrayList<>();
     private IClickCallback clickCallback;
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FavoritesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ItemFavoritesFragmentBinding binding = DataBindingUtil.inflate(layoutInflater,
                 R.layout.item_favorites_fragment, parent, false);
@@ -36,9 +37,10 @@ public class FavoritesAdapter extends RecyclerView.Adapter
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ProductInfoResponse favoritesResponse = favoritestResponseList.get(position);
-        holder.bind(favoritesResponse);
+        ((FavoritesAdapter.ViewHolder) holder).bind(favoritesResponse, position);
+
     }
 
     public ProductInfoResponse getItemFromPosition(int position) {
@@ -75,14 +77,33 @@ public class FavoritesAdapter extends RecyclerView.Adapter
             binding.getRoot().setOnClickListener(this);
         }
 
-        public void bind(ProductInfoResponse favoritesResponse) {
+        public void bind(ProductInfoResponse favoritesResponse, int position) {
             binding.setVariable(BR.favoritesResponse, favoritesResponse);
 
             AppUtils.loadImageFromApi(binding.brandImageview, favoritesResponse.getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, favoritesResponse.getProductImageUrl());
-
+            // view layout used for changed colore
+            if (favoritesResponse.isSelected()) {
+                binding.viewsLayout.setVisibility(View.VISIBLE);
+            } else {
+                binding.viewsLayout.setVisibility(View.GONE);
+            }
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) binding.cardView.getLayoutParams();
+            int leftRightMargin = (int) DeviceUtils.convertPxToDp(8);
+            if (position == 0) {
+                int topMargin = (int) DeviceUtils.convertPxToDp(6);
+                int bottomMargin = (int) DeviceUtils.convertPxToDp(3);
+                layoutParams.setMargins(leftRightMargin, topMargin, leftRightMargin, bottomMargin);
+            } else if (position == filteredList.size()) {
+                int topMargin = (int) DeviceUtils.convertPxToDp(3);
+                int bottomMargin = (int) DeviceUtils.convertPxToDp(6);
+                layoutParams.setMargins(leftRightMargin, topMargin, leftRightMargin, bottomMargin);
+            } else {
+                int topBottomMargin = (int) DeviceUtils.convertPxToDp(3);
+                layoutParams.setMargins(leftRightMargin, topBottomMargin, leftRightMargin, topBottomMargin);
+            }
             binding.productName.setText(favoritesResponse.getProductName());
-            binding.layoutFavoriteItem.setSelected(favoritesResponse.isSelected());
+           // binding.layoutFavoriteItem.setSelected(favoritesResponse.isSelected());
             long noOfDays = DateUtils.convertDifferenceDateIndays(favoritesResponse.getWarrantyEndDate(),
                     System.currentTimeMillis());
             if (noOfDays != 0) {

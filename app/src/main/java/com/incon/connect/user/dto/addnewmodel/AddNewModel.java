@@ -10,6 +10,7 @@ import android.util.Pair;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.incon.connect.user.AppConstants;
+import com.incon.connect.user.utils.DateUtils;
 
 public class AddNewModel extends BaseObservable implements Parcelable {
     @SerializedName("name")
@@ -46,9 +47,25 @@ public class AddNewModel extends BaseObservable implements Parcelable {
     private transient String divisionName;
     private transient String brandName;
 
+    private transient String dateOfPurchased;
+
     public AddNewModel() {
     }
+    @Bindable
+    public String getDateOfPurchased() {
+        return dateOfPurchased;
+    }
 
+    public void setDateOfPurchased(String dateOfPurchased) {
+
+        this.dateOfPurchased = dateOfPurchased;
+
+// todo have to change
+        /*dob = DateUtils.convertDateToAnotherFormat(dateOfPurchased, AppConstants
+                .DateFormatterConstants.MM_DD_YYYY, AppConstants.DateFormatterConstants
+                .MM_DD_YYYY);
+        notifyChange();*/
+    }
     public String getProductId() {
         return productId;
     }
@@ -214,7 +231,7 @@ public class AddNewModel extends BaseObservable implements Parcelable {
 
         int fieldId = AppConstants.VALIDATION_FAILURE;
         if (tag == null) {
-            for (int i = 0; i <= 7; i++) {
+            for (int i = 0; i <= 3; i++) {
                 fieldId = validateFields(i, true);
                 if (fieldId != AppConstants.VALIDATION_SUCCESS) {
                     tag = i + "";
@@ -230,17 +247,17 @@ public class AddNewModel extends BaseObservable implements Parcelable {
 
     private int validateFields(int id, boolean emptyValidation) {
         switch (id) {
-            case 0:
+            /*case 0:
                 boolean modelEmpty = TextUtils.isEmpty(productModel);
                 if (emptyValidation && modelEmpty) {
                     return AppConstants.AddNewModelValidation.MODEL;
                 }
-                break;
+                break;*/
 
             case 1:
-                boolean descEmpty = TextUtils.isEmpty(description);
-                if (emptyValidation && descEmpty) {
-                    return AppConstants.AddNewModelValidation.DESCRIPTION;
+                boolean nameEmpty = TextUtils.isEmpty(name);
+                if (emptyValidation && nameEmpty) {
+                    return AppConstants.AddNewModelValidation.NAME;
                 }
                 break;
 
@@ -258,14 +275,14 @@ public class AddNewModel extends BaseObservable implements Parcelable {
                 }
                 break;
 
-           /* case 4:
+            case 4:
                 boolean brandEmpty = TextUtils.isEmpty(brandName);
                 if (emptyValidation && brandEmpty) {
                     return AppConstants.AddNewModelValidation.BRAND;
                 }
-                break;*/
+                break;
 
-            case 5:
+            /*case 5:
                 boolean mrpPriceEmpty = TextUtils.isEmpty(mrpPrice);
                 if (emptyValidation && mrpPriceEmpty) {
                     return AppConstants.AddNewModelValidation.MRP_PRICE;
@@ -285,7 +302,7 @@ public class AddNewModel extends BaseObservable implements Parcelable {
                     return AppConstants.AddNewModelValidation.NOTE;
                 }
                 break;
-
+*/
 
             default:
                 return AppConstants.VALIDATION_SUCCESS;

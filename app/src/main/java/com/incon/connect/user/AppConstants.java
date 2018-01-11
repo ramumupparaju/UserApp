@@ -324,10 +324,7 @@ public interface AppConstants {
     interface MenuConstants {
         int PROFILE = 0;
         int CHANGE_PWD = 1;
-        int BILLFORMAT = 2;
-        int TIMEINGS = 3;
-        int CONTACTDETAILS = 4;
-        int LOGOUT = 5;
+        int LOGOUT = 2;
 
 
     }
