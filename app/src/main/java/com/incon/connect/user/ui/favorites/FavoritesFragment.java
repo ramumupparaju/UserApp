@@ -168,6 +168,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
     }
 
+
     private void getProductsApi() {
         binding.favoritesRecyclerview.setVisibility(View.GONE);
         shimmerFrameLayout.setVisibility(View.VISIBLE);

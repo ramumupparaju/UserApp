@@ -1,10 +1,13 @@
 package com.incon.connect.user.ui.favorites.adapter;
 
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
 
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
@@ -27,6 +30,7 @@ import static com.incon.connect.user.AppConstants.UpDateUserProfileValidation.MI
 public class FavoritesAdapter extends BaseRecyclerViewAdapter {
     private List<ProductInfoResponse> favoritestResponseList = new ArrayList<>();
     private IClickCallback clickCallback;
+    private int warrantyLayoutWidth = -1;
 
     @Override
     public FavoritesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -103,26 +107,59 @@ public class FavoritesAdapter extends BaseRecyclerViewAdapter {
                 layoutParams.setMargins(leftRightMargin, topBottomMargin, leftRightMargin, topBottomMargin);
             }
             binding.productName.setText(favoritesResponse.getProductName());
-           // binding.layoutFavoriteItem.setSelected(favoritesResponse.isSelected());
-            long noOfDays = DateUtils.convertDifferenceDateIndays(favoritesResponse.getWarrantyEndDate(),
+            final long totalWarrantyDays = DateUtils.convertDifferenceDateIndays(favoritesResponse.getWarrantyEndDate(),
+                    favoritesResponse.getPurchasedDate());
+            // binding.layoutFavoriteItem.setSelected(favoritesResponse.isSelected());
+            final long warrantyRemainingDays = DateUtils.convertDifferenceDateIndays(favoritesResponse.getWarrantyEndDate(),
                     System.currentTimeMillis());
-            if (noOfDays != 0) {
-                binding.warrantyPeriod.setVisibility(View.VISIBLE);
-                binding.warrantyPeriod.setText(binding.warrantyPeriod.getContext().getString(R.string.hint_warranty_period, noOfDays));
-            } else {
-                binding.warrantyPeriod.setVisibility(View.GONE);
-            }
-            if (noOfDays >= MIN_DAYS) {
-                binding.warrentyIcon.setBackgroundColor(
-                        binding.getRoot().getResources().getColor(R.color.green));
-            } else if (noOfDays == 0) {
+
+            //if warranty expires we are showing red dot in corner else showing in a bar with text
+            final RelativeLayout warrantyLayout = binding.warrantyLayout;
+            if (warrantyRemainingDays <= 0) {
                 binding.warrentyIcon.setBackgroundColor(
                         binding.getRoot().getResources().getColor(R.color.red));
+                binding.warrentyIcon.setVisibility(View.VISIBLE);
+                warrantyLayout.setVisibility(View.GONE);
+                binding.warrantyPeriod.setVisibility(View.GONE);
+
             } else {
-                binding.warrentyIcon.setBackgroundColor(
-                        binding.getRoot().getResources().getColor(R.color.orange));
+                binding.warrentyIcon.setVisibility(View.GONE);
+                warrantyLayout.setVisibility(View.VISIBLE);
+                binding.warrantyPeriod.setVisibility(View.VISIBLE);
+                binding.warrantyPeriod.setText(binding.warrantyPeriod.getContext().getString(R.string.label_expires_dollar, warrantyRemainingDays));
+                if (warrantyLayoutWidth == -1) {
+                    ViewTreeObserver vto = warrantyLayout.getViewTreeObserver();
+                    vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                                warrantyLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                            } else {
+                                warrantyLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            }
+                            warrantyLayoutWidth = warrantyLayout.getMeasuredWidth();
+                            FavoritesAdapter.this.notifyDataSetChanged();
+                        }
+                    });
+                } else {
+                    RelativeLayout.LayoutParams progressViewParams = (RelativeLayout.LayoutParams) binding.progressView.getLayoutParams();
+
+                    progressViewParams.width = warrantyLayoutWidth;
+                    RelativeLayout.LayoutParams progressStatusParams = (RelativeLayout.LayoutParams) binding.progressStatusView.getLayoutParams();
+                    int warrantyExpiredWidth = warrantyLayoutWidth - (int) ((warrantyLayoutWidth * warrantyRemainingDays) / totalWarrantyDays);
+                    progressStatusParams.width = warrantyExpiredWidth;
+                }
+
             }
             binding.executePendingBindings();
+        }
+
+        void layoutView(View view) {
+            view.setDrawingCacheEnabled(true);
+            int wrapContentSpec =
+                    View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            view.measure(wrapContentSpec, wrapContentSpec);
+            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         }
 
         @Override

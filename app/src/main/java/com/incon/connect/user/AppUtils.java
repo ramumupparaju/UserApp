@@ -2,7 +2,10 @@ package com.incon.connect.user;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -21,6 +24,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class AppUtils {
+
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
+    }
 
     public static DisplayMetrics getDeviceMetrics(Context context) {
         DisplayMetrics metrics = new DisplayMetrics();
