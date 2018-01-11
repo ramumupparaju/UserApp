@@ -159,6 +159,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         @Override
         public void onClickPosition(int position) {
             purchasedAdapter.clearSelection();
+            serviceCenterResponseList = null;
             ProductInfoResponse purchasedHistoryResponse =
                     purchasedAdapter.
                             getItemFromPosition(position);
