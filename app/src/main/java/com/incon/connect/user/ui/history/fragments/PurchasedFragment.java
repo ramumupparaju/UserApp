@@ -167,11 +167,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         int[] bottomDrawables;
         String[] bottomNames;
         ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(productSelectedPosition);
-        // checking whether product is installed or not
-        if (productInfoResponse.getStatus().equalsIgnoreCase(StatusConstants.INSTALLED) && productInfoResponse.getAddressId() == null) {
+        if (productInfoResponse.getAddressId() == null) { //checking whether it is already installed or not
             length = 5;
-        } else if (productInfoResponse.getAddressId() != null) { //checking whether it is already installed or not
-            length = 4;
         } else {
             length = 4;
         }
@@ -675,7 +672,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     case AlertDialogCallback.OK:
                         //TODO have to call service request api
 
-                    // purchasedPresenter.serviceRequest();
+                        // purchasedPresenter.serviceRequest();
 
                         break;
                     case AlertDialogCallback.CANCEL:
@@ -812,7 +809,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         if (isFromFavorites) {
             for (Iterator<ProductInfoResponse> iter = productInfoResponses.listIterator(); iter.hasNext(); ) {
                 ProductInfoResponse singleProductData = iter.next();
-                if (!singleProductData.getStatus().equalsIgnoreCase(StatusConstants.INSTALLED) || singleProductData.getAddressId() != null) {
+                if (singleProductData.getAddressId() != null) {
                     iter.remove();
                 }
             }
@@ -823,11 +820,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 binding.purchasedTextview.setText(getString(R.string.error_no_products_for_favorites));
             }
             binding.purchasedTextview.setVisibility(View.VISIBLE);
-            dismissSwipeRefresh();
         } else {
             purchasedAdapter.setData(productInfoResponses);
-            dismissSwipeRefresh();
         }
+        dismissSwipeRefresh();
 
     }
 

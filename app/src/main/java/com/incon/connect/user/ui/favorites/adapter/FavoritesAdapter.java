@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
 
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
@@ -13,6 +15,7 @@ import com.incon.connect.user.apimodel.components.productinforesponse.ProductInf
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemFavoritesFragmentBinding;
 import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,26 +84,36 @@ public class FavoritesAdapter extends RecyclerView.Adapter
             AppUtils.loadImageFromApi(binding.brandImageview, favoritesResponse.getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, favoritesResponse.getProductImageUrl());
 
+            final long totalWarrantyDays = DateUtils.convertDifferenceDateIndays(favoritesResponse.getWarrantyEndDate(), favoritesResponse.getPurchasedDate());
             binding.productName.setText(favoritesResponse.getProductName());
             binding.layoutFavoriteItem.setSelected(favoritesResponse.isSelected());
-            long noOfDays = DateUtils.convertDifferenceDateIndays(favoritesResponse.getWarrantyEndDate(),
+            final long warrantyRemainingDays = DateUtils.convertDifferenceDateIndays(favoritesResponse.getWarrantyEndDate(),
                     System.currentTimeMillis());
-            if (noOfDays != 0) {
+            if (warrantyRemainingDays != 0) {
                 binding.warrantyPeriod.setVisibility(View.VISIBLE);
-                binding.warrantyPeriod.setText(binding.warrantyPeriod.getContext().getString(R.string.hint_warranty_period, noOfDays));
+                binding.warrantyPeriod.setText(binding.warrantyPeriod.getContext().getString(R.string.hint_warranty_period, warrantyRemainingDays));
             } else {
                 binding.warrantyPeriod.setVisibility(View.GONE);
             }
-            if (noOfDays >= MIN_DAYS) {
+            if (warrantyRemainingDays >= MIN_DAYS) {
                 binding.warrentyIcon.setBackgroundColor(
                         binding.getRoot().getResources().getColor(R.color.green));
-            } else if (noOfDays == 0) {
+            } else if (warrantyRemainingDays == 0) {
                 binding.warrentyIcon.setBackgroundColor(
                         binding.getRoot().getResources().getColor(R.color.red));
             } else {
                 binding.warrentyIcon.setBackgroundColor(
                         binding.getRoot().getResources().getColor(R.color.orange));
             }
+
+            Logger.e("warranty", "totalWarrantyDays : " + totalWarrantyDays + ",warrantyRemainingDays :" + warrantyRemainingDays);
+
+            RelativeLayout.LayoutParams progressViewParams = (RelativeLayout.LayoutParams) binding.progressView.getLayoutParams();
+            int viewWidth = AppUtils.getScreenWidth();
+            progressViewParams.width = viewWidth;
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) binding.progressStatusView.getLayoutParams();
+            layoutParams.width = (int) ((viewWidth * warrantyRemainingDays) / totalWarrantyDays);
+
             binding.executePendingBindings();
         }
 
