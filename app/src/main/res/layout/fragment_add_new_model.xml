@@ -266,18 +266,18 @@
 
                     />
 
-                <!--warrenty period-->
+                <!--warrnty period-->
                 <com.incon.connect.user.custom.view.CustomTextInputLayout
                     android:id="@+id/input_layout_warrenty_period"
                     style="@style/Register_TextInputLayout"
                     android:layout_below="@id/spinner_type"
-                    android:hint="@string/add_new_warrenty_period"
+                    android:hint="@string/add_new_warrnty_period"
                     app:errorEnabled="true"
                     app:fontName="fonts/OpenSans-Regular.ttf"
                     app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
 
                     <android.support.design.widget.TextInputEditText
-                        android:id="@+id/edittext_warrenty_period"
+                        android:id="@+id/edittext_warrnty_period"
                         style="@style/Add_new_model_TextInputEditText"
                         android:focusable="true"
                         android:imeOptions="actionNext"

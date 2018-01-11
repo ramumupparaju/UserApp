@@ -359,7 +359,7 @@
     <string name="add_new__invoiceNumber">InvoiceNumber</string>
     <string name="add_new__type">Type</string>
     <string name="add_new_notes">Notes</string>
-    <string name="add_new_warrenty_period">WarrentyPeriod</string>
+    <string name="add_new_warrnty_period">WarrntyPeriod</string>
 
 
     <!-- Registration -->
