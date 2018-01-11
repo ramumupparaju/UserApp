@@ -1,11 +1,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="favorites"
-            type="com.incon.connect.user.ui.favorites.FavoritesFragment"/>
+            type="com.incon.connect.user.ui.favorites.FavoritesFragment" />
     </data>
 
     <RelativeLayout
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:paddingLeft="@dimen/margin_5"
-            android:paddingRight="@dimen/margin_5"/>
+            android:paddingRight="@dimen/margin_5" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/addresses_recyclerview"
@@ -30,14 +30,14 @@
             android:fadeScrollbars="false"
             android:scrollbarSize="4dp"
             android:scrollbarThumbHorizontal="@drawable/scrollbar"
-            android:scrollbars="horizontal"/>
+            android:scrollbars="horizontal" />
 
         <include
             android:id="@+id/list_header"
             layout="@layout/item_list_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/addresses_recyclerview"/>
+            android:layout_below="@+id/addresses_recyclerview" />
 
         <TextView
             android:id="@+id/no_items_textview"
@@ -45,14 +45,13 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/action_no_data"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"
             style="@style/BothMatch"
             android:layout_below="@+id/list_header"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -77,7 +76,6 @@
 
                     </LinearLayout>
                 </com.facebook.shimmer.ShimmerFrameLayout>
-
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/favorites_recyclerview"
                     style="@style/BothMatch"
@@ -85,9 +83,9 @@
                     android:fadeScrollbars="false"
                     android:scrollbarSize="4dp"
                     android:scrollbarThumbVertical="@drawable/scrollbar"
-                    android:scrollbars="vertical"/>
-
+                    android:scrollbars="vertical" />
             </LinearLayout>
+
         </android.support.v4.widget.SwipeRefreshLayout>
 
 
@@ -95,27 +93,27 @@
             android:id="@+id/add_product"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_above="@id/parent_product"
             android:layout_alignParentRight="true"
+            android:layout_above="@id/parent_product"
             android:layout_marginBottom="@dimen/margin_10"
+            android:visibility="gone"
             android:layout_marginRight="@dimen/margin_10"
             android:onClick="@{() -> favorites.onProductAddClick()}"
             android:paddingBottom="@dimen/margin_10"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_favourite_products"/>
+            app:srcCompat="@drawable/ic_favourite_products" />
 
         <ImageView
             android:id="@+id/custom_product"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_above="@id/add_product"
             android:layout_marginBottom="@dimen/margin_10"
             android:layout_marginRight="@dimen/margin_10"
-            android:layout_toLeftOf="@id/add_product"
             android:onClick="@{() -> favorites.onAddNewModel()}"
             android:paddingBottom="@dimen/margin_10"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_favourite_add_model"/>
+            app:srcCompat="@drawable/ic_favourite_products" />
 
         <ImageView
             android:id="@+id/parent_product"
@@ -125,9 +123,9 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/margin_10"
             android:layout_marginRight="@dimen/margin_10"
-            android:onClick="@{() -> favorites.onParentProductClick()}"
             android:paddingBottom="@dimen/margin_10"
-            app:srcCompat="@drawable/ic_favourite_products"/>
+            android:onClick="@{() -> favorites.onParentProductClick()}"
+            app:srcCompat="@drawable/ic_favourite_products" />
 
     </RelativeLayout>
 

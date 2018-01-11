@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,80 +9,87 @@
             type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
     </data>
 
-    <LinearLayout
-        android:id="@+id/layout_favorite_item"
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
         style="@style/MatchWrap"
-        android:background="@drawable/list_item_selector"
-        android:minHeight="110dp"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/margin_3"
+        android:layout_marginLeft="@dimen/margin_8"
+        android:layout_marginRight="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_3"
+        app:cardCornerRadius="@dimen/corner_radius">
 
-        <LinearLayout
-            style="@style/Zero_wrap"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/layout_purchsed_item"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
 
-            <ImageView
-                android:id="@+id/warrenty_icon"
-                android:layout_width="4dp"
-                android:layout_height="4dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/margin_8">
 
-            <ImageView
-                android:id="@+id/brand_imageview"
-                style="@style/m75w75"
-                android:layout_gravity="center" />
+                <!--brand image-->
+                <ImageView
+                    android:id="@+id/brand_imageview"
+                    android:layout_width="45dp"
+                    android:layout_height="32dp"
+                    android:alpha="70" />
 
-        </LinearLayout>
+                <!--product image-->
+                <ImageView
+                    android:id="@+id/product_imageview"
+                    style="@style/image_product_icon"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/brand_imageview" />
 
-        <LinearLayout
-            style="@style/Zero_wrap"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/product_imageview"
-                style="@style/m75w75"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/Zero_wrap"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/product_details_layout"
-                style="@style/BothWrap"
-                android:layout_gravity="left"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:gravity="start"
-                android:orientation="vertical">
-
+                <!--product name-->
                 <TextView
                     android:id="@+id/product_name"
                     style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_10"
+                    fontPath="fonts/OpenSans-Bold.ttf"
+                    android:layout_toLeftOf="@id/status_layout"
+                    android:layout_toRightOf="@id/product_imageview"
+                    android:maxLines="2"
+                    android:textAllCaps="true"
                     android:textColor="@color/ebony_clay"
                     android:textSize="12.4sp" />
 
                 <TextView
+                    android:layout_below="@id/product_name"
+                    android:layout_toRightOf="@id/product_imageview"
                     android:id="@+id/warranty_period"
                     style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_8"
+                    android:maxLines="2"
+                    android:textAllCaps="true"
+                    android:visibility="invisible"
                     android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"
-                    android:visibility="invisible" />
-            </LinearLayout>
+                    android:textSize="12.4sp" />
 
 
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/status_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-    </LinearLayout>
+                    <!--warranty icon-->
+                    <ImageView
+                        android:id="@+id/warrenty_icon"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp" />
+                </LinearLayout>
 
+            </RelativeLayout>
+            <!--Dummy view for showing selection-->
+            <ImageView
+                android:id="@+id/views_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/alpha_corn_flower_blue" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 </layout>

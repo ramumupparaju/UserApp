@@ -359,6 +359,7 @@
     <string name="add_new__invoiceNumber">InvoiceNumber</string>
     <string name="add_new__type">Type</string>
     <string name="add_new_notes">Notes</string>
+    <string name="add_new_warrenty_period">WarrentyPeriod</string>
 
 
     <!-- Registration -->
@@ -380,6 +381,7 @@
     <string name="register_timezone_hint">Time Zone</string>
     <string name="register_zipcode_hint">Zip Code</string>
     <string name="register_dateofbirth_hint">Date of Birth</string>
+    <string name="register_purchased_date_hint">Purchased Date</string>
     <string name="register_date_time_hint">Date and Time</string>
     <string name="register_gender_hint">Gender</string>
     <string name="register_category_hint">Category</string>

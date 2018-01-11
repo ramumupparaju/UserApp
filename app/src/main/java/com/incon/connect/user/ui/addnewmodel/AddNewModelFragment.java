@@ -1,11 +1,14 @@
 package com.incon.connect.user.ui.addnewmodel;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +17,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
 import com.incon.connect.user.apimodel.components.fetchcategorie.Division;
@@ -26,10 +31,13 @@ import com.incon.connect.user.databinding.FragmentAddNewModelBinding;
 import com.incon.connect.user.dto.addnewmodel.AddNewModel;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
+import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by PC on 10/4/2017.
@@ -77,6 +85,51 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
         setTitle();
         return rootView;
     }
+    public void onPurchasedDateClick() {
+        showDatePicker();
+    }
+
+    private void showDatePicker() {
+        AppUtils.hideSoftKeyboard(getActivity(), getView());
+        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+
+        // todo have to change
+
+        String dateOfPurchased = addNewModel.getDateOfPurchased();
+        if (!TextUtils.isEmpty(dateOfPurchased)) {
+            cal.setTimeInMillis(DateUtils.convertStringFormatToMillis(
+                    dateOfPurchased, DateFormatterConstants.MM_DD_YYYY));
+        }
+
+        int customStyle = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                ? R.style.DatePickerDialogTheme : android.R.style.Theme_DeviceDefault_Light_Dialog;
+        DatePickerDialog datePicker = new DatePickerDialog(getActivity(),
+                customStyle,
+                datePickerListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
+        datePicker.setCancelable(false);
+        datePicker.show();
+    }
+    // Date Listener
+    private DatePickerDialog.OnDateSetListener datePickerListener =
+            new DatePickerDialog.OnDateSetListener() {
+                // when dialog box is closed, below method will be called.
+                public void onDateSet(DatePicker view, int selectedYear,
+                                      int selectedMonth, int selectedDay) {
+                    Calendar selectedDateTime = Calendar.getInstance();
+                    selectedDateTime.set(selectedYear, selectedMonth, selectedDay);
+
+                    String dobInMMDDYYYY = DateUtils.convertDateToOtherFormat(
+                            selectedDateTime.getTime(), DateFormatterConstants.MM_DD_YYYY);
+                 //   addNewModel.setDateOfBirthToShow(dobInMMDDYYYY);
+
+                    Pair<String, Integer> validate = binding.getAddNewModel().
+                            validateAddNewModel((String) binding.edittextPurchasedDate.getTag());
+                    updateUiAfterValidation(validate.first, validate.second);
+                }
+            };
     // category spinner
     private void loadCategorySpinnerData() {
         String[] stringCategoryList = new String[fetchCategorieList.size()];

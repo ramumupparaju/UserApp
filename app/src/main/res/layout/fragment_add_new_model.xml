@@ -45,6 +45,7 @@
                         android:id="@+id/edittext_model_number"
                         style="@style/Add_new_model_TextInputEditText"
                         android:focusable="true"
+                        android:drawableEnd="@drawable/ima_barcode"
                         android:imeOptions="actionNext"
                         android:inputType="textCapWords"
                         android:maxLength="@integer/character_limit_45"
@@ -53,7 +54,6 @@
                         android:text="@={addNewModel.productModel}"/>
 
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
-
                 <!-- Name -->
                 <com.incon.connect.user.custom.view.CustomTextInputLayout
                     android:id="@+id/input_layout_name"
@@ -134,9 +134,58 @@
                     android:text="@={addNewModel.divisionName}"
                     android:visibility="gone"
                     app:errorEnabled="true"
+                    android:tag="5"
                     app:met_floatingLabel="highlight"
                     app:met_textColor="@color/colorForgotPasswordHintText"
                     app:met_textColorHint="@color/colorForgotPasswordHintText"/>
+
+                <!-- serial no -->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_serial_no"
+                    style="@style/Register_TextInputLayout"
+                    android:layout_below="@id/input_layout_model_number"
+                    android:hint="@string/add_new__serial_no"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edittext_serial_no"
+                        style="@style/Register_TextInputEditText"
+                        android:drawableEnd="@drawable/ima_barcode"
+                        android:focusable="true"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLength="@integer/character_limit_45"
+                        android:maxLines="1"
+                        android:tag="6"
+                        />
+
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+                <!-- batch no -->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_batch_no"
+                    style="@style/Register_TextInputLayout"
+                    android:layout_below="@id/input_layout_serial_no"
+                    android:hint="@string/add_new__batch_no"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edittext_batch_no"
+                        style="@style/Register_TextInputEditText"
+                        android:drawableEnd="@drawable/ima_barcode"
+                        android:focusable="true"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLength="@integer/character_limit_45"
+                        android:maxLines="1"
+                        android:tag="7"
+                        />
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
 
                 <!--MRP price-->
                 <com.incon.connect.user.custom.view.CustomTextInputLayout
@@ -156,7 +205,7 @@
                         android:inputType="number"
                         android:maxLength="@integer/character_limit_45"
                         android:maxLines="1"
-                        android:tag="5"
+                        android:tag="8"
                         android:text="@={addNewModel.mrpPrice}"
                         />
 
@@ -181,8 +230,61 @@
                         android:inputType="number"
                         android:maxLength="@integer/character_limit_45"
                         android:maxLines="1"
-                        android:tag="6"
+                        android:tag="9"
                         android:text="@={addNewModel.price}"/>
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+
+                <!--purchased date-->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_purchased_date"
+                    style="@style/Register_TextInputLayout"
+                    android:hint="@string/register_purchased_date_hint"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edittext_purchased_date"
+                        style="@style/Register_TextInputEditText"
+                        android:enabled="false"
+                        android:tag="10"
+                        />
+                </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
+                <!--dummy view for dob click event -->
+                <View
+                    android:id="@+id/view_dob"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_alignBottom="@+id/input_layout_purchased_date"
+                    android:layout_alignEnd="@+id/input_layout_purchased_date"
+                    android:layout_alignStart="@+id/input_layout_purchased_date"
+                    android:layout_alignTop="@+id/input_layout_purchased_date"
+                    android:background="@null"
+                    android:onClick="@{() -> addNewModelFragment.onPurchasedDateClick()}"
+
+                    />
+
+                <!--warrenty period-->
+                <com.incon.connect.user.custom.view.CustomTextInputLayout
+                    android:id="@+id/input_layout_warrenty_period"
+                    style="@style/Register_TextInputLayout"
+                    android:layout_below="@id/spinner_type"
+                    android:hint="@string/add_new_warrenty_period"
+                    app:errorEnabled="true"
+                    app:fontName="fonts/OpenSans-Regular.ttf"
+                    app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edittext_warrenty_period"
+                        style="@style/Add_new_model_TextInputEditText"
+                        android:focusable="true"
+                        android:imeOptions="actionNext"
+                        android:maxLength="@integer/character_limit_45"
+                        android:maxLines="1"
+                        android:tag="11"
+                        />
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
                 <!--Notes-->
@@ -202,7 +304,7 @@
                         android:imeOptions="actionNext"
                         android:maxLength="@integer/character_limit_45"
                         android:maxLines="1"
-                        android:tag="7"
+                        android:tag="12"
                         android:text="@={addNewModel.notes}"/>
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
