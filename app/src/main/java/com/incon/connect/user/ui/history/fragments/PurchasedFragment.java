@@ -11,15 +11,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
@@ -35,6 +38,7 @@ import com.incon.connect.user.custom.view.ServiceRequestDialog;
 import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
+import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
@@ -70,11 +74,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private AppEditTextDialog transferDialog;
     private AppFeedBackDialog buyFeedBackRequestDialog;
     private String buyRequestComment;
+    private String serviceRequestComment;
     private boolean isFromFavorites = false;
     private AppAlertVerticalTwoButtonsDialog dialogDelete;
     private ServiceRequestDialog serviceRequestDialog;
     private TimeSlotAlertDialog timeSlotAlertDialog;
-
+    private ArrayList<ServiceCenterResponse> serviceCenterResponseList;
+    private boolean isFindServiceCenter;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     @Override
     protected void initializePresenter() {
@@ -95,9 +102,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             // handle events from here using android binding
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_purchased,
                     container, false);
+            rootView = binding.getRoot();
+            shimmerFrameLayout = rootView.findViewById(R.id
+                    .effect_shimmer);
             loadBottomSheet();
             initViews();
-            rootView = binding.getRoot();
+
         }
         setTitle();
         return rootView;
@@ -125,7 +135,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         binding.purchasedRecyclerview.setLayoutManager(linearLayoutManager);
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
-        purchasedPresenter.purchased(userId);
+        getProductsApi();
 
 
         Bundle bundle = getArguments();
@@ -135,6 +145,13 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             purchasedPresenter.doGetAddressApi(userId);
         }
 
+    }
+
+    private void getProductsApi() {
+        binding.purchasedRecyclerview.setVisibility(View.GONE);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmerAnimation();
+        purchasedPresenter.purchased(userId);
     }
 
     //recyclerview click event
@@ -571,7 +588,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
 
 
-            ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
+            ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.thirdRow, unparsedTag);
 
@@ -582,27 +599,29 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             if (firstRowTag == 0) { // service/support
                 if (secondRowTag == 0) { // un authorized
                     if (thirdRowTag == 0) { // call
-                        callPhoneNumber(itemFromPosition.getMobileNumber());
+                        callPhoneNumber(productInfoResponse.getMobileNumber());
                         return;
                     } else if (thirdRowTag == 1) { //service request
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-
                     } else if (thirdRowTag == 2) { // add
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                     }
                 } else if (secondRowTag == 1) { // authorized
 
                     if (thirdRowTag == 0) { // call
-                        callPhoneNumber(itemFromPosition.getMobileNumber());
+                        callPhoneNumber(productInfoResponse.getMobileNumber());
                         return;
                     } else if (thirdRowTag == 1) { //find service center
-                        Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
-                        startActivity(serviceCenters);
+                        isFindServiceCenter = true;
+                        loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
                     } else if (thirdRowTag == 2) { // service center
-                        loadServiceRequesDialogData();
-
+                        isFindServiceCenter = false;
+                        if (serviceCenterResponseList != null) {
+                            loadServiceRequesDialogData();
+                        } else {
+                            loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
+                        }
                     } else if (thirdRowTag == 3) { // add
-
 
                     }
                 }
@@ -615,13 +634,13 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 if (secondRowTag == 0) {
                     // return policy
                     if (thirdRowTag == 0) {
-                        showInformationDialog(getString(R.string.bottom_option_return_policy), itemFromPosition.getReturnPolicy());
+                        showInformationDialog(getString(R.string.bottom_option_return_policy), productInfoResponse.getReturnPolicy());
                     }
                     // special instruction
                     else if (thirdRowTag == 1) {
                         showInformationDialog(getString(
                                 R.string.bottom_option_special_instructions),
-                                itemFromPosition.getSpecialInstruction());
+                                productInfoResponse.getSpecialInstruction());
                     }
                     //how to use
                     else if (thirdRowTag == 2) {
@@ -631,31 +650,52 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     //description
                     else if (thirdRowTag == 3) {
                         showInformationDialog(getString(
-                                R.string.bottom_option_description), itemFromPosition.getInformation()
-                                + itemFromPosition.getProductSpecification()
-                                + itemFromPosition.getColor()
-                                + itemFromPosition.getProductDimensions());
+                                R.string.bottom_option_description), productInfoResponse.getInformation()
+                                + productInfoResponse.getProductSpecification()
+                                + productInfoResponse.getColor()
+                                + productInfoResponse.getProductDimensions());
                         return;
                     }
                 }
             }
 
+
+
+
+
         }
 
     };
 
+    private void loadNearByServiceCentersDialogData(String brandId) {
+        purchasedPresenter.nearByServiceCenters(Integer.parseInt(brandId));
+    }
+
     private void loadServiceRequesDialogData() {
-        purchasedPresenter.getUsersListOfServiceCenters(11);
+        //fetching service certer user info
+        loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
+    }
+
+    private void loadUsersDataFromServiceCenterId(Integer serviceCenterId) {
+        purchasedPresenter.getUsersListOfServiceCenters(serviceCenterId);
     }
 
     private void showServiceRequestDialog(List<UsersListOfServiceCenters> listOfServiceCenters) {
-        String[] problemsArray = new String[4];
+        if (serviceCenterResponseList == null) {
+            return;
+        }
+        String[] problemsArray = new String[4]; //TODO have to change based legal info
         problemsArray[0] = "Engine repaired";
         problemsArray[1] = "Need service";
         problemsArray[2] = "Power problem";
         problemsArray[3] = "Others";
 
         serviceRequestDialog = new ServiceRequestDialog.AlertDialogBuilder(getContext(), new ServiceRequestCallback() {
+            @Override
+            public void getUsersListFromServiceCenterId(int serviceCenterId) {
+                loadUsersDataFromServiceCenterId(serviceCenterId);
+            }
+
             @Override
             public void dateClicked(String date) {
                 showDatePickerToPlaceServiceRequest(date);
@@ -667,13 +707,22 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
 
             @Override
+            public void enteredText(String commentString) {
+                serviceRequestComment = commentString;
+
+            }
+
+            @Override
+            public void doServiceRequestApi(ServiceRequest serviceRequest) {
+                serviceRequest.setPurchaseId(Integer.valueOf(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId()));
+                serviceRequest.setCustomerId(userId);
+                purchasedPresenter.serviceRequest(serviceRequest);
+            }
+
+            @Override
             public void alertDialogCallback(byte dialogStatus) {
                 switch (dialogStatus) {
                     case AlertDialogCallback.OK:
-                        //TODO have to call service request api
-
-                        // purchasedPresenter.serviceRequest();
-
                         break;
                     case AlertDialogCallback.CANCEL:
                         serviceRequestDialog.dismiss();
@@ -685,6 +734,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
         }).problemsArray(problemsArray)
                 .loadUsersList(listOfServiceCenters)
+                .loadServiceCentersData(serviceCenterResponseList)
                 .build();
         serviceRequestDialog.showDialog();
     }
@@ -789,7 +839,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 @Override
                 public void onRefresh() {
                     purchasedAdapter.clearData();
-                    purchasedPresenter.purchased(userId);
+                    getProductsApi();
                 }
             };
 
@@ -799,6 +849,15 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             binding.swiperefresh.setRefreshing(false);
         }
     }
+
+    @Override
+    public void handleException(Pair<Integer, String> error) {
+        super.handleException(error);
+        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
+            AppUtils.shortToast(getActivity(), error.second);
+        }
+    }
+
 
     @Override
     public void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses) {
@@ -825,6 +884,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
         dismissSwipeRefresh();
 
+        binding.purchasedRecyclerview.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.stopShimmerAnimation();
+        shimmerFrameLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -862,22 +924,35 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     //service sequest
     @Override
     public void loadServiceRequest() {
-        // TODO  have to implemented code
-
+        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
+            serviceRequestDialog.dismiss();
+        }
     }
 
     @Override
-    public void loadNearByServiceCenters() {
-        // TODO have  to implemented code
-
+    public void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponseList) {
+        this.serviceCenterResponseList = (ArrayList<ServiceCenterResponse>) serviceCenterResponseList;
+        if (serviceCenterResponseList == null) {
+            return;
+        }
+        if (isFindServiceCenter) {
+            Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
+            serviceCenters.putParcelableArrayListExtra(IntentConstants.SERVICE_CENTER_DATA, this.serviceCenterResponseList);
+            startActivity(serviceCenters);
+        } else {
+            loadServiceRequesDialogData();
+        }
     }
 
     @Override
-    public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters) {
-        showServiceRequestDialog(listOfServiceCenters);
+    public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> usersList) {
 
+        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
+            serviceRequestDialog.setUsersData(usersList);
+        } else {
+            showServiceRequestDialog(usersList);
+        }
     }
-
 
     // product search
     @Override

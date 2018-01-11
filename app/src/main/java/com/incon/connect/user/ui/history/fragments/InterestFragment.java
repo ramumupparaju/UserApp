@@ -141,6 +141,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         bottomDrawables[3] = R.drawable.ic_option_delete;
 
         bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
+        bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.secondRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
@@ -185,6 +186,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             }
 
             bottomSheetPurchasedBinding.secondRow.setVisibility(View.VISIBLE);
+            bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.secondRow.removeAllViews();
             bottomSheetPurchasedBinding.secondRow.setWeightSum(bottomOptions.length);
@@ -426,6 +428,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 .button2Text(getString(R.string.action_cancel))
                 .build();
         detailsDialog.showDialog();
+        detailsDialog.setCancelable(true);
     }
 
     private void showInformationDialog(String title, String messageInfo) {

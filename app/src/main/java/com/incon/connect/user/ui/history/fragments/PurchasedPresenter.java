@@ -9,6 +9,7 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.BasePresenter;
@@ -40,7 +41,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
     // purchased
     @Override
     public void purchased(int userId) {
-        getView().showProgress(appContext.getString(R.string.progress_purchased_history));
+//        getView().showProgress(appContext.getString(R.string.progress_purchased_history));
         DisposableObserver<List<ProductInfoResponse>> observer = new
                 DisposableObserver<List<ProductInfoResponse>>() {
                     @Override
@@ -122,7 +123,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
 
     // service request
     @Override
-    public void serviceRequest(int userId, ServiceRequest serviceRequest) {
+    public void serviceRequest(ServiceRequest serviceRequest) {
         getView().showProgress(appContext.getString(R.string.progress_update_status));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
@@ -143,19 +144,18 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().serviceRequest(userId, serviceRequest).subscribe(observer);
+        AppApiService.getInstance().serviceRequest(serviceRequest).subscribe(observer);
         addDisposable(observer);
     }
 
     @Override
     public void nearByServiceCenters(int brandId) {
-
         getView().showProgress(appContext.getString(R.string.progress_finding_service_centers));
-        DisposableObserver<Object> observer = new
-                DisposableObserver<Object>() {
+        DisposableObserver<List<ServiceCenterResponse>> observer = new
+                DisposableObserver<List<ServiceCenterResponse>>() {
                     @Override
-                    public void onNext(Object obj) {
-                        getView().loadNearByServiceCenters();
+                    public void onNext(List<ServiceCenterResponse> serviceCenterResponses) {
+                        getView().loadNearByServiceCenters(serviceCenterResponses);
                     }
 
                     @Override
@@ -172,7 +172,6 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                 };
         AppApiService.getInstance().findNearByServiceCenters(brandId).subscribe(observer);
         addDisposable(observer);
-
     }
 
     @Override

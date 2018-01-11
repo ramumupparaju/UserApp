@@ -8,34 +8,38 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class ServiceRequest {
-    @SerializedName("assignedTo")
-    @Expose
-    private Integer assignedTo;
     @SerializedName("comments")
     @Expose
     private String comments;
+    @SerializedName("complaint")
+    @Expose
+    private String complaint;
+    @SerializedName("customerId")
+    @Expose
+    private Integer customerId;
+    @SerializedName("preferredDateFrom")
+    @Expose
+    private String preferredDateFrom;
+    @SerializedName("preferredDateTo")
+    @Expose
+    private String preferredDateTo;
     @SerializedName("priority")
     @Expose
     private Integer priority;
     @SerializedName("purchaseId")
     @Expose
     private Integer purchaseId;
-    @SerializedName("requestid")
-    @Expose
-    private Integer requestid;
     @SerializedName("serviceCenterId")
     @Expose
     private Integer serviceCenterId;
-    @SerializedName("status")
-    @Expose
-    private Status status;
+    private Integer preferredUser;
 
-    public Integer getAssignedTo() {
-        return assignedTo;
+    public Integer getPreferredUser() {
+        return preferredUser;
     }
 
-    public void setAssignedTo(Integer assignedTo) {
-        this.assignedTo = assignedTo;
+    public void setPreferredUser(Integer preferredUser) {
+        this.preferredUser = preferredUser;
     }
 
     public String getComments() {
@@ -44,6 +48,38 @@ public class ServiceRequest {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public String getComplaint() {
+        return complaint;
+    }
+
+    public void setComplaint(String complaint) {
+        this.complaint = complaint;
+    }
+
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getPreferredDateFrom() {
+        return preferredDateFrom;
+    }
+
+    public void setPreferredDateFrom(String preferredDateFrom) {
+        this.preferredDateFrom = preferredDateFrom;
+    }
+
+    public String getPreferredDateTo() {
+        return preferredDateTo;
+    }
+
+    public void setPreferredDateTo(String preferredDateTo) {
+        this.preferredDateTo = preferredDateTo;
     }
 
     public Integer getPriority() {
@@ -62,14 +98,6 @@ public class ServiceRequest {
         this.purchaseId = purchaseId;
     }
 
-    public Integer getRequestid() {
-        return requestid;
-    }
-
-    public void setRequestid(Integer requestid) {
-        this.requestid = requestid;
-    }
-
     public Integer getServiceCenterId() {
         return serviceCenterId;
     }
@@ -78,11 +106,5 @@ public class ServiceRequest {
         this.serviceCenterId = serviceCenterId;
     }
 
-    public Status getStatus() {
-        return status;
-    }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 }

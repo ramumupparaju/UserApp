@@ -32,7 +32,7 @@ public class ReturnPresenter extends BasePresenter<ReturnContract.View> implemen
 
 
      public void returnHistory(int userId) {
-        getView().showProgress(appContext.getString(R.string.progress_return_history));
+//        getView().showProgress(appContext.getString(R.string.progress_return_history));
         DisposableObserver<List<ProductInfoResponse>> observer = new
                 DisposableObserver<List<ProductInfoResponse>>() {
                     @Override

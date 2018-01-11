@@ -9,6 +9,9 @@ import com.incon.connect.user.apimodel.components.productinforesponse.ProductInf
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
+import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
+import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
@@ -20,6 +23,7 @@ import com.incon.connect.user.dto.registration.Registration;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,6 +34,11 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface AppServiceObservable {
+
+
+    @GET("service/getstatuslist")
+    Observable<List<DefaultStatusData>> getStatusList();
+
     //default data api
     @GET("defaults")
     Observable<DefaultsResponse> defaultsApi();
@@ -55,17 +64,17 @@ public interface AppServiceObservable {
     Observable<LoginResponse> upDateUserProfile(@Path(
             "userId") int userId, @Body UpDateUserProfile upDateUserProfile);
 
-    //  update status api
-    @POST("service/updateStatus/{userId}")
-    Observable<Object> serviceRequest(@Path(
-            "userId") int userId, @Body ServiceRequest serviceRequest);
+    //  service request api
+    @POST("service/addservicerequest")
+    Observable<Object> serviceRequest(@Body ServiceRequest serviceRequest);
 
     @POST("account/sendOtp")
     Observable<SendOtpResponse> sendOtp(@Body HashMap<String, String> email);
 
     @POST("user/validateotp")
     Observable<LoginResponse> validateOtp(@Body HashMap<String, String> verify);
-// forgotpassword api
+
+    // forgotpassword api
     @POST("merchant/forgotpassword")
     Observable<ApiBaseResponse> forgotPassword(@Body HashMap<String, String> phoneNumber);
 
@@ -90,9 +99,9 @@ public interface AppServiceObservable {
     @POST("user/addtofavourites")
     Observable<Object> addToFavotites(@Body HashMap<String, String> favoriteMap);
 
-       // fetch near by service centers  api
+    // fetch near by service centers  api
     @POST("service/nearbycenters/{brandId}")
-    Observable<Object> findNearByServiceCenters(@Path("brandId") int brandId);
+    Observable<List<ServiceCenterResponse>> findNearByServiceCenters(@Path("brandId") int brandId);
 
 
     // add favourites  api
@@ -171,6 +180,10 @@ public interface AppServiceObservable {
     @GET("user/transfer/{phoneNumber}/{userId}")
     Observable<Object> transferRequest(@Path("phoneNumber") String phoneNumber,
                                        @Path("userId") int userId);
+
+    //transfer product api
+    @GET("user/servicerequests/{userId}")
+    Observable<ArrayList< ServiceStatus>> fetchUserRequests(@Path("userId") int userId);
 
     // new user registation  api
     @POST("user/newuser/{phoneNumber}")

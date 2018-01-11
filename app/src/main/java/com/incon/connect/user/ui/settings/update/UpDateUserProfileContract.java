@@ -14,8 +14,10 @@ public interface UpDateUserProfileContract {
         void loadUpDateUserProfileResponce(LoginResponse loginResponse);
 
     }
+
     interface Presenter {
         void upDateUserProfile(int userId, UpDateUserProfile upDateUserProfile);
+
         void saveUserData(LoginResponse loginResponse);
 
     }

@@ -1,51 +1,71 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <LinearLayout
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.incon.connect.user.ui.status.StatusFragment"/>
+
+    </data>
+
+
+    <RelativeLayout
         style="@style/BothMatch"
         android:background="@color/white">
 
-        <HorizontalScrollView
-            android:id="@+id/status_scrollview"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="100dp"
+
+        <LinearLayout
+            android:id="@+id/views_layout"
+            style="@style/MatchWrap"
+            android:orientation="horizontal"
+            android:weightSum="2.5">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label_product_status"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:onCheckedChanged="@{(switch, checked) -> fragment.onCheckedChanged(checked)}"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label_service_requests"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/empty_data"
+            style="@style/BothMatch"
+            android:gravity="center"
+            android:text="@string/action_no_data"
+            android:visibility="gone"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/product_status_recyclerview"
+            style="@style/MatchWrap"
+            android:layout_below="@id/views_layout"
+            android:layout_marginTop="@dimen/margin_10"
             android:fadeScrollbars="false"
             android:scrollbarSize="4dp"
-            android:scrollbarThumbHorizontal="@drawable/scrollbar"
-            android:scrollbars="horizontal">
+            android:scrollbarThumbVertical="@drawable/scrollbar"
+            android:scrollbars="vertical"/>
 
-            <LinearLayout
-                android:id="@+id/layout_parent"
-                style="@style/BothMatch"
-                android:orientation="horizontal">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/service_requests_recyclerview"
+            style="@style/MatchWrap"
+            android:layout_below="@id/views_layout"
+            android:layout_marginTop="@dimen/margin_10"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="4dp"
+            android:scrollbarThumbVertical="@drawable/scrollbar"
+            android:scrollbars="vertical"/>
 
-            </LinearLayout>
-
-        </HorizontalScrollView>
-
-    </LinearLayout>
-
-   <!-- <RelativeLayout
-        style="@style/BothMatch"
-        android:background="@color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/status_recyclerview"
-                    style="@style/MatchWrap"
-                    android:fadeScrollbars="false"
-                    android:scrollbarSize="4dp"
-                    android:scrollbarThumbVertical="@drawable/scrollbar"
-                    android:scrollbars="vertical"/>
-            </LinearLayout>
-
-
-    </RelativeLayout>-->
-
-
-
+    </RelativeLayout>
 
 </layout>

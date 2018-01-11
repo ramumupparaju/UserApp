@@ -89,9 +89,6 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
     private void prepareMenuData() {
 
         int[] icons = {R.drawable.ic_menu_change_password,
-                R.drawable.ic_menu_bill_format,
-                R.drawable.ic_menu_timings,
-                R.drawable.ic_menu_contact_details,
                 R.drawable.ic_menu_logout_svg };
         String[] menuTitles = getResources().getStringArray(R.array.side_menu_items_list);
 
@@ -133,20 +130,6 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
             case MenuConstants.CHANGE_PWD:
                 Intent changePasswordIntent = new Intent(this, ChangePasswordActivity.class);
                 startActivity(changePasswordIntent);
-                break;
-
-            case MenuConstants.BILLFORMAT:
-                Intent billFormatIntent = new Intent(this, SettingsBillFormatActivity.class);
-                startActivity(billFormatIntent);
-                break;
-            case MenuConstants.TIMEINGS:
-                AppUtils.shortToast(SettingsActivity.this, getString(
-                        R.string.title_menu_timings));
-                break;
-
-            case MenuConstants.CONTACTDETAILS:
-                AppUtils.shortToast(SettingsActivity.this, getString(
-                        R.string.title_menu_contact_details));
                 break;
 
             case MenuConstants.LOGOUT:

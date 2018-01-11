@@ -47,7 +47,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     private ToolBarBinding toolBarBinding;
 
     private LinkedHashMap<Integer, Fragment> tabFragments = new LinkedHashMap<>();
-
+    private int currentSelectedTabId = DEFAULT_VALUE;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_home;
@@ -154,6 +154,12 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     }
 
     private void setBottomTabStatus(int selectedItemId) {
+
+        if (currentSelectedTabId == selectedItemId) {
+            return;
+        }
+
+        currentSelectedTabId = selectedItemId;
         Class<? extends Fragment> aClass = null;
         switch (selectedItemId) {
             case R.id.action_history:

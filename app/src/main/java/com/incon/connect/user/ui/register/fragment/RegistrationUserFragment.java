@@ -312,6 +312,7 @@ public class RegistrationUserFragment extends BaseFragment implements
      */
     public void onClickNext() {
         if (validateFields()) {
+            register.setGenderType(String.valueOf(register.getGenderType().charAt(0)));
             navigateToRegistrationActivityNext();
         }
     }

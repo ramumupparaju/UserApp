@@ -3,19 +3,15 @@ package com.incon.connect.user.custom.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
-import com.incon.connect.user.databinding.DialogServiceRequestBinding;
 import com.incon.connect.user.databinding.DialogTimeSlotBinding;
 
 public class TimeSlotAlertDialog extends Dialog implements View.OnClickListener {
@@ -24,6 +20,7 @@ public class TimeSlotAlertDialog extends Dialog implements View.OnClickListener 
     private final Context context;
     //All final attributes
     private final TimeSlotAlertDialogCallback mAlertDialogCallback; // required
+    private String selectedTime;
 
     /**
      * @param builder
@@ -59,17 +56,21 @@ public class TimeSlotAlertDialog extends Dialog implements View.OnClickListener 
         }
         switch (view.getId()) {
             case R.id.dialog_submit_button:
+                mAlertDialogCallback.selectedTimeSlot(selectedTime);
                 mAlertDialogCallback.alertDialogCallback(AlertDialogCallback.OK);
                 break;
             default:
                 if (view.isSelected()) { //checking whether view is selected or not
                     view.setSelected(false);
-                    //todo Reset value to send
+                    selectedTime = "";
                 } else {
                     LinearLayout buttonsLayout = binding.buttonsLayout;
                     for (int i = 0; i < buttonsLayout.getChildCount(); i++) {
                         View childAt = buttonsLayout.getChildAt(i);
                         childAt.setSelected(view.getId() == childAt.getId() ? true : false);
+                        if (childAt.isSelected()) {
+                            selectedTime = ((TextView) childAt).getText().toString();
+                        }
                     }
                 }
                 break;

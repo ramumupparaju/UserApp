@@ -68,6 +68,9 @@
     <string name="status_repair_done">Repair Done</string>
     <string name="status_payment">Payment</string>
     <string name="status_feedback">Feedback</string>
+    <string name="date_selecte">Selecte Date</string>
+    <string name="time_selecte">Selecte Time</string>
+    <string name="user_selecte">Selecte User</string>
 
     <!--warrantyregistration-->
     <string name="action_add_as_favorite">Add as favorite</string>
@@ -88,6 +91,9 @@
     <string name="action_product_status">Is product delivered</string>
     <string name="action_description">Description</string>
     <string name="action_skip">Skip</string>
+
+    <string name="label_product_status">Product status</string>
+    <string name="label_service_requests">Service Requests</string>
 
     <!--product Assign-->
     <string name="user_qr_code">User QR code</string>
@@ -154,6 +160,14 @@
     <string name="action_update_pwd">Update Password</string>
     <string name="action_feedback">Feedback</string>
     <string name="action_development">Development</string>
+    <string name="action_high">High</string>
+    <string name="action_medium">Medium</string>
+    <string name="action_low">Low</string>
+
+    <!--service center time-->
+    <string name="time_10_12">10-12</string>
+    <string name="time_12_15">12-15</string>
+    <string name="time_15_17">15-17</string>
 
     <!--settings screen-->
     <string name="action_settings">Settings</string>
@@ -305,6 +319,7 @@
     <string name="progress_updating_profile">Updating profile...</string>
     <string name="progress_get_doctor_profile">Getting Doctor profile...</string>
     <string name="progress_send_summary_report">Sending summary report...</string>
+    <string name="progress_updating_status">loading user requests...</string>
 
     <!-- Dialog -->
     <string name="dialog_profile_creation_completed">Registration and profile creation\n completed successfully.</string>
@@ -344,6 +359,7 @@
     <string name="add_new__invoiceNumber">InvoiceNumber</string>
     <string name="add_new__type">Type</string>
     <string name="add_new_notes">Notes</string>
+    <string name="add_new_warrenty_period">WarrentyPeriod</string>
 
 
     <!-- Registration -->
@@ -365,6 +381,7 @@
     <string name="register_timezone_hint">Time Zone</string>
     <string name="register_zipcode_hint">Zip Code</string>
     <string name="register_dateofbirth_hint">Date of Birth</string>
+    <string name="register_purchased_date_hint">Purchased Date</string>
     <string name="register_date_time_hint">Date and Time</string>
     <string name="register_gender_hint">Gender</string>
     <string name="register_category_hint">Category</string>

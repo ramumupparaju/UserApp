@@ -5,13 +5,18 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
+import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
+
 import net.hockeyapp.android.CrashManager;
+
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class ConnectApplication extends Application {
 
     private static Context context;
+    private List<DefaultStatusData> statusListResponses;
 
     @Override
     public void onCreate() {
@@ -45,4 +50,11 @@ public class ConnectApplication extends Application {
     }
 
 
+    public void setStatusListData(List<DefaultStatusData> statusListResponses) {
+        this.statusListResponses = statusListResponses;
+    }
+
+    public List<DefaultStatusData> getStatusListResponses() {
+        return statusListResponses;
+    }
 }
