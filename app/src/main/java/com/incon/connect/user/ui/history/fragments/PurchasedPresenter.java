@@ -247,6 +247,21 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         }
 
         @Override
+        public void loadServiceRequest() {
+
+        }
+
+        @Override
+        public void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponses) {
+
+        }
+
+        @Override
+        public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters) {
+
+        }
+
+        @Override
         public void showProgress(String message) {
 
         }

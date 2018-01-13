@@ -36,18 +36,18 @@
     <string name="bottom_option_location">Location</string>
     <string name="bottom_option_details">Details</string>
     <string name="bottom_option_note">Note</string>
-    <string name="bottom_option_main_features">Main Features :</string>
-    <string name="bottom_option_warranty">Warranty :</string>
+    <string name="bottom_option_main_features">Main Features </string>
+    <string name="bottom_option_warranty">Warranty </string>
     <string name="bottom_option_suggestions">Suggestions</string>
     <string name="bottom_option_bill">Bill</string>
     <string name="bottom_option_add">Add</string>
     <string name="bottom_option_past_history">Past History</string>
     <string name="bottom_option_share">Share</string>
     <string name="bottom_option_transfer">Transfer</string>
-    <string name="bottom_option_feedback">Feedback :</string>
+    <string name="bottom_option_feedback">Feedback </string>
     <string name="bottom_option_review">Review</string>
-    <string name="bottom_option_price">Price :</string>
-    <string name="bottom_option_mrp">MRP :</string>
+    <string name="bottom_option_price">Price </string>
+    <string name="bottom_option_mrp">MRP </string>
     <string name="bottom_option_delete">Delete</string>
     <string name="bottom_option_showroom">Showroom</string>
     <string name="bottom_option_buy_request">Buy request</string>
@@ -359,7 +359,7 @@
     <string name="add_new__invoiceNumber">InvoiceNumber</string>
     <string name="add_new__type">Type</string>
     <string name="add_new_notes">Notes</string>
-    <string name="add_new_warrnty_period">WarrntyPeriod</string>
+    <string name="add_new_warrnty_period">Warrnty Period</string>
 
 
     <!-- Registration -->

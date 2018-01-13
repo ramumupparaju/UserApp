@@ -72,7 +72,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private List<AddUserAddressResponse> productLocationList;
     private Integer addressId;
     private AppEditTextDialog transferDialog;
-    private AppFeedBackDialog buyFeedBackRequestDialog;
+    private AppEditTextDialog feedBackDialog;
+   // private AppFeedBackDialog feedBackDialog;
     private String buyRequestComment;
     private String serviceRequestComment;
     private boolean isFromFavorites = false;
@@ -439,9 +440,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     showTransferDialog();
                     return;
                 } else if (secondRowTag == 6) { // feed back
-                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                    bottomOptions = new String[0];
-                    topDrawables = new int[0];
+                    showFeedBackDialog();
                 } else if (secondRowTag == 7) { // suggestions
                     AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                     bottomOptions = new String[0];
@@ -457,9 +456,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
                     return;
                 } else if (secondRowTag == 2) { // feed back
-                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                    bottomOptions = new String[0];
-                    topDrawables = new int[0];
+                    showFeedBackDialog();
                 }
             }
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
@@ -471,7 +468,39 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     };
 
     private void showFeedBackDialog() {
-        buyFeedBackRequestDialog = new AppFeedBackDialog.AlertDialogBuilder(getActivity(), new
+        feedBackDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                feedBackDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.bottom_option_feedback))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        feedBackDialog.showDialog();
+        feedBackDialog.setCancelable(true);
+
+    }
+
+
+
+
+
+   /* private void showFeedBackDialog() {
+        feedBackDialog = new AppFeedBackDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String commentString) {
@@ -487,7 +516,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                                         String.valueOf(userId));
                                 break;
                             case AlertDialogCallback.CANCEL:
-                                buyFeedBackRequestDialog.dismiss();
+                                feedBackDialog.dismiss();
                                 break;
                             default:
                                 break;
@@ -498,9 +527,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 .leftButtonText(getString(R.string.action_cancel))
                 .rightButtonText(getString(R.string.action_submit))
                 .build();
-        buyFeedBackRequestDialog.showDialog();
+        feedBackDialog.showDialog();
 
-    }
+    }*/
+
+
+
 
     private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
         Intent sendIntent = new Intent();

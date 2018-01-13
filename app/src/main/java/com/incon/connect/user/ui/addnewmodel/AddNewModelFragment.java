@@ -235,9 +235,7 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
     private void setFocusForViews() {
         binding.edittextModelNumber.setOnFocusChangeListener(onFocusChangeListener);
         binding.edittextName.setOnFocusChangeListener(onFocusChangeListener);
-        binding.edittextMrpPrice.setOnFocusChangeListener(onFocusChangeListener);
         binding.edittextPrice.setOnFocusChangeListener(onFocusChangeListener);
-        binding.edittextNotes.setOnFocusChangeListener(onFocusChangeListener);
 
 
     }
@@ -266,9 +264,7 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
         binding.spinnerCategory.setError(null);
         binding.spinnerDivision.setError(null);
         binding.spinnerBrand.setError(null);
-        binding.inputLayoutMrpPrice.setError(null);
         binding.inputLayoutPrice.setError(null);
-        binding.inputLayoutNotes.setError(null);
 
         Pair<String, Integer> validation = binding.getAddNewModel().validateAddNewModel(null);
         updateUiAfterValidation(validation.first, validation.second);
