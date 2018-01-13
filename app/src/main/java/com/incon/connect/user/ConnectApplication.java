@@ -5,8 +5,10 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
+import com.crashlytics.android.Crashlytics;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 
+import io.fabric.sdk.android.Fabric;
 import net.hockeyapp.android.CrashManager;
 
 import java.util.List;
@@ -21,6 +23,7 @@ public class ConnectApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         context = getApplicationContext();
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
