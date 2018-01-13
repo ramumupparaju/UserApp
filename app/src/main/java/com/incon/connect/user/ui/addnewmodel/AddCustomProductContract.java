@@ -1,5 +1,6 @@
 package com.incon.connect.user.ui.addnewmodel;
 
+import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
@@ -15,14 +16,18 @@ public interface AddCustomProductContract {
 
     interface View extends BaseView {
         void addNewModel(ModelSearchResponse modelSearchResponse);
-        void loadCategoriesList(List<FetchCategories> categoriesList);
+
+        void loadCategoriesList();
+
         void loadModelNumberData(List<ModelSearchResponse> modelSearchResponseList);
 
     }
 
     interface Presenter {
-        void getCategories(int merchantId);
+        void getCategories();
+
         void doModelSearchApi(String modelNumberToSearch);
+
         void addingNewModel(int merchantId, AddCustomProductModel addCustomProductModel);
     }
 }

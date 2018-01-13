@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 
 import com.incon.connect.user.AppUtils;
+import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
 import com.incon.connect.user.apimodel.components.fetchcategorie.Division;
@@ -96,8 +97,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             rootView = binding.getRoot();
             initViews();
 
-            addCustomProductPresenter.getCategories(SharedPrefsUtils.loginProvider().
-                    getIntegerPreference(LoginPrefs.STORE_ID, DEFAULT_VALUE));
+            addCustomProductPresenter.getCategories();
 
         }
         setTitle();
@@ -275,7 +275,6 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     selectedPosition = pos;
                     ModelSearchResponse modelSearchResponse = modelSearchResponseList.get(selectedPosition);
                     selectedModelNumber = modelSearchResponse.getModelNumber();
-
                 }
                 AppUtils.hideSoftKeyboard(getActivity(), rootView);
             }
@@ -426,8 +425,8 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     }
 
     @Override
-    public void loadCategoriesList(List<FetchCategories> categoriesList) {
-        fetchCategorieList = categoriesList;
+    public void loadCategoriesList() {
+        fetchCategorieList = ConnectApplication.getAppContext().getCategoriesList();
         loadCategorySpinnerData();
     }
 

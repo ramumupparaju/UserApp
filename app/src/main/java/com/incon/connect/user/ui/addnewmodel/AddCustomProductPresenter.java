@@ -8,6 +8,7 @@ import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.api.AppApiService;
+import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
@@ -26,7 +27,7 @@ public class AddCustomProductPresenter extends BasePresenter<AddCustomProductCon
         AddCustomProductContract.Presenter {
 
     private static final String TAG = AddCustomProductPresenter.class.getName();
-    private Context appContext;
+    private ConnectApplication appContext;
 
     @Override
     public void initialize(Bundle extras) {
@@ -35,13 +36,14 @@ public class AddCustomProductPresenter extends BasePresenter<AddCustomProductCon
     }
 
     @Override
-    public void getCategories(int merchantId) {
+    public void getCategories() {
         getView().showProgress(appContext.getString(R.string.progress_categories));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
                     @Override
-                    public void onNext(Object categoriesList) {
-                        getView().loadCategoriesList((List<FetchCategories>) categoriesList);
+                    public void onNext(Object defaultsResponse) { //todo object have to confrm with naveen
+//                        appContext.setCategoriesList(nu);
+                        getView().loadCategoriesList();
                     }
 
                     @Override
@@ -56,7 +58,7 @@ public class AddCustomProductPresenter extends BasePresenter<AddCustomProductCon
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().getCategories(merchantId).subscribe(observer);
+        AppApiService.getInstance().defaultsApi().subscribe(observer);
         addDisposable(observer);
     }
 

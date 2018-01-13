@@ -6,6 +6,8 @@ import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
+import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
+import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 
 import io.fabric.sdk.android.Fabric;
@@ -19,6 +21,7 @@ public class ConnectApplication extends Application {
 
     private static Context context;
     private List<DefaultStatusData> statusListResponses;
+    private List<FetchCategories> categoriesList;
 
     @Override
     public void onCreate() {
@@ -59,5 +62,13 @@ public class ConnectApplication extends Application {
 
     public List<DefaultStatusData> getStatusListResponses() {
         return statusListResponses;
+    }
+
+    public List<FetchCategories> getCategoriesList() {
+        return categoriesList;
+    }
+
+    public void setCategoriesList(List<FetchCategories> categoriesList) {
+        this.categoriesList = categoriesList;
     }
 }
