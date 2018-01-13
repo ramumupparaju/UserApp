@@ -22,6 +22,8 @@ import android.widget.DatePicker;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
+import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
 import com.incon.connect.user.apimodel.components.fetchcategorie.Division;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
@@ -57,11 +59,15 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     private View rootView;
     private AddCustomProductPresenter addCustomProductPresenter;
     private AddCustomProductModel addCustomProductModel;
-    private List<FetchCategories> fetchCategorieList;
+
+    private List<CategoryResponse> fetchCategorieList;
+    private List<Division> fetchDivisionsList;
+    private List<Brand> fetchBrandsList;
 
 
     private int categorySelectedPos = -1;
     private int divisionSelectedPos = -1;
+    private int brandSelectedPos = -1;
 
 
     private DisposableObserver<TextViewAfterTextChangeEvent> observer;
@@ -164,11 +170,20 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (categorySelectedPos != position) {
-                    FetchCategories fetchCategories = fetchCategorieList.get(position);
+
+                    CategoryResponse fetchCategories = fetchCategorieList.get(position);
                     addCustomProductModel.setCategoryId(fetchCategories.getId());
                     addCustomProductModel.setCategoryName(fetchCategories.getName());
-                    loadDivisionSpinnerData(fetchCategories.getDivisions());
+
+                    //TODO division api call
+                    divisionSelectedPos = -1;
+                    fetchDivisionsList.clear();
+                    loadDivisionSpinnerData(fetchDivisionsList);
                     binding.spinnerDivision.setText("");
+
+
+                    brandSelectedPos = -1;
+
                     categorySelectedPos = position;
                     binding.spinnerBrand.setVisibility(View.GONE);
                 }
@@ -203,11 +218,13 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (divisionSelectedPos != position) {
                     divisionSelectedPos = position;
-                    FetchCategories fetchCategories = fetchCategorieList.get(categorySelectedPos);
-                    Division divisions1 = fetchCategories.getDivisions().get(divisionSelectedPos);
-                    addCustomProductModel.setDivisionId(divisions1.getId());
-                    addCustomProductModel.setDivisionName(divisions1.getName());
-                    loadBrandSpinnerData(divisions1.getBrands());
+                    Division division = fetchDivisionsList.get(divisionSelectedPos);
+                    addCustomProductModel.setDivisionId(division.getId());
+                    addCustomProductModel.setDivisionName(division.getName());
+
+                    //TODO get brand api
+                    brandSelectedPos = -1;
+                    loadBrandSpinnerData(fetchBrandsList);
                     binding.spinnerBrand.setText("");
                 }
                 //For avoiding double tapping issue

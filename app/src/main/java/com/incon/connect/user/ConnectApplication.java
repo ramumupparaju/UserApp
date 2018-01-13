@@ -21,7 +21,7 @@ public class ConnectApplication extends Application {
 
     private static Context context;
     private List<DefaultStatusData> statusListResponses;
-    private List<FetchCategories> categoriesList;
+    private List<CategoryResponse> categoriesList;
 
     @Override
     public void onCreate() {
@@ -64,11 +64,11 @@ public class ConnectApplication extends Application {
         return statusListResponses;
     }
 
-    public List<FetchCategories> getCategoriesList() {
+    public List<CategoryResponse> getCategoriesList() {
         return categoriesList;
     }
 
-    public void setCategoriesList(List<FetchCategories> categoriesList) {
+    public void setCategoriesList(List<CategoryResponse> categoriesList) {
         this.categoriesList = categoriesList;
     }
 }

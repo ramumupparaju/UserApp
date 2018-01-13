@@ -1039,6 +1039,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             customPhoneNumberDialog.dismiss();
         }
         onRefreshListener.onRefresh();
+        bottomSheetDialog.dismiss();
     }
 
     // product search
