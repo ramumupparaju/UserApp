@@ -18,7 +18,7 @@ import com.incon.connect.user.apimodel.components.userslistofservicecenters.User
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.custom.exception.NoConnectivityException;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
-import com.incon.connect.user.dto.addnewmodel.AddNewModel;
+import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.dto.asignqrcode.AssignQrCode;
 import com.incon.connect.user.dto.login.LoginUserData;
 import com.incon.connect.user.dto.notifications.PushRegistrarBody;
@@ -254,8 +254,8 @@ public class AppApiService implements AppConstants {
 
     //add new model api
     public Observable<ModelSearchResponse> addingNewModel(int merchantId,
-                                                          AddNewModel addNewModelBody) {
-        return addNetworkCheck(serviceInstance.addingNewModel(merchantId, addNewModelBody));
+                                                          AddCustomProductModel addCustomProductModelBody) {
+        return addNetworkCheck(serviceInstance.addingNewModel(merchantId, addCustomProductModelBody));
     }
 
     /* public Observable<Object> assignQrCodeToProduct(AssignQrCode qrCode) {

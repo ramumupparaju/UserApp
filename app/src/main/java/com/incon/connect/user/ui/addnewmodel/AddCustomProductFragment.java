@@ -27,8 +27,8 @@ import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.custom.view.CustomAutoCompleteView;
 import com.incon.connect.user.custom.view.CustomTextInputLayout;
-import com.incon.connect.user.databinding.FragmentAddNewModelBinding;
-import com.incon.connect.user.dto.addnewmodel.AddNewModel;
+import com.incon.connect.user.databinding.FragmentAddCustomProductBinding;
+import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.utils.DateUtils;
@@ -43,11 +43,11 @@ import java.util.TimeZone;
  * Created by PC on 10/4/2017.
  */
 
-public class AddNewModelFragment extends BaseFragment implements AddNewModelContract.View {
-    private FragmentAddNewModelBinding binding;
+public class AddCustomProductFragment extends BaseFragment implements AddCustomProductContract.View {
+    private FragmentAddCustomProductBinding binding;
     private View rootView;
-    private AddNewModelPresenter addNewModelPresenter;
-    private AddNewModel addNewModel;
+    private AddCustomProductPresenter addCustomProductPresenter;
+    private AddCustomProductModel addCustomProductModel;
     private List<FetchCategories> fetchCategorieList;
     private int categorySelectedPos = -1;
     private int divisionSelectedPos = -1;
@@ -56,14 +56,14 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
 
     @Override
     protected void initializePresenter() {
-        addNewModelPresenter = new AddNewModelPresenter();
-        addNewModelPresenter.setView(this);
-        setBasePresenter(addNewModelPresenter);
+        addCustomProductPresenter = new AddCustomProductPresenter();
+        addCustomProductPresenter.setView(this);
+        setBasePresenter(addCustomProductPresenter);
     }
 
     @Override
     public void setTitle() {
-        ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.title_add_new_model));
+        ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.title_custom_product));
     }
 
     @Override
@@ -71,20 +71,21 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
                                  Bundle savedInstanceState) {
         if (rootView == null) {
             binding = DataBindingUtil.inflate(
-                    inflater, R.layout.fragment_add_new_model, container, false);
-            addNewModel = new AddNewModel();
-            binding.setAddNewModel(addNewModel);
-            binding.setAddNewModelFragment(this);
+                    inflater, R.layout.fragment_add_custom_product, container, false);
+            addCustomProductModel = new AddCustomProductModel();
+            binding.setAddCustomProductModel(addCustomProductModel);
+            binding.setAddCustomProductFragment(this);
             rootView = binding.getRoot();
             initViews();
 
-            addNewModelPresenter.getCategories(SharedPrefsUtils.loginProvider().
+            addCustomProductPresenter.getCategories(SharedPrefsUtils.loginProvider().
                     getIntegerPreference(LoginPrefs.STORE_ID, DEFAULT_VALUE));
 
         }
         setTitle();
         return rootView;
     }
+
     public void onPurchasedDateClick() {
         showDatePicker();
     }
@@ -95,7 +96,7 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
 
         // todo have to change
 
-        String dateOfPurchased = addNewModel.getDateOfPurchased();
+        String dateOfPurchased = addCustomProductModel.getDateOfPurchased();
         if (!TextUtils.isEmpty(dateOfPurchased)) {
             cal.setTimeInMillis(DateUtils.convertStringFormatToMillis(
                     dateOfPurchased, DateFormatterConstants.MM_DD_YYYY));
@@ -112,6 +113,7 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
         datePicker.setCancelable(false);
         datePicker.show();
     }
+
     // Date Listener
     private DatePickerDialog.OnDateSetListener datePickerListener =
             new DatePickerDialog.OnDateSetListener() {
@@ -123,13 +125,14 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
 
                     String dobInMMDDYYYY = DateUtils.convertDateToOtherFormat(
                             selectedDateTime.getTime(), DateFormatterConstants.MM_DD_YYYY);
-                 //   addNewModel.setDateOfBirthToShow(dobInMMDDYYYY);
+                    //   addCustomProductModel.setDateOfBirthToShow(dobInMMDDYYYY);
 
-                    Pair<String, Integer> validate = binding.getAddNewModel().
+                    Pair<String, Integer> validate = addCustomProductModel.
                             validateAddNewModel((String) binding.edittextPurchasedDate.getTag());
                     updateUiAfterValidation(validate.first, validate.second);
                 }
             };
+
     // category spinner
     private void loadCategorySpinnerData() {
         String[] stringCategoryList = new String[fetchCategorieList.size()];
@@ -145,8 +148,8 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (categorySelectedPos != position) {
                     FetchCategories fetchCategories = fetchCategorieList.get(position);
-                    addNewModel.setCategoryId(fetchCategories.getId());
-                    addNewModel.setCategoryName(fetchCategories.getName());
+                    addCustomProductModel.setCategoryId(fetchCategories.getId());
+                    addCustomProductModel.setCategoryName(fetchCategories.getName());
                     loadDivisionSpinnerData(fetchCategories.getDivisions());
                     binding.spinnerDivision.setText("");
                     categorySelectedPos = position;
@@ -160,6 +163,7 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
             }
         });
     }
+
     // division spinner
     private void loadDivisionSpinnerData(List<Division> divisions) {
 
@@ -184,8 +188,8 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
                     divisionSelectedPos = position;
                     FetchCategories fetchCategories = fetchCategorieList.get(categorySelectedPos);
                     Division divisions1 = fetchCategories.getDivisions().get(divisionSelectedPos);
-                    addNewModel.setDivisionId(divisions1.getId());
-                    addNewModel.setDivisionName(divisions1.getName());
+                    addCustomProductModel.setDivisionId(divisions1.getId());
+                    addCustomProductModel.setDivisionName(divisions1.getName());
                     loadBrandSpinnerData(divisions1.getBrands());
                     binding.spinnerBrand.setText("");
                 }
@@ -215,8 +219,8 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
         binding.spinnerBrand.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                addNewModel.setBrandId(brandList.get(position).getId());
-                addNewModel.setBrandName(brandList.get(position).getName());
+                addCustomProductModel.setBrandId(brandList.get(position).getId());
+                addCustomProductModel.setBrandName(brandList.get(position).getName());
                 //For avoiding double tapping issue
                 if (binding.spinnerBrand.getOnItemClickListener() != null) {
                     binding.spinnerBrand.onItemClick(parent, view, position, id);
@@ -245,7 +249,7 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
         public void onFocusChange(View view, boolean hasFocus) {
             Object fieldId = view.getTag();
             if (fieldId != null) {
-                Pair<String, Integer> validation = binding.getAddNewModel().
+                Pair<String, Integer> validation = addCustomProductModel.
                         validateAddNewModel((String) fieldId);
                 if (!hasFocus) {
                     if (view instanceof TextInputEditText) {
@@ -266,7 +270,7 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
         binding.spinnerBrand.setError(null);
         binding.inputLayoutPrice.setError(null);
 
-        Pair<String, Integer> validation = binding.getAddNewModel().validateAddNewModel(null);
+        Pair<String, Integer> validation = addCustomProductModel.validateAddNewModel(null);
         updateUiAfterValidation(validation.first, validation.second);
 
         return validation.second == VALIDATION_SUCCESS;
@@ -314,8 +318,8 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
 
     public void onSubmitClick() {
         if (validateFields()) {
-            addNewModelPresenter.addingNewModel(SharedPrefsUtils.loginProvider().
-                    getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE), addNewModel);
+            addCustomProductPresenter.addingNewModel(SharedPrefsUtils.loginProvider().
+                    getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE), addCustomProductModel);
         }
     }
 
@@ -341,6 +345,6 @@ public class AddNewModelFragment extends BaseFragment implements AddNewModelCont
     @Override
     public void onDestroy() {
         super.onDestroy();
-        addNewModelPresenter.disposeAll();
+        addCustomProductPresenter.disposeAll();
     }
 }

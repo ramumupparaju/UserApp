@@ -9,7 +9,7 @@ import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
-import com.incon.connect.user.dto.addnewmodel.AddNewModel;
+import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
@@ -21,10 +21,10 @@ import io.reactivex.observers.DisposableObserver;
  * Created by PC on 10/4/2017.
  */
 
-public class AddNewModelPresenter extends BasePresenter<AddNewModelContract.View> implements
-        AddNewModelContract.Presenter {
+public class AddCustomProductPresenter extends BasePresenter<AddCustomProductContract.View> implements
+        AddCustomProductContract.Presenter {
 
-    private static final String TAG = AddNewModelPresenter.class.getName();
+    private static final String TAG = AddCustomProductPresenter.class.getName();
     private Context appContext;
 
     @Override
@@ -60,7 +60,7 @@ public class AddNewModelPresenter extends BasePresenter<AddNewModelContract.View
     }
 
     @Override
-    public void addingNewModel(int merchantId, AddNewModel addNewModel) {
+    public void addingNewModel(int merchantId, AddCustomProductModel addCustomProductModel) {
         getView().showProgress(appContext.getString(R.string.progress_add_new_model));
         DisposableObserver<ModelSearchResponse> observer = new
                 DisposableObserver<ModelSearchResponse>() {
@@ -81,7 +81,7 @@ public class AddNewModelPresenter extends BasePresenter<AddNewModelContract.View
                     public void onComplete() {
                     }
                 };
-       // AppApiService.getInstance().addingNewModel(merchantId, addNewModel).subscribe(observer);
+       // AppApiService.getInstance().addingNewModel(merchantId, addCustomProductModel).subscribe(observer);
        // addDisposable(observer);
     }
 

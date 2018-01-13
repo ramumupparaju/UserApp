@@ -10,9 +10,8 @@ import android.util.Pair;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.incon.connect.user.AppConstants;
-import com.incon.connect.user.utils.DateUtils;
 
-public class AddNewModel extends BaseObservable implements Parcelable {
+public class AddCustomProductModel extends BaseObservable implements Parcelable {
     @SerializedName("name")
     @Expose
     private String name;
@@ -49,7 +48,7 @@ public class AddNewModel extends BaseObservable implements Parcelable {
 
     private transient String dateOfPurchased;
 
-    public AddNewModel() {
+    public AddCustomProductModel() {
     }
     @Bindable
     public String getDateOfPurchased() {
@@ -181,7 +180,7 @@ public class AddNewModel extends BaseObservable implements Parcelable {
     }
 
 
-    protected AddNewModel(Parcel in) {
+    protected AddCustomProductModel(Parcel in) {
         name = in.readString();
         categoryId = in.readInt();
         divisionId = in.readInt();
@@ -214,16 +213,16 @@ public class AddNewModel extends BaseObservable implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Creator<AddNewModel> CREATOR = new
-            Creator<AddNewModel>() {
+    public static final Creator<AddCustomProductModel> CREATOR = new
+            Creator<AddCustomProductModel>() {
                 @Override
-                public AddNewModel createFromParcel(Parcel in) {
-                    return new AddNewModel(in);
+                public AddCustomProductModel createFromParcel(Parcel in) {
+                    return new AddCustomProductModel(in);
                 }
 
                 @Override
-                public AddNewModel[] newArray(int size) {
-                    return new AddNewModel[size];
+                public AddCustomProductModel[] newArray(int size) {
+                    return new AddCustomProductModel[size];
                 }
             };
 

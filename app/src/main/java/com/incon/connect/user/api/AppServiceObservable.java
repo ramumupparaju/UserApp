@@ -15,7 +15,7 @@ import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOtpResponse;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
-import com.incon.connect.user.dto.addnewmodel.AddNewModel;
+import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.dto.asignqrcode.AssignQrCode;
 import com.incon.connect.user.dto.login.LoginUserData;
 import com.incon.connect.user.dto.notifications.PushRegistrarBody;
@@ -165,7 +165,7 @@ public interface AppServiceObservable {
     //add new model api
     @POST("product/addnew/{merchantId}")
     Observable<ModelSearchResponse> addingNewModel(@Path("merchantId") int merchantId,
-                                                   @Body AddNewModel addNewModelBody);
+                                                   @Body AddCustomProductModel addCustomProductModelBody);
 
     //warranty registration validateotp api
     @POST("warranty/validateotp")
