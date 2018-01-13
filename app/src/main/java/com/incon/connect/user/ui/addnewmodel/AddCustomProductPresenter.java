@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Pair;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.api.AppApiService;
@@ -56,6 +57,36 @@ public class AddCustomProductPresenter extends BasePresenter<AddCustomProductCon
                     }
                 };
         AppApiService.getInstance().getCategories(merchantId).subscribe(observer);
+        addDisposable(observer);
+    }
+
+    // model search implemenatation
+    @Override
+    public void doModelSearchApi(String modelNumberToSearch) {
+        getView().showProgress(appContext.getString(R.string.progress_loading));
+        DisposableObserver<List<ModelSearchResponse>> observer =
+                new DisposableObserver<List<ModelSearchResponse>>() {
+                    @Override
+                    public void onNext(List<ModelSearchResponse> searchResponseList) {
+                        getView().loadModelNumberData(searchResponseList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                        if (errorDetails.first != AppConstants.ErrorCodes.NO_NETWORK) {
+                            getView().loadModelNumberData(null);
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().modelNumberSearch(modelNumberToSearch).subscribe(observer);
         addDisposable(observer);
     }
 

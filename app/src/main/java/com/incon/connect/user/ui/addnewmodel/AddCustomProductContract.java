@@ -16,10 +16,13 @@ public interface AddCustomProductContract {
     interface View extends BaseView {
         void addNewModel(ModelSearchResponse modelSearchResponse);
         void loadCategoriesList(List<FetchCategories> categoriesList);
+        void loadModelNumberData(List<ModelSearchResponse> modelSearchResponseList);
+
     }
 
     interface Presenter {
         void getCategories(int merchantId);
+        void doModelSearchApi(String modelNumberToSearch);
         void addingNewModel(int merchantId, AddCustomProductModel addCustomProductModel);
     }
 }

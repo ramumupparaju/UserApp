@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
         <variable
             name="modelSearchResponse"
-            type="com.incon.connect.user.apimodel.components.search.ModelSearchResponse"/>
+            type="com.incon.connect.user.apimodel.components.search.ModelSearchResponse" />
     </data>
 
     <RelativeLayout
@@ -21,8 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="@{modelSearchResponse.modelNumber}"
-            />
+            android:text="@{modelSearchResponse.modelNumber}" />
 
     </RelativeLayout>
 

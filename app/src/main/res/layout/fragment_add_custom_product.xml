@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="addCustomProductModel"
-            type="com.incon.connect.user.dto.addnewmodel.AddCustomProductModel"/>
+            type="com.incon.connect.user.dto.addnewmodel.AddCustomProductModel" />
 
         <variable
             name="addCustomProductFragment"
-            type="com.incon.connect.user.ui.addnewmodel.AddCustomProductFragment"/>
+            type="com.incon.connect.user.ui.addnewmodel.AddCustomProductFragment" />
 
     </data>
 
@@ -41,19 +41,16 @@
                     app:fontName="fonts/OpenSans-Regular.ttf"
                     app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
 
-                    <android.support.design.widget.TextInputEditText
+                    <com.incon.connect.user.custom.view.CustomAutoCompleteView
                         android:id="@+id/edittext_model_number"
                         style="@style/Add_new_model_TextInputEditText"
-                        android:focusable="true"
-                        android:drawableEnd="@drawable/add_new_icon"
-                        android:imeOptions="actionNext"
-                        android:inputType="textCapWords"
-                        android:maxLength="@integer/character_limit_45"
+                        android:maxLength="@integer/character_limit_100"
                         android:maxLines="1"
                         android:tag="0"
-                        android:text="@={addCustomProductModel.productModel}"/>
+                        android:text="@={addCustomProductModel.productModel}" />
 
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
+
                 <!-- Name -->
                 <com.incon.connect.user.custom.view.CustomTextInputLayout
                     android:id="@+id/input_layout_name"
@@ -71,7 +68,7 @@
                         android:inputType="textMultiLine"
                         android:scrollHorizontally="false"
                         android:tag="1"
-                        android:text="@={addCustomProductModel.name}"/>
+                        android:text="@={addCustomProductModel.name}" />
 
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
@@ -88,7 +85,7 @@
                     app:errorEnabled="true"
                     app:met_floatingLabel="highlight"
                     app:met_textColor="@color/colorForgotPasswordHintText"
-                    app:met_textColorHint="@color/colorForgotPasswordHintText"/>
+                    app:met_textColorHint="@color/colorForgotPasswordHintText" />
 
                 <!-- division no -->
                 <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
@@ -103,7 +100,7 @@
                     app:errorEnabled="true"
                     app:met_floatingLabel="highlight"
                     app:met_textColor="@color/colorForgotPasswordHintText"
-                    app:met_textColorHint="@color/colorForgotPasswordHintText"/>
+                    app:met_textColorHint="@color/colorForgotPasswordHintText" />
 
                 <!--brand-->
                 <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
@@ -118,7 +115,7 @@
                     app:errorEnabled="true"
                     app:met_floatingLabel="highlight"
                     app:met_textColor="@color/colorForgotPasswordHintText"
-                    app:met_textColorHint="@color/colorForgotPasswordHintText"/>
+                    app:met_textColorHint="@color/colorForgotPasswordHintText" />
 
                 <!-- type -->
                 <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
@@ -127,13 +124,13 @@
                     android:layout_marginBottom="@dimen/margin_24"
                     android:focusable="true"
                     android:hint="@string/add_new__type"
+                    android:tag="5"
                     android:text="@={addCustomProductModel.divisionName}"
                     android:visibility="gone"
                     app:errorEnabled="true"
-                    android:tag="5"
                     app:met_floatingLabel="highlight"
                     app:met_textColor="@color/colorForgotPasswordHintText"
-                    app:met_textColorHint="@color/colorForgotPasswordHintText"/>
+                    app:met_textColorHint="@color/colorForgotPasswordHintText" />
 
                 <!-- serial no -->
                 <com.incon.connect.user.custom.view.CustomTextInputLayout
@@ -154,8 +151,7 @@
                         android:inputType="textCapWords"
                         android:maxLength="@integer/character_limit_45"
                         android:maxLines="1"
-                        android:tag="6"
-                        />
+                        android:tag="6" />
 
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
@@ -178,8 +174,7 @@
                         android:inputType="textCapWords"
                         android:maxLength="@integer/character_limit_45"
                         android:maxLines="1"
-                        android:tag="7"
-                        />
+                        android:tag="7" />
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
 
@@ -202,7 +197,7 @@
                         android:maxLength="@integer/character_limit_45"
                         android:maxLines="1"
                         android:tag="9"
-                        android:text="@={addCustomProductModel.price}"/>
+                        android:text="@={addCustomProductModel.price}" />
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
 
@@ -219,8 +214,7 @@
                         android:id="@+id/edittext_purchased_date"
                         style="@style/Register_TextInputEditText"
                         android:enabled="false"
-                        android:tag="10"
-                        />
+                        android:tag="10" />
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
                 <!--dummy view for dob click event -->
@@ -253,8 +247,7 @@
                         android:imeOptions="actionNext"
                         android:maxLength="@integer/character_limit_45"
                         android:maxLines="1"
-                        android:tag="11"
-                        />
+                        android:tag="11" />
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
 
@@ -272,7 +265,7 @@
                     android:text="@string/add_new_submit"
                     android:textAllCaps="true"
                     android:textColor="@color/tueo_theme"
-                    android:textSize="@dimen/text_size_13"/>
+                    android:textSize="@dimen/text_size_13" />
 
             </LinearLayout>
         </RelativeLayout>

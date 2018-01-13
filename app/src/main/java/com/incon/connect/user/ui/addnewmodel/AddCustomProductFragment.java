@@ -30,14 +30,22 @@ import com.incon.connect.user.custom.view.CustomTextInputLayout;
 import com.incon.connect.user.databinding.FragmentAddCustomProductBinding;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.ui.BaseFragment;
+import com.incon.connect.user.ui.addnewmodel.adapter.ModelSearchArrayAdapter;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * Created by PC on 10/4/2017.
@@ -49,8 +57,18 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     private AddCustomProductPresenter addCustomProductPresenter;
     private AddCustomProductModel addCustomProductModel;
     private List<FetchCategories> fetchCategorieList;
+
+
     private int categorySelectedPos = -1;
     private int divisionSelectedPos = -1;
+
+
+    private DisposableObserver<TextViewAfterTextChangeEvent> observer;
+    private ModelSearchArrayAdapter modelNumberAdapter;
+    private List<ModelSearchResponse> modelSearchResponseList;
+    private String selectedModelNumber;
+    private int selectedPosition = -1;
+
     private HashMap<Integer, String> errorMap;
     private Animation shakeAnim;
 
@@ -95,7 +113,6 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         Calendar cal = Calendar.getInstance(TimeZone.getDefault());
 
         // todo have to change
-
         String dateOfPurchased = addCustomProductModel.getDateOfPurchased();
         if (!TextUtils.isEmpty(dateOfPurchased)) {
             cal.setTimeInMillis(DateUtils.convertStringFormatToMillis(
@@ -229,11 +246,83 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         });
     }
 
+    @Override
+    public void loadModelNumberData(List<ModelSearchResponse> modelSearchResponseList) {
+        if (modelSearchResponseList == null) {
+            modelSearchResponseList = new ArrayList<>();
+        }
+        initializeModelNumberAdapter(modelSearchResponseList);
+        binding.edittextModelNumber.showDropDown();
+        if (modelSearchResponseList.size() == 0) {
+            showErrorMessage(getString(R.string.error_model_message));
+        }
+    }
+
+    private void initializeModelNumberAdapter(List<ModelSearchResponse>
+                                                      modelNumberList) {
+        selectedPosition = -1;
+        this.modelSearchResponseList = modelNumberList;
+        modelNumberAdapter = new ModelSearchArrayAdapter(getContext(),
+                modelNumberList);
+        binding.edittextModelNumber.setAdapter(modelNumberAdapter);
+        setObservableForModelNumber(binding.edittextModelNumber);
+
+        binding.edittextModelNumber.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int pos,
+                                    long id) {
+                if (pos != selectedPosition) {
+                    selectedPosition = pos;
+                    ModelSearchResponse modelSearchResponse = modelSearchResponseList.get(selectedPosition);
+                    selectedModelNumber = modelSearchResponse.getModelNumber();
+
+                }
+                AppUtils.hideSoftKeyboard(getActivity(), rootView);
+            }
+        });
+    }
+
+    private void setObservableForModelNumber(CustomAutoCompleteView edittextModelNumber) {
+        if (observer != null) {
+            observer.dispose();
+        }
+        observer = new DisposableObserver<TextViewAfterTextChangeEvent>() {
+
+            @Override
+            public void onNext(TextViewAfterTextChangeEvent textViewAfterTextChangeEvent) {
+                String modelNumberString = textViewAfterTextChangeEvent.editable()
+                        .toString();
+                if ((TextUtils.isEmpty(selectedModelNumber) || !selectedModelNumber.equals(
+                        modelNumberString))) {
+                    if (modelNumberString.length() > WarrantyRegistrationConstants
+                            .MINIMUM_MODELNUMBER_TO_SEARCH) {
+                        addCustomProductPresenter.doModelSearchApi(modelNumberString);
+                        selectedModelNumber = modelNumberString;
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        };
+        RxTextView.afterTextChangeEvents(edittextModelNumber)
+                .debounce(300, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
 
     private void initViews() {
         shakeAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
         loadValidationErrors();
         setFocusForViews();
+
+        selectedModelNumber = binding.edittextModelNumber.getText().toString();
+        initializeModelNumberAdapter(new ArrayList<ModelSearchResponse>());
     }
 
     private void setFocusForViews() {
