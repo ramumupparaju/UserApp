@@ -7,6 +7,7 @@ import android.util.Pair;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
+import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
@@ -282,4 +283,28 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         }
     };
 
+    public void addServiceEngineer(AddServiceEngineer serviceEngineer, int userId) {
+        getView().showProgress(appContext.getString(R.string.progress_adding_engineer));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object o) {
+                        getView().addedServiceEngineer();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().addServiceEngineer(serviceEngineer, userId).subscribe(observer);
+        addDisposable(observer);
+    }
 }

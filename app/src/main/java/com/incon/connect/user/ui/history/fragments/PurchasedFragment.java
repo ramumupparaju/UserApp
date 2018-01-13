@@ -20,11 +20,13 @@ import android.widget.DatePicker;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
+import com.incon.connect.user.callbacks.CustomPhoneNumberAlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
@@ -33,7 +35,7 @@ import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
-import com.incon.connect.user.custom.view.AppFeedBackDialog;
+import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
 import com.incon.connect.user.custom.view.ServiceRequestDialog;
 import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
@@ -73,7 +75,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private Integer addressId;
     private AppEditTextDialog transferDialog;
     private AppEditTextDialog feedBackDialog;
-   // private AppFeedBackDialog feedBackDialog;
+    // private AppFeedBackDialog feedBackDialog;
     private String buyRequestComment;
     private String serviceRequestComment;
     private boolean isFromFavorites = false;
@@ -83,6 +85,11 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private ArrayList<ServiceCenterResponse> serviceCenterResponseList;
     private boolean isFindServiceCenter;
     private ShimmerFrameLayout shimmerFrameLayout;
+
+    //Adding unauthorized phone number
+    private CustomPhoneNumberDialog customPhoneNumberDialog;
+    private AddServiceEngineer serviceEngineer;
+
 
     @Override
     protected void initializePresenter() {
@@ -125,6 +132,52 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             }
         });
     }
+
+
+    private void showCustomPhoneNumberDialog() {
+        if (serviceEngineer == null) {
+            serviceEngineer = new AddServiceEngineer();
+            serviceEngineer.setLocation("dummy");
+        }
+        customPhoneNumberDialog = new CustomPhoneNumberDialog.AlertDialogBuilder(getActivity(), new
+                CustomPhoneNumberAlertDialogCallback() {
+                    @Override
+                    public void enteredName(String name) {
+
+                        serviceEngineer.setName(name);
+                    }
+
+                    @Override
+                    public void enteredPhoneNumber(String phoneNumber) {
+                        serviceEngineer.setMobileNumber(phoneNumber);
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                if (TextUtils.isEmpty(serviceEngineer.getMobileNumber())) {
+                                    showErrorMessage(getString(R.string.error_phone_req));
+                                } else {
+                                    AppUtils.hideSoftKeyboard(getActivity(), rootView);
+                                    purchasedPresenter.addServiceEngineer(serviceEngineer, userId);
+                                }
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                customPhoneNumberDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.action_approval))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        customPhoneNumberDialog.showDialog();
+        customPhoneNumberDialog.setCancelable(true);
+    }
+
 
     private void initViews() {
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
@@ -533,8 +586,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     }*/
 
 
-
-
     private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -630,12 +681,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             if (firstRowTag == 0) { // service/support
                 if (secondRowTag == 0) { // un authorized
                     if (thirdRowTag == 0) { // call
-                        callPhoneNumber(productInfoResponse.getMobileNumber());
+                        callPhoneNumber(productInfoResponse.getMobileNumber()); //todo have to load subscriberdetails
                         return;
                     } else if (thirdRowTag == 1) { //service request
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                     } else if (thirdRowTag == 2) { // add
-                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                        showCustomPhoneNumberDialog();
                     }
                 } else if (secondRowTag == 1) { // authorized
 
@@ -689,9 +740,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     }
                 }
             }
-
-
-
 
 
         }
@@ -983,6 +1031,14 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         } else {
             showServiceRequestDialog(usersList);
         }
+    }
+
+    @Override
+    public void addedServiceEngineer() {
+        if (customPhoneNumberDialog != null && customPhoneNumberDialog.isShowing()) {
+            customPhoneNumberDialog.dismiss();
+        }
+        onRefreshListener.onRefresh();
     }
 
     // product search

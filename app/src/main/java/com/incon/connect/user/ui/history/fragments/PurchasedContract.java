@@ -13,29 +13,44 @@ import java.util.List;
 
 /**
  * Created on 31 May 2017 11:18 AM.
- *
  */
 public interface PurchasedContract {
 
     interface View extends BaseView {
         void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses);
+
         void loadAddresses(List<AddUserAddressResponse> favoritesResponseList);
+
         void addedToFavorite();
+
         void transferMobileNumber(Object response);
+
         void deleteProduct(Object response);
+
         void loadServiceRequest();
+
         void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponses);
+
         void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters);
+
+        void addedServiceEngineer();
     }
 
     interface Presenter {
         void purchased(int userId);
+
         void doGetAddressApi(int userId);
-        void doTransferProductApi(String phoneNumber , int userId);
+
+        void doTransferProductApi(String phoneNumber, int userId);
+
         void addToFavotites(HashMap<String, String> favoritesMap);
+
         void deleteProduct(int userId);
+
         void serviceRequest(ServiceRequest serviceRequest);
+
         void nearByServiceCenters(int brandId);
+
         void getUsersListOfServiceCenters(int serviceCenterId);
     }
 

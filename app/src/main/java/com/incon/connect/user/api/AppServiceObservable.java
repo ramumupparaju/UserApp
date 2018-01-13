@@ -1,6 +1,7 @@
 package com.incon.connect.user.api;
 
 import com.incon.connect.user.apimodel.base.ApiBaseResponse;
+import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
@@ -196,4 +197,6 @@ public interface AppServiceObservable {
             pushRegistrarBody);
 
 
+    @POST("service/addserviceengineer/{userId}")
+    Observable<Object> addServiceEngineer(@Body AddServiceEngineer serviceEngineer, @Path("userId") int userId);
 }

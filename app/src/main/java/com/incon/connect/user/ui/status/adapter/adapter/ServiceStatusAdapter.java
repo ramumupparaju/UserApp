@@ -145,9 +145,10 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
 
     private String getStatusName(ServiceRequest request) {
         DefaultStatusData statusData = new DefaultStatusData();
-        statusData.setId(request.getId());
+        statusData.setId(request.getStatus());
 
         List<DefaultStatusData> statusListResponses = ConnectApplication.getAppContext().getStatusListResponses();
+
         int position = statusListResponses.indexOf(statusData);
         if (position != -1) {
             return statusListResponses.get(position).getCode();

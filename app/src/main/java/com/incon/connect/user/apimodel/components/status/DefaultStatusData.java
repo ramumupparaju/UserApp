@@ -33,13 +33,16 @@ public class DefaultStatusData {
     }
 
 
-
     @Override
     public boolean equals(Object statusData) {
         if (statusData instanceof DefaultStatusData) {
             DefaultStatusData statusData1 = ((DefaultStatusData) statusData);
             if (statusData1 != null) {
-                return (statusData1.getId() == id);
+                if (statusData1.getId() != null) {
+                    return (statusData1.getId() == id);
+                } else {
+                    return (statusData1.getCode() == code);
+                }
             }
         }
         return false;

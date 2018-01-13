@@ -3,6 +3,7 @@ package com.incon.connect.user.api;
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.BuildConfig;
 import com.incon.connect.user.apimodel.base.ApiBaseResponse;
+import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -266,4 +268,7 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.pushTokenApi(userId, pushRegistrarBody));
     }
 
+    public Observable<Object> addServiceEngineer(AddServiceEngineer serviceEngineer, int userId) {
+        return addNetworkCheck(serviceInstance.addServiceEngineer(serviceEngineer, userId));
+    }
 }

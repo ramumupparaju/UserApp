@@ -173,6 +173,11 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
             }
 
             @Override
+            public void addedServiceEngineer() {
+
+            }
+
+            @Override
             public void showProgress(String message) {
                 getView().showProgress(message);
 
@@ -247,6 +252,11 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
             }
 
             @Override
+            public void addedServiceEngineer() {
+
+            }
+
+            @Override
             public void showProgress(String message) {
                 getView().showProgress(message);
 
@@ -317,6 +327,11 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
             @Override
             public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters) {
                 getView().loadUsersListOfServiceCenters(listOfServiceCenters);
+
+            }
+
+            @Override
+            public void addedServiceEngineer() {
 
             }
 
