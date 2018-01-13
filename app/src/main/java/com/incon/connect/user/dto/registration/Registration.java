@@ -8,6 +8,7 @@ import android.util.Pair;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.incon.connect.user.AppConstants;
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.ValidationUtils;
 
@@ -196,7 +197,7 @@ public class Registration extends BaseObservable {
                 if (emptyValidation && dobEmpty) {
                     return AppConstants.RegistrationValidation.DOB_REQ;
                 } else if (!dobEmpty) {
-                    return validateDob();
+                    return AppUtils.validateDob(dob);
                 }
                 break;
 
@@ -247,21 +248,6 @@ public class Registration extends BaseObservable {
         return VALIDATION_SUCCESS;
     }
 
-    private int validateDob() {
-        Calendar dobDate = Calendar.getInstance();
-        long dobInMillis = DateUtils.convertStringFormatToMillis(
-                getDob(), AppConstants.DateFormatterConstants.YYYY_MM_DD_SLASH);
-        dobDate.setTimeInMillis(dobInMillis);
-        // futurde date check
-        if (ValidationUtils.isFutureDate(dobDate)) {
-            return DOB_FUTURE_DATE;
-        }
 
-        int returnedYear = ValidationUtils.calculateAge(dobDate);
-        if (returnedYear < AppConstants.AgeConstants.USER_DOB) {
-            return DOB_PERSON_LIMIT;
-        }
-        return VALIDATION_SUCCESS;
-    }
 
 }

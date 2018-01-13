@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
+import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
+import com.incon.connect.user.callbacks.TextAlertDialogCallback;
+import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.databinding.FragmentStatusBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
@@ -38,6 +41,36 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
     private ArrayList<ServiceStatus> serviceStatusList;
 
     private boolean isServiceRequest;
+    private AppEditTextDialog terminateDialog;
+
+    private void showTerminateDialog(int statusId) {
+        terminateDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                //todo have to do api cal
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                terminateDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.action_approval))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        terminateDialog.showDialog();
+        terminateDialog.setCancelable(true);
+    }
+
 
     @Override
     protected void initializePresenter() {

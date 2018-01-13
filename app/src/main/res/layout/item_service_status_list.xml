@@ -5,7 +5,7 @@
 
         <variable
             name="modelResponse"
-            type="com.incon.connect.user.apimodel.components.status.ServiceStatus"/>
+            type="com.incon.connect.user.apimodel.components.status.ServiceStatus" />
     </data>
 
     <RelativeLayout
@@ -20,7 +20,7 @@
             android:layout_marginTop="@dimen/margin_8"
             android:text="@={modelResponse.serviceCenter.name}"
             android:textColor="@color/black"
-            android:textSize="12.4sp"/>
+            android:textSize="12.4sp" />
 
         <HorizontalScrollView
             android:id="@+id/status_scrollview"
@@ -41,6 +41,31 @@
             </LinearLayout>
 
         </HorizontalScrollView>
+
+        <LinearLayout
+            android:id="@+id/approval_views_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/status_scrollview">
+
+            <Button
+                android:id="@+id/button_accept"
+                style="@style/style_submit_button"
+                android:layout_weight="1"
+                android:text="@string/action_accept" />
+
+            <Button
+                android:id="@+id/button_hold"
+                style="@style/style_submit_button"
+                android:layout_weight="1"
+                android:text="@string/action_hold" />
+
+            <Button
+                android:id="@+id/button_reject"
+                style="@style/style_submit_button"
+                android:layout_weight="1"
+                android:text="@string/action_reject" />
+        </LinearLayout>
 
     </RelativeLayout>
 </layout>

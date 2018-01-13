@@ -70,7 +70,7 @@ public class UpDateUserProfileActivity extends BaseActivity implements
     }
     public void onSubmitClick() {
         if (validateFields()) {
-            upDateUserProfile.setGender(String.valueOf(upDateUserProfile.getGender().charAt(0)));
+            upDateUserProfile.setGender(String.valueOf(upDateUserProfile.getGenderType().charAt(0)));
             upDateUserProfilePresenter.upDateUserProfile(SharedPrefsUtils.loginProvider().
                     getIntegerPreference(USER_ID, DEFAULT_VALUE), upDateUserProfile);
         }
@@ -151,8 +151,10 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         upDateUserProfile.setMobileNumber(sharedPrefsUtils.getStringPreference(
                 USER_PHONE_NUMBER));
 
-        upDateUserProfile.setGender(sharedPrefsUtils.getStringPreference(
-                USER_GENDER));
+        String gender = sharedPrefsUtils.getStringPreference(
+                USER_GENDER);
+        String maleString = getString(R.string.action_male);
+        upDateUserProfile.setGenderType(maleString.startsWith(gender) ? maleString : getString(R.string.action_female));
 
         upDateUserProfile.setDateOfBirthToShow(sharedPrefsUtils.getStringPreference(
                 USER_DOB));
@@ -294,12 +296,6 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         errorMap.put(RegistrationValidation.PHONE_MIN_DIGITS,
                 getString(R.string.error_phone_min_digits));
 
-        errorMap.put(RegistrationValidation.GENDER_REQ,
-                getString(R.string.error_gender_req));
-
-        errorMap.put(RegistrationValidation.DOB_REQ,
-                getString(R.string.error_dob_req));
-
         errorMap.put(RegistrationValidation.DOB_FUTURE_DATE,
                 getString(R.string.error_dob_futuredate));
 
@@ -312,21 +308,7 @@ public class UpDateUserProfileActivity extends BaseActivity implements
         errorMap.put(RegistrationValidation.EMAIL_NOTVALID,
                 getString(R.string.error_email_notvalid));
 
-        errorMap.put(RegistrationValidation.PASSWORD_REQ,
-                getString(R.string.error_password_req));
-
-        errorMap.put(RegistrationValidation.PASSWORD_PATTERN_REQ,
-                getString(R.string.error_password_pattern_req));
-
-        errorMap.put(RegistrationValidation.RE_ENTER_PASSWORD_REQ,
-                getString(R.string.error_re_enter_password_req));
-
-        errorMap.put(RegistrationValidation.RE_ENTER_PASSWORD_DOES_NOT_MATCH,
-                getString(R.string.error_re_enter_password_does_not_match));
-
         errorMap.put(RegistrationValidation.ADDRESS_REQ, getString(R.string.error_address_req));
-
-
     }
 
     @Override

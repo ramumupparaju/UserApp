@@ -39,8 +39,10 @@ public class UpDateUserProfilePresenter extends BasePresenter<UpDateUserProfileC
                     @Override
                     public void onNext(LoginResponse loginResponse) {
                         getView().hideProgress();
+                        new LoginDataManagerImpl().saveLoginDataToPrefs(loginResponse);
+
                         getView().loadUpDateUserProfileResponce(loginResponse);
-               saveUserData(loginResponse);
+                        saveUserData(loginResponse);
                     }
 
                     @Override

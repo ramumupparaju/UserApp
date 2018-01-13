@@ -137,7 +137,7 @@
                 android:enabled="@{isEditable ? true : false }"
                 android:focusable="@{isEditable ? true : false }"
                 android:focusableInTouchMode="@{isEditable ? true : false }"
-                android:text="@={upDateUserProfile.gender}"
+                android:text="@={upDateUserProfile.genderType}"
                 app:errorEnabled="true"
                 app:met_floatingLabel="highlight"
                 app:met_textColor="@color/colorForgotPasswordHintText"

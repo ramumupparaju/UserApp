@@ -73,6 +73,9 @@
     <string name="user_selecte">Selecte User</string>
 
     <!--warrantyregistration-->
+    <string name="action_accept">Accept</string>
+    <string name="action_hold">Hold</string>
+    <string name="action_reject">Reject</string>
     <string name="action_add_as_favorite">Add as favorite</string>
     <string name="action_filters">Filters</string>
     <string name="action_brand">Brand</string>
@@ -91,6 +94,8 @@
     <string name="action_product_status">Is product delivered</string>
     <string name="action_description">Description</string>
     <string name="action_skip">Skip</string>
+    <string name="action_male">Male</string>
+    <string name="action_female">Female</string>
 
     <string name="label_product_status">Product status</string>
     <string name="label_service_requests">Service Requests</string>
@@ -488,6 +493,7 @@
     <string name="new_password_hint">New Password</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="notification_id_channel">Notification</string>
+    <string name="action_approval">approval</string>
 
 
 </resources>

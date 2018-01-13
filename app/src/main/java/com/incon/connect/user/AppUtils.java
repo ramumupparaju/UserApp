@@ -22,8 +22,33 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.ValidationUtils;
+
+import java.util.Calendar;
+
+import static com.incon.connect.user.AppConstants.RegistrationValidation.DOB_FUTURE_DATE;
+import static com.incon.connect.user.AppConstants.RegistrationValidation.DOB_PERSON_LIMIT;
+import static com.incon.connect.user.AppConstants.VALIDATION_SUCCESS;
 
 public class AppUtils {
+
+    public static int validateDob(String dob) {
+        Calendar dobDate = Calendar.getInstance();
+        long dobInMillis = DateUtils.convertStringFormatToMillis(
+                dob, AppConstants.DateFormatterConstants.YYYY_MM_DD_SLASH);
+        dobDate.setTimeInMillis(dobInMillis);
+        // futurde date check
+        if (ValidationUtils.isFutureDate(dobDate)) {
+            return DOB_FUTURE_DATE;
+        }
+
+        int returnedYear = ValidationUtils.calculateAge(dobDate);
+        if (returnedYear < AppConstants.AgeConstants.USER_DOB) {
+            return DOB_PERSON_LIMIT;
+        }
+        return VALIDATION_SUCCESS;
+    }
 
     public static int getScreenWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;

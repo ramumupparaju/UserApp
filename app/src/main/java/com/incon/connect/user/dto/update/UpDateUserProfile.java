@@ -8,13 +8,15 @@ import android.util.Pair;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.incon.connect.user.AppConstants;
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.ValidationUtils;
 
 /**
  * Created by PC on 10/13/2017.
  */
 
-public class UpDateUserProfile  extends BaseObservable {
+public class UpDateUserProfile extends BaseObservable {
 
     @SerializedName("address")
     @Expose
@@ -40,9 +42,11 @@ public class UpDateUserProfile  extends BaseObservable {
     @SerializedName("name")
     @Expose
     private String name;
+    private transient String genderType;
 
-    public  UpDateUserProfile() {
+    public UpDateUserProfile() {
     }
+
 
     private transient String dateOfBirthToShow;
 
@@ -78,15 +82,21 @@ public class UpDateUserProfile  extends BaseObservable {
     public void setEmail(String email) {
         this.email = email;
     }
-    @Bindable
-    public String getGender() {
-        return gender;
-    }
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Bindable
+    public String getGenderType() {
+        return genderType;
+    }
+
+    public void setGenderType(String gender) {
+        this.genderType = gender;
         notifyChange();
     }
+
     @Bindable
     public String getLocation() {
         return location;
@@ -104,6 +114,7 @@ public class UpDateUserProfile  extends BaseObservable {
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
+
     @Bindable
     public String getName() {
         return name;
@@ -113,6 +124,7 @@ public class UpDateUserProfile  extends BaseObservable {
         this.name = name;
         notifyChange();
     }
+
     @Bindable
     public String getDateOfBirthToShow() {
         return dateOfBirthToShow;
@@ -120,9 +132,11 @@ public class UpDateUserProfile  extends BaseObservable {
 
     public void setDateOfBirthToShow(String dateOfBirthToShow) {
         this.dateOfBirthToShow = dateOfBirthToShow;
-        dob = DateUtils.convertDateToAnotherFormat(dateOfBirthToShow, AppConstants
-                .DateFormatterConstants.MM_DD_YYYY, AppConstants.DateFormatterConstants
-                .MM_DD_YYYY);
+        if (!TextUtils.isEmpty(dateOfBirthToShow)) {
+            dob = DateUtils.convertDateToAnotherFormat(dateOfBirthToShow, AppConstants
+                    .DateFormatterConstants.MM_DD_YYYY, AppConstants.DateFormatterConstants
+                    .MM_DD_YYYY);
+        }
         notifyChange();
     }
 
@@ -154,34 +168,31 @@ public class UpDateUserProfile  extends BaseObservable {
                 break;
 
             case 1:
-                boolean mobileNumberEmpty = TextUtils.isEmpty(mobileNumber);
-                if (emptyValidation && mobileNumberEmpty) {
+                boolean phoneEmpty = TextUtils.isEmpty(mobileNumber);
+                if (emptyValidation && phoneEmpty) {
                     return AppConstants.RegistrationValidation.PHONE_REQ;
-                }
-                break;
-
-            case 2:
-                boolean genderEmpty = TextUtils.isEmpty(gender);
-                if (emptyValidation && genderEmpty) {
-                    return AppConstants.RegistrationValidation.GENDER_REQ;
+                } else if (!phoneEmpty && !ValidationUtils.isPhoneNumberValid(getMobileNumber())) {
+                    return AppConstants.RegistrationValidation.PHONE_MIN_DIGITS;
                 }
                 break;
 
             case 3:
-                boolean dobEmpty = TextUtils.isEmpty(dateOfBirthToShow);
-                if (emptyValidation && dobEmpty) {
-                    return AppConstants.RegistrationValidation.DOB_REQ;
+                boolean dobEmpty = TextUtils.isEmpty(dob);
+                if (!dobEmpty) {
+                    return AppUtils.validateDob(dob);
                 }
                 break;
             case 4:
-                boolean userEmailEmpty = TextUtils.isEmpty(email);
-                if (emptyValidation && userEmailEmpty) {
+                boolean emailEmpty = TextUtils.isEmpty(getEmail());
+                if (emptyValidation && emailEmpty) {
                     return AppConstants.RegistrationValidation.EMAIL_REQ;
+                } else if (!emailEmpty && !ValidationUtils.isValidEmail(getEmail())) {
+                    return AppConstants.RegistrationValidation.EMAIL_NOTVALID;
                 }
                 break;
 
 
-            case 5:
+            case 7:
                 boolean addressEmpty = TextUtils.isEmpty(address);
                 if (emptyValidation && addressEmpty) {
                     return AppConstants.RegistrationValidation.ADDRESS_REQ;
