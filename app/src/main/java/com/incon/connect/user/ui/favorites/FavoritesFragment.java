@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -132,16 +134,27 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     }
 
     public void onParentProductClick() {
-        binding.addProduct.setVisibility(View.VISIBLE);
-        binding.customProduct.setVisibility(View.VISIBLE);
+        ImageView addProduct = binding.addProduct;
+        if (addProduct.getVisibility() == View.VISIBLE) {
+            binding.parentProduct.setImageResource(R.drawable.ic_add_circle);
+            addProduct.setVisibility(View.GONE);
+            binding.customProduct.setVisibility(View.GONE);
+        } else {
+            binding.parentProduct.setImageResource(R.drawable.ic_close);
+            addProduct.setVisibility(View.VISIBLE);
+            binding.customProduct.setVisibility(View.VISIBLE);
+        }
     }
 
     public void onAddCustomProductClick() {
+        Bundle bundle = new Bundle();
+        AddUserAddressResponse singleAddressResponse = addressessAdapter.
+                getItemFromPosition(addressSelectedPosition);
+        bundle.putInt(BundleConstants.ADDRESS_ID, singleAddressResponse.getId());
         ((HomeActivity) getActivity()).replaceFragmentAndAddToStackWithTargetFragment(
-                AddCustomProductFragment.class, this, RequestCodes.ADD_NEW_MODEL_FRAGMENT,
-                null, 0, 0, TRANSACTION_TYPE_REPLACE);
+                AddCustomProductFragment.class, this, RequestCodes.ADD_CUSTOM_PRODUCT_FRAGMENT,
+                bundle, 0, 0, TRANSACTION_TYPE_REPLACE);
     }
-
 
     private void initViews() {
         //getting customer id to fetch addresses and product info
@@ -150,6 +163,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
+
+        binding.parentProduct.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
         //sets add address view
         binding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
@@ -287,6 +302,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                         addUserAddress.setLocation(stringLocation);
                     }
                     break;
+                case RequestCodes.ADD_CUSTOM_PRODUCT_FRAGMENT:
                 case RequestCodes.PRODUCT_ADD_FRAGMENT:
                     //After adding new  product refrehes list
                     onRefreshListener.onRefresh();

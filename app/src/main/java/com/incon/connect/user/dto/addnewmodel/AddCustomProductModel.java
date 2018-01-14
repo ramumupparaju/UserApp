@@ -10,11 +10,18 @@ import android.util.Pair;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.incon.connect.user.AppConstants;
+import com.incon.connect.user.utils.DateUtils;
 
-public class AddCustomProductModel extends BaseObservable implements Parcelable {
+public class AddCustomProductModel extends BaseObservable {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("addressId")
+    @Expose
+    private Integer addressId;
+    @SerializedName("batchNo")
+    @Expose
+    private String batchNo;
     @SerializedName("categoryId")
     @Expose
     private Integer categoryId;
@@ -24,71 +31,78 @@ public class AddCustomProductModel extends BaseObservable implements Parcelable 
     @SerializedName("brandId")
     @Expose
     private Integer brandId;
-    @SerializedName("notes")
+    @SerializedName("customerId")
     @Expose
-    private String notes;
+    private Integer customerId;
+    @SerializedName("serialNo")
+    @Expose
+    private String serialNo;
     @SerializedName("price")
     @Expose
     private String price;
-
-    @SerializedName("mrpPrice")
-    @Expose
-    private String mrpPrice;
     @SerializedName("productModel")
     @Expose
     private String productModel;
-
     @SerializedName("information")
     @Expose
-    private String productId;
-    private String description;
+    private String information;
+    @SerializedName("purchaseDate")
+    @Expose
+    private Long purchaseDate;
+    @SerializedName("warrantyMonths")
+    @Expose
+    private String warrantyMonths;
+    @SerializedName("warrantyYears")
+    @Expose
+    private String warrantyYears;
     private transient String categoryName;
     private transient String divisionName;
     private transient String brandName;
-
     private transient String dateOfPurchased;
 
-    public AddCustomProductModel() {
-    }
-    @Bindable
-    public String getDateOfPurchased() {
-        return dateOfPurchased;
-    }
-
-    public void setDateOfPurchased(String dateOfPurchased) {
-
-        this.dateOfPurchased = dateOfPurchased;
-
-// todo have to change
-        /*dob = DateUtils.convertDateToAnotherFormat(dateOfPurchased, AppConstants
-                .DateFormatterConstants.MM_DD_YYYY, AppConstants.DateFormatterConstants
-                .MM_DD_YYYY);
-        notifyChange();*/
-    }
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
-    public String getMrpPrice() {
-        return mrpPrice;
-    }
-
-    public void setMrpPrice(String mrpPrice) {
-        this.mrpPrice = mrpPrice;
-    }
 
     @Bindable
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
         notifyChange();
+    }
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
+
+    @Bindable
+    public String getBatchNo() {
+        return batchNo;
+    }
+
+    public void setBatchNo(String batchNo) {
+        this.batchNo = batchNo;
+        notifyChange();
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Integer getDivisionId() {
+        return divisionId;
+    }
+
+    public void setDivisionId(Integer divisionId) {
+        this.divisionId = divisionId;
     }
 
     public Integer getBrandId() {
@@ -99,13 +113,77 @@ public class AddCustomProductModel extends BaseObservable implements Parcelable 
         this.brandId = brandId;
     }
 
-    @Bindable
-    public String getBrandName() {
-        return brandName;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    @Bindable
+    public String getSerialNo() {
+        return serialNo;
+    }
+
+    public void setSerialNo(String serialNo) {
+        this.serialNo = serialNo;
+        notifyChange();
+    }
+
+    @Bindable
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+        notifyChange();
+    }
+
+    @Bindable
+    public String getProductModel() {
+        return productModel;
+    }
+
+    public void setProductModel(String productModel) {
+        this.productModel = productModel;
+        notifyChange();
+    }
+
+    @Bindable
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+        notifyChange();
+    }
+
+    public Long getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(Long purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public String getWarrantyMonths() {
+        return warrantyMonths;
+    }
+
+    public void setWarrantyMonths(String warrantyMonths) {
+        this.warrantyMonths = warrantyMonths;
+    }
+
+    @Bindable
+    public String getWarrantyYears() {
+        return warrantyYears;
+    }
+
+    public void setWarrantyYears(String warrantyYears) {
+        this.warrantyYears = warrantyYears;
         notifyChange();
     }
 
@@ -128,109 +206,35 @@ public class AddCustomProductModel extends BaseObservable implements Parcelable 
         this.divisionName = divisionName;
         notifyChange();
     }
+
     @Bindable
-    public String getName() {
-        return name;
+    public String getBrandName() {
+        return brandName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
         notifyChange();
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Integer getDivisionId() {
-        return divisionId;
-    }
-
-    public void setDivisionId(Integer divisionId) {
-        this.divisionId = divisionId;
-    }
-
     @Bindable
-    public String getNotes() {
-        return notes;
+    public String getDateOfPurchased() {
+        return dateOfPurchased;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setDateOfPurchased(String dateOfPurchased) {
+        this.dateOfPurchased = dateOfPurchased;
+        purchaseDate = DateUtils.convertStringFormatToMillis(dateOfPurchased, AppConstants
+                .DateFormatterConstants.MM_DD_YYYY);
+        notifyChange();
     }
 
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getProductModel() {
-        return productModel;
-    }
-
-    public void setProductModel(String productModel) {
-        this.productModel = productModel;
-    }
-
-
-    protected AddCustomProductModel(Parcel in) {
-        name = in.readString();
-        categoryId = in.readInt();
-        divisionId = in.readInt();
-        brandId = in.readInt();
-        notes = in.readString();
-        price = in.readString();
-        productModel = in.readString();
-        categoryName = in.readString();
-        divisionName = in.readString();
-        brandName = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeInt(categoryId);
-        dest.writeInt(divisionId);
-        dest.writeInt(brandId);
-        dest.writeString(notes);
-        dest.writeString(price);
-        dest.writeString(productModel);
-        dest.writeString(categoryName);
-        dest.writeString(divisionName);
-        dest.writeString(brandName);
-    }
-
-    @SuppressWarnings("unused")
-    public static final Creator<AddCustomProductModel> CREATOR = new
-            Creator<AddCustomProductModel>() {
-                @Override
-                public AddCustomProductModel createFromParcel(Parcel in) {
-                    return new AddCustomProductModel(in);
-                }
-
-                @Override
-                public AddCustomProductModel[] newArray(int size) {
-                    return new AddCustomProductModel[size];
-                }
-            };
 
     public Pair<String, Integer> validateAddNewModel(String tag) {
 
         int fieldId = AppConstants.VALIDATION_FAILURE;
         if (tag == null) {
-            for (int i = 0; i <= 3; i++) {
+            for (int i = 0; i <= 11; i++) {
                 fieldId = validateFields(i, true);
                 if (fieldId != AppConstants.VALIDATION_SUCCESS) {
                     tag = i + "";
@@ -246,12 +250,12 @@ public class AddCustomProductModel extends BaseObservable implements Parcelable 
 
     private int validateFields(int id, boolean emptyValidation) {
         switch (id) {
-            /*case 0:
+            case 0:
                 boolean modelEmpty = TextUtils.isEmpty(productModel);
                 if (emptyValidation && modelEmpty) {
                     return AppConstants.AddNewModelValidation.MODEL;
                 }
-                break;*/
+                break;
 
             case 1:
                 boolean nameEmpty = TextUtils.isEmpty(name);

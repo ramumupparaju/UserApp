@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +34,17 @@ import static com.incon.connect.user.AppConstants.RegistrationValidation.DOB_PER
 import static com.incon.connect.user.AppConstants.VALIDATION_SUCCESS;
 
 public class AppUtils {
+
+    public static void focusOnView(final ScrollView scrollView, final View view) {
+        final Rect rect = new Rect(0, 0, view.getWidth(), view.getHeight());
+        view.requestRectangleOnScreen(rect, false);
+        /*scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.smoothScrollTo(0, editTextView.getBottom());
+            }
+        });*/
+    }
 
     public static int validateDob(String dob) {
         Calendar dobDate = Calendar.getInstance();

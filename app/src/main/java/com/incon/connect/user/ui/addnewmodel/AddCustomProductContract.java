@@ -15,7 +15,7 @@ import java.util.List;
 public interface AddCustomProductContract {
 
     interface View extends BaseView {
-        void addNewModel(ModelSearchResponse modelSearchResponse);
+        void addNewModel();
 
         void loadCategoriesList();
 
@@ -35,6 +35,6 @@ public interface AddCustomProductContract {
 
         void doModelSearchApi(String modelNumberToSearch);
 
-        void addingNewModel(int userId, AddCustomProductModel addCustomProductModel);
+        void addingCustomProduct(AddCustomProductModel addCustomProductModel);
     }
 }

@@ -33,10 +33,12 @@ import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.addnewmodel.adapter.ModelSearchArrayAdapter;
 import com.incon.connect.user.ui.home.HomeActivity;
+import com.incon.connect.user.ui.register.RegistrationActivity;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -94,7 +96,10 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         if (rootView == null) {
             binding = DataBindingUtil.inflate(
                     inflater, R.layout.fragment_add_custom_product, container, false);
+            Bundle bundle = getArguments();
             addCustomProductModel = new AddCustomProductModel();
+            addCustomProductModel.setAddressId(bundle.getInt(BundleConstants.ADDRESS_ID));
+            addCustomProductModel.setCustomerId(SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE));
             binding.setAddCustomProductModel(addCustomProductModel);
             binding.setAddCustomProductFragment(this);
             rootView = binding.getRoot();
@@ -113,7 +118,6 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         AppUtils.hideSoftKeyboard(getActivity(), getView());
         Calendar cal = Calendar.getInstance(TimeZone.getDefault());
 
-        // todo have to change
         String dateOfPurchased = addCustomProductModel.getDateOfPurchased();
         if (!TextUtils.isEmpty(dateOfPurchased)) {
             cal.setTimeInMillis(DateUtils.convertStringFormatToMillis(
@@ -142,8 +146,8 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     selectedDateTime.set(selectedYear, selectedMonth, selectedDay);
 
                     String dobInMMDDYYYY = DateUtils.convertDateToOtherFormat(
-                            selectedDateTime.getTime(), DateFormatterConstants.MM_DD_YYYY);
-                    //   addCustomProductModel.setDateOfBirthToShow(dobInMMDDYYYY);
+                            selectedDateTime.getTime(), DateFormatterConstants.DD_MM_YYYY);
+                    addCustomProductModel.setDateOfPurchased(dobInMMDDYYYY);
 
                     Pair<String, Integer> validate = addCustomProductModel.
                             validateAddNewModel((String) binding.edittextPurchasedDate.getTag());
@@ -264,7 +268,8 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         binding.spinnerBrand.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (brandSelectedPos == position) {
+                if (brandSelectedPos != position) {
+                    brandSelectedPos = position;
                     addCustomProductModel.setBrandId(brandList.get(position).getId());
                     addCustomProductModel.setBrandName(brandList.get(position).getName());
                 }
@@ -306,6 +311,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     selectedPosition = pos;
                     ModelSearchResponse modelSearchResponse = modelSearchResponseList.get(selectedPosition);
                     selectedModelNumber = modelSearchResponse.getModelNumber();
+
                 }
                 AppUtils.hideSoftKeyboard(getActivity(), rootView);
             }
@@ -417,10 +423,15 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             ((CustomTextInputLayout) view.getParent().getParent())
                     .setError(validationId == VALIDATION_SUCCESS ? null
                             : errorMap.get(validationId));
+        } else {
+            ((MaterialBetterSpinner) view).setError(validationId == VALIDATION_SUCCESS ? null
+                    : errorMap.get(validationId));
         }
 
         if (validationId != VALIDATION_SUCCESS) {
             view.startAnimation(shakeAnim);
+            AppUtils.focusOnView(binding.scrollviewUserInfo, view);
+
         }
     }
 
@@ -432,29 +443,23 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         errorMap.put(AddNewModelValidation.CATEGORY, getString(R.string.error_product_category));
         errorMap.put(AddNewModelValidation.DIVISION, getString(R.string.error_product_division));
         errorMap.put(AddNewModelValidation.BRAND, getString(R.string.error_product_brand));
-        errorMap.put(AddNewModelValidation.MRP_PRICE, getString(R.string.error_product_mrp_price));
         errorMap.put(AddNewModelValidation.PRICE, getString(R.string.error_product_price));
-        errorMap.put(AddNewModelValidation.NOTE, getString(R.string.error_product_notes));
 
 
     }
 
     public void onSubmitClick() {
         if (validateFields()) {
-            addCustomProductPresenter.addingNewModel(SharedPrefsUtils.loginProvider().
-                    getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE), addCustomProductModel);
+            addCustomProductPresenter.addingCustomProduct(addCustomProductModel);
         }
     }
 
     @Override
-    public void addNewModel(ModelSearchResponse modelSearchResponse) {
-
-        Intent intent = new Intent();
-        intent.putExtra(IntentConstants.MODEL_SEARCH_RESPONSE, modelSearchResponse);
+    public void addNewModel() {
         Fragment targetFragment = getTargetFragment();
         if (targetFragment != null) {
             targetFragment.onActivityResult(getTargetRequestCode(),
-                    Activity.RESULT_OK, intent);
+                    Activity.RESULT_OK, null);
         }
         getActivity().onBackPressed();
     }

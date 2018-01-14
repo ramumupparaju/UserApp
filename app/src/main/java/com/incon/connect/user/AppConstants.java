@@ -261,7 +261,7 @@ public interface AppConstants {
         int LOCATION_LATLNG_FROM_ADDRESS = 119;
         int LOCATION_ADDRESS_FROM_LATLNG = 120;
         int PRODUCT_ADD_FRAGMENT = 121;
-        int ADD_NEW_MODEL_FRAGMENT = 122;
+        int ADD_CUSTOM_PRODUCT_FRAGMENT = 122;
 
     }
 

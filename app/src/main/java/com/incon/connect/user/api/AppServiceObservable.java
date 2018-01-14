@@ -207,4 +207,7 @@ public interface AppServiceObservable {
 
     @GET("defaults/brands/{divisionId}")
     Observable<List<Brand>> brandsFromDivisionId(@Path("divisionId") int divisionId);
+
+    @POST("product/user/addproduct")
+    Observable<Object> addingCustomProduct(@Body AddCustomProductModel addCustomProductModel);
 }

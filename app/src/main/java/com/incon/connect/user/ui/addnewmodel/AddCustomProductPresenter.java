@@ -145,14 +145,14 @@ public class AddCustomProductPresenter extends BasePresenter<AddCustomProductCon
     }
 
     @Override
-    public void addingNewModel(int merchantId, AddCustomProductModel addCustomProductModel) {
+    public void addingCustomProduct(AddCustomProductModel addCustomProductModel) {
         getView().showProgress(appContext.getString(R.string.progress_add_new_model));
-        DisposableObserver<ModelSearchResponse> observer = new
-                DisposableObserver<ModelSearchResponse>() {
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
                     @Override
-                    public void onNext(ModelSearchResponse addNewModelResponse) {
+                    public void onNext(Object addNewModelResponse) {
                         getView().hideProgress();
-                        getView().addNewModel(addNewModelResponse);
+                        getView().addNewModel();
                     }
 
                     @Override
@@ -166,8 +166,8 @@ public class AddCustomProductPresenter extends BasePresenter<AddCustomProductCon
                     public void onComplete() {
                     }
                 };
-        // AppApiService.getInstance().addingNewModel(merchantId, addCustomProductModel).subscribe(observer);
-        // addDisposable(observer);
+        AppApiService.getInstance().addingCustomProduct(addCustomProductModel).subscribe(observer);
+        addDisposable(observer);
     }
 
 }

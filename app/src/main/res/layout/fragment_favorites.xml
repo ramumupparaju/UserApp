@@ -115,7 +115,7 @@
             android:visibility="gone"
             app:srcCompat="@drawable/ic_favourite_products" />
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/parent_product"
             android:layout_width="64dp"
             android:layout_height="64dp"
@@ -125,7 +125,7 @@
             android:layout_marginRight="@dimen/margin_10"
             android:onClick="@{() -> favorites.onParentProductClick()}"
             android:paddingBottom="@dimen/margin_10"
-            app:srcCompat="@drawable/ic_favourite_products" />
+            app:srcCompat="@drawable/ic_add_circle" />
 
     </RelativeLayout>
 

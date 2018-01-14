@@ -280,4 +280,8 @@ public class AppApiService implements AppConstants {
     public Observable<List<Brand>> brandsFromDivisionId(int divisionId) {
         return addNetworkCheck(serviceInstance.brandsFromDivisionId(divisionId));
     }
+
+    public Observable<Object> addingCustomProduct(AddCustomProductModel addCustomProductModel) {
+        return addNetworkCheck(serviceInstance.addingCustomProduct(addCustomProductModel));
+    }
 }

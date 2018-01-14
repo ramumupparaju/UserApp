@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
 
 public class ModelSearchResponse implements Parcelable {
 
@@ -37,6 +38,7 @@ public class ModelSearchResponse implements Parcelable {
     private Category category;
 
     private Division division;
+    private Brand brand;
 
     @SerializedName("type")
     @Expose
