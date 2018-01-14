@@ -137,6 +137,6 @@ public class StatusPresenter extends BasePresenter<StatusContract.View> implemen
     }
 
     private Observable<List<ProductInfoResponse>> getProductStatusListObservable(int userId) {
-        return AppApiService.getInstance().purchasedStatus(125);
+        return AppApiService.getInstance().purchasedStatus(userId);
     }
 }
