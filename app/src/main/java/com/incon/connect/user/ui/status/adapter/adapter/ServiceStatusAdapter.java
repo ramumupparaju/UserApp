@@ -24,6 +24,9 @@ import com.incon.connect.user.databinding.StatusViewBinding;
 
 import java.util.List;
 
+import static com.incon.connect.user.AppUtils.getDrawableFromRequestId;
+import static com.incon.connect.user.AppUtils.getStatusName;
+
 /**
  * Created by INCON TECHNOLOGIES on 12/25/2017.
  */
@@ -85,6 +88,7 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
         public void bind(ServiceStatus serviceStatus, int position) {
             binding.setVariable(BR.modelResponse, serviceStatus);
 
+            //TODO remove hard coding
             binding.nameTv.setText("Service Center:" + serviceStatus.getServiceCenter().getName() +
                     ", model name: " + serviceStatus.getProduct().getName());
 
@@ -137,7 +141,7 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
                 ServiceRequest serviceRequest = statusData.getRequest();
                 LinearLayout linearLayout = new LinearLayout(context);
                 StatusViewBinding statusView = getStatusView();
-                statusView.viewTv.setText(getStatusName(serviceRequest));
+                statusView.viewTv.setText(getStatusName(serviceRequest.getStatus()));
                 statusView.viewLogo.setImageResource(getDrawableFromRequestId(serviceRequest.getStatus()));
                 if (i == size - 1) {
                     statusView.viewLine.setVisibility(View.GONE);
@@ -163,32 +167,6 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
 
         }
     };
-
-    private int getDrawableFromRequestId(Integer serviceType) {
-//TODO have to add remaining service types
-        switch (serviceType) {
-            case COMPLAINT_ID:
-                return COMPLAINT;
-            case MANUAL_APPROVAL_ID:
-                return APPROVAL;
-
-        }
-        return R.drawable.ic_options_feedback;
-    }
-
-    private String getStatusName(ServiceRequest request) {
-        DefaultStatusData statusData = new DefaultStatusData();
-        statusData.setId(request.getStatus());
-
-        List<DefaultStatusData> statusListResponses = ConnectApplication.getAppContext().getStatusListResponses();
-
-        int position = statusListResponses.indexOf(statusData);
-        if (position != -1) {
-            return statusListResponses.get(position).getCode();
-        }
-
-        return "";
-    }
 
     private StatusViewBinding getStatusView() {
         return DataBindingUtil.inflate(

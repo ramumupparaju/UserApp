@@ -7,7 +7,12 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.qrcodebaruser.Store;
+import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
+import com.incon.connect.user.apimodel.components.status.StatusList;
+
+import java.util.List;
 
 /**
  * Created by PC on 11/8/2017.
@@ -210,6 +215,32 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("returnDate")
     @Expose
     private long returnDate;
+
+
+    @SerializedName("statusList")
+    @Expose
+    private List<DefaultStatusData> statusList = null;
+
+    @SerializedName("serviceEngineersList")
+    @Expose
+    private List<AddServiceEngineer> serviceEngineerList = null;
+
+    public List<AddServiceEngineer> getServiceEngineerList() {
+        return serviceEngineerList;
+    }
+
+    public void setServiceEngineerList(List<AddServiceEngineer> serviceEngineerList) {
+        this.serviceEngineerList = serviceEngineerList;
+    }
+
+    public List<DefaultStatusData> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<DefaultStatusData> statusList) {
+        this.statusList = statusList;
+    }
+
     public static Creator<ProductInfoResponse> getCREATOR() {
         return CREATOR;
     }
@@ -221,6 +252,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     public void setModelNumber(String modelNumber) {
         this.modelNumber = modelNumber;
     }
+
     public String getCustomerContact() {
         return customerContact;
     }

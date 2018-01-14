@@ -22,14 +22,21 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.incon.connect.user.apimodel.components.ServiceRequest;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.ValidationUtils;
 
 import java.util.Calendar;
+import java.util.List;
 
 import static com.incon.connect.user.AppConstants.RegistrationValidation.DOB_FUTURE_DATE;
 import static com.incon.connect.user.AppConstants.RegistrationValidation.DOB_PERSON_LIMIT;
+import static com.incon.connect.user.AppConstants.StatusDrawables.APPROVAL;
+import static com.incon.connect.user.AppConstants.StatusDrawables.COMPLAINT;
+import static com.incon.connect.user.AppConstants.StatusDrawables.COMPLAINT_ID;
+import static com.incon.connect.user.AppConstants.StatusDrawables.MANUAL_APPROVAL_ID;
 import static com.incon.connect.user.AppConstants.VALIDATION_SUCCESS;
 
 public class AppUtils {
@@ -47,6 +54,7 @@ public class AppUtils {
 
     /**
      * parsing warranty string
+     *
      * @param productInfoResponse
      * @return
      */
@@ -78,6 +86,34 @@ public class AppUtils {
         }
 
         return stringBuffer.toString();
+    }
+
+    //fetching status icon basedon statud id
+    public static int getDrawableFromRequestId(Integer statusId) {
+//TODO have to add remaining service types
+        switch (statusId) {
+            case COMPLAINT_ID:
+                return COMPLAINT;
+            case MANUAL_APPROVAL_ID:
+                return APPROVAL;
+
+        }
+        return R.drawable.ic_options_feedback;
+    }
+
+    //fetching status name basedon request
+    public static String getStatusName(int statusId) {
+        DefaultStatusData statusData = new DefaultStatusData();
+        statusData.setId(statusId);
+
+        List<DefaultStatusData> statusListResponses = ConnectApplication.getAppContext().getStatusListResponses();
+
+        int position = statusListResponses.indexOf(statusData);
+        if (position != -1) {
+            return statusListResponses.get(position).getCode();
+        }
+
+        return "";
     }
 
     public static int validateDob(String dob) {

@@ -15,11 +15,31 @@
         android:padding="@dimen/margin_5">
 
         <TextView
+            android:id="@+id/name_tv"
             style="@style/BothWrap"
             android:layout_marginTop="@dimen/margin_8"
-            android:text="@={modelResponse.name}"
             android:textColor="@color/black"
             android:textSize="12.4sp" />
+
+        <HorizontalScrollView
+            android:id="@+id/status_scrollview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name_tv"
+            android:layout_centerHorizontal="true"
+            android:scrollbarSize="4dp"
+            android:scrollbarThumbHorizontal="@drawable/scrollbar"
+            android:scrollbars="horizontal">
+
+            <LinearLayout
+                android:id="@+id/status_layout"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
     </RelativeLayout>
 </layout>

@@ -4,6 +4,7 @@
     <string name="msg_check_internet">Looks like you are offline, please check internet connectivity</string>
 
     <!-- api error messages -->
+    <string name="error_contact_customer_care">Contact customer care:966626663</string>
     <string name="error_network">Api failed due to NetworkErrorException</string>
     <string name="error_model_message">No models found, Please Add New Model by clicking on
         the below Button

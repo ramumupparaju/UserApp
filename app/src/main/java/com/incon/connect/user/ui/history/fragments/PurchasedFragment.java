@@ -681,7 +681,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             if (firstRowTag == 0) { // service/support
                 if (secondRowTag == 0) { // un authorized
                     if (thirdRowTag == 0) { // call
-                        callPhoneNumber(productInfoResponse.getMobileNumber()); //todo have to load subscriberdetails
+                        List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
+                        if (serviceEngineerList != null && serviceEngineerList.size() > 0) {
+                            callPhoneNumber(serviceEngineerList.get(serviceEngineerList.size() - 1).getMobileNumber()); //todo have to load enginners list in dialog if it has more
+                        } else {
+                            showCustomPhoneNumberDialog();
+                        }
                         return;
                     } else if (thirdRowTag == 1) { //service request
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
@@ -747,7 +752,11 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     };
 
     private void loadNearByServiceCentersDialogData(String brandId) {
-        purchasedPresenter.nearByServiceCenters(Integer.parseInt(brandId));
+        if (TextUtils.isEmpty(brandId)) {
+            AppUtils.longToast(getActivity(), getString(R.string.error_contact_customer_care));
+        } else {
+            purchasedPresenter.nearByServiceCenters(Integer.parseInt(brandId));
+        }
     }
 
     private void loadServiceRequesDialogData() {
