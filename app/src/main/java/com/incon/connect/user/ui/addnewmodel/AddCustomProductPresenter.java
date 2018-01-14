@@ -146,7 +146,7 @@ public class AddCustomProductPresenter extends BasePresenter<AddCustomProductCon
 
     @Override
     public void addingCustomProduct(AddCustomProductModel addCustomProductModel) {
-        getView().showProgress(appContext.getString(R.string.progress_add_new_model));
+        getView().showProgress(appContext.getString(R.string.progress_add_product));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
                     @Override

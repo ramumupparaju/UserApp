@@ -68,6 +68,14 @@ public class ModelSearchResponse implements Parcelable {
     @Expose
     private String notes;
 
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
     public Division getDivision() {
         return division;
     }

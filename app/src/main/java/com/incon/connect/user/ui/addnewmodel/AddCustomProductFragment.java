@@ -24,6 +24,7 @@ import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
+import com.incon.connect.user.apimodel.components.search.Category;
 import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.custom.view.CustomAutoCompleteView;
@@ -60,7 +61,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     private AddCustomProductPresenter addCustomProductPresenter;
     private AddCustomProductModel addCustomProductModel;
 
-    private List<CategoryResponse> categoriesList;
+    private List<CategoryResponse> categoriesList = new ArrayList<>();
     private List<Division> divisionsList = new ArrayList<>();
     private List<Brand> fetchBrandsList = new ArrayList<>();
 
@@ -103,7 +104,6 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             binding.setAddCustomProductModel(addCustomProductModel);
             binding.setAddCustomProductFragment(this);
             rootView = binding.getRoot();
-            categoriesList = ConnectApplication.getAppContext().getCategoriesList();
             initViews();
         }
         setTitle();
@@ -312,6 +312,34 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     ModelSearchResponse modelSearchResponse = modelSearchResponseList.get(selectedPosition);
                     selectedModelNumber = modelSearchResponse.getModelNumber();
 
+                    //Clear spinner data
+                    categorySelectedPos = -1;
+                    categoriesList.clear();
+                    loadCategorySpinnerData();
+                    brandSelectedPos = -1;
+                    fetchBrandsList.clear();
+                    loadBrandSpinnerData(fetchBrandsList);
+                    divisionSelectedPos = -1;
+                    divisionsList.clear();
+                    loadDivisionSpinnerData(divisionsList);
+                    ///////////////////
+
+
+                    //added data based on model selection
+                    Category category = modelSearchResponse.getCategory();
+                    addCustomProductModel.setCategoryId(category.getId());
+                    addCustomProductModel.setCategoryName(category.getName());
+
+
+                    binding.spinnerDivision.setVisibility(View.VISIBLE);
+                    Division division = modelSearchResponse.getDivision();
+                    addCustomProductModel.setDivisionId(division.getId());
+                    addCustomProductModel.setDivisionName(division.getName());
+
+                    binding.spinnerBrand.setVisibility(View.VISIBLE);
+                    Brand brand = modelSearchResponse.getBrand();
+                    addCustomProductModel.setBrandId(brand.getId());
+                    addCustomProductModel.setBrandName(brand.getName());
                 }
                 AppUtils.hideSoftKeyboard(getActivity(), rootView);
             }
@@ -353,6 +381,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     }
 
     private void initViews() {
+        //TODO have to add scan for serial no, batch no
         shakeAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
         loadValidationErrors();
         setFocusForViews();
@@ -360,7 +389,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         selectedModelNumber = binding.edittextModelNumber.getText().toString();
         initializeModelNumberAdapter(new ArrayList<ModelSearchResponse>());
 
-        if (categoriesList == null) {
+        if (ConnectApplication.getAppContext().getCategoriesList() == null) {
             addCustomProductPresenter.getCategories();
         } else {
             loadCategoriesList();
@@ -466,7 +495,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
     @Override
     public void loadCategoriesList() {
-        categoriesList = ConnectApplication.getAppContext().getCategoriesList();
+        categoriesList.addAll(ConnectApplication.getAppContext().getCategoriesList());
         loadCategorySpinnerData();
     }
 
