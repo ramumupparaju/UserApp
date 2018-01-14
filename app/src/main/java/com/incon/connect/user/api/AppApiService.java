@@ -284,4 +284,8 @@ public class AppApiService implements AppConstants {
     public Observable<Object> addingCustomProduct(AddCustomProductModel addCustomProductModel) {
         return addNetworkCheck(serviceInstance.addingCustomProduct(addCustomProductModel));
     }
+
+    public Observable<List<ProductInfoResponse>> purchasedStatus(int userId) {
+        return addNetworkCheck(serviceInstance.purchasedStatus(userId));
+    }
 }

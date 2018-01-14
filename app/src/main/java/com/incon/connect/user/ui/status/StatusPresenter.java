@@ -105,11 +105,10 @@ public class StatusPresenter extends BasePresenter<StatusContract.View> implemen
     }
 
     private Observable<ArrayList<ServiceStatus>> getServiceStatusListObservable(int userId) {
-        return AppApiService.getInstance().fetchUserRequests(userId);
+        return AppApiService.getInstance().fetchUserRequests(4566);
     }
 
     private Observable<List<ProductInfoResponse>> getProductStatusListObservable(int userId) {
-        //TODO have to change api
-        return AppApiService.getInstance().purchasedApi(userId);
+        return AppApiService.getInstance().purchasedStatus(userId);
     }
 }

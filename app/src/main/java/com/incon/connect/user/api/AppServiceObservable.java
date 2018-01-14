@@ -210,4 +210,7 @@ public interface AppServiceObservable {
 
     @POST("product/user/addproduct")
     Observable<Object> addingCustomProduct(@Body AddCustomProductModel addCustomProductModel);
+
+    @GET("user/productstatus/{userId}")
+    Observable<List<ProductInfoResponse>> purchasedStatus(@Path("userId") int userId);
 }
