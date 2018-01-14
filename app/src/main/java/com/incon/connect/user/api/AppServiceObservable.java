@@ -25,6 +25,7 @@ import com.incon.connect.user.dto.notifications.PushRegistrarBody;
 import com.incon.connect.user.dto.registration.Registration;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
+import com.incon.connect.user.dto.updatestatus.UpDateStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -213,4 +214,9 @@ public interface AppServiceObservable {
 
     @GET("user/productstatus/{userId}")
     Observable<List<ProductInfoResponse>> purchasedStatus(@Path("userId") int userId);
+
+    //  update status api
+    @POST("service/updateStatus/{userId}")
+    Observable<Object> upDateStatus(@Path("userId") int userId, @Body UpDateStatus upDateStatus);
+
 }

@@ -19,7 +19,7 @@ public interface AppConstants {
     int DEFAULT_GOOGLE_MAP_ZOOM_LEVEL = 16;
     int DEAULT_VALUE = Integer.MAX_VALUE;
 
-    interface StatusDrawables{
+    interface StatusDrawables {
         int COMPLAINT_ID = 2;
         int COMPLAINT = R.drawable.ic_option_complaint;
 
@@ -35,10 +35,13 @@ public interface AppConstants {
         String BUY_REQUEST_ACCEPT = "A";
         String BUY_REQUEST_REJECT = "R";
         String PENDING = "PEN";
-        String DISPATCHES_ON = "DSN";
-        String DISPATCHED = "DSD";
-        String DELIVERED = "DLD";
-        String INSTALLED = "INS";
+
+        int REJECTED = 10;
+        int HOLD = 12;
+        int ACCEPTED = 17;
+        int APPROVED = 6;
+        int WAIT_APPROVE = 15;
+
     }
 
     interface ServiceConstants {

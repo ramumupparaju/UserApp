@@ -9,6 +9,7 @@ import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
+import com.incon.connect.user.dto.updatestatus.UpDateStatus;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
@@ -63,6 +64,33 @@ public class StatusPresenter extends BasePresenter<StatusContract.View> implemen
     }
 
     @Override
+    public void upDateStatus(int userId, UpDateStatus upDateStatus) {
+        getView().showProgress(appContext.getString(R.string.progress_updating_status));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object upDateStatusResponse) {
+                        getView().statusUpdated();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+
+        AppApiService.getInstance().upDateStatus(userId, upDateStatus).subscribe(observer);
+        addDisposable(observer);
+    }
+
+    @Override
     public void fetchUserRequests(int userId) {
         getView().showProgress(appContext.getString(R.string.progress_updating_status));
         if (appContext.getStatusListResponses() == null) {
@@ -105,10 +133,10 @@ public class StatusPresenter extends BasePresenter<StatusContract.View> implemen
     }
 
     private Observable<ArrayList<ServiceStatus>> getServiceStatusListObservable(int userId) {
-        return AppApiService.getInstance().fetchUserRequests(4566);
+        return AppApiService.getInstance().fetchUserRequests(userId);
     }
 
     private Observable<List<ProductInfoResponse>> getProductStatusListObservable(int userId) {
-        return AppApiService.getInstance().purchasedStatus(userId);
+        return AppApiService.getInstance().purchasedStatus(125);
     }
 }

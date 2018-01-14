@@ -14,9 +14,11 @@ import com.incon.connect.user.apimodel.components.productinforesponse.ProductInf
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
+import com.incon.connect.user.callbacks.IStatusClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.databinding.FragmentStatusBinding;
+import com.incon.connect.user.dto.updatestatus.UpDateStatus;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.status.adapter.adapter.ProductStatusAdapter;
@@ -41,36 +43,9 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
     private ArrayList<ServiceStatus> serviceStatusList;
 
     private boolean isServiceRequest;
-    private AppEditTextDialog terminateDialog;
 
-    private void showTerminateDialog(int statusId) {
-        terminateDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                //todo have to do api cal
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                terminateDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.action_approval))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        terminateDialog.showDialog();
-        terminateDialog.setCancelable(true);
-    }
-
+    private AppEditTextDialog acceptRejectApproveDialog;
+    private UpDateStatus upDateStatus;
 
     @Override
     protected void initializePresenter() {
@@ -145,25 +120,66 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         setListUi();
     }
 
+    private void showApprovalDialog(final int statusType) {
+        if (upDateStatus == null) {
+            upDateStatus = new UpDateStatus();
+        }
+        String title;
+        if (statusType == StatusConstants.ACCEPTED) {
+            title = getString(R.string.action_accept);
+        } else if (statusType == StatusConstants.REJECTED) {
+            title = getString(R.string.action_reject);
+        } else {
+            title = getString(R.string.action_approval);
+        }
+
+        acceptRejectApproveDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                        upDateStatus.setComments(commentString);
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                statusPresenter.upDateStatus(SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE), upDateStatus);
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                acceptRejectApproveDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(title)
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        acceptRejectApproveDialog.showDialog();
+        acceptRejectApproveDialog.setCancelable(true);
+    }
+
     //recyclerview click event
-    private IClickCallback iClickCallback = new IClickCallback() {
+    private IStatusClickCallback iClickCallback = new IStatusClickCallback() {
+        @Override
+        public void onClickStatusButton(int statusType) {
+            showApprovalDialog(statusType);
+        }
+
         @Override
         public void onClickPosition(int position) {
             //TODO have to enable
-            /*if (isServiceRequest) {
-                DesignationData designationResponse = serviceStatusList.get(position);
-                Intent intent = new Intent(AllUsersDesignationsActivity.this, AddDesignationsActivity.class);
-                intent.putExtra(IntentConstants.DESIGNATION_DATA, designationResponse);
-                intent.putExtra(IntentConstants.SERVICE_CENTER_DATA, serviceCenterId);
-                startActivityForResult(intent, RequestCodes.ADD_USER_DESIGNATION);
+            if (isServiceRequest) {
             } else {
-                AddUser usersListOfServiceCenters = productsList.get(position);
+               /* AddUser usersListOfServiceCenters = productsList.get(position);
                 Intent intent = new Intent(AllUsersDesignationsActivity.this, AddUserActivity.class);
                 intent.putParcelableArrayListExtra(IntentConstants.DESIGNATION_DATA, serviceStatusList);
                 intent.putExtra(IntentConstants.USER_DATA, usersListOfServiceCenters);
                 intent.putParcelableArrayListExtra(IntentConstants.USER_DATA_LIST, productsList);
-                startActivityForResult(intent, RequestCodes.ADD_USER_DESIGNATION);
-            }*/
+                startActivityForResult(intent, RequestCodes.ADD_USER_DESIGNATION);*/
+            }
         }
     };
 
@@ -185,6 +201,16 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         serviceStatusAdapter.setData(serviceStatusArrayList);
 
         setListUi();
+    }
+
+    @Override
+    public void statusUpdated() {
+        if (acceptRejectApproveDialog != null && acceptRejectApproveDialog.isShowing()) {
+            acceptRejectApproveDialog.dismiss();
+        }
+
+        statusPresenter.fetchUserRequests(SharedPrefsUtils.loginProvider().getIntegerPreference
+                (LoginPrefs.USER_ID, DEFAULT_VALUE));
     }
 }
 

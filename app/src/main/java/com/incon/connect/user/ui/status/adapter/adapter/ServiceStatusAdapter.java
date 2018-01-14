@@ -18,6 +18,7 @@ import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.status.StatusList;
 import com.incon.connect.user.callbacks.IClickCallback;
+import com.incon.connect.user.callbacks.IStatusClickCallback;
 import com.incon.connect.user.databinding.ItemServiceStatusListBinding;
 import com.incon.connect.user.databinding.StatusViewBinding;
 
@@ -32,9 +33,9 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
 
     private Context context;
     private List<ServiceStatus> serviceStatusList;
-    private IClickCallback clickCallback;
+    private IStatusClickCallback clickCallback;
 
-    public void setClickCallback(IClickCallback clickCallback) {
+    public void setClickCallback(IStatusClickCallback clickCallback) {
         this.clickCallback = clickCallback;
     }
 
@@ -76,18 +77,50 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
             super(binding.getRoot());
             this.binding = binding;
             binding.getRoot().setOnClickListener(this);
+            binding.buttonAccept.setOnClickListener(this);
+            binding.buttonReject.setOnClickListener(this);
+            binding.buttonHold.setOnClickListener(this);
         }
 
         public void bind(ServiceStatus serviceStatus, int position) {
             binding.setVariable(BR.modelResponse, serviceStatus);
-            binding.executePendingBindings();
 
-            createStatusView(binding, serviceStatus.getStatusList());
+            binding.nameTv.setText("Service Center:" + serviceStatus.getServiceCenter().getName() +
+                    ", model name: " + serviceStatus.getProduct().getName());
+
+
+            List<StatusList> statusList = serviceStatus.getStatusList();
+            if (statusList != null && statusList.size() > 0) {
+                StatusList statusItem = statusList.get(statusList.size() - 1);
+                if (statusItem.getRequest().getStatus() == AppConstants.StatusConstants.WAIT_APPROVE) {
+                    binding.approvalViewsLayout.setVisibility(View.VISIBLE);
+                } else {
+                    binding.approvalViewsLayout.setVisibility(View.GONE);
+                }
+            } else {
+                binding.approvalViewsLayout.setVisibility(View.GONE);
+            }
+            createStatusView(binding, statusList);
+            binding.executePendingBindings();
         }
 
         @Override
         public void onClick(View view) {
-            clickCallback.onClickPosition(getAdapterPosition());
+            int statusType = -1;
+            if (view.getId() == R.id.button_accept) {
+                statusType = AppConstants.StatusConstants.APPROVED;
+            } else if (view.getId() == R.id.button_reject) {
+                statusType = AppConstants.StatusConstants.REJECTED;
+            } else if (view.getId() == R.id.button_hold) {
+                statusType = AppConstants.StatusConstants.HOLD;
+            }
+
+            //checking whether clicked on status buttons or not
+            if (statusType != -1) {
+                clickCallback.onClickStatusButton(statusType);
+            } else {
+                clickCallback.onClickPosition(getAdapterPosition());
+            }
         }
     }
 
@@ -101,11 +134,11 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
             binding.statusLayout.removeAllViews();
             for (int i = 0; i < size; i++) {
                 StatusList statusData = statusList.get(i);
+                ServiceRequest serviceRequest = statusData.getRequest();
                 LinearLayout linearLayout = new LinearLayout(context);
                 StatusViewBinding statusView = getStatusView();
-                statusView.viewTv.setText(getStatusName(statusData.getRequest()));
-                statusView.viewLogo.setImageResource(getDrawableFromRequestId(statusData
-                        .getRequest().getId()));
+                statusView.viewTv.setText(getStatusName(serviceRequest));
+                statusView.viewLogo.setImageResource(getDrawableFromRequestId(serviceRequest.getStatus()));
                 if (i == size - 1) {
                     statusView.viewLine.setVisibility(View.GONE);
                 } else {

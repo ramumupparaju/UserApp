@@ -18,7 +18,6 @@
             android:id="@+id/name_tv"
             style="@style/BothWrap"
             android:layout_marginTop="@dimen/margin_8"
-            android:text="@={modelResponse.serviceCenter.name}"
             android:textColor="@color/black"
             android:textSize="12.4sp" />
 

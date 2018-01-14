@@ -28,6 +28,7 @@ import com.incon.connect.user.dto.notifications.PushRegistrarBody;
 import com.incon.connect.user.dto.registration.Registration;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.dto.update.UpDateUserProfile;
+import com.incon.connect.user.dto.updatestatus.UpDateStatus;
 import com.incon.connect.user.utils.NetworkUtil;
 
 import java.util.ArrayList;
@@ -287,5 +288,10 @@ public class AppApiService implements AppConstants {
 
     public Observable<List<ProductInfoResponse>> purchasedStatus(int userId) {
         return addNetworkCheck(serviceInstance.purchasedStatus(userId));
+    }
+
+    // update status api
+    public Observable<Object> upDateStatus(int userId, UpDateStatus upDateStatus) {
+        return addNetworkCheck(serviceInstance.upDateStatus(userId, upDateStatus));
     }
 }

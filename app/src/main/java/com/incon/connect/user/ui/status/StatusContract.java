@@ -2,6 +2,7 @@ package com.incon.connect.user.ui.status;
 
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
+import com.incon.connect.user.dto.updatestatus.UpDateStatus;
 import com.incon.connect.user.ui.BaseView;
 
 import java.util.ArrayList;
@@ -14,9 +15,12 @@ public interface StatusContract {
     interface View extends BaseView {
         void loadServiceRequests(ArrayList<ProductInfoResponse> productStatusArrayList,
                             ArrayList<ServiceStatus> serviceStatusArrayList);
+
+        void statusUpdated();
     }
     interface Presenter {
         void fetchUserRequests(int userId);
         void getDefaultStatusData(int userId);
+        void upDateStatus(int userId, UpDateStatus upDateStatus);
     }
 }
