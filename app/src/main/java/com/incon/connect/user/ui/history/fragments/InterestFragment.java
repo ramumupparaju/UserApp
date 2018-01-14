@@ -314,9 +314,13 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     }
                     //warranty
                     else if (thirdRowTag == 3) {
-                        showInformationDialog(getString(
-                                R.string.bottom_option_warranty),
-                                +itemFromPosition.getWarrantyYears() + "Year");
+                        String warrantyInformation = AppUtils.getWarrantyInformation(itemFromPosition);
+                        if (TextUtils.isEmpty(warrantyInformation)) {
+                            AppUtils.shortToast(getContext(), getString(R.string.error_no_warranty));
+                        } else {
+                            showInformationDialog(getString(R.string.bottom_option_warranty), warrantyInformation);
+                        }
+
 
                     } else
                         // share product

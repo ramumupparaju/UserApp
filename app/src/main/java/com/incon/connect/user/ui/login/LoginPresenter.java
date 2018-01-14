@@ -42,11 +42,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     // login implemenatation
     @Override
     public void doLogin(LoginUserData loginUserData) {
-        String credentials = loginUserData.getPhoneNumber() + ":" + loginUserData.getPassword();
-        final String basic = "Basic " + Base64.encodeToString(credentials.getBytes(),
-                Base64.NO_WRAP);
-        SharedPrefsUtils.loginProvider().setStringPreference(AppConstants.LoginPrefs
-                .ACCESS_TOKEN, basic);
         getView().showProgress(appContext.getString(R.string.progress_login));
         DisposableObserver<LoginResponse> observer = new DisposableObserver<LoginResponse>() {
             @Override

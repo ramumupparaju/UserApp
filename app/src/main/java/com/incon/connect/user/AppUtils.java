@@ -3,10 +3,8 @@ package com.incon.connect.user;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -24,6 +22,7 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.ValidationUtils;
 
@@ -44,6 +43,41 @@ public class AppUtils {
                 scrollView.smoothScrollTo(0, editTextView.getBottom());
             }
         });*/
+    }
+
+    /**
+     * parsing warranty string
+     * @param productInfoResponse
+     * @return
+     */
+    public static String getWarrantyInformation(ProductInfoResponse productInfoResponse) {
+        String days = "days";
+        String months = "months";
+        StringBuffer stringBuffer = new StringBuffer();
+        Integer warrantyDays = productInfoResponse.getWarrantyDays();
+        if (warrantyDays != null && warrantyDays != 0) {
+            stringBuffer.append(warrantyDays + days);
+        }
+
+        Integer warrantyMonths = productInfoResponse.getWarrantyMonths();
+        if (warrantyMonths != null && warrantyMonths != 0) {
+
+            if (stringBuffer.toString().contains(days)) {
+                stringBuffer.append(",");
+            }
+            stringBuffer.append(warrantyMonths + months);
+
+        }
+
+        Integer warrantyYears = productInfoResponse.getWarrantyYears();
+        if (warrantyYears != null && warrantyYears != 0) {
+            if (stringBuffer.toString().contains(days) || stringBuffer.toString().contains(months)) {
+                stringBuffer.append(",");
+            }
+            stringBuffer.append(warrantyYears + "years");
+        }
+
+        return stringBuffer.toString();
     }
 
     public static int validateDob(String dob) {

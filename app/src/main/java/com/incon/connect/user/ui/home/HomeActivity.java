@@ -123,6 +123,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         toolBarBinding.toolbarRightIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                currentSelectedTabId = -1;
                 onUserQrCodeClick();
             }
         });

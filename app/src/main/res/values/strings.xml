@@ -9,6 +9,7 @@
         the below Button
     </string>
 
+    <string name="error_no_warranty">No Warranty for this product</string>
     <string name="error_no_products_for_favorites">No products found to add favorites</string>
     <string name="info_purchased_status">Status: %1$s</string>
     <string name="error_socket">Unable to process your request. Please try again</string>

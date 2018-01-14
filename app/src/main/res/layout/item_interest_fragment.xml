@@ -22,7 +22,7 @@
         <RelativeLayout
             android:id="@+id/layout_interest_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="110dp">
 
             <!--brand image-->
             <ImageView
@@ -49,8 +49,9 @@
                 android:textColor="@color/ebony_clay"
                 android:textSize="12.4sp" />
 
+            <!--offer-->
             <TextView
-                android:id="@+id/interest_price"
+                android:id="@+id/interest_offer"
                 style="@style/BothWrap"
                 android:layout_below="@id/product_name"
                 android:layout_toRightOf="@id/product_imageview"
@@ -61,7 +62,7 @@
             <TextView
                 android:id="@+id/interest_mrp"
                 style="@style/BothWrap"
-                android:layout_below="@id/interest_price"
+                android:layout_below="@id/interest_offer"
                 android:layout_toRightOf="@id/product_imageview"
                 android:text="@{`MRP :` +productinforesponse.mrp}"
                 android:textColor="@color/ebony_clay"
@@ -81,9 +82,9 @@
                 android:id="@+id/store_name"
                 style="@style/BothWrap"
                 android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginLeft="@dimen/margin_3"
                 android:layout_marginRight="@dimen/margin_3"
-                android:layout_alignParentRight="true"
                 android:layout_toRightOf="@id/interest_date"
                 android:ellipsize="end"
                 android:gravity="right"
