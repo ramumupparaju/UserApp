@@ -4,11 +4,13 @@ import com.incon.connect.user.apimodel.base.ApiBaseResponse;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
+import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
 import com.incon.connect.user.apimodel.components.login.LoginResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
+import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
@@ -184,7 +186,7 @@ public interface AppServiceObservable {
 
     //transfer product api
     @GET("user/servicerequests/{userId}")
-    Observable<ArrayList< ServiceStatus>> fetchUserRequests(@Path("userId") int userId);
+    Observable<ArrayList<ServiceStatus>> fetchUserRequests(@Path("userId") int userId);
 
     // new user registation  api
     @POST("user/newuser/{phoneNumber}")
@@ -199,4 +201,10 @@ public interface AppServiceObservable {
 
     @POST("service/addserviceengineer/{userId}")
     Observable<Object> addServiceEngineer(@Body AddServiceEngineer serviceEngineer, @Path("userId") int userId);
+
+    @GET("defaults/divisions/{categoryId}")
+    Observable<List<Division>> divisionsFromCategoryId(@Path("categoryId") int categoryId);
+
+    @GET("defaults/brands/{divisionId}")
+    Observable<List<Brand>> brandsFromDivisionId(@Path("divisionId") int divisionId);
 }

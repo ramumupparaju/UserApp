@@ -23,10 +23,8 @@ import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
-import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
-import com.incon.connect.user.apimodel.components.fetchcategorie.Division;
-import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
+import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.custom.view.CustomAutoCompleteView;
 import com.incon.connect.user.custom.view.CustomTextInputLayout;
@@ -60,10 +58,9 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     private AddCustomProductPresenter addCustomProductPresenter;
     private AddCustomProductModel addCustomProductModel;
 
-    private List<CategoryResponse> fetchCategorieList;
-    private List<Division> fetchDivisionsList;
-    private List<Brand> fetchBrandsList;
-
+    private List<CategoryResponse> categoriesList;
+    private List<Division> divisionsList = new ArrayList<>();
+    private List<Brand> fetchBrandsList = new ArrayList<>();
 
     private int categorySelectedPos = -1;
     private int divisionSelectedPos = -1;
@@ -101,10 +98,8 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             binding.setAddCustomProductModel(addCustomProductModel);
             binding.setAddCustomProductFragment(this);
             rootView = binding.getRoot();
+            categoriesList = ConnectApplication.getAppContext().getCategoriesList();
             initViews();
-
-            addCustomProductPresenter.getCategories();
-
         }
         setTitle();
         return rootView;
@@ -158,9 +153,9 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
     // category spinner
     private void loadCategorySpinnerData() {
-        String[] stringCategoryList = new String[fetchCategorieList.size()];
-        for (int i = 0; i < fetchCategorieList.size(); i++) {
-            stringCategoryList[i] = fetchCategorieList.get(i).getName();
+        String[] stringCategoryList = new String[categoriesList.size()];
+        for (int i = 0; i < categoriesList.size(); i++) {
+            stringCategoryList[i] = categoriesList.get(i).getName();
         }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.view_spinner, stringCategoryList);
@@ -171,21 +166,25 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (categorySelectedPos != position) {
 
-                    CategoryResponse fetchCategories = fetchCategorieList.get(position);
+                    CategoryResponse fetchCategories = categoriesList.get(position);
                     addCustomProductModel.setCategoryId(fetchCategories.getId());
                     addCustomProductModel.setCategoryName(fetchCategories.getName());
 
-                    //TODO division api call
+                    HashMap<Integer, List<Division>> divisionHashMap = ((HomeActivity) getActivity()).getDivisionHashMap();
+                    List<Division> divisions = divisionHashMap.get(fetchCategories.getId());
                     divisionSelectedPos = -1;
-                    fetchDivisionsList.clear();
-                    loadDivisionSpinnerData(fetchDivisionsList);
+                    if (divisions == null) {
+                        if (divisionsList == null) {
+                            divisionsList = new ArrayList<>();
+                        } else
+                            divisionsList.clear();
+                        addCustomProductPresenter.getDivisionsFromCategoryId(fetchCategories.getId());
+                    } else {
+                        divisionsList.addAll(divisions);
+                    }
+                    loadDivisionSpinnerData(divisionsList);
                     binding.spinnerDivision.setText("");
-
-
-                    brandSelectedPos = -1;
-
                     categorySelectedPos = position;
-                    binding.spinnerBrand.setVisibility(View.GONE);
                 }
                 //For avoiding double tapping issue
                 if (binding.spinnerCategory.getOnItemClickListener() != null) {
@@ -198,6 +197,9 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
     // division spinner
     private void loadDivisionSpinnerData(List<Division> divisions) {
+
+        brandSelectedPos = -1;
+        binding.spinnerBrand.setVisibility(View.GONE);
 
         if (divisions.size() == 0) {
             binding.spinnerDivision.setVisibility(View.GONE);
@@ -218,12 +220,21 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (divisionSelectedPos != position) {
                     divisionSelectedPos = position;
-                    Division division = fetchDivisionsList.get(divisionSelectedPos);
+                    Division division = divisionsList.get(divisionSelectedPos);
                     addCustomProductModel.setDivisionId(division.getId());
                     addCustomProductModel.setDivisionName(division.getName());
 
-                    //TODO get brand api
+
+                    HashMap<Integer, List<Brand>> brandHashMap = ((HomeActivity) getActivity()).getBrandHashMap();
+                    List<Brand> brands = brandHashMap.get(division.getId());
                     brandSelectedPos = -1;
+                    if (brands == null) {
+                        fetchBrandsList.clear();
+                        addCustomProductPresenter.getBrandsFromDivisionId(division.getId());
+                    } else {
+                        brandSelectedPos = -1;
+                        fetchBrandsList.addAll(brands);
+                    }
                     loadBrandSpinnerData(fetchBrandsList);
                     binding.spinnerBrand.setText("");
                 }
@@ -242,19 +253,22 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             return;
         }
         binding.spinnerBrand.setVisibility(View.VISIBLE);
-        String[] stringDivisionList = new String[brandList.size()];
+        String[] stringBrandList = new String[brandList.size()];
         for (int i = 0; i < brandList.size(); i++) {
-            stringDivisionList[i] = brandList.get(i).getName();
+            stringBrandList[i] = brandList.get(i).getName();
         }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(),
-                R.layout.view_spinner, stringDivisionList);
+                R.layout.view_spinner, stringBrandList);
         arrayAdapter.setDropDownViewResource(R.layout.view_spinner);
         binding.spinnerBrand.setAdapter(arrayAdapter);
         binding.spinnerBrand.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                addCustomProductModel.setBrandId(brandList.get(position).getId());
-                addCustomProductModel.setBrandName(brandList.get(position).getName());
+                if (brandSelectedPos == position) {
+                    addCustomProductModel.setBrandId(brandList.get(position).getId());
+                    addCustomProductModel.setBrandName(brandList.get(position).getName());
+                }
+
                 //For avoiding double tapping issue
                 if (binding.spinnerBrand.getOnItemClickListener() != null) {
                     binding.spinnerBrand.onItemClick(parent, view, position, id);
@@ -339,14 +353,18 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
         selectedModelNumber = binding.edittextModelNumber.getText().toString();
         initializeModelNumberAdapter(new ArrayList<ModelSearchResponse>());
+
+        if (categoriesList == null) {
+            addCustomProductPresenter.getCategories();
+        } else {
+            loadCategoriesList();
+        }
     }
 
     private void setFocusForViews() {
         binding.edittextModelNumber.setOnFocusChangeListener(onFocusChangeListener);
         binding.edittextName.setOnFocusChangeListener(onFocusChangeListener);
         binding.edittextPrice.setOnFocusChangeListener(onFocusChangeListener);
-
-
     }
 
     View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
@@ -443,8 +461,24 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
     @Override
     public void loadCategoriesList() {
-        fetchCategorieList = ConnectApplication.getAppContext().getCategoriesList();
+        categoriesList = ConnectApplication.getAppContext().getCategoriesList();
         loadCategorySpinnerData();
+    }
+
+    @Override
+    public void loadBrandsList(List<Brand> brandList) {
+        HashMap<Integer, List<Brand>> brandHashMap = ((HomeActivity) getActivity()).getBrandHashMap();
+        brandHashMap.put(divisionsList.get(divisionSelectedPos).getId(), brandList);
+        fetchBrandsList.addAll(brandList);
+        loadBrandSpinnerData(brandList);
+    }
+
+    @Override
+    public void loadDivisionsList(List<Division> divisionList) {
+        HashMap<Integer, List<Division>> divisionHashMap = ((HomeActivity) getActivity()).getDivisionHashMap();
+        divisionHashMap.put(categoriesList.get(categorySelectedPos).getId(), divisionList);
+        this.divisionsList.addAll(divisionList);
+        loadDivisionSpinnerData(divisionList);
     }
 
     @Override

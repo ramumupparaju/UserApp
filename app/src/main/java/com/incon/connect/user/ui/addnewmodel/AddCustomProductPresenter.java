@@ -1,6 +1,5 @@
 package com.incon.connect.user.ui.addnewmodel;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Pair;
 
@@ -9,7 +8,8 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
-import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
+import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
+import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.ui.BasePresenter;
@@ -38,11 +38,11 @@ public class AddCustomProductPresenter extends BasePresenter<AddCustomProductCon
     @Override
     public void getCategories() {
         getView().showProgress(appContext.getString(R.string.progress_categories));
-        DisposableObserver<Object> observer = new
-                DisposableObserver<Object>() {
+        DisposableObserver<DefaultsResponse> observer = new
+                DisposableObserver<DefaultsResponse>() {
                     @Override
-                    public void onNext(Object defaultsResponse) { //todo object have to confrm with naveen
-//                        appContext.setCategoriesList(nu);
+                    public void onNext(DefaultsResponse defaultsResponse) {
+                        appContext.setCategoriesList(defaultsResponse.getCategories());
                         getView().loadCategoriesList();
                     }
 
@@ -59,6 +59,58 @@ public class AddCustomProductPresenter extends BasePresenter<AddCustomProductCon
                     }
                 };
         AppApiService.getInstance().defaultsApi().subscribe(observer);
+        addDisposable(observer);
+    }
+
+    @Override
+    public void getDivisionsFromCategoryId(int categoryId) {
+        getView().showProgress(appContext.getString(R.string.progress_divisions));
+        DisposableObserver<List<Division>> observer = new
+                DisposableObserver<List<Division>>() {
+                    @Override
+                    public void onNext(List<Division> divisionList) {
+                        getView().loadDivisionsList(divisionList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().divisionsFromCategoryId(categoryId).subscribe(observer);
+        addDisposable(observer);
+    }
+
+    @Override
+    public void getBrandsFromDivisionId(int divisionId) {
+        getView().showProgress(appContext.getString(R.string.progress_brands));
+        DisposableObserver<List<Brand>> observer = new
+                DisposableObserver<List<Brand>>() {
+                    @Override
+                    public void onNext(List<Brand> brandList) {
+                        getView().loadBrandsList(brandList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().brandsFromDivisionId(divisionId).subscribe(observer);
         addDisposable(observer);
     }
 
@@ -114,8 +166,8 @@ public class AddCustomProductPresenter extends BasePresenter<AddCustomProductCon
                     public void onComplete() {
                     }
                 };
-       // AppApiService.getInstance().addingNewModel(merchantId, addCustomProductModel).subscribe(observer);
-       // addDisposable(observer);
+        // AppApiService.getInstance().addingNewModel(merchantId, addCustomProductModel).subscribe(observer);
+        // addDisposable(observer);
     }
 
 }

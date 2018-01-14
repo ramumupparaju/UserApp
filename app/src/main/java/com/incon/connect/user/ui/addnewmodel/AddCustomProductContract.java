@@ -1,7 +1,7 @@
 package com.incon.connect.user.ui.addnewmodel;
 
-import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
-import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
+import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
+import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.ui.BaseView;
@@ -21,13 +21,20 @@ public interface AddCustomProductContract {
 
         void loadModelNumberData(List<ModelSearchResponse> modelSearchResponseList);
 
+        void loadBrandsList(List<Brand> brandList);
+
+        void loadDivisionsList(List<Division> divisionList);
     }
 
     interface Presenter {
         void getCategories();
 
+        void getDivisionsFromCategoryId(int categoryId);
+
+        void getBrandsFromDivisionId(int divisionId);
+
         void doModelSearchApi(String modelNumberToSearch);
 
-        void addingNewModel(int merchantId, AddCustomProductModel addCustomProductModel);
+        void addingNewModel(int userId, AddCustomProductModel addCustomProductModel);
     }
 }

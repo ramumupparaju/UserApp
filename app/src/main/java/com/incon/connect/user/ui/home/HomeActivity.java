@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
+import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.databinding.ActivityHomeBinding;
 import com.incon.connect.user.databinding.ToolBarBinding;
 import com.incon.connect.user.ui.BaseActivity;
@@ -31,7 +33,9 @@ import com.incon.connect.user.utils.DeviceUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class HomeActivity extends BaseActivity implements HomeContract.View {
 
@@ -48,6 +52,11 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     private LinkedHashMap<Integer, Fragment> tabFragments = new LinkedHashMap<>();
     private int currentSelectedTabId = DEFAULT_VALUE;
+
+
+    private HashMap<Integer, List<Division>> divisionHashMap = new HashMap<>();
+    private HashMap<Integer, List<Brand>> brandHashMap = new HashMap<>();
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_home;
@@ -83,6 +92,14 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         initializeToolBar();
         getSupportFragmentManager().addOnBackStackChangedListener(backStackChangedListener);
 
+    }
+
+    public HashMap<Integer, List<Division>> getDivisionHashMap() {
+        return divisionHashMap;
+    }
+
+    public HashMap<Integer, List<Brand>> getBrandHashMap() {
+        return brandHashMap;
     }
 
     public void setToolbarTitle(String title) {

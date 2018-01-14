@@ -6,11 +6,13 @@ import com.incon.connect.user.apimodel.base.ApiBaseResponse;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.defaults.DefaultsResponse;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
+import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
 import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories;
 import com.incon.connect.user.apimodel.components.login.LoginResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
+import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
@@ -32,7 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -270,5 +271,13 @@ public class AppApiService implements AppConstants {
 
     public Observable<Object> addServiceEngineer(AddServiceEngineer serviceEngineer, int userId) {
         return addNetworkCheck(serviceInstance.addServiceEngineer(serviceEngineer, userId));
+    }
+
+    public Observable<List<Division>> divisionsFromCategoryId(int categoryId) {
+        return addNetworkCheck(serviceInstance.divisionsFromCategoryId(categoryId));
+    }
+
+    public Observable<List<Brand>> brandsFromDivisionId(int divisionId) {
+        return addNetworkCheck(serviceInstance.brandsFromDivisionId(divisionId));
     }
 }
