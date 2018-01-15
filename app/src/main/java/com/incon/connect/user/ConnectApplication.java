@@ -11,7 +11,6 @@ import com.incon.connect.user.apimodel.components.fetchcategorie.FetchCategories
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 
 import io.fabric.sdk.android.Fabric;
-import net.hockeyapp.android.CrashManager;
 
 import java.util.List;
 
@@ -26,7 +25,10 @@ public class ConnectApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        //enabled crash lytics only for production
+        if (BuildConfig.FLAVOR.equals("connect_production")) {
+            Fabric.with(this, new Crashlytics());
+        }
         context = getApplicationContext();
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -40,9 +42,6 @@ public class ConnectApplication extends Application {
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
 
-        if (BuildConfig.FLAVOR.equals("client_staging")) {
-            CrashManager.register(this);
-        }
     }
 
     @Override
