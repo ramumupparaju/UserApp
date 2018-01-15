@@ -22,8 +22,10 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.incon.connect.user.apimodel.components.addnewmodel.AddNewModelResponce;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
+import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.ValidationUtils;
 
@@ -59,6 +61,31 @@ public class AppUtils {
      */
     public static String getWarrantyInformation(ProductInfoResponse productInfoResponse) {
         return getWarranty(productInfoResponse.getWarrantyYears(), productInfoResponse.getWarrantyMonths(), productInfoResponse.getWarrantyDays());
+    }
+
+    public static String getWarrantyInformationFromAddNewModel(AddCustomProductModel customProductModel) {
+        int warrantyIntYears = 0;
+        try {
+            warrantyIntYears = Integer.parseInt(customProductModel.getWarrantyYears());
+        } catch (Exception e) {
+
+        }
+
+        int warrantyIntMonths = 0;
+        try {
+            warrantyIntMonths = Integer.parseInt(customProductModel.getWarrantyMonths());
+        } catch (Exception e) {
+
+        }
+
+        int warrantyIntDays = 0;
+        try {
+            warrantyIntDays = Integer.parseInt(customProductModel.getWarrantyDays());
+        } catch (Exception e) {
+
+        }
+
+        return getWarranty(warrantyIntYears, warrantyIntMonths, warrantyIntDays);
     }
 
     /**

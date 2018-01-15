@@ -68,6 +68,40 @@ public class ModelSearchResponse implements Parcelable {
     @Expose
     private String notes;
 
+    @SerializedName("warrantyDays")
+    @Expose
+    private String warrantyDays;
+    @SerializedName("warrantyMonths")
+    @Expose
+    private String warrantyMonths;
+    @SerializedName("warrantyYears")
+    @Expose
+    private String warrantyYears;
+
+    public String getWarrantyDays() {
+        return warrantyDays;
+    }
+
+    public void setWarrantyDays(String warrantyDays) {
+        this.warrantyDays = warrantyDays;
+    }
+
+    public String getWarrantyMonths() {
+        return warrantyMonths;
+    }
+
+    public void setWarrantyMonths(String warrantyMonths) {
+        this.warrantyMonths = warrantyMonths;
+    }
+
+    public String getWarrantyYears() {
+        return warrantyYears;
+    }
+
+    public void setWarrantyYears(String warrantyYears) {
+        this.warrantyYears = warrantyYears;
+    }
+
     public Brand getBrand() {
         return brand;
     }
@@ -188,7 +222,7 @@ public class ModelSearchResponse implements Parcelable {
         this.size = size;
     }
 
-    public Object getPrice() {
+    public String getPrice() {
         return price;
     }
 

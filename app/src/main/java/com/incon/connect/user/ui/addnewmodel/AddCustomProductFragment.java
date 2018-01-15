@@ -354,6 +354,13 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     ModelSearchResponse modelSearchResponse = modelSearchResponseList.get(selectedPosition);
                     selectedModelNumber = modelSearchResponse.getModelNumber();
 
+                    addCustomProductModel.setName(modelSearchResponse.getName());
+                    addCustomProductModel.setPrice(modelSearchResponse.getPrice());
+                    addCustomProductModel.setWarrantyYears(modelSearchResponse.getWarrantyYears());
+                    addCustomProductModel.setWarrantyMonths(modelSearchResponse.getWarrantyMonths());
+                    addCustomProductModel.setWarrantyDays(modelSearchResponse.getWarrantyDays());
+                    addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
+
                     //Clear spinner data
                     categorySelectedPos = -1;
                     categoriesList.clear();
