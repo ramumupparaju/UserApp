@@ -49,6 +49,9 @@ public class AddCustomProductModel extends BaseObservable {
     @SerializedName("purchaseDate")
     @Expose
     private Long purchaseDate;
+    @SerializedName("warrantyDays")
+    @Expose
+    private String warrantyDays;
     @SerializedName("warrantyMonths")
     @Expose
     private String warrantyMonths;
@@ -59,7 +62,25 @@ public class AddCustomProductModel extends BaseObservable {
     private transient String divisionName;
     private transient String brandName;
     private transient String dateOfPurchased;
+    private transient String warrantyShow;
 
+    @Bindable
+    public String getWarrantyShow() {
+        return warrantyShow;
+    }
+
+    public void setWarrantyShow(String warrantyShow) {
+        this.warrantyShow = warrantyShow;
+        notifyChange();
+    }
+
+    public String getWarrantyDays() {
+        return warrantyDays;
+    }
+
+    public void setWarrantyDays(String warrantyDays) {
+        this.warrantyDays = warrantyDays;
+    }
 
     @Bindable
     public String getName() {

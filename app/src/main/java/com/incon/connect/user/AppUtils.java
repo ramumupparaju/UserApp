@@ -22,7 +22,6 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.incon.connect.user.apimodel.components.ServiceRequest;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.utils.DateUtils;
@@ -59,31 +58,44 @@ public class AppUtils {
      * @return
      */
     public static String getWarrantyInformation(ProductInfoResponse productInfoResponse) {
+        return getWarranty(productInfoResponse.getWarrantyYears(), productInfoResponse.getWarrantyMonths(), productInfoResponse.getWarrantyDays());
+    }
+
+    /**
+     * parsing warranty string
+     *
+     * @param warrantyData: y;m;d
+     * @return
+     */
+    public static String getWarrantyInformationFromStrinArray(String[] warrantyData) {
+        return getWarranty(Integer.valueOf(warrantyData[0]), Integer.parseInt(warrantyData[1]), Integer.parseInt(warrantyData[2]));
+    }
+
+    private static String getWarranty(Integer warrantyYears, Integer warrantyMonths, Integer warrantyDays) {
         String days = "days";
         String months = "months";
+        String years = "years";
+
         StringBuffer stringBuffer = new StringBuffer();
-        Integer warrantyDays = productInfoResponse.getWarrantyDays();
-        if (warrantyDays != null && warrantyDays != 0) {
-            stringBuffer.append(warrantyDays + days);
+        if (warrantyYears != null && warrantyYears != 0) {
+            stringBuffer.append(warrantyYears + years);
         }
 
-        Integer warrantyMonths = productInfoResponse.getWarrantyMonths();
         if (warrantyMonths != null && warrantyMonths != 0) {
 
-            if (stringBuffer.toString().contains(days)) {
+            if (stringBuffer.toString().contains(years)) {
                 stringBuffer.append(",");
             }
             stringBuffer.append(warrantyMonths + months);
-
         }
 
-        Integer warrantyYears = productInfoResponse.getWarrantyYears();
-        if (warrantyYears != null && warrantyYears != 0) {
-            if (stringBuffer.toString().contains(days) || stringBuffer.toString().contains(months)) {
+        if (warrantyDays != null && warrantyDays != 0) {
+            if (stringBuffer.toString().contains(years) || stringBuffer.toString().contains(months)) {
                 stringBuffer.append(",");
             }
-            stringBuffer.append(warrantyYears + "years");
+            stringBuffer.append(warrantyDays + days);
         }
+
 
         return stringBuffer.toString();
     }

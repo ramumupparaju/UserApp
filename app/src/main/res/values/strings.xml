@@ -502,6 +502,9 @@
     <string name="notification_id_channel">Notification</string>
     <string name="action_approval">approval</string>
     <string name="action_add">Add</string>
+    <string name="action_years">years</string>
+    <string name="action_months">months</string>
+    <string name="action_days">days</string>
 
 
 </resources>

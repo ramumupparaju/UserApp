@@ -21,23 +21,27 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.search.Category;
 import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
+import com.incon.connect.user.callbacks.AlertDialogCallback;
+import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.CustomAutoCompleteView;
 import com.incon.connect.user.custom.view.CustomTextInputLayout;
+import com.incon.connect.user.custom.view.WarratyDialog;
 import com.incon.connect.user.databinding.FragmentAddCustomProductBinding;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.addnewmodel.adapter.ModelSearchArrayAdapter;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.qrcodescan.QrcodeBarcodeScanActivity;
-import com.incon.connect.user.ui.register.RegistrationActivity;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -81,6 +85,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
     private HashMap<Integer, String> errorMap;
     private Animation shakeAnim;
+    private WarratyDialog warratyDialog;
 
     @Override
     protected void initializePresenter() {
@@ -111,6 +116,40 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         }
         setTitle();
         return rootView;
+    }
+
+    public void onWarrantyClick() {
+        showWarrantyDialog();
+    }
+
+    //warranty dialog
+    private void showWarrantyDialog() {
+        warratyDialog = new WarratyDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String yearsMonthsDays) {
+                        String[] split = yearsMonthsDays.split(AppConstants.COMMA_SEPARATOR);
+                        addCustomProductModel.setWarrantyYears(split[0]);
+                        addCustomProductModel.setWarrantyMonths(split[1]);
+                        addCustomProductModel.setWarrantyDays(split[2]);
+                        addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromStrinArray(split));
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                warratyDialog.dismiss();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                warratyDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).years(addCustomProductModel.getWarrantyYears()).months(addCustomProductModel.getWarrantyMonths()).days(addCustomProductModel.getWarrantyDays()).build();
+        warratyDialog.showDialog();
     }
 
     public void onPurchasedDateClick() {

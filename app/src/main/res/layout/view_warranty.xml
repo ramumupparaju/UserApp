@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout
+        style="@style/MatchWrap"
+        android:background="@drawable/dialog_background">
+
+
+        <!-- dialog title -->
+        <TextView
+            android:id="@+id/dialog_title"
+            style="@style/BothWrap"
+            fontPath="fonts/OpenSans-Semibold.ttf"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20.5dp"
+            android:gravity="center_horizontal"
+            android:text="@string/add_new_warrnty_period"
+            android:textColor="@color/colorEulaMessage"
+            android:textSize="15.4sp" />
+
+        <LinearLayout
+            android:id="@+id/warranty_views"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dialog_title"
+            android:gravity="center">
+
+
+            <!--years number picker-->
+            <NumberPicker
+                android:id="@+id/years_np"
+                style="@style/BothWrap" />
+            <!--years label-->
+            <TextView
+                style="@style/BothWrap"
+                android:gravity="center"
+                android:text="@string/action_years"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <!--,onths number picker-->
+            <NumberPicker
+                android:id="@+id/month_np"
+                style="@style/BothWrap" />
+            <!--months text view-->
+            <TextView
+                style="@style/BothWrap"
+                android:gravity="center"
+                android:text="@string/action_months"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <!--days number picker-->
+            <NumberPicker
+                android:id="@+id/days_np"
+                style="@style/BothWrap" />
+
+
+            <!--days text-->
+            <TextView
+                style="@style/BothWrap"
+                android:gravity="center"
+                android:text="@string/action_days"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+        <!-- layout for bottom buttons -->
+        <include
+            android:id="@+id/include_register_bottom_buttons"
+            layout="@layout/view_registration_bottom_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_below="@id/warranty_views" />
+
+    </RelativeLayout>
+</layout>
