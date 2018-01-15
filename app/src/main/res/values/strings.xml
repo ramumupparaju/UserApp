@@ -133,7 +133,7 @@
     <string name="action_no_data">No data to show</string>
     <string name="action_add_product">Add Product</string>
     <string name="action_changepassword">CHANGE PASSWORD</string>
-    <string name="action_add_location">Add Location</string>
+    <string name="action_add_location">Location</string>
     <string name="action_back">Back</string>
     <string name="action_next">Next</string>
     <string name="action_login">Login</string>
@@ -501,6 +501,7 @@
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="notification_id_channel">Notification</string>
     <string name="action_approval">approval</string>
+    <string name="action_add">Add</string>
 
 
 </resources>

@@ -278,6 +278,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
     private void navigateToAddressActivity() {
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
+        addressIntent.putExtra(IntentConstants.BUTTON_TEXT, getString(R.string.action_add));
         startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
     }
 
@@ -903,8 +904,11 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
         if (favoritesResponseList.size() > 0) {
             iAddressClickCallback.onClickPosition(0);
+            binding.parentProduct.setVisibility(View.VISIBLE);
         } else {
             loadFavoritesProducts(null);
+            binding.parentProduct.setVisibility(View.GONE);
+
         }
     }
 

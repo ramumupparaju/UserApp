@@ -146,6 +146,7 @@ public interface AppConstants {
         String LOCATION_COMMA = "locationDetails";
         String FROM_FORGOT_PASSWORD_SCREEN = "fromForgotPasswordScreen";
         String SERVICE_CENTER_DATA = "serviceCenterResponse";
+        String BUTTON_TEXT = "buttonText";
     }
 
 
