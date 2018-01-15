@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -27,6 +28,8 @@ import com.incon.connect.user.utils.PermissionUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.HashMap;
+
+import static com.incon.connect.user.AppConstants.HttpErrorCodeConstants.ERROR_OTP_VALIDATION;
 
 
 public class LoginActivity extends BaseActivity implements LoginContract.View {
@@ -79,6 +82,18 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             startActivity(registrationIntent);
         }
     }
+
+    @Override
+    public void handleException(Pair<Integer, String> error) {
+        if (error.first == ERROR_OTP_VALIDATION) {
+            SharedPrefsUtils.loginProvider().setStringPreference(
+                    LoginPrefs.USER_PHONE_NUMBER, binding.edittextUsername.getText().toString());
+            showOtpDialog();
+        } else {
+            super.handleException(error);
+        }
+    }
+
     private void showOtpDialog() {
         final String phoneNumber = SharedPrefsUtils.loginProvider().getStringPreference(
                 LoginPrefs.USER_PHONE_NUMBER);
@@ -223,9 +238,15 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             }
         }
     }
+
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
         loginPresenter.disposeAll();
     }
 }

@@ -132,7 +132,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                         addCustomProductModel.setWarrantyYears(split[0]);
                         addCustomProductModel.setWarrantyMonths(split[1]);
                         addCustomProductModel.setWarrantyDays(split[2]);
-                        addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromStrinArray(split));
+                        addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
                     }
 
                     @Override
