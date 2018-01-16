@@ -505,6 +505,7 @@
     <string name="action_years">years</string>
     <string name="action_months">months</string>
     <string name="action_days">days</string>
+    <string name="error_no_service_centers_found">No service centers found</string>
 
 
 </resources>
