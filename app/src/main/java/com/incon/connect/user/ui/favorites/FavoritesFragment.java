@@ -24,11 +24,13 @@ import android.widget.TextView;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
+import com.incon.connect.user.callbacks.CustomPhoneNumberAlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.callbacks.TextAddressDialogCallback;
@@ -37,6 +39,7 @@ import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppUserAddressDialog;
+import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
 import com.incon.connect.user.custom.view.ServiceRequestDialog;
 import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
@@ -90,6 +93,10 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private ServiceRequestDialog serviceRequestDialog;
     private TimeSlotAlertDialog timeSlotAlertDialog;
     private String serviceRequestComment;
+
+    //Adding unauthorized phone number
+    private CustomPhoneNumberDialog customPhoneNumberDialog;
+    private AddServiceEngineer serviceEngineer;
 
     @Override
     protected void initializePresenter() {
@@ -588,40 +595,41 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             int firstRowTag = Integer.parseInt(tagArray[0]);
             int secondRowTag = Integer.parseInt(tagArray[1]);
             int thirdRowTag = Integer.parseInt(tagArray[2]);
-            ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(
+            ProductInfoResponse productInfoResponse = favoritesAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.thirdRow, unparsedTag);
             if (firstRowTag == 0) { // service/support
                 if (secondRowTag == 0) { // un authorized
                     if (thirdRowTag == 0) { // call
-                        // todo have to check
-                        callPhoneNumber(itemFromPosition.getMobileNumber());
+                        List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
+                        showPhoneNumberList(serviceEngineerList);
                         return;
                     } else if (thirdRowTag == 1) { //service request
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
                     } else if (thirdRowTag == 2) { // add
-                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                        showCustomPhoneNumberDialog();
                     }
                 } else if (secondRowTag == 1) { // authorized
 
                     if (thirdRowTag == 0) { // call
                         // todo have to check
-                        callPhoneNumber(itemFromPosition.getMobileNumber());
+                        callPhoneNumber(productInfoResponse.getMobileNumber());
                         return;
                     } else if (thirdRowTag == 1) { //find service center
                         // todo have to check
                         isFindServiceCenter = true;
-                        loadNearByServiceCentersDialogData(itemFromPosition.getBrandId());
+                        loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
                     } else if (thirdRowTag == 2) { // service center
                         // todo have to check
                         isFindServiceCenter = false;
                         if (serviceCenterResponseList != null) {
                             loadServiceRequesDialogData();
                         } else {
-                            loadNearByServiceCentersDialogData(itemFromPosition.getBrandId());
+                            loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
                         }
 
                     } else if (thirdRowTag == 3) { // add
+//TODO have to add
 
                     }
                 }
@@ -634,13 +642,13 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 if (secondRowTag == 0) {
                     // return policy
                     if (thirdRowTag == 0) {
-                        showInformationDialog(getString(R.string.bottom_option_return_policy), itemFromPosition.getReturnPolicy());
+                        showInformationDialog(getString(R.string.bottom_option_return_policy), productInfoResponse.getReturnPolicy());
                     }
                     // special instruction
                     else if (thirdRowTag == 1) {
                         showInformationDialog(getString(
                                 R.string.bottom_option_special_instructions),
-                                itemFromPosition.getSpecialInstruction());
+                                productInfoResponse.getSpecialInstruction());
                     }
                     //how to use
                     else if (thirdRowTag == 2) {
@@ -650,10 +658,10 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                     //description
                     else if (thirdRowTag == 3) {
                         showInformationDialog(getString(
-                                R.string.bottom_option_description), itemFromPosition.getInformation()
-                                + itemFromPosition.getProductSpecification()
-                                + itemFromPosition.getColor()
-                                + itemFromPosition.getProductDimensions());
+                                R.string.bottom_option_description), productInfoResponse.getInformation()
+                                + productInfoResponse.getProductSpecification()
+                                + productInfoResponse.getColor()
+                                + productInfoResponse.getProductDimensions());
                         return;
                     }
                 }
@@ -814,8 +822,56 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         startActivity(addressIntent);
     }
 
-    private void callPhoneNumber(String phoneNumber) {
-        AppUtils.callPhoneNumber(getActivity(), phoneNumber);
+    @Override
+    public void addedServiceEngineer(ProductInfoResponse productInfoResponse) {
+        if (customPhoneNumberDialog != null && customPhoneNumberDialog.isShowing()) {
+            customPhoneNumberDialog.dismiss();
+        }
+        onRefreshListener.onRefresh();
+        bottomSheetDialog.dismiss();
+    }
+
+    private void showCustomPhoneNumberDialog() {
+        if (serviceEngineer == null) {
+            serviceEngineer = new AddServiceEngineer();
+        }
+        customPhoneNumberDialog = new CustomPhoneNumberDialog.AlertDialogBuilder(getActivity(), new
+                CustomPhoneNumberAlertDialogCallback() {
+                    @Override
+                    public void enteredName(String name) {
+
+                        serviceEngineer.setName(name);
+                    }
+
+                    @Override
+                    public void enteredPhoneNumber(String phoneNumber) {
+                        serviceEngineer.setMobileNumber(phoneNumber);
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                if (TextUtils.isEmpty(serviceEngineer.getMobileNumber())) {
+                                    showErrorMessage(getString(R.string.error_phone_req));
+                                } else {
+                                    AppUtils.hideSoftKeyboard(getActivity(), rootView);
+                                    favoritesPresenter.addServiceEngineer(serviceEngineer, userId);
+                                }
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                customPhoneNumberDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.action_approval))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        customPhoneNumberDialog.showDialog();
+        customPhoneNumberDialog.setCancelable(true);
     }
 
     //buy request dialog

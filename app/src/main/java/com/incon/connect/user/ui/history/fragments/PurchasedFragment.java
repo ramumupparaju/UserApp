@@ -137,7 +137,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private void showCustomPhoneNumberDialog() {
         if (serviceEngineer == null) {
             serviceEngineer = new AddServiceEngineer();
-            serviceEngineer.setLocation("dummy");
         }
         customPhoneNumberDialog = new CustomPhoneNumberDialog.AlertDialogBuilder(getActivity(), new
                 CustomPhoneNumberAlertDialogCallback() {
@@ -682,11 +681,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 if (secondRowTag == 0) { // un authorized
                     if (thirdRowTag == 0) { // call
                         List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
-                        if (serviceEngineerList != null && serviceEngineerList.size() > 0) {
-                            callPhoneNumber(serviceEngineerList.get(serviceEngineerList.size() - 1).getMobileNumber()); //todo have to load enginners list in dialog if it has more
-                        } else {
-                            showCustomPhoneNumberDialog();
-                        }
+                        showPhoneNumberList(serviceEngineerList);
                         return;
                     } else if (thirdRowTag == 1) { //service request
                         AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
@@ -709,7 +704,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                             loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
                         }
                     } else if (thirdRowTag == 3) { // add
-
+//TODO have to add
                     }
                 }
 
@@ -750,6 +745,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
 
     };
+
 
     private void loadNearByServiceCentersDialogData(String brandId) {
         if (TextUtils.isEmpty(brandId)) {
@@ -917,10 +913,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         startActivity(addressIntent);
     }
 
-    private void callPhoneNumber(String phoneNumber) {
-        AppUtils.callPhoneNumber(getActivity(), phoneNumber);
-    }
-
 
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
             new SwipeRefreshLayout.OnRefreshListener() {
@@ -1043,7 +1035,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     }
 
     @Override
-    public void addedServiceEngineer() {
+    public void addedServiceEngineer(ProductInfoResponse productInfoResponse) {
         if (customPhoneNumberDialog != null && customPhoneNumberDialog.isShowing()) {
             customPhoneNumberDialog.dismiss();
         }

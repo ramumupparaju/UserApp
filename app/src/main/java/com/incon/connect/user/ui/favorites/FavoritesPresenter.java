@@ -7,6 +7,7 @@ import android.util.Pair;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
+import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
@@ -125,81 +126,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     public void serviceRequest(ServiceRequest serviceRequest) {
         PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.initialize(null);
-        purchasedPresenter.setView(new PurchasedContract.View() {
-            @Override
-            public void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses) {
-                // do nothing
-            }
-
-            @Override
-            public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
-
-                // do nothing
-            }
-
-            @Override
-            public void addedToFavorite() {
-                // do nothing
-
-            }
-
-            @Override
-            public void transferMobileNumber(Object response) {
-                // do nothing
-
-            }
-
-            @Override
-            public void deleteProduct(Object response) {
-                // do nothing
-
-            }
-
-            @Override
-            public void loadServiceRequest() {
-                getView().loadServiceRequest();
-
-            }
-
-            @Override
-            public void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponses) {
-                // getView().loadNearByServiceCenters(serviceCenterResponses);
-            }
-
-            @Override
-            public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters) {
-                //  getView().loadUsersListOfServiceCenters(listOfServiceCenters);
-
-            }
-
-            @Override
-            public void addedServiceEngineer() {
-
-            }
-
-            @Override
-            public void showProgress(String message) {
-                getView().showProgress(message);
-
-            }
-
-            @Override
-            public void hideProgress() {
-                getView().hideProgress();
-
-            }
-
-            @Override
-            public void showErrorMessage(String errorMessage) {
-                getView().showErrorMessage(errorMessage);
-            }
-
-            @Override
-            public void handleException(Pair<Integer, String> error) {
-                getView().handleException(error);
-
-            }
-        });
+        purchasedPresenter.setView(purchasedView);
         purchasedPresenter.serviceRequest(serviceRequest);
 
 
@@ -209,77 +136,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     public void nearByServiceCenters(int brandId) {
         PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.initialize(null);
-        purchasedPresenter.setView(new PurchasedContract.View() {
-            @Override
-            public void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses) {
-                // do nothing
-            }
-
-            @Override
-            public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
-                // do nothing
-            }
-
-            @Override
-            public void addedToFavorite() {
-                // do nothing
-            }
-
-            @Override
-            public void transferMobileNumber(Object response) {
-                // do nothing
-            }
-
-            @Override
-            public void deleteProduct(Object response) {
-                // do nothing
-            }
-
-            @Override
-            public void loadServiceRequest() {
-                // do nothing
-            }
-
-            @Override
-            public void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponses) {
-                getView().loadNearByServiceCenters(serviceCenterResponses);
-
-            }
-
-            @Override
-            public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters) {
-                // do nothing
-            }
-
-            @Override
-            public void addedServiceEngineer() {
-
-            }
-
-            @Override
-            public void showProgress(String message) {
-                getView().showProgress(message);
-
-            }
-
-            @Override
-            public void hideProgress() {
-                getView().hideProgress();
-
-            }
-
-            @Override
-            public void showErrorMessage(String errorMessage) {
-                getView().showErrorMessage(errorMessage);
-
-            }
-
-            @Override
-            public void handleException(Pair<Integer, String> error) {
-                getView().handleException(error);
-
-            }
-        });
+        purchasedPresenter.setView(purchasedView);
         purchasedPresenter.nearByServiceCenters(brandId);
 
     }
@@ -288,81 +145,88 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     public void getUsersListOfServiceCenters(int serviceCenterId) {
         PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.initialize(null);
-        purchasedPresenter.setView(new PurchasedContract.View() {
-            @Override
-            public void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses) {
-                // do nothing
-            }
-
-            @Override
-            public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
-                // do nothing
-            }
-
-            @Override
-            public void addedToFavorite() {
-                // do nothing
-            }
-
-            @Override
-            public void transferMobileNumber(Object response) {
-                // do nothing
-            }
-
-            @Override
-            public void deleteProduct(Object response) {
-                // do nothing
-            }
-
-            @Override
-            public void loadServiceRequest() {
-                // do nothing
-            }
-
-            @Override
-            public void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponses) {
-                // do nothing
-            }
-
-            @Override
-            public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters) {
-                getView().loadUsersListOfServiceCenters(listOfServiceCenters);
-
-            }
-
-            @Override
-            public void addedServiceEngineer() {
-
-            }
-
-            @Override
-            public void showProgress(String message) {
-                getView().showProgress(message);
-
-            }
-
-            @Override
-            public void hideProgress() {
-                getView().hideProgress();
-
-            }
-
-            @Override
-            public void showErrorMessage(String errorMessage) {
-                getView().showErrorMessage(errorMessage);
-
-            }
-
-            @Override
-            public void handleException(Pair<Integer, String> error) {
-                getView().handleException(error);
-
-            }
-        });
+        purchasedPresenter.setView(purchasedView);
         purchasedPresenter.getUsersListOfServiceCenters(serviceCenterId);
-
-
     }
+
+    public void addServiceEngineer(AddServiceEngineer serviceEngineer, int userId) {
+        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
+        purchasedPresenter.initialize(null);
+        purchasedPresenter.setView(purchasedView);
+        purchasedPresenter.addServiceEngineer(serviceEngineer, userId);
+    }
+
+    PurchasedContract.View purchasedView = new PurchasedContract.View() {
+        @Override
+        public void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses) {
+            // do nothing
+        }
+
+        @Override
+        public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
+            // do nothing
+        }
+
+        @Override
+        public void addedToFavorite() {
+            // do nothing
+        }
+
+        @Override
+        public void transferMobileNumber(Object response) {
+            // do nothing
+        }
+
+        @Override
+        public void deleteProduct(Object response) {
+            // do nothing
+        }
+
+        @Override
+        public void loadServiceRequest() {
+            getView().loadServiceRequest();
+        }
+
+        @Override
+        public void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponses) {
+            getView().loadNearByServiceCenters(serviceCenterResponses);
+        }
+
+        @Override
+        public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters) {
+            getView().loadUsersListOfServiceCenters(listOfServiceCenters);
+
+        }
+
+        @Override
+        public void addedServiceEngineer(ProductInfoResponse o) {
+            getView().addedServiceEngineer(o);
+        }
+
+        @Override
+        public void showProgress(String message) {
+            getView().showProgress(message);
+
+        }
+
+        @Override
+        public void hideProgress() {
+            getView().hideProgress();
+
+        }
+
+        @Override
+        public void showErrorMessage(String errorMessage) {
+            getView().showErrorMessage(errorMessage);
+
+        }
+
+        @Override
+        public void handleException(Pair<Integer, String> error) {
+            getView().handleException(error);
+
+        }
+    };
 
 
 }

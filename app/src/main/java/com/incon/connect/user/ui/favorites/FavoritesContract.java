@@ -1,5 +1,6 @@
 package com.incon.connect.user.ui.favorites;
 
+import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
@@ -22,6 +23,7 @@ public interface FavoritesContract {
         void loadServiceRequest();
         void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponses);
         void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters);
+        void addedServiceEngineer(ProductInfoResponse productInfoResponse);
     }
 
     interface Presenter {
@@ -33,5 +35,7 @@ public interface FavoritesContract {
         void serviceRequest(ServiceRequest serviceRequest);
         void nearByServiceCenters(int brandId);
         void getUsersListOfServiceCenters(int serviceCenterId);
+
+        void addServiceEngineer(AddServiceEngineer serviceEngineer, int userId);
     }
 }

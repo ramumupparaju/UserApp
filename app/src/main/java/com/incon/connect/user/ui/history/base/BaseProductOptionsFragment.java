@@ -1,25 +1,33 @@
 package com.incon.connect.user.ui.history.base;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.utils.DeviceUtils;
 import com.incon.connect.user.utils.Logger;
+
+import java.util.List;
 
 
 public abstract class BaseProductOptionsFragment extends BaseFragment {
@@ -59,6 +67,44 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
             (getBottomImageView(linearLayout)).setColorFilter(getResources().getColor(isSelectedView ? R.color.colorPrimary : R.color.colorAccent), PorterDuff.Mode.SRC_IN);
             (getBottomTextView(linearLayout)).setTextColor(ContextCompat.getColor(getActivity(), isSelectedView ? R.color.colorPrimary : R.color.colorAccent));
         }
+    }
+
+    public void callPhoneNumber(String phoneNumber) {
+        AppUtils.callPhoneNumber(getActivity(), phoneNumber);
+    }
+
+    public void showPhoneNumberList(final List<AddServiceEngineer> serviceEngineerList) {
+        //if size is 1 we are calling directly else showing list popup
+        int size = serviceEngineerList.size();
+        if (size == 1) {
+            callPhoneNumber(serviceEngineerList.get(serviceEngineerList.size() - 1).getMobileNumber());
+            return;
+        }
+
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_singlechoice);
+        for (AddServiceEngineer addServiceEngineer : serviceEngineerList) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(TextUtils.isEmpty(addServiceEngineer.getName()) ? "" : addServiceEngineer.getName() + " - ");
+            stringBuilder.append(addServiceEngineer.getMobileNumber());
+            arrayAdapter.add(stringBuilder.toString());
+        }
+        builderSingle.setNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String phoneNumber = serviceEngineerList.get(which).getMobileNumber();
+                callPhoneNumber(phoneNumber);
+            }
+        });
+        builderSingle.show();
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.incon.connect.user.ui.history.fragments;
 
 
+import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
@@ -33,7 +34,7 @@ public interface PurchasedContract {
 
         void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters);
 
-        void addedServiceEngineer();
+        void addedServiceEngineer(ProductInfoResponse productInfoResponse);
     }
 
     interface Presenter {
@@ -52,6 +53,8 @@ public interface PurchasedContract {
         void nearByServiceCenters(int brandId);
 
         void getUsersListOfServiceCenters(int serviceCenterId);
+
+        void addServiceEngineer(AddServiceEngineer serviceEngineer, int userId);
     }
 
 }

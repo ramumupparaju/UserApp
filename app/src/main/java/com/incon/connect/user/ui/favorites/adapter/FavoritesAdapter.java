@@ -19,16 +19,10 @@ import com.incon.connect.user.ui.BaseRecyclerViewAdapter;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.DeviceUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.incon.connect.user.AppConstants.UpDateUserProfileValidation.MIN_DAYS;
-
 /**
  * Created on 13 Jun 2017 4:05 PM.
  */
 public class FavoritesAdapter extends BaseRecyclerViewAdapter {
-    private List<ProductInfoResponse> favoritestResponseList = new ArrayList<>();
     private IClickCallback clickCallback;
     private int warrantyLayoutWidth = -1;
 
@@ -42,34 +36,9 @@ public class FavoritesAdapter extends BaseRecyclerViewAdapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ProductInfoResponse favoritesResponse = favoritestResponseList.get(position);
+        ProductInfoResponse favoritesResponse = filteredList.get(position);
         ((FavoritesAdapter.ViewHolder) holder).bind(favoritesResponse, position);
 
-    }
-
-    public ProductInfoResponse getItemFromPosition(int position) {
-        return favoritestResponseList.get(position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return favoritestResponseList.size();
-    }
-
-    public void setData(List<ProductInfoResponse> favoritestResponseList) {
-        this.favoritestResponseList = favoritestResponseList;
-        notifyDataSetChanged();
-    }
-
-    public void setClickCallback(IClickCallback clickCallback) {
-        this.clickCallback = clickCallback;
-    }
-
-    public void clearSelection() {
-        for (ProductInfoResponse favoritesResponse : favoritestResponseList) {
-            favoritesResponse.setSelected(false);
-        }
-        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

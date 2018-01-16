@@ -10,7 +10,6 @@ import com.google.gson.annotations.SerializedName;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.qrcodebaruser.Store;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
-import com.incon.connect.user.apimodel.components.status.StatusList;
 
 import java.util.List;
 
@@ -971,6 +970,23 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         dest.writeString(country);
         dest.writeString(dob);
         dest.writeString(gender);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if (!(o instanceof ProductInfoResponse)) {
+            return false;
+        }
+
+        ProductInfoResponse productInfoResponse = (ProductInfoResponse) o;
+        return productInfoResponse.id.equals(id);
     }
 
     @SuppressWarnings("unused")

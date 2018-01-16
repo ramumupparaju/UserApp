@@ -60,6 +60,16 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         return filteredList.get(position);
     }
 
+    public void setItemFromPosition(int position, ProductInfoResponse productInfoResponse) {
+
+        int indexOf = allDataResponseList.indexOf(productInfoResponse);
+        if (indexOf != -1) {
+            allDataResponseList.set(position, productInfoResponse);
+        }
+        filteredList.set(position, productInfoResponse);
+        notifyDataSetChanged();
+    }
+
     public void setData(List<ProductInfoResponse> returnHistoryResponseList) {
         this.allDataResponseList = returnHistoryResponseList;
         filteredList.clear();

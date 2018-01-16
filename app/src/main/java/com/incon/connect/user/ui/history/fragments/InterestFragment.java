@@ -488,10 +488,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         startActivity(addressIntent);
     }
 
-    private void callPhoneNumber(String phoneNumber) {
-        AppUtils.callPhoneNumber(getActivity(), phoneNumber);
-    }
-
     // data re load
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
             new SwipeRefreshLayout.OnRefreshListener() {

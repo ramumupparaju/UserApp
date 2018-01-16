@@ -263,6 +263,12 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         }
 
         @Override
+        public void addedServiceEngineer(ProductInfoResponse productInfoResponse) {
+
+        }
+
+
+        @Override
         public void showProgress(String message) {
 
         }
@@ -283,13 +289,14 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         }
     };
 
+    @Override
     public void addServiceEngineer(AddServiceEngineer serviceEngineer, int userId) {
         getView().showProgress(appContext.getString(R.string.progress_adding_engineer));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
                     @Override
                     public void onNext(Object o) {
-                        getView().addedServiceEngineer();
+                        getView().addedServiceEngineer((ProductInfoResponse) o);
                     }
 
                     @Override

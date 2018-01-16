@@ -270,7 +270,7 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.pushTokenApi(userId, pushRegistrarBody));
     }
 
-    public Observable<Object> addServiceEngineer(AddServiceEngineer serviceEngineer, int userId) {
+    public Observable<ProductInfoResponse> addServiceEngineer(AddServiceEngineer serviceEngineer, int userId) {
         return addNetworkCheck(serviceInstance.addServiceEngineer(serviceEngineer, userId));
     }
 

@@ -201,7 +201,7 @@ public interface AppServiceObservable {
 
 
     @POST("service/addserviceengineer/{userId}")
-    Observable<Object> addServiceEngineer(@Body AddServiceEngineer serviceEngineer, @Path("userId") int userId);
+    Observable<ProductInfoResponse> addServiceEngineer(@Body AddServiceEngineer serviceEngineer, @Path("userId") int userId);
 
     @GET("defaults/divisions/{categoryId}")
     Observable<List<Division>> divisionsFromCategoryId(@Path("categoryId") int categoryId);
