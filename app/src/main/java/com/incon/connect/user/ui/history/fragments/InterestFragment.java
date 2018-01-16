@@ -141,18 +141,26 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         int length;
         int[] bottomDrawables;
         String[] bottomNames;
-        length = 4;
+        ProductInfoResponse productInfoResponse = interestAdapter.getItemFromPosition(productSelectedPosition);
+        if (productInfoResponse.getBuyReqCount() == 0) {
+            length = 4;
+        } else {
+            length = 3;
+        }
         bottomNames = new String[length];
-        bottomNames[0] = getString(R.string.bottom_option_buy_request);
-        bottomNames[1] = getString(R.string.bottom_option_product);
-        bottomNames[2] = getString(R.string.bottom_option_showroom);
-        bottomNames[3] = getString(R.string.bottom_option_delete);
-        bottomDrawables = new int[length];
-        bottomDrawables[0] = R.drawable.ic_option_customer;
-        bottomDrawables[1] = R.drawable.ic_option_product;
-        bottomDrawables[2] = R.drawable.ic_showroom;
-        bottomDrawables[3] = R.drawable.ic_option_delete;
+        bottomNames[0] = getString(R.string.bottom_option_product);
+        bottomNames[1] = getString(R.string.bottom_option_showroom);
+        bottomNames[2] = getString(R.string.bottom_option_delete);
 
+        bottomDrawables = new int[length];
+        bottomDrawables[0] = R.drawable.ic_option_product;
+        bottomDrawables[1] = R.drawable.ic_showroom;
+        bottomDrawables[2] = R.drawable.ic_option_delete;
+
+        if (length == 4) {
+            bottomNames[3] = getString(R.string.bottom_option_buy_request);
+            bottomDrawables[3] = R.drawable.ic_option_customer;
+        }
         bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
         bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.secondRow.setVisibility(View.GONE);
@@ -173,9 +181,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             int[] topDrawables;
             changeSelectedViews(bottomSheetPurchasedBinding.firstRow, unparsedTag);
             if (tag == 0) {
-                showBuyRequestDialog();
-                return;
-            } else if (tag == 1) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_main_features);
                 bottomOptions[1] = getString(R.string.bottom_option_details);
@@ -184,7 +189,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[0] = R.drawable.ic_options_features;
                 topDrawables[1] = R.drawable.ic_option_details;
                 topDrawables[2] = R.drawable.ic_option_feedback;
-            } else if (tag == 2) {
+            } else if (tag == 1) {
                 bottomOptions = new String[3];
                 bottomOptions[0] = getString(R.string.bottom_option_Call);
                 bottomOptions[1] = getString(R.string.bottom_option_location);
@@ -193,8 +198,11 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 topDrawables[0] = R.drawable.ic_option_call;
                 topDrawables[1] = R.drawable.ic_option_location;
                 topDrawables[2] = R.drawable.ic_option_feedback;
-            } else {
+            } else if (tag == 2) {
                 showInterestProductDeleteDialog(getString(R.string.dilog_delete));
+                return;
+            } else {
+                showBuyRequestDialog();
                 return;
             }
 
@@ -225,7 +233,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             int firstRowTag = Integer.parseInt(tagArray[0]);
             int secondRowTag = Integer.parseInt(tagArray[1]);
             // product
-            if (firstRowTag == 1) {
+            if (firstRowTag == 0) {
 
                 if (secondRowTag == 0) { //main features
 
@@ -251,7 +259,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     showFeedBackDialog();
                     return;
                 }
-            } else if (firstRowTag == 2) { // showroom
+            } else if (firstRowTag == 1) { // showroom
 
                 if (secondRowTag == 0) { // call
                     callPhoneNumber(itemFromPosition.getStoreContactNumber());
@@ -266,7 +274,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     topDrawables = new int[0];
                 }
 
-            } else if (firstRowTag == 3) { //  delete
+            } else if (firstRowTag == 2) { //  delete
                 showInterestProductDeleteDialog(getString(R.string.dilog_delete));
 
             }

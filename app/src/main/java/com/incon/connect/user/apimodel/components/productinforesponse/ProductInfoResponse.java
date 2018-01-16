@@ -218,11 +218,21 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
 
     @SerializedName("statusList")
     @Expose
-    private List<DefaultStatusData> statusList = null;
+    private List<ProductStatus> statusList = null;
 
     @SerializedName("serviceEngineersList")
     @Expose
     private List<AddServiceEngineer> serviceEngineerList = null;
+
+    private Integer buyReqCount = 0;
+
+    public Integer getBuyReqCount() {
+        return buyReqCount;
+    }
+
+    public void setBuyReqCount(Integer buyReqCount) {
+        this.buyReqCount = buyReqCount;
+    }
 
     public List<AddServiceEngineer> getServiceEngineerList() {
         return serviceEngineerList;
@@ -232,11 +242,11 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         this.serviceEngineerList = serviceEngineerList;
     }
 
-    public List<DefaultStatusData> getStatusList() {
+    public List<ProductStatus> getStatusList() {
         return statusList;
     }
 
-    public void setStatusList(List<DefaultStatusData> statusList) {
+    public void setStatusList(List<ProductStatus> statusList) {
         this.statusList = statusList;
     }
 

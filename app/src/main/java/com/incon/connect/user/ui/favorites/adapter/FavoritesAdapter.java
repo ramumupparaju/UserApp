@@ -23,7 +23,6 @@ import com.incon.connect.user.utils.DeviceUtils;
  * Created on 13 Jun 2017 4:05 PM.
  */
 public class FavoritesAdapter extends BaseRecyclerViewAdapter {
-    private IClickCallback clickCallback;
     private int warrantyLayoutWidth = -1;
 
     @Override
@@ -97,6 +96,7 @@ public class FavoritesAdapter extends BaseRecyclerViewAdapter {
                 binding.warrantyPeriod.setVisibility(View.VISIBLE);
                 binding.warrantyPeriod.setText(binding.warrantyPeriod.getContext().getString(R.string.label_expires_dollar, warrantyRemainingDays));
                 if (warrantyLayoutWidth == -1) {
+                    //Displaying progress bar
                     ViewTreeObserver vto = warrantyLayout.getViewTreeObserver();
                     vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
@@ -121,14 +121,6 @@ public class FavoritesAdapter extends BaseRecyclerViewAdapter {
 
             }
             binding.executePendingBindings();
-        }
-
-        void layoutView(View view) {
-            view.setDrawingCacheEnabled(true);
-            int wrapContentSpec =
-                    View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            view.measure(wrapContentSpec, wrapContentSpec);
-            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         }
 
         @Override

@@ -3,6 +3,7 @@ package com.incon.connect.user.ui.status;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -73,6 +74,17 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         return rootView;
     }
 
+    private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
+            new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+
+                    statusPresenter.fetchUserRequests(SharedPrefsUtils.loginProvider().getIntegerPreference
+                            (LoginPrefs.USER_ID, DEFAULT_VALUE));
+                }
+            };
+
+
     public void onCheckedChanged(boolean checked) {
         this.isServiceRequest = checked;
         setListUi();
@@ -97,6 +109,9 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
                 (LoginPrefs.USER_ID, DEFAULT_VALUE));
         productsList = new ArrayList<>();
         serviceStatusList = new ArrayList<>();
+
+
+        binding.swiperefresh.setOnRefreshListener(onRefreshListener);
 
         FragmentActivity activity = getActivity();
         serviceStatusAdapter = new ServiceStatusAdapter(getActivity(), serviceStatusList);
@@ -200,9 +215,17 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         productStatusAdapter.setData(productStatusArrayList);
         serviceStatusAdapter.setData(serviceStatusArrayList);
 
+        dismissSwipeRefresh();
+
         setListUi();
     }
 
+
+    private void dismissSwipeRefresh() {
+        if (binding.swiperefresh.isRefreshing()) {
+            binding.swiperefresh.setRefreshing(false);
+        }
+    }
     @Override
     public void statusUpdated() {
         if (acceptRejectApproveDialog != null && acceptRejectApproveDialog.isShowing()) {
