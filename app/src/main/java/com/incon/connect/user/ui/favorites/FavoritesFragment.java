@@ -673,8 +673,11 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     };
 
     private void loadServiceRequesDialogData() {
-        //todo have to check
-        loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
+        if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
+            loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
+        } else {
+            showErrorMessage(getString(R.string.error_no_service_centers_found));
+        }
     }
 
     private void loadUsersDataFromServiceCenterId(Integer serviceCenterId) {
@@ -1121,9 +1124,13 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             return;
         }
         if (isFindServiceCenter) {
-            Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
-            serviceCenters.putParcelableArrayListExtra(IntentConstants.SERVICE_CENTER_DATA, this.serviceCenterResponseList);
-            startActivity(serviceCenters);
+            if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
+                Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
+                serviceCenters.putParcelableArrayListExtra(IntentConstants.SERVICE_CENTER_DATA, this.serviceCenterResponseList);
+                startActivity(serviceCenters);
+            } else {
+                showErrorMessage(getString(R.string.error_no_service_centers_found));
+            }
         } else {
             loadServiceRequesDialogData();
         }
