@@ -476,7 +476,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_qr_code_scanner">QR Code Scanner</string>
     <string name="action_name">Name</string>
-    <string name="label_expires_dollar">Expires in %1$s days</string>
+    <string name="label_expires_dollar">Expires in %1$d days</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

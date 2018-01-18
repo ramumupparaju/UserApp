@@ -415,27 +415,23 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
                 //un authorized
                 if (secondRowTag == 0) {
+                    bottomOptions = new String[2];
+                    bottomOptions[0] = getString(R.string.bottom_option_Call);
+                    bottomOptions[1] = getString(R.string.bottom_option_add);
+
+                    topDrawables = new int[2];
+                    topDrawables[0] = R.drawable.ic_option_details;
+                    topDrawables[1] = R.drawable.ic_option_bill;
+                } else if (secondRowTag == 1) { // authorized
                     bottomOptions = new String[3];
                     bottomOptions[0] = getString(R.string.bottom_option_Call);
-                    bottomOptions[1] = getString(R.string.bottom_option_service_request);
-                    bottomOptions[2] = getString(R.string.bottom_option_add);
+                    bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
+                    bottomOptions[2] = getString(R.string.bottom_option_service_request);
 
                     topDrawables = new int[3];
                     topDrawables[0] = R.drawable.ic_option_details;
                     topDrawables[1] = R.drawable.ic_option_return_product;
                     topDrawables[2] = R.drawable.ic_option_bill;
-                } else if (secondRowTag == 1) { // authorized
-                    bottomOptions = new String[4];
-                    bottomOptions[0] = getString(R.string.bottom_option_Call);
-                    bottomOptions[1] = getString(R.string.bottom_option_find_service_center);
-                    bottomOptions[2] = getString(R.string.bottom_option_service_request);
-                    bottomOptions[3] = getString(R.string.bottom_option_add);
-
-                    topDrawables = new int[4];
-                    topDrawables[0] = R.drawable.ic_option_details;
-                    topDrawables[1] = R.drawable.ic_option_return_product;
-                    topDrawables[2] = R.drawable.ic_option_bill;
-                    topDrawables[3] = R.drawable.ic_option_bill;
                 }
             } else if (firstRowTag == 1) { // product
 
@@ -683,9 +679,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                         List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
                         showPhoneNumberList(serviceEngineerList);
                         return;
-                    } else if (thirdRowTag == 1) { //service request
-                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                    } else if (thirdRowTag == 2) { // add
+                    } else if (thirdRowTag == 1) { // add
                         showCustomPhoneNumberDialog();
                     }
                 } else if (secondRowTag == 1) { // authorized
@@ -703,8 +697,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                         } else {
                             loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
                         }
-                    } else if (thirdRowTag == 3) { // add
-//TODO have to add
                     }
                 }
 

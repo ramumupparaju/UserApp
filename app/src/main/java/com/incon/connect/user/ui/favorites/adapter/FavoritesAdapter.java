@@ -13,7 +13,6 @@ import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
-import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.databinding.ItemFavoritesFragmentBinding;
 import com.incon.connect.user.ui.BaseRecyclerViewAdapter;
 import com.incon.connect.user.utils.DateUtils;
@@ -23,7 +22,6 @@ import com.incon.connect.user.utils.DeviceUtils;
  * Created on 13 Jun 2017 4:05 PM.
  */
 public class FavoritesAdapter extends BaseRecyclerViewAdapter {
-    private IClickCallback clickCallback;
     private int warrantyLayoutWidth = -1;
 
     @Override
