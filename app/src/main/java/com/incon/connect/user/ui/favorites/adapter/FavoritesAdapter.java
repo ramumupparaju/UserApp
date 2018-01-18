@@ -95,6 +95,7 @@ public class FavoritesAdapter extends BaseRecyclerViewAdapter {
                 binding.warrantyPeriod.setVisibility(View.VISIBLE);
                 binding.warrantyPeriod.setText(binding.warrantyPeriod.getContext().getString(R.string.label_expires_dollar, warrantyRemainingDays));
                 if (warrantyLayoutWidth == -1) {
+                    //Displaying progress bar
                     ViewTreeObserver vto = warrantyLayout.getViewTreeObserver();
                     vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
@@ -119,14 +120,6 @@ public class FavoritesAdapter extends BaseRecyclerViewAdapter {
 
             }
             binding.executePendingBindings();
-        }
-
-        void layoutView(View view) {
-            view.setDrawingCacheEnabled(true);
-            int wrapContentSpec =
-                    View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            view.measure(wrapContentSpec, wrapContentSpec);
-            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         }
 
         @Override

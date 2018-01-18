@@ -33,6 +33,15 @@ import java.util.List;
 public abstract class BaseProductOptionsFragment extends BaseFragment {
 
 
+    @Override
+    public void showErrorMessage(String errorMessage) {
+        if (bottomSheetDialog.isShowing()) {
+            AppUtils.shortToast(getActivity(), errorMessage);
+        } else {
+            super.showErrorMessage(errorMessage);
+        }
+    }
+
     public BottomSheetDialog bottomSheetDialog;
     public BottomSheetPurchasedBinding bottomSheetPurchasedBinding;
     public int productSelectedPosition = -1;

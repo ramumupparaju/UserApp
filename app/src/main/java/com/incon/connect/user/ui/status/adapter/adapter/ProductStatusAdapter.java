@@ -14,6 +14,7 @@ import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.ServiceRequest;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductStatus;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.apimodel.components.status.StatusList;
 import com.incon.connect.user.callbacks.IClickCallback;
@@ -89,7 +90,7 @@ public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdap
 
             //TODO remove hard coding
             binding.nameTv.setText("StoreName:" + productStatus.getStoreName() +
-                    ", model name: " + productStatus.getName());
+                    ", model name: " + productStatus.getModelNumber());
 
             createStatusView(binding, productStatus);
             binding.executePendingBindings();
@@ -104,7 +105,7 @@ public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdap
 
     private void createStatusView(ItemProductStatusListBinding binding, ProductInfoResponse productInfoResponse) {
 
-        List<DefaultStatusData> statusList = productInfoResponse.getStatusList();
+        List<ProductStatus> statusList = productInfoResponse.getStatusList();
         int size = statusList.size();
         if (statusList == null || size == 0) {
             binding.statusLayout.setVisibility(View.GONE);
@@ -112,7 +113,7 @@ public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdap
             binding.statusLayout.setVisibility(View.VISIBLE);
             binding.statusLayout.removeAllViews();
             for (int i = 0; i < size; i++) {
-                int statusId = statusList.get(i).getId();
+                int statusId = statusList.get(i).getStatus().getId();
                 LinearLayout linearLayout = new LinearLayout(context);
                 StatusViewBinding statusView = getStatusView();
                 statusView.viewTv.setText(AppUtils.getStatusName(statusId));
