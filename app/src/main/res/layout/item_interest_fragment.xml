@@ -48,12 +48,23 @@
                 android:textAllCaps="true"
                 android:textColor="@color/ebony_clay"
                 android:textSize="12.4sp" />
+            <!--product model-->
+            <TextView
+                android:id="@+id/product_model"
+                style="@style/BothWrap"
+                fontPath="fonts/OpenSans-Bold.ttf"
+                android:layout_toRightOf="@id/product_imageview"
+                android:maxLines="2"
+                android:text="@={productinforesponse.modelNumber}"
+                android:textAllCaps="true"
+                android:textColor="@color/ebony_clay"
+                android:textSize="12.4sp" />
 
             <!--offer-->
             <TextView
                 android:id="@+id/interest_offer"
                 style="@style/BothWrap"
-                android:layout_below="@id/product_name"
+                android:layout_below="@id/product_model"
                 android:layout_toRightOf="@id/product_imageview"
                 android:text="@{`Offer :` +productinforesponse.price}"
                 android:textColor="@color/ebony_clay"
