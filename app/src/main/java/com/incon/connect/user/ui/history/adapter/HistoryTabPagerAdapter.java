@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.incon.connect.user.ui.history.fragments.InterestFragment;
 import com.incon.connect.user.ui.history.fragments.PurchasedFragment;
 import com.incon.connect.user.ui.history.fragments.ReturnFragment;
+import com.incon.connect.user.ui.history.fragments.ShowRoomFragment;
 
 import java.util.HashMap;
 
@@ -37,6 +38,9 @@ public class HistoryTabPagerAdapter extends FragmentStatePagerAdapter {
                 break;
             case 2:
                 tabFragment = new ReturnFragment();
+                break;
+                case 3:
+                tabFragment = new ShowRoomFragment();
                 break;
             default:
                 break;

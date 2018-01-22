@@ -13,6 +13,10 @@
     <item type="id" name="SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST"/>
 
 
+    <item type="id" name="CALL"/>
+    <item type="id" name="LOCATION"/>
+    <item type="id" name="TIMINGS"/>
+    <item type="id" name="FEEDBACK"/>
 
     <item type="id" name="PRODUCT"/>
     <item type="id" name="PRODUCT_MAINFEATURES"/>
