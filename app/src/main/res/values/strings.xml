@@ -432,6 +432,7 @@
     <string name="tab_purchased">Purchased</string>
     <string name="tab_interest">Interest</string>
     <string name="tab_return">Return</string>
+    <string name="tab_showroom">ShowRoom</string>
     <string name="hint_warranty_date">Warranty ends on \n %1$s</string>
     <string name="hint_problem_details">Problem details</string>
     <string name="hint_time">Time</string>

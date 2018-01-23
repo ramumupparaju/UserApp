@@ -8,6 +8,7 @@ import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.ui.history.adapter.InterestAdapter;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.adapter.ReturnAdapter;
+import com.incon.connect.user.ui.history.adapter.ShowRoomAdapter;
 import com.incon.connect.user.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -40,7 +41,10 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
                 } else if (BaseRecyclerViewAdapter.this instanceof ReturnAdapter) {
                     a = DateUtils.convertMillsToDate(o1.getReturnDate());
                     b = DateUtils.convertMillsToDate(o2.getReturnDate());
-                }
+                }/*else if (BaseRecyclerViewAdapter.this instanceof ShowRoomAdapter) {
+                    a = DateUtils.convertMillsToDate(o1.getReturnDate());
+                    b = DateUtils.convertMillsToDate(o2.getReturnDate());
+                }*/
                 return (b.compareTo(a));
             } catch (Exception e) {
 

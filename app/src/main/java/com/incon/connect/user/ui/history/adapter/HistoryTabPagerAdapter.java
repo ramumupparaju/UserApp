@@ -39,7 +39,7 @@ public class HistoryTabPagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 tabFragment = new ReturnFragment();
                 break;
-                case 3:
+            case 3:
                 tabFragment = new ShowRoomFragment();
                 break;
             default:

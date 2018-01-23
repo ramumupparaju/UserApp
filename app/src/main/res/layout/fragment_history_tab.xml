@@ -42,9 +42,10 @@
                             android:fillViewport="true"
                             android:minHeight="?attr/actionBarSize"
                             android:theme="@style/AppTheme"
+                            app:tabGravity="fill"
                             app:tabIndicatorColor="@color/white"
                             app:tabIndicatorHeight="@dimen/margin_5"
-                            app:tabMode="fixed"
+                            app:tabMode="scrollable"
                             app:tabSelectedTextColor="@color/dull_lavender"
                             app:tabTextColor="@color/white" />
 
