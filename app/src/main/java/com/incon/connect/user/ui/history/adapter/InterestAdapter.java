@@ -82,8 +82,12 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
             AppUtils.loadImageFromApi(binding.productImageview, interestHistoryResponse
                     .getProductImageUrl());
 
-
             binding.viewsLayout.setVisibility(interestHistoryResponse.isSelected() ? View.VISIBLE : View.GONE);
+            if (interestHistoryResponse.isSelected()) {
+                binding.viewsLayout.setVisibility(View.VISIBLE);
+            } else {
+                binding.viewsLayout.setVisibility(View.GONE);
+            }
             binding.executePendingBindings();
         }
 
