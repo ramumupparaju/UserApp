@@ -132,34 +132,42 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             interestAdapter.notifyDataSetChanged();
             interestHistoryResponse.setSelected(true);
             productSelectedPosition = position;
-            createBottomSheetFirstRow(position);
+            createBottomSheetFirstRow();
             bottomSheetDialog.show();
         }
     };
 
-    private void createBottomSheetFirstRow(int position) {
+    private void createBottomSheetFirstRow() {
         int length;
-        int[] bottomDrawables;
-        String[] bottomNames;
+        int[] drawablesArray;
+        String[] textArray;
+        int[] tagsArray;
         ProductInfoResponse productInfoResponse = interestAdapter.getItemFromPosition(productSelectedPosition);
         if (productInfoResponse.getBuyReqCount() == 0) {
             length = 4;
         } else {
             length = 3;
         }
-        bottomNames = new String[length];
-        bottomNames[0] = getString(R.string.bottom_option_product);
-        bottomNames[1] = getString(R.string.bottom_option_showroom);
-        bottomNames[2] = getString(R.string.bottom_option_delete);
 
-        bottomDrawables = new int[length];
-        bottomDrawables[0] = R.drawable.ic_option_product;
-        bottomDrawables[1] = R.drawable.ic_showroom;
-        bottomDrawables[2] = R.drawable.ic_option_delete;
+        tagsArray = new int[length];
+        tagsArray[0] = R.id.PRODUCT;
+        tagsArray[1] = R.id.SHOWROOM;
+        tagsArray[2] = R.id.DELETE;
+
+        textArray = new String[length];
+        textArray[0] = getString(R.string.bottom_option_product);
+        textArray[1] = getString(R.string.bottom_option_showroom);
+        textArray[2] = getString(R.string.bottom_option_delete);
+
+        drawablesArray = new int[length];
+        drawablesArray[0] = R.drawable.ic_option_product;
+        drawablesArray[1] = R.drawable.ic_showroom;
+        drawablesArray[2] = R.drawable.ic_option_delete;
 
         if (length == 4) {
-            bottomNames[3] = getString(R.string.bottom_option_buy_request);
-            bottomDrawables[3] = R.drawable.ic_option_customer;
+            tagsArray[4] = R.id.BUY_REQUEST;
+            textArray[3] = getString(R.string.bottom_option_buy_request);
+            drawablesArray[3] = R.drawable.ic_option_customer;
         }
         bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
         bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
@@ -167,7 +175,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
         bottomSheetPurchasedBinding.firstRow.setWeightSum(length);
-        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, bottomNames, bottomDrawables, bottomSheetFirstRowClickListener, "-1");
+        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray,tagsArray, bottomSheetFirstRowClickListener);
 
     }
 
@@ -175,33 +183,50 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private View.OnClickListener bottomSheetFirstRowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String unparsedTag = (String) view.getTag();
-            Integer tag = Integer.valueOf(unparsedTag);
-            String[] bottomOptions;
-            int[] topDrawables;
-            changeSelectedViews(bottomSheetPurchasedBinding.firstRow, unparsedTag);
-            if (tag == 0) {
-                bottomOptions = new String[3];
-                bottomOptions[0] = getString(R.string.bottom_option_main_features);
-                bottomOptions[1] = getString(R.string.bottom_option_details);
-                bottomOptions[2] = getString(R.string.bottom_option_feedback);
-                topDrawables = new int[3];
-                topDrawables[0] = R.drawable.ic_options_features;
-                topDrawables[1] = R.drawable.ic_option_details;
-                topDrawables[2] = R.drawable.ic_option_feedback;
-            } else if (tag == 1) {
-                bottomOptions = new String[3];
-                bottomOptions[0] = getString(R.string.bottom_option_Call);
-                bottomOptions[1] = getString(R.string.bottom_option_location);
-                bottomOptions[2] = getString(R.string.bottom_option_review);
-                topDrawables = new int[3];
-                topDrawables[0] = R.drawable.ic_option_call;
-                topDrawables[1] = R.drawable.ic_option_location;
-                topDrawables[2] = R.drawable.ic_option_feedback;
-            } else if (tag == 2) {
+
+            Integer tag = (Integer) view.getTag();
+            String[] textArray = new String[0];
+            int[] drawablesArray = new int[0];
+            int[] tagsArray = new int[0];
+
+            changeSelectedViews(bottomSheetPurchasedBinding.firstRow, tag);
+            if (tag == R.id.PRODUCT) {
+                int length = 3;
+                textArray = new String[length];
+                textArray[0] = getString(R.string.bottom_option_main_features);
+                textArray[1] = getString(R.string.bottom_option_details);
+                textArray[2] = getString(R.string.bottom_option_feedback);
+
+                tagsArray = new int[length];
+                tagsArray[0] = R.id.PRODUCT_MAINFEATURES;
+                tagsArray[1] = R.id.PRODUCT_DETAILS;
+                tagsArray[2] = R.id.PRODUCT_FEEDBACK;
+
+                drawablesArray = new int[length];
+                drawablesArray[0] = R.drawable.ic_options_features;
+                drawablesArray[1] = R.drawable.ic_option_details;
+                drawablesArray[2] = R.drawable.ic_option_feedback;
+
+            } else if (tag == R.id.SHOWROOM) {
+                int length = 3;
+                textArray = new String[length];
+                textArray[0] = getString(R.string.bottom_option_Call);
+                textArray[1] = getString(R.string.bottom_option_location);
+                textArray[2] = getString(R.string.bottom_option_review);
+
+                tagsArray = new int[length];
+                tagsArray[0] = R.id.SHOWROOM_CALL;
+                tagsArray[1] = R.id.SHOWROOM_LOCATION;
+                tagsArray[2] = R.id.SHOWROOM_REVIEW;
+
+                drawablesArray = new int[length];
+                drawablesArray[0] = R.drawable.ic_option_call;
+                drawablesArray[1] = R.drawable.ic_option_location;
+                drawablesArray[2] = R.drawable.ic_option_feedback;
+            } else if (tag == R.id.DELETE) {
                 showInterestProductDeleteDialog(getString(R.string.dilog_delete));
                 return;
-            } else {
+            } else if (tag == R.id.BUY_REQUEST) {
                 showBuyRequestDialog();
                 return;
             }
@@ -210,8 +235,8 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.secondRow.removeAllViews();
-            bottomSheetPurchasedBinding.secondRow.setWeightSum(bottomOptions.length);
-            setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, bottomOptions, topDrawables, bottomSheetSecondRowClickListener, unparsedTag);
+            bottomSheetPurchasedBinding.secondRow.setWeightSum(textArray.length);
+            setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, textArray, drawablesArray,tagsArray, bottomSheetSecondRowClickListener);
 
         }
     };
@@ -220,20 +245,83 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     private View.OnClickListener bottomSheetSecondRowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String unparsedTag = (String) view.getTag();
-            String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
+            Integer tag = (Integer) view.getTag();
+           // String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
 
             ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
                     productSelectedPosition);
-            changeSelectedViews(bottomSheetPurchasedBinding.secondRow, unparsedTag);
+            changeSelectedViews(bottomSheetPurchasedBinding.secondRow, tag);
+
+
+            String[] textArray = new String[0];
+            int[] drawablesArray = new int[0];
+            int[] tagsArray = new int[0];
+
+
 
             String[] bottomOptions = new String[0];
             int[] topDrawables = new int[0];
 
-            int firstRowTag = Integer.parseInt(tagArray[0]);
-            int secondRowTag = Integer.parseInt(tagArray[1]);
+
+
+
+
+            if (tag == R.id.PRODUCT_MAINFEATURES) {
+                showInformationDialog(getString(
+                        R.string.bottom_option_main_features), itemFromPosition.getInformation());
+                return;
+            }
+            else if(tag == R.id.PRODUCT_DETAILS) {
+
+                int length = 5;
+                textArray = new String[length];
+                textArray[0] = getString(R.string.bottom_option_return_policy);
+                textArray[1] = getString(R.string.bottom_option_special_instructions);
+                textArray[2] = getString(R.string.bottom_option_how_to_use);
+                textArray[3] = getString(R.string.bottom_option_warranty);
+                textArray[4] = getString(R.string.bottom_option_share);
+
+                tagsArray = new int[length];
+                tagsArray[0] = R.id.PRODUCT_DETAILS_RETURN_POLICY;
+                tagsArray[1] = R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS;
+                tagsArray[2] = R.id.PRODUCT_DETAILS_HOW_TO_USE;
+                tagsArray[3] = R.id.PRODUCT_DETAILS_WARRANTY;
+                tagsArray[4] = R.id.PRODUCT_DETAILS_SHARE;
+
+                drawablesArray = new int[length];
+                drawablesArray[0] = R.drawable.ic_option_return_policy;
+                drawablesArray[1] = R.drawable.ic_option_sp_instructions;
+                drawablesArray[2] = R.drawable.ic_option_howtouse;
+                drawablesArray[3] = R.drawable.ic_option_warranty;
+                drawablesArray[4] = R.drawable.ic_option_share;
+
+            }
+            else if(tag == R.id.PRODUCT_FEEDBACK) {
+                showFeedBackDialog();
+                return;
+
+
+            }
+            else if(tag == R.id.SHOWROOM_CALL) {
+                callPhoneNumber(itemFromPosition.getStoreContactNumber());
+                return;
+
+            }else if(tag == R.id.SHOWROOM_LOCATION) {
+                showLocationDialog();
+                return;
+
+            }
+            else if(tag == R.id.SHOWROOM_REVIEW) {
+                //showFeedBackDialog();
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+
+            }
+
+            // int firstRowTag = Integer.parseInt(tagArray[0]);
+           // int secondRowTag = Integer.parseInt(tagArray[1]);
             // product
-            if (firstRowTag == 0) {
+
+           /* if (firstRowTag == 0) {
 
                 if (secondRowTag == 0) { //main features
 
@@ -278,31 +366,68 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 showInterestProductDeleteDialog(getString(R.string.dilog_delete));
 
             }
-
+*/
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.removeAllViews();
             bottomSheetPurchasedBinding.thirdRow.setWeightSum(bottomOptions.length);
-            setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, bottomOptions, topDrawables, bottomSheetThirdRowClickListener, unparsedTag);
+            setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, textArray, drawablesArray, tagsArray, bottomSheetThirdRowClickListener);
+
+
         }
+
+
+
     };
 
     private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String unparsedTag = (String) view.getTag();
-            String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
+            Integer tag = (Integer) view.getTag();
+          //  String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
 
 
             ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
                     productSelectedPosition);
-            changeSelectedViews(bottomSheetPurchasedBinding.thirdRow, unparsedTag);
+            changeSelectedViews(bottomSheetPurchasedBinding.thirdRow, tag);
 
-            int firstRowTag = Integer.parseInt(tagArray[0]);
-            int secondRowTag = Integer.parseInt(tagArray[1]);
-            int thirdRowTag = Integer.parseInt(tagArray[2]);
+
+            String[] textArray = new String[0];
+            int[] drawablesArray = new int[0];
+            int[] tagsArray = new int[0];
+            if(tag == R.id.PRODUCT_DETAILS_RETURN_POLICY) {
+                showInformationDialog(getString(R.string.bottom_option_return_policy), itemFromPosition.getReturnPolicy());
+
+
+            }
+            else if (tag == R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS) {
+                showInformationDialog(getString(
+                        R.string.bottom_option_special_instructions),
+                        itemFromPosition.getSpecialInstruction());
+
+            }
+            else if (tag == R.id.PRODUCT_DETAILS_HOW_TO_USE) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+
+
+            }
+            else if (tag == R.id.PRODUCT_DETAILS_WARRANTY) {
+                String warrantyInformation = AppUtils.getWarrantyInformation(itemFromPosition);
+                if (TextUtils.isEmpty(warrantyInformation)) {
+                    AppUtils.shortToast(getContext(), getString(R.string.error_no_warranty));
+                } else {
+                    showInformationDialog(getString(R.string.bottom_option_warranty), warrantyInformation);
+                }
+
+            }
+            else if (tag == R.id.PRODUCT_DETAILS_SHARE) {
+                shareProductDetails(itemFromPosition);
+
+            }
+
+
 
             // product
-            if (firstRowTag == 1) {
+            /*if (firstRowTag == 1) {
                 // details
                 if (secondRowTag == 1) {
                     // return policy
@@ -335,7 +460,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                         shareProductDetails(itemFromPosition);
                 }
 
-            }
+            }*/
 
         }
 

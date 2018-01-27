@@ -7,6 +7,7 @@
         <item>@string/tab_purchased</item>
         <item>@string/tab_interest</item>
         <item>@string/tab_return</item>
+        <item>@string/tab_showroom</item>
     </string-array>
 
     <!-- Gender dropdown options -->

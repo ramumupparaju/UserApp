@@ -21,18 +21,20 @@
 
 
         <!-- used to resend password again-->
-        <android.support.v7.widget.AppCompatImageView
+        <TextView
             android:id="@+id/resend_otp_tv"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            style="@style/BothWrap"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/text_verify_title"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="6dp"
+            android:paddingRight="@dimen/margin_10"
+            android:layout_marginTop="40dp"
+            android:textColor="@color/colorEulaMessage"
             android:gravity="bottom"
-            android:paddingTop="@dimen/margin_20"
-            app:srcCompat="@drawable/ic_return"
+            android:text="@string/dialog_resend"
+            android:textSize="@dimen/text_size_15"
             />
+
+
 
         <!-- verify title -->
         <com.incon.connect.user.custom.view.CustomTextInputLayout

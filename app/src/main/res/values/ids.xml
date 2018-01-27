@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item type="id" name="SUPPORT"/>
+
+    <item type="id" name="SUPPORT_UNAUTHORIZE"/>
+    <item type="id" name="SUPPORT_UNAUTHORIZE_CALL"/>
+    <item type="id" name="SUPPORT_UNAUTHORIZE_ADD"/>
+
+    <item type="id" name="SUPPORT_AUTHORIZE"/>
+    <item type="id" name="SUPPORT_AUTHORIZE_CALL"/>
+    <item type="id" name="SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER"/>
+    <item type="id" name="SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST"/>
+
+
+    <item type="id" name="CALL"/>
+    <item type="id" name="LOCATION"/>
+    <item type="id" name="TIMINGS"/>
+    <item type="id" name="FEEDBACK"/>
+
+    <item type="id" name="PRODUCT"/>
+    <item type="id" name="PRODUCT_MAINFEATURES"/>
+
+    <item type="id" name="PRODUCT_DETAILS"/>
+    <item type="id" name="PRODUCT_DETAILS_RETURN_POLICY"/>
+    <item type="id" name="PRODUCT_DETAILS_SPECIAL_INSTUCTIONS"/>
+    <item type="id" name="PRODUCT_DETAILS_HOW_TO_USE"/>
+    <item type="id" name="PRODUCT_DETAILS_DESCRIPTION"/>
+    <item type="id" name="PRODUCT_DETAILS_WARRANTY"/>
+    <item type="id" name="PRODUCT_DETAILS_SHARE"/>
+
+    <item type="id" name="PRODUCT_WARRANTY"/>
+    <item type="id" name="PRODUCT_BILL"/>
+    <item type="id" name="PRODUCT_HISTORY"/>
+    <item type="id" name="PRODUCT_PAST_HISTORY"/>
+    <item type="id" name="PRODUCT_SHARE"/>
+    <item type="id" name="PRODUCT_TRANSFER"/>
+    <item type="id" name="PRODUCT_FEEDBACK"/>
+    <item type="id" name="PRODUCT_SUGGESTION"/>
+
+
+    <item type="id" name="SHOWROOM"/>
+
+    <item type="id" name="SHOWROOM_CALL"/>
+    <item type="id" name="SHOWROOM_LOCATION"/>
+    <item type="id" name="SHOWROOM_FEEDBACK"/>
+    <item type="id" name="SHOWROOM_REVIEW"/>
+
+
+    <item type="id" name="DELETE"/>
+    <item type="id" name="FAVORITE"/>
+    <item type="id" name="BUY_REQUEST"/>
+
+
+
+
+    <item type="id" name="EDIT"/>
+    <item type="id" name="EDIT_MOVE"/>
+    <item type="id" name="EDIT_REMOVE"/>
+    <item type="id" name="EDIT_ADD_NICK_NAME"/>
+
+
+    <item type="id" name="DEPARTMENT"/>
+    <item type="id" name="DEPARTMENT_CALL_DESIGNATIONS_DIAL"/>
+
+
+    <item type="id" name="SERVICE_CENTER"/>
+    <item type="id" name="SERVICE_CENTER_CALL"/>
+
+
+    <item type="id" name="REQUEST_UPDATE"/>
+    <item type="id" name="REQUEST_UPDATE_ACCEPT_FORWARD"/>
+    <item type="id" name="REQUEST_UPDATE_REJECT"/>
+    <item type="id" name="REQUEST_UPDATE_HOLD"/>
+
+</resources>
