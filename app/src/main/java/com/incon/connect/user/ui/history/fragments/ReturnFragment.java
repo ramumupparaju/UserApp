@@ -33,8 +33,6 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
     private ReturnPresenter returnPresenter;
     private ReturnAdapter returnAdapter;
     private int userId;
-    private int productSelectedPosition;
-    private AppAlertDialog detailsDialog;
     private ShimmerFrameLayout shimmerFrameLayout;
 
     @Override

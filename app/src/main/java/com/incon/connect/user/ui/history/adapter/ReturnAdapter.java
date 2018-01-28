@@ -53,7 +53,6 @@ public class ReturnAdapter extends BaseRecyclerViewAdapter {
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, returnHistoryResponse
                     .getProductImageUrl());
-            binding.layoutReturnItem.setSelected(returnHistoryResponse.isSelected());
             binding.executePendingBindings();
         }
 

@@ -57,11 +57,11 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
                 if (status.equalsIgnoreCase(AppConstants.StatusConstants.PENDING)) {
                     status = "Request pending";
                 } else if (status.equalsIgnoreCase(AppConstants.StatusConstants.BUY_REQUEST_ACCEPT)) {
-                    status = "Request accepted";
+                    status = "Waiting for warranty registration";
                 } else if (status.equalsIgnoreCase(AppConstants.StatusConstants.BUY_REQUEST_REJECT)) {
                     status = "Request rejected";
                 } else {
-                    status = "";
+                    status = "for testing";
                 }
             }
             if (TextUtils.isEmpty(status)) {
@@ -71,7 +71,7 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
                 binding.statusTv.setText("Status:" + status);
             }
 
-            String merchantComments = interestHistoryResponse.getMerchantComments();
+            String merchantComments = interestHistoryResponse.getMerchantComments() + " for testing";
             if (TextUtils.isEmpty(merchantComments)) {
                 binding.commentTv.setVisibility(View.INVISIBLE);
             } else {
@@ -83,11 +83,6 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
                     .getProductImageUrl());
 
             binding.viewsLayout.setVisibility(interestHistoryResponse.isSelected() ? View.VISIBLE : View.GONE);
-            if (interestHistoryResponse.isSelected()) {
-                binding.viewsLayout.setVisibility(View.VISIBLE);
-            } else {
-                binding.viewsLayout.setVisibility(View.GONE);
-            }
             binding.executePendingBindings();
         }
 
