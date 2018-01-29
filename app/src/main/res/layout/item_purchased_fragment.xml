@@ -63,7 +63,7 @@
                     style="@style/BothWrap"
                     android:layout_below="@id/product_name"
                     android:layout_toRightOf="@id/product_imageview"
-                    android:text="@{`Mod No :` + productinforesponse.modelNumber}"
+                    android:text="@{`Mod No : ` + productinforesponse.modelNumber}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="10sp" />
 
