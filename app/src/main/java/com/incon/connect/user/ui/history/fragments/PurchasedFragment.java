@@ -560,104 +560,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
 
 
-            /*// service/support
-            if (firstRowTag == 0) {
-
-                //un authorized
-                if (secondRowTag == 0) {
-                    textArray = new String[2];
-                    textArray[0] = getString(R.string.bottom_option_Call);
-                    textArray[1] = getString(R.string.bottom_option_add);
-
-                    drawablesArray = new int[2];
-                    drawablesArray[0] = R.drawable.ic_option_details;
-                    drawablesArray[1] = R.drawable.ic_option_bill;
-                } else if (secondRowTag == 1) { // authorized
-                    textArray = new String[3];
-                    textArray[0] = getString(R.string.bottom_option_Call);
-                    textArray[1] = getString(R.string.bottom_option_find_service_center);
-                    textArray[2] = getString(R.string.bottom_option_service_request);
-
-                    drawablesArray = new int[3];
-                    drawablesArray[0] = R.drawable.ic_option_details;
-                    drawablesArray[1] = R.drawable.ic_option_return_product;
-                    drawablesArray[2] = R.drawable.ic_option_bill;
-                }
-            } else if (firstRowTag == 1) { // product
-
-                if (secondRowTag == 0) { // details
-                    textArray = new String[4];
-                    textArray[0] = getString(R.string.bottom_option_return_policy);
-                    textArray[1] = getString(R.string.bottom_option_special_instructions);
-                    textArray[2] = getString(R.string.bottom_option_how_to_use);
-                    textArray[3] = getString(R.string.bottom_option_description);
-                    drawablesArray = new int[4];
-                    drawablesArray[0] = R.drawable.ic_option_return_policy;
-                    drawablesArray[1] = R.drawable.ic_option_sp_instructions;
-                    drawablesArray[2] = R.drawable.ic_option_howtouse;
-                    drawablesArray[3] = R.drawable.ic_option_details;
-                } else if (secondRowTag == 1) { // warranty
-
-                    String purchasedDate = DateUtils.convertMillisToStringFormat(
-                            itemFromPosition.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY);
-                    String warrantyEndDate = DateUtils.convertMillisToStringFormat(
-                            itemFromPosition.getWarrantyEndDate(), DateFormatterConstants.DD_MM_YYYY);
-                    long noOfDays = DateUtils.convertDifferenceDateIndays(
-                            itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
-                    String warrantyConditions = itemFromPosition.getWarrantyConditions();
-                    showInformationDialog(getString(
-                            R.string.bottom_option_warranty), getString(
-                            R.string.purchased_warranty_status_now)
-                            + noOfDays + " Days Left "
-                            + "\n"
-                            + getString(
-                            R.string.purchased_purchased_date)
-                            + purchasedDate
-                            + "\n"
-                            + getString(
-                            R.string.purchased_warranty_covers_date)
-                            + warrantyConditions
-                            + "\n"
-                            + getString(
-                            R.string.purchased_warranty_ends_on) + warrantyEndDate);
-                    return;
-                } else if (secondRowTag == 2) { // bill
-                    Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, itemFromPosition);
-                    billFormatIntent.putExtras(bundle);
-                    startActivity(billFormatIntent);
-                    return;
-                } else if (secondRowTag == 3) { // past history
-                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                    textArray = new String[0];
-                    drawablesArray = new int[0];
-                } else if (secondRowTag == 4) { // share
-                    shareProductDetails(itemFromPosition);
-                    return;
-                } else if (secondRowTag == 5) { // transfer
-                    showTransferDialog();
-                    return;
-                } else if (secondRowTag == 6) { // feed back
-                    showFeedBackDialog();
-                } else if (secondRowTag == 7) { // suggestions
-                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                    textArray = new String[0];
-                    drawablesArray = new int[0];
-                }
-            } else if (firstRowTag == 2) { // showroom
-
-                if (secondRowTag == 0) { // call
-                    callPhoneNumber(itemFromPosition.getStoreContactNumber());
-                    return;
-                } else if (secondRowTag == 1) { // location
-                    showLocationDialog();
-
-                    return;
-                } else if (secondRowTag == 2) { // feed back
-                    showFeedBackDialog();
-                }
-            }*/
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.removeAllViews();
@@ -693,10 +595,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         feedBackDialog.setCancelable(true);
 
     }
-
-
-
-
 
    /* private void showFeedBackDialog() {
         feedBackDialog = new AppFeedBackDialog.AlertDialogBuilder(getActivity(), new
@@ -865,72 +763,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 return;
 
             }
-
-
-
-
-
-
-
-            /*if (firstRowTag == 0) { // service/support
-                if (secondRowTag == 0) { // un authorized
-                    if (thirdRowTag == 0) { // call
-                        List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
-                        showPhoneNumberList(serviceEngineerList);
-                        return;
-                    } else if (thirdRowTag == 1) { // add
-                        showCustomPhoneNumberDialog();
-                    }
-                } else if (secondRowTag == 1) { // authorized
-
-                    if (thirdRowTag == 0) { // call
-                        callPhoneNumber(productInfoResponse.getMobileNumber());
-                        return;
-                    } else if (thirdRowTag == 1) { //find service center
-                        isFindServiceCenter = true;
-                        loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
-                    } else if (thirdRowTag == 2) { // service center
-                        isFindServiceCenter = false;
-                        if (serviceCenterResponseList != null) {
-                            loadServiceRequesDialogData();
-                        } else {
-                            loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
-                        }
-                    }
-                }
-
-            }
-
-            // product
-            else if (firstRowTag == 1) {
-                // details
-                if (secondRowTag == 0) {
-                    // return policy
-                    if (thirdRowTag == 0) {
-                        showInformationDialog(getString(R.string.bottom_option_return_policy), productInfoResponse.getReturnPolicy());
-                    }
-                    // special instruction
-                    else if (thirdRowTag == 1) {
-                        showInformationDialog(getString(
-                                R.string.bottom_option_special_instructions),
-                                productInfoResponse.getSpecialInstruction());
-                    }
-                    //how to use
-                    else if (thirdRowTag == 2) {
-                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                        //                showInformationDialog(itemFromPosition.getInformation());
-                    }
-                    //description
-                    else if (thirdRowTag == 3) {
-                        showInformationDialog(getString(
-                                R.string.bottom_option_description), productInfoResponse.getInformation()
-                                + productInfoResponse.getProductSpecification()
-                                + productInfoResponse.getColor()
-                                + productInfoResponse.getProductDimensions());
-                        return;
-                    }
-                }
-            }*/
         }
 
     };

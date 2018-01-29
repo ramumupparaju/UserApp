@@ -105,7 +105,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="@dimen/margin_3"
                 android:layout_marginRight="@dimen/margin_3"
-                android:layout_marginTop="@dimen/margin_3"
+                android:layout_marginTop="@dimen/margin_2"
                 android:ellipsize="end"
                 android:gravity="right"
                 android:maxLines="1"
