@@ -72,6 +72,7 @@
                     android:id="@+id/purchased_date"
                     style="@style/BothWrap"
                     android:layout_width="80dp"
+                    android:layout_below="@+id/model_number_tv"
                     android:layout_alignParentBottom="true"
                     android:layout_toRightOf="@id/product_imageview"
                     android:textColor="@color/ebony_clay"
@@ -89,7 +90,7 @@
                     android:maxLines="1"
                     android:text="@{productinforesponse.storeName}"
                     android:textColor="@color/black"
-                    android:textSize="12.4sp" />
+                    android:textSize="10sp" />
 
                 <LinearLayout
                     android:id="@+id/status_layout"
@@ -118,8 +119,7 @@
             <!--Dummy view for showing selection-->
             <ImageView
                 android:id="@+id/views_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                style="@style/BothMatch"
                 android:background="@color/alpha_corn_flower_blue" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>

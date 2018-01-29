@@ -49,7 +49,7 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
             binding.setVariable(BR.productinforesponse, interestHistoryResponse);
 
             binding.interestDate.setText(DateUtils.convertMillisToStringFormat(interestHistoryResponse.getRequestedDate()
-                    , AppConstants.DateFormatterConstants.DD_MM_YYYY));
+                    , AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
 
             //TODO have to move constant
             String status = interestHistoryResponse.getStatus();
@@ -82,7 +82,12 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
             AppUtils.loadImageFromApi(binding.productImageview, interestHistoryResponse
                     .getProductImageUrl());
 
-            binding.viewsLayout.setVisibility(interestHistoryResponse.isSelected() ? View.VISIBLE : View.GONE);
+            if (interestHistoryResponse.isSelected()) {
+                binding.viewsLayout.setVisibility(View.VISIBLE);
+            } else {
+                binding.viewsLayout.setVisibility(View.GONE);
+            }
+
             binding.executePendingBindings();
         }
 

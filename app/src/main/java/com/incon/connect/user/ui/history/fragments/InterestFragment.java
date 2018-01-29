@@ -165,7 +165,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         drawablesArray[2] = R.drawable.ic_option_delete;
 
         if (length == 4) {
-            tagsArray[4] = R.id.BUY_REQUEST;
+            tagsArray[3] = R.id.BUY_REQUEST;
             textArray[3] = getString(R.string.bottom_option_buy_request);
             drawablesArray[3] = R.drawable.ic_option_customer;
         }

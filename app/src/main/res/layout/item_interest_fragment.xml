@@ -23,8 +23,12 @@
             android:id="@+id/layout_interest_item"
             android:layout_width="match_parent"
             android:layout_height="130dp">
+        <RelativeLayout
+            style="@style/BothMatch"
+            android:padding="@dimen/margin_8">
 
-            <!--brand image-->
+
+        <!--brand image-->
             <ImageView
                 android:id="@+id/brand_imageview"
                 android:layout_width="45dp"
@@ -58,10 +62,9 @@
                     android:id="@+id/product_model"
                     style="@style/BothWrap"
                     android:maxLines="1"
-                    android:text="@{`Mod No :` + productinforesponse.modelNumber}"
-                    android:textAllCaps="true"
+                    android:text="@{`Mod No : ` + productinforesponse.modelNumber}"
                     android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp" />
+                    android:textSize="10sp" />
 
                 <!--offer-->
                 <TextView
@@ -69,18 +72,18 @@
                     style="@style/BothWrap"
                     android:layout_below="@id/product_name"
                     android:layout_toRightOf="@id/product_imageview"
-                    android:text="@{`Offer :` +productinforesponse.price}"
+                    android:text="@{`Offer      : ` +productinforesponse.price}"
                     android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/interest_mrp"
                     style="@style/BothWrap"
                     android:layout_below="@id/interest_offer"
                     android:layout_toRightOf="@id/product_imageview"
-                    android:text="@{`MRP :` +productinforesponse.mrp}"
+                    android:text="@{`MRP       : ` +productinforesponse.mrp}"
                     android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp" />
+                    android:textSize="10sp" />
 
                 <!--Scan date-->
                 <TextView
@@ -102,12 +105,13 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="@dimen/margin_3"
                 android:layout_marginRight="@dimen/margin_3"
+                android:layout_marginTop="@dimen/margin_3"
                 android:ellipsize="end"
                 android:gravity="right"
                 android:maxLines="1"
                 android:text="@{productinforesponse.storeName}"
                 android:textColor="@color/black"
-                android:textSize="12.4sp" />
+                android:textSize="10sp" />
 
             <!--merchant comments-->
             <TextView
@@ -120,7 +124,7 @@
                 android:paddingRight="@dimen/margin_10"
                 android:text="@{`Merchant Comments :` + productinforesponse.merchantComments}"
                 android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp" />
+                android:textSize="10sp" />
 
             <!--product status-->
             <TextView
@@ -136,13 +140,14 @@
                 android:paddingRight="@dimen/margin_10"
                 android:text="@{productinforesponse.status}"
                 android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp" />
-
+                android:textSize="10sp" />
+        </RelativeLayout>
             <!--Dummy view for showing selection-->
             <ImageView
                 android:id="@+id/views_layout"
+                style="@style/BothMatch"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="match_parent"
                 android:background="@color/alpha_corn_flower_blue" />
 
         </RelativeLayout>
