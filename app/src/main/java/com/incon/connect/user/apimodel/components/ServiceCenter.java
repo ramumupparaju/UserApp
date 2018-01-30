@@ -1,9 +1,12 @@
 package com.incon.connect.user.apimodel.components;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ServiceCenter {
+public class ServiceCenter extends BaseObservable {
 
     @SerializedName("id")
     @Expose
@@ -26,12 +29,14 @@ public class ServiceCenter {
         this.id = id;
     }
 
+    @Bindable
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+        notifyChange();
     }
 
     public String getLocation() {

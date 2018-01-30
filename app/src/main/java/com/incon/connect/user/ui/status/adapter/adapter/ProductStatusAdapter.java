@@ -10,25 +10,15 @@ import android.widget.LinearLayout;
 
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
-import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.ServiceRequest;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductStatus;
-import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
-import com.incon.connect.user.apimodel.components.status.StatusList;
-import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.IStatusClickCallback;
 import com.incon.connect.user.databinding.ItemProductStatusListBinding;
-import com.incon.connect.user.databinding.ItemServiceStatusListBinding;
 import com.incon.connect.user.databinding.StatusViewBinding;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import static com.incon.connect.user.AppUtils.getDrawableFromRequestId;
-import static com.incon.connect.user.AppUtils.getStatusName;
 
 /**
  * Created by INCON TECHNOLOGIES on 12/25/2017.

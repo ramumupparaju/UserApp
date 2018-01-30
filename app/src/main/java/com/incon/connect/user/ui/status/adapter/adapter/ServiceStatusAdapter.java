@@ -11,13 +11,10 @@ import android.widget.LinearLayout;
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
-import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.ServiceRequest;
-import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.status.StatusList;
-import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.IStatusClickCallback;
 import com.incon.connect.user.databinding.ItemServiceStatusListBinding;
 import com.incon.connect.user.databinding.StatusViewBinding;
@@ -86,12 +83,10 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
         }
 
         public void bind(ServiceStatus serviceStatus, int position) {
-            binding.setVariable(BR.modelResponse, serviceStatus);
+            binding.setVariable(BR.productinforesponse, serviceStatus);
 
-            //TODO remove hard coding
-            binding.nameTv.setText("Service Center:" + serviceStatus.getServiceCenter().getName() +
-                    ", model name: " + serviceStatus.getProduct().getName());
-
+            AppUtils.loadImageFromApi(binding.brandImageview, serviceStatus.getProduct().getName()); //TODO have to change from url
+            AppUtils.loadImageFromApi(binding.productImageview, serviceStatus.getProduct().getName()); //TODO have to change from url
 
             List<StatusList> statusList = serviceStatus.getStatusList();
             if (statusList != null && statusList.size() > 0) {
