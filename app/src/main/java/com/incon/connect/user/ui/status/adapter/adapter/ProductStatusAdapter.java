@@ -107,12 +107,7 @@ public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdap
                 LinearLayout linearLayout = new LinearLayout(context);
                 StatusViewBinding statusView = getStatusView();
                 statusView.viewTv.setText(AppUtils.getStatusName(statusId));
-                statusView.viewLogo.setImageResource(AppUtils.getDrawableFromRequestId(statusId));
-                if (i == size - 1) {
-                    statusView.viewLine.setVisibility(View.GONE);
-                } else {
-                    statusView.viewLine.setVisibility(View.VISIBLE);
-                }
+                statusView.viewLine.setVisibility(i == size - 1 ? View.GONE : View.VISIBLE);
                 View statusRootView = statusView.getRoot();
                 statusRootView.setOnClickListener(onClickListener);
                 statusRootView.setTag(productInfoResponse.getStoreContactNumber());

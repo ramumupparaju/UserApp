@@ -21,7 +21,6 @@ import com.incon.connect.user.databinding.StatusViewBinding;
 
 import java.util.List;
 
-import static com.incon.connect.user.AppUtils.getDrawableFromRequestId;
 import static com.incon.connect.user.AppUtils.getStatusName;
 
 /**
@@ -137,12 +136,7 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
                 LinearLayout linearLayout = new LinearLayout(context);
                 StatusViewBinding statusView = getStatusView();
                 statusView.viewTv.setText(getStatusName(serviceRequest.getStatus()));
-                statusView.viewLogo.setImageResource(getDrawableFromRequestId(serviceRequest.getStatus()));
-                if (i == size - 1) {
-                    statusView.viewLine.setVisibility(View.GONE);
-                } else {
-                    statusView.viewLine.setVisibility(View.VISIBLE);
-                }
+                statusView.viewLine.setVisibility(i == size - 1 ? View.GONE : View.VISIBLE);
                 View statusRootView = statusView.getRoot();
                 statusRootView.setOnClickListener(onClickListener);
                 statusRootView.setTag(statusData.getServiceCenter().getContactNo());

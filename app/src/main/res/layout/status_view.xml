@@ -13,9 +13,9 @@
 
             <ImageView
                 android:id="@+id/view_logo"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:srcCompat="@drawable/ic_tab_notifications"/>
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/circle_shape"/>
 
             <View
                 android:id="@+id/view_line"
