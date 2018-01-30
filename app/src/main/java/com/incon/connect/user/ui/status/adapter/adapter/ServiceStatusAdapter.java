@@ -30,9 +30,9 @@ import static com.incon.connect.user.AppUtils.getStatusName;
 public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdapter.ViewHolder>
         implements AppConstants.StatusDrawables {
 
-    private Context context;
     private List<ServiceStatus> serviceStatusList;
     private IStatusClickCallback clickCallback;
+    private Context context;
 
     public void setClickCallback(IStatusClickCallback clickCallback) {
         this.clickCallback = clickCallback;
@@ -70,7 +70,6 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ItemServiceStatusListBinding binding;
-
 
         public ViewHolder(ItemServiceStatusListBinding binding) {
             super(binding.getRoot());

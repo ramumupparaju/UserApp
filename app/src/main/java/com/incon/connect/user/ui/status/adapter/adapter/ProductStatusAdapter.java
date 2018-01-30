@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
@@ -23,7 +24,8 @@ import java.util.List;
 /**
  * Created by INCON TECHNOLOGIES on 12/25/2017.
  */
-public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdapter.ViewHolder> {
+public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdapter.ViewHolder>
+        implements AppConstants.StatusDrawables{
 
     private List<ProductInfoResponse> productStatusList = new ArrayList<>();
     private IStatusClickCallback clickCallback;
@@ -73,22 +75,46 @@ public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdap
             super(binding.getRoot());
             this.binding = binding;
             binding.getRoot().setOnClickListener(this);
+            binding.buttonAccept.setOnClickListener(this);
+            binding.buttonReject.setOnClickListener(this);
+            binding.buttonHold.setOnClickListener(this);
         }
 
         public void bind(ProductInfoResponse productStatus, int position) {
             binding.setVariable(BR.modelResponse, productStatus);
+            AppUtils.loadImageFromApi(binding.brandImageview, productStatus.getProductName()); //TODO have to change from url
+            AppUtils.loadImageFromApi(binding.productImageview, productStatus.getProductName()); //TODO have to change from url
 
             //TODO remove hard coding
-            binding.nameTv.setText("StoreName:" + productStatus.getStoreName() +
-                    ", model name: " + productStatus.getModelNumber());
+            binding.productName.setText(productStatus.getProductName());
+            binding.modelNumberTv.setText("Mod No : " +productStatus.getModelNumber());
+            binding.storeName.setText(productStatus.getStoreName());
 
+          /*  binding.nameTv.setText("StoreName:" + productStatus.getStoreName() +
+                    ", model name: " + productStatus.getModelNumber());
+*/
             createStatusView(binding, productStatus);
             binding.executePendingBindings();
         }
 
         @Override
         public void onClick(View view) {
-            clickCallback.onClickPosition(getAdapterPosition());
+           // clickCallback.onClickPosition(getAdapterPosition());
+            int statusType = -1;
+            if (view.getId() == R.id.button_accept) {
+                statusType = AppConstants.StatusConstants.APPROVED;
+            } else if (view.getId() == R.id.button_reject) {
+                statusType = AppConstants.StatusConstants.REJECTED;
+            } else if (view.getId() == R.id.button_hold) {
+                statusType = AppConstants.StatusConstants.HOLD;
+            }
+
+            //checking whether clicked on status buttons or not
+            if (statusType != -1) {
+                clickCallback.onClickStatusButton(statusType);
+            } else {
+                clickCallback.onClickPosition(getAdapterPosition());
+            }
         }
 
     }
