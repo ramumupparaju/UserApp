@@ -26,7 +26,7 @@
 
             <RelativeLayout
                 style="@style/BothMatch"
-                android:padding="@dimen/margin_8">
+                >
 
             <!--brand image-->
             <ImageView
@@ -44,15 +44,14 @@
                 android:layout_toRightOf="@id/brand_imageview" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_5"
+                style="@style/BothWrap"
                 android:layout_toRightOf="@id/product_imageview"
                 android:orientation="vertical">
                 <!--product name-->
                 <TextView
                     android:id="@+id/product_name"
                     style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_7"
                     fontPath="fonts/OpenSans-Bold.ttf"
                     android:maxLines="2"
                     android:text="@={productinforesponse.productName}"
@@ -62,8 +61,8 @@
 
                 <!--product model-->
                 <TextView
-                    android:layout_marginTop="@dimen/margin_3"
                     android:id="@+id/product_model"
+                    android:layout_marginTop="@dimen/margin_3"
                     style="@style/BothWrap"
                     android:maxLines="1"
                     android:text="@{`Mod No : ` + productinforesponse.modelNumber}"
@@ -72,8 +71,8 @@
 
                 <!--product return date-->
                 <TextView
-                    android:layout_marginTop="@dimen/margin_3"
                     android:id="@+id/return_date"
+                    android:layout_marginTop="@dimen/margin_3"
                     style="@style/BothWrap"
                     android:textColor="@color/ebony_clay"
                     android:textSize="10sp" />

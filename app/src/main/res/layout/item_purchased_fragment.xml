@@ -26,8 +26,7 @@
             android:layout_height="100dp">
 
             <RelativeLayout
-                style="@style/BothMatch"
-                >
+                style="@style/BothMatch">
 
                 <!--brand image-->
                 <ImageView
@@ -48,7 +47,7 @@
                 <TextView
                     android:id="@+id/product_name"
                     style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_marginTop="@dimen/margin_7"
                     fontPath="fonts/OpenSans-Bold.ttf"
                     android:layout_toLeftOf="@id/status_layout"
                     android:layout_toRightOf="@id/product_imageview"
@@ -60,8 +59,8 @@
 
                 <!--product model number-->
                 <TextView
-                    android:layout_marginTop="@dimen/margin_3"
                     android:id="@+id/model_number_tv"
+                    android:layout_marginTop="@dimen/margin_3"
                     style="@style/BothWrap"
                     android:layout_below="@id/product_name"
                     android:layout_toRightOf="@id/product_imageview"
@@ -71,8 +70,8 @@
 
                 <!--product purchased date-->
                 <TextView
-                    android:layout_marginTop="@dimen/margin_3"
                     android:id="@+id/purchased_date"
+                    android:layout_marginTop="@dimen/margin_3"
                     style="@style/BothWrap"
                     android:layout_width="80dp"
                     android:layout_below="@+id/model_number_tv"
@@ -106,8 +105,8 @@
 
                     <!--favorite icon-->
                     <ImageView
-                        android:layout_marginTop="@dimen/margin_5"
                         android:id="@+id/favourite_icon"
+                        android:layout_marginTop="@dimen/margin_5"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_marginRight="@dimen/margin_5"
@@ -121,11 +120,11 @@
                 </LinearLayout>
 
             </RelativeLayout>
+            <!--Dummy view for showing selection-->
             <ImageView
                 android:id="@+id/views_layout"
                 style="@style/BothMatch"
                 android:background="@color/alpha_corn_flower_blue" />
-            <!--Dummy view for showing selection-->
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </layout>
