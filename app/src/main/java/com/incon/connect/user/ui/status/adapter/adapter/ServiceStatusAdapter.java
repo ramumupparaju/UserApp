@@ -83,6 +83,11 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
         public void bind(ServiceStatus serviceStatus, int position) {
             binding.setVariable(BR.productinforesponse, serviceStatus);
 
+            /*AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
+                    .getProductLogoUrl());
+            AppUtils.loadImageFromApi(binding.productImageview, purchasedHistoryResponse
+                    .getProductImageUrl());*/
+
             AppUtils.loadImageFromApi(binding.brandImageview, serviceStatus.getProduct().getName()); //TODO have to change from url
             AppUtils.loadImageFromApi(binding.productImageview, serviceStatus.getProduct().getName()); //TODO have to change from url
 

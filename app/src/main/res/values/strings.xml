@@ -432,7 +432,7 @@
     <string name="tab_purchased">Purchases</string>
     <string name="tab_interest">Interests</string>
     <string name="tab_return">Returns</string>
-    <string name="tab_showroom">ShowRoom</string>
+    <string name="tab_showroom">My Showrooms</string>
     <string name="hint_warranty_date">Warranty ends on \n %1$s</string>
     <string name="hint_problem_details">Problem details</string>
     <string name="hint_time">Time</string>
@@ -471,6 +471,7 @@
     <string name="add_offer_price">Price</string>
     <!-- screen titles -->
     <string name="title_history">History</string>
+    <string name="title_model">Mod No :</string>
     <string name="title_favorites">Favorites</string>
     <string name="title_scan">Scan</string>
     <string name="title_warranty_register">Warranty Registration</string>

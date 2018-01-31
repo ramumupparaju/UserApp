@@ -70,12 +70,12 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
                 binding.statusTv.setVisibility(View.VISIBLE);
                 binding.statusTv.setText("Status:" + status);
             }
-
+         // todo have to check
             String merchantComments = interestHistoryResponse.getMerchantComments() + " for testing";
             if (TextUtils.isEmpty(merchantComments)) {
-                binding.commentTv.setVisibility(View.INVISIBLE);
-            } else {
                 binding.commentTv.setVisibility(View.VISIBLE);
+            } else {
+                binding.commentTv.setVisibility(View.INVISIBLE);
             }
             AppUtils.loadImageFromApi(binding.brandImageview, interestHistoryResponse
                     .getProductLogoUrl());

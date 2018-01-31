@@ -59,6 +59,7 @@
 
                 <!--product model-->
                 <TextView
+                    android:layout_marginTop="@dimen/margin_3"
                     android:id="@+id/product_model"
                     style="@style/BothWrap"
                     android:maxLines="1"
@@ -68,6 +69,7 @@
 
                 <!--offer-->
                 <TextView
+                    android:layout_marginTop="@dimen/margin_3"
                     android:id="@+id/interest_offer"
                     style="@style/BothWrap"
                     android:layout_below="@id/product_name"
@@ -77,6 +79,7 @@
                     android:textSize="10sp" />
 
                 <TextView
+                    android:layout_marginTop="@dimen/margin_3"
                     android:id="@+id/interest_mrp"
                     style="@style/BothWrap"
                     android:layout_below="@id/interest_offer"
@@ -87,6 +90,7 @@
 
                 <!--Scan date-->
                 <TextView
+                    android:layout_marginTop="@dimen/margin_3"
                     android:id="@+id/interest_date"
                     style="@style/BothWrap"
                     android:layout_below="@id/interest_mrp"

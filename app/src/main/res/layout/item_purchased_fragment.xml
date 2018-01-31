@@ -34,6 +34,7 @@
                     android:id="@+id/brand_imageview"
                     android:layout_width="45dp"
                     android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/margin_10"
                     android:alpha="70" />
 
                 <!--product image-->
@@ -47,6 +48,7 @@
                 <TextView
                     android:id="@+id/product_name"
                     style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_10"
                     fontPath="fonts/OpenSans-Bold.ttf"
                     android:layout_toLeftOf="@id/status_layout"
                     android:layout_toRightOf="@id/product_imageview"
@@ -58,6 +60,7 @@
 
                 <!--product model number-->
                 <TextView
+                    android:layout_marginTop="@dimen/margin_3"
                     android:id="@+id/model_number_tv"
                     style="@style/BothWrap"
                     android:layout_below="@id/product_name"
@@ -68,6 +71,7 @@
 
                 <!--product purchased date-->
                 <TextView
+                    android:layout_marginTop="@dimen/margin_3"
                     android:id="@+id/purchased_date"
                     style="@style/BothWrap"
                     android:layout_width="80dp"
@@ -83,6 +87,8 @@
                     style="@style/MatchWrap"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="@dimen/margin_3"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_marginBottom="@dimen/margin_5"
                     android:layout_toRightOf="@id/purchased_date"
                     android:ellipsize="end"
                     android:gravity="right"
@@ -94,24 +100,24 @@
                 <LinearLayout
                     android:id="@+id/status_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <!--favorite icon-->
                     <ImageView
+                        android:layout_marginTop="@dimen/margin_5"
                         android:id="@+id/favourite_icon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginBottom="@dimen/margin_5"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="@dimen/margin_5"
                         android:src="@drawable/fav" />
 
                     <!--warranty icon-->
                     <ImageView
                         android:id="@+id/warrenty_icon"
-                        android:layout_width="8dp"
-                        android:layout_height="8dp" />
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
             </RelativeLayout>

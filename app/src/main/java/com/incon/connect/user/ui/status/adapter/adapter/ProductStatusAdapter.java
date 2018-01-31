@@ -82,8 +82,8 @@ public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdap
 
         public void bind(ProductInfoResponse productStatus, int position) {
             binding.setVariable(BR.modelResponse, productStatus);
-            AppUtils.loadImageFromApi(binding.brandImageview, productStatus.getProductName()); //TODO have to change from url
-            AppUtils.loadImageFromApi(binding.productImageview, productStatus.getProductName()); //TODO have to change from url
+            AppUtils.loadImageFromApi(binding.brandImageview, productStatus.getProductLogoUrl());
+            AppUtils.loadImageFromApi(binding.productImageview, productStatus.getProductImageUrl());
 
             //TODO remove hard coding
             binding.productName.setText(productStatus.getProductName());

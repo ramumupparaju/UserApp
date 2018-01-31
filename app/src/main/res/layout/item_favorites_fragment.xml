@@ -86,7 +86,8 @@
                         android:id="@+id/progress_status_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/btn_stroke_white" />
+                        android:background="@drawable/btn_stroke_white"
+                        />
                 </RelativeLayout>
 
                 <LinearLayout

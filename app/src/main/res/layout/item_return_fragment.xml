@@ -62,6 +62,7 @@
 
                 <!--product model-->
                 <TextView
+                    android:layout_marginTop="@dimen/margin_3"
                     android:id="@+id/product_model"
                     style="@style/BothWrap"
                     android:maxLines="1"
@@ -71,6 +72,7 @@
 
                 <!--product return date-->
                 <TextView
+                    android:layout_marginTop="@dimen/margin_3"
                     android:id="@+id/return_date"
                     style="@style/BothWrap"
                     android:textColor="@color/ebony_clay"
