@@ -44,7 +44,7 @@
             <TextView
                 android:id="@+id/product_name"
                 style="@style/BothWrap"
-                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_7"
                 fontPath="fonts/OpenSans-Bold.ttf"
                 android:layout_toRightOf="@id/product_imageview"
                 android:maxLines="2"
@@ -57,7 +57,7 @@
             <TextView
                 android:id="@+id/model_number_tv"
                 style="@style/BothWrap"
-                android:layout_marginTop="@dimen/margin_3"
+                android:layout_marginTop="@dimen/margin_2"
                 android:layout_below="@id/product_name"
                 android:layout_toRightOf="@id/product_imageview"
                 android:text="@{`Mod No : ` + productinforesponse.product.modelNo}"
@@ -68,7 +68,7 @@
             <TextView
                 android:id="@+id/merchant_name"
                 style="@style/BothWrap"
-                android:layout_marginTop="@dimen/margin_3"
+                android:layout_marginTop="@dimen/margin_2"
                 android:layout_below="@id/model_number_tv"
                 android:layout_toRightOf="@id/product_imageview"
                 android:ellipsize="end"
@@ -80,7 +80,7 @@
             <RelativeLayout
                 android:id="@+id/scroll_layout"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="55dp"
                 android:layout_alignParentBottom="true"
                 android:background="@color/dusty_gray">
 

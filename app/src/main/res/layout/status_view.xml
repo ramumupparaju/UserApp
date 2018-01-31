@@ -12,6 +12,7 @@
             android:orientation="horizontal">
 
             <View
+                android:layout_marginTop="@dimen/margin_10"
                 android:id="@+id/view_left_line"
                 android:layout_width="25dp"
                 android:layout_height="5dp"
@@ -26,6 +27,7 @@
                 app:srcCompat="@drawable/circle_shape"/>
 
             <View
+                android:layout_marginTop="@dimen/margin_10"
                 android:id="@+id/view_right_line"
                 android:layout_width="25dp"
                 android:layout_height="5dp"

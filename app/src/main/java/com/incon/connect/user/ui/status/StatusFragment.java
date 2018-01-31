@@ -1,6 +1,8 @@
 package com.incon.connect.user.ui.status;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -87,7 +89,6 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         this.isServiceRequest = checked;
         setListUi();
     }
-
 
     private void setListUi() {
 

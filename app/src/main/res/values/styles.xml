@@ -117,6 +117,13 @@
         <item name="android:layout_height">@dimen/margin_75</item>
     </style>
 
+    <style name="SwitchCompatStyle" >
+        <item name="thumbTint">@color/switch_color</item>
+    </style>
+
+    <style name="SwitchCompatTheme" >
+        <item name="colorControlActivated">@color/astral</item>
+    </style>
 
     <!--style match_wrap-->
     <style name="MatchWrap">
