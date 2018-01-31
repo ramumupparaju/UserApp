@@ -140,7 +140,8 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
                 LinearLayout linearLayout = new LinearLayout(context);
                 StatusViewBinding statusView = getStatusView();
                 statusView.viewTv.setText(getStatusName(serviceRequest.getStatus()));
-                statusView.viewLine.setVisibility(i == size - 1 ? View.GONE : View.VISIBLE);
+                statusView.viewLeftLine.setVisibility(i == 0 ? View.INVISIBLE : View.VISIBLE);
+                statusView.viewRightLine.setVisibility(i == size - 1 ? View.INVISIBLE : View.VISIBLE);
                 View statusRootView = statusView.getRoot();
                 statusRootView.setOnClickListener(onClickListener);
                 statusRootView.setTag(statusData.getServiceCenter().getContactNo());
