@@ -16,7 +16,7 @@
         android:layout_marginBottom="@dimen/margin_3"
         android:layout_marginLeft="@dimen/margin_8"
         android:layout_marginRight="@dimen/margin_8"
-        android:layout_marginTop="@dimen/margin_3"
+        android:layout_marginTop="@dimen/margin_5"
         app:cardCornerRadius="@dimen/corner_radius">
 
         <RelativeLayout

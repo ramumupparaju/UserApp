@@ -16,128 +16,76 @@
         android:layout_marginBottom="@dimen/margin_3"
         android:layout_marginLeft="@dimen/margin_8"
         android:layout_marginRight="@dimen/margin_8"
-        android:layout_marginTop="@dimen/margin_3"
+        android:layout_marginTop="@dimen/margin_5"
         app:cardCornerRadius="@dimen/corner_radius">
 
         <RelativeLayout
-            android:id="@+id/layout_interest_item"
+            android:id="@+id/layout_return_item"
             android:layout_width="match_parent"
-            android:layout_height="120dp">
+            android:layout_height="90dp">
 
-            <!--brand image-->
-            <ImageView
-                android:id="@+id/brand_imageview"
-                android:layout_width="45dp"
-                android:layout_height="32dp"
-                android:alpha="70" />
+            <RelativeLayout
+                style="@style/BothMatch"
+                >
 
-            <!--product image-->
-            <ImageView
-                android:id="@+id/product_imageview"
-                style="@style/image_product_icon"
-                android:layout_toRightOf="@id/brand_imageview" />
+                <!--brand image-->
+                <ImageView
+                    android:id="@+id/brand_imageview"
+                    android:layout_width="45dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:alpha="70" />
 
-            <!--product name-->
-            <TextView
-                android:id="@+id/product_name"
-                style="@style/BothWrap"
-                fontPath="fonts/OpenSans-Bold.ttf"
-                android:layout_toRightOf="@id/product_imageview"
-                android:maxLines="2"
-                android:text="@={productinforesponse.productName}"
-                android:textAllCaps="true"
-                android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp" />
-            <!--product model-->
-            <TextView
-                android:id="@+id/product_model"
-                style="@style/BothWrap"
-                fontPath="fonts/OpenSans-Bold.ttf"
-                android:layout_toRightOf="@id/product_imageview"
-                android:maxLines="2"
-                android:text="@={productinforesponse.modelNumber}"
-                android:textAllCaps="true"
-                android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp" />
+                <!--product image-->
+                <ImageView
+                    android:id="@+id/product_imageview"
+                    style="@style/image_product_icon"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/brand_imageview" />
 
-            <!--offer-->
-            <TextView
-                android:id="@+id/interest_offer"
-                style="@style/BothWrap"
-                android:layout_below="@id/product_name"
-                android:layout_toRightOf="@id/product_imageview"
-                android:text="@{`Offer :` +productinforesponse.price}"
-                android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp" />
+                <LinearLayout
+                    style="@style/BothWrap"
+                    android:layout_toRightOf="@id/product_imageview"
+                    android:orientation="vertical">
+                    <!--product name-->
+                    <TextView
+                        android:id="@+id/product_name"
+                        style="@style/BothWrap"
+                        android:layout_marginTop="@dimen/margin_7"
+                        fontPath="fonts/OpenSans-Bold.ttf"
+                        android:maxLines="2"
+                        android:text="@={productinforesponse.productName}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/ebony_clay"
+                        android:textSize="12.4sp" />
 
-            <TextView
-                android:id="@+id/interest_mrp"
-                style="@style/BothWrap"
-                android:layout_below="@id/interest_offer"
-                android:layout_toRightOf="@id/product_imageview"
-                android:text="@{`MRP :` +productinforesponse.mrp}"
-                android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp" />
+                    <!--product model-->
+                    <TextView
+                        android:id="@+id/product_model"
+                        android:layout_marginTop="@dimen/margin_3"
+                        style="@style/BothWrap"
+                        android:maxLines="1"
+                        android:text="@{`Mod No : ` + productinforesponse.modelNumber}"
+                        android:textColor="@color/ebony_clay"
+                        android:textSize="10sp" />
 
-            <!--Scan date-->
-            <TextView
-                android:id="@+id/interest_date"
-                style="@style/BothWrap"
-                android:layout_below="@id/interest_mrp"
-                android:layout_toRightOf="@id/product_imageview"
-                android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp" />
+                    <!--product return date-->
+                    <TextView
+                        android:id="@+id/return_date"
+                        android:layout_marginTop="@dimen/margin_3"
+                        style="@style/BothWrap"
+                        android:textColor="@color/ebony_clay"
+                        android:textSize="10sp" />
+                </LinearLayout>
 
-            <!--merchant name-->
-            <TextView
-                android:id="@+id/store_name"
-                style="@style/BothWrap"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/margin_3"
-                android:layout_marginRight="@dimen/margin_3"
-                android:layout_toRightOf="@id/interest_date"
-                android:ellipsize="end"
-                android:gravity="right"
-                android:maxLines="1"
-                android:text="@{productinforesponse.storeName}"
-                android:textColor="@color/black"
-                android:textSize="12.4sp" />
 
-            <TextView
-                android:id="@+id/comment_tv"
-                style="@style/MatchWrap"
-                android:layout_below="@id/interest_date"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:paddingLeft="@dimen/margin_10"
-                android:paddingRight="@dimen/margin_10"
-                android:text="@{`Merchant Comments :` + productinforesponse.merchantComments}"
-                android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp" />
-
-            <TextView
-                android:id="@+id/status_tv"
-                style="@style/MatchWrap"
-                android:layout_below="@id/comment_tv"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/margin_3"
-                android:layout_toLeftOf="@+id/store_name"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
-                android:paddingLeft="@dimen/margin_10"
-                android:paddingRight="@dimen/margin_10"
-                android:text="@{productinforesponse.status}"
-                android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp" />
-
+            </RelativeLayout>
             <!--Dummy view for showing selection-->
             <ImageView
                 android:id="@+id/views_layout"
-                android:layout_width="match_parent"
-                android:layout_height="110dp"
+                style="@style/BothMatch"
                 android:background="@color/alpha_corn_flower_blue" />
-
         </RelativeLayout>
+
     </android.support.v7.widget.CardView>
 </layout>

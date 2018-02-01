@@ -28,8 +28,8 @@ import java.util.List;
  */
 
 public class ReturnFragment extends BaseTabFragment implements ReturnContract.View {
-    private View rootView;
     private FragmentReturnBinding binding;
+    private View rootView;
     private ReturnPresenter returnPresenter;
     private ReturnAdapter returnAdapter;
     private int userId;

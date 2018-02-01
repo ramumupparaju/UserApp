@@ -22,8 +22,11 @@ import com.incon.connect.user.databinding.FragmentShowroomBinding;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.history.adapter.ShowRoomAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
+import com.incon.connect.user.utils.SharedPrefsUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by PC on 1/23/2018.
@@ -38,6 +41,7 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
     private ShimmerFrameLayout shimmerFrameLayout;
     private ShowRoomAdapter showRoomAdapter;
     private ShowRoomPresenter showRoomPresenter;
+    private int userId;
 
     @Override
     public void onSearchClickListerner(String searchableText, String searchType) {
@@ -81,6 +85,19 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         binding.showroomRecyclerview.setAdapter(showRoomAdapter);
         binding.showroomRecyclerview.setLayoutManager(linearLayoutManager);
+        userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
+                LoginPrefs.USER_ID, DEFAULT_VALUE);
+        getProductsApi();
+
+    }
+
+    private void getProductsApi() {
+
+        binding.showroomRecyclerview.setVisibility(View.GONE);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmerAnimation();
+        showRoomPresenter.returnHistory(userId);
+
 
     }
 
@@ -90,6 +107,8 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
                 @Override
                 public void onRefresh() {
                     showRoomAdapter.clearData();
+                    getProductsApi();
+
                 }
             };
 
@@ -227,5 +246,37 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
                 .build();
         feedBackDialog.showDialog();
 
+    }
+
+    @Override
+    public void loadReturnHistory(List<ProductInfoResponse> returnHistoryResponseList) {
+
+
+
+        if (returnHistoryResponseList == null) {
+            returnHistoryResponseList = new ArrayList<>();
+        }
+        if (returnHistoryResponseList.size() == 0) {
+            binding.showroomTextview.setVisibility(View.VISIBLE);
+            dismissSwipeRefresh();
+        } else {
+            showRoomAdapter.setData(returnHistoryResponseList);
+            dismissSwipeRefresh();
+        }
+        binding.showroomRecyclerview.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.stopShimmerAnimation();
+        shimmerFrameLayout.setVisibility(View.GONE);
+    }
+
+    private void dismissSwipeRefresh() {
+        if (binding.swiperefresh.isRefreshing()) {
+            binding.swiperefresh.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        showRoomPresenter.disposeAll();
     }
 }

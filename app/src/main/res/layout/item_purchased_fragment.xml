@@ -60,11 +60,22 @@
                 <!--product model number-->
                 <TextView
                     android:id="@+id/model_number_tv"
-                    android:layout_marginTop="@dimen/margin_3"
                     style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_3"
                     android:layout_below="@id/product_name"
                     android:layout_toRightOf="@id/product_imageview"
                     android:text="@{`Mod No : ` + productinforesponse.modelNumber}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="10sp" />
+
+                <!--price -->
+                <TextView
+                    android:id="@+id/text_price"
+                    android:layout_marginTop="@dimen/margin_3"
+                    style="@style/BothWrap"
+                    android:layout_below="@id/model_number_tv"
+                    android:layout_toRightOf="@id/product_imageview"
+                    android:text="@{'\u20B9' + productinforesponse.price}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="10sp" />
 
@@ -73,8 +84,7 @@
                     android:id="@+id/purchased_date"
                     android:layout_marginTop="@dimen/margin_3"
                     style="@style/BothWrap"
-                    android:layout_width="80dp"
-                    android:layout_below="@+id/model_number_tv"
+                    android:layout_below="@+id/text_price"
                     android:layout_alignParentBottom="true"
                     android:layout_toRightOf="@id/product_imageview"
                     android:textColor="@color/ebony_clay"

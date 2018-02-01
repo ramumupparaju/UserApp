@@ -28,15 +28,15 @@
             android:layout_toLeftOf="@id/add_address_view"
             android:fadeScrollbars="false"
             android:scrollbarSize="4dp"
-            android:scrollbarThumbHorizontal="@drawable/scrollbar"
+            android:scrollbarThumbHorizontal="@color/mercury"
             android:scrollbars="horizontal"/>
 
-        <include
+    <!--    <include
             android:id="@+id/list_header"
             layout="@layout/item_list_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/addresses_recyclerview"/>
+            android:layout_below="@+id/addresses_recyclerview"/>-->
 
         <TextView
             android:id="@+id/no_items_textview"
@@ -49,7 +49,7 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"
             style="@style/BothMatch"
-            android:layout_below="@+id/list_header"
+            android:layout_below="@+id/addresses_recyclerview"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout

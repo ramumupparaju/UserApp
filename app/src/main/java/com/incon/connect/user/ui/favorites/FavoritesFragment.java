@@ -1187,10 +1187,10 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             favoritesResponseList = new ArrayList<>();
         }
         if (favoritesResponseList.size() == 0) {
-            binding.listHeader.setVisibility(View.GONE);
+           // binding.listHeader.setVisibility(View.GONE);
             binding.noItemsTextview.setVisibility(View.VISIBLE);
         } else {
-            binding.listHeader.setVisibility(View.VISIBLE);
+           // binding.listHeader.setVisibility(View.VISIBLE);
             binding.noItemsTextview.setVisibility(View.GONE);
         }
         {
