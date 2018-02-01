@@ -65,7 +65,7 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
                 }
             }
             if (TextUtils.isEmpty(status)) {
-                binding.statusTv.setVisibility(View.GONE);
+                binding.statusTv.setVisibility(View.VISIBLE);
             } else {
                 binding.statusTv.setVisibility(View.VISIBLE);
                 binding.statusTv.setText("Status:" + status);
@@ -75,7 +75,7 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
             if (TextUtils.isEmpty(merchantComments)) {
                 binding.commentTv.setVisibility(View.VISIBLE);
             } else {
-                binding.commentTv.setVisibility(View.INVISIBLE);
+                binding.commentTv.setVisibility(View.VISIBLE);
             }
             AppUtils.loadImageFromApi(binding.brandImageview, interestHistoryResponse
                     .getProductLogoUrl());
