@@ -76,6 +76,20 @@
     <string name="time_selecte">Selecte Time</string>
     <string name="user_selecte">Selecte User</string>
 
+    <!-- bill details-->
+    <string name="text_powered">POWERED BY CONNECT</string>
+    <string name="text_customer_details">Customer details</string>
+    <string name="text_product_details">Product details</string>
+    <string name="text_invoice">INVOICE</string>
+    <string name="text_date_of_purchase">Date of purchase</string>
+    <string name="text_bill_id">Bill ID</string>
+    <string name="text_invoice_no">Invoice NO</string>
+    <string name="text_showroom_details">Showroom details</string>
+    <string name="text_product_name">Product name</string>
+    <string name="text_model_no">Model no</string>
+    <string name="text_s_n">S/N</string>
+    <string name="text_price">Price</string>
+
     <!--warrantyregistration-->
     <string name="action_accept">Accept</string>
     <string name="action_hold">Hold</string>

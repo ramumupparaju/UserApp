@@ -31,7 +31,7 @@
                 android:paddingLeft="@dimen/margin_5"
                 android:paddingRight="@dimen/margin_5"
                 android:paddingTop="@dimen/margin_20"
-                android:text="INVOICE"
+                android:text="@string/text_invoice"
                 android:textColor="@color/white" />
 
 
@@ -51,17 +51,17 @@
                     <TextView
                         android:id="@+id/text_dop"
                         style="@style/bill_header_right_text_view"
-                        android:text="Date of purchase" />
+                        android:text="@string/text_date_of_purchase" />
 
                     <TextView
                         android:id="@+id/text_bill_id"
                         style="@style/bill_header_right_text_view"
-                        android:text="Bill ID" />
+                        android:text="@string/text_bill_id" />
 
                     <TextView
                         android:id="@+id/text_invoice_no"
                         style="@style/bill_header_right_text_view"
-                        android:text="Invoice NO" />
+                        android:text="@string/text_invoice_no" />
 
                 </LinearLayout>
 
@@ -104,7 +104,7 @@
                 <TextView
                     android:id="@+id/product_details"
                     style="@style/bill_header_text_view"
-                    android:text="Product details" />
+                    android:text="@string/text_product_details" />
 
 
                 <View
@@ -128,23 +128,23 @@
                         <TextView
                             android:id="@+id/text_product_name"
                             style="@style/bill_header_right_text_view"
-                            android:text="Product name" />
+                            android:text="@string/text_product_name" />
 
                         <TextView
                             android:id="@+id/text_model_number"
                             style="@style/bill_header_right_text_view"
-                            android:text="Model no" />
+                            android:text="@string/text_model_no" />
 
                         <TextView
                             android:id="@+id/text_sn"
                             style="@style/bill_header_right_text_view"
-                            android:text="S/N" />
+                            android:text="@string/text_s_n" />
 
 
                         <TextView
                             android:id="@+id/text_price"
                             style="@style/bill_header_right_text_view"
-                            android:text="Price" />
+                            android:text="@string/text_price" />
 
 
                     </LinearLayout>
@@ -198,7 +198,7 @@
                 android:id="@+id/showroom_details"
                 style="@style/bill_header_text_view"
                 android:layout_marginTop="10dp"
-                android:text="Showroom details" />
+                android:text="@string/text_showroom_details" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -251,7 +251,7 @@
                 style="@style/bill_header_text_view"
                 android:layout_below="@id/showroom_details_base"
                 android:layout_marginTop="10dp"
-                android:text="Customer details" />
+                android:text="@string/text_customer_details" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -301,7 +301,7 @@
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_10"
                 android:paddingBottom="@dimen/margin_20"
-                android:text="POWERED BY CONNECT"
+                android:text="@string/text_powered"
                 android:textColor="@color/ebony_clay"
                 android:textSize="12sp" />
 
