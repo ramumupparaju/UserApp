@@ -109,6 +109,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             binding.spinnerUsers.setVisibility(View.GONE);
             return;
         }
+        binding.spinnerUsers.setVisibility(View.VISIBLE);
         String[] stringUsersList = new String[usersList.size()];
         for (int i = 0; i < usersList.size(); i++) {
             stringUsersList[i] = usersList.get(i).getName();
@@ -123,6 +124,11 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (usersSelectedPos != position) {
                     usersSelectedPos = position;
+                }
+
+                //For avoiding double tapping issue
+                if (binding.spinnerUsers.getOnItemClickListener() != null) {
+                    binding.spinnerUsers.onItemClick(parent, view, position, id);
                 }
             }
         });
