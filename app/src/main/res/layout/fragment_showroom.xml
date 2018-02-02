@@ -45,7 +45,6 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/showroom_recyclerview"
                     style="@style/MatchWrap"
-                    android:layout_marginTop="@dimen/margin_10"
                     android:fadeScrollbars="false"
                     android:scrollbarSize="4dp"
                     android:scrollbarThumbVertical="@drawable/scrollbar"

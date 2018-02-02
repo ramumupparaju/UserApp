@@ -14,7 +14,7 @@
 
         <RelativeLayout
             style="@style/BothMatch"
-            android:background="@color/white">
+            android:background="@color/mercury">
 
 
             <LinearLayout

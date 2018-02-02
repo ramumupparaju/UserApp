@@ -492,7 +492,7 @@
     <string name="title_add_new_model">New Model</string>
     <string name="title_custom_product">Custom Product</string>
     <string name="title_status">Status</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_updates">UpDates</string>
     <string name="title_qr_code_scanner">QR Code Scanner</string>
     <string name="action_name">Name</string>
     <string name="label_expires_dollar">Expires in %1$d days</string>
