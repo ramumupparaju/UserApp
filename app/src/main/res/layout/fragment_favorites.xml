@@ -88,33 +88,58 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <include
+      <!--  <include
             android:id="@+id/fab"
             layout="@layout/view_fab"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />-->
 
-       <!-- <ImageView
+        <TextView
+            style="@style/BothWrap"
+            fontPath="fonts/OpenSans-Bold.ttf"
+            android:text="@string/title_custom_product"
+            android:layout_marginBottom="@dimen/margin_30"
+            android:layout_toLeftOf="@+id/custom_product"
+            android:layout_above="@id/add_product"
+            android:textColor="@color/ebony_clay"
+            android:textSize="12sp" />
+
+
+
+        <ImageView
+            android:id="@+id/custom_product"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_above="@id/add_product"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:onClick="@{() -> favorites.onAddCustomProductClick()}"
+            android:paddingBottom="@dimen/margin_10"
+            app:srcCompat="@drawable/ic_favourite_products"/>
+
+        <TextView
+            style="@style/BothWrap"
+            fontPath="fonts/OpenSans-Bold.ttf"
+            android:text="@string/title_add_product"
+            android:layout_above="@id/parent_product"
+            android:layout_toLeftOf="@+id/add_product"
+            android:textColor="@color/ebony_clay"
+            android:layout_marginBottom="@dimen/margin_30"
+            android:paddingBottom="@dimen/margin_10"
+            android:textSize="12sp" />
+
+        <ImageView
             android:id="@+id/add_product"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="54dp"
+            android:visibility="gone"
+            android:layout_height="54dp"
             android:layout_above="@id/parent_product"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/margin_10"
             android:layout_marginRight="@dimen/margin_10"
             android:onClick="@{() -> favorites.onProductAddClick()}"
-            android:paddingBottom="@dimen/margin_10"
-            app:srcCompat="@drawable/ic_favourite_products"/>
-
-        <ImageView
-            android:id="@+id/custom_product"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_above="@id/add_product"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"
-            android:onClick="@{() -> favorites.onAddCustomProductClick()}"
             android:paddingBottom="@dimen/margin_10"
             app:srcCompat="@drawable/ic_favourite_products"/>
 
@@ -128,7 +153,7 @@
             android:layout_marginRight="@dimen/margin_10"
             android:onClick="@{() -> favorites.onParentProductClick()}"
             android:paddingBottom="@dimen/margin_10"
-            app:srcCompat="@drawable/ic_add_circle"/>-->
+            app:srcCompat="@drawable/ic_add_circle"/>
 
     </RelativeLayout>
 
