@@ -394,14 +394,14 @@
     <string name="register_userinfo_subtitle">Please enter information for the person who will be using the app.</string>
     <string name="register_store_info_title">Store Information</string>
     <string name="register_store_info_subtitle">Please enter store information</string>
-    <string name="register_name_hint">Name</string>
+    <string name="register_name_hint">Name *</string>
     <string name="register_firstname_hint">First Name</string>
     <string name="register_lastname_hint">Last Name</string>
-    <string name="register_phone_hint">Phone</string>
+    <string name="register_phone_hint">Phone *</string>
     <string name="register_type_hint">Type</string>
     <string name="register_emailid_hint">Email Address</string>
-    <string name="register_password_hint">Password</string>
-    <string name="register_reenter_password_hint">Re-enter Password</string>
+    <string name="register_password_hint">Password *</string>
+    <string name="register_reenter_password_hint">Re-enter Password *</string>
     <string name="register_patientinfo_title">Person with asthma</string>
     <string name="register_patientinfo_subtitle">Please enter information for the person with asthma\n who will be monitored.</string>
     <string name="register_phone_type">Type</string>
@@ -413,7 +413,7 @@
     <string name="register_gender_hint">Gender</string>
     <string name="register_category_hint">Category</string>
     <string name="register_gstn_hint">GSTN</string>
-    <string name="register_address_hint">Address</string>
+    <string name="register_address_hint">Address *</string>
     <string name="register_address1_hint">Address1</string>
     <string name="register_address2_hint">Address2</string>
     <string name="register_street_hint">Street</string>

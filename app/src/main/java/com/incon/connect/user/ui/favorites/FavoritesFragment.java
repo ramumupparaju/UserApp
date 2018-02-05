@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
@@ -94,6 +96,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private ServiceRequestDialog serviceRequestDialog;
     private TimeSlotAlertDialog timeSlotAlertDialog;
     private String serviceRequestComment;
+    FloatingActionMenu materialDesignFAM;
+    FloatingActionButton  floatingActionButton2, floatingActionButton3;
 
     //Adding unauthorized phone number
     private CustomPhoneNumberDialog customPhoneNumberDialog;
@@ -118,6 +122,10 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             binding = DataBindingUtil.inflate(
                     inflater, R.layout.fragment_favorites, container, false);
             binding.setFavorites(this);
+            materialDesignFAM =  rootView.findViewById(R.id.material_design_android_floating_action_menu);
+            floatingActionButton2 =  rootView.findViewById(R.id.material_design_floating_action_menu_item2);
+            floatingActionButton3 =  rootView.findViewById(R.id.material_design_floating_action_menu_item3);
+
             rootView = binding.getRoot();
             shimmerFrameLayout = rootView.findViewById(R.id
                     .effect_shimmer);
@@ -141,7 +149,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 bundle, 0, 0, TRANSACTION_TYPE_REPLACE);
     }
 
-    public void onParentProductClick() {
+    /*public void onParentProductClick() {
         ImageView addProduct = binding.addProduct;
         if (addProduct.getVisibility() == View.VISIBLE) {
             binding.parentProduct.setImageResource(R.drawable.ic_add_circle);
@@ -153,7 +161,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             binding.customProduct.setVisibility(View.VISIBLE);
         }
     }
-
+*/
     public void onAddCustomProductClick() {
         Bundle bundle = new Bundle();
         AddUserAddressResponse singleAddressResponse = addressessAdapter.
@@ -172,7 +180,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
 
-        binding.parentProduct.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+       // binding.parentProduct.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
         //sets add address view
         binding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
@@ -1173,10 +1181,10 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
         if (favoritesResponseList.size() > 0) {
             iAddressClickCallback.onClickPosition(0);
-            binding.parentProduct.setVisibility(View.VISIBLE);
+           // binding.parentProduct.setVisibility(View.VISIBLE);
         } else {
             loadFavoritesProducts(null);
-            binding.parentProduct.setVisibility(View.GONE);
+           // binding.parentProduct.setVisibility(View.GONE);
 
         }
     }
