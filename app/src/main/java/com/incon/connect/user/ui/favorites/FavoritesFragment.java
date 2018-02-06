@@ -124,11 +124,33 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                     inflater, R.layout.fragment_favorites, container, false);
             binding.setFavorites(this);
             rootView = binding.getRoot();
-           /* floatingActionMenu = (FloatingActionMenu) rootView.findViewById(R.id.fab);
+            floatingActionMenu = (FloatingActionMenu) rootView.findViewById(R.id.fab);
             addCustomProduct = (FloatingActionButton) rootView.findViewById(R.id.add_custom_product);
-            addProduct =  (FloatingActionButton)rootView.findViewById(R.id.add_product);*/
+            addProduct =  (FloatingActionButton)rootView.findViewById(R.id.add_product);
             shimmerFrameLayout = rootView.findViewById(R.id
                     .effect_shimmer);
+            addProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    onProductAddClick();
+
+
+                }
+            });
+
+            addCustomProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    onAddCustomProductClick();
+
+                }
+            });
+
+
+
+
             initViews();
         }
         setTitle();
@@ -149,7 +171,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 bundle, 0, 0, TRANSACTION_TYPE_REPLACE);
     }
 
-    public void onParentProductClick() {
+    // todo have to check
+    /*public void onParentProductClick() {
         ImageView addProduct = binding.addProduct;
         if (addProduct.getVisibility() == View.VISIBLE) {
             binding.parentProduct.setImageResource(R.drawable.ic_add_circle);
@@ -161,6 +184,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             binding.customProduct.setVisibility(View.VISIBLE);
         }
     }
+    */
+
     public void onAddCustomProductClick() {
         Bundle bundle = new Bundle();
         AddUserAddressResponse singleAddressResponse = addressessAdapter.
@@ -178,8 +203,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
-
-        binding.parentProduct.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+// todo have to check
+       // binding.parentProduct.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
         //sets add address view
         binding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);

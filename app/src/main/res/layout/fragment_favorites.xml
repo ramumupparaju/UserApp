@@ -88,16 +88,17 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-      <!--  <include
-            android:id="@+id/fab"
+        <include
+            android:id="@+id/fab_view"
             layout="@layout/view_fab"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />-->
+            android:layout_height="wrap_content" />
 
-        <TextView
+       <!-- <TextView
             style="@style/BothWrap"
             fontPath="fonts/OpenSans-Bold.ttf"
             android:text="@string/title_custom_product"
+            android:visibility="gone"
             android:layout_marginBottom="@dimen/margin_30"
             android:layout_toLeftOf="@+id/custom_product"
             android:layout_above="@id/add_product"
@@ -122,6 +123,7 @@
         <TextView
             style="@style/BothWrap"
             fontPath="fonts/OpenSans-Bold.ttf"
+            android:visibility="gone"
             android:text="@string/title_add_product"
             android:layout_above="@id/parent_product"
             android:layout_toLeftOf="@+id/add_product"
@@ -154,7 +156,7 @@
             android:onClick="@{() -> favorites.onParentProductClick()}"
             android:paddingBottom="@dimen/margin_10"
             app:srcCompat="@drawable/ic_add_circle"/>
-
+-->
     </RelativeLayout>
 
 </layout>
