@@ -25,7 +25,7 @@
         android:layout_marginLeft="11dp"
         android:layout_marginRight="11dp"
         fab:menu_animationDelayPerItem="55"
-        fab:menu_backgroundColor="@android:color/transparent"
+        fab:menu_backgroundColor="#817878"
         fab:menu_buttonSpacing="0dp"
         fab:menu_fab_label="Floating Action Menu"
         fab:menu_icon="@drawable/fab_add"
@@ -43,16 +43,19 @@
             android:id="@+id/add_custom_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_add_new_location"
+            app:srcCompat="@drawable/ic_tab_notifications"
             android:text="@string/title_custom_product"
+            android:textColor="@color/ebony_clay"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/add_product"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_add_new_location"
+            app:srcCompat="@drawable/ic_tab_notifications"
             android:text="@string/title_add_product"
+            android:textColor="@color/ebony_clay"
+
             fab:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>
 </RelativeLayout>

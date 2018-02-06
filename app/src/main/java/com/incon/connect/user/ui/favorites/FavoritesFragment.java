@@ -126,7 +126,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             rootView = binding.getRoot();
             floatingActionMenu = (FloatingActionMenu) rootView.findViewById(R.id.fab);
             addCustomProduct = (FloatingActionButton) rootView.findViewById(R.id.add_custom_product);
-            addProduct =  (FloatingActionButton)rootView.findViewById(R.id.add_product);
+            addProduct = (FloatingActionButton) rootView.findViewById(R.id.add_product);
             shimmerFrameLayout = rootView.findViewById(R.id
                     .effect_shimmer);
             addProduct.setOnClickListener(new View.OnClickListener() {
@@ -147,8 +147,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
                 }
             });
-
-
 
 
             initViews();
@@ -172,7 +170,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     }
 
     // todo have to check
-    /*public void onParentProductClick() {
+   /* public void onParentProductClick() {
         ImageView addProduct = binding.addProduct;
         if (addProduct.getVisibility() == View.VISIBLE) {
             binding.parentProduct.setImageResource(R.drawable.ic_add_circle);
@@ -182,9 +180,11 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             binding.parentProduct.setImageResource(R.drawable.ic_close);
             addProduct.setVisibility(View.VISIBLE);
             binding.customProduct.setVisibility(View.VISIBLE);
+            binding.customProductText.setVisibility(View.VISIBLE);
+            binding.addProductText.setVisibility(View.VISIBLE);
         }
-    }
-    */
+    }*/
+
 
     public void onAddCustomProductClick() {
         Bundle bundle = new Bundle();
@@ -203,8 +203,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
-// todo have to check
-       // binding.parentProduct.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+        // todo have to check
+        //  binding.parentProduct.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
         //sets add address view
         binding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
@@ -400,7 +400,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
         bottomSheetPurchasedBinding.firstRow.setWeightSum(length);
-        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray,tagsArray, bottomSheetFirstRowClickListener);
+        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray, tagsArray, bottomSheetFirstRowClickListener);
 
     }
 
@@ -507,7 +507,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.secondRow, tag);
-
 
 
             if (tag == R.id.SUPPORT_UNAUTHORIZE) {
@@ -724,7 +723,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.removeAllViews();
             bottomSheetPurchasedBinding.thirdRow.setWeightSum(textArray.length);
-            setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, textArray, drawablesArray,tagsArray, bottomSheetThirdRowClickListener);
+            setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, textArray, drawablesArray, tagsArray, bottomSheetThirdRowClickListener);
         }
     };
 
@@ -1205,10 +1204,10 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
         if (favoritesResponseList.size() > 0) {
             iAddressClickCallback.onClickPosition(0);
-           // binding.parentProduct.setVisibility(View.VISIBLE);
+            // binding.parentProduct.setVisibility(View.VISIBLE);
         } else {
             loadFavoritesProducts(null);
-           // binding.parentProduct.setVisibility(View.GONE);
+            // binding.parentProduct.setVisibility(View.GONE);
 
         }
     }
@@ -1219,10 +1218,10 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             favoritesResponseList = new ArrayList<>();
         }
         if (favoritesResponseList.size() == 0) {
-           // binding.listHeader.setVisibility(View.GONE);
+            // binding.listHeader.setVisibility(View.GONE);
             binding.noItemsTextview.setVisibility(View.VISIBLE);
         } else {
-           // binding.listHeader.setVisibility(View.VISIBLE);
+            // binding.listHeader.setVisibility(View.VISIBLE);
             binding.noItemsTextview.setVisibility(View.GONE);
         }
         {
