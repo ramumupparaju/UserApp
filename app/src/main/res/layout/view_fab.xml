@@ -55,8 +55,8 @@
             app:srcCompat="@drawable/ic_tab_notifications"
             android:text="@string/title_add_product"
             android:textColor="@color/ebony_clay"
-
             fab:fab_size="mini" />
+
     </com.github.clans.fab.FloatingActionMenu>
 </RelativeLayout>
 

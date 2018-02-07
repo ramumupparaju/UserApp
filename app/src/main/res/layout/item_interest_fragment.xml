@@ -155,8 +155,6 @@
             <ImageView
                 android:id="@+id/views_layout"
                 style="@style/BothMatch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:background="@color/alpha_corn_flower_blue" />
 
         </RelativeLayout>

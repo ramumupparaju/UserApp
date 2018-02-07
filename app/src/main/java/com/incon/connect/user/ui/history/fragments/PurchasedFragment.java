@@ -115,7 +115,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     .effect_shimmer);
             loadBottomSheet();
             initViews();
-
         }
         setTitle();
         return rootView;
