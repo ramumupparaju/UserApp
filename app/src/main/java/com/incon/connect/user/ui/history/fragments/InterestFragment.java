@@ -424,44 +424,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
 
             }
 
-
-
-            // product
-            /*if (firstRowTag == 1) {
-                // details
-                if (secondRowTag == 1) {
-                    // return policy
-                    if (thirdRowTag == 0) {
-                        showInformationDialog(getString(R.string.bottom_option_return_policy), itemFromPosition.getReturnPolicy());
-                    }
-                    // special instruction
-                    else if (thirdRowTag == 1) {
-                        showInformationDialog(getString(
-                                R.string.bottom_option_special_instructions),
-                                itemFromPosition.getSpecialInstruction());
-                    }
-                    //how to use
-                    else if (thirdRowTag == 2) {
-                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                        //                showInformationDialog(itemFromPosition.getInformation());
-                    }
-                    //warranty
-                    else if (thirdRowTag == 3) {
-                        String warrantyInformation = AppUtils.getWarrantyInformation(itemFromPosition);
-                        if (TextUtils.isEmpty(warrantyInformation)) {
-                            AppUtils.shortToast(getContext(), getString(R.string.error_no_warranty));
-                        } else {
-                            showInformationDialog(getString(R.string.bottom_option_warranty), warrantyInformation);
-                        }
-
-
-                    } else
-                        // share product
-                        shareProductDetails(itemFromPosition);
-                }
-
-            }*/
-
         }
 
     };
