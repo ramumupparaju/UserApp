@@ -60,8 +60,7 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
         binding.toolbarLeftIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent backToHome = new Intent(SettingsActivity.this, HomeActivity.class);
-                startActivity(backToHome);
+                finish();
             }
         });
 
