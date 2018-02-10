@@ -1,11 +1,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="favorites"
-            type="com.incon.connect.user.ui.favorites.FavoritesFragment"/>
+            type="com.incon.connect.user.ui.favorites.FavoritesFragment" />
     </data>
 
     <RelativeLayout
@@ -19,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:paddingLeft="@dimen/margin_5"
-            android:paddingRight="@dimen/margin_5"/>
+            android:paddingRight="@dimen/margin_5" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/addresses_recyclerview"
@@ -29,14 +31,14 @@
             android:fadeScrollbars="false"
             android:scrollbarSize="4dp"
             android:scrollbarThumbHorizontal="@color/mercury"
-            android:scrollbars="horizontal"/>
+            android:scrollbars="horizontal" />
 
-    <!--    <include
-            android:id="@+id/list_header"
-            layout="@layout/item_list_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/addresses_recyclerview"/>-->
+        <!--    <include
+                android:id="@+id/list_header"
+                layout="@layout/item_list_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addresses_recyclerview"/>-->
 
         <TextView
             android:id="@+id/no_items_textview"
@@ -44,7 +46,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/action_no_data"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"
@@ -65,13 +67,13 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <include layout="@layout/item_shimmer_view"/>
+                        <include layout="@layout/item_shimmer_view" />
 
-                        <include layout="@layout/item_shimmer_view"/>
+                        <include layout="@layout/item_shimmer_view" />
 
-                        <include layout="@layout/item_shimmer_view"/>
+                        <include layout="@layout/item_shimmer_view" />
 
-                        <include layout="@layout/item_shimmer_view"/>
+                        <include layout="@layout/item_shimmer_view" />
 
                     </LinearLayout>
                 </com.facebook.shimmer.ShimmerFrameLayout>
@@ -83,84 +85,47 @@
                     android:fadeScrollbars="false"
                     android:scrollbarSize="4dp"
                     android:scrollbarThumbVertical="@drawable/scrollbar"
-                    android:scrollbars="vertical"/>
+                    android:scrollbars="vertical" />
             </LinearLayout>
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <include
-            android:id="@+id/fab_view"
-            layout="@layout/view_fab"
+
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fab"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!--// todo  have to remove-->
-
-       <!-- <TextView
-            android:id="@+id/custom_product_text"
-            style="@style/BothWrap"
-            fontPath="fonts/OpenSans-Bold.ttf"
-            android:text="@string/title_custom_product"
-            android:visibility="gone"
-            android:layout_marginBottom="@dimen/margin_30"
-            android:layout_toLeftOf="@+id/custom_product"
-            android:layout_above="@id/add_product"
-            android:textColor="@color/ebony_clay"
-            android:textSize="12sp" />
-
-
-
-        <ImageView
-            android:id="@+id/custom_product"
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:layout_above="@id/add_product"
-            android:layout_alignParentRight="true"
-            android:visibility="gone"
-            android:layout_marginBottom="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"
-            android:onClick="@{() -> favorites.onAddCustomProductClick()}"
-            android:paddingBottom="@dimen/margin_10"
-            app:srcCompat="@drawable/ic_favourite_products"/>
-
-        <TextView
-            android:id="@+id/add_product_text"
-            style="@style/BothWrap"
-            android:visibility="gone"
-
-            fontPath="fonts/OpenSans-Bold.ttf"
-            android:text="@string/title_add_product"
-            android:layout_above="@id/parent_product"
-            android:layout_toLeftOf="@+id/add_product"
-            android:textColor="@color/ebony_clay"
-            android:layout_marginBottom="@dimen/margin_30"
-            android:paddingBottom="@dimen/margin_10"
-            android:textSize="12sp" />
-
-        <ImageView
-            android:id="@+id/add_product"
-            android:layout_width="54dp"
-            android:visibility="gone"
-            android:layout_height="54dp"
-            android:layout_above="@id/parent_product"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"
-            android:onClick="@{() -> favorites.onProductAddClick()}"
-            android:paddingBottom="@dimen/margin_10"
-            app:srcCompat="@drawable/ic_favourite_products"/>
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/parent_product"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"
-            android:onClick="@{() -> favorites.onParentProductClick()}"
-            android:paddingBottom="@dimen/margin_10"
-            app:srcCompat="@drawable/ic_add_circle"/>-->
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            fab:menu_backgroundColor="#ccffffff"
+            fab:menu_fab_label=""
+            fab:menu_labels_ellipsize="end"
+            fab:menu_labels_singleLine="true">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> favorites.onAddCustomProductClick()}"
+                android:src="@drawable/add_new_icon"
+                fab:fab_label="@string/title_custom_product"
+                fab:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> favorites.onProductAddClick()}"
+                app:srcCompat="@drawable/ic_tab_notifications"
+                fab:fab_label="@string/title_add_product"
+                fab:fab_size="mini" />
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+
     </RelativeLayout>
 
 </layout>

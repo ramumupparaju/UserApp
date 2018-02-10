@@ -2,62 +2,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/tools">
 
-
     <data>
 
         <variable
             name="favorites"
-            type="com.incon.connect.user.ui.favorites.FavoritesFragment"/>
+            type="com.incon.connect.user.ui.favorites.FavoritesFragment" />
     </data>
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    <RelativeLayout
+        android:layout_width="match_parent" android:background="@color/picton_blue"
+        android:layout_height="match_parent">
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="11dp"
-        android:layout_marginLeft="11dp"
-        android:layout_marginRight="11dp"
-        fab:menu_animationDelayPerItem="55"
-        fab:menu_backgroundColor="#817878"
-        fab:menu_buttonSpacing="0dp"
-        fab:menu_fab_label="Floating Action Menu"
-        fab:menu_icon="@drawable/fab_add"
-        fab:menu_labels_showShadow="true"
-        fab:menu_labels_singleLine="false"
-        fab:menu_labels_textColor="@color/ebony_clay"
-        fab:menu_labels_textSize="15sp"
-        fab:menu_openDirection="up"
-        fab:menu_shadowRadius="4dp"
-        fab:menu_shadowXOffset="1dp"
-        fab:menu_shadowYOffset="4dp"
-        fab:menu_showShadow="true">
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            fab:menu_backgroundColor="#00ffff"
+            fab:menu_fab_label="Add Product"
+            fab:menu_labels_ellipsize="end"
+            fab:menu_labels_singleLine="true">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/add_custom_product"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_tab_notifications"
-            android:text="@string/title_custom_product"
-            android:textColor="@color/ebony_clay"
-            fab:fab_size="mini" />
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/add_custom_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> favorites.onAddCustomProductClick()}"
+                app:srcCompat="@drawable/ic_tab_notifications"
+                fab:fab_label="@string/title_custom_product"
+                fab:fab_size="mini" />
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/add_product"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_tab_notifications"
-            android:text="@string/title_add_product"
-            android:textColor="@color/ebony_clay"
-            fab:fab_size="mini" />
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/add_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> favorites.onProductAddClick()}"
+                android:text="@string/title_add_product"
+                app:srcCompat="@drawable/ic_tab_notifications"
+                fab:fab_label="@string/title_add_product"
+                fab:fab_size="mini" />
 
-    </com.github.clans.fab.FloatingActionMenu>
-</RelativeLayout>
+        </com.github.clans.fab.FloatingActionMenu>
+    </RelativeLayout>
 
 </layout>

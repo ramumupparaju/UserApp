@@ -5,9 +5,10 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -45,6 +45,7 @@ import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
 import com.incon.connect.user.custom.view.ServiceRequestDialog;
 import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
+import com.incon.connect.user.databinding.ViewFabBinding;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.RegistrationMapActivity;
@@ -96,9 +97,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private ServiceRequestDialog serviceRequestDialog;
     private TimeSlotAlertDialog timeSlotAlertDialog;
     private String serviceRequestComment;
-    FloatingActionMenu floatingActionMenu;
-    FloatingActionButton addCustomProduct;
-    FloatingActionButton addProduct;
 
     //Adding unauthorized phone number
     private CustomPhoneNumberDialog customPhoneNumberDialog;
@@ -124,35 +122,18 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                     inflater, R.layout.fragment_favorites, container, false);
             binding.setFavorites(this);
             rootView = binding.getRoot();
-            floatingActionMenu = (FloatingActionMenu) rootView.findViewById(R.id.fab);
-            addCustomProduct = (FloatingActionButton) rootView.findViewById(R.id.add_custom_product);
-            addProduct = (FloatingActionButton) rootView.findViewById(R.id.add_product);
             shimmerFrameLayout = rootView.findViewById(R.id
                     .effect_shimmer);
-            addProduct.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    onProductAddClick();
-
-
-                }
-            });
-
-            addCustomProduct.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    onAddCustomProductClick();
-
-                }
-            });
-
-
+            initFabs();
             initViews();
         }
         setTitle();
         return rootView;
+    }
+
+    private void initFabs() {
+        binding.fab.showMenuButton(true);
+        binding.fab.setClosedOnTouchOutside(true);
     }
 
     // add product
@@ -168,22 +149,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 PurchasedFragment.class, this, RequestCodes.PRODUCT_ADD_FRAGMENT,
                 bundle, 0, 0, TRANSACTION_TYPE_REPLACE);
     }
-
-    // todo have to check
-   /* public void onParentProductClick() {
-        ImageView addProduct = binding.addProduct;
-        if (addProduct.getVisibility() == View.VISIBLE) {
-            binding.parentProduct.setImageResource(R.drawable.ic_add_circle);
-            addProduct.setVisibility(View.GONE);
-            binding.customProduct.setVisibility(View.GONE);
-        } else {
-            binding.parentProduct.setImageResource(R.drawable.ic_close);
-            addProduct.setVisibility(View.VISIBLE);
-            binding.customProduct.setVisibility(View.VISIBLE);
-            binding.customProductText.setVisibility(View.VISIBLE);
-            binding.addProductText.setVisibility(View.VISIBLE);
-        }
-    }*/
 
 
     public void onAddCustomProductClick() {
@@ -203,8 +168,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
-        // todo have to check
-        //  binding.parentProduct.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
         //sets add address view
         binding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
