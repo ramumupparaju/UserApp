@@ -65,14 +65,14 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
                 }
             }
             // todo have to check
-            if (TextUtils.isEmpty(status)) {
+            if (TextUtils.isEmpty(status.trim())) {
                 binding.statusTv.setVisibility(View.GONE);
             } else {
                 binding.statusTv.setVisibility(View.VISIBLE);
                 binding.statusTv.setText("Status:" + status);
             }
          // todo have to check
-            String merchantComments = interestHistoryResponse.getMerchantComments() + " for testing";
+            String merchantComments = interestHistoryResponse.getMerchantComments().trim();
             if (TextUtils.isEmpty(merchantComments)) {
                 binding.commentTv.setVisibility(View.VISIBLE);
             } else {
