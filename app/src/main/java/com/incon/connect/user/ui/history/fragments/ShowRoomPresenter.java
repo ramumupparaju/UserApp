@@ -7,6 +7,7 @@ import android.util.Pair;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.showroom.ShowRoomResponse;
 import com.incon.connect.user.ui.BasePresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
@@ -31,13 +32,13 @@ public class ShowRoomPresenter extends BasePresenter<ShowRoomContract.View> impl
     }
 
 
-    public void returnHistory(int userId) {
+    public void storesList(int userId) {
 //        getView().showProgress(appContext.getString(R.string.progress_return_history));
         DisposableObserver<List<ProductInfoResponse>> observer = new
                 DisposableObserver<List<ProductInfoResponse>>() {
                     @Override
-                    public void onNext(List<ProductInfoResponse> historyResponse) {
-                        getView().loadReturnHistory(historyResponse);
+                    public void onNext(List<ProductInfoResponse> showRoomResponses) {
+                        getView().loadStores(showRoomResponses);
                     }
 
                     @Override
@@ -52,7 +53,7 @@ public class ShowRoomPresenter extends BasePresenter<ShowRoomContract.View> impl
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().returnApi(userId).subscribe(observer);
+        AppApiService.getInstance().storesApi(userId).subscribe(observer);
         addDisposable(observer);
     }
 

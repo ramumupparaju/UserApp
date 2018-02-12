@@ -13,6 +13,7 @@ import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.apimodel.components.showroom.ShowRoomResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
@@ -119,6 +120,10 @@ public interface AppServiceObservable {
     //interested history  api
     @GET("user/history/interested/{userId}")
     Observable<List<ProductInfoResponse>> interestApi(@Path("userId") int userId);
+
+    //get stores   api
+    @GET("user/getstores/{userId}")
+    Observable<List<ProductInfoResponse>> storesApi(@Path("userId") int userId);
 
     //delete interest product api
     @GET("user/history/deleteinterested/{interestId}")

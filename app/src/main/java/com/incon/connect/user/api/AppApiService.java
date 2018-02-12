@@ -15,6 +15,7 @@ import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.apimodel.components.showroom.ShowRoomResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
@@ -163,6 +164,10 @@ public class AppApiService implements AppConstants {
     //add product to interest api
     public Observable<List<ProductInfoResponse>> interestApi(int userId) {
         return addNetworkCheck(serviceInstance.interestApi(userId));
+    }
+
+    public Observable<List<ProductInfoResponse>> storesApi(int userId) {
+        return addNetworkCheck(serviceInstance.storesApi(userId));
     }
 
     //product delete api

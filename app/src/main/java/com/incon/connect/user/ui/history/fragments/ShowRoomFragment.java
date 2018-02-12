@@ -14,6 +14,7 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.showroom.ShowRoomResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
@@ -96,7 +97,7 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
         binding.showroomRecyclerview.setVisibility(View.GONE);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmerAnimation();
-        showRoomPresenter.returnHistory(userId);
+        showRoomPresenter.storesList(userId);
 
 
     }
@@ -249,20 +250,20 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
     }
 
     @Override
-    public void loadReturnHistory(List<ProductInfoResponse> returnHistoryResponseList) {
+    public void loadStores(List<ProductInfoResponse> showRoomResponseList) {
 
 
-
-        if (returnHistoryResponseList == null) {
-            returnHistoryResponseList = new ArrayList<>();
+        if (showRoomResponseList == null) {
+            showRoomResponseList = new ArrayList<>();
         }
-        if (returnHistoryResponseList.size() == 0) {
+        if (showRoomResponseList.size() == 0) {
             binding.showroomTextview.setVisibility(View.VISIBLE);
             dismissSwipeRefresh();
         } else {
-            showRoomAdapter.setData(returnHistoryResponseList);
+            showRoomAdapter.setData(showRoomResponseList);
             dismissSwipeRefresh();
         }
+
         binding.showroomRecyclerview.setVisibility(View.VISIBLE);
         shimmerFrameLayout.stopShimmerAnimation();
         shimmerFrameLayout.setVisibility(View.GONE);
@@ -279,4 +280,5 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
         super.onDestroy();
         showRoomPresenter.disposeAll();
     }
+
 }

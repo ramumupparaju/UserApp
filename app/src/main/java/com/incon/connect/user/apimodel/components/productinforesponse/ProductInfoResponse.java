@@ -9,7 +9,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.qrcodebaruser.Store;
-import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 
 import java.util.List;
 
@@ -223,6 +222,44 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("serviceEngineersList")
     @Expose
     private List<AddServiceEngineer> serviceEngineerList = null;
+
+   // showroom  details
+
+    @SerializedName("storeId")
+    @Expose
+    private Integer storeId;
+
+    @SerializedName("name")
+    @Expose
+    private String showRoomName;
+    @SerializedName("offers")
+    @Expose
+    private List<Object> offers = null;
+
+    public Integer getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
+    }
+
+    public String getShowRoomName() {
+        return showRoomName;
+    }
+
+    public void setShowRoomName(String showRoomName) {
+        this.showRoomName = showRoomName;
+    }
+
+    public List<Object> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(List<Object> offers) {
+        this.offers = offers;
+    }
+
 
     private Integer buyReqCount = 0;
 
@@ -835,6 +872,9 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         country = in.readString();
         dob = in.readString();
         gender = in.readString();
+        storeId = in.readByte() == 0x00 ? null : in.readInt();
+        showRoomName = in.readString();
+
     }
 
     @Override
@@ -980,6 +1020,14 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         dest.writeString(country);
         dest.writeString(dob);
         dest.writeString(gender);
+        if (storeId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(storeId);
+        }
+
+        dest.writeString(showRoomName);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.incon.connect.user.ui.history.fragments;
 
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.showroom.ShowRoomResponse;
 import com.incon.connect.user.ui.BaseView;
 
 import java.util.List;
@@ -11,11 +12,11 @@ import java.util.List;
 
 public interface ShowRoomContract {
     interface View extends BaseView {
-        void loadReturnHistory(List<ProductInfoResponse> returnHistoryResponseList);
+        void loadStores(List<ProductInfoResponse>  showRoomResponseList);
     }
 
     interface Presenter {
-        void returnHistory(int userId);
+        void storesList(int userId);
     }
 
 }

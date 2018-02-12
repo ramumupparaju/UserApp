@@ -207,7 +207,6 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             return this;
         }
 
-
         public ServiceRequestDialog build() {
             ServiceRequestDialog dialog = new ServiceRequestDialog(this);
             dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
