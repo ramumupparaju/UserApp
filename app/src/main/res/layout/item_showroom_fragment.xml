@@ -26,21 +26,11 @@
 
             <RelativeLayout style="@style/BothMatch">
 
-
-                <!--brand image-->
+                <!--store image-->
                 <ImageView
-                    android:id="@+id/brand_imageview"
-                    android:layout_width="45dp"
-                    android:layout_height="32dp"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:alpha="70"/>
-
-                <!--product image-->
-                <ImageView
-                    android:id="@+id/product_imageview"
+                    android:id="@+id/store_imageview"
                     style="@style/image_product_icon"
-                    android:layout_marginTop="@dimen/margin_25"
+                    android:layout_marginTop="@dimen/margin_15"
                     android:layout_toRightOf="@id/brand_imageview"/>
 
                 <!--showroom name-->
@@ -48,8 +38,8 @@
                     android:id="@+id/showroom_name"
                     style="@style/BothWrap"
                     fontPath="fonts/OpenSans-Bold.ttf"
-                    android:layout_marginTop="@dimen/margin_7"
-                    android:layout_toRightOf="@id/product_imageview"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_toRightOf="@id/store_imageview"
                     android:maxLines="2"
                     android:text="@={productinforesponse.showRoomName}"
                     android:textAllCaps="true"
@@ -63,7 +53,7 @@
                     style="@style/BothWrap"
                     android:layout_below="@+id/showroom_name"
                     android:layout_marginTop="@dimen/margin_3"
-                    android:layout_toRightOf="@id/product_imageview"
+                    android:layout_toRightOf="@id/store_imageview"
                     android:maxLines="1"
                     android:text="@{`Locatio : ` + productinforesponse.location}"
                     android:textColor="@color/ebony_clay"

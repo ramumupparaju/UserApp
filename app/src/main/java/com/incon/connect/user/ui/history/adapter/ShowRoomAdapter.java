@@ -49,9 +49,7 @@ public class ShowRoomAdapter extends BaseRecyclerViewAdapter {
         public void bind(ProductInfoResponse productInfoResponse) {
             binding.setVariable(BR.productinforesponse
                     , productInfoResponse);
-            AppUtils.loadImageFromApi(binding.brandImageview, productInfoResponse
-                    .getProductLogoUrl());
-            AppUtils.loadImageFromApi(binding.productImageview, productInfoResponse
+            AppUtils.loadImageFromApi(binding.storeImageview, productInfoResponse
                     .getProductImageUrl());
 
             if (productInfoResponse.isSelected()) {
@@ -60,7 +58,6 @@ public class ShowRoomAdapter extends BaseRecyclerViewAdapter {
                 binding.viewsLayout.setVisibility(View.GONE);
             }
             binding.executePendingBindings();
-
 
         }
 
