@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="productinforesponse"
-            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse" />
+            type="com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse"/>
     </data>
 
     <android.support.v7.widget.CardView
@@ -20,13 +20,12 @@
         app:cardCornerRadius="@dimen/corner_radius">
 
         <RelativeLayout
-            android:id="@+id/layout_return_item"
+            android:id="@+id/layout_showroom_item"
             android:layout_width="match_parent"
             android:layout_height="90dp">
 
-            <RelativeLayout
-                style="@style/BothMatch"
-                >
+            <RelativeLayout style="@style/BothMatch">
+
 
                 <!--brand image-->
                 <ImageView
@@ -34,58 +33,49 @@
                     android:layout_width="45dp"
                     android:layout_height="32dp"
                     android:layout_marginLeft="@dimen/margin_10"
-                    android:alpha="70" />
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:alpha="70"/>
 
                 <!--product image-->
                 <ImageView
                     android:id="@+id/product_imageview"
                     style="@style/image_product_icon"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/brand_imageview" />
+                    android:layout_marginTop="@dimen/margin_25"
+                    android:layout_toRightOf="@id/brand_imageview"/>
 
-                <LinearLayout
+                <!--showroom name-->
+                <TextView
+                    android:id="@+id/showroom_name"
                     style="@style/BothWrap"
+                    fontPath="fonts/OpenSans-Bold.ttf"
+                    android:layout_marginTop="@dimen/margin_7"
                     android:layout_toRightOf="@id/product_imageview"
-                    android:orientation="vertical">
-                    <!--product name-->
-                    <TextView
-                        android:id="@+id/product_name"
-                        style="@style/BothWrap"
-                        android:layout_marginTop="@dimen/margin_7"
-                        fontPath="fonts/OpenSans-Bold.ttf"
-                        android:maxLines="2"
-                        android:text="@={productinforesponse.productName}"
-                        android:textAllCaps="true"
-                        android:textColor="@color/ebony_clay"
-                        android:textSize="12.4sp" />
+                    android:maxLines="2"
+                    android:text="@={productinforesponse.showRoomName}"
+                    android:textAllCaps="true"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"/>
 
-                    <!--product model-->
-                    <TextView
-                        android:id="@+id/product_model"
-                        android:layout_marginTop="@dimen/margin_3"
-                        style="@style/BothWrap"
-                        android:maxLines="1"
-                        android:text="@{`Mod No : ` + productinforesponse.modelNumber}"
-                        android:textColor="@color/ebony_clay"
-                        android:textSize="10sp" />
+                <!--showroom location-->
 
-                    <!--product return date-->
-                    <TextView
-                        android:id="@+id/return_date"
-                        android:layout_marginTop="@dimen/margin_3"
-                        style="@style/BothWrap"
-                        android:textColor="@color/ebony_clay"
-                        android:textSize="10sp" />
-                </LinearLayout>
-
+                <TextView
+                    android:id="@+id/showroom_location"
+                    style="@style/BothWrap"
+                    android:layout_below="@+id/showroom_name"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:layout_toRightOf="@id/product_imageview"
+                    android:maxLines="1"
+                    android:text="@{`Locatio : ` + productinforesponse.location}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="10sp"/>
 
             </RelativeLayout>
             <!--Dummy view for showing selection-->
             <ImageView
                 android:id="@+id/views_layout"
                 style="@style/BothMatch"
-                android:background="@color/alpha_corn_flower_blue" />
-        </RelativeLayout>
+                android:background="@color/alpha_corn_flower_blue"/>
 
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 </layout>

@@ -49,8 +49,6 @@ public class ShowRoomAdapter extends BaseRecyclerViewAdapter {
         public void bind(ProductInfoResponse productInfoResponse) {
             binding.setVariable(BR.productinforesponse
                     , productInfoResponse);
-            binding.returnDate.setText(DateUtils.convertMillisToStringFormat(productInfoResponse
-                    .getReturnDate(), AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
             AppUtils.loadImageFromApi(binding.brandImageview, productInfoResponse
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, productInfoResponse

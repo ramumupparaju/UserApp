@@ -262,10 +262,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             String[] bottomOptions = new String[0];
             int[] topDrawables = new int[0];
 
-
-
-
-
             if (tag == R.id.PRODUCT_MAINFEATURES) {
                 showInformationDialog(getString(
                         R.string.bottom_option_main_features), itemFromPosition.getInformation());
@@ -317,56 +313,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
 
             }
 
-            // int firstRowTag = Integer.parseInt(tagArray[0]);
-           // int secondRowTag = Integer.parseInt(tagArray[1]);
-            // product
-
-           /* if (firstRowTag == 0) {
-
-                if (secondRowTag == 0) { //main features
-
-                    showInformationDialog(getString(
-                            R.string.bottom_option_main_features), itemFromPosition.getInformation());
-                    return;
-
-                } else if (secondRowTag == 1) { // details
-
-                    bottomOptions = new String[5];
-                    bottomOptions[0] = getString(R.string.bottom_option_return_policy);
-                    bottomOptions[1] = getString(R.string.bottom_option_special_instructions);
-                    bottomOptions[2] = getString(R.string.bottom_option_how_to_use);
-                    bottomOptions[3] = getString(R.string.bottom_option_warranty);
-                    bottomOptions[4] = getString(R.string.bottom_option_share);
-                    topDrawables = new int[5];
-                    topDrawables[0] = R.drawable.ic_option_return_policy;
-                    topDrawables[1] = R.drawable.ic_option_sp_instructions;
-                    topDrawables[2] = R.drawable.ic_option_howtouse;
-                    topDrawables[3] = R.drawable.ic_option_warranty;
-                    topDrawables[4] = R.drawable.ic_option_share;
-                } else if (secondRowTag == 2) { // feed back
-                    showFeedBackDialog();
-                    return;
-                }
-            } else if (firstRowTag == 1) { // showroom
-
-                if (secondRowTag == 0) { // call
-                    callPhoneNumber(itemFromPosition.getStoreContactNumber());
-                    return;
-                } else if (secondRowTag == 1) { // location
-                    showLocationDialog();
-                    return;
-                } else if (secondRowTag == 2) { // feed back
-                    //showFeedBackDialog();
-                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                    bottomOptions = new String[0];
-                    topDrawables = new int[0];
-                }
-
-            } else if (firstRowTag == 2) { //  delete
-                showInterestProductDeleteDialog(getString(R.string.dilog_delete));
-
-            }
-*/
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.removeAllViews();
             bottomSheetPurchasedBinding.thirdRow.setWeightSum(bottomOptions.length);
