@@ -664,12 +664,14 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         return isSelected;
     }
 
+    @Bindable
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
+        notifyChange();
     }
 
     public String getLocation() {

@@ -30,8 +30,7 @@
                 <ImageView
                     android:id="@+id/store_imageview"
                     style="@style/image_product_icon"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:layout_toRightOf="@id/brand_imageview"/>
+                    android:layout_marginTop="@dimen/margin_5"/>
 
                 <!--showroom name-->
                 <TextView
@@ -47,7 +46,6 @@
                     android:textSize="12.4sp"/>
 
                 <!--showroom location-->
-
                 <TextView
                     android:id="@+id/showroom_location"
                     style="@style/BothWrap"
@@ -55,8 +53,19 @@
                     android:layout_marginTop="@dimen/margin_3"
                     android:layout_toRightOf="@id/store_imageview"
                     android:maxLines="1"
-                    android:text="@{`Locatio : ` + productinforesponse.location}"
+                    android:text="@{`Location : ` + productinforesponse.address}"
                     android:textColor="@color/ebony_clay"
+                    android:textSize="10sp"/>
+
+                <!--merchant offers-->
+                <TextView
+                    android:id="@+id/comment_tv"
+                    style="@style/MatchWrap"
+                    android:layout_below="@+id/store_imageview"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:text="@{`offers :` + productinforesponse.merchantComments}"
+                    android:textColor="@color/ebony_clay"
+                    android:background="@drawable/btn_stroke_astral_alpha"
                     android:textSize="10sp"/>
 
             </RelativeLayout>
