@@ -65,19 +65,19 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
                 }
             }
             // todo have to check
-        /*    if (TextUtils.isEmpty(status.trim())) {
+           if (TextUtils.isEmpty(status.trim())) {
                 binding.statusTv.setVisibility(View.GONE);
             } else {
                 binding.statusTv.setVisibility(View.VISIBLE);
                 binding.statusTv.setText("Status:" + status);
-            }*/
+            }
          // todo have to check
-           /* String merchantComments = interestHistoryResponse.getMerchantComments().trim();
+            String merchantComments = interestHistoryResponse.getMerchantComments().trim();
             if (TextUtils.isEmpty(merchantComments)) {
                 binding.commentTv.setVisibility(View.VISIBLE);
             } else {
                 binding.commentTv.setVisibility(View.INVISIBLE);
-            }*/
+            }
             AppUtils.loadImageFromApi(binding.brandImageview, interestHistoryResponse
                     .getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, interestHistoryResponse
