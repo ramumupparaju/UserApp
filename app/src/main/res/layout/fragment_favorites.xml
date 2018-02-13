@@ -119,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> favorites.onProductAddClick()}"
-                app:srcCompat="@drawable/ic_tab_notifications"
+                android:src="@drawable/add_new_icon"
                 fab:fab_label="@string/title_add_product"
                 fab:fab_size="mini" />
 
