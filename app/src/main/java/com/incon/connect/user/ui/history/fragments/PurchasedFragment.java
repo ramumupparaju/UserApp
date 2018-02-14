@@ -238,14 +238,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         String[] textArray;
         int[] tagsArray;
 
-
         ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(productSelectedPosition);
         if (productInfoResponse.getAddressId() == null) { //checking whether it is already installed or not
             length = 5;
         } else {
             length = 4;
         }
-
 
         tagsArray = new int[length];
         tagsArray[0] = R.id.SUPPORT;
