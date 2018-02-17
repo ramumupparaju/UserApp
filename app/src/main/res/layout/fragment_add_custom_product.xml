@@ -29,14 +29,27 @@
 
             <LinearLayout
                 style="@style/BothMatch"
-                android:layout_marginTop="10dp"
                 android:orientation="vertical">
+
+                <!-- Profile icon -->
+                <ImageView
+                    android:id="@+id/profile_logo_iv"
+                    style="@style/BothWrap"
+                    android:layout_below="@id/text_userinfo_subtitle"
+                    android:layout_width="130dp"
+                    android:layout_height="76dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="32dp"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{() -> addCustomProductFragment.openCameraToUpload()}"
+                    app:srcCompat="@drawable/ic_showroom"/>
 
                 <!-- modelno -->
                 <com.incon.connect.user.custom.view.CustomTextInputLayout
                     android:id="@+id/input_layout_model_number"
                     style="@style/Register_TextInputLayout"
                     android:hint="@string/add_new__model_no"
+                    android:layout_marginTop="@dimen/margin_10"
                     app:errorEnabled="true"
                     app:fontName="fonts/OpenSans-Regular.ttf"
                     app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
