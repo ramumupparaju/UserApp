@@ -23,7 +23,7 @@ android {
         config {
             keyAlias 'bogavalli'
             keyPassword 'B0gavalli'
-            storeFile file('C:/Users/INCON TECHNOLOGIES/Desktop/keystore.jks')
+            storeFile file('C:/Users/MY HOME//Desktop/connect/keystore.jks')
             storePassword 'B0gavalli'
         }
     }
