@@ -1,5 +1,6 @@
 package com.incon.connect.user.ui.history.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
-import com.incon.connect.user.apimodel.components.showroom.ShowRoomResponse;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
@@ -26,7 +26,6 @@ import com.incon.connect.user.ui.history.base.BaseTabFragment;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -78,6 +77,17 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
         return rootView;
     }
 
+    // load bottom sheet
+    @Override
+    public void loadBottomSheet() {
+        super.loadBottomSheet();
+        bottomSheetDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                showRoomAdapter.clearSelection();
+            }
+        });
+    }
     private void initViews() {
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
