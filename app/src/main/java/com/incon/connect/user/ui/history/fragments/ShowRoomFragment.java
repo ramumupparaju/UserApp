@@ -71,8 +71,8 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
             rootView = binding.getRoot();
             shimmerFrameLayout = rootView.findViewById(R.id
                     .effect_shimmer);
-            initViews();
             loadBottomSheet();
+            initViews();
         }
         setTitle();
         return rootView;

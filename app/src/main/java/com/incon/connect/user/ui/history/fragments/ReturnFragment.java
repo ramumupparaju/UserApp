@@ -99,6 +99,7 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
             ProductInfoResponse returnHistoryResponse = returnAdapter.
                     getItemFromPosition(position);
             returnHistoryResponse.setSelected(true);
+            productSelectedPosition = position;
             returnAdapter.notifyDataSetChanged();
         }
     };
