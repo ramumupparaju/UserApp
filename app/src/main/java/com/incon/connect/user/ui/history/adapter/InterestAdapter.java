@@ -47,7 +47,6 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
 
         public void bind(ProductInfoResponse interestHistoryResponse, int position) {
             binding.setVariable(BR.productinforesponse, interestHistoryResponse);
-
             binding.interestDate.setText(DateUtils.convertMillisToStringFormat(interestHistoryResponse.getRequestedDate()
                     , AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
 
@@ -80,9 +79,9 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
                 merchantComments = merchantComments.trim();
             }
             if (TextUtils.isEmpty(merchantComments)) {
-                binding.commentTv.setVisibility(View.VISIBLE);
-            } else {
                 binding.commentTv.setVisibility(View.INVISIBLE);
+            } else {
+                binding.commentTv.setVisibility(View.VISIBLE);
             }
             AppUtils.loadImageFromApi(binding.brandImageview, interestHistoryResponse
                     .getProductLogoUrl());
