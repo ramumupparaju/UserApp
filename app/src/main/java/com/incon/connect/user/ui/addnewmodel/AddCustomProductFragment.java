@@ -1,5 +1,6 @@
 package com.incon.connect.user.ui.addnewmodel;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -27,7 +28,6 @@ import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
-import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.search.Category;
 import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
@@ -35,14 +35,19 @@ import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.CustomAutoCompleteView;
 import com.incon.connect.user.custom.view.CustomTextInputLayout;
+import com.incon.connect.user.custom.view.PickImageDialog;
+import com.incon.connect.user.custom.view.PickImageDialogInterface;
 import com.incon.connect.user.custom.view.WarratyDialog;
 import com.incon.connect.user.databinding.FragmentAddCustomProductBinding;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
+import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.addnewmodel.adapter.ModelSearchArrayAdapter;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.qrcodescan.QrcodeBarcodeScanActivity;
 import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.Logger;
+import com.incon.connect.user.utils.PermissionUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent;
@@ -57,6 +62,8 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
+
+import static com.incon.connect.user.ui.tutorial.TutorialActivity.TAG;
 
 /**
  * Created by PC on 10/4/2017.
@@ -75,6 +82,8 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     private int categorySelectedPos = -1;
     private int divisionSelectedPos = -1;
     private int brandSelectedPos = -1;
+    private PickImageDialog pickImageDialog;
+    private String selectedFilePath = "";
 
 
     private DisposableObserver<TextViewAfterTextChangeEvent> observer;
@@ -121,6 +130,63 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     public void onWarrantyClick() {
         showWarrantyDialog();
     }
+
+    public void openCameraToUpload() {
+        PermissionUtils.getInstance().grantPermission(getActivity(),
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA},
+                new PermissionUtils.Callback() {
+                    @Override
+                    public void onFinish(HashMap<String, Integer> permissionsStatusMap) {
+                        int storageStatus = permissionsStatusMap.get(
+                                Manifest.permission.CAMERA);
+                        switch (storageStatus) {
+                            case PermissionUtils.PERMISSION_GRANTED:
+                                showImageOptionsDialog();
+                                Logger.v(TAG, "location :" + "granted");
+                                break;
+                            case PermissionUtils.PERMISSION_DENIED:
+                                Logger.v(TAG, "location :" + "denied");
+                                break;
+                            case PermissionUtils.PERMISSION_DENIED_FOREVER:
+                                Logger.v(TAG, "location :" + "denied forever");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void showImageOptionsDialog() {
+        pickImageDialog = new PickImageDialog(getActivity());
+        pickImageDialog.mImageHandlingDelegate = pickImageDialogInterface;
+        pickImageDialog.initDialogLayout();
+    }
+
+    private PickImageDialogInterface pickImageDialogInterface = new PickImageDialogInterface() {
+        @Override
+        public void handleIntent(Intent intent, int requestCode) {
+            if (requestCode == RequestCodes.SEND_IMAGE_PATH) { // loading image in full screen
+                if (TextUtils.isEmpty(selectedFilePath)) {
+                    showErrorMessage(getString(R.string.error_image_path_req));
+                } else {
+                    intent.putExtra(IntentConstants.IMAGE_PATH, selectedFilePath);
+                    startActivity(intent);
+                }
+                return;
+            }
+            startActivityForResult(intent, requestCode);
+        }
+
+        @Override
+        public void displayPickedImage(String uri, int requestCode) {
+            selectedFilePath = uri;
+            ((BaseActivity) getActivity()).loadImageUsingGlide(
+                    selectedFilePath, binding.profileLogoIv);
+        }
+    };
+
 
     //warranty dialog
     private void showWarrantyDialog() {
@@ -526,6 +592,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     }
                     break;
                 default:
+                    pickImageDialog.onActivityResult(requestCode, resultCode, data);
                     break;
             }
         }

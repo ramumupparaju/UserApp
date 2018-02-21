@@ -376,13 +376,13 @@
 
     <!--Add new Model-->
     <string name="add_new_submit">SUBMIT</string>
-    <string name="add_new__model_no">Model No</string>
-    <string name="add_new__price">Price </string>
-    <string name="add_new__mrp_price">MRP Price </string>
+    <string name="add_new__model_no">Model No *</string>
+    <string name="add_new__price">Price * </string>
+    <string name="add_new__mrp_price">MRP Price * </string>
     <string name="add_new__batch_no">Batch No</string>
-    <string name="add_new__serial_no">Serial No</string>
-    <string name="add_new__category">Category</string>
-    <string name="add_new__division">Division</string>
+    <string name="add_new__serial_no">Serial No *</string>
+    <string name="add_new__category">Category *</string>
+    <string name="add_new__division">Division *</string>
     <string name="add_new__invoiceNumber">InvoiceNumber</string>
     <string name="add_new__type">Type</string>
     <string name="add_new_notes">Notes</string>
@@ -495,7 +495,7 @@
     <string name="title_status">Status</string>
     <string name="title_updates">UpDates</string>
     <string name="title_qr_code_scanner">QR Code Scanner</string>
-    <string name="action_name">Name</string>
+    <string name="action_name">Name *</string>
     <string name="label_expires_dollar">Expires in %1$d days</string>
 
     <!-- Strings related to login -->

@@ -350,8 +350,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 drawablesArray[0] = R.drawable.ic_option_call;
                 drawablesArray[1] = R.drawable.ic_option_location;
                 drawablesArray[2] = R.drawable.ic_option_feedback;
-
-
             } else if (tag == R.id.DELETE) {
                 showDeleteDialog();
                 return;
@@ -359,8 +357,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 showFavoriteOptionsDialog();
                 return;
             }
-
-
             bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.secondRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
