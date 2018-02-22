@@ -98,7 +98,8 @@
                     app:errorEnabled="true"
                     app:met_floatingLabel="highlight"
                     app:met_textColor="@color/colorForgotPasswordHintText"
-                    app:met_textColorHint="@color/colorForgotPasswordHintText" />
+                    app:met_textColorHint="@color/colorForgotPasswordHintText"
+                    />
 
                 <!-- division no -->
                 <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner

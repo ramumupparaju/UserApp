@@ -277,11 +277,9 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (categorySelectedPos != position) {
-
                     CategoryResponse fetchCategories = categoriesList.get(position);
                     addCustomProductModel.setCategoryId(fetchCategories.getId());
                     addCustomProductModel.setCategoryName(fetchCategories.getName());
-
                     HashMap<Integer, List<Division>> divisionHashMap = ((HomeActivity) getActivity()).getDivisionHashMap();
                     List<Division> divisions = divisionHashMap.get(fetchCategories.getId());
                     divisionSelectedPos = -1;
@@ -335,7 +333,6 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     Division division = divisionsList.get(divisionSelectedPos);
                     addCustomProductModel.setDivisionId(division.getId());
                     addCustomProductModel.setDivisionName(division.getName());
-
 
                     HashMap<Integer, List<Brand>> brandHashMap = ((HomeActivity) getActivity()).getBrandHashMap();
                     List<Brand> brands = brandHashMap.get(division.getId());
