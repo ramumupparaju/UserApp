@@ -268,7 +268,7 @@
     <style name="bill_header_right_text_view" parent="@style/BothWrap">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_size_13</item>
-        <item name="android:layout_marginTop">@dimen/margin_9</item>
+        <item name="android:layout_marginTop">@dimen/margin_5</item>
         <item name="android:layout_marginLeft">@dimen/margin_10</item>
     </style>
 

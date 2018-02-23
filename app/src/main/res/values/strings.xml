@@ -78,13 +78,13 @@
 
     <!-- bill details-->
     <string name="text_powered">POWERED BY CONNECT</string>
-    <string name="text_customer_details">Customer details</string>
-    <string name="text_product_details">Product details</string>
+    <string name="text_customer_details">Customer Details</string>
+    <string name="text_product_details">Product Details</string>
     <string name="text_invoice">INVOICE</string>
     <string name="text_date_of_purchase">Date of purchase</string>
     <string name="text_bill_id">Bill ID</string>
     <string name="text_invoice_no">Invoice NO</string>
-    <string name="text_showroom_details">Showroom details</string>
+    <string name="text_showroom_details">Showroom Details</string>
     <string name="text_product_name">Product name</string>
     <string name="text_model_no">Model no</string>
     <string name="text_s_n">S/N</string>
