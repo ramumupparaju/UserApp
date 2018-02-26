@@ -48,7 +48,7 @@
                 <com.incon.connect.user.custom.view.CustomTextInputLayout
                     android:id="@+id/input_layout_model_number"
                     style="@style/Register_TextInputLayout"
-                    android:hint="@string/add_new__model_no"
+                    android:hint="@string/add_new__model_no_1"
                     android:layout_marginTop="@dimen/margin_10"
                     app:errorEnabled="true"
                     app:fontName="fonts/OpenSans-Regular.ttf"
@@ -151,7 +151,7 @@
                     android:id="@+id/input_layout_serial_no"
                     style="@style/Register_TextInputLayout"
                     android:layout_below="@id/input_layout_model_number"
-                    android:hint="@string/add_new__serial_no"
+                    android:hint="@string/add_new__serial_no_1"
                     app:errorEnabled="true"
                     app:fontName="fonts/OpenSans-Regular.ttf"
                     app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
@@ -199,7 +199,7 @@
                     android:id="@+id/input_layout_price"
                     style="@style/Register_TextInputLayout"
                     android:layout_below="@id/input_layout_batch_no"
-                    android:hint="@string/add_new__price"
+                    android:hint="@string/add_new__price_1"
                     app:errorEnabled="true"
                     app:fontName="fonts/OpenSans-Regular.ttf"
                     app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
