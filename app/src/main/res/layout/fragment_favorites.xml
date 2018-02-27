@@ -31,7 +31,7 @@
             android:fadeScrollbars="false"
             android:scrollbarSize="4dp"
             android:background="@color/white"
-            android:scrollbarThumbHorizontal="@color/mercury"
+            android:scrollbarThumbHorizontal="@color/white"
             android:scrollbars="horizontal" />
 
         <!--    <include

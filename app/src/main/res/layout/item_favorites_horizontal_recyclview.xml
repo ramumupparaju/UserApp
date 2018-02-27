@@ -10,7 +10,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/margin_10">
+        android:paddingRight="@dimen/margin_10"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingTop="@dimen/margin_10"
+        >
 
         <ImageView
             android:id="@+id/home_imageview"
@@ -32,11 +35,9 @@
         <View
             android:id="@+id/view_status"
             android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginBottom="@dimen/margin_5"
+            android:layout_height="5dp"
             android:layout_marginTop="@dimen/margin_5"
             android:background="@color/tueo_theme"
-            android:visibility="gone"
             />
     </LinearLayout>
 
