@@ -38,17 +38,16 @@
                             style="@style/MatchWrap"
                             android:layout_below="@+id/search_layout"
                             android:layout_gravity="fill"
-                            android:background="@color/dull_lavender"
+                            android:background="@color/white"
                             android:fillViewport="true"
                             android:minHeight="?attr/actionBarSize"
                             android:theme="@style/AppTheme"
                             app:tabGravity="fill"
-                            app:tabIndicatorColor="@color/white"
+                            app:tabIndicatorColor="@color/dull_lavender"
                             app:tabIndicatorHeight="@dimen/margin_5"
                             app:tabMode="scrollable"
-                            app:tabSelectedTextColor="@color/dull_lavender"
-                            app:tabTextColor="@color/white" />
-
+                            app:tabSelectedTextColor="@color/white"
+                            app:tabTextColor="@color/dull_lavender" />
 
                     </RelativeLayout>
 

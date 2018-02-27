@@ -220,7 +220,7 @@
 
     <style name="style_tab_text" parent="BothWrap">
         <item name="android:layout_centerInParent">true</item>
-        <item name="android:textColor">@color/wild_sand</item>
+        <item name="android:textColor">@color/dull_lavender</item>
         <item name="android:textSize">@dimen/text_size_15</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
