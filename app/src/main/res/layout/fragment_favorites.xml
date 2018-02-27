@@ -30,6 +30,7 @@
             android:layout_toLeftOf="@id/add_address_view"
             android:fadeScrollbars="false"
             android:scrollbarSize="4dp"
+            android:background="@color/white"
             android:scrollbarThumbHorizontal="@color/mercury"
             android:scrollbars="horizontal" />
 
@@ -81,7 +82,6 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/favorites_recyclerview"
                     style="@style/BothMatch"
-                    android:layout_marginTop="@dimen/margin_10"
                     android:fadeScrollbars="false"
                     android:scrollbarSize="4dp"
                     android:scrollbarThumbVertical="@drawable/scrollbar"
