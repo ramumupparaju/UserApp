@@ -131,6 +131,13 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         showWarrantyDialog();
     }
 
+    public void onCheckBoxClick() {
+        binding.inputLayoutWarrentyExtended.setVisibility(View.VISIBLE);
+        showWarrantyDialog();
+    }
+
+
+
     public void openCameraToUpload() {
         PermissionUtils.getInstance().grantPermission(getActivity(),
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
