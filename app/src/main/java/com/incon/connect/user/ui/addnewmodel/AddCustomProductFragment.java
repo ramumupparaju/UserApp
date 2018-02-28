@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.generated.callback.OnCheckedChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -19,6 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -119,6 +121,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             addCustomProductModel.setAddressId(bundle.getInt(BundleConstants.ADDRESS_ID));
             addCustomProductModel.setCustomerId(SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE));
             binding.setAddCustomProductModel(addCustomProductModel);
+
             binding.setAddCustomProductFragment(this);
             rootView = binding.getRoot();
             initViews();
@@ -127,14 +130,16 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         return rootView;
     }
 
+
+
     public void onWarrantyClick() {
         showWarrantyDialog();
     }
 
-    public void onCheckBoxClick() {
+  /*  public void onCheckBoxClick() {
         binding.inputLayoutWarrentyExtended.setVisibility(View.VISIBLE);
         showWarrantyDialog();
-    }
+    }*/
 
 
 

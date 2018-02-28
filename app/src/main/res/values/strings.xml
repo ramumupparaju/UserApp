@@ -110,6 +110,7 @@
     <string name="dialog_warranty_registered_successfully">Warranty has been registered
         successfully</string>
     <string name="action_product_status">Is product delivered</string>
+    <string name="action_extended_Warranty"> Extended Warranty</string>
     <string name="action_description">Description</string>
     <string name="action_skip">Skip</string>
     <string name="action_male">Male</string>
@@ -389,7 +390,8 @@
     <string name="add_new__invoiceNumber">InvoiceNumber</string>
     <string name="add_new__type">Type</string>
     <string name="add_new_notes">Notes</string>
-    <string name="add_new_warrnty_period">Warrnty Period</string>
+    <string name="add_new_warrnty_period">Warranty Period</string>
+    <string name="add_new_extended_warranty">Extended Warranty</string>
 
 
     <!-- Registration -->

@@ -260,9 +260,9 @@
                     <!--warrnty period-->
                     <com.incon.connect.user.custom.view.CustomTextInputLayout
                         android:id="@+id/input_layout_warrenty_period"
-                        style="@style/MatchWrap"
+                        style="@style/Register_TextInputLayout"
                         android:layout_marginStart="@dimen/margin_38"
-                        android:layout_marginEnd="@dimen/margin_100"
+                        android:layout_marginEnd="@dimen/margin_39"
                         android:textColorHint="@color/colorForgotPasswordHintText"
                         android:hint="@string/add_new_warrnty_period"
                         app:errorEnabled="true"
@@ -294,23 +294,23 @@
 
                     <CheckBox
                         android:id="@+id/checkbox_extened"
+                        android:layout_below="@+id/input_layout_warrenty_period"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="false"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginEnd="@dimen/margin_50"
-                        android:onClick="@{() -> addCustomProductFragment.onCheckBoxClick()}"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_gravity="center"
+                        android:text="@string/action_extended_Warranty"
                         />
-
 
                     <com.incon.connect.user.custom.view.CustomTextInputLayout
                         android:id="@+id/input_layout_warrenty_extended"
                         style="@style/Register_TextInputLayout"
-                        android:layout_below="@+id/input_layout_warrenty_period"
+                        android:layout_below="@+id/checkbox_extened"
                         android:layout_marginStart="@dimen/margin_38"
                         android:layout_marginEnd="@dimen/margin_39"
                         android:textColorHint="@color/colorForgotPasswordHintText"
-                        android:hint="@string/add_new_warrnty_period"
+                        android:hint="@string/add_new_extended_warranty"
                         app:errorEnabled="true"
                         android:visibility="gone"
                         app:fontName="fonts/OpenSans-Regular.ttf"
