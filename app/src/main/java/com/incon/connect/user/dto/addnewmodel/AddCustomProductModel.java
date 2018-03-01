@@ -63,6 +63,18 @@ public class AddCustomProductModel extends BaseObservable {
     private transient String brandName;
     private transient String dateOfPurchased;
     private transient String warrantyShow;
+    private transient String extendedWarranty;
+
+    @Bindable
+    public String getExtendedWarranty() {
+        return extendedWarranty;
+    }
+
+    public void setExtendedWarranty(String extendedWarranty) {
+        this.extendedWarranty = extendedWarranty;
+        notifyChange();
+    }
+
 
     @Bindable
     public String getWarrantyShow() {

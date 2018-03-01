@@ -71,7 +71,7 @@ import static com.incon.connect.user.ui.tutorial.TutorialActivity.TAG;
  * Created by PC on 10/4/2017.
  */
 
-public class AddCustomProductFragment extends BaseFragment implements AddCustomProductContract.View, View.OnClickListener {
+public class AddCustomProductFragment extends BaseFragment implements AddCustomProductContract.View, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private FragmentAddCustomProductBinding binding;
     private View rootView;
     private AddCustomProductPresenter addCustomProductPresenter;
@@ -121,7 +121,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             addCustomProductModel.setAddressId(bundle.getInt(BundleConstants.ADDRESS_ID));
             addCustomProductModel.setCustomerId(SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE));
             binding.setAddCustomProductModel(addCustomProductModel);
-
+            binding.checkboxExtened.setOnCheckedChangeListener(this);
             binding.setAddCustomProductFragment(this);
             rootView = binding.getRoot();
             initViews();
@@ -131,16 +131,30 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     }
 
 
-
     public void onWarrantyClick() {
         showWarrantyDialog();
     }
+    public void onExtendedWarrantyClick() {
+        showExtendedWarrantyDialog();
+    }
 
-  /*  public void onCheckBoxClick() {
-        binding.inputLayoutWarrentyExtended.setVisibility(View.VISIBLE);
-        showWarrantyDialog();
-    }*/
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+        int id = compoundButton.getId();
+        if(id == R.id.checkbox_extened) {
 
+            if(binding.checkboxExtened.isChecked()){
+                binding.inputLayoutWarrantyExtended.setVisibility(View.VISIBLE);
+                showExtendedWarrantyDialog();
+            }
+            else{
+                binding.inputLayoutWarrantyExtended.setVisibility(View.GONE);
+            }
+        }
+
+
+
+    }
 
 
     public void openCameraToUpload() {
@@ -200,8 +214,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     };
 
 
-    //warranty dialog
-    private void showWarrantyDialog() {
+    private void showExtendedWarrantyDialog() {
         warratyDialog = new WarratyDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
@@ -210,7 +223,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                         addCustomProductModel.setWarrantyYears(split[0]);
                         addCustomProductModel.setWarrantyMonths(split[1]);
                         addCustomProductModel.setWarrantyDays(split[2]);
-                        addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
+                        addCustomProductModel.setExtendedWarranty(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
                     }
 
                     @Override
@@ -229,6 +242,36 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                 }).years(addCustomProductModel.getWarrantyYears()).months(addCustomProductModel.getWarrantyMonths()).days(addCustomProductModel.getWarrantyDays()).build();
         warratyDialog.showDialog();
     }
+
+    //warranty dialog
+        private void showWarrantyDialog() {
+            warratyDialog = new WarratyDialog.AlertDialogBuilder(getActivity(), new
+                    TextAlertDialogCallback() {
+                        @Override
+                        public void enteredText(String yearsMonthsDays) {
+                            String[] split = yearsMonthsDays.split(AppConstants.COMMA_SEPARATOR);
+                            addCustomProductModel.setWarrantyYears(split[0]);
+                            addCustomProductModel.setWarrantyMonths(split[1]);
+                            addCustomProductModel.setWarrantyDays(split[2]);
+                            addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
+                        }
+
+                        @Override
+                        public void alertDialogCallback(byte dialogStatus) {
+                            switch (dialogStatus) {
+                                case AlertDialogCallback.OK:
+                                    warratyDialog.dismiss();
+                                    break;
+                                case AlertDialogCallback.CANCEL:
+                                    warratyDialog.dismiss();
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }).years(addCustomProductModel.getWarrantyYears()).months(addCustomProductModel.getWarrantyMonths()).days(addCustomProductModel.getWarrantyDays()).build();
+            warratyDialog.showDialog();
+        }
 
     public void onPurchasedDateClick() {
         showDatePicker();
@@ -731,4 +774,6 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         super.onDestroy();
         addCustomProductPresenter.disposeAll();
     }
+
+
 }
