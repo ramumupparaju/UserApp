@@ -39,6 +39,7 @@
     <string-array
         name="side_menu_items_list">
         <item>@string/title_menu_change_password</item>
+        <item>@string/title_menu_manage_unauthorize_numbers</item>
         <item>@string/title_menu_logout</item>
 
     </string-array>

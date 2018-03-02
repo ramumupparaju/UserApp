@@ -466,6 +466,7 @@
 
     <!--Settings -->
     <string name="title_menu_change_password">Change Password</string>
+    <string name="title_menu_manage_unauthorize_numbers">Manage Unauthorize Numbers</string>
     <string name="title_menu_profile">Profile</string>
     <string name="title_menu_store_settings">Store Settings</string>
     <string name="title_menu_bill_format">Bill Format</string>
