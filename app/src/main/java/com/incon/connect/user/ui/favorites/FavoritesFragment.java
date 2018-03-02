@@ -36,6 +36,7 @@ import com.incon.connect.user.callbacks.TextAddressDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
+import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppEditTextListDialog;
 import com.incon.connect.user.custom.view.AppUserAddressDialog;
@@ -44,6 +45,7 @@ import com.incon.connect.user.custom.view.ServiceRequestDialog;
 import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
+import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.addnewmodel.AddCustomProductFragment;
@@ -64,6 +66,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
+import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_ADDRESS_ID;
+import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_WARRANTY_ID;
 import static com.incon.connect.user.ui.BaseActivity.TRANSACTION_TYPE_REPLACE;
 
 /**
@@ -76,7 +80,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private FavoritesPresenter favoritesPresenter;
     private View rootView;
     private int userId;
-
+    private Integer addressId;
+    private List<AddUserAddressResponse> productLocationList;
     private HorizontalRecycleViewAdapter addressessAdapter;
     private FavoritesAdapter favoritesAdapter;
     private int addressSelectedPosition = -1;
@@ -87,6 +92,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private AppEditTextListDialog feedBackDialog;
     private AppEditTextDialog suggestionsDialog;
     private AppEditTextDialog transferDialog;
+    private AppCheckBoxListDialog productLocationDialog;
     private String buyRequestComment;
     private AppAlertDialog detailsDialog;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -390,9 +396,9 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 drawablesArray[0] = R.drawable.ic_option_call;
                 drawablesArray[1] = R.drawable.ic_option_find_service_center;
             } else if (tag == R.id.PRODUCT) {
-                int length = 8;
+                int length = 9;
                 textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_details);
+                textArray[0] = getString(R.string.bottom_option_info);
                 textArray[1] = getString(R.string.bottom_option_warranty);
                 textArray[2] = getString(R.string.bottom_option_bill);
                 textArray[3] = getString(R.string.bottom_option_past_history);
@@ -400,6 +406,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 textArray[5] = getString(R.string.bottom_option_transfer);
                 textArray[6] = getString(R.string.bottom_option_feedback);
                 textArray[7] = getString(R.string.bottom_option_suggestions);
+                textArray[8] = getString(R.string.bottom_option_edit);
 
                 tagsArray = new int[length];
                 tagsArray[0] = R.id.PRODUCT_DETAILS;
@@ -410,6 +417,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 tagsArray[5] = R.id.PRODUCT_TRANSFER;
                 tagsArray[6] = R.id.PRODUCT_FEEDBACK;
                 tagsArray[7] = R.id.PRODUCT_SUGGESTION;
+                tagsArray[8] = R.id.PRODUCT_EDIT;
 
                 drawablesArray = new int[length];
                 drawablesArray[0] = R.drawable.ic_option_details;
@@ -420,6 +428,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 drawablesArray[5] = R.drawable.ic_option_transfer;
                 drawablesArray[6] = R.drawable.ic_option_feedback;
                 drawablesArray[7] = R.drawable.ic_option_suggestions;
+                drawablesArray[8] = R.drawable.ic_option_suggestions;
             } else if (tag == R.id.SHOWROOM) {
                 int length = 3;
                 textArray = new String[length];
@@ -465,32 +474,61 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             String[] textArray = new String[0];
             int[] drawablesArray = new int[0];
 
-            ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(
+            ProductInfoResponse productInfoResponse = favoritesAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.secondRow, tag);
 
 
             if (tag == R.id.SUPPORT_UNAUTHORIZE) {
-                int length = 2;
+                int length = 3;
+
+
+                List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
+                if (serviceEngineerList != null && serviceEngineerList.size() > 0) {
+                    length = 4;
+                }
 
                 textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_Call);
-                textArray[1] = getString(R.string.bottom_option_add);
-
                 tagsArray = new int[length];
-                tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE_CALL;
-                tagsArray[1] = R.id.SUPPORT_UNAUTHORIZE_ADD;
-
                 drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_call;
-                drawablesArray[1] = R.drawable.ic_option_bill;
+
+                if (length == 4) {
+                    textArray[0] = getString(R.string.bottom_option_Call);
+                    tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE_CALL;
+                    drawablesArray[0] = R.drawable.ic_option_call;
+
+                    textArray[1] = getString(R.string.bottom_option_add);
+                    tagsArray[1] = R.id.SUPPORT_UNAUTHORIZE_ADD;
+                    drawablesArray[1] = R.drawable.ic_option_bill;
+
+                    textArray[2] = getString(R.string.bottom_option_find_service_center);
+                    tagsArray[2] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER;
+                    drawablesArray[2] = R.drawable.ic_option_bill;
+
+                    textArray[3] = getString(R.string.bottom_option_service_request);
+                    tagsArray[3] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST;
+                    drawablesArray[3] = R.drawable.ic_option_bill;
+                } else {
+                    textArray[0] = getString(R.string.bottom_option_add);
+                    tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE_ADD;
+                    drawablesArray[0] = R.drawable.ic_option_bill;
+
+                    textArray[1] = getString(R.string.bottom_option_find_service_center);
+                    tagsArray[1] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER;
+                    drawablesArray[1] = R.drawable.ic_option_bill;
+
+                    textArray[2] = getString(R.string.bottom_option_service_request);
+                    tagsArray[2] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST;
+                    drawablesArray[2] = R.drawable.ic_option_bill;
+                }
+
 
             } else if (tag == R.id.SUPPORT_AUTHORIZE) {
 
                 int length = 3;
 
                 textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_Call);
+                textArray[0] = getString(R.string.bottom_option_call_customer_care);
                 textArray[1] = getString(R.string.bottom_option_find_service_center);
                 textArray[2] = getString(R.string.bottom_option_service_request);
 
@@ -504,61 +542,41 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 drawablesArray[1] = R.drawable.ic_option_bill;
                 drawablesArray[2] = R.drawable.ic_option_bill;
             } else if (tag == R.id.PRODUCT_DETAILS) {
-                int length = 4;
+                int length = TextUtils.isEmpty(productInfoResponse.getSpecialInstruction()) ? 1 : 2;
+
                 textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_return_policy);
-                textArray[1] = getString(R.string.bottom_option_special_instructions);
-                textArray[2] = getString(R.string.bottom_option_how_to_use);
-                textArray[3] = getString(R.string.bottom_option_description);
-
                 tagsArray = new int[length];
-                tagsArray[0] = R.id.PRODUCT_DETAILS_RETURN_POLICY;
-                tagsArray[1] = R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS;
-                tagsArray[2] = R.id.PRODUCT_DETAILS_HOW_TO_USE;
-                tagsArray[3] = R.id.PRODUCT_DETAILS_DESCRIPTION;
-
                 drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_return_policy;
-                drawablesArray[1] = R.drawable.ic_option_sp_instructions;
-                drawablesArray[2] = R.drawable.ic_option_howtouse;
-                drawablesArray[3] = R.drawable.ic_option_details;
-            } else if (tag == R.id.PRODUCT_WARRANTY) {
-                String purchasedDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY);
-                String warrantyEndDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getWarrantyEndDate(), DateFormatterConstants.DD_MM_YYYY);
-                long noOfDays = DateUtils.convertDifferenceDateIndays(
-                        itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
-                String warrantyConditions = itemFromPosition.getWarrantyConditions();
-                showInformationDialog(getString(
-                        R.string.bottom_option_warranty), getString(
-                        R.string.purchased_warranty_status_now)
-                        + noOfDays + " Days Left "
-                        + "\n"
 
-                        + getString(
-                        R.string.purchased_purchased_date)
-                        + purchasedDate
-                        + "\n"
-                        + getString(
-                        R.string.purchased_warranty_covers_date)
-                        + warrantyConditions
-                        + "\n"
-                        + getString(
-                        R.string.purchased_warranty_ends_on) + warrantyEndDate);
+                if (length == 2) {
+                    textArray[0] = getString(R.string.bottom_option_special_instructions);
+                    tagsArray[0] = R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS;
+                    drawablesArray[0] = R.drawable.ic_option_sp_instructions;
+
+                    textArray[1] = getString(R.string.bottom_option_details);
+                    tagsArray[1] = R.id.PRODUCT_DETAILS_DESCRIPTION;
+                    drawablesArray[1] = R.drawable.ic_option_details;
+                } else {
+                    textArray[0] = getString(R.string.bottom_option_details);
+                    tagsArray[0] = R.id.PRODUCT_DETAILS_DESCRIPTION;
+                    drawablesArray[0] = R.drawable.ic_option_details;
+                }
+            } else if (tag == R.id.PRODUCT_WARRANTY) {
+                showInformationDialog(getString(
+                        R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(productInfoResponse, getActivity()));
                 return;
 
             } else if (tag == R.id.PRODUCT_BILL) {
                 Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, itemFromPosition);
+                bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, productInfoResponse);
                 billFormatIntent.putExtras(bundle);
                 startActivity(billFormatIntent);
                 return;
             } else if (tag == R.id.PRODUCT_PAST_HISTORY) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
             } else if (tag == R.id.PRODUCT_SHARE) {
-                shareProductDetails(itemFromPosition);
+                shareProductDetails(productInfoResponse);
                 return;
             } else if (tag == R.id.PRODUCT_TRANSFER) {
                 showTransferDialog();
@@ -566,8 +584,25 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 showFeedBackDialog();
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
                 showSuggestionsDialog();
+            } else if (tag == R.id.PRODUCT_EDIT) {
+                int length = 3;
+                textArray = new String[length];
+                textArray[0] = getString(R.string.bottom_option_nick_name);
+                textArray[1] = getString(R.string.bottom_option_location_change);
+                textArray[2] = getString(R.string.bottom_option_delete);
+
+                tagsArray = new int[length];
+                tagsArray[0] = R.id.PRODUCT_EDIT_NICK_NAME;
+                tagsArray[1] = R.id.PRODUCT_EDIT_LOCATION_CHANGE;
+                tagsArray[2] = R.id.PRODUCT_EDIT_DELETE;
+
+                drawablesArray = new int[length];
+                drawablesArray[0] = R.drawable.ic_option_details;
+                drawablesArray[1] = R.drawable.ic_option_details;
+                drawablesArray[2] = R.drawable.ic_option_details;
+
             } else if (tag == R.id.SHOWROOM_CALL) {
-                callPhoneNumber(itemFromPosition.getStoreContactNumber());
+                callPhoneNumber(productInfoResponse.getStoreContactNumber());
                 return;
             } else if (tag == R.id.SHOWROOM_LOCATION) {
                 showLocationDialog();
@@ -684,12 +719,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.thirdRow, tag);
 
-
-            String[] textArray = new String[0];
-            int[] drawablesArray = new int[0];
-            int[] tagsArray = new int[0];
-
-
             if (tag == R.id.SUPPORT_UNAUTHORIZE_CALL) {
                 List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
                 showPhoneNumberList(serviceEngineerList);
@@ -713,15 +742,10 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                     loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
                 }
 
-            } else if (tag == R.id.PRODUCT_DETAILS_RETURN_POLICY) {
-                showInformationDialog(getString(R.string.bottom_option_return_policy), productInfoResponse.getReturnPolicy());
             } else if (tag == R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS) {
                 showInformationDialog(getString(
                         R.string.bottom_option_special_instructions),
                         productInfoResponse.getSpecialInstruction());
-            } else if (tag == R.id.PRODUCT_DETAILS_HOW_TO_USE) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-
             } else if (tag == R.id.PRODUCT_DETAILS_DESCRIPTION) {
                 showInformationDialog(getString(
                         R.string.bottom_option_description), productInfoResponse.getInformation()
@@ -730,12 +754,82 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                         + productInfoResponse.getProductDimensions());
                 return;
 
+            } else if (tag == R.id.PRODUCT_EDIT_NICK_NAME) {
+
+
+            } else if (tag == R.id.PRODUCT_EDIT_LOCATION_CHANGE) {
+
+                showFavoriteOptionsDialog();
+                return;
+            } else if (tag == R.id.PRODUCT_EDIT_DELETE) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+
             }
 
 
         }
 
     };
+    // todo have to re name dialog name
+
+    private void showFavoriteOptionsDialog() {
+        if (productLocationList == null) {
+            //TODO add error message
+            return;
+        }
+
+        //set previous selected categories as checked
+        List<CheckedModelSpinner> filterNamesList = new ArrayList<>();
+
+        for (AddUserAddressResponse addUserAddressResponse : productLocationList) {
+            CheckedModelSpinner checkedModelSpinner = new CheckedModelSpinner();
+            checkedModelSpinner.setName(addUserAddressResponse.getName());
+            filterNamesList.add(checkedModelSpinner);
+        }
+        productLocationDialog = new AppCheckBoxListDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String selectedLocationName) {
+                        for (AddUserAddressResponse addUserAddressResponse : productLocationList) {
+                            if (addUserAddressResponse.getName().equals(selectedLocationName)) {
+                                addressId = addUserAddressResponse.getId();
+                                break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                callAddFavoriteApi();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                productLocationDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.action_add_as_favorite))
+                .spinnerItems(filterNamesList)
+                .build();
+        productLocationDialog.showDialog();
+        productLocationDialog.setRadioType(true);
+
+    }
+
+    private void callAddFavoriteApi() {
+        ProductInfoResponse itemFromPosition = favoritesAdapter.
+                getItemFromPosition(productSelectedPosition);
+        HashMap<String, String> favoritesMap = new HashMap<>();
+        favoritesMap.put(ApiRequestKeyConstants.BODY_USER_ID,
+                String.valueOf(userId));
+        favoritesMap.put(BODY_ADDRESS_ID, String.valueOf(addressId));
+        favoritesMap.put(BODY_WARRANTY_ID,
+                itemFromPosition.getWarrantyId());
+        favoritesPresenter.addToFavotites(favoritesMap);
+    }
 
     private void loadServiceRequesDialogData() {
         if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
@@ -770,51 +864,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         }
     };
 
-
-    // bottom sheet second top view click event
-    private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
-            String topClickedText = viewById.getText().toString();
-            Integer tag = (Integer) view.getTag();
-            changeBackgroundText(tag, view);
-            ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(
-                    productSelectedPosition);
-            if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_return_policy))) {
-                String returnPolicy = itemFromPosition.getReturnPolicy();
-                if (returnPolicy != null) {
-                    showInformationDialog(getString(
-                            R.string.bottom_option_return_policy), returnPolicy);
-                }
-            } else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_special_instructions))) {
-                String specialInstruction = itemFromPosition.getSpecialInstruction();
-                if (specialInstruction != null) {
-                    showInformationDialog(getString(
-                            R.string.bottom_option_special_instructions), specialInstruction);
-                }
-            } else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_how_to_use))) {
-            } else if (tag == 3 && topClickedText.equals(getString(
-                    R.string.bottom_option_warranty))) {
-                if (itemFromPosition.getWarrantyYears() != null) {
-                    showInformationDialog(getString(
-                            R.string.bottom_option_warranty),
-                            +itemFromPosition.getWarrantyYears() + "Year");
-                } else {
-                    showInformationDialog(getString(
-                            R.string.bottom_option_warranty), "No Warranty Exists");
-                }
-            } else if (tag == 4 && topClickedText.equals(getString(
-                    R.string.bottom_option_share))) {
-                shareProductDetails(itemFromPosition);
-            } else if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_feedback))) {
-            }
-        }
-    };
 
     // share product details
     private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
@@ -1034,6 +1083,11 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             // binding.parentProduct.setVisibility(View.GONE);
 
         }
+    }
+
+    @Override
+    public void addedToFavorite() {
+
     }
 
     @Override

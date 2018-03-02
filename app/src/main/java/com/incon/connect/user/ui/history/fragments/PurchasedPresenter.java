@@ -243,6 +243,11 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         }
 
         @Override
+        public void addedToFavorite() {
+
+        }
+
+        @Override
         public void loadFavoritesProducts(List<ProductInfoResponse> favoritesResponseList) {
 
         }

@@ -29,7 +29,6 @@ import static com.incon.connect.user.AppConstants.LoginPrefs.USER_NAME;
 
 /**
  * Created on 26 Jul 2017 3:47 PM.
- *
  */
 public class SettingsActivity extends BaseActivity implements SettingsContract.View,
         IClickCallback {
@@ -87,8 +86,8 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
 
     private void prepareMenuData() {
 
-        int[] icons = {R.drawable.ic_menu_change_password,
-                R.drawable.ic_menu_logout_svg };
+        int[] icons = {R.drawable.ic_menu_change_password,R.drawable.ic_menu_change_password,
+                R.drawable.ic_menu_logout_svg};
         String[] menuTitles = getResources().getStringArray(R.array.side_menu_items_list);
 
         menuItems = new ArrayList<>();
@@ -118,13 +117,16 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
     }
 
 
-
     @Override
     public void onClickPosition(int position) {
         switch (position) {
             case MenuConstants.PROFILE:
                 Intent userProfileIntent = new Intent(this, UpDateUserProfileActivity.class);
                 startActivity(userProfileIntent);
+                break;
+            case MenuConstants.MANAGE_UNAUTHORIZE_NUMBERS:
+                AppUtils.shortToast(this, getString(R.string.coming_soon));
+
                 break;
             case MenuConstants.CHANGE_PWD:
                 Intent changePasswordIntent = new Intent(this, ChangePasswordActivity.class);
