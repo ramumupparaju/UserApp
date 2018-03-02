@@ -11,6 +11,11 @@
     <RelativeLayout
         style="@style/BothMatch"
         android:background="@color/colorPrimary">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_unauthorize"
