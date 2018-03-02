@@ -243,7 +243,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         }
 
         @Override
-        public void addedToFavorite() {
+        public void onLocationChanged() {
 
         }
 

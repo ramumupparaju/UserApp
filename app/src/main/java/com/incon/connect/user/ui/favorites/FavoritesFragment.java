@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
@@ -36,6 +35,7 @@ import com.incon.connect.user.callbacks.TextAddressDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
+import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppEditTextListDialog;
@@ -91,6 +91,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private AppEditTextDialog buyRequestDialog;
     private AppEditTextListDialog feedBackDialog;
     private AppEditTextDialog suggestionsDialog;
+    private AppEditTextDialog nickNameDialog;
     private AppEditTextDialog transferDialog;
     private AppCheckBoxListDialog productLocationDialog;
     private String buyRequestComment;
@@ -101,6 +102,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private ServiceRequestDialog serviceRequestDialog;
     private TimeSlotAlertDialog timeSlotAlertDialog;
     private String serviceRequestComment;
+    private AppAlertVerticalTwoButtonsDialog dialogDelete;
 
     //Adding unauthorized phone number
     private CustomPhoneNumberDialog customPhoneNumberDialog;
@@ -645,6 +647,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 .rightButtonText(getString(R.string.action_submit))
                 .build();
         transferDialog.showDialog();
+        transferDialog.setCancelable(true);
     }
 
 
@@ -755,23 +758,76 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 return;
 
             } else if (tag == R.id.PRODUCT_EDIT_NICK_NAME) {
-
-
+                showNickNameDialog();
             } else if (tag == R.id.PRODUCT_EDIT_LOCATION_CHANGE) {
-
                 showFavoriteOptionsDialog();
-                return;
             } else if (tag == R.id.PRODUCT_EDIT_DELETE) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                showProductDeleteDialog(getString(R.string.dilog_delete));
 
             }
-
 
         }
 
     };
-    // todo have to re name dialog name
 
+    private void showNickNameDialog() {
+        nickNameDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                        //TODO api cal
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                nickNameDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.bottom_option_nick_name))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        nickNameDialog.showDialog();
+        nickNameDialog.setCancelable(true);
+
+    }
+
+    private void showProductDeleteDialog(String messageInfo) {
+
+        dialogDelete = new AppAlertVerticalTwoButtonsDialog.AlertDialogBuilder(getActivity(), new
+                AlertDialogCallback() {
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                dialogDelete.dismiss();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                // todo have to call product delete Api
+                                dialogDelete.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.dialog_delete))
+                .button1Text(getString(R.string.action_cancel))
+                .button2Text(getString(R.string.action_ok))
+                .build();
+        dialogDelete.showDialog();
+        dialogDelete.setCancelable(true);
+        dialogDelete.setButtonBlueUnselectBackground();
+
+    }
+
+    // todo have to re name dialog name
     private void showFavoriteOptionsDialog() {
         if (productLocationList == null) {
             //TODO add error message
@@ -828,7 +884,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         favoritesMap.put(BODY_ADDRESS_ID, String.valueOf(addressId));
         favoritesMap.put(BODY_WARRANTY_ID,
                 itemFromPosition.getWarrantyId());
-        favoritesPresenter.addToFavotites(favoritesMap);
+        favoritesPresenter.doLocationChangeApi(favoritesMap);
     }
 
     private void loadServiceRequesDialogData() {
@@ -1085,9 +1141,10 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         }
     }
 
-    @Override
-    public void addedToFavorite() {
 
+    @Override
+    public void onLocationChanged() {
+        dismissDialog(productLocationDialog);
     }
 
     @Override

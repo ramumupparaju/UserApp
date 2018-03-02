@@ -70,15 +70,14 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     }
 
     // add favotites
-    // todo have to re name methode name
     @Override
-    public void addToFavotites(HashMap<String, String> favoritesMap) {
+    public void doLocationChangeApi(HashMap<String, String> favoritesMap) {
         getView().showProgress(appContext.getString(R.string.progress_adding_to_favorites));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
                     @Override
                     public void onNext(Object o) {
-                        getView().addedToFavorite();
+                        getView().onLocationChanged();
                     }
 
                     @Override
@@ -93,6 +92,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
                         getView().hideProgress();
                     }
                 };
+        // todo have to change api
         AppApiService.getInstance().addToFavotites(favoritesMap).subscribe(observer);
         addDisposable(observer);
     }

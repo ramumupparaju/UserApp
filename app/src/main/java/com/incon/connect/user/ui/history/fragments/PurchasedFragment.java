@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.FeedbackData;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
@@ -35,6 +36,7 @@ import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
+import com.incon.connect.user.custom.view.AppEditTextListDialog;
 import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
 import com.incon.connect.user.custom.view.ServiceRequestDialog;
 import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
@@ -74,8 +76,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private List<AddUserAddressResponse> productLocationList;
     private Integer addressId;
     private AppEditTextDialog transferDialog;
-    private AppEditTextDialog feedBackDialog;
-    // private AppFeedBackDialog feedBackDialog;
+    private AppEditTextListDialog feedBackDialog;
+    private AppEditTextDialog suggestionsDialog;
     private String buyRequestComment;
     private String serviceRequestComment;
     private boolean isFromFavorites = false;
@@ -544,7 +546,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
                 showFeedBackDialog();
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                showSuggestionsDialog();
             }
             else if (tag == R.id.SHOWROOM_CALL) {
                 callPhoneNumber(productInfoResponse.getStoreContactNumber());
@@ -564,11 +566,45 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     };
 
-    private void showFeedBackDialog() {
-        feedBackDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+    private void showSuggestionsDialog() {
+        suggestionsDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String commentString) {
+                        //TODO api cal
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                suggestionsDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.bottom_option_suggestions))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        suggestionsDialog.showDialog();
+        suggestionsDialog.setCancelable(true);
+
+    }
+
+    private void showFeedBackDialog() {
+        List<FeedbackData> feedbackData = new ArrayList<>();
+        feedbackData.add(new FeedbackData("test1", "comment1"));
+        feedbackData.add(new FeedbackData("test2", "comment2"));
+        feedbackData.add(new FeedbackData("test3", "comment3"));
+        feedBackDialog = new AppEditTextListDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                        //TODO api cal
                     }
 
                     @Override
@@ -586,43 +622,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 }).title(getString(R.string.bottom_option_feedback))
                 .leftButtonText(getString(R.string.action_cancel))
                 .rightButtonText(getString(R.string.action_submit))
+                .feedbackDataList(feedbackData)
                 .build();
         feedBackDialog.showDialog();
         feedBackDialog.setCancelable(true);
-
     }
 
-   /* private void showFeedBackDialog() {
-        feedBackDialog = new AppFeedBackDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        buyRequestComment = commentString;
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                HashMap<String, String> buyRequestApi = new HashMap<>();
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
-                                        String.valueOf(userId));
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                feedBackDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(
-                R.string.action_feedback))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        feedBackDialog.showDialog();
-
-    }*/
 
 
     private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
@@ -670,6 +675,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 .rightButtonText(getString(R.string.action_submit))
                 .build();
         transferDialog.showDialog();
+        transferDialog.setCancelable(true);
     }
 
     private void showDeleteDialog() {
