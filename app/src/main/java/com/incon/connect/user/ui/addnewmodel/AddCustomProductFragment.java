@@ -505,9 +505,11 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
     private void setSerialNumberBatchNumbersLabels(String categoryName) {
         if (categoryName.equalsIgnoreCase(AppConstants.CATEGORY_AUTOMOBILES)) {
-            binding.inputLayoutSerialNo.setHint(getString(R.string.add_engine_no));
+            binding.inputLayoutSerialNo.setHint(getString(R.string.add_vin));
+            binding.inputLayoutBatchNo.setHint(getString(R.string.add_vrn));
         } else {
             binding.inputLayoutSerialNo.setHint(getString(R.string.add_new_serial_no));
+            binding.inputLayoutBatchNo.setHint(getString(R.string.add_new_batch_no));
         }
     }
 

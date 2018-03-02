@@ -382,17 +382,19 @@
 
     <!--Add new Model-->
     <string name="add_new_submit">SUBMIT</string>
-    <string name="add_new__model_no">Model No *</string>
-    <string name="add_new__model_no_1">Model No </string>
-    <string name="add_new__price">Price * </string>
-    <string name="add_new__price_1">Price</string>
-    <string name="add_new__mrp_price">MRP Price * </string>
-    <string name="add_new__batch_no">Batch No</string>
+    <string name="add_new_model_no_star">Model No *</string>
+    <string name="add_new_model_no">Model No </string>
+    <string name="add_new_price_star">Price * </string>
+    <string name="add_new_price">Price</string>
+    <string name="add_new_mrp_price_star">MRP Price * </string>
+    <string name="add_new_batch_no">Batch No</string>
     <string name="add_new_serial_no_star">Serial No *</string>
     <string name="add_new_serial_no">Serial No</string>
     <string name="add_engine_no">Engine No</string>
-    <string name="add_new__category">Category *</string>
-    <string name="add_new__division">Division *</string>
+    <string name="add_vin">VIN</string>
+    <string name="add_vrn">Vehicle Registration Number</string>
+    <string name="add_new__category_star">Category *</string>
+    <string name="add_new__division_star">Division *</string>
     <string name="add_new__invoiceNumber">InvoiceNumber</string>
     <string name="add_new__type">Type</string>
     <string name="add_new_notes">Notes</string>
