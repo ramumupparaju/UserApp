@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,10 +20,9 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.FeedbackData;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
@@ -40,12 +37,12 @@ import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
+import com.incon.connect.user.custom.view.AppEditTextListDialog;
 import com.incon.connect.user.custom.view.AppUserAddressDialog;
 import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
 import com.incon.connect.user.custom.view.ServiceRequestDialog;
 import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
-import com.incon.connect.user.databinding.ViewFabBinding;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.RegistrationMapActivity;
@@ -87,7 +84,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private AppUserAddressDialog dialog;
     private AddUserAddress addUserAddress;
     private AppEditTextDialog buyRequestDialog;
-    private AppEditTextDialog feedBackDialog;
+    private AppEditTextListDialog feedBackDialog;
+    private AppEditTextDialog suggestionsDialog;
     private AppEditTextDialog transferDialog;
     private String buyRequestComment;
     private AppAlertDialog detailsDialog;
@@ -567,7 +565,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
                 showFeedBackDialog();
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                showSuggestionsDialog();
             } else if (tag == R.id.SHOWROOM_CALL) {
                 callPhoneNumber(itemFromPosition.getStoreContactNumber());
                 return;
@@ -616,10 +614,16 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
 
     private void showFeedBackDialog() {
-        feedBackDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+        //TODO have to change dynamically
+        List<FeedbackData> feedbackData = new ArrayList<>();
+        feedbackData.add(new FeedbackData("test1", "comment1"));
+        feedbackData.add(new FeedbackData("test2", "comment2"));
+        feedbackData.add(new FeedbackData("test3", "comment3"));
+        feedBackDialog = new AppEditTextListDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String commentString) {
+                        //TODO api cal
                     }
 
                     @Override
@@ -637,10 +641,38 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 }).title(getString(R.string.bottom_option_feedback))
                 .leftButtonText(getString(R.string.action_cancel))
                 .rightButtonText(getString(R.string.action_submit))
+                .feedbackDataList(feedbackData)
                 .build();
         feedBackDialog.showDialog();
         feedBackDialog.setCancelable(true);
+    }
 
+    private void showSuggestionsDialog() {
+        suggestionsDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                        //TODO api cal
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                suggestionsDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.bottom_option_suggestions))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        suggestionsDialog.showDialog();
+        suggestionsDialog.setCancelable(true);
     }
 
 
