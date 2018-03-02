@@ -11,6 +11,8 @@ public interface AppConstants {
     String HYPHEN_SEPARATOR = "-";
     int DEFAULT_VALUE = Integer.MIN_VALUE;
 
+    String CATEGORY_AUTOMOBILES = "Automobiles";
+
     String BUILD_FLAVOR = "moonz_dev";
     int VALIDATION_SUCCESS = 0;
     int VALIDATION_FAILURE = -1;

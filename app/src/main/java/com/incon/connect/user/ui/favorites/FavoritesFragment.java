@@ -537,6 +537,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                         R.string.purchased_warranty_status_now)
                         + noOfDays + " Days Left "
                         + "\n"
+
                         + getString(
                         R.string.purchased_purchased_date)
                         + purchasedDate

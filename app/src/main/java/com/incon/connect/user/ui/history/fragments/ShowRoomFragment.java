@@ -190,6 +190,7 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
             changeSelectedViews(bottomSheetPurchasedBinding.firstRow, tag);
             ProductInfoResponse itemFromPosition = showRoomAdapter.getItemFromPosition(
                     productSelectedPosition);
+
             if (tag == R.id.CALL) {
                 callPhoneNumber(itemFromPosition.getStoreContactNumber());
                 return;

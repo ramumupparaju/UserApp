@@ -150,7 +150,7 @@
                     android:id="@+id/input_layout_serial_no"
                     style="@style/Register_TextInputLayout"
                     android:layout_below="@id/input_layout_model_number"
-                    android:hint="@string/add_new__serial_no_1"
+                    android:hint="@string/add_new_serial_no"
                     app:errorEnabled="true"
                     app:fontName="fonts/OpenSans-Regular.ttf"
                     app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
