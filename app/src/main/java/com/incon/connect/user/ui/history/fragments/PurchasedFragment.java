@@ -443,10 +443,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             int[] drawablesArray = new int[0];
             int[] tagsArray = new int[0];
 
-            //   int firstRowTag = Integer.parseInt(tagArray[0]);
-            //  int secondRowTag = Integer.parseInt(tagArray[1]);
-
-
             if (tag == R.id.SUPPORT_UNAUTHORIZE) {
                 int length = 2;
 
@@ -467,7 +463,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 int length = 3;
 
                 textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_Call);
+                textArray[0] = getString(R.string.bottom_option_call_customer_care);
                 textArray[1] = getString(R.string.bottom_option_find_service_center);
                 textArray[2] = getString(R.string.bottom_option_service_request);
 
