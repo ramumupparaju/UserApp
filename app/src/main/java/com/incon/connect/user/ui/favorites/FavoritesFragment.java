@@ -482,12 +482,12 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
 
             if (tag == R.id.SUPPORT_UNAUTHORIZE) {
-                int length = 4;
+                int length = 3;
 
 
                 List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
                 if (serviceEngineerList != null && serviceEngineerList.size() > 0) {
-                    length = 3;
+                    length = 4;
                 }
 
                 textArray = new String[length];
@@ -724,6 +724,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
             } else if (tag == R.id.PRODUCT_EDIT_NICK_NAME) {
 
+
             } else if (tag == R.id.PRODUCT_EDIT_LOCATION_CHANGE) {
 
                 showFavoriteOptionsDialog();
@@ -737,6 +738,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         }
 
     };
+    // todo have to re name dialog name
 
     private void showFavoriteOptionsDialog() {
         if (productLocationList == null) {

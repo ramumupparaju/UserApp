@@ -70,6 +70,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     }
 
     // add favotites
+    // todo have to re name methode name
     @Override
     public void addToFavotites(HashMap<String, String> favoritesMap) {
         getView().showProgress(appContext.getString(R.string.progress_adding_to_favorites));

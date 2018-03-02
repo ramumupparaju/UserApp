@@ -19,6 +19,7 @@ import java.util.List;
 public interface FavoritesContract {
     interface View extends BaseView {
         void loadAddresses(List<AddUserAddressResponse> favoritesResponseList);
+        // todo have to re name methode name
         void addedToFavorite();
         void loadFavoritesProducts(List<ProductInfoResponse> favoritesResponseList);
         void loadServiceRequest();
@@ -31,6 +32,7 @@ public interface FavoritesContract {
         void doGetAddressApi(int userId);
 
         void doFavoritesProductApi(int userId, int addressId);
+        // todo have to re name methode name
         void addToFavotites(HashMap<String, String> favoritesMap);
 
         void doAddAddressApi(AddUserAddress addUserAddress);

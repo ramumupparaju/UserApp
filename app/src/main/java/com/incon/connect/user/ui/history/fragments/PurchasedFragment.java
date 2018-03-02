@@ -444,10 +444,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             int[] tagsArray = new int[0];
 
             if (tag == R.id.SUPPORT_UNAUTHORIZE) {
-                int length = 4 ;
+                int length = 3 ;
                 List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
                 if (serviceEngineerList != null && serviceEngineerList.size() > 0) {
-                    length = 3;
+                    length = 4;
                 }
                 textArray = new String[length];
                 tagsArray = new int[length];
@@ -716,7 +716,12 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 return;
             } else if (tag == R.id.SUPPORT_UNAUTHORIZE_ADD) {
                 showCustomPhoneNumberDialog();
-            } else if (tag == R.id.SUPPORT_AUTHORIZE_CALL) {
+            } else if (tag == R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER) {
+                // todo have call  service centers api
+            } else if (tag == R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST) {
+                // todo have call  service request api
+            }
+            else if (tag == R.id.SUPPORT_AUTHORIZE_CALL) {
                 callPhoneNumber(productInfoResponse.getMobileNumber());
                 return;
 
