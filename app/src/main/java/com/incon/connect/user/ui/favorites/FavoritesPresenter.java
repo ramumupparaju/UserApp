@@ -19,6 +19,7 @@ import com.incon.connect.user.ui.history.fragments.PurchasedContract;
 import com.incon.connect.user.ui.history.fragments.PurchasedPresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;
@@ -65,6 +66,33 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
                 };
 
         AppApiService.getInstance().getAddressesApi(userId).subscribe(observer);
+        addDisposable(observer);
+    }
+
+    // add favotites
+    @Override
+    public void addToFavotites(HashMap<String, String> favoritesMap) {
+        getView().showProgress(appContext.getString(R.string.progress_adding_to_favorites));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object o) {
+                        getView().addedToFavorite();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().addToFavotites(favoritesMap).subscribe(observer);
         addDisposable(observer);
     }
 

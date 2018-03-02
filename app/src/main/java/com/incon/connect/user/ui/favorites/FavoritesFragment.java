@@ -39,6 +39,7 @@ import com.incon.connect.user.callbacks.TextAddressDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
+import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppUserAddressDialog;
 import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
@@ -47,6 +48,7 @@ import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.databinding.ViewFabBinding;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
+import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.addnewmodel.AddCustomProductFragment;
@@ -67,6 +69,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
+import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_ADDRESS_ID;
+import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_WARRANTY_ID;
 import static com.incon.connect.user.ui.BaseActivity.TRANSACTION_TYPE_REPLACE;
 
 /**
@@ -79,7 +83,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private FavoritesPresenter favoritesPresenter;
     private View rootView;
     private int userId;
-
+    private Integer addressId;
+    private List<AddUserAddressResponse> productLocationList;
     private HorizontalRecycleViewAdapter addressessAdapter;
     private FavoritesAdapter favoritesAdapter;
     private int addressSelectedPosition = -1;
@@ -89,6 +94,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private AppEditTextDialog buyRequestDialog;
     private AppEditTextDialog feedBackDialog;
     private AppEditTextDialog transferDialog;
+    private AppCheckBoxListDialog productLocationDialog;
     private String buyRequestComment;
     private AppAlertDialog detailsDialog;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -504,8 +510,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                     textArray[3] = getString(R.string.bottom_option_service_request);
                     tagsArray[3] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST;
                     drawablesArray[3] = R.drawable.ic_option_bill;
-                }
-                else  {
+                } else {
                     textArray[0] = getString(R.string.bottom_option_add);
                     tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE_ADD;
                     drawablesArray[0] = R.drawable.ic_option_bill;
@@ -581,8 +586,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 showFeedBackDialog();
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-            }
-            else if (tag == R.id.PRODUCT_EDIT) {
+            } else if (tag == R.id.PRODUCT_EDIT) {
                 int length = 3;
                 textArray = new String[length];
                 textArray[0] = getString(R.string.bottom_option_nick_name);
@@ -598,9 +602,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 drawablesArray[0] = R.drawable.ic_option_details;
                 drawablesArray[1] = R.drawable.ic_option_details;
                 drawablesArray[2] = R.drawable.ic_option_details;
-            }
 
-            else if (tag == R.id.SHOWROOM_CALL) {
+            } else if (tag == R.id.SHOWROOM_CALL) {
                 callPhoneNumber(productInfoResponse.getStoreContactNumber());
                 return;
             } else if (tag == R.id.SHOWROOM_LOCATION) {
@@ -719,12 +722,80 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                         + productInfoResponse.getProductDimensions());
                 return;
 
+            } else if (tag == R.id.PRODUCT_EDIT_NICK_NAME) {
+
+            } else if (tag == R.id.PRODUCT_EDIT_LOCATION_CHANGE) {
+
+                showFavoriteOptionsDialog();
+                return;
+            } else if (tag == R.id.PRODUCT_EDIT_DELETE) {
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+
             }
 
 
         }
 
     };
+
+    private void showFavoriteOptionsDialog() {
+        if (productLocationList == null) {
+            //TODO add error message
+            return;
+        }
+
+        //set previous selected categories as checked
+        List<CheckedModelSpinner> filterNamesList = new ArrayList<>();
+
+        for (AddUserAddressResponse addUserAddressResponse : productLocationList) {
+            CheckedModelSpinner checkedModelSpinner = new CheckedModelSpinner();
+            checkedModelSpinner.setName(addUserAddressResponse.getName());
+            filterNamesList.add(checkedModelSpinner);
+        }
+        productLocationDialog = new AppCheckBoxListDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String selectedLocationName) {
+                        for (AddUserAddressResponse addUserAddressResponse : productLocationList) {
+                            if (addUserAddressResponse.getName().equals(selectedLocationName)) {
+                                addressId = addUserAddressResponse.getId();
+                                break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                callAddFavoriteApi();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                productLocationDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.action_add_as_favorite))
+                .spinnerItems(filterNamesList)
+                .build();
+        productLocationDialog.showDialog();
+        productLocationDialog.setRadioType(true);
+
+    }
+
+    private void callAddFavoriteApi() {
+        ProductInfoResponse itemFromPosition = favoritesAdapter.
+                getItemFromPosition(productSelectedPosition);
+        HashMap<String, String> favoritesMap = new HashMap<>();
+        favoritesMap.put(ApiRequestKeyConstants.BODY_USER_ID,
+                String.valueOf(userId));
+        favoritesMap.put(BODY_ADDRESS_ID, String.valueOf(addressId));
+        favoritesMap.put(BODY_WARRANTY_ID,
+                itemFromPosition.getWarrantyId());
+        favoritesPresenter.addToFavotites(favoritesMap);
+    }
 
     private void loadServiceRequesDialogData() {
         if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
@@ -758,7 +829,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             }
         }
     };
-
 
 
     // share product details
@@ -979,6 +1049,11 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             // binding.parentProduct.setVisibility(View.GONE);
 
         }
+    }
+
+    @Override
+    public void addedToFavorite() {
+
     }
 
     @Override

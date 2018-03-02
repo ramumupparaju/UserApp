@@ -9,6 +9,7 @@ import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.BaseView;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
 public interface FavoritesContract {
     interface View extends BaseView {
         void loadAddresses(List<AddUserAddressResponse> favoritesResponseList);
-
+        void addedToFavorite();
         void loadFavoritesProducts(List<ProductInfoResponse> favoritesResponseList);
         void loadServiceRequest();
         void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponses);
@@ -30,6 +31,7 @@ public interface FavoritesContract {
         void doGetAddressApi(int userId);
 
         void doFavoritesProductApi(int userId, int addressId);
+        void addToFavotites(HashMap<String, String> favoritesMap);
 
         void doAddAddressApi(AddUserAddress addUserAddress);
         void serviceRequest(ServiceRequest serviceRequest);
