@@ -545,7 +545,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 showFeedBackDialog();
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-            } else if (tag == R.id.SHOWROOM_CALL) {
+            }
+            else if (tag == R.id.SHOWROOM_CALL) {
                 callPhoneNumber(productInfoResponse.getStoreContactNumber());
                 return;
             } else if (tag == R.id.SHOWROOM_LOCATION) {

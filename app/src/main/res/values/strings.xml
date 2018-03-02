@@ -39,11 +39,14 @@
     <string name="bottom_option_timings">Timings</string
         >
     <string name="bottom_option_info">Info</string>
+    <string name="bottom_option_nick_name">Nick Name</string>
+    <string name="bottom_option_location_change">Location Change</string>
     <string name="bottom_option_details">Details</string>
     <string name="bottom_option_note">Note</string>
     <string name="bottom_option_main_features">Main Features </string>
     <string name="bottom_option_warranty">Warranty </string>
     <string name="bottom_option_suggestions">Suggestions</string>
+    <string name="bottom_option_edit">Edit</string>
     <string name="bottom_option_bill">Bill</string>
     <string name="bottom_option_add">Add</string>
     <string name="bottom_option_past_history">Past History</string>

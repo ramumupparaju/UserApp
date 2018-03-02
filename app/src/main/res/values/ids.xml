@@ -37,6 +37,10 @@
     <item type="id" name="PRODUCT_TRANSFER"/>
     <item type="id" name="PRODUCT_FEEDBACK"/>
     <item type="id" name="PRODUCT_SUGGESTION"/>
+    <item type="id" name="PRODUCT_EDIT"/>
+    <item type="id" name="PRODUCT_EDIT_NICK_NAME"/>
+    <item type="id" name="PRODUCT_EDIT_LOCATION_CHANGE"/>
+    <item type="id" name="PRODUCT_EDIT_DELETE"/>
 
 
     <item type="id" name="SHOWROOM"/>

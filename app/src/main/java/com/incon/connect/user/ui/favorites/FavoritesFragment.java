@@ -392,7 +392,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 drawablesArray[0] = R.drawable.ic_option_call;
                 drawablesArray[1] = R.drawable.ic_option_find_service_center;
             } else if (tag == R.id.PRODUCT) {
-                int length = 8;
+                int length = 9;
                 textArray = new String[length];
                 textArray[0] = getString(R.string.bottom_option_info);
                 textArray[1] = getString(R.string.bottom_option_warranty);
@@ -402,6 +402,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 textArray[5] = getString(R.string.bottom_option_transfer);
                 textArray[6] = getString(R.string.bottom_option_feedback);
                 textArray[7] = getString(R.string.bottom_option_suggestions);
+                textArray[8] = getString(R.string.bottom_option_edit);
 
                 tagsArray = new int[length];
                 tagsArray[0] = R.id.PRODUCT_DETAILS;
@@ -412,6 +413,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 tagsArray[5] = R.id.PRODUCT_TRANSFER;
                 tagsArray[6] = R.id.PRODUCT_FEEDBACK;
                 tagsArray[7] = R.id.PRODUCT_SUGGESTION;
+                tagsArray[8] = R.id.PRODUCT_EDIT;
 
                 drawablesArray = new int[length];
                 drawablesArray[0] = R.drawable.ic_option_details;
@@ -422,6 +424,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 drawablesArray[5] = R.drawable.ic_option_transfer;
                 drawablesArray[6] = R.drawable.ic_option_feedback;
                 drawablesArray[7] = R.drawable.ic_option_suggestions;
+                drawablesArray[8] = R.drawable.ic_option_suggestions;
             } else if (tag == R.id.SHOWROOM) {
                 int length = 3;
                 textArray = new String[length];
@@ -578,7 +581,26 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 showFeedBackDialog();
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-            } else if (tag == R.id.SHOWROOM_CALL) {
+            }
+            else if (tag == R.id.PRODUCT_EDIT) {
+                int length = 3;
+                textArray = new String[length];
+                textArray[0] = getString(R.string.bottom_option_nick_name);
+                textArray[1] = getString(R.string.bottom_option_location_change);
+                textArray[2] = getString(R.string.bottom_option_delete);
+
+                tagsArray = new int[length];
+                tagsArray[0] = R.id.PRODUCT_EDIT_NICK_NAME;
+                tagsArray[1] = R.id.PRODUCT_EDIT_LOCATION_CHANGE;
+                tagsArray[2] = R.id.PRODUCT_EDIT_DELETE;
+
+                drawablesArray = new int[length];
+                drawablesArray[0] = R.drawable.ic_option_details;
+                drawablesArray[1] = R.drawable.ic_option_details;
+                drawablesArray[2] = R.drawable.ic_option_details;
+            }
+
+            else if (tag == R.id.SHOWROOM_CALL) {
                 callPhoneNumber(productInfoResponse.getStoreContactNumber());
                 return;
             } else if (tag == R.id.SHOWROOM_LOCATION) {
