@@ -38,6 +38,7 @@
     <string name="bottom_option_location">Location</string>
     <string name="bottom_option_timings">Timings</string
         >
+    <string name="bottom_option_info">Info</string>
     <string name="bottom_option_details">Details</string>
     <string name="bottom_option_note">Note</string>
     <string name="bottom_option_main_features">Main Features </string>
@@ -116,6 +117,7 @@
     <string name="action_male">Male</string>
     <string name="action_female">Female</string>
 
+    <string name="label_expired">Expired</string>
     <string name="label_product_status">Product status</string>
     <string name="label_service_requests">Service Requests</string>
 

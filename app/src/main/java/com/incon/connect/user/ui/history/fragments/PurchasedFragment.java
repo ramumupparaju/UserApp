@@ -306,7 +306,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             } else if (tag == R.id.PRODUCT) {
                 int length = 8;
                 textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_details);
+                textArray[0] = getString(R.string.bottom_option_info);
                 textArray[1] = getString(R.string.bottom_option_warranty);
                 textArray[2] = getString(R.string.bottom_option_bill);
                 textArray[3] = getString(R.string.bottom_option_past_history);
@@ -477,47 +477,28 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 drawablesArray[1] = R.drawable.ic_option_bill;
                 drawablesArray[2] = R.drawable.ic_option_bill;
             } else if (tag == R.id.PRODUCT_DETAILS) {
-                int length = 4;
+                int length = TextUtils.isEmpty(itemFromPosition.getSpecialInstruction()) ? 1 : 2;
+
                 textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_return_policy);
-                textArray[1] = getString(R.string.bottom_option_special_instructions);
-                textArray[2] = getString(R.string.bottom_option_how_to_use);
-                textArray[3] = getString(R.string.bottom_option_description);
-
                 tagsArray = new int[length];
-                tagsArray[0] = R.id.PRODUCT_DETAILS_RETURN_POLICY;
-                tagsArray[1] = R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS;
-                tagsArray[2] = R.id.PRODUCT_DETAILS_HOW_TO_USE;
-                tagsArray[3] = R.id.PRODUCT_DETAILS_DESCRIPTION;
-
                 drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_return_policy;
-                drawablesArray[1] = R.drawable.ic_option_sp_instructions;
-                drawablesArray[2] = R.drawable.ic_option_howtouse;
-                drawablesArray[3] = R.drawable.ic_option_details;
+
+                if (length == 2) {
+                    textArray[0] = getString(R.string.bottom_option_special_instructions);
+                    tagsArray[0] = R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS;
+                    drawablesArray[0] = R.drawable.ic_option_sp_instructions;
+
+                    textArray[1] = getString(R.string.bottom_option_details);
+                    tagsArray[1] = R.id.PRODUCT_DETAILS_DESCRIPTION;
+                    drawablesArray[1] = R.drawable.ic_option_details;
+                } else {
+                    textArray[0] = getString(R.string.bottom_option_details);
+                    tagsArray[0] = R.id.PRODUCT_DETAILS_DESCRIPTION;
+                    drawablesArray[0] = R.drawable.ic_option_details;
+                }
             } else if (tag == R.id.PRODUCT_WARRANTY) {
-                String purchasedDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY);
-                String warrantyEndDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getWarrantyEndDate(), DateFormatterConstants.DD_MM_YYYY);
-                long noOfDays = DateUtils.convertDifferenceDateIndays(
-                        itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
-                String warrantyConditions = itemFromPosition.getWarrantyConditions();
                 showInformationDialog(getString(
-                        R.string.bottom_option_warranty), getString(
-                        R.string.purchased_warranty_status_now)
-                        + noOfDays + " Days Left "
-                        + "\n"
-                        + getString(
-                        R.string.purchased_purchased_date)
-                        + purchasedDate
-                        + "\n"
-                        + getString(
-                        R.string.purchased_warranty_covers_date)
-                        + warrantyConditions
-                        + "\n"
-                        + getString(
-                        R.string.purchased_warranty_ends_on) + warrantyEndDate);
+                        R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(itemFromPosition, getActivity()));
                 return;
 
             } else if (tag == R.id.PRODUCT_BILL) {
@@ -546,7 +527,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             } else if (tag == R.id.SHOWROOM_FEEDBACK) {
                 showFeedBackDialog();
             }
-
 
 
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
@@ -699,17 +679,9 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         @Override
         public void onClick(View view) {
             Integer tag = (Integer) view.getTag();
-            //String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
-
-
             ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.thirdRow, tag);
-
-            String[] textArray = new String[0];
-            int[] drawablesArray = new int[0];
-            int[] tagsArray = new int[0];
-
 
             if (tag == R.id.SUPPORT_UNAUTHORIZE_CALL) {
                 List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
@@ -734,15 +706,10 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
                 }
 
-            } else if (tag == R.id.PRODUCT_DETAILS_RETURN_POLICY) {
-                showInformationDialog(getString(R.string.bottom_option_return_policy), productInfoResponse.getReturnPolicy());
             } else if (tag == R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS) {
                 showInformationDialog(getString(
                         R.string.bottom_option_special_instructions),
                         productInfoResponse.getSpecialInstruction());
-            } else if (tag == R.id.PRODUCT_DETAILS_HOW_TO_USE) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-
             } else if (tag == R.id.PRODUCT_DETAILS_DESCRIPTION) {
                 showInformationDialog(getString(
                         R.string.bottom_option_description), productInfoResponse.getInformation()
@@ -750,7 +717,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                         + productInfoResponse.getColor()
                         + productInfoResponse.getProductDimensions());
                 return;
-
             }
         }
 

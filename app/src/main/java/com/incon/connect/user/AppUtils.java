@@ -54,34 +54,68 @@ public class AppUtils {
      * @param productInfoResponse
      * @return
      */
-        public static String getWarrantyInformation(ProductInfoResponse productInfoResponse) {
-            return getWarranty(productInfoResponse.getWarrantyYears(), productInfoResponse.getWarrantyMonths(), productInfoResponse.getWarrantyDays());
+    public static String getWarrantyInformation(ProductInfoResponse productInfoResponse) {
+        return getWarranty(productInfoResponse.getWarrantyYears(), productInfoResponse.getWarrantyMonths(), productInfoResponse.getWarrantyDays());
+    }
+
+    public static String getWarrantyInformationFromAddNewModel(AddCustomProductModel customProductModel) {
+        int warrantyIntYears = 0;
+        try {
+            warrantyIntYears = Integer.parseInt(customProductModel.getWarrantyYears());
+        } catch (Exception e) {
+
         }
 
-        public static String getWarrantyInformationFromAddNewModel(AddCustomProductModel customProductModel) {
-            int warrantyIntYears = 0;
-            try {
-                warrantyIntYears = Integer.parseInt(customProductModel.getWarrantyYears());
-            } catch (Exception e) {
+        int warrantyIntMonths = 0;
+        try {
+            warrantyIntMonths = Integer.parseInt(customProductModel.getWarrantyMonths());
+        } catch (Exception e) {
 
-            }
-
-            int warrantyIntMonths = 0;
-            try {
-                warrantyIntMonths = Integer.parseInt(customProductModel.getWarrantyMonths());
-            } catch (Exception e) {
-
-            }
-
-            int warrantyIntDays = 0;
-            try {
-                warrantyIntDays = Integer.parseInt(customProductModel.getWarrantyDays());
-            } catch (Exception e) {
-
-            }
-
-            return getWarranty(warrantyIntYears, warrantyIntMonths, warrantyIntDays);
         }
+
+        int warrantyIntDays = 0;
+        try {
+            warrantyIntDays = Integer.parseInt(customProductModel.getWarrantyDays());
+        } catch (Exception e) {
+
+        }
+
+        return getWarranty(warrantyIntYears, warrantyIntMonths, warrantyIntDays);
+    }
+
+    public static String getFormattedWarrantyDataInString(ProductInfoResponse itemFromPosition, Context context) {
+        String purchasedDate = DateUtils.convertMillisToStringFormat(
+                itemFromPosition.getPurchasedDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY);
+        String warrantyEndDate = DateUtils.convertMillisToStringFormat(
+                itemFromPosition.getWarrantyEndDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY);
+        long noOfDays = DateUtils.convertDifferenceDateIndays(
+                itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
+        String warrantyConditions = itemFromPosition.getWarrantyConditions();
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        //warranty days
+        stringBuilder.append(context.getString(R.string.purchased_warranty_status_now));
+        stringBuilder.append(noOfDays <= 0 ? context.getString(R.string.label_expired) : noOfDays + " Days Left");
+
+        if (!TextUtils.isEmpty(purchasedDate)) {
+            stringBuilder.append("\n");
+            stringBuilder.append(context.getString(R.string.purchased_purchased_date));
+            stringBuilder.append(purchasedDate);
+        }
+
+        if (!TextUtils.isEmpty(warrantyConditions)) {
+            stringBuilder.append("\n");
+            stringBuilder.append(context.getString(R.string.purchased_warranty_covers_date));
+            stringBuilder.append(warrantyConditions);
+        }
+
+        stringBuilder.append("\n");
+        stringBuilder.append(context.getString(R.string.purchased_warranty_ends_on));
+        stringBuilder.append(warrantyEndDate);
+
+        return stringBuilder.toString();
+    }
 
     /**
      * parsing warranty string

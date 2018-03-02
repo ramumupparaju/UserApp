@@ -175,7 +175,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
         bottomSheetPurchasedBinding.firstRow.setWeightSum(length);
-        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray,tagsArray, bottomSheetFirstRowClickListener);
+        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray, tagsArray, bottomSheetFirstRowClickListener);
 
     }
 
@@ -236,7 +236,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.secondRow.removeAllViews();
             bottomSheetPurchasedBinding.secondRow.setWeightSum(textArray.length);
-            setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, textArray, drawablesArray,tagsArray, bottomSheetSecondRowClickListener);
+            setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, textArray, drawablesArray, tagsArray, bottomSheetSecondRowClickListener);
 
         }
     };
@@ -246,7 +246,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         @Override
         public void onClick(View view) {
             Integer tag = (Integer) view.getTag();
-           // String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
+            // String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
 
             ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
                     productSelectedPosition);
@@ -258,7 +258,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             int[] tagsArray = new int[0];
 
 
-
             String[] bottomOptions = new String[0];
             int[] topDrawables = new int[0];
 
@@ -266,48 +265,38 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 showInformationDialog(getString(
                         R.string.bottom_option_main_features), itemFromPosition.getInformation());
                 return;
-            }
-            else if(tag == R.id.PRODUCT_DETAILS) {
+            } else if (tag == R.id.PRODUCT_DETAILS) {
 
-                int length = 5;
+                int length = 3;
                 textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_return_policy);
-                textArray[1] = getString(R.string.bottom_option_special_instructions);
-                textArray[2] = getString(R.string.bottom_option_how_to_use);
-                textArray[3] = getString(R.string.bottom_option_warranty);
-                textArray[4] = getString(R.string.bottom_option_share);
+                textArray[0] = getString(R.string.bottom_option_special_instructions);
+                textArray[1] = getString(R.string.bottom_option_warranty);
+                textArray[2] = getString(R.string.bottom_option_share);
 
                 tagsArray = new int[length];
-                tagsArray[0] = R.id.PRODUCT_DETAILS_RETURN_POLICY;
-                tagsArray[1] = R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS;
-                tagsArray[2] = R.id.PRODUCT_DETAILS_HOW_TO_USE;
-                tagsArray[3] = R.id.PRODUCT_DETAILS_WARRANTY;
-                tagsArray[4] = R.id.PRODUCT_DETAILS_SHARE;
+                tagsArray[0] = R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS;
+                tagsArray[1] = R.id.PRODUCT_DETAILS_WARRANTY;
+                tagsArray[2] = R.id.PRODUCT_DETAILS_SHARE;
 
                 drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_return_policy;
-                drawablesArray[1] = R.drawable.ic_option_sp_instructions;
-                drawablesArray[2] = R.drawable.ic_option_howtouse;
-                drawablesArray[3] = R.drawable.ic_option_warranty;
-                drawablesArray[4] = R.drawable.ic_option_share;
+                drawablesArray[0] = R.drawable.ic_option_sp_instructions;
+                drawablesArray[1] = R.drawable.ic_option_warranty;
+                drawablesArray[2] = R.drawable.ic_option_share;
 
-            }
-            else if(tag == R.id.PRODUCT_FEEDBACK) {
+            } else if (tag == R.id.PRODUCT_FEEDBACK) {
                 showFeedBackDialog();
                 return;
 
 
-            }
-            else if(tag == R.id.SHOWROOM_CALL) {
+            } else if (tag == R.id.SHOWROOM_CALL) {
                 callPhoneNumber(itemFromPosition.getStoreContactNumber());
                 return;
 
-            }else if(tag == R.id.SHOWROOM_LOCATION) {
+            } else if (tag == R.id.SHOWROOM_LOCATION) {
                 showLocationDialog();
                 return;
 
-            }
-            else if(tag == R.id.SHOWROOM_REVIEW) {
+            } else if (tag == R.id.SHOWROOM_REVIEW) {
                 //showFeedBackDialog();
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
 
@@ -322,41 +311,24 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         }
 
 
-
     };
 
     private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Integer tag = (Integer) view.getTag();
-          //  String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
+            //  String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
 
 
             ProductInfoResponse itemFromPosition = interestAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.thirdRow, tag);
 
-
-            String[] textArray = new String[0];
-            int[] drawablesArray = new int[0];
-            int[] tagsArray = new int[0];
-            if(tag == R.id.PRODUCT_DETAILS_RETURN_POLICY) {
-                showInformationDialog(getString(R.string.bottom_option_return_policy), itemFromPosition.getReturnPolicy());
-
-
-            }
-            else if (tag == R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS) {
+            if (tag == R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS) {
                 showInformationDialog(getString(
                         R.string.bottom_option_special_instructions),
                         itemFromPosition.getSpecialInstruction());
-
-            }
-            else if (tag == R.id.PRODUCT_DETAILS_HOW_TO_USE) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-
-
-            }
-            else if (tag == R.id.PRODUCT_DETAILS_WARRANTY) {
+            } else if (tag == R.id.PRODUCT_DETAILS_WARRANTY) {
                 String warrantyInformation = AppUtils.getWarrantyInformation(itemFromPosition);
                 if (TextUtils.isEmpty(warrantyInformation)) {
                     AppUtils.shortToast(getContext(), getString(R.string.error_no_warranty));
@@ -364,8 +336,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     showInformationDialog(getString(R.string.bottom_option_warranty), warrantyInformation);
                 }
 
-            }
-            else if (tag == R.id.PRODUCT_DETAILS_SHARE) {
+            } else if (tag == R.id.PRODUCT_DETAILS_SHARE) {
                 shareProductDetails(itemFromPosition);
 
             }

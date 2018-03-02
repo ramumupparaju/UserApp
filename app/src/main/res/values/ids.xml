@@ -22,9 +22,7 @@
     <item type="id" name="PRODUCT_MAINFEATURES"/>
 
     <item type="id" name="PRODUCT_DETAILS"/>
-    <item type="id" name="PRODUCT_DETAILS_RETURN_POLICY"/>
     <item type="id" name="PRODUCT_DETAILS_SPECIAL_INSTUCTIONS"/>
-    <item type="id" name="PRODUCT_DETAILS_HOW_TO_USE"/>
     <item type="id" name="PRODUCT_DETAILS_DESCRIPTION"/>
     <item type="id" name="PRODUCT_DETAILS_WARRANTY"/>
     <item type="id" name="PRODUCT_DETAILS_SHARE"/>
