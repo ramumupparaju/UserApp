@@ -233,10 +233,12 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
                 serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.CANCEL);
                 break;
             case R.id.button_right:
-                if (validateFields()) {
-                    serviceRequestCallback.doServiceRequestApi(serviceRequest);
-                    serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.OK);
-                }
+
+                serviceRequestCallback.doServiceRequestApi(serviceRequest);
+                serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.OK);
+                /*if (validateFields()) {
+
+                }*/
                 break;
             default:
                 break;

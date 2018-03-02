@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.generated.callback.OnCheckedChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -479,34 +478,28 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     addCustomProductModel.setWarrantyDays(modelSearchResponse.getWarrantyDays());
                     addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
 
-                    //Clear spinner data
-                    categorySelectedPos = -1;
-                    categoriesList.clear();
-                    loadCategorySpinnerData();
-                    brandSelectedPos = -1;
-                    fetchBrandsList.clear();
-                    loadBrandSpinnerData(fetchBrandsList);
-                    divisionSelectedPos = -1;
-                    divisionsList.clear();
-                    loadDivisionSpinnerData(divisionsList);
-                    ///////////////////
 
 
                     //added data based on model selection
                     Category category = modelSearchResponse.getCategory();
                     addCustomProductModel.setCategoryId(category.getId());
                     addCustomProductModel.setCategoryName(category.getName());
+                    binding.spinnerCategory.setFocusable(false);
+                    binding.spinnerCategory.setClickable(false);
+                    binding.spinnerCategory.setOnTouchListener(null);
 
 
                     binding.spinnerDivision.setVisibility(View.VISIBLE);
                     Division division = modelSearchResponse.getDivision();
                     addCustomProductModel.setDivisionId(division.getId());
                     addCustomProductModel.setDivisionName(division.getName());
+                    binding.spinnerDivision.setFocusable(false);
 
                     binding.spinnerBrand.setVisibility(View.VISIBLE);
                     Brand brand = modelSearchResponse.getBrand();
                     addCustomProductModel.setBrandId(brand.getId());
                     addCustomProductModel.setBrandName(brand.getName());
+                    binding.spinnerBrand.setFocusable(false);
                 }
                 AppUtils.hideSoftKeyboard(getActivity(), rootView);
             }
@@ -521,12 +514,21 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
             @Override
             public void onNext(TextViewAfterTextChangeEvent textViewAfterTextChangeEvent) {
+
                 String modelNumberString = textViewAfterTextChangeEvent.editable()
                         .toString();
                 if ((TextUtils.isEmpty(selectedModelNumber) || !selectedModelNumber.equals(
                         modelNumberString))) {
                     if (modelNumberString.length() > WarrantyRegistrationConstants
                             .MINIMUM_MODELNUMBER_TO_SEARCH) {
+                        //Reset spinner data
+                        //Clear spinner data
+                        categorySelectedPos = -1;
+                        loadCategorySpinnerData();
+                        binding.spinnerCategory.setFocusable(true);
+                        binding.spinnerDivision.setVisibility(View.GONE);
+                        binding.spinnerBrand.setVisibility(View.GONE);
+                        ////////////////////////
                         addCustomProductPresenter.doModelSearchApi(modelNumberString);
                         selectedModelNumber = modelNumberString;
                     }
