@@ -54,34 +54,34 @@ public class AppUtils {
      * @param productInfoResponse
      * @return
      */
-    public static String getWarrantyInformation(ProductInfoResponse productInfoResponse) {
-        return getWarranty(productInfoResponse.getWarrantyYears(), productInfoResponse.getWarrantyMonths(), productInfoResponse.getWarrantyDays());
-    }
-
-    public static String getWarrantyInformationFromAddNewModel(AddCustomProductModel customProductModel) {
-        int warrantyIntYears = 0;
-        try {
-            warrantyIntYears = Integer.parseInt(customProductModel.getWarrantyYears());
-        } catch (Exception e) {
-
+        public static String getWarrantyInformation(ProductInfoResponse productInfoResponse) {
+            return getWarranty(productInfoResponse.getWarrantyYears(), productInfoResponse.getWarrantyMonths(), productInfoResponse.getWarrantyDays());
         }
 
-        int warrantyIntMonths = 0;
-        try {
-            warrantyIntMonths = Integer.parseInt(customProductModel.getWarrantyMonths());
-        } catch (Exception e) {
+        public static String getWarrantyInformationFromAddNewModel(AddCustomProductModel customProductModel) {
+            int warrantyIntYears = 0;
+            try {
+                warrantyIntYears = Integer.parseInt(customProductModel.getWarrantyYears());
+            } catch (Exception e) {
 
+            }
+
+            int warrantyIntMonths = 0;
+            try {
+                warrantyIntMonths = Integer.parseInt(customProductModel.getWarrantyMonths());
+            } catch (Exception e) {
+
+            }
+
+            int warrantyIntDays = 0;
+            try {
+                warrantyIntDays = Integer.parseInt(customProductModel.getWarrantyDays());
+            } catch (Exception e) {
+
+            }
+
+            return getWarranty(warrantyIntYears, warrantyIntMonths, warrantyIntDays);
         }
-
-        int warrantyIntDays = 0;
-        try {
-            warrantyIntDays = Integer.parseInt(customProductModel.getWarrantyDays());
-        } catch (Exception e) {
-
-        }
-
-        return getWarranty(warrantyIntYears, warrantyIntMonths, warrantyIntDays);
-    }
 
     /**
      * parsing warranty string

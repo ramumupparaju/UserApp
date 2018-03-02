@@ -35,21 +35,21 @@
                 <ImageView
                     android:id="@+id/profile_logo_iv"
                     style="@style/BothWrap"
-                    android:layout_below="@id/text_userinfo_subtitle"
                     android:layout_width="130dp"
                     android:layout_height="76dp"
+                    android:layout_below="@id/text_userinfo_subtitle"
                     android:layout_gravity="center"
                     android:layout_marginTop="32dp"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{() -> addCustomProductFragment.openCameraToUpload()}"
-                    app:srcCompat="@drawable/ic_showroom"/>
+                    app:srcCompat="@drawable/ic_showroom" />
 
                 <!-- modelno -->
                 <com.incon.connect.user.custom.view.CustomTextInputLayout
                     android:id="@+id/input_layout_model_number"
                     style="@style/Register_TextInputLayout"
-                    android:hint="@string/add_new__model_no"
                     android:layout_marginTop="@dimen/margin_10"
+                    android:hint="@string/add_new__model_no"
                     app:errorEnabled="true"
                     app:fontName="fonts/OpenSans-Regular.ttf"
                     app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
@@ -98,8 +98,7 @@
                     app:errorEnabled="true"
                     app:met_floatingLabel="highlight"
                     app:met_textColor="@color/colorForgotPasswordHintText"
-                    app:met_textColorHint="@color/colorForgotPasswordHintText"
-                    />
+                    app:met_textColorHint="@color/colorForgotPasswordHintText" />
 
                 <!-- division no -->
                 <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
@@ -212,13 +211,12 @@
                         android:inputType="number"
                         android:maxLength="@integer/character_limit_45"
                         android:maxLines="1"
-                        android:tag="9"
+                        android:tag="8"
                         android:text="@={addCustomProductModel.price}" />
                 </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
 
                 <RelativeLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -235,7 +233,7 @@
                             android:id="@+id/edittext_purchased_date"
                             style="@style/Register_TextInputEditText"
                             android:enabled="false"
-                            android:tag="10"
+                            android:tag="9"
                             android:text="@={addCustomProductModel.dateOfPurchased}" />
                     </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
@@ -253,32 +251,30 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/warranty_period_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-
                     <!--warrnty period-->
                     <com.incon.connect.user.custom.view.CustomTextInputLayout
-                        android:id="@+id/input_layout_warrenty_period"
+                        android:id="@+id/input_layout_warranty_period"
                         style="@style/Register_TextInputLayout"
-                        android:layout_marginStart="@dimen/margin_38"
                         android:layout_marginEnd="@dimen/margin_39"
-                        android:textColorHint="@color/colorForgotPasswordHintText"
+                        android:layout_marginStart="@dimen/margin_38"
                         android:hint="@string/add_new_warrnty_period"
+                        android:textColorHint="@color/colorForgotPasswordHintText"
                         app:errorEnabled="true"
                         app:fontName="fonts/OpenSans-Regular.ttf"
                         app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
 
                         <android.support.design.widget.TextInputEditText
-                            android:id="@+id/edittext_warrnty_period"
+                            android:id="@+id/edittext_warranty_period"
                             style="@style/Add_new_model_TextInputEditText"
                             android:focusable="true"
                             android:imeOptions="actionNext"
                             android:maxLength="@integer/character_limit_45"
                             android:maxLines="1"
-                            android:tag="11"
-                            android:text="@={addCustomProductModel.warrantyShow}"
-                            />
+                            android:tag="10"
+                            android:text="@={addCustomProductModel.warrantyShow}" />
                     </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
                     <!--dummy view for dob click event -->
@@ -286,36 +282,39 @@
                         android:id="@+id/view_warranty"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_alignBottom="@+id/input_layout_warrenty_period"
-                        android:layout_alignEnd="@+id/input_layout_warrenty_period"
-                        android:layout_alignStart="@+id/input_layout_warrenty_period"
-                        android:layout_alignTop="@+id/input_layout_warrenty_period"
+                        android:layout_alignBottom="@+id/input_layout_warranty_period"
+                        android:layout_alignEnd="@+id/input_layout_warranty_period"
+                        android:layout_alignStart="@+id/input_layout_warranty_period"
+                        android:layout_alignTop="@+id/input_layout_warranty_period"
                         android:background="@null"
                         android:onClick="@{() -> addCustomProductFragment.onWarrantyClick()}" />
 
-                    <CheckBox
-                        android:id="@+id/checkbox_extened"
-                        android:layout_below="@+id/input_layout_warrenty_period"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:layout_marginLeft="@dimen/margin_30"
-                        android:layout_gravity="center"
-                        android:text="@string/action_extended_Warranty"
-                        />
+                </RelativeLayout>
 
+                <CheckBox
+                    android:id="@+id/checkbox_extened"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/warranty_period_layout"
+                    android:layout_gravity="center"
+                    android:checked="false"
+                    android:text="@string/action_extended_Warranty" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/checkbox_extened">
                     <!--extended warranty period-->
                     <com.incon.connect.user.custom.view.CustomTextInputLayout
                         android:id="@+id/input_layout_warranty_extended"
                         style="@style/Register_TextInputLayout"
-                        android:layout_below="@+id/checkbox_extened"
-                        android:layout_marginTop="@dimen/margin_10"
-                        android:layout_marginStart="@dimen/margin_38"
                         android:layout_marginEnd="@dimen/margin_39"
-                        android:textColorHint="@color/colorForgotPasswordHintText"
+                        android:layout_marginStart="@dimen/margin_38"
+                        android:layout_marginTop="@dimen/margin_10"
                         android:hint="@string/add_new_extended_warranty"
-                        app:errorEnabled="true"
+                        android:textColorHint="@color/colorForgotPasswordHintText"
                         android:visibility="gone"
+                        app:errorEnabled="true"
                         app:fontName="fonts/OpenSans-Regular.ttf"
                         app:hintTextAppearance="@style/TextInputLayout_FloatingTextColor">
 
@@ -327,8 +326,7 @@
                             android:maxLength="@integer/character_limit_45"
                             android:maxLines="1"
                             android:tag="11"
-                            android:text="@={addCustomProductModel.extendedWarranty}"
-                            />
+                            android:text="@={addCustomProductModel.extendedWarranty}" />
                     </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
                     <!--dummy view for dob click event -->
@@ -336,14 +334,12 @@
                         android:id="@+id/view_warranty_extended"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_alignBottom="@+id/input_layout_warrenty_period"
-                        android:layout_alignEnd="@+id/input_layout_warrenty_period"
-                        android:layout_alignStart="@+id/input_layout_warrenty_period"
-                        android:layout_alignTop="@+id/input_layout_warrenty_period"
+                        android:layout_alignBottom="@+id/input_layout_warranty_extended"
+                        android:layout_alignEnd="@+id/input_layout_warranty_extended"
+                        android:layout_alignStart="@+id/input_layout_warranty_extended"
+                        android:layout_alignTop="@+id/input_layout_warranty_extended"
                         android:background="@null"
                         android:onClick="@{() -> addCustomProductFragment.onExtendedWarrantyClick()}" />
-
-
                 </RelativeLayout>
 
                 <!--notes-->
@@ -371,7 +367,7 @@
                     android:id="@+id/button_submit"
                     style="@style/w150_wrap"
                     fontPath="fonts/OpenSans-Bold.ttf"
-                    android:layout_below="@id/input_layout_warrenty_period"
+                    android:layout_below="@id/input_layout_warranty_period"
                     android:layout_marginBottom="@dimen/margin_10"
                     android:layout_marginLeft="@dimen/margin_110"
                     android:layout_marginTop="@dimen/margin_10"
