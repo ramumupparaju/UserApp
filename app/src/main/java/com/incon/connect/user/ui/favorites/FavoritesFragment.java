@@ -726,15 +726,12 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
 
             } else if (tag == R.id.PRODUCT_EDIT_LOCATION_CHANGE) {
-
                 showFavoriteOptionsDialog();
                 return;
             } else if (tag == R.id.PRODUCT_EDIT_DELETE) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
 
             }
-
-
         }
 
     };
@@ -831,19 +828,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             }
         }
     };
-
-
-    // share product details
-    private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, productSelectedPosition.getInformation()
-                + " Price " + productSelectedPosition.getMrp());
-        sendIntent.setType("text/plain");
-        sendIntent.setPackage("com.whatsapp");
-        startActivity(sendIntent);
-
-    }
 
     private void showInterestProductDeleteDialog(String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new

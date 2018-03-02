@@ -624,18 +624,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     }*/
 
-
-    private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, productSelectedPosition.getInformation()
-                + " Price " + productSelectedPosition.getMrp());
-        sendIntent.setType("text/plain");
-        sendIntent.setPackage("com.whatsapp");
-        startActivity(sendIntent);
-
-    }
-
     private void navigateToAddressActivity() {
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
         startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
