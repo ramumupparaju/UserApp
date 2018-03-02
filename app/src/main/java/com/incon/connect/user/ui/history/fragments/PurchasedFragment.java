@@ -436,7 +436,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         public void onClick(View view) {
             Integer tag = (Integer) view.getTag();
             //String[] tagArray = unparsedTag.split(COMMA_SEPARATOR);
-            ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
+            ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.secondRow, tag);
             String[] textArray = new String[0];
@@ -444,19 +444,45 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             int[] tagsArray = new int[0];
 
             if (tag == R.id.SUPPORT_UNAUTHORIZE) {
-                int length = 2;
-
+                int length = 4 ;
+                List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
+                if (serviceEngineerList != null && serviceEngineerList.size() > 0) {
+                    length = 3;
+                }
                 textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_Call);
-                textArray[1] = getString(R.string.bottom_option_add);
-
                 tagsArray = new int[length];
-                tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE_CALL;
-                tagsArray[1] = R.id.SUPPORT_UNAUTHORIZE_ADD;
-
                 drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_call;
-                drawablesArray[1] = R.drawable.ic_option_bill;
+
+                if (length == 4) {
+                    textArray[0] = getString(R.string.bottom_option_Call);
+                    tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE_CALL;
+                    drawablesArray[0] = R.drawable.ic_option_call;
+
+                    textArray[1] = getString(R.string.bottom_option_add);
+                    tagsArray[1] = R.id.SUPPORT_UNAUTHORIZE_ADD;
+                    drawablesArray[1] = R.drawable.ic_option_bill;
+
+                    textArray[2] = getString(R.string.bottom_option_find_service_center);
+                    tagsArray[2] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER;
+                    drawablesArray[2] = R.drawable.ic_option_bill;
+
+                    textArray[3] = getString(R.string.bottom_option_service_request);
+                    tagsArray[3] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST;
+                    drawablesArray[3] = R.drawable.ic_option_bill;
+                }
+                else  {
+                    textArray[0] = getString(R.string.bottom_option_add);
+                    tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE_ADD;
+                    drawablesArray[0] = R.drawable.ic_option_bill;
+
+                    textArray[1] = getString(R.string.bottom_option_find_service_center);
+                    tagsArray[1] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER;
+                    drawablesArray[1] = R.drawable.ic_option_bill;
+
+                    textArray[2] = getString(R.string.bottom_option_service_request);
+                    tagsArray[2] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST;
+                    drawablesArray[2] = R.drawable.ic_option_bill;
+                }
 
             } else if (tag == R.id.SUPPORT_AUTHORIZE) {
 
@@ -477,7 +503,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 drawablesArray[1] = R.drawable.ic_option_bill;
                 drawablesArray[2] = R.drawable.ic_option_bill;
             } else if (tag == R.id.PRODUCT_DETAILS) {
-                int length = TextUtils.isEmpty(itemFromPosition.getSpecialInstruction()) ? 1 : 2;
+                int length = TextUtils.isEmpty(productInfoResponse.getSpecialInstruction()) ? 1 : 2;
 
                 textArray = new String[length];
                 tagsArray = new int[length];
@@ -498,20 +524,20 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 }
             } else if (tag == R.id.PRODUCT_WARRANTY) {
                 showInformationDialog(getString(
-                        R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(itemFromPosition, getActivity()));
+                        R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(productInfoResponse, getActivity()));
                 return;
 
             } else if (tag == R.id.PRODUCT_BILL) {
                 Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, itemFromPosition);
+                bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, productInfoResponse);
                 billFormatIntent.putExtras(bundle);
                 startActivity(billFormatIntent);
                 return;
             } else if (tag == R.id.PRODUCT_PAST_HISTORY) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
             } else if (tag == R.id.PRODUCT_SHARE) {
-                shareProductDetails(itemFromPosition);
+                shareProductDetails(productInfoResponse);
                 return;
             } else if (tag == R.id.PRODUCT_TRANSFER) {
                 showTransferDialog();
@@ -520,7 +546,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
             } else if (tag == R.id.SHOWROOM_CALL) {
-                callPhoneNumber(itemFromPosition.getStoreContactNumber());
+                callPhoneNumber(productInfoResponse.getStoreContactNumber());
                 return;
             } else if (tag == R.id.SHOWROOM_LOCATION) {
                 showLocationDialog();
@@ -689,7 +715,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 return;
             } else if (tag == R.id.SUPPORT_UNAUTHORIZE_ADD) {
                 showCustomPhoneNumberDialog();
-
             } else if (tag == R.id.SUPPORT_AUTHORIZE_CALL) {
                 callPhoneNumber(productInfoResponse.getMobileNumber());
                 return;

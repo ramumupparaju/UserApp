@@ -6,6 +6,8 @@
     <item type="id" name="SUPPORT_UNAUTHORIZE"/>
     <item type="id" name="SUPPORT_UNAUTHORIZE_CALL"/>
     <item type="id" name="SUPPORT_UNAUTHORIZE_ADD"/>
+    <item type="id" name="SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER"/>
+    <item type="id" name="SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST"/>
 
     <item type="id" name="SUPPORT_AUTHORIZE"/>
     <item type="id" name="SUPPORT_AUTHORIZE_CALL"/>
