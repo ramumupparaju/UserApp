@@ -182,6 +182,11 @@
         </activity>
 
 
+        <activity
+            android:name="com.incon.connect.user.ui.pin.CustomPinActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"></activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_key" />

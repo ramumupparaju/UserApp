@@ -12,6 +12,8 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.google.com' }
+
 }
 
 
@@ -160,6 +162,9 @@ dependencies {
     //rounded imageview
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
+    //RippleView
+    compile 'com.github.traex.rippleeffect:ripple:1.3.1-OG'
+
     // fab
     compile 'com.github.clans:fab:1.6.4'
     allprojects {
@@ -170,6 +175,13 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true;
     }
+
+    //pin library
+    compile project(':lib')
+
+    //Lollipop dialogs https://github.com/lewisjdeane/L-Dialogs and buttons, animations etc...
+    compile 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
+
 }
 // ADD THIS AT THE BOTTOM
 apply plugin: 'com.google.gms.google-services'
