@@ -559,6 +559,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
 
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
+            bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.removeAllViews();
             bottomSheetPurchasedBinding.thirdRow.setWeightSum(textArray.length);
@@ -705,6 +706,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 .build();
         dialogDelete.showDialog();
         dialogDelete.setButtonBlueUnselectBackground();
+        dialogDelete.setCancelable(true);
     }
 
 
