@@ -28,6 +28,10 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter
         notifyDataSetChanged();
     }
 
+    public List<AddUserAddressResponse> getAddressResponsesList() {
+        return addressResponsesList;
+    }
+
     public void setClickCallback(IClickCallback clickCallback) {
         this.clickCallback = clickCallback;
     }

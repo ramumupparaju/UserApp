@@ -421,19 +421,6 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         feedBackDialog.showDialog();
     }
 
-
-    // share product details
-    private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, productSelectedPosition.getInformation()
-                + " Price " + productSelectedPosition.getMrp());
-        sendIntent.setType("text/plain");
-        sendIntent.setPackage("com.whatsapp");
-        startActivity(sendIntent);
-
-    }
-
     private void showInterestProductDeleteDialog(String messageInfo) {
         dialogDelete = new AppAlertVerticalTwoButtonsDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {

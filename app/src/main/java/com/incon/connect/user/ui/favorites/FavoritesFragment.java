@@ -58,6 +58,7 @@ import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.servicecenters.ServiceCentersActivity;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.GravitySnapHelper;
+import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
@@ -81,7 +82,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     private View rootView;
     private int userId;
     private Integer addressId;
-    private List<AddUserAddressResponse> productLocationList;
     private HorizontalRecycleViewAdapter addressessAdapter;
     private FavoritesAdapter favoritesAdapter;
     private int addressSelectedPosition = -1;
@@ -647,7 +647,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 .rightButtonText(getString(R.string.action_submit))
                 .build();
         transferDialog.showDialog();
-        transferDialog.setCancelable(true);
     }
 
 
@@ -765,10 +764,10 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 showProductDeleteDialog(getString(R.string.dilog_delete));
 
             }
-
         }
 
     };
+
 
     private void showNickNameDialog() {
         nickNameDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
@@ -829,15 +828,16 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
     // todo have to re name dialog name
     private void showFavoriteOptionsDialog() {
-        if (productLocationList == null) {
-            //TODO add error message
+        final List<AddUserAddressResponse> addressResponsesList = addressessAdapter.getAddressResponsesList();
+        if (addressResponsesList == null || addressResponsesList.size() ==0) {
+            Logger.e("showFavoriteOptionsDialog", "addressResponsesList are either empty are zero");
             return;
         }
 
         //set previous selected categories as checked
         List<CheckedModelSpinner> filterNamesList = new ArrayList<>();
 
-        for (AddUserAddressResponse addUserAddressResponse : productLocationList) {
+        for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
             CheckedModelSpinner checkedModelSpinner = new CheckedModelSpinner();
             checkedModelSpinner.setName(addUserAddressResponse.getName());
             filterNamesList.add(checkedModelSpinner);
@@ -846,7 +846,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String selectedLocationName) {
-                        for (AddUserAddressResponse addUserAddressResponse : productLocationList) {
+                        for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
                             if (addUserAddressResponse.getName().equals(selectedLocationName)) {
                                 addressId = addUserAddressResponse.getId();
                                 break;
@@ -867,7 +867,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                                 break;
                         }
                     }
-                }).title(getString(R.string.action_add_as_favorite))
+                }).title(getString(R.string.bottom_option_location_change))
                 .spinnerItems(filterNamesList)
                 .build();
         productLocationDialog.showDialog();
@@ -919,19 +919,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             }
         }
     };
-
-
-    // share product details
-    private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, productSelectedPosition.getInformation()
-                + " Price " + productSelectedPosition.getMrp());
-        sendIntent.setType("text/plain");
-        sendIntent.setPackage("com.whatsapp");
-        startActivity(sendIntent);
-
-    }
 
     private void showInterestProductDeleteDialog(String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
