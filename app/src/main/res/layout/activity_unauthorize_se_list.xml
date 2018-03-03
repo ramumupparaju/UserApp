@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="activity"
+            type="com.incon.connect.user.ui.settings.unauthorizenumbers.UnauthorizeSEListActivity" />
+    </data>
+
+    <RelativeLayout
+        style="@style/BothMatch"
+        android:background="@color/colorPrimary">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:contentInsetStart="0dp">
+
+            <RelativeLayout style="@style/BothMatch">
+
+                <ImageView
+                    android:id="@+id/toolbar_left_iv"
+                    android:layout_width="@dimen/margin_64"
+                    android:layout_height="@dimen/margin_64"
+                    android:layout_centerVertical="true"
+                    android:paddingEnd="@dimen/margin_25"
+                    android:paddingStart="@dimen/margin_15"
+                    android:onClick="@{() -> activity.onBackClick()}"
+
+                    app:srcCompat="@drawable/ic_back_arrow" />
+
+                <TextView
+                    android:id="@+id/toolbar_text_user"
+                    style="@style/BothWrap"
+                    fontPath="fonts/OpenSans-Bold.ttf"
+                    android:layout_centerInParent="true"
+                    android:text="@string/title_menu_manage_unauthorize_numbers"
+                    android:textColor="@color/white"
+                    android:textSize="15.5sp" />
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_unauthorize"
+            style="@style/BothMatch"
+            android:layout_below="@id/toolbar"
+            android:background="@color/white"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="4dp"
+            android:scrollbarThumbVertical="@drawable/scrollbar"
+            android:scrollbars="vertical">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+</layout>

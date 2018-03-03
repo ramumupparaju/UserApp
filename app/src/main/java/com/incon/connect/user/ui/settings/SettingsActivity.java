@@ -17,7 +17,7 @@ import com.incon.connect.user.dto.settings.SettingsItem;
 import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.changepassword.ChangePasswordActivity;
 import com.incon.connect.user.ui.settings.adapters.SettingsAdapter;
-import com.incon.connect.user.ui.settings.unauthorizenumbers.UnauthorizeNumbersActivity;
+import com.incon.connect.user.ui.settings.unauthorizenumbers.UnauthorizeSEListActivity;
 import com.incon.connect.user.ui.settings.update.UpDateUserProfileActivity;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
@@ -123,7 +123,7 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
                 startActivity(userProfileIntent);
                 break;
             case MenuConstants.MANAGE_UNAUTHORIZE_NUMBERS:
-                Intent unauthorizeNumbers = new Intent(this, UnauthorizeNumbersActivity.class);
+                Intent unauthorizeNumbers = new Intent(this, UnauthorizeSEListActivity.class);
                 startActivity(unauthorizeNumbers);
                 break;
             case MenuConstants.CHANGE_PWD:

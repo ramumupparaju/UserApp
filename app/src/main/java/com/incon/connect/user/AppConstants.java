@@ -149,6 +149,7 @@ public interface AppConstants {
         String FROM_FORGOT_PASSWORD_SCREEN = "fromForgotPasswordScreen";
         String SERVICE_CENTER_DATA = "serviceCenterResponse";
         String BUTTON_TEXT = "buttonText";
+        String SERVICE_ENGINEER_DATA = "serviceEngineerData";
     }
 
 
@@ -269,6 +270,7 @@ public interface AppConstants {
         int PRODUCT_ADD_FRAGMENT = 121;
         int ADD_CUSTOM_PRODUCT_FRAGMENT = 122;
 
+        int REFRESH_SE_LIST = 123;
     }
 
     interface TimeConstants {

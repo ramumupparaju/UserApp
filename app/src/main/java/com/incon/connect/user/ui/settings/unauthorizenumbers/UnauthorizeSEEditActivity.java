@@ -1,52 +1,58 @@
 package com.incon.connect.user.ui.settings.unauthorizenumbers;
 
-import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.FeedbackData;
+import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
-import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
-import com.incon.connect.user.databinding.ActivityUnauthorizenumbersBinding;
+import com.incon.connect.user.databinding.ActivityUnauthorizeSeEditBinding;
 import com.incon.connect.user.ui.BaseActivity;
-import com.incon.connect.user.ui.settings.unauthorizenumbers.adapter.UnauthorizeSeNumbersAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by MY HOME on 02-Mar-18.
+ * Created by MY HOME on 03-Mar-18.
  */
 
-public class UnauthorizeNumbersActivity extends BaseActivity {
-    private UnauthorizeSeNumbersAdapter unauthorizeNumbersAdapter;
-
-    private ActivityUnauthorizenumbersBinding binding;
+public class UnauthorizeSEEditActivity extends BaseActivity {
+    private ActivityUnauthorizeSeEditBinding binding;
+    private AddServiceEngineer serviceEngineer;
     private AppAlertVerticalTwoButtonsDialog deleteDialog;
-
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_unauthorizenumbers;
+        return R.layout.activity_unauthorize_se_edit;
     }
 
     @Override
     protected void initializePresenter() {
+
     }
 
     @Override
     protected void onCreateView(Bundle saveInstanceState) {
         binding = DataBindingUtil.setContentView(this, getLayoutId());
         binding.setActivity(this);
-
-        initViews();
         initializeToolbar();
+
+        binding.toolbar.toolbarTitleTv.setText(getString(R.string.title_menu_manage_unauthorize_numbers));
+
+        Intent bundle = getIntent();
+        if (bundle != null) {
+            serviceEngineer = bundle.getParcelableExtra(IntentConstants.SERVICE_ENGINEER_DATA);
+        }
+        if (serviceEngineer != null) {
+            binding.buttonSubmit.setText(getString(R.string.action_update));
+            binding.toolbar.toolbarRightIv.setVisibility(View.VISIBLE);
+        } else {
+            binding.toolbar.toolbarRightIv.setVisibility(View.GONE);
+            binding.buttonSubmit.setText(getString(R.string.action_submit));
+            serviceEngineer = new AddServiceEngineer();
+        }
+        binding.setModel(serviceEngineer);
 
     }
 
@@ -63,12 +69,13 @@ public class UnauthorizeNumbersActivity extends BaseActivity {
         binding.toolbar.toolbarRightIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDeleteDialog();
+                showSEDeleteDialog();
             }
         });
+
     }
 
-    private void showDeleteDialog() {
+    private void showSEDeleteDialog() {
         deleteDialog = new AppAlertVerticalTwoButtonsDialog.AlertDialogBuilder(this, new
                 AlertDialogCallback() {
                     @Override
@@ -78,6 +85,7 @@ public class UnauthorizeNumbersActivity extends BaseActivity {
                                 deleteDialog.dismiss();
                                 break;
                             case AlertDialogCallback.CANCEL:
+                                //todo have call delete api
                                 break;
                             default:
                                 break;
@@ -92,27 +100,8 @@ public class UnauthorizeNumbersActivity extends BaseActivity {
         deleteDialog.setCancelable(true);
     }
 
-    private void initViews() {
-        List<FeedbackData> feedbackData = new ArrayList<>();
-        feedbackData.add(new FeedbackData("test1", "7779992501"));
-        feedbackData.add(new FeedbackData("test2", "9638527412"));
-        feedbackData.add(new FeedbackData("test3", "7799050905"));
+    public void onSubmitClick() {
 
-        unauthorizeNumbersAdapter = new UnauthorizeSeNumbersAdapter(feedbackData);
-        binding.recyclerviewUnauthorize.setAdapter(unauthorizeNumbersAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        Context context = binding.getRoot().getContext();
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
-                linearLayoutManager.getOrientation());
-        dividerItemDecoration.setDrawable(context.getResources().getDrawable(R.drawable.list_divider));
-        binding.recyclerviewUnauthorize.addItemDecoration(dividerItemDecoration);
-        binding.recyclerviewUnauthorize.setLayoutManager(linearLayoutManager);
+        //TODO have to api call for updation
     }
-
-    //recyclerview click event
-    private IClickCallback iClickCallback = new IClickCallback() {
-        @Override
-        public void onClickPosition(int position) {
-        }
-    };
 }
