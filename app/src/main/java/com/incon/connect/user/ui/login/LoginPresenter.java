@@ -2,10 +2,8 @@ package com.incon.connect.user.ui.login;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Pair;
 
-import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.api.AppApiService;
@@ -14,12 +12,11 @@ import com.incon.connect.user.apimodel.components.validateotp.ValidateWarrantyOt
 import com.incon.connect.user.data.login.LoginDataManagerImpl;
 import com.incon.connect.user.dto.login.LoginUserData;
 import com.incon.connect.user.ui.BasePresenter;
-import com.incon.connect.user.ui.register.fragment.RegistrationUserFragmentContract;
-import com.incon.connect.user.ui.register.fragment.RegistrationUserFragmentPresenter;
+import com.incon.connect.user.ui.register.fragment.RegistrationUserContract;
+import com.incon.connect.user.ui.register.fragment.RegistrationUserPresenter;
 import com.incon.connect.user.ui.validateotp.ValidateOtpContract;
 import com.incon.connect.user.ui.validateotp.ValidateOtpPresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
-import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.HashMap;
 
@@ -79,14 +76,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
     @Override
     public void registerRequestOtp(String phoneNumber) {
-        RegistrationUserFragmentPresenter registrationUserFragmentPresenter =
-                new RegistrationUserFragmentPresenter();
+        RegistrationUserPresenter registrationUserFragmentPresenter =
+                new RegistrationUserPresenter();
         registrationUserFragmentPresenter.initialize(null);
         registrationUserFragmentPresenter.setView(registrationView);
         registrationUserFragmentPresenter.registerRequestOtp(phoneNumber);
     }
 
-    RegistrationUserFragmentContract.View registrationView = new RegistrationUserFragmentContract
+    RegistrationUserContract.View registrationView = new RegistrationUserContract
             .View() {
 
         @Override

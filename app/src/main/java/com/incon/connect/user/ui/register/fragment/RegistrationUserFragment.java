@@ -2,13 +2,11 @@ package com.incon.connect.user.ui.register.fragment;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.view.KeyEvent;
@@ -49,9 +47,9 @@ import java.util.TimeZone;
  * Created on 13 Jun 2017 4:01 PM.
  */
 public class RegistrationUserFragment extends BaseFragment implements
-        RegistrationUserFragmentContract.View {
+        RegistrationUserContract.View {
 
-    private RegistrationUserFragmentPresenter registrationUserInfoFragPresenter;
+    private RegistrationUserPresenter registrationUserInfoFragPresenter;
     private FragmentRegistrationUserBinding binding;
     private Registration register; // initialized from registration acticity
     private Animation shakeAnim;
@@ -63,7 +61,7 @@ public class RegistrationUserFragment extends BaseFragment implements
     @Override
     protected void initializePresenter() {
 
-        registrationUserInfoFragPresenter = new RegistrationUserFragmentPresenter();
+        registrationUserInfoFragPresenter = new RegistrationUserPresenter();
         registrationUserInfoFragPresenter.setView(this);
         setBasePresenter(registrationUserInfoFragPresenter);
     }
@@ -111,7 +109,6 @@ public class RegistrationUserFragment extends BaseFragment implements
     }
 
     private void callRegisterApi() {
-
         register.setGenderType(String.valueOf(register.getGenderType().charAt(0)));
         registrationUserInfoFragPresenter.register(register);
     }

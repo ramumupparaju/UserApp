@@ -23,11 +23,11 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * Created on 08 Jun 2017 8:31 PM.
  */
-public class RegistrationUserFragmentPresenter extends
-        BasePresenter<RegistrationUserFragmentContract.View> implements
-        RegistrationUserFragmentContract.Presenter {
+public class RegistrationUserPresenter extends
+        BasePresenter<RegistrationUserContract.View> implements
+        RegistrationUserContract.Presenter {
 
-    private static final String TAG = RegistrationUserFragmentPresenter.class.getName();
+    private static final String TAG = RegistrationUserPresenter.class.getName();
     private Context appContext;
     private LoginDataManagerImpl loginDataManagerImpl;
 
