@@ -615,51 +615,52 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         final List<AddUserAddressResponse> addressResponsesList = addressessAdapter.getAddressResponsesList();
         if (addressResponsesList == null || addressResponsesList.size() == 0) {
             Logger.e("showFavoritesLocationChangeDialog", "addressResponsesList are either empty are zero");
-        if (addressResponsesList == null || addressResponsesList.size() == 0) {
-            Logger.e("showFavoriteOptionsDialog", "addressResponsesList are either empty are zero");
-            return;
-        }
+            if (addressResponsesList == null || addressResponsesList.size() == 0) {
+                Logger.e("showFavoriteOptionsDialog", "addressResponsesList are either empty are zero");
+                return;
+            }
 
-        //set previous selected categories as checked
-        List<CheckedModelSpinner> filterNamesList = new ArrayList<>();
+            //set previous selected categories as checked
+            List<CheckedModelSpinner> filterNamesList = new ArrayList<>();
 
-        for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
-            CheckedModelSpinner checkedModelSpinner = new CheckedModelSpinner();
-            checkedModelSpinner.setName(addUserAddressResponse.getName());
-            filterNamesList.add(checkedModelSpinner);
-        }
-        productLocationDialog = new AppCheckBoxListDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String selectedLocationName) {
-                        for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
-                            if (addUserAddressResponse.getName().equals(selectedLocationName)) {
-                                addressId = addUserAddressResponse.getId();
-                                break;
+            for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
+                CheckedModelSpinner checkedModelSpinner = new CheckedModelSpinner();
+                checkedModelSpinner.setName(addUserAddressResponse.getName());
+                filterNamesList.add(checkedModelSpinner);
+            }
+            productLocationDialog = new AppCheckBoxListDialog.AlertDialogBuilder(getActivity(), new
+                    TextAlertDialogCallback() {
+                        @Override
+                        public void enteredText(String selectedLocationName) {
+                            for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
+                                if (addUserAddressResponse.getName().equals(selectedLocationName)) {
+                                    addressId = addUserAddressResponse.getId();
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
-                                pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
-                                startActivityForResult(pinIntent, RequestCodes.LOCATION_CHANGED);
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                productLocationDialog.dismiss();
-                                break;
-                            default:
-                                break;
+                        @Override
+                        public void alertDialogCallback(byte dialogStatus) {
+                            switch (dialogStatus) {
+                                case AlertDialogCallback.OK:
+                                    Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
+                                    pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
+                                    startActivityForResult(pinIntent, RequestCodes.LOCATION_CHANGED);
+                                    break;
+                                case AlertDialogCallback.CANCEL:
+                                    productLocationDialog.dismiss();
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
-                }).title(getString(R.string.bottom_option_location_change))
-                .spinnerItems(filterNamesList)
-                .build();
-        productLocationDialog.showDialog();
-        productLocationDialog.setRadioType(true);
+                    }).title(getString(R.string.bottom_option_location_change))
+                    .spinnerItems(filterNamesList)
+                    .build();
+            productLocationDialog.showDialog();
+            productLocationDialog.setRadioType(true);
+        }
     }
 
     private void productLocationChangeApi() {
