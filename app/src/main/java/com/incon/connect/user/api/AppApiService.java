@@ -15,7 +15,6 @@ import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
-import com.incon.connect.user.apimodel.components.showroom.ShowRoomResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
@@ -154,6 +153,11 @@ public class AppApiService implements AppConstants {
     // add favourites  api
     public Observable<Object> addToFavotites(HashMap<String, String> favoriteMap) {
         return addNetworkCheck(serviceInstance.addToFavotites(favoriteMap));
+    }
+
+    // product location change Api
+    public Observable<Object> productChangeLocationProductNameEditApi(HashMap<String, String> changeLocationMap) {
+        return addNetworkCheck(serviceInstance.productChangeLocationProductNameEditApi(changeLocationMap));
     }
 
     // add favourites  api

@@ -232,10 +232,21 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("name")
     @Expose
     private String showRoomName;
+
+    @SerializedName("favouriteId")
+    @Expose
+    private Integer favouriteId;
+
     @SerializedName("offers")
     @Expose
     private List<Object> offers = null;
+    public Integer getFavouriteId() {
+        return favouriteId;
+    }
 
+    public void setFavouriteId(Integer favouriteId) {
+        this.favouriteId = favouriteId;
+    }
     public Integer getStoreId() {
         return storeId;
     }
@@ -876,6 +887,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         gender = in.readString();
         storeId = in.readByte() == 0x00 ? null : in.readInt();
         showRoomName = in.readString();
+        favouriteId = in.readByte() == 0x00 ? null : in.readInt();
 
     }
 
@@ -883,6 +895,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -1017,6 +1030,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
             dest.writeByte((byte) (0x01));
             dest.writeInt(usertype);
         }
+
         dest.writeValue(store);
         dest.writeString(uuid);
         dest.writeString(country);
@@ -1030,6 +1044,12 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         }
 
         dest.writeString(showRoomName);
+        if (favouriteId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(favouriteId);
+        }
     }
 
     @Override

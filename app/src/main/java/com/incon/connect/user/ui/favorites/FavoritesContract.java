@@ -42,7 +42,7 @@ public interface FavoritesContract {
 
         void doFavoritesProductApi(int userId, int addressId);
 
-        void doLocationChangeApi(HashMap<String, String> favoritesMap);
+        void doLocationChangeProductNameEditApi(HashMap<String, String> favoritesMap);
 
         void doAddAddressApi(AddUserAddress addUserAddress);
 

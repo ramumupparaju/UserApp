@@ -13,7 +13,6 @@ import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
 import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
-import com.incon.connect.user.apimodel.components.showroom.ShowRoomResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
@@ -103,6 +102,10 @@ public interface AppServiceObservable {
     // add favourites  api
     @POST("user/addtofavourites")
     Observable<Object> addToFavotites(@Body HashMap<String, String> favoriteMap);
+
+    // product change location  api
+    @POST("user/modifyfavourites")
+    Observable<Object> productChangeLocationProductNameEditApi(@Body HashMap<String, String> changeLocationMap);
 
     // fetch near by service centers  api
     @POST("service/nearbycenters/{brandId}")

@@ -74,7 +74,9 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
     public int productSelectedPosition = -1;
     public int userId;
+    public int id;
     public Integer addressId;
+    public Integer favouriteId;
     public boolean isFindServiceCenter;
 
     private AppEditTextDialog suggestionsDialog;

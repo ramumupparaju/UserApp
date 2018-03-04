@@ -245,8 +245,11 @@ public interface AppConstants {
         String BODY_INTEREST_ID = "interestId";
         String BODY_QRCODE_ID = "qrCodeId";
         String BODY_COMMENTS = "comments";
+        String BODY_PRODUCT_EDIT = "productedit";
         String BODY_USER_ID = "userId";
         String BODY_ADDRESS_ID = "addressId";
+        String BODY_ID = "id";
+        String BODY_NICK_NAME = "name";
         String BODY_WARRANTY_ID = "warrantyId";
         String BODY_PRODUCT_CODE = "code";
         String BODY_OTP = "otp";

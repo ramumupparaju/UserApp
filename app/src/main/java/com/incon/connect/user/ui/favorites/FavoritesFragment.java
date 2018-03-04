@@ -23,8 +23,8 @@ import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAddressDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
-import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
+import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppUserAddressDialog;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
@@ -44,7 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_ADDRESS_ID;
-import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_WARRANTY_ID;
+import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_ID;
 import static com.incon.connect.user.ui.BaseActivity.TRANSACTION_TYPE_REPLACE;
 
 /**
@@ -58,7 +58,9 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     private AppUserAddressDialog dialog;
     private AddUserAddress addUserAddress;
     private AppCheckBoxListDialog productLocationDialog;
-    private AppAlertVerticalTwoButtonsDialog dialogDelete;
+    private AppEditTextDialog productNameEditDialog;
+    private String productEdit;
+
 
     @Override
     protected void initializePresenter() {
@@ -599,8 +601,8 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 return;
 
             } else if (tag == R.id.PRODUCT_EDIT_NICK_NAME) {
-
-
+                productNameEditDialog();
+                return;
             } else if (tag == R.id.PRODUCT_EDIT_LOCATION_CHANGE) {
                 showFavoriteOptionsDialog();
                 return;
@@ -612,6 +614,44 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         }
 
     };
+
+    private void productNameEditDialog() {
+
+        productNameEditDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+
+
+                        ProductInfoResponse itemFromPosition = favoritesAdapter.
+                                getItemFromPosition(productSelectedPosition);
+                        //TODO api cal
+                        productEdit = commentString;
+                        HashMap<String, String> productNameEditMap = new HashMap<>();
+                        productNameEditMap.put(ApiRequestKeyConstants.BODY_NICK_NAME, productEdit);
+                        productNameEditMap.put(BODY_ID, String.valueOf(itemFromPosition.getFavouriteId()));
+                        favoritesPresenter.doLocationChangeProductNameEditApi(productNameEditMap);
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                productNameEditDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.bottom_option_product_name_edit))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        productNameEditDialog.showDialog();
+        productNameEditDialog.setCancelable(true);
+    }
 
 
     private void showFavoriteOptionsDialog() {
@@ -645,7 +685,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                callAddFavoriteApi();
+                                productLocationChangeApi();
                                 break;
                             case AlertDialogCallback.CANCEL:
                                 productLocationDialog.dismiss();
@@ -661,16 +701,14 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         productLocationDialog.setRadioType(true);
     }
 
-    private void callAddFavoriteApi() {
+    private void productLocationChangeApi() {
         ProductInfoResponse itemFromPosition = favoritesAdapter.
                 getItemFromPosition(productSelectedPosition);
-        HashMap<String, String> favoritesMap = new HashMap<>();
-        favoritesMap.put(ApiRequestKeyConstants.BODY_USER_ID,
-                String.valueOf(userId));
-        favoritesMap.put(BODY_ADDRESS_ID, String.valueOf(addressId));
-        favoritesMap.put(BODY_WARRANTY_ID,
-                itemFromPosition.getWarrantyId());
-//        favoritesPresenter.addToFavotites(favoritesMap); TODO have to call
+        HashMap<String, String> productLocationChangeMap = new HashMap<>();
+        productLocationChangeMap.put(BODY_ID, String.valueOf(itemFromPosition.getFavouriteId()));
+        productLocationChangeMap.put(BODY_ADDRESS_ID, String.valueOf(itemFromPosition.getAddressId()));
+        favoritesPresenter.doLocationChangeProductNameEditApi(productLocationChangeMap);
+
     }
 
 
@@ -687,10 +725,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             }
         }
     };
-
-
-
-
 
     @Override
     public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
