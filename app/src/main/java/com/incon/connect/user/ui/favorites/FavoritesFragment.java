@@ -272,26 +272,20 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
 
     private void createBottomSheetFirstRow() {
 
-        int length;
-        int[] drawablesArray;
-        String[] textArray;
-        int[] tagsArray;
-        length = 3;
+        ArrayList<Integer> drawablesArray = new ArrayList<>();
+        ArrayList<String> textArray = new ArrayList<>();
+        ArrayList<Integer> tagsArray = new ArrayList<>();
 
-        textArray = new String[length];
-        textArray[0] = getString(R.string.bottom_option_service);
-        textArray[1] = getString(R.string.bottom_option_product);
-        textArray[2] = getString(R.string.bottom_option_showroom);
 
-        tagsArray = new int[length];
-        tagsArray[0] = R.id.SUPPORT;
-        tagsArray[1] = R.id.PRODUCT;
-        tagsArray[2] = R.id.SHOWROOM;
-
-        drawablesArray = new int[length];
-        drawablesArray[0] = R.drawable.ic_option_service_support;
-        drawablesArray[1] = R.drawable.ic_option_product;
-        drawablesArray[2] = R.drawable.ic_option_customer;
+        textArray.add(getString(R.string.bottom_option_service));
+        tagsArray.add(R.id.SUPPORT);
+        drawablesArray.add(R.drawable.ic_option_service_support);
+        textArray.add(getString(R.string.bottom_option_product));
+        tagsArray.add(R.id.PRODUCT);
+        drawablesArray.add(R.drawable.ic_option_product);
+        textArray.add(getString(R.string.bottom_option_showroom));
+        tagsArray.add(R.id.SHOWROOM);
+        drawablesArray.add(R.drawable.ic_option_customer);
 
         bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
         bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
@@ -299,7 +293,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
-        bottomSheetPurchasedBinding.firstRow.setWeightSum(length);
+        bottomSheetPurchasedBinding.firstRow.setWeightSum(tagsArray.size());
         setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray, tagsArray, bottomSheetFirstRowClickListener);
 
     }
