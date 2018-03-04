@@ -1,5 +1,6 @@
 package com.incon.connect.user.ui.history.fragments;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -26,6 +27,8 @@ import com.incon.connect.user.databinding.FragmentInterestBinding;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.history.adapter.InterestAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
+import com.incon.connect.user.ui.pin.CustomPinActivity;
+import com.incon.connect.user.ui.pin.managers.AppLock;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
@@ -359,20 +362,9 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                HashMap<String, String> buyRequestApi = new HashMap<>();
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
-                                        String.valueOf(userId));
-                                ProductInfoResponse productInfoResponse = interestAdapter.
-                                        getItemFromPosition(productSelectedPosition);
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
-                                        String.valueOf(productInfoResponse.getMerchantId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_INTEREST_ID,
-                                        String.valueOf(productInfoResponse.getInterestId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
-                                        String.valueOf(productInfoResponse.getQrcodeId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
-                                        buyRequestComment);
-                                interestPresenter.buyRequestApi(buyRequestApi);
+                                Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
+                                pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
+                                startActivityForResult(pinIntent, RequestCodes.BUY_REQUEST);
                                 break;
                             case AlertDialogCallback.CANCEL:
                                 buyRequestDialog.dismiss();
@@ -386,6 +378,38 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 .rightButtonText(getString(R.string.action_submit))
                 .build();
         buyRequestDialog.showDialog();
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RequestCodes.BUY_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                productBuyRequestApi();
+            } else {
+                showErrorMessage(getString(R.string.error_athentication_failed));
+            }
+        }
+
+
+    }
+
+    private void productBuyRequestApi() {
+        HashMap<String, String> buyRequestApi = new HashMap<>();
+        buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
+                String.valueOf(userId));
+        ProductInfoResponse productInfoResponse = interestAdapter.
+                getItemFromPosition(productSelectedPosition);
+        buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
+                String.valueOf(productInfoResponse.getMerchantId()));
+        buyRequestApi.put(ApiRequestKeyConstants.BODY_INTEREST_ID,
+                String.valueOf(productInfoResponse.getInterestId()));
+        buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
+                String.valueOf(productInfoResponse.getQrcodeId()));
+        buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
+                buyRequestComment);
+        interestPresenter.buyRequestApi(buyRequestApi);
     }
 
     // feedback dialog

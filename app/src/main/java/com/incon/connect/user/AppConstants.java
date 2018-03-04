@@ -280,6 +280,7 @@ public interface AppConstants {
         int PIN_PROMPT = 124;
         int DELETE_PRODUCT = 125;
         int LOCATION_CHANGED = 126;
+        int BUY_REQUEST = 127;
     }
 
     interface TimeConstants {
