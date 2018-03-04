@@ -199,9 +199,12 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String commentString) {
-//                        buyRequestComment = commentString;
-                        //TODO HAVE to add condition
-                        purchasedPresenter.doTransferProductApi(commentString, userId);
+                        if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+                        //TODO HAVE to add condition for  favorite
+
+                        } else {
+                            purchasedPresenter.doTransferProductApi(commentString, userId);
+                        }
                     }
 
                     @Override
@@ -263,21 +266,24 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     }
 
     public void loadUsersDataFromServiceCenterId(Integer serviceCenterId) {
-        //todo have to check
         if (this instanceof FavoritesFragment) {
             favoritesPresenter.getUsersListOfServiceCenters(serviceCenterId);
         } else {
-            //TODO call purchased
+            purchasedPresenter.getUsersListOfServiceCenters(serviceCenterId);
         }
     }
 
     public void loadNearByServiceCentersDialogData(String brandId) {
-        //todo have to check
-        if (this instanceof FavoritesFragment) {
-            favoritesPresenter.nearByServiceCenters(Integer.parseInt(brandId));
+        if (TextUtils.isEmpty(brandId)) {
+            AppUtils.longToast(getActivity(), getString(R.string.error_contact_customer_care));
         } else {
-            //TODO call purchased
+            if (this instanceof FavoritesFragment) {
+                favoritesPresenter.nearByServiceCenters(Integer.parseInt(brandId));
+            } else {
+            purchasedPresenter.nearByServiceCenters(Integer.parseInt(brandId));
+            }
         }
+
     }
 
 
@@ -440,7 +446,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 serviceRequest.setPurchaseId(purchaseId);
                 serviceRequest.setCustomerId(userId);
                 if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
-                    favoritesPresenter.serviceRequest(serviceRequest); //TODO have to handle purchased
+                    favoritesPresenter.serviceRequest(serviceRequest);
                 } else {
                     purchasedPresenter.serviceRequest(serviceRequest);
 
@@ -524,7 +530,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
 
     public void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponses) {
-        this.serviceCenterResponseList = (ArrayList<ServiceCenterResponse>) serviceCenterResponseList;
+        this.serviceCenterResponseList = (ArrayList<ServiceCenterResponse>) serviceCenterResponses;
         if (serviceCenterResponseList == null) {
             return;
         }
