@@ -753,4 +753,9 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         }
         favoritesPresenter.disposeAll();
     }
+
+    @Override
+    public void onSearchClickListerner(String searchableText, String searchType) {
+        //DO nothing
+    }
 }

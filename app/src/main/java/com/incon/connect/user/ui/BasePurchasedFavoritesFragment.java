@@ -1,10 +1,12 @@
 package com.incon.connect.user.ui;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.View;
 import android.widget.DatePicker;
 
@@ -27,12 +29,18 @@ import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
 import com.incon.connect.user.custom.view.ServiceRequestDialog;
 import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
+import com.incon.connect.user.databinding.FragmentPurchasedBinding;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.favorites.FavoritesFragment;
 import com.incon.connect.user.ui.favorites.FavoritesPresenter;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
+import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.base.BaseProductOptionsFragment;
+import com.incon.connect.user.ui.history.base.BaseTabFragment;
+import com.incon.connect.user.ui.history.fragments.PurchasedPresenter;
+import com.incon.connect.user.ui.pin.CustomPinActivity;
+import com.incon.connect.user.ui.pin.managers.AppLock;
 import com.incon.connect.user.ui.servicecenters.ServiceCentersActivity;
 import com.incon.connect.user.utils.DateUtils;
 
@@ -45,12 +53,19 @@ import java.util.TimeZone;
  * Created by PC on 11/4/2017.
  */
 
-public abstract class BasePurchasedFavoritesFragment extends BaseProductOptionsFragment {
+public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
     public View rootView;
     public ShimmerFrameLayout shimmerFrameLayout;
 
-    /////////////specific to favorites fragment
+    /////////////specific to purchases fragment
+    public PurchasedPresenter purchasedPresenter;
+    public FragmentPurchasedBinding binding;
+    public PurchasedAdapter purchasedAdapter;
+/////////////////////////////////////////
+
+
+    /////////////specific to favoorites fragment
     public FragmentFavoritesBinding favoritesBinding;
     public FavoritesPresenter favoritesPresenter;
     public FavoritesAdapter favoritesAdapter;
@@ -63,6 +78,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseProductOptionsF
     public Integer addressId;
     public boolean isFindServiceCenter;
 
+    private AppEditTextDialog suggestionsDialog;
     public AppEditTextDialog feedBackDialog;
     public AppEditTextDialog transferDialog;
     public AppAlertDialog detailsDialog;
@@ -75,6 +91,28 @@ public abstract class BasePurchasedFavoritesFragment extends BaseProductOptionsF
     public CustomPhoneNumberDialog customPhoneNumberDialog;
     public AddServiceEngineer serviceEngineer;
 
+    @Override
+    public void handleException(Pair<Integer, String> error) {
+        super.handleException(error);
+        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
+            AppUtils.shortToast(getActivity(), error.second);
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case RequestCodes.DELETE_PRODUCT:
+                    doProductDeleteApi();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     public void navigateToAddressActivity() {
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
@@ -87,27 +125,72 @@ public abstract class BasePurchasedFavoritesFragment extends BaseProductOptionsF
             new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+                    getProductsApi();
 
-                        getProductsApi();
-                    } else {
-                        //have to handle purchased
-                    }
                 }
             };
 
-    private void getProductsApi() {
-        favoritesBinding.favoritesRecyclerview.setVisibility(View.GONE);
+    public void getProductsApi() {
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmerAnimation();
-        if (addressSelectedPosition == -1) {
-            return;
+
+        if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+            favoritesBinding.favoritesRecyclerview.setVisibility(View.GONE);
+            if (addressSelectedPosition == -1) {
+                return;
+            }
+            AddUserAddressResponse singleAddressResponse = addressessAdapter.
+                    getItemFromPosition(addressSelectedPosition);
+            favoritesBinding.addressesRecyclerview.getLayoutManager().scrollToPosition(
+                    addressSelectedPosition);
+            favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());
+        } else {
+            //have to handle purchased
+            binding.purchasedRecyclerview.setVisibility(View.GONE);
+            purchasedPresenter.purchased(userId);
         }
-        AddUserAddressResponse singleAddressResponse = addressessAdapter.
-                getItemFromPosition(addressSelectedPosition);
-        favoritesBinding.addressesRecyclerview.getLayoutManager().scrollToPosition(
-                addressSelectedPosition);
-        favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());
+    }
+
+    public void showDeleteDialog() {
+        Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
+        pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
+        startActivityForResult(pinIntent, RequestCodes.DELETE_PRODUCT);
+    }
+
+    public void doProductDeleteApi() {
+        final ProductInfoResponse itemFromPosition = purchasedAdapter.
+                getItemFromPosition(productSelectedPosition);
+
+        purchasedPresenter.deleteProduct(Integer.parseInt(
+                itemFromPosition.getWarrantyId()));
+    }
+
+    public void showSuggestionsDialog() {
+        suggestionsDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                        //TODO api cal
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                suggestionsDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.bottom_option_suggestions))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        suggestionsDialog.showDialog();
+        suggestionsDialog.setCancelable(true);
 
     }
 
@@ -117,13 +200,14 @@ public abstract class BasePurchasedFavoritesFragment extends BaseProductOptionsF
                     @Override
                     public void enteredText(String commentString) {
 //                        buyRequestComment = commentString;
+                        //TODO HAVE to add condition
+                        purchasedPresenter.doTransferProductApi(commentString, userId);
                     }
 
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-//                                transferDialog.dismiss(); //TODO ahve to call transfer api
                                 AppUtils.hideSoftKeyboard(getContext(), getView());
                                 break;
                             case AlertDialogCallback.CANCEL:
@@ -226,7 +310,8 @@ public abstract class BasePurchasedFavoritesFragment extends BaseProductOptionsF
             itemFromPosition = favoritesAdapter.getItemFromPosition(
                     productSelectedPosition);
         } else {
-            //TODO call purchased
+            itemFromPosition = purchasedAdapter.getItemFromPosition(
+                    productSelectedPosition);
         }
 
 
@@ -277,7 +362,8 @@ public abstract class BasePurchasedFavoritesFragment extends BaseProductOptionsF
 
                                         favoritesPresenter.addServiceEngineer(serviceEngineer, userId);
                                     } else {
-                                        // TODO handle purchesad
+                                        purchasedPresenter.addServiceEngineer(serviceEngineer, userId);
+
                                     }
                                 }
                                 break;
@@ -296,6 +382,14 @@ public abstract class BasePurchasedFavoritesFragment extends BaseProductOptionsF
         customPhoneNumberDialog.setCancelable(true);
     }
 
+    public void transferMobileNumber(Object o) {
+    }
+
+    public void deleteProduct(Object response) {
+        dismissDialog(bottomSheetDialog);
+        onRefreshListener.onRefresh();
+        AppUtils.showSnackBar(getView(), getString(R.string.action_delete));
+    }
 
     public void addedToFavorite() {
 
@@ -345,7 +439,12 @@ public abstract class BasePurchasedFavoritesFragment extends BaseProductOptionsF
                 Integer purchaseId = Integer.valueOf(favoritesAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
                 serviceRequest.setPurchaseId(purchaseId);
                 serviceRequest.setCustomerId(userId);
-                favoritesPresenter.serviceRequest(serviceRequest); //TODO have to handle purchased
+                if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+                    favoritesPresenter.serviceRequest(serviceRequest); //TODO have to handle purchased
+                } else {
+                    purchasedPresenter.serviceRequest(serviceRequest);
+
+                }
             }
 
             @Override

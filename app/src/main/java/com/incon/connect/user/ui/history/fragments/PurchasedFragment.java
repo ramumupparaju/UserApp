@@ -1,64 +1,36 @@
 package com.incon.connect.user.ui.history.fragments;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.FeedbackData;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
-import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
-import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
-import com.incon.connect.user.callbacks.CustomPhoneNumberAlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
-import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
-import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
-import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
-import com.incon.connect.user.custom.view.AppEditTextDialog;
-import com.incon.connect.user.custom.view.AppEditTextListDialog;
-import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
-import com.incon.connect.user.custom.view.ServiceRequestDialog;
-import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
-import com.incon.connect.user.databinding.FragmentPurchasedBinding;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
-import com.incon.connect.user.dto.servicerequest.ServiceRequest;
-import com.incon.connect.user.ui.RegistrationMapActivity;
+import com.incon.connect.user.ui.BasePurchasedFavoritesFragment;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
-import com.incon.connect.user.ui.history.base.BaseTabFragment;
-import com.incon.connect.user.ui.pin.CustomPinActivity;
-import com.incon.connect.user.ui.pin.managers.AppLock;
-import com.incon.connect.user.ui.servicecenters.ServiceCentersActivity;
-import com.incon.connect.user.utils.DateUtils;
-import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TimeZone;
 
 import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_ADDRESS_ID;
 import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_WARRANTY_ID;
@@ -67,32 +39,12 @@ import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_WA
 /**
  * Created on 13 Jun 2017 4:01 PM.
  */
-public class PurchasedFragment extends BaseTabFragment implements PurchasedContract.View {
-    private View rootView;
-    private PurchasedPresenter purchasedPresenter;
-    private FragmentPurchasedBinding binding;
-    private PurchasedAdapter purchasedAdapter;
-    private int userId;
-    private Integer addressId;
-    private AppAlertDialog detailsDialog;
-    private AppCheckBoxListDialog productLocationDialog;
-    private List<AddUserAddressResponse> productLocationList;
-    private AppEditTextDialog transferDialog;
-    private AppEditTextListDialog feedBackDialog;
-    private AppEditTextDialog suggestionsDialog;
-    private String buyRequestComment;
-    private String serviceRequestComment;
+public class PurchasedFragment extends BasePurchasedFavoritesFragment implements PurchasedContract.View {
+
+    private AppCheckBoxListDialog favoriteDialog;
+
+    private List<AddUserAddressResponse> addressesList;
     private boolean isFromFavorites = false;
-    private ServiceRequestDialog serviceRequestDialog;
-    private TimeSlotAlertDialog timeSlotAlertDialog;
-    private ArrayList<ServiceCenterResponse> serviceCenterResponseList;
-    private boolean isFindServiceCenter;
-    private ShimmerFrameLayout shimmerFrameLayout;
-
-    //Adding unauthorized phone number
-    private CustomPhoneNumberDialog customPhoneNumberDialog;
-    private AddServiceEngineer serviceEngineer;
-
 
     @Override
     protected void initializePresenter() {
@@ -136,50 +88,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     }
 
 
-    private void showCustomPhoneNumberDialog() {
-        if (serviceEngineer == null) {
-            serviceEngineer = new AddServiceEngineer();
-        }
-        customPhoneNumberDialog = new CustomPhoneNumberDialog.AlertDialogBuilder(getActivity(), new
-                CustomPhoneNumberAlertDialogCallback() {
-                    @Override
-                    public void enteredName(String name) {
-
-                        serviceEngineer.setName(name);
-                    }
-
-                    @Override
-                    public void enteredPhoneNumber(String phoneNumber) {
-                        serviceEngineer.setMobileNumber(phoneNumber);
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                if (TextUtils.isEmpty(serviceEngineer.getMobileNumber())) {
-                                    showErrorMessage(getString(R.string.error_phone_req));
-                                } else {
-                                    AppUtils.hideSoftKeyboard(getActivity(), rootView);
-                                    purchasedPresenter.addServiceEngineer(serviceEngineer, userId);
-                                }
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                customPhoneNumberDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.action_approval))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        customPhoneNumberDialog.showDialog();
-        customPhoneNumberDialog.setCancelable(true);
-    }
-
-
     private void initViews() {
         binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
@@ -200,13 +108,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             purchasedPresenter.doGetAddressApi(userId);
         }
 
-    }
-
-    private void getProductsApi() {
-        binding.purchasedRecyclerview.setVisibility(View.GONE);
-        shimmerFrameLayout.setVisibility(View.VISIBLE);
-        shimmerFrameLayout.startShimmerAnimation();
-        purchasedPresenter.purchased(userId);
     }
 
     //recyclerview click event
@@ -375,7 +276,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     //  favorite options
     private void showFavoriteOptionsDialog() {
-        if (productLocationList == null) {
+        if (addressesList == null) {
             //TODO add error message
             return;
         }
@@ -383,16 +284,16 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         //set previous selected categories as checked
         List<CheckedModelSpinner> filterNamesList = new ArrayList<>();
 
-        for (AddUserAddressResponse addUserAddressResponse : productLocationList) {
+        for (AddUserAddressResponse addUserAddressResponse : addressesList) {
             CheckedModelSpinner checkedModelSpinner = new CheckedModelSpinner();
             checkedModelSpinner.setName(addUserAddressResponse.getName());
             filterNamesList.add(checkedModelSpinner);
         }
-        productLocationDialog = new AppCheckBoxListDialog.AlertDialogBuilder(getActivity(), new
+        favoriteDialog = new AppCheckBoxListDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String selectedLocationName) {
-                        for (AddUserAddressResponse addUserAddressResponse : productLocationList) {
+                        for (AddUserAddressResponse addUserAddressResponse : addressesList) {
                             if (addUserAddressResponse.getName().equals(selectedLocationName)) {
                                 addressId = addUserAddressResponse.getId();
                                 break;
@@ -407,7 +308,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                                 callAddFavoriteApi();
                                 break;
                             case AlertDialogCallback.CANCEL:
-                                productLocationDialog.dismiss();
+                                favoriteDialog.dismiss();
                                 break;
                             default:
                                 break;
@@ -416,8 +317,8 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 }).title(getString(R.string.action_add_as_favorite))
                 .spinnerItems(filterNamesList)
                 .build();
-        productLocationDialog.showDialog();
-        productLocationDialog.setRadioType(true);
+        favoriteDialog.showDialog();
+        favoriteDialog.setRadioType(true);
     }
 
     private void callAddFavoriteApi() {
@@ -566,133 +467,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     };
 
-    private void showSuggestionsDialog() {
-        suggestionsDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        //TODO api cal
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                suggestionsDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_suggestions))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        suggestionsDialog.showDialog();
-        suggestionsDialog.setCancelable(true);
-
-    }
-
-    private void showFeedBackDialog() {
-        List<FeedbackData> feedbackData = new ArrayList<>();
-        feedbackData.add(new FeedbackData("test1", "comment1"));
-        feedbackData.add(new FeedbackData("test2", "comment2"));
-        feedbackData.add(new FeedbackData("test3", "comment3"));
-        feedBackDialog = new AppEditTextListDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        //TODO api cal
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                feedBackDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_feedback))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .feedbackDataList(feedbackData)
-                .build();
-        feedBackDialog.showDialog();
-        feedBackDialog.setCancelable(true);
-    }
-
-
-    private void navigateToAddressActivity() {
-        Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
-        startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
-    }
-
-    private void showTransferDialog() {
-        transferDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        buyRequestComment = commentString;
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                purchasedPresenter.doTransferProductApi(buyRequestComment,
-                                        userId);
-                                transferDialog.dismiss();
-                                AppUtils.hideSoftKeyboard(getContext(), getView());
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                transferDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_transfer))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        transferDialog.showDialog();
-        transferDialog.setCancelable(true);
-    }
-
-    private void showDeleteDialog() {
-        Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
-        pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
-        startActivityForResult(pinIntent, RequestCodes.DELETE_PRODUCT);
-    }
-
-    private void doProductDeleteApi() {
-        final ProductInfoResponse itemFromPosition = purchasedAdapter.
-                getItemFromPosition(productSelectedPosition);
-
-        purchasedPresenter.deleteProduct(Integer.parseInt(
-                itemFromPosition.getWarrantyId()));
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case RequestCodes.DELETE_PRODUCT:
-                    doProductDeleteApi();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
 
     private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
         @Override
@@ -744,204 +518,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     };
 
-
-    private void loadNearByServiceCentersDialogData(String brandId) {
-        if (TextUtils.isEmpty(brandId)) {
-            AppUtils.longToast(getActivity(), getString(R.string.error_contact_customer_care));
-        } else {
-            purchasedPresenter.nearByServiceCenters(Integer.parseInt(brandId));
-        }
-    }
-
-    private void loadServiceRequesDialogData() {
-        //fetching service certer user info
-        if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
-            loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
-        } else {
-            showErrorMessage(getString(R.string.error_no_service_centers_found));
-        }
-    }
-
-    private void loadUsersDataFromServiceCenterId(Integer serviceCenterId) {
-        purchasedPresenter.getUsersListOfServiceCenters(serviceCenterId);
-    }
-
-    private void showServiceRequestDialog(List<UsersListOfServiceCenters> listOfServiceCenters) {
-        if (serviceCenterResponseList == null) {
-            Logger.e("showServiceRequestDialog", "no service centers are available to place service request");
-            return;
-        }
-        String[] problemsArray = new String[4]; //TODO have to change based legal info
-        problemsArray[0] = "Engine repaired";
-        problemsArray[1] = "Need service";
-        problemsArray[2] = "Power problem";
-        problemsArray[3] = "Others";
-
-        serviceRequestDialog = new ServiceRequestDialog.AlertDialogBuilder(getContext(), new ServiceRequestCallback() {
-            @Override
-            public void getUsersListFromServiceCenterId(int serviceCenterId) {
-                loadUsersDataFromServiceCenterId(serviceCenterId);
-            }
-
-            @Override
-            public void dateClicked(String date) {
-                showDatePickerToPlaceServiceRequest(date);
-            }
-
-            @Override
-            public void timeClicked() {
-                showTimePickerToPlaceServiceRequest();
-            }
-
-            @Override
-            public void enteredText(String commentString) {
-                serviceRequestComment = commentString;
-
-            }
-
-            @Override
-            public void doServiceRequestApi(ServiceRequest serviceRequest) {
-                serviceRequest.setPurchaseId(Integer.valueOf(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId()));
-                serviceRequest.setCustomerId(userId);
-                purchasedPresenter.serviceRequest(serviceRequest);
-            }
-
-            @Override
-            public void alertDialogCallback(byte dialogStatus) {
-                switch (dialogStatus) {
-                    case AlertDialogCallback.OK:
-                        break;
-                    case AlertDialogCallback.CANCEL:
-                        serviceRequestDialog.dismiss();
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-        }).problemsArray(problemsArray)
-                .loadUsersList(listOfServiceCenters)
-                .loadServiceCentersData(serviceCenterResponseList)
-                .build();
-        serviceRequestDialog.showDialog();
-    }
-
-    private void showTimePickerToPlaceServiceRequest() {
-        timeSlotAlertDialog = new TimeSlotAlertDialog.AlertDialogBuilder(getContext(), new TimeSlotAlertDialogCallback() {
-            @Override
-            public void selectedTimeSlot(String timeSlot) {
-                serviceRequestDialog.setTimeFromPicker(timeSlot);
-            }
-
-            @Override
-            public void alertDialogCallback(byte dialogStatus) {
-                timeSlotAlertDialog.dismiss();
-
-            }
-        }).build();
-        timeSlotAlertDialog.showDialog();
-    }
-
-    private void showDatePickerToPlaceServiceRequest(String date) {
-        AppUtils.hideSoftKeyboard(getContext(), getView());
-        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
-        String selectedDate = date;
-        if (!TextUtils.isEmpty(selectedDate)) {
-            cal.setTimeInMillis(DateUtils.convertStringFormatToMillis(
-                    selectedDate, DateFormatterConstants.DD_MM_YYYY));
-        }
-
-        int customStyle = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                ? R.style.DatePickerDialogTheme : android.R.style.Theme_DeviceDefault_Light_Dialog;
-        DatePickerDialog datePicker = new DatePickerDialog(getContext(),
-                customStyle,
-                serviceRequestDatePickerListener,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH));
-        datePicker.setCancelable(false);
-        datePicker.show();
-    }
-
-    // date Listener
-    private DatePickerDialog.OnDateSetListener serviceRequestDatePickerListener =
-            new DatePickerDialog.OnDateSetListener() {
-                // when dialog box is closed, below method will be called.
-                public void onDateSet(DatePicker view, int selectedYear,
-                                      int selectedMonth, int selectedDay) {
-                    Calendar selectedDateTime = Calendar.getInstance();
-                    selectedDateTime.set(selectedYear, selectedMonth, selectedDay);
-
-                    String dobInDD_MM_YYYY = DateUtils.convertDateToOtherFormat(
-                            selectedDateTime.getTime(), DateFormatterConstants.DD_MM_YYYY);
-                    serviceRequestDialog.setDateFromPicker(dobInDD_MM_YYYY);
-
-                }
-            };
-
-    private void showInformationDialog(String title, String messageInfo) {
-        detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
-                AlertDialogCallback() {
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                detailsDialog.dismiss();
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                detailsDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(title).content(messageInfo)
-                .build();
-        detailsDialog.showDialog();
-        detailsDialog.setCancelable(true);
-    }
-
-    private void showLocationDialog() {
-        ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(
-                productSelectedPosition);
-
-        if (TextUtils.isEmpty(itemFromPosition.getLocation())) {
-            AppUtils.shortToast(getActivity(), getString(R.string.error_location));
-            return;
-        }
-
-        Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
-        addressIntent.putExtra(IntentConstants.LOCATION_COMMA, itemFromPosition.getLocation());
-        addressIntent.putExtra(IntentConstants.ADDRESS_COMMA, itemFromPosition.getAddress());
-        startActivity(addressIntent);
-    }
-
-
-    private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
-            new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    purchasedAdapter.clearData();
-                    getProductsApi();
-                }
-            };
-
-
-    private void dismissSwipeRefresh() {
-        if (binding.swiperefresh.isRefreshing()) {
-            binding.swiperefresh.setRefreshing(false);
-        }
-    }
-
-    @Override
-    public void handleException(Pair<Integer, String> error) {
-        super.handleException(error);
-        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
-            AppUtils.shortToast(getActivity(), error.second);
-        }
-    }
-
-
     @Override
     public void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses) {
         if (productInfoResponses == null) {
@@ -972,16 +548,24 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         shimmerFrameLayout.setVisibility(View.GONE);
     }
 
+
+    private void dismissSwipeRefresh() {
+        if (binding.swiperefresh.isRefreshing()) {
+            binding.swiperefresh.setRefreshing(false);
+        }
+    }
+
+
     @Override
     public void loadAddresses(List<AddUserAddressResponse> productLocationList) {
-        this.productLocationList = productLocationList;
+        this.addressesList = productLocationList;
     }
 
     // add product to favorites list
     @Override
     public void addedToFavorite() {
-        if (productLocationDialog != null && productLocationDialog.isShowing()) {
-            productLocationDialog.dismiss();
+        if (favoriteDialog != null && favoriteDialog.isShowing()) {
+            favoriteDialog.dismiss();
         }
 
         if (isFromFavorites) {
@@ -994,63 +578,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
         }
     }
 
-    @Override
-    public void transferMobileNumber(Object o) {
-    }
-
-    @Override
-    public void deleteProduct(Object response) {
-        dismissDialog(bottomSheetDialog);
-        onRefreshListener.onRefresh();
-        AppUtils.showSnackBar(getView(), getString(R.string.action_delete));
-    }
-
-    //service sequest
-    @Override
-    public void loadServiceRequest() {
-        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
-            serviceRequestDialog.dismiss();
-        }
-    }
-
-    @Override
-    public void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponseList) {
-        this.serviceCenterResponseList = (ArrayList<ServiceCenterResponse>) serviceCenterResponseList;
-        if (serviceCenterResponseList == null) {
-            return;
-        }
-        if (isFindServiceCenter) {
-            if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
-                Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
-                serviceCenters.putParcelableArrayListExtra(IntentConstants.SERVICE_CENTER_DATA, this.serviceCenterResponseList);
-                startActivity(serviceCenters);
-            } else {
-                showErrorMessage(getString(R.string.error_no_service_centers_found));
-            }
-
-        } else {
-            loadServiceRequesDialogData();
-        }
-    }
-
-    @Override
-    public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> usersList) {
-
-        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
-            serviceRequestDialog.setUsersData(usersList);
-        } else {
-            showServiceRequestDialog(usersList);
-        }
-    }
-
-    @Override
-    public void addedServiceEngineer(ProductInfoResponse productInfoResponse) {
-        if (customPhoneNumberDialog != null && customPhoneNumberDialog.isShowing()) {
-            customPhoneNumberDialog.dismiss();
-        }
-        onRefreshListener.onRefresh();
-        bottomSheetDialog.dismiss();
-    }
 
     // product search
     @Override
