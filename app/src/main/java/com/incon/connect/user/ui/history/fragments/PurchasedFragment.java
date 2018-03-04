@@ -33,7 +33,6 @@ import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
-import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppEditTextListDialog;
@@ -47,6 +46,8 @@ import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
+import com.incon.connect.user.ui.pin.CustomPinActivity;
+import com.incon.connect.user.ui.pin.managers.AppLock;
 import com.incon.connect.user.ui.servicecenters.ServiceCentersActivity;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.Logger;
@@ -82,7 +83,6 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     private String buyRequestComment;
     private String serviceRequestComment;
     private boolean isFromFavorites = false;
-    private AppAlertVerticalTwoButtonsDialog dialogDelete;
     private ServiceRequestDialog serviceRequestDialog;
     private TimeSlotAlertDialog timeSlotAlertDialog;
     private ArrayList<ServiceCenterResponse> serviceCenterResponseList;
@@ -447,7 +447,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
             int[] tagsArray = new int[0];
 
             if (tag == R.id.SUPPORT_UNAUTHORIZE) {
-                int length = 3 ;
+                int length = 3;
                 List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
                 if (serviceEngineerList != null && serviceEngineerList.size() > 0) {
                     length = 4;
@@ -472,8 +472,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                     textArray[3] = getString(R.string.bottom_option_service_request);
                     tagsArray[3] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST;
                     drawablesArray[3] = R.drawable.ic_option_bill;
-                }
-                else  {
+                } else {
                     textArray[0] = getString(R.string.bottom_option_add);
                     tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE_ADD;
                     drawablesArray[0] = R.drawable.ic_option_bill;
@@ -548,8 +547,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 showFeedBackDialog();
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
                 showSuggestionsDialog();
-            }
-            else if (tag == R.id.SHOWROOM_CALL) {
+            } else if (tag == R.id.SHOWROOM_CALL) {
                 callPhoneNumber(productInfoResponse.getStoreContactNumber());
                 return;
             } else if (tag == R.id.SHOWROOM_LOCATION) {
@@ -669,35 +667,32 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
     }
 
     private void showDeleteDialog() {
-        final ProductInfoResponse itemFromPosition = purchasedAdapter.
-                getItemFromPosition(productSelectedPosition);
-        dialogDelete = new AppAlertVerticalTwoButtonsDialog.AlertDialogBuilder(getActivity(), new
-                AlertDialogCallback() {
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                dialogDelete.dismiss();
-                                break;
-                            case AlertDialogCallback.CANCEL:
-//                                onLogoutClick();
-                                purchasedPresenter.deleteProduct(Integer.parseInt(
-                                        itemFromPosition.getWarrantyId()));
-                                dialogDelete.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.dialog_delete))
-                .button1Text(getString(R.string.action_cancel))
-                .button2Text(getString(R.string.action_ok))
-                .build();
-        dialogDelete.showDialog();
-        dialogDelete.setButtonBlueUnselectBackground();
-        dialogDelete.setCancelable(true);
+        Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
+        pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
+        startActivityForResult(pinIntent, RequestCodes.DELETE_PRODUCT);
     }
 
+    private void doProductDeleteApi() {
+        final ProductInfoResponse itemFromPosition = purchasedAdapter.
+                getItemFromPosition(productSelectedPosition);
+
+        purchasedPresenter.deleteProduct(Integer.parseInt(
+                itemFromPosition.getWarrantyId()));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case RequestCodes.DELETE_PRODUCT:
+                    doProductDeleteApi();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
         @Override
@@ -717,8 +712,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
                 // todo have call  service centers api
             } else if (tag == R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST) {
                 // todo have call  service request api
-            }
-            else if (tag == R.id.SUPPORT_AUTHORIZE_CALL) {
+            } else if (tag == R.id.SUPPORT_AUTHORIZE_CALL) {
                 callPhoneNumber(productInfoResponse.getMobileNumber());
                 return;
 
@@ -1006,6 +1000,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     @Override
     public void deleteProduct(Object response) {
+        dismissDialog(bottomSheetDialog);
         onRefreshListener.onRefresh();
         AppUtils.showSnackBar(getView(), getString(R.string.action_delete));
     }

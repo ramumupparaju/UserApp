@@ -232,6 +232,7 @@ public interface AppConstants {
         String IS_REGISTERED = "isRegistered";
         String IS_FORGOT_PASSWORD = "isForgotPassword";
         String LOGGED_IN = "isLoggedIn";
+        String PIN_PROMPT = "pin_prompt";
         String PUSH_TOKEN_STATUS = "pushTokenStatus";
         String ACCESS_TOKEN = "accesstoken";
     }
@@ -272,6 +273,8 @@ public interface AppConstants {
         int LOCATION_ADDRESS_FROM_LATLNG = 120;
         int PRODUCT_ADD_FRAGMENT = 121;
         int ADD_CUSTOM_PRODUCT_FRAGMENT = 122;
+        int PIN_PROMPT = 123;
+        int DELETE_PRODUCT = 124;
 
         int REFRESH_SE_LIST = 123;
     }

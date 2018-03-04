@@ -31,10 +31,6 @@ public abstract class AppLock {
      */
     public static final int LOGO_ID_NONE = -1;
 
-    /**
-     * EXTRA_TYPE, uses to pass to the {@link com.github.omadahealth.lollipin.lib.managers.AppLockActivity}
-     * to determine in which type it musts be started.
-     */
     public static final String EXTRA_TYPE = "type";
 
     /**
@@ -44,12 +40,6 @@ public abstract class AppLock {
      */
     public static final long DEFAULT_TIMEOUT = 1000 * 10; // 10sec
 
-    /**
-     * A {@link HashSet} of {@link String} which are the classes we don't want to
-     * take into account for the {@link com.github.omadahealth.lollipin.lib.PinActivity}. These activities
-     * will not log the last opened time, will not launch the
-     * {@link com.github.omadahealth.lollipin.lib.managers.AppLockActivity} etc...
-     */
     protected HashSet<String> mIgnoredActivities;
 
     public AppLock() {
@@ -82,24 +72,12 @@ public abstract class AppLock {
      */
     public abstract void setTimeout(long timeout);
 
-    /**
-     * Get logo resource id used by {@link com.github.omadahealth.lollipin.lib.managers.AppLockActivity}
-     */
     public abstract int getLogoId();
 
-    /**
-     * Set logo resource id used by {@link com.github.omadahealth.lollipin.lib.managers.AppLockActivity}
-     */
     public abstract void setLogoId(int logoId);
 
-    /**
-     * Get the forgot option used by {@link com.github.omadahealth.lollipin.lib.managers.AppLockActivity}
-     */
     public abstract boolean shouldShowForgot(int appLockType);
 
-    /**
-     * Set the forgot option used by {@link com.github.omadahealth.lollipin.lib.managers.AppLockActivity}
-     */
     public abstract void setShouldShowForgot(boolean showForgot);
 
     /**
@@ -124,24 +102,10 @@ public abstract class AppLock {
      */
     public abstract void setOnlyBackgroundTimeout(boolean onlyBackgroundTimeout);
 
-    /**
-     * Enable the {@link com.github.omadahealth.lollipin.lib.managers.AppLock} by setting
-     * {@link com.github.omadahealth.lollipin.lib.managers.AppLockImpl} as the
-     * {@link com.github.omadahealth.lollipin.lib.interfaces.LifeCycleInterface}
-     */
     public abstract void enable();
 
-    /**
-     * Disable the {@link com.github.omadahealth.lollipin.lib.managers.AppLock} by removing any
-     * {@link com.github.omadahealth.lollipin.lib.interfaces.LifeCycleInterface}
-     */
     public abstract void disable();
 
-    /**
-     * Disable the {@link com.github.omadahealth.lollipin.lib.managers.AppLock} by removing any
-     * {@link com.github.omadahealth.lollipin.lib.interfaces.LifeCycleInterface} and also delete
-     * all the previous saved configurations into {@link android.content.SharedPreferences}
-     */
     public abstract void disableAndRemoveConfiguration();
 
     /**
@@ -149,17 +113,8 @@ public abstract class AppLock {
      */
     public abstract long getLastActiveMillis();
 
-    /**
-     * Set the last active time of the app used by {@link #shouldLockSceen(Activity)}.
-     * Set in {@link com.github.omadahealth.lollipin.lib.interfaces.LifeCycleInterface#onActivityPaused(Activity)}
-     * and {@link com.github.omadahealth.lollipin.lib.interfaces.LifeCycleInterface#onActivityResumed(Activity)}
-     */
     public abstract void setLastActiveMillis();
 
-    /**
-     * Set the passcode (store his SHA1 into {@link android.content.SharedPreferences}) using the
-     * {@link com.github.omadahealth.lollipin.lib.encryption.Encryptor} class.
-     */
     public abstract boolean setPasscode(String passcode);
 
     /**
@@ -175,10 +130,6 @@ public abstract class AppLock {
      */
     public abstract void setFingerprintAuthEnabled(boolean enabled);
 
-    /**
-     * Check the passcode by comparing his SHA1 into {@link android.content.SharedPreferences} using the
-     * {@link com.github.omadahealth.lollipin.lib.encryption.Encryptor} class.
-     */
     public abstract boolean checkPasscode(String passcode);
 
     /**
@@ -186,20 +137,7 @@ public abstract class AppLock {
      */
     public abstract boolean isPasscodeSet();
 
-    /**
-     * Check if an activity must be ignored and then don't call the
-     * {@link com.github.omadahealth.lollipin.lib.interfaces.LifeCycleInterface}
-     */
     public abstract boolean isIgnoredActivity(Activity activity);
 
-    /**
-     * Evaluates if:
-     * - we are already into the {@link com.github.omadahealth.lollipin.lib.managers.AppLockActivity}
-     * - the passcode is not set
-     * - the timeout didn't reached
-     * If any of this is true, then we don't need to start the
-     * {@link com.github.omadahealth.lollipin.lib.managers.AppLockActivity} (it returns false)
-     * Otherwise returns true
-     */
     public abstract boolean shouldLockSceen(Activity activity);
 }

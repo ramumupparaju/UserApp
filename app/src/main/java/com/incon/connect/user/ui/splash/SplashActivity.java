@@ -8,7 +8,6 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.login.LoginActivity;
-import com.incon.connect.user.ui.pin.CustomPinActivity;
 import com.incon.connect.user.ui.tutorial.TutorialActivity;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
@@ -68,8 +67,6 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
                         intent = new Intent(SplashActivity.this, TutorialActivity.class);
                     }
                 }
-                // todo need to remove
-                 intent = new Intent(SplashActivity.this, CustomPinActivity.class);
 
                 startActivity(intent);
                 finish();
