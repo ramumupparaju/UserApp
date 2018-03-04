@@ -647,6 +647,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 .rightButtonText(getString(R.string.action_submit))
                 .build();
         transferDialog.showDialog();
+        transferDialog.setCancelable(true);
     }
 
 
@@ -871,6 +872,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 .spinnerItems(filterNamesList)
                 .build();
         productLocationDialog.showDialog();
+        productLocationDialog.setCancelable(true);
         productLocationDialog.setRadioType(true);
 
     }
@@ -944,6 +946,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 .button2Text(getString(R.string.action_cancel))
                 .build();
         detailsDialog.showDialog();
+        detailsDialog.setCancelable(true);
     }
 
     private void showInformationDialog(String title, String messageInfo) {

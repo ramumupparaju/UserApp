@@ -49,6 +49,7 @@ import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
 import com.incon.connect.user.ui.servicecenters.ServiceCentersActivity;
 import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
@@ -773,6 +774,7 @@ public class PurchasedFragment extends BaseTabFragment implements PurchasedContr
 
     private void showServiceRequestDialog(List<UsersListOfServiceCenters> listOfServiceCenters) {
         if (serviceCenterResponseList == null) {
+            Logger.e("showServiceRequestDialog", "no service centers are available to place service request");
             return;
         }
         String[] problemsArray = new String[4]; //TODO have to change based legal info

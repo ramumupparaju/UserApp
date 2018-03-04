@@ -40,11 +40,21 @@ public class LoginResponse extends ApiBaseResponse {
     @SerializedName("mobileNumber")
     @Expose
     private String mobileNumber;
+
     @SerializedName("address")
     @Expose
+    private String pin;
     private String address;
     private String password;
     private transient String confirmPassword;
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
 
     public String getMobileNumber() {
         return mobileNumber;

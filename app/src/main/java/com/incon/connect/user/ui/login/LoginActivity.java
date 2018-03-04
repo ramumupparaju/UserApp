@@ -142,6 +142,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             return;
         }
 
+        //TODO have to check whether is pin present or not
+
+
         PushPresenter pushPresenter = new PushPresenter();
         pushPresenter.pushRegisterApi();
 

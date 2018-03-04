@@ -233,12 +233,10 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
                 serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.CANCEL);
                 break;
             case R.id.button_right:
-
-                serviceRequestCallback.doServiceRequestApi(serviceRequest);
-                serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.OK);
-                /*if (validateFields()) {
-
-                }*/
+                if (validateFields()) {
+                    serviceRequestCallback.doServiceRequestApi(serviceRequest);
+                    serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.OK);
+                }
                 break;
             default:
                 break;
@@ -251,25 +249,19 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         String selectedTime = binding.edittextTime.getText().toString();
         String selectedDate = binding.edittextDate.getText().toString();
         int selectedPriority = binding.radioGroup.getCheckedRadioButtonId();
-        RadioButton radioButton = (RadioButton) findViewById(selectedPriority);
+        RadioButton radioButton = findViewById(selectedPriority);
 
         //no need to check users data
         if (serviceCenterSelectedPos == -1) {
-            //todo show toast as select users
             AppUtils.shortToast(getContext(), context.getString(R.string.user_selecte));
             return false;
         } else if (TextUtils.isEmpty(selectedDate)) {
-            // todo show toast as select date
-             AppUtils.shortToast(getContext(), context.getString(R.string.date_selecte));
-
+            AppUtils.shortToast(getContext(), context.getString(R.string.date_selecte));
             return false;
-
         } else if (TextUtils.isEmpty(selectedTime)) {
             AppUtils.shortToast(getContext(), context.getString(R.string.time_selecte));
-
             return false;
         } else {
-
             String[] selectedTimeArray = new String[0];
             if (selectedTime.equalsIgnoreCase(context.getString(R.string.time_10_12))) {
                 selectedTimeArray = AppConstants.ServiceConstants.TIME_10_12.split(COMMA_SEPARATOR);

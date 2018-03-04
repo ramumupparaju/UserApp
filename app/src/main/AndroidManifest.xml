@@ -6,6 +6,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
 
     <!--Writing files into sd card for capturing images-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -134,6 +136,31 @@
             android:screenOrientation="portrait">
 
         </activity>
+        <activity
+            android:name=".ui.pin.CustomPinActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".ui.pin.PinActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".ui.pin.PinCompatActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".ui.pin.PinFragmentActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait">
+
+        </activity>
 
 
         <activity
@@ -206,6 +233,8 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="96044ce3be015e5dd5106ac3d413df0c547a1989" />
+
+
     </application>
 
 

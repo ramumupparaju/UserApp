@@ -225,6 +225,7 @@ public interface AppConstants {
         String USER_PASSWORD = "userPassword";
         String USER_CONFIRM_PASSWORD = "userConfirmPassword";
         String USER_UUID = "uuid";
+        String USER_PIN = "user_pin";
         //store details
         String STORE_ID = "storeId";
 
