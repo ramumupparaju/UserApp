@@ -273,10 +273,10 @@ public interface AppConstants {
         int LOCATION_ADDRESS_FROM_LATLNG = 120;
         int PRODUCT_ADD_FRAGMENT = 121;
         int ADD_CUSTOM_PRODUCT_FRAGMENT = 122;
-        int PIN_PROMPT = 123;
-        int DELETE_PRODUCT = 124;
-
         int REFRESH_SE_LIST = 123;
+        int PIN_PROMPT = 124;
+        int DELETE_PRODUCT = 125;
+        int PIN_CHANGE = 126;
     }
 
     interface TimeConstants {
@@ -338,8 +338,9 @@ public interface AppConstants {
     interface MenuConstants {
         int PROFILE = 0;
         int CHANGE_PWD = 1;
-        int MANAGE_UNAUTHORIZE_NUMBERS = 2;
-        int LOGOUT = 3;
+        int CHANGE_PIN = 2;
+        int MANAGE_UNAUTHORIZE_NUMBERS = 3;
+        int LOGOUT = 4;
 
 
     }

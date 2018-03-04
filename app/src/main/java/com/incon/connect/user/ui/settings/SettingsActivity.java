@@ -16,6 +16,8 @@ import com.incon.connect.user.databinding.ActivitySettingsBinding;
 import com.incon.connect.user.dto.settings.SettingsItem;
 import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.changepassword.ChangePasswordActivity;
+import com.incon.connect.user.ui.pin.CustomPinActivity;
+import com.incon.connect.user.ui.pin.managers.AppLock;
 import com.incon.connect.user.ui.settings.adapters.SettingsAdapter;
 import com.incon.connect.user.ui.settings.unauthorizenumbers.UnauthorizeSEListActivity;
 import com.incon.connect.user.ui.settings.update.UpDateUserProfileActivity;
@@ -84,7 +86,9 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
 
     private void prepareMenuData() {
 
-        int[] icons = {R.drawable.ic_menu_change_password,R.drawable.ic_menu_change_password,
+        int[] icons = {R.drawable.ic_menu_change_password,
+                R.drawable.ic_menu_change_password,
+                R.drawable.ic_menu_change_password,
                 R.drawable.ic_menu_logout_svg};
         String[] menuTitles = getResources().getStringArray(R.array.side_menu_items_list);
 
@@ -122,14 +126,23 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
                 Intent userProfileIntent = new Intent(this, UpDateUserProfileActivity.class);
                 startActivity(userProfileIntent);
                 break;
-            case MenuConstants.MANAGE_UNAUTHORIZE_NUMBERS:
-                Intent unauthorizeNumbers = new Intent(this, UnauthorizeSEListActivity.class);
-                startActivity(unauthorizeNumbers);
-                break;
             case MenuConstants.CHANGE_PWD:
                 Intent changePasswordIntent = new Intent(this, ChangePasswordActivity.class);
                 startActivity(changePasswordIntent);
                 break;
+
+            case MenuConstants.CHANGE_PIN:
+                Intent pinIntent = new Intent(this, CustomPinActivity.class);
+                pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.CHANGE_PIN);
+                startActivity(pinIntent);
+
+                break;
+
+            case MenuConstants.MANAGE_UNAUTHORIZE_NUMBERS:
+                Intent unauthorizeNumbers = new Intent(this, UnauthorizeSEListActivity.class);
+                startActivity(unauthorizeNumbers);
+                break;
+
 
             case MenuConstants.LOGOUT:
                 showLogoutDialog();
@@ -139,6 +152,8 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
                 break;
         }
     }
+
+
 
 
     private void showLogoutDialog() {
