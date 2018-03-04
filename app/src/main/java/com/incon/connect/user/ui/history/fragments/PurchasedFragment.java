@@ -25,6 +25,7 @@ import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.ui.BasePurchasedFavoritesFragment;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
+import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
@@ -137,40 +138,34 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
 
     // bottom sheet first row creation
     private void createBottomSheetFirstRow() {
-        int length;
-        int[] drawablesArray;
-        String[] textArray;
-        int[] tagsArray;
+        ArrayList<Integer> drawablesArray = new ArrayList<>();
+        ArrayList<String> textArray = new ArrayList<>();
+        ArrayList<Integer> tagsArray = new ArrayList<>();
 
         ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(productSelectedPosition);
-        if (productInfoResponse.getAddressId() == null) { //checking whether it is already installed or not
-            length = 5;
-        } else {
-            length = 4;
-        }
 
-        tagsArray = new int[length];
-        tagsArray[0] = R.id.SUPPORT;
-        tagsArray[1] = R.id.PRODUCT;
-        tagsArray[2] = R.id.SHOWROOM;
-        tagsArray[3] = R.id.DELETE;
 
-        textArray = new String[length];
-        textArray[0] = getString(R.string.bottom_option_service);
-        textArray[1] = getString(R.string.bottom_option_product);
-        textArray[2] = getString(R.string.bottom_option_showroom);
-        textArray[3] = getString(R.string.bottom_option_delete);
+        tagsArray.add(R.id.SUPPORT);
+        textArray.add(getString(R.string.bottom_option_service));
+        drawablesArray.add(R.drawable.ic_option_service_support);
 
-        drawablesArray = new int[length];
-        drawablesArray[0] = R.drawable.ic_option_service_support;
-        drawablesArray[1] = R.drawable.ic_option_product;
-        drawablesArray[2] = R.drawable.ic_option_customer;
-        drawablesArray[3] = R.drawable.ic_option_delete;
+        tagsArray.add(R.id.PRODUCT);
+        textArray.add(getString(R.string.bottom_option_product));
+        drawablesArray.add(R.drawable.ic_option_product);
 
-        if (length == 5) {
-            tagsArray[4] = R.id.FAVORITE;
-            textArray[4] = getString(R.string.bottom_option_add_as_favorite);
-            drawablesArray[4] = R.drawable.ic_user_favorite;
+        tagsArray.add(R.id.SHOWROOM);
+        textArray.add(getString(R.string.bottom_option_showroom));
+        drawablesArray.add(R.drawable.ic_option_customer);
+
+        tagsArray.add(R.id.DELETE);
+        textArray.add(getString(R.string.bottom_option_delete));
+        drawablesArray.add(R.drawable.ic_option_delete);
+
+
+        if (productInfoResponse.getAddressId() == null) { //checking whether it is already added as favorite or not
+            tagsArray.add(R.id.FAVORITE);
+            textArray.add(getString(R.string.bottom_option_add_as_favorite));
+            drawablesArray.add(R.drawable.ic_user_favorite);
         }
 
         bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
@@ -179,7 +174,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
         bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
-        bottomSheetPurchasedBinding.firstRow.setWeightSum(length);
+        bottomSheetPurchasedBinding.firstRow.setWeightSum(tagsArray.size());
         setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray, tagsArray, bottomSheetFirstRowClickListener);
     }
 
@@ -189,84 +184,80 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
         public void onClick(View view) {
 
             Integer tag = (Integer) view.getTag();
-            String[] textArray = new String[0];
-            int[] drawablesArray = new int[0];
-            int[] tagsArray = new int[0];
+
+            ArrayList<Integer> drawablesArray = new ArrayList<>();
+            ArrayList<String> textArray = new ArrayList<>();
+            ArrayList<Integer> tagsArray = new ArrayList<>();
 
             changeSelectedViews(bottomSheetPurchasedBinding.firstRow, tag);
             if (tag == R.id.SUPPORT) {
-                int length = 2;
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_un_authorized);
-                textArray[1] = getString(R.string.bottom_option_authorized);
+                textArray.add(getString(R.string.bottom_option_un_authorized));
+                tagsArray.add(R.id.SUPPORT_UNAUTHORIZE);
+                drawablesArray.add(R.drawable.ic_option_call);
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE;
-                tagsArray[1] = R.id.SUPPORT_AUTHORIZE;
+                textArray.add(getString(R.string.bottom_option_authorized));
+                tagsArray.add(R.id.SUPPORT_AUTHORIZE);
+                drawablesArray.add(R.drawable.ic_option_find_service_center);
 
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_call;
-                drawablesArray[1] = R.drawable.ic_option_find_service_center;
             } else if (tag == R.id.PRODUCT) {
-                int length = 8;
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_info);
-                textArray[1] = getString(R.string.bottom_option_warranty);
-                textArray[2] = getString(R.string.bottom_option_bill);
-                textArray[3] = getString(R.string.bottom_option_past_history);
-                textArray[4] = getString(R.string.bottom_option_share);
-                textArray[5] = getString(R.string.bottom_option_transfer);
-                textArray[6] = getString(R.string.bottom_option_feedback);
-                textArray[7] = getString(R.string.bottom_option_suggestions);
+                textArray.add(getString(R.string.bottom_option_info));
+                tagsArray.add(R.id.PRODUCT_DETAILS);
+                drawablesArray.add(R.drawable.ic_option_details);
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.PRODUCT_DETAILS;
-                tagsArray[1] = R.id.PRODUCT_WARRANTY;
-                tagsArray[2] = R.id.PRODUCT_BILL;
-                tagsArray[3] = R.id.PRODUCT_PAST_HISTORY;
-                tagsArray[4] = R.id.PRODUCT_SHARE;
-                tagsArray[5] = R.id.PRODUCT_TRANSFER;
-                tagsArray[6] = R.id.PRODUCT_FEEDBACK;
-                tagsArray[7] = R.id.PRODUCT_SUGGESTION;
+                textArray.add(getString(R.string.bottom_option_warranty));
+                tagsArray.add(R.id.PRODUCT_WARRANTY);
+                drawablesArray.add(R.drawable.ic_option_warranty);
 
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_details;
-                drawablesArray[1] = R.drawable.ic_option_warranty;
-                drawablesArray[2] = R.drawable.ic_option_bill;
-                drawablesArray[3] = R.drawable.ic_option_pasthistory;
-                drawablesArray[4] = R.drawable.ic_option_share;
-                drawablesArray[5] = R.drawable.ic_option_transfer;
-                drawablesArray[6] = R.drawable.ic_option_feedback;
-                drawablesArray[7] = R.drawable.ic_option_suggestions;
+                textArray.add(getString(R.string.bottom_option_bill));
+                tagsArray.add(R.id.PRODUCT_BILL);
+                drawablesArray.add(R.drawable.ic_option_bill);
+
+                textArray.add(getString(R.string.bottom_option_past_history));
+                tagsArray.add(R.id.PRODUCT_PAST_HISTORY);
+                drawablesArray.add(R.drawable.ic_option_pasthistory);
+
+                textArray.add(getString(R.string.bottom_option_share));
+                tagsArray.add(R.id.PRODUCT_SHARE);
+                drawablesArray.add(R.drawable.ic_option_share);
+
+                textArray.add(getString(R.string.bottom_option_transfer));
+                tagsArray.add(R.id.PRODUCT_TRANSFER);
+                drawablesArray.add(R.drawable.ic_option_transfer);
+
+                textArray.add(getString(R.string.bottom_option_feedback));
+                tagsArray.add(R.id.PRODUCT_FEEDBACK);
+                drawablesArray.add(R.drawable.ic_option_feedback);
+
+                textArray.add(getString(R.string.bottom_option_suggestions));
+                tagsArray.add(R.id.PRODUCT_SUGGESTION);
+                drawablesArray.add(R.drawable.ic_option_suggestions);
+
+
             } else if (tag == R.id.SHOWROOM) {
                 int length = 3;
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_Call);
-                textArray[1] = getString(R.string.bottom_option_location);
-                textArray[2] = getString(R.string.bottom_option_feedback);
+                textArray.add(getString(R.string.bottom_option_Call));
+                tagsArray.add(R.id.SHOWROOM_CALL);
+                drawablesArray.add(R.drawable.ic_option_call);
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.SHOWROOM_CALL;
-                tagsArray[1] = R.id.SHOWROOM_LOCATION;
-                tagsArray[2] = R.id.SHOWROOM_FEEDBACK;
+                tagsArray.add(R.id.SHOWROOM_LOCATION);
+                textArray.add(getString(R.string.bottom_option_location));
+                drawablesArray.add(R.drawable.ic_option_location);
 
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_call;
-                drawablesArray[1] = R.drawable.ic_option_location;
-                drawablesArray[2] = R.drawable.ic_option_feedback;
+                textArray.add(getString(R.string.bottom_option_feedback));
+                tagsArray.add(R.id.SHOWROOM_FEEDBACK);
+                drawablesArray.add(R.drawable.ic_option_feedback);
+
             } else if (tag == R.id.DELETE) {
                 showDeleteDialog();
-                return;
             } else if (tag == R.id.FAVORITE) {
                 showFavoriteOptionsDialog();
-                return;
             }
             bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.secondRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.secondRow.removeAllViews();
-            bottomSheetPurchasedBinding.secondRow.setWeightSum(textArray.length);
+            bottomSheetPurchasedBinding.secondRow.setWeightSum(textArray.size());
             setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, textArray, drawablesArray, tagsArray, bottomSheetSecondRowClickListener);
 
 
@@ -277,7 +268,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
     //  favorite options
     private void showFavoriteOptionsDialog() {
         if (addressesList == null) {
-            //TODO add error message
+            Logger.e("showFavoriteOptionsDialog", "not showing dialog because noplaces found");
             return;
         }
 
@@ -342,88 +333,59 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.secondRow, tag);
-            String[] textArray = new String[0];
-            int[] drawablesArray = new int[0];
-            int[] tagsArray = new int[0];
+
+            ArrayList<Integer> drawablesArray = new ArrayList<>();
+            ArrayList<String> textArray = new ArrayList<>();
+            ArrayList<Integer> tagsArray = new ArrayList<>();
+
 
             if (tag == R.id.SUPPORT_UNAUTHORIZE) {
-                int length = 3;
                 List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
                 if (serviceEngineerList != null && serviceEngineerList.size() > 0) {
-                    length = 4;
+                    textArray.add(getString(R.string.bottom_option_Call));
+                    tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_CALL);
+                    drawablesArray.add(R.drawable.ic_option_call);
                 }
-                textArray = new String[length];
-                tagsArray = new int[length];
-                drawablesArray = new int[length];
 
-                if (length == 4) {
-                    textArray[0] = getString(R.string.bottom_option_Call);
-                    tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE_CALL;
-                    drawablesArray[0] = R.drawable.ic_option_call;
+                textArray.add(getString(R.string.bottom_option_find_service_center));
+                tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER);
+                drawablesArray.add(R.drawable.ic_option_bill);
 
-                    textArray[1] = getString(R.string.bottom_option_add);
-                    tagsArray[1] = R.id.SUPPORT_UNAUTHORIZE_ADD;
-                    drawablesArray[1] = R.drawable.ic_option_bill;
+                textArray.add(getString(R.string.bottom_option_service_request));
+                tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST);
+                drawablesArray.add(R.drawable.ic_option_bill);
 
-                    textArray[2] = getString(R.string.bottom_option_find_service_center);
-                    tagsArray[2] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER;
-                    drawablesArray[2] = R.drawable.ic_option_bill;
-
-                    textArray[3] = getString(R.string.bottom_option_service_request);
-                    tagsArray[3] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST;
-                    drawablesArray[3] = R.drawable.ic_option_bill;
-                } else {
-                    textArray[0] = getString(R.string.bottom_option_add);
-                    tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE_ADD;
-                    drawablesArray[0] = R.drawable.ic_option_bill;
-
-                    textArray[1] = getString(R.string.bottom_option_find_service_center);
-                    tagsArray[1] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER;
-                    drawablesArray[1] = R.drawable.ic_option_bill;
-
-                    textArray[2] = getString(R.string.bottom_option_service_request);
-                    tagsArray[2] = R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST;
-                    drawablesArray[2] = R.drawable.ic_option_bill;
-                }
+                textArray.add(getString(R.string.bottom_option_add));
+                tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_ADD);
+                drawablesArray.add(R.drawable.ic_option_bill);
 
             } else if (tag == R.id.SUPPORT_AUTHORIZE) {
 
-                int length = 3;
 
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_call_customer_care);
-                textArray[1] = getString(R.string.bottom_option_find_service_center);
-                textArray[2] = getString(R.string.bottom_option_service_request);
+                textArray.add(getString(R.string.bottom_option_call_customer_care));
+                tagsArray.add(R.id.SUPPORT_AUTHORIZE_CALL);
+                drawablesArray.add(R.drawable.ic_option_call);
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.SUPPORT_AUTHORIZE_CALL;
-                tagsArray[1] = R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER;
-                tagsArray[2] = R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST;
+                textArray.add(getString(R.string.bottom_option_find_service_center));
+                tagsArray.add(R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER);
+                drawablesArray.add(R.drawable.ic_option_bill);
 
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_call;
-                drawablesArray[1] = R.drawable.ic_option_bill;
-                drawablesArray[2] = R.drawable.ic_option_bill;
+                textArray.add(getString(R.string.bottom_option_service_request));
+                tagsArray.add(R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST);
+                drawablesArray.add(R.drawable.ic_option_bill);
+
             } else if (tag == R.id.PRODUCT_DETAILS) {
-                int length = TextUtils.isEmpty(productInfoResponse.getSpecialInstruction()) ? 1 : 2;
 
-                textArray = new String[length];
-                tagsArray = new int[length];
-                drawablesArray = new int[length];
-
-                if (length == 2) {
-                    textArray[0] = getString(R.string.bottom_option_special_instructions);
-                    tagsArray[0] = R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS;
-                    drawablesArray[0] = R.drawable.ic_option_sp_instructions;
-
-                    textArray[1] = getString(R.string.bottom_option_details);
-                    tagsArray[1] = R.id.PRODUCT_DETAILS_DESCRIPTION;
-                    drawablesArray[1] = R.drawable.ic_option_details;
-                } else {
-                    textArray[0] = getString(R.string.bottom_option_details);
-                    tagsArray[0] = R.id.PRODUCT_DETAILS_DESCRIPTION;
-                    drawablesArray[0] = R.drawable.ic_option_details;
+                if (!TextUtils.isEmpty(productInfoResponse.getSpecialInstruction())) {
+                    textArray.add(getString(R.string.bottom_option_special_instructions));
+                    tagsArray.add(R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS);
+                    drawablesArray.add(R.drawable.ic_option_sp_instructions);
                 }
+
+                textArray.add(getString(R.string.bottom_option_details));
+                tagsArray.add(R.id.PRODUCT_DETAILS_DESCRIPTION);
+                drawablesArray.add(R.drawable.ic_option_details);
+
             } else if (tag == R.id.PRODUCT_WARRANTY) {
                 showInformationDialog(getString(
                         R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(productInfoResponse, getActivity()));
@@ -461,7 +423,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.removeAllViews();
-            bottomSheetPurchasedBinding.thirdRow.setWeightSum(textArray.length);
+            bottomSheetPurchasedBinding.thirdRow.setWeightSum(textArray.size());
             setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, textArray, drawablesArray, tagsArray, bottomSheetThirdRowClickListener);
         }
     };

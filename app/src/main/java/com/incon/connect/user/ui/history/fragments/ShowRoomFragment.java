@@ -141,30 +141,24 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
     };
 
     private void createBottomSheetFirstRow() {
-        int length;
-        int[] drawablesArray;
-        String[] textArray;
-        int[] tagsArray;
+        ArrayList<Integer> drawablesArray = new ArrayList<>();
+        ArrayList<String> textArray = new ArrayList<>();
+        ArrayList<Integer> tagsArray = new ArrayList<>();
 
-        length = 4;
+        tagsArray.add(R.id.CALL);
+        tagsArray.add(R.id.LOCATION);
+        tagsArray.add(R.id.TIMINGS);
+        tagsArray.add(R.id.FEEDBACK);
 
-        tagsArray = new int[length];
-        tagsArray[0] = R.id.CALL;
-        tagsArray[1] = R.id.LOCATION;
-        tagsArray[2] = R.id.TIMINGS;
-        tagsArray[3] = R.id.FEEDBACK;
+        textArray.add(getString(R.string.bottom_option_Call));
+        textArray.add(getString(R.string.bottom_option_location));
+        textArray.add(getString(R.string.bottom_option_timings));
+        textArray.add(getString(R.string.bottom_option_feedback));
 
-        textArray = new String[length];
-        textArray[0] = getString(R.string.bottom_option_Call);
-        textArray[1] = getString(R.string.bottom_option_location);
-        textArray[2] = getString(R.string.bottom_option_timings);
-        textArray[3] = getString(R.string.bottom_option_feedback);
-
-        drawablesArray = new int[length];
-        drawablesArray[0] = R.drawable.ic_option_product;
-        drawablesArray[1] = R.drawable.ic_showroom;
-        drawablesArray[2] = R.drawable.ic_option_delete;
-        drawablesArray[3] = R.drawable.ic_option_delete;
+        drawablesArray.add(R.drawable.ic_option_product);
+        drawablesArray.add(R.drawable.ic_showroom);
+        drawablesArray.add(R.drawable.ic_option_delete);
+        drawablesArray.add(R.drawable.ic_option_delete);
 
 
         bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
@@ -172,7 +166,7 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
         bottomSheetPurchasedBinding.secondRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
-        bottomSheetPurchasedBinding.firstRow.setWeightSum(length);
+        bottomSheetPurchasedBinding.firstRow.setWeightSum(tagsArray.size());
         setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray,tagsArray, bottomSheetFirstRowClickListener);
 
     }
@@ -183,9 +177,6 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
         public void onClick(View view) {
 
             Integer tag = (Integer) view.getTag();
-            String[] textArray = new String[0];
-            int[] drawablesArray = new int[0];
-            int[] tagsArray = new int[0];
 
             changeSelectedViews(bottomSheetPurchasedBinding.firstRow, tag);
             ProductInfoResponse itemFromPosition = showRoomAdapter.getItemFromPosition(
@@ -209,8 +200,7 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
             bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.secondRow.removeAllViews();
-            bottomSheetPurchasedBinding.secondRow.setWeightSum(textArray.length);
-           // setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, textArray, drawablesArray,tagsArray, bottomSheetSecondRowClickListener);
+            bottomSheetPurchasedBinding.secondRow.setWeightSum(0);
 
         }
     };
