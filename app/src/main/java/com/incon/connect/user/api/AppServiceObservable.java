@@ -112,9 +112,14 @@ public interface AppServiceObservable {
     Observable<List<ServiceCenterResponse>> findNearByServiceCenters(@Path("brandId") int brandId);
 
 
-    // add favourites  api
+    // delete purchased product api
     @GET("user/history/deletepurchased/{warrantyId}")
     Observable<Object> deleteProduct(@Path("warrantyId") int warrantyId);
+
+
+    // delete Favorites product api
+    @GET("user/deletefavourites/{favouriteId}")
+    Observable<Object> deleteFavoritesProduct(@Path("favouriteId") int favouriteId);
 
     //assign qr code to product api
     @POST("product/assign")
@@ -189,9 +194,9 @@ public interface AppServiceObservable {
     Observable<Object> warrantyRequestOtp(@Path("phoneNumber") String phoneNumber);
 
     //transfer product api
-    @GET("user/transfer/{phoneNumber}/{userId}")
+    @GET("user/transfer/{phoneNumber}/{favouriteId}")
     Observable<Object> transferRequest(@Path("phoneNumber") String phoneNumber,
-                                       @Path("userId") int userId);
+                                       @Path("favouriteId") int favouriteId);
 
     //transfer product api
     @GET("user/servicerequests/{userId}")

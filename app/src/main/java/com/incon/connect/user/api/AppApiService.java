@@ -160,9 +160,14 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.productChangeLocationProductNameEditApi(changeLocationMap));
     }
 
-    // add favourites  api
+    // delete product api
     public Observable<Object> deleteProduct(int warrantyId) {
         return addNetworkCheck(serviceInstance.deleteProduct(warrantyId));
+    }
+
+    // delete favorites Product api
+    public Observable<Object> deleteFavoritesProduct(int favouriteId) {
+        return addNetworkCheck(serviceInstance.deleteFavoritesProduct(favouriteId));
     }
 
     //add product to interest api
@@ -250,9 +255,9 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.warrantyRequestOtp(phoneNumber));
     }
 
-    //transfer request otp api
-    public Observable<Object> transferRequest(String phoneNumber, int userId) {
-        return addNetworkCheck(serviceInstance.transferRequest(phoneNumber, userId));
+    //transfer  api
+    public Observable<Object> transferRequest(String phoneNumber, int favouriteId) {
+        return addNetworkCheck(serviceInstance.transferRequest(phoneNumber, favouriteId));
     }
 
     //transfer request otp api

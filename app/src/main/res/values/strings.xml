@@ -292,7 +292,9 @@
         .</string>
     <string name="hint_warranty_period">Warranty expires in %1$d</string>
     <string name="progress_adding_engineer">Adding engineer...</string>
+    <string name="progress_transfering_product">Transfering Product...</string>
     <string name="progress_adding_to_favorites">Adding to favorites...</string>
+    <string name="progress_deleting_product">Deleting Product ...</string>
     <string name="progress_change_product_location">Change Product Location...</string>
     <string name="progress_purchased_history">Loading Purchased History...</string>
     <string name="progress_interest_history">Loading Interest History...</string>

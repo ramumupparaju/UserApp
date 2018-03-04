@@ -54,7 +54,7 @@ public interface FavoritesContract {
 
         void addServiceEngineer(AddServiceEngineer serviceEngineer, int userId);
 
-        void deleteProduct(int userId);
+        void deleteFovoriteProduct(int favouriteId);
 
         void doTransferProductApi(String phoneNumber, int userId);
     }

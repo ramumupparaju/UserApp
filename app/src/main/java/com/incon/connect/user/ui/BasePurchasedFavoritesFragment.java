@@ -160,8 +160,8 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
     public void doProductDeleteApi() {
         if (this instanceof FavoritesFragment) {
-            int warrantyId = Integer.parseInt(favoritesAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
-            favoritesPresenter.deleteProduct(warrantyId);
+            int favouriteId = Integer.parseInt(String.valueOf(favoritesAdapter.getItemFromPosition(productSelectedPosition).getFavouriteId()));
+            favoritesPresenter.deleteFovoriteProduct(favouriteId);
         } else {
             int warrantyId = Integer.parseInt(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
             purchasedPresenter.deleteProduct(warrantyId);
@@ -205,10 +205,15 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String commentString) {
+
                         if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
-                            favoritesPresenter.doTransferProductApi(commentString, userId);
+                            // TODO have to check with naveen
+                        ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(productSelectedPosition);
+                            favoritesPresenter.doTransferProductApi(commentString, itemFromPosition.getFavouriteId());
                         } else {
-                            purchasedPresenter.doTransferProductApi(commentString, userId);
+                            // TODO have to check with naveen
+                        ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(productSelectedPosition);
+                            purchasedPresenter.doTransferProductApi(commentString, itemFromPosition.getProductId());
                         }
                     }
 

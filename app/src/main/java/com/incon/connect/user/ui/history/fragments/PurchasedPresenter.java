@@ -97,7 +97,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
     // delete product
     @Override
     public void deleteProduct(int warrantyId) {
-        getView().showProgress(appContext.getString(R.string.progress_adding_to_favorites));
+        getView().showProgress(appContext.getString(R.string.progress_deleting_product));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
                     @Override
@@ -211,8 +211,8 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
     }
 
     @Override
-    public void doTransferProductApi(String phoneNumber, int userId) {
-        getView().showProgress(appContext.getString(R.string.progress_adding_to_favorites));
+    public void doTransferProductApi(String phoneNumber, int favouriteId) {
+        getView().showProgress(appContext.getString(R.string.progress_transfering_product));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
                     @Override
@@ -232,7 +232,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().transferRequest(phoneNumber, userId).subscribe(observer);
+        AppApiService.getInstance().transferRequest(phoneNumber, favouriteId).subscribe(observer);
         addDisposable(observer);
     }
 

@@ -42,7 +42,7 @@ public interface PurchasedContract {
 
         void doGetAddressApi(int userId);
 
-        void doTransferProductApi(String phoneNumber, int userId);
+        void doTransferProductApi(String phoneNumber, int favouriteId);
 
         void addToFavotites(HashMap<String, String> favoritesMap);
 

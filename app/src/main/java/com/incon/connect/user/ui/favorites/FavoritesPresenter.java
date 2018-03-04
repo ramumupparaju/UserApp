@@ -185,12 +185,34 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     }
 
     @Override
-    public void deleteProduct(int userId) {
-        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
-        purchasedPresenter.initialize(null);
-        purchasedPresenter.setView(purchasedView);
-        purchasedPresenter.deleteProduct(userId);
+    public void deleteFovoriteProduct(int favouriteId) {
+
+        getView().showProgress(appContext.getString(R.string.progress_deleting_product));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object o) {
+                        getView().deleteProduct(o);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                };
+
+        AppApiService.getInstance().deleteFavoritesProduct(favouriteId).subscribe(observer);
+        addDisposable(observer);
+
+
     }
+
 
     @Override
     public void doTransferProductApi(String phoneNumber, int userId) {
