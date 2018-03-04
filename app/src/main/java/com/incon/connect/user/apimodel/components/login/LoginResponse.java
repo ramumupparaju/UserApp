@@ -43,8 +43,8 @@ public class LoginResponse extends ApiBaseResponse {
 
     @SerializedName("address")
     @Expose
-    private String pin;
     private String address;
+    private String pin;
     private String password;
     private transient String confirmPassword;
 

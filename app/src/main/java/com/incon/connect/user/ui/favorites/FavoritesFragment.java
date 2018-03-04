@@ -670,7 +670,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         favoritesMap.put(BODY_ADDRESS_ID, String.valueOf(addressId));
         favoritesMap.put(BODY_WARRANTY_ID,
                 itemFromPosition.getWarrantyId());
-        favoritesPresenter.addToFavotites(favoritesMap);
+//        favoritesPresenter.addToFavotites(favoritesMap); TODO have to call
     }
 
 
@@ -712,6 +712,11 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             // binding.parentProduct.setVisibility(View.GONE);
 
         }
+    }
+
+    @Override
+    public void onLocationChanged() {
+
     }
 
 
