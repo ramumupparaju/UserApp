@@ -1,13 +1,10 @@
 package com.incon.connect.user.ui.favorites;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SnapHelper;
@@ -16,56 +13,34 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.FeedbackData;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
-import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
-import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
-import com.incon.connect.user.callbacks.CustomPhoneNumberAlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
-import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.callbacks.TextAddressDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
-import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
-import com.incon.connect.user.custom.view.AppAlertDialog;
-import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
-import com.incon.connect.user.custom.view.AppEditTextDialog;
-import com.incon.connect.user.custom.view.AppEditTextListDialog;
 import com.incon.connect.user.custom.view.AppUserAddressDialog;
-import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
-import com.incon.connect.user.custom.view.ServiceRequestDialog;
-import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
-import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
-import com.incon.connect.user.dto.servicerequest.ServiceRequest;
-import com.incon.connect.user.ui.RegistrationMapActivity;
+import com.incon.connect.user.ui.BasePurchasedFavoritesFragment;
 import com.incon.connect.user.ui.addnewmodel.AddCustomProductFragment;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
-import com.incon.connect.user.ui.history.base.BaseProductOptionsFragment;
 import com.incon.connect.user.ui.history.fragments.PurchasedFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
-import com.incon.connect.user.ui.servicecenters.ServiceCentersActivity;
-import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.GravitySnapHelper;
 import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TimeZone;
 
 import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_ADDRESS_ID;
 import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_WARRANTY_ID;
@@ -75,38 +50,13 @@ import static com.incon.connect.user.ui.BaseActivity.TRANSACTION_TYPE_REPLACE;
  * Created by PC on 11/4/2017.
  */
 
-public class FavoritesFragment extends BaseProductOptionsFragment implements FavoritesContract.View,
+public class FavoritesFragment extends BasePurchasedFavoritesFragment implements FavoritesContract.View,
         View.OnClickListener {
-    private FragmentFavoritesBinding binding;
-    private FavoritesPresenter favoritesPresenter;
-    private View rootView;
-    private int userId;
-    private Integer addressId;
-    private HorizontalRecycleViewAdapter addressessAdapter;
-    private FavoritesAdapter favoritesAdapter;
-    private int addressSelectedPosition = -1;
-    private int productSelectedPosition = -1;
+
+
     private AppUserAddressDialog dialog;
     private AddUserAddress addUserAddress;
-    private AppEditTextDialog buyRequestDialog;
-    private AppEditTextListDialog feedBackDialog;
-    private AppEditTextDialog suggestionsDialog;
-    private AppEditTextDialog nickNameDialog;
-    private AppEditTextDialog transferDialog;
     private AppCheckBoxListDialog productLocationDialog;
-    private String buyRequestComment;
-    private AppAlertDialog detailsDialog;
-    private ShimmerFrameLayout shimmerFrameLayout;
-    private boolean isFindServiceCenter;
-    private ArrayList<ServiceCenterResponse> serviceCenterResponseList;
-    private ServiceRequestDialog serviceRequestDialog;
-    private TimeSlotAlertDialog timeSlotAlertDialog;
-    private String serviceRequestComment;
-    private AppAlertVerticalTwoButtonsDialog dialogDelete;
-
-    //Adding unauthorized phone number
-    private CustomPhoneNumberDialog customPhoneNumberDialog;
-    private AddServiceEngineer serviceEngineer;
 
     @Override
     protected void initializePresenter() {
@@ -124,10 +74,10 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     protected View onPrepareView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
         if (rootView == null) {
-            binding = DataBindingUtil.inflate(
+            favoritesBinding = DataBindingUtil.inflate(
                     inflater, R.layout.fragment_favorites, container, false);
-            binding.setFavorites(this);
-            rootView = binding.getRoot();
+            favoritesBinding.setFavorites(this);
+            rootView = favoritesBinding.getRoot();
             shimmerFrameLayout = rootView.findViewById(R.id
                     .effect_shimmer);
             initFabs();
@@ -138,8 +88,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     }
 
     private void initFabs() {
-        binding.fab.showMenuButton(true);
-        binding.fab.setClosedOnTouchOutside(true);
+        favoritesBinding.fab.showMenuButton(true);
+        favoritesBinding.fab.setClosedOnTouchOutside(true);
     }
 
     // add product
@@ -172,14 +122,14 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
 
-        binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
-        binding.swiperefresh.setOnRefreshListener(onRefreshListener);
+        favoritesBinding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
+        favoritesBinding.swiperefresh.setOnRefreshListener(onRefreshListener);
 
         //sets add address view
-        binding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
-        binding.addAddressView.homeText.setText(getString(R.string.action_add_location));
-        binding.addAddressView.getRoot().setOnClickListener(this);
-        binding.addAddressView.getRoot().setVisibility(View.GONE);
+        favoritesBinding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
+        favoritesBinding.addAddressView.homeText.setText(getString(R.string.action_add_location));
+        favoritesBinding.addAddressView.getRoot().setOnClickListener(this);
+        favoritesBinding.addAddressView.getRoot().setVisibility(View.GONE);
 
 
         //top recyclerview
@@ -188,21 +138,21 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.addressesRecyclerview.setLayoutManager(linearLayoutManager);
+        favoritesBinding.addressesRecyclerview.setLayoutManager(linearLayoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 getContext(), linearLayoutManager.getOrientation());
-        binding.addressesRecyclerview.addItemDecoration(dividerItemDecoration);
-        binding.addressesRecyclerview.setAdapter(addressessAdapter);
+        favoritesBinding.addressesRecyclerview.addItemDecoration(dividerItemDecoration);
+        favoritesBinding.addressesRecyclerview.setAdapter(addressessAdapter);
         SnapHelper snapHelper = new GravitySnapHelper(Gravity.END);
-        snapHelper.attachToRecyclerView(binding.addressesRecyclerview);
+        snapHelper.attachToRecyclerView(favoritesBinding.addressesRecyclerview);
 
         //bottom recyclerview
         favoritesAdapter = new FavoritesAdapter();
         favoritesAdapter.setClickCallback(iProductClickCallback);
 
         LinearLayoutManager secondLinearLayoutManager = new LinearLayoutManager(getContext());
-        binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
-        binding.favoritesRecyclerview.setLayoutManager(secondLinearLayoutManager);
+        favoritesBinding.favoritesRecyclerview.setAdapter(favoritesAdapter);
+        favoritesBinding.favoritesRecyclerview.setLayoutManager(secondLinearLayoutManager);
 
         //api call to get addresses
         favoritesPresenter.doGetAddressApi(userId);
@@ -212,20 +162,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     }
 
 
-    private void getProductsApi() {
-        binding.favoritesRecyclerview.setVisibility(View.GONE);
-        shimmerFrameLayout.setVisibility(View.VISIBLE);
-        shimmerFrameLayout.startShimmerAnimation();
-        if (addressSelectedPosition == -1) {
-            return;
-        }
-        AddUserAddressResponse singleAddressResponse = addressessAdapter.
-                getItemFromPosition(addressSelectedPosition);
-        binding.addressesRecyclerview.getLayoutManager().scrollToPosition(
-                addressSelectedPosition);
-        favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());
 
-    }
 
     // load bottom sheet
     @Override
@@ -283,12 +220,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                     }
                 }).addUserAddress(addUserAddress).build();
         dialog.showDialog();
-    }
-
-    private void navigateToAddressActivity() {
-        Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
-        addressIntent.putExtra(IntentConstants.BUTTON_TEXT, getString(R.string.action_add));
-        startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
     }
 
     @Override
@@ -585,7 +516,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
                 showFeedBackDialog();
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
-                showSuggestionsDialog();
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
             } else if (tag == R.id.PRODUCT_EDIT) {
                 int length = 3;
                 textArray = new String[length];
@@ -620,98 +551,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         }
     };
 
-    private void showTransferDialog() {
-        transferDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        buyRequestComment = commentString;
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                transferDialog.dismiss();
-                                AppUtils.hideSoftKeyboard(getContext(), getView());
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                transferDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_transfer))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        transferDialog.showDialog();
-        transferDialog.setCancelable(true);
-    }
-
-
-    private void showFeedBackDialog() {
-        //TODO have to change dynamically
-        List<FeedbackData> feedbackData = new ArrayList<>();
-        feedbackData.add(new FeedbackData("test1", "comment1"));
-        feedbackData.add(new FeedbackData("test2", "comment2"));
-        feedbackData.add(new FeedbackData("test3", "comment3"));
-        feedBackDialog = new AppEditTextListDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        //TODO api cal
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                feedBackDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_feedback))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .feedbackDataList(feedbackData)
-                .build();
-        feedBackDialog.showDialog();
-        feedBackDialog.setCancelable(true);
-    }
-
-    private void showSuggestionsDialog() {
-        suggestionsDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        //TODO api cal
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                suggestionsDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_suggestions))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        suggestionsDialog.showDialog();
-        suggestionsDialog.setCancelable(true);
-    }
 
 
     private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
@@ -758,76 +597,19 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 return;
 
             } else if (tag == R.id.PRODUCT_EDIT_NICK_NAME) {
-                showNickNameDialog();
+
+
             } else if (tag == R.id.PRODUCT_EDIT_LOCATION_CHANGE) {
                 showFavoriteOptionsDialog();
+                return;
             } else if (tag == R.id.PRODUCT_EDIT_DELETE) {
-                showProductDeleteDialog(getString(R.string.dilog_delete));
+                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
 
             }
         }
 
     };
 
-
-    private void showNickNameDialog() {
-        nickNameDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        //TODO api cal
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                nickNameDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_nick_name))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        nickNameDialog.showDialog();
-        nickNameDialog.setCancelable(true);
-
-    }
-
-    private void showProductDeleteDialog(String messageInfo) {
-
-        dialogDelete = new AppAlertVerticalTwoButtonsDialog.AlertDialogBuilder(getActivity(), new
-                AlertDialogCallback() {
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                dialogDelete.dismiss();
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                // todo have to call product delete Api
-                                dialogDelete.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.dialog_delete))
-                .button1Text(getString(R.string.action_cancel))
-                .button2Text(getString(R.string.action_ok))
-                .build();
-        dialogDelete.showDialog();
-        dialogDelete.setCancelable(true);
-        dialogDelete.setButtonBlueUnselectBackground();
-
-    }
-
-    // todo have to re name dialog name
     private void showFavoriteOptionsDialog() {
         final List<AddUserAddressResponse> addressResponsesList = addressessAdapter.getAddressResponsesList();
         if (addressResponsesList == null || addressResponsesList.size() ==0) {
@@ -872,9 +654,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 .spinnerItems(filterNamesList)
                 .build();
         productLocationDialog.showDialog();
-        productLocationDialog.setCancelable(true);
         productLocationDialog.setRadioType(true);
-
     }
 
     private void callAddFavoriteApi() {
@@ -886,25 +666,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         favoritesMap.put(BODY_ADDRESS_ID, String.valueOf(addressId));
         favoritesMap.put(BODY_WARRANTY_ID,
                 itemFromPosition.getWarrantyId());
-        favoritesPresenter.doLocationChangeApi(favoritesMap);
-    }
-
-    private void loadServiceRequesDialogData() {
-        if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
-            loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
-        } else {
-            showErrorMessage(getString(R.string.error_no_service_centers_found));
-        }
-    }
-
-    private void loadUsersDataFromServiceCenterId(Integer serviceCenterId) {
-        //todo have to check
-        favoritesPresenter.getUsersListOfServiceCenters(serviceCenterId);
-    }
-
-    private void loadNearByServiceCentersDialogData(String brandId) {
-        //todo have to check
-        favoritesPresenter.nearByServiceCenters(Integer.parseInt(brandId));
+//        favoritesPresenter.addToFavotites(favoritesMap); TODO have to call
     }
 
 
@@ -922,181 +684,64 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         }
     };
 
-    private void showInterestProductDeleteDialog(String messageInfo) {
-        detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
-                AlertDialogCallback() {
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                /*interestPresenter.deleteApi(interestAdapter.
-                                        getInterestDateFromPosition(
-                                                productSelectedPosition).getInterestId());*/
-                                detailsDialog.dismiss();
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                detailsDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(messageInfo)
-                .button1Text(getString(R.string.action_ok))
-                .button2Text(getString(R.string.action_cancel))
-                .build();
-        detailsDialog.showDialog();
-        detailsDialog.setCancelable(true);
-    }
 
-    private void showInformationDialog(String title, String messageInfo) {
-        detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
-                AlertDialogCallback() {
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                detailsDialog.dismiss();
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                detailsDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(title).content(messageInfo)
-                .build();
-        detailsDialog.showDialog();
-        detailsDialog.setCancelable(true);
-    }
 
-    //location dialog
-    private void showLocationDialog() {
-        ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(
-                productSelectedPosition);
-        if (TextUtils.isEmpty(itemFromPosition.getLocation())) {
-            AppUtils.shortToast(getActivity(), getString(R.string.error_location));
-            return;
+
+
+    @Override
+    public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
+        if (favoritesResponseList == null) {
+            favoritesResponseList = new ArrayList<>();
         }
-        Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
-        addressIntent.putExtra(IntentConstants.LOCATION_COMMA, itemFromPosition.getLocation());
-        addressIntent.putExtra(IntentConstants.ADDRESS_COMMA, itemFromPosition.getAddress());
-        startActivity(addressIntent);
+        addressessAdapter.setData(favoritesResponseList);
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        favoritesBinding.addAddressView.getRoot().setVisibility(View.VISIBLE);
+        dismissSwipeRefresh();
+
+        if (favoritesResponseList.size() > 0) {
+            iAddressClickCallback.onClickPosition(0);
+            // binding.parentProduct.setVisibility(View.VISIBLE);
+        } else {
+            loadFavoritesProducts(null);
+            // binding.parentProduct.setVisibility(View.GONE);
+
+        }
     }
 
     @Override
-    public void addedServiceEngineer(ProductInfoResponse productInfoResponse) {
-        if (customPhoneNumberDialog != null && customPhoneNumberDialog.isShowing()) {
-            customPhoneNumberDialog.dismiss();
+    public void onLocationChanged() {
+
+    }
+
+
+    @Override
+    public void loadFavoritesProducts(List<ProductInfoResponse> favoritesResponseList) {
+        if (favoritesResponseList == null) {
+            favoritesResponseList = new ArrayList<>();
         }
-        onRefreshListener.onRefresh();
-        bottomSheetDialog.dismiss();
-    }
-
-    private void showCustomPhoneNumberDialog() {
-        if (serviceEngineer == null) {
-            serviceEngineer = new AddServiceEngineer();
+        if (favoritesResponseList.size() == 0) {
+            // binding.listHeader.setVisibility(View.GONE);
+            favoritesBinding.noItemsTextview.setVisibility(View.VISIBLE);
+        } else {
+            // binding.listHeader.setVisibility(View.VISIBLE);
+            favoritesBinding.noItemsTextview.setVisibility(View.GONE);
         }
-        customPhoneNumberDialog = new CustomPhoneNumberDialog.AlertDialogBuilder(getActivity(), new
-                CustomPhoneNumberAlertDialogCallback() {
-                    @Override
-                    public void enteredName(String name) {
+        {
+            favoritesAdapter.setData(favoritesResponseList);
+            dismissSwipeRefresh();
+        }
+        favoritesBinding.favoritesRecyclerview.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.stopShimmerAnimation();
+        shimmerFrameLayout.setVisibility(View.GONE);
 
-                        serviceEngineer.setName(name);
-                    }
 
-                    @Override
-                    public void enteredPhoneNumber(String phoneNumber) {
-                        serviceEngineer.setMobileNumber(phoneNumber);
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                if (TextUtils.isEmpty(serviceEngineer.getMobileNumber())) {
-                                    showErrorMessage(getString(R.string.error_phone_req));
-                                } else {
-                                    AppUtils.hideSoftKeyboard(getActivity(), rootView);
-                                    favoritesPresenter.addServiceEngineer(serviceEngineer, userId);
-                                }
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                customPhoneNumberDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.action_approval))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        customPhoneNumberDialog.showDialog();
-        customPhoneNumberDialog.setCancelable(true);
     }
-
-    //buy request dialog
-    private void showBuyRequestDialog() {
-        buyRequestDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        buyRequestComment = commentString;
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                HashMap<String, String> buyRequestApi = new HashMap<>();
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
-                                        String.valueOf(userId));
-                                ProductInfoResponse productInfoResponse = favoritesAdapter.
-                                        getItemFromPosition(productSelectedPosition);
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
-                                        String.valueOf(productInfoResponse.getMerchantId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
-                                        String.valueOf(productInfoResponse.getQrcodeId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
-                                        buyRequestComment);
-//                                interestPresenter.buyRequestApi(buyRequestApi);
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                buyRequestDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_buy_request))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        buyRequestDialog.showDialog();
-    }
-
-    // data reload
-    private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
-            new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    getProductsApi();
-                   /* if (addressSelectedPosition == -1) {
-                        return;
-                    }
-                    AddUserAddressResponse singleAddressResponse = addressessAdapter.
-                            getItemFromPosition(addressSelectedPosition);
-                    binding.addressesRecyclerview.getLayoutManager().scrollToPosition(
-                            addressSelectedPosition);
-                    favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());*/
-                }
-            };
 
     private void dismissSwipeRefresh() {
-        if (binding.swiperefresh.isRefreshing()) {
-            binding.swiperefresh.setRefreshing(false);
+        if (favoritesBinding.swiperefresh.isRefreshing()) {
+            favoritesBinding.swiperefresh.setRefreshing(false);
         }
     }
 
@@ -1110,207 +755,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     }
 
     @Override
-    public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
-        if (favoritesResponseList == null) {
-            favoritesResponseList = new ArrayList<>();
-        }
-        addressessAdapter.setData(favoritesResponseList);
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
-        binding.addAddressView.getRoot().setVisibility(View.VISIBLE);
-        dismissSwipeRefresh();
-
-        if (favoritesResponseList.size() > 0) {
-            iAddressClickCallback.onClickPosition(0);
-            // binding.parentProduct.setVisibility(View.VISIBLE);
-        } else {
-            loadFavoritesProducts(null);
-            // binding.parentProduct.setVisibility(View.GONE);
-
-        }
-    }
-
-
-    @Override
-    public void onLocationChanged() {
-        dismissDialog(productLocationDialog);
-    }
-
-    @Override
-    public void loadFavoritesProducts(List<ProductInfoResponse> favoritesResponseList) {
-        if (favoritesResponseList == null) {
-            favoritesResponseList = new ArrayList<>();
-        }
-        if (favoritesResponseList.size() == 0) {
-            // binding.listHeader.setVisibility(View.GONE);
-            binding.noItemsTextview.setVisibility(View.VISIBLE);
-        } else {
-            // binding.listHeader.setVisibility(View.VISIBLE);
-            binding.noItemsTextview.setVisibility(View.GONE);
-        }
-        {
-            favoritesAdapter.setData(favoritesResponseList);
-            dismissSwipeRefresh();
-        }
-        binding.favoritesRecyclerview.setVisibility(View.VISIBLE);
-        shimmerFrameLayout.stopShimmerAnimation();
-        shimmerFrameLayout.setVisibility(View.GONE);
-
-
-    }
-
-    @Override
-    public void loadServiceRequest() {
-        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
-            serviceRequestDialog.dismiss();
-        }
-
-    }
-
-    private void showServiceRequestDialog(List<UsersListOfServiceCenters> listOfServiceCenters) {
-        if (serviceCenterResponseList == null) {
-            return;
-        }
-        String[] problemsArray = new String[4]; //TODO have to change based legal info
-        problemsArray[0] = "Engine repaired";
-        problemsArray[1] = "Need service";
-        problemsArray[2] = "Power problem";
-        problemsArray[3] = "Others";
-
-        serviceRequestDialog = new ServiceRequestDialog.AlertDialogBuilder(getContext(), new ServiceRequestCallback() {
-            @Override
-            public void getUsersListFromServiceCenterId(int serviceCenterId) {
-                loadUsersDataFromServiceCenterId(serviceCenterId);
-            }
-
-            @Override
-            public void dateClicked(String date) {
-                showDatePickerToPlaceServiceRequest(date);
-            }
-
-            @Override
-            public void timeClicked() {
-                showTimePickerToPlaceServiceRequest();
-            }
-
-            @Override
-            public void enteredText(String commentString) {
-                serviceRequestComment = commentString;
-
-            }
-
-            @Override
-            public void doServiceRequestApi(ServiceRequest serviceRequest) {
-                serviceRequest.setPurchaseId(Integer.valueOf(favoritesAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId()));
-                serviceRequest.setCustomerId(userId);
-                favoritesPresenter.serviceRequest(serviceRequest);
-            }
-
-            @Override
-            public void alertDialogCallback(byte dialogStatus) {
-                switch (dialogStatus) {
-                    case AlertDialogCallback.OK:
-                        break;
-                    case AlertDialogCallback.CANCEL:
-                        serviceRequestDialog.dismiss();
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-        }).problemsArray(problemsArray)
-                .loadUsersList(listOfServiceCenters)
-                .loadServiceCentersData(serviceCenterResponseList)
-                .build();
-        serviceRequestDialog.showDialog();
-    }
-
-    private void showTimePickerToPlaceServiceRequest() {
-        timeSlotAlertDialog = new TimeSlotAlertDialog.AlertDialogBuilder(getContext(), new TimeSlotAlertDialogCallback() {
-            @Override
-            public void selectedTimeSlot(String timeSlot) {
-                serviceRequestDialog.setTimeFromPicker(timeSlot);
-            }
-
-            @Override
-            public void alertDialogCallback(byte dialogStatus) {
-                timeSlotAlertDialog.dismiss();
-
-            }
-        }).build();
-        timeSlotAlertDialog.showDialog();
-
-
-    }
-
-    private void showDatePickerToPlaceServiceRequest(String date) {
-        AppUtils.hideSoftKeyboard(getContext(), getView());
-        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
-        String selectedDate = date;
-        if (!TextUtils.isEmpty(selectedDate)) {
-            cal.setTimeInMillis(DateUtils.convertStringFormatToMillis(
-                    selectedDate, DateFormatterConstants.DD_MM_YYYY));
-        }
-
-        int customStyle = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                ? R.style.DatePickerDialogTheme : android.R.style.Theme_DeviceDefault_Light_Dialog;
-        DatePickerDialog datePicker = new DatePickerDialog(getContext(),
-                customStyle,
-                serviceRequestDatePickerListener,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH));
-        datePicker.setCancelable(false);
-        datePicker.show();
-    }
-
-    // date Listener
-    private DatePickerDialog.OnDateSetListener serviceRequestDatePickerListener =
-            new DatePickerDialog.OnDateSetListener() {
-                // when dialog box is closed, below method will be called.
-                public void onDateSet(DatePicker view, int selectedYear,
-                                      int selectedMonth, int selectedDay) {
-                    Calendar selectedDateTime = Calendar.getInstance();
-                    selectedDateTime.set(selectedYear, selectedMonth, selectedDay);
-
-                    String dobInDD_MM_YYYY = DateUtils.convertDateToOtherFormat(
-                            selectedDateTime.getTime(), DateFormatterConstants.DD_MM_YYYY);
-                    serviceRequestDialog.setDateFromPicker(dobInDD_MM_YYYY);
-
-                }
-            };
-
-
-    @Override
-    public void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponses) {
-        this.serviceCenterResponseList = (ArrayList<ServiceCenterResponse>) serviceCenterResponseList;
-        if (serviceCenterResponseList == null) {
-            return;
-        }
-        if (isFindServiceCenter) {
-            if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
-                Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
-                serviceCenters.putParcelableArrayListExtra(IntentConstants.SERVICE_CENTER_DATA, this.serviceCenterResponseList);
-                startActivity(serviceCenters);
-            } else {
-                showErrorMessage(getString(R.string.error_no_service_centers_found));
-            }
-        } else {
-            loadServiceRequesDialogData();
-        }
-
-    }
-
-    @Override
-    public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> usersList) {
-
-        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
-            serviceRequestDialog.setUsersData(usersList);
-        } else {
-            showServiceRequestDialog(usersList);
-        }
-
+    public void onSearchClickListerner(String searchableText, String searchType) {
+        //DO nothing
     }
 }
