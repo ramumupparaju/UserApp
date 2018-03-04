@@ -138,43 +138,34 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     };
 
     private void createBottomSheetFirstRow() {
-        int length;
-        int[] drawablesArray;
-        String[] textArray;
-        int[] tagsArray;
         ProductInfoResponse productInfoResponse = interestAdapter.getItemFromPosition(productSelectedPosition);
+        ArrayList<Integer> drawablesArray = new ArrayList<>();
+        ArrayList<String> textArray = new ArrayList<>();
+        ArrayList<Integer> tagsArray = new ArrayList<>();
+
+        tagsArray.add(R.id.PRODUCT);
+        tagsArray.add(R.id.SHOWROOM);
+        tagsArray.add(R.id.DELETE);
+
+        textArray.add(getString(R.string.bottom_option_product));
+        textArray.add(getString(R.string.bottom_option_showroom));
+        textArray.add(getString(R.string.bottom_option_delete));
+
+        drawablesArray.add(R.drawable.ic_option_product);
+        drawablesArray.add(R.drawable.ic_showroom);
+        drawablesArray.add(R.drawable.ic_option_delete);
+
         if (productInfoResponse.getBuyReqCount() == 0) {
-            length = 4;
-        } else {
-            length = 3;
-        }
-
-        tagsArray = new int[length];
-        tagsArray[0] = R.id.PRODUCT;
-        tagsArray[1] = R.id.SHOWROOM;
-        tagsArray[2] = R.id.DELETE;
-
-        textArray = new String[length];
-        textArray[0] = getString(R.string.bottom_option_product);
-        textArray[1] = getString(R.string.bottom_option_showroom);
-        textArray[2] = getString(R.string.bottom_option_delete);
-
-        drawablesArray = new int[length];
-        drawablesArray[0] = R.drawable.ic_option_product;
-        drawablesArray[1] = R.drawable.ic_showroom;
-        drawablesArray[2] = R.drawable.ic_option_delete;
-
-        if (length == 4) {
-            tagsArray[3] = R.id.BUY_REQUEST;
-            textArray[3] = getString(R.string.bottom_option_buy_request);
-            drawablesArray[3] = R.drawable.ic_option_customer;
+            tagsArray.add(R.id.BUY_REQUEST);
+            textArray.add(getString(R.string.bottom_option_buy_request));
+            drawablesArray.add(R.drawable.ic_option_customer);
         }
         bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
         bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.secondRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
-        bottomSheetPurchasedBinding.firstRow.setWeightSum(length);
+        bottomSheetPurchasedBinding.firstRow.setWeightSum(tagsArray.size());
         setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray, tagsArray, bottomSheetFirstRowClickListener);
 
     }
@@ -185,44 +176,37 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
         public void onClick(View view) {
 
             Integer tag = (Integer) view.getTag();
-            String[] textArray = new String[0];
-            int[] drawablesArray = new int[0];
-            int[] tagsArray = new int[0];
+
+            ArrayList<Integer> drawablesArray = new ArrayList<>();
+            ArrayList<String> textArray = new ArrayList<>();
+            ArrayList<Integer> tagsArray = new ArrayList<>();
 
             changeSelectedViews(bottomSheetPurchasedBinding.firstRow, tag);
             if (tag == R.id.PRODUCT) {
-                int length = 3;
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_main_features);
-                textArray[1] = getString(R.string.bottom_option_details);
-                textArray[2] = getString(R.string.bottom_option_feedback);
+                textArray.add(getString(R.string.bottom_option_main_features));
+                textArray.add(getString(R.string.bottom_option_details));
+                textArray.add(getString(R.string.bottom_option_feedback));
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.PRODUCT_MAINFEATURES;
-                tagsArray[1] = R.id.PRODUCT_DETAILS;
-                tagsArray[2] = R.id.PRODUCT_FEEDBACK;
+                tagsArray.add(R.id.PRODUCT_MAINFEATURES);
+                tagsArray.add(R.id.PRODUCT_DETAILS);
+                tagsArray.add(R.id.PRODUCT_FEEDBACK);
 
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_options_features;
-                drawablesArray[1] = R.drawable.ic_option_details;
-                drawablesArray[2] = R.drawable.ic_option_feedback;
+                drawablesArray.add(R.drawable.ic_options_features);
+                drawablesArray.add(R.drawable.ic_option_details);
+                drawablesArray.add(R.drawable.ic_option_feedback);
 
             } else if (tag == R.id.SHOWROOM) {
-                int length = 3;
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_Call);
-                textArray[1] = getString(R.string.bottom_option_location);
-                textArray[2] = getString(R.string.bottom_option_review);
+                textArray.add(getString(R.string.bottom_option_Call));
+                textArray.add(getString(R.string.bottom_option_location));
+                textArray.add(getString(R.string.bottom_option_review));
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.SHOWROOM_CALL;
-                tagsArray[1] = R.id.SHOWROOM_LOCATION;
-                tagsArray[2] = R.id.SHOWROOM_REVIEW;
+                tagsArray.add(R.id.SHOWROOM_CALL);
+                tagsArray.add(R.id.SHOWROOM_LOCATION);
+                tagsArray.add(R.id.SHOWROOM_REVIEW);
 
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_call;
-                drawablesArray[1] = R.drawable.ic_option_location;
-                drawablesArray[2] = R.drawable.ic_option_feedback;
+                drawablesArray.add(R.drawable.ic_option_call);
+                drawablesArray.add(R.drawable.ic_option_location);
+                drawablesArray.add(R.drawable.ic_option_feedback);
             } else if (tag == R.id.DELETE) {
                 showInterestProductDeleteDialog(getString(R.string.dilog_delete));
                 return;
@@ -235,7 +219,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
             bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.secondRow.removeAllViews();
-            bottomSheetPurchasedBinding.secondRow.setWeightSum(textArray.length);
+            bottomSheetPurchasedBinding.secondRow.setWeightSum(tagsArray.size());
             setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, textArray, drawablesArray, tagsArray, bottomSheetSecondRowClickListener);
 
         }
@@ -252,14 +236,10 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.secondRow, tag);
 
+            ArrayList<Integer> drawablesArray = new ArrayList<>();
+            ArrayList<String> textArray = new ArrayList<>();
+            ArrayList<Integer> tagsArray = new ArrayList<>();
 
-            String[] textArray = new String[0];
-            int[] drawablesArray = new int[0];
-            int[] tagsArray = new int[0];
-
-
-            String[] bottomOptions = new String[0];
-            int[] topDrawables = new int[0];
 
             if (tag == R.id.PRODUCT_MAINFEATURES) {
                 showInformationDialog(getString(
@@ -267,21 +247,17 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 return;
             } else if (tag == R.id.PRODUCT_DETAILS) {
 
-                int length = 3;
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_special_instructions);
-                textArray[1] = getString(R.string.bottom_option_warranty);
-                textArray[2] = getString(R.string.bottom_option_share);
+                textArray.add(getString(R.string.bottom_option_special_instructions));
+                textArray.add(getString(R.string.bottom_option_warranty));
+                textArray.add(getString(R.string.bottom_option_share));
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS;
-                tagsArray[1] = R.id.PRODUCT_DETAILS_WARRANTY;
-                tagsArray[2] = R.id.PRODUCT_DETAILS_SHARE;
+                tagsArray.add(R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS);
+                tagsArray.add(R.id.PRODUCT_DETAILS_WARRANTY);
+                tagsArray.add(R.id.PRODUCT_DETAILS_SHARE);
 
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_sp_instructions;
-                drawablesArray[1] = R.drawable.ic_option_warranty;
-                drawablesArray[2] = R.drawable.ic_option_share;
+                drawablesArray.add(R.drawable.ic_option_sp_instructions);
+                drawablesArray.add(R.drawable.ic_option_warranty);
+                drawablesArray.add(R.drawable.ic_option_share);
 
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
                 showFeedBackDialog();
@@ -304,7 +280,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
 
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.removeAllViews();
-            bottomSheetPurchasedBinding.thirdRow.setWeightSum(bottomOptions.length);
+            bottomSheetPurchasedBinding.thirdRow.setWeightSum(tagsArray.size());
             setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, textArray, drawablesArray, tagsArray, bottomSheetThirdRowClickListener);
 
 
