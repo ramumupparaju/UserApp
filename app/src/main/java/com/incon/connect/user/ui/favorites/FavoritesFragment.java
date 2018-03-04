@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SnapHelper;
@@ -24,14 +23,11 @@ import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAddressDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
-import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppUserAddressDialog;
-import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.ui.BasePurchasedFavoritesFragment;
-import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.ui.addnewmodel.AddCustomProductFragment;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
@@ -78,10 +74,10 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     protected View onPrepareView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
         if (rootView == null) {
-            binding = DataBindingUtil.inflate(
+            favoritesBinding = DataBindingUtil.inflate(
                     inflater, R.layout.fragment_favorites, container, false);
-            binding.setFavorites(this);
-            rootView = binding.getRoot();
+            favoritesBinding.setFavorites(this);
+            rootView = favoritesBinding.getRoot();
             shimmerFrameLayout = rootView.findViewById(R.id
                     .effect_shimmer);
             initFabs();
@@ -92,8 +88,8 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     }
 
     private void initFabs() {
-        binding.fab.showMenuButton(true);
-        binding.fab.setClosedOnTouchOutside(true);
+        favoritesBinding.fab.showMenuButton(true);
+        favoritesBinding.fab.setClosedOnTouchOutside(true);
     }
 
     // add product
@@ -126,14 +122,14 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
 
-        binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
-        binding.swiperefresh.setOnRefreshListener(onRefreshListener);
+        favoritesBinding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
+        favoritesBinding.swiperefresh.setOnRefreshListener(onRefreshListener);
 
         //sets add address view
-        binding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
-        binding.addAddressView.homeText.setText(getString(R.string.action_add_location));
-        binding.addAddressView.getRoot().setOnClickListener(this);
-        binding.addAddressView.getRoot().setVisibility(View.GONE);
+        favoritesBinding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
+        favoritesBinding.addAddressView.homeText.setText(getString(R.string.action_add_location));
+        favoritesBinding.addAddressView.getRoot().setOnClickListener(this);
+        favoritesBinding.addAddressView.getRoot().setVisibility(View.GONE);
 
 
         //top recyclerview
@@ -142,21 +138,21 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.addressesRecyclerview.setLayoutManager(linearLayoutManager);
+        favoritesBinding.addressesRecyclerview.setLayoutManager(linearLayoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 getContext(), linearLayoutManager.getOrientation());
-        binding.addressesRecyclerview.addItemDecoration(dividerItemDecoration);
-        binding.addressesRecyclerview.setAdapter(addressessAdapter);
+        favoritesBinding.addressesRecyclerview.addItemDecoration(dividerItemDecoration);
+        favoritesBinding.addressesRecyclerview.setAdapter(addressessAdapter);
         SnapHelper snapHelper = new GravitySnapHelper(Gravity.END);
-        snapHelper.attachToRecyclerView(binding.addressesRecyclerview);
+        snapHelper.attachToRecyclerView(favoritesBinding.addressesRecyclerview);
 
         //bottom recyclerview
         favoritesAdapter = new FavoritesAdapter();
         favoritesAdapter.setClickCallback(iProductClickCallback);
 
         LinearLayoutManager secondLinearLayoutManager = new LinearLayoutManager(getContext());
-        binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
-        binding.favoritesRecyclerview.setLayoutManager(secondLinearLayoutManager);
+        favoritesBinding.favoritesRecyclerview.setAdapter(favoritesAdapter);
+        favoritesBinding.favoritesRecyclerview.setLayoutManager(secondLinearLayoutManager);
 
         //api call to get addresses
         favoritesPresenter.doGetAddressApi(userId);
@@ -701,7 +697,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
-        binding.addAddressView.getRoot().setVisibility(View.VISIBLE);
+        favoritesBinding.addAddressView.getRoot().setVisibility(View.VISIBLE);
         dismissSwipeRefresh();
 
         if (favoritesResponseList.size() > 0) {
@@ -727,16 +723,16 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         }
         if (favoritesResponseList.size() == 0) {
             // binding.listHeader.setVisibility(View.GONE);
-            binding.noItemsTextview.setVisibility(View.VISIBLE);
+            favoritesBinding.noItemsTextview.setVisibility(View.VISIBLE);
         } else {
             // binding.listHeader.setVisibility(View.VISIBLE);
-            binding.noItemsTextview.setVisibility(View.GONE);
+            favoritesBinding.noItemsTextview.setVisibility(View.GONE);
         }
         {
             favoritesAdapter.setData(favoritesResponseList);
             dismissSwipeRefresh();
         }
-        binding.favoritesRecyclerview.setVisibility(View.VISIBLE);
+        favoritesBinding.favoritesRecyclerview.setVisibility(View.VISIBLE);
         shimmerFrameLayout.stopShimmerAnimation();
         shimmerFrameLayout.setVisibility(View.GONE);
 
@@ -744,8 +740,8 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     }
 
     private void dismissSwipeRefresh() {
-        if (binding.swiperefresh.isRefreshing()) {
-            binding.swiperefresh.setRefreshing(false);
+        if (favoritesBinding.swiperefresh.isRefreshing()) {
+            favoritesBinding.swiperefresh.setRefreshing(false);
         }
     }
 

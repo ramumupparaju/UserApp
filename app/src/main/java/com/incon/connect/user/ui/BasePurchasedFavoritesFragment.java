@@ -51,7 +51,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseProductOptionsF
     public ShimmerFrameLayout shimmerFrameLayout;
 
     /////////////specific to favorites fragment
-    public FragmentFavoritesBinding binding;
+    public FragmentFavoritesBinding favoritesBinding;
     public FavoritesPresenter favoritesPresenter;
     public FavoritesAdapter favoritesAdapter;
     public int addressSelectedPosition = -1;
@@ -97,7 +97,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseProductOptionsF
             };
 
     private void getProductsApi() {
-        binding.favoritesRecyclerview.setVisibility(View.GONE);
+        favoritesBinding.favoritesRecyclerview.setVisibility(View.GONE);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmerAnimation();
         if (addressSelectedPosition == -1) {
@@ -105,7 +105,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseProductOptionsF
         }
         AddUserAddressResponse singleAddressResponse = addressessAdapter.
                 getItemFromPosition(addressSelectedPosition);
-        binding.addressesRecyclerview.getLayoutManager().scrollToPosition(
+        favoritesBinding.addressesRecyclerview.getLayoutManager().scrollToPosition(
                 addressSelectedPosition);
         favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());
 
