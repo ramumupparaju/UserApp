@@ -177,9 +177,6 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
         public void onClick(View view) {
 
             Integer tag = (Integer) view.getTag();
-            String[] textArray = new String[0];
-            int[] drawablesArray = new int[0];
-            int[] tagsArray = new int[0];
 
             changeSelectedViews(bottomSheetPurchasedBinding.firstRow, tag);
             ProductInfoResponse itemFromPosition = showRoomAdapter.getItemFromPosition(
@@ -203,8 +200,7 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
             bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.secondRow.removeAllViews();
-            bottomSheetPurchasedBinding.secondRow.setWeightSum(textArray.length);
-           // setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, textArray, drawablesArray,tagsArray, bottomSheetSecondRowClickListener);
+            bottomSheetPurchasedBinding.secondRow.setWeightSum(0);
 
         }
     };
