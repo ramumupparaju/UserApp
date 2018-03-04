@@ -29,7 +29,6 @@ public class LoginDataManagerImpl implements LoginDataManager, AppConstants.Logi
                 loginResponse.getAddress());
         sharedPrefsUtils.setStringPreference(USER_UUID,
                 loginResponse.getUuid());
-
         sharedPrefsUtils.setStringPreference(USER_PIN,
                 loginResponse.getPin());
     }
