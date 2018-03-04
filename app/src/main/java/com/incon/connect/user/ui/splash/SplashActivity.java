@@ -69,7 +69,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
                     }
                 }
 
-                intent = new Intent(SplashActivity.this, CustomPinActivity.class);
+//                intent = new Intent(SplashActivity.this, CustomPinActivity.class);
 
                 startActivity(intent);
                 finish();
