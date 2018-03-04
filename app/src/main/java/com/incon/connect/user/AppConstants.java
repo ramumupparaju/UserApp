@@ -11,6 +11,8 @@ public interface AppConstants {
     String HYPHEN_SEPARATOR = "-";
     int DEFAULT_VALUE = Integer.MIN_VALUE;
 
+    String CATEGORY_AUTOMOBILES = "Automobiles";
+
     String BUILD_FLAVOR = "moonz_dev";
     int VALIDATION_SUCCESS = 0;
     int VALIDATION_FAILURE = -1;
@@ -149,6 +151,7 @@ public interface AppConstants {
         String FROM_FORGOT_PASSWORD_SCREEN = "fromForgotPasswordScreen";
         String SERVICE_CENTER_DATA = "serviceCenterResponse";
         String BUTTON_TEXT = "buttonText";
+        String SERVICE_ENGINEER_DATA = "serviceEngineerData";
     }
 
 
@@ -222,6 +225,7 @@ public interface AppConstants {
         String USER_PASSWORD = "userPassword";
         String USER_CONFIRM_PASSWORD = "userConfirmPassword";
         String USER_UUID = "uuid";
+        String USER_PIN = "user_pin";
         //store details
         String STORE_ID = "storeId";
 
@@ -269,6 +273,7 @@ public interface AppConstants {
         int PRODUCT_ADD_FRAGMENT = 121;
         int ADD_CUSTOM_PRODUCT_FRAGMENT = 122;
 
+        int REFRESH_SE_LIST = 123;
     }
 
     interface TimeConstants {

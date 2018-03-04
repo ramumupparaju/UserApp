@@ -6,15 +6,12 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.widget.Toast;
 
-import com.github.omadahealth.lollipin.lib.managers.AppLockActivity;
 import com.incon.connect.user.R;
+import com.incon.connect.user.ui.pin.managers.AppLockActivity;
 
 import uk.me.lewisdeane.ldialogs.BaseDialog;
 import uk.me.lewisdeane.ldialogs.CustomDialog;
 
-/**
- * Created by oliviergoutay on 1/14/15.
- */
 public class CustomPinActivity extends AppLockActivity {
 
     @Override

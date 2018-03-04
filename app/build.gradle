@@ -165,6 +165,10 @@ dependencies {
     //RippleView
     compile 'com.github.traex.rippleeffect:ripple:1.3.1-OG'
 
+    //TypefaceView
+    compile 'com.github.omadahealth.typefaceview:typefaceview:1.5.0@aar' //TypefaceTextView
+
+
     // fab
     compile 'com.github.clans:fab:1.6.4'
     allprojects {
@@ -176,8 +180,8 @@ dependencies {
         transitive = true;
     }
 
-    //pin library
-    compile project(':lib')
+    /*//pin library
+    compile project(':lib')*/
 
     //Lollipop dialogs https://github.com/lewisjdeane/L-Dialogs and buttons, animations etc...
     compile 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'

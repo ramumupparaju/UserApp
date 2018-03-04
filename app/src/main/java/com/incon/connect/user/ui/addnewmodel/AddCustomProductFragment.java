@@ -5,12 +5,12 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.generated.callback.OnCheckedChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.text.method.KeyListener;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -97,6 +97,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     private HashMap<Integer, String> errorMap;
     private Animation shakeAnim;
     private WarratyDialog warratyDialog;
+    private KeyListener spinnerCategoryKeyListener;
 
     @Override
     protected void initializePresenter() {
@@ -130,10 +131,10 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         return rootView;
     }
 
-
     public void onWarrantyClick() {
         showWarrantyDialog();
     }
+
     public void onExtendedWarrantyClick() {
         showExtendedWarrantyDialog();
     }
@@ -141,19 +142,14 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
         int id = compoundButton.getId();
-        if(id == R.id.checkbox_extened) {
-
-            if(binding.checkboxExtened.isChecked()){
+        if (id == R.id.checkbox_extened) {
+            if (binding.checkboxExtened.isChecked()) {
                 binding.inputLayoutWarrantyExtended.setVisibility(View.VISIBLE);
                 showExtendedWarrantyDialog();
-            }
-            else{
+            } else {
                 binding.inputLayoutWarrantyExtended.setVisibility(View.GONE);
             }
         }
-
-
-
     }
 
 
@@ -244,34 +240,34 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     }
 
     //warranty dialog
-        private void showWarrantyDialog() {
-            warratyDialog = new WarratyDialog.AlertDialogBuilder(getActivity(), new
-                    TextAlertDialogCallback() {
-                        @Override
-                        public void enteredText(String yearsMonthsDays) {
-                            String[] split = yearsMonthsDays.split(AppConstants.COMMA_SEPARATOR);
-                            addCustomProductModel.setWarrantyYears(split[0]);
-                            addCustomProductModel.setWarrantyMonths(split[1]);
-                            addCustomProductModel.setWarrantyDays(split[2]);
-                            addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
-                        }
+    private void showWarrantyDialog() {
+        warratyDialog = new WarratyDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String yearsMonthsDays) {
+                        String[] split = yearsMonthsDays.split(AppConstants.COMMA_SEPARATOR);
+                        addCustomProductModel.setWarrantyYears(split[0]);
+                        addCustomProductModel.setWarrantyMonths(split[1]);
+                        addCustomProductModel.setWarrantyDays(split[2]);
+                        addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
+                    }
 
-                        @Override
-                        public void alertDialogCallback(byte dialogStatus) {
-                            switch (dialogStatus) {
-                                case AlertDialogCallback.OK:
-                                    warratyDialog.dismiss();
-                                    break;
-                                case AlertDialogCallback.CANCEL:
-                                    warratyDialog.dismiss();
-                                    break;
-                                default:
-                                    break;
-                            }
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                warratyDialog.dismiss();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                warratyDialog.dismiss();
+                                break;
+                            default:
+                                break;
                         }
-                    }).years(addCustomProductModel.getWarrantyYears()).months(addCustomProductModel.getWarrantyMonths()).days(addCustomProductModel.getWarrantyDays()).build();
-            warratyDialog.showDialog();
-        }
+                    }
+                }).years(addCustomProductModel.getWarrantyYears()).months(addCustomProductModel.getWarrantyMonths()).days(addCustomProductModel.getWarrantyDays()).build();
+        warratyDialog.showDialog();
+    }
 
     public void onPurchasedDateClick() {
         showDatePicker();
@@ -333,6 +329,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (categorySelectedPos != position) {
                     CategoryResponse fetchCategories = categoriesList.get(position);
+                    setSerialNumberBatchNumbersLabels(fetchCategories.getName());
                     addCustomProductModel.setCategoryId(fetchCategories.getId());
                     addCustomProductModel.setCategoryName(fetchCategories.getName());
                     HashMap<Integer, List<Division>> divisionHashMap = ((HomeActivity) getActivity()).getDivisionHashMap();
@@ -479,38 +476,41 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     addCustomProductModel.setWarrantyDays(modelSearchResponse.getWarrantyDays());
                     addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
 
-                    //Clear spinner data
-                    categorySelectedPos = -1;
-                    categoriesList.clear();
-                    loadCategorySpinnerData();
-                    brandSelectedPos = -1;
-                    fetchBrandsList.clear();
-                    loadBrandSpinnerData(fetchBrandsList);
-                    divisionSelectedPos = -1;
-                    divisionsList.clear();
-                    loadDivisionSpinnerData(divisionsList);
-                    ///////////////////
-
 
                     //added data based on model selection
                     Category category = modelSearchResponse.getCategory();
                     addCustomProductModel.setCategoryId(category.getId());
                     addCustomProductModel.setCategoryName(category.getName());
 
+                    setSerialNumberBatchNumbersLabels(category.getName());
+
+                    Logger.e("setOnItemClickListener", binding.spinnerCategory.isFocusable() + "");
 
                     binding.spinnerDivision.setVisibility(View.VISIBLE);
                     Division division = modelSearchResponse.getDivision();
                     addCustomProductModel.setDivisionId(division.getId());
                     addCustomProductModel.setDivisionName(division.getName());
+                    binding.spinnerDivision.setFocusable(false);
 
                     binding.spinnerBrand.setVisibility(View.VISIBLE);
                     Brand brand = modelSearchResponse.getBrand();
                     addCustomProductModel.setBrandId(brand.getId());
                     addCustomProductModel.setBrandName(brand.getName());
+                    binding.spinnerBrand.setFocusable(false);
                 }
                 AppUtils.hideSoftKeyboard(getActivity(), rootView);
             }
         });
+    }
+
+    private void setSerialNumberBatchNumbersLabels(String categoryName) {
+        if (categoryName.equalsIgnoreCase(AppConstants.CATEGORY_AUTOMOBILES)) {
+            binding.inputLayoutSerialNo.setHint(getString(R.string.add_vin));
+            binding.inputLayoutBatchNo.setHint(getString(R.string.add_vrn));
+        } else {
+            binding.inputLayoutSerialNo.setHint(getString(R.string.add_new_serial_no));
+            binding.inputLayoutBatchNo.setHint(getString(R.string.add_new_batch_no));
+        }
     }
 
     private void setObservableForModelNumber(CustomAutoCompleteView edittextModelNumber) {
@@ -521,12 +521,20 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
             @Override
             public void onNext(TextViewAfterTextChangeEvent textViewAfterTextChangeEvent) {
+
                 String modelNumberString = textViewAfterTextChangeEvent.editable()
                         .toString();
                 if ((TextUtils.isEmpty(selectedModelNumber) || !selectedModelNumber.equals(
                         modelNumberString))) {
                     if (modelNumberString.length() > WarrantyRegistrationConstants
                             .MINIMUM_MODELNUMBER_TO_SEARCH) {
+                        //Reset spinner data
+                        //Clear spinner data
+                        categorySelectedPos = -1;
+                        loadCategorySpinnerData();
+                        binding.spinnerDivision.setVisibility(View.GONE);
+                        binding.spinnerBrand.setVisibility(View.GONE);
+                        ////////////////////////
                         addCustomProductPresenter.doModelSearchApi(modelNumberString);
                         selectedModelNumber = modelNumberString;
                     }
@@ -554,6 +562,8 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
         selectedModelNumber = binding.edittextModelNumber.getText().toString();
         initializeModelNumberAdapter(new ArrayList<ModelSearchResponse>());
+
+        spinnerCategoryKeyListener = binding.spinnerCategory.getKeyListener();
 
         if (ConnectApplication.getAppContext().getCategoriesList() == null) {
             addCustomProductPresenter.getCategories();
