@@ -219,6 +219,7 @@
     <string name="error_select_location">Please select location</string>
     <string name="error_location">Unable to fetch location</string>
     <string name="error_name_address">Please enter Name and Address</string>
+    <string name="error_athentication_failed">Athentication Failed</string>
     <string name="error_address">Please enter Address</string>
     <string name="error_otp_req">Please enter received OTP</string>
     <string name="error_email_notvalid">Please enter valid email address</string>

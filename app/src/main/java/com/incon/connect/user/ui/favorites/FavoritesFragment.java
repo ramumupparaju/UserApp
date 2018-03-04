@@ -35,6 +35,8 @@ import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
 import com.incon.connect.user.ui.history.fragments.PurchasedFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
+import com.incon.connect.user.ui.pin.CustomPinActivity;
+import com.incon.connect.user.ui.pin.managers.AppLock;
 import com.incon.connect.user.utils.GravitySnapHelper;
 import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.SharedPrefsUtils;
@@ -166,8 +168,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     }
 
 
-
-
     // load bottom sheet
     @Override
     public void loadBottomSheet() {
@@ -229,6 +229,14 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RequestCodes.LOCATION_CHANGED) {
+            if (resultCode == Activity.RESULT_OK) {
+                productLocationChangeApi();
+            } else {
+                showErrorMessage(getString(R.string.error_athentication_failed));
+            }
+            return;
+        }
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case RequestCodes.ADDRESS_LOCATION:
@@ -257,6 +265,8 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                     break;
             }
         }
+
+
     }
 
     //recyclerview click event
@@ -385,7 +395,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
 
 
             } else {
-                // showFavoriteOptionsDialog();
+                // showFavoritesLocationChangeDialog();
                 return;
             }
 
@@ -556,7 +566,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     };
 
 
-
     private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -604,7 +613,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 productNameEditDialog();
                 return;
             } else if (tag == R.id.PRODUCT_EDIT_LOCATION_CHANGE) {
-                showFavoriteOptionsDialog();
+                showFavoritesLocationChangeDialog();
                 return;
             } else if (tag == R.id.PRODUCT_EDIT_DELETE) {
 
@@ -654,10 +663,12 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     }
 
 
-    private void showFavoriteOptionsDialog() {
+    private void showFavoritesLocationChangeDialog() {
+
+
         final List<AddUserAddressResponse> addressResponsesList = addressessAdapter.getAddressResponsesList();
-        if (addressResponsesList == null || addressResponsesList.size() ==0) {
-            Logger.e("showFavoriteOptionsDialog", "addressResponsesList are either empty are zero");
+        if (addressResponsesList == null || addressResponsesList.size() == 0) {
+            Logger.e("showFavoritesLocationChangeDialog", "addressResponsesList are either empty are zero");
             return;
         }
 
@@ -685,7 +696,9 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                productLocationChangeApi();
+                                Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
+                                pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
+                                startActivityForResult(pinIntent, RequestCodes.LOCATION_CHANGED);
                                 break;
                             case AlertDialogCallback.CANCEL:
                                 productLocationDialog.dismiss();
@@ -750,7 +763,9 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
 
     @Override
     public void onLocationChanged() {
-
+        dismissDialog(productLocationDialog);
+        dismissDialog(bottomSheetDialog);
+        onRefreshListener.onRefresh();
     }
 
 

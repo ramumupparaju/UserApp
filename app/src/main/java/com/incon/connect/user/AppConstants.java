@@ -279,7 +279,7 @@ public interface AppConstants {
         int REFRESH_SE_LIST = 123;
         int PIN_PROMPT = 124;
         int DELETE_PRODUCT = 125;
-        int PIN_CHANGE = 126;
+        int LOCATION_CHANGED = 126;
     }
 
     interface TimeConstants {

@@ -100,6 +100,15 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
     }
 
+    @Override
+    public void showErrorMessage(String errorMessage) {
+        if (bottomSheetDialog.isShowing()) {
+            AppUtils.shortToast(getActivity(), errorMessage);
+        } else {
+            super.showErrorMessage(errorMessage);
+        }
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
