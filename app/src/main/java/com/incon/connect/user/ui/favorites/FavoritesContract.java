@@ -31,6 +31,10 @@ public interface FavoritesContract {
         void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters);
 
         void addedServiceEngineer(ProductInfoResponse productInfoResponse);
+
+        void transferMobileNumber(Object response);
+
+        void deleteProduct(Object response);
     }
 
     interface Presenter {
@@ -49,5 +53,9 @@ public interface FavoritesContract {
         void getUsersListOfServiceCenters(int serviceCenterId);
 
         void addServiceEngineer(AddServiceEngineer serviceEngineer, int userId);
+
+        void deleteProduct(int userId);
+
+        void doTransferProductApi(String phoneNumber, int userId);
     }
 }

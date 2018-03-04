@@ -272,25 +272,34 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
 
         }
 
+        @Override
+        public void transferMobileNumber(Object response) {
+
+        }
+
+        @Override
+        public void deleteProduct(Object response) {
+        }
+
 
         @Override
         public void showProgress(String message) {
-
+            getView().showProgress(message);
         }
 
         @Override
         public void hideProgress() {
-
+            getView().hideProgress();
         }
 
         @Override
         public void showErrorMessage(String errorMessage) {
-
+            getView().showErrorMessage(errorMessage);
         }
 
         @Override
         public void handleException(Pair<Integer, String> error) {
-
+            getView().handleException(error);
         }
     };
 

@@ -158,7 +158,6 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         purchasedPresenter.setView(purchasedView);
         purchasedPresenter.serviceRequest(serviceRequest);
 
-
     }
 
     @Override
@@ -178,12 +177,31 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         purchasedPresenter.getUsersListOfServiceCenters(serviceCenterId);
     }
 
+    @Override
     public void addServiceEngineer(AddServiceEngineer serviceEngineer, int userId) {
         PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.initialize(null);
         purchasedPresenter.setView(purchasedView);
         purchasedPresenter.addServiceEngineer(serviceEngineer, userId);
     }
+
+    @Override
+    public void deleteProduct(int userId) {
+        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
+        purchasedPresenter.initialize(null);
+        purchasedPresenter.setView(purchasedView);
+        purchasedPresenter.deleteProduct(userId);
+    }
+
+    @Override
+    public void doTransferProductApi(String phoneNumber, int userId) {
+        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
+        purchasedPresenter.initialize(null);
+        purchasedPresenter.setView(purchasedView);
+        purchasedPresenter.doTransferProductApi(phoneNumber,userId);
+    }
+
+
 
     PurchasedContract.View purchasedView = new PurchasedContract.View() {
         @Override
@@ -197,18 +215,13 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         }
 
         @Override
-        public void addedToFavorite() {
-            // do nothing
-        }
-
-        @Override
         public void transferMobileNumber(Object response) {
-            // do nothing
+           getView().transferMobileNumber(response);
         }
 
         @Override
         public void deleteProduct(Object response) {
-            // do nothing
+            getView().deleteProduct(response);
         }
 
         @Override
@@ -230,6 +243,12 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         @Override
         public void addedServiceEngineer(ProductInfoResponse o) {
             getView().addedServiceEngineer(o);
+        }
+
+        @Override
+        public void addedToFavorite() {
+
+
         }
 
         @Override

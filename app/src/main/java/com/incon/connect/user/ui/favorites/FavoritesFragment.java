@@ -23,6 +23,7 @@ import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAddressDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
+import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppUserAddressDialog;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
@@ -57,6 +58,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     private AppUserAddressDialog dialog;
     private AddUserAddress addUserAddress;
     private AppCheckBoxListDialog productLocationDialog;
+    private AppAlertVerticalTwoButtonsDialog dialogDelete;
 
     @Override
     protected void initializePresenter() {
@@ -543,7 +545,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 showFeedBackDialog();
             }
 
-            bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
+            bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.removeAllViews();
             bottomSheetPurchasedBinding.thirdRow.setWeightSum(textArray.length);
@@ -603,12 +605,14 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 showFavoriteOptionsDialog();
                 return;
             } else if (tag == R.id.PRODUCT_EDIT_DELETE) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+
+                showDeleteDialog();
 
             }
         }
 
     };
+
 
     private void showFavoriteOptionsDialog() {
         final List<AddUserAddressResponse> addressResponsesList = addressessAdapter.getAddressResponsesList();

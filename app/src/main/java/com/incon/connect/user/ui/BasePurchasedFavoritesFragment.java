@@ -36,7 +36,6 @@ import com.incon.connect.user.ui.favorites.FavoritesPresenter;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
-import com.incon.connect.user.ui.history.base.BaseProductOptionsFragment;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
 import com.incon.connect.user.ui.history.fragments.PurchasedPresenter;
 import com.incon.connect.user.ui.pin.CustomPinActivity;
@@ -158,11 +157,16 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     }
 
     public void doProductDeleteApi() {
-        final ProductInfoResponse itemFromPosition = purchasedAdapter.
-                getItemFromPosition(productSelectedPosition);
+        if (this instanceof FavoritesFragment) {
+            int warrantyId = Integer.parseInt(favoritesAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
+            favoritesPresenter.deleteProduct(warrantyId);
+        } else {
+            int warrantyId = Integer.parseInt(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
+            purchasedPresenter.deleteProduct(warrantyId);
 
-        purchasedPresenter.deleteProduct(Integer.parseInt(
-                itemFromPosition.getWarrantyId()));
+        }
+
+
     }
 
     public void showSuggestionsDialog() {
@@ -200,8 +204,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                     @Override
                     public void enteredText(String commentString) {
                         if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
-                        //TODO HAVE to add condition for  favorite
-
+                            favoritesPresenter.doTransferProductApi(commentString, userId);
                         } else {
                             purchasedPresenter.doTransferProductApi(commentString, userId);
                         }
@@ -280,7 +283,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             if (this instanceof FavoritesFragment) {
                 favoritesPresenter.nearByServiceCenters(Integer.parseInt(brandId));
             } else {
-            purchasedPresenter.nearByServiceCenters(Integer.parseInt(brandId));
+                purchasedPresenter.nearByServiceCenters(Integer.parseInt(brandId));
             }
         }
 
@@ -389,16 +392,15 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     }
 
     public void transferMobileNumber(Object o) {
+        dismissDialog(transferDialog);
+        dismissDialog(bottomSheetDialog);
+        onRefreshListener.onRefresh();
     }
 
     public void deleteProduct(Object response) {
+        dismissDialog(detailsDialog);
         dismissDialog(bottomSheetDialog);
         onRefreshListener.onRefresh();
-        AppUtils.showSnackBar(getView(), getString(R.string.action_delete));
-    }
-
-    public void addedToFavorite() {
-
     }
 
     public void loadServiceRequest() {

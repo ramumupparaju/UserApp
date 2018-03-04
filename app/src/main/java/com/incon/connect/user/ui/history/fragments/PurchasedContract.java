@@ -22,8 +22,6 @@ public interface PurchasedContract {
 
         void loadAddresses(List<AddUserAddressResponse> favoritesResponseList);
 
-        void addedToFavorite();
-
         void transferMobileNumber(Object response);
 
         void deleteProduct(Object response);
@@ -35,6 +33,8 @@ public interface PurchasedContract {
         void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters);
 
         void addedServiceEngineer(ProductInfoResponse productInfoResponse);
+
+        void addedToFavorite();
     }
 
     interface Presenter {

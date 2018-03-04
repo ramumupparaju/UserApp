@@ -331,7 +331,6 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
         favoritesMap.put(BODY_WARRANTY_ID,
                 itemFromPosition.getWarrantyId());
         purchasedPresenter.addToFavotites(favoritesMap);
-
     }
 
     // bottom sheet top view click event
