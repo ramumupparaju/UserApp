@@ -61,7 +61,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public PurchasedPresenter purchasedPresenter;
     public FragmentPurchasedBinding binding;
     public PurchasedAdapter purchasedAdapter;
-/////////////////////////////////////////
+   /////////////////////////////////////////
 
 
     /////////////specific to favoorites fragment
@@ -219,7 +219,9 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                             // TODO have to check with naveen
                         ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(productSelectedPosition);
                             favoritesPresenter.doTransferProductApi(commentString, itemFromPosition.getFavouriteId());
-                        } else {
+                        }
+
+                        else {
                             // TODO have to check with naveen
                         ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(productSelectedPosition);
                             purchasedPresenter.doTransferProductApi(commentString, itemFromPosition.getProductId());
@@ -460,7 +462,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
             @Override
             public void doServiceRequestApi(ServiceRequest serviceRequest) {
-                Integer purchaseId = Integer.valueOf(favoritesAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
+                Integer purchaseId = Integer.valueOf(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
                 serviceRequest.setPurchaseId(purchaseId);
                 serviceRequest.setCustomerId(userId);
                 if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {

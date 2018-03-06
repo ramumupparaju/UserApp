@@ -372,11 +372,12 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
     }
 
     private void productBuyRequestApi() {
+        ProductInfoResponse productInfoResponse = interestAdapter.
+                getItemFromPosition(productSelectedPosition);
+
         HashMap<String, String> buyRequestApi = new HashMap<>();
         buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
                 String.valueOf(userId));
-        ProductInfoResponse productInfoResponse = interestAdapter.
-                getItemFromPosition(productSelectedPosition);
         buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
                 String.valueOf(productInfoResponse.getMerchantId()));
         buyRequestApi.put(ApiRequestKeyConstants.BODY_INTEREST_ID,
