@@ -106,6 +106,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
 
     private void loadUsersSpinner() {
         if (usersList.size() == 0) {
+            usersSelectedPos = -1;
             binding.spinnerUsers.setVisibility(View.GONE);
             return;
         }
