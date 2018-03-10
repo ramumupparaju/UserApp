@@ -84,7 +84,6 @@ public abstract class AppLockActivity extends PinActivity implements KeyboardBut
                 hideProgress();
                 Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
                 handleException(errorDetails);
-                onPinChanged();// TODO have to remove
             }
 
             @Override
