@@ -74,6 +74,7 @@ public class FavoritesAdapter extends BaseRecyclerViewAdapter {
                 layoutParams.setMargins(leftRightMargin, topBottomMargin, leftRightMargin, topBottomMargin);
             }
             binding.productName.setText(favoritesResponse.getProductName());
+            binding.productNickName.setText(favoritesResponse.getFavouriteName());
             final long totalWarrantyDays = DateUtils.convertDifferenceDateIndays(favoritesResponse.getWarrantyEndDate(),
                     favoritesResponse.getPurchasedDate());
             // binding.layoutFavoriteItem.setSelected(favoritesResponse.isSelected());

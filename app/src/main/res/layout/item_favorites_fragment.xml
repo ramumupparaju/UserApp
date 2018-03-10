@@ -59,6 +59,17 @@
                     android:textSize="12.4sp" />
 
                 <TextView
+                    android:id="@+id/product_nick_name"
+                    style="@style/BothWrap"
+                    android:layout_below="@+id/product_name"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:layout_toLeftOf="@id/status_layout"
+                    android:layout_toRightOf="@id/product_imageview"
+                    android:maxLines="2"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="10sp" />
+
+                <TextView
                     android:id="@+id/warranty_period"
                     style="@style/MatchWrap"
                     android:layout_above="@+id/warranty_layout"
