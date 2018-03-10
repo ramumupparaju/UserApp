@@ -48,6 +48,8 @@ public interface PurchasedContract {
 
         void deleteProduct(int userId);
 
+        void reviewToProduct(int userId);
+
         void serviceRequest(ServiceRequest serviceRequest);
 
         void nearByServiceCenters(int brandId);

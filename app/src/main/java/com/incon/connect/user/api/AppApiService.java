@@ -194,6 +194,11 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.returnApi(userId));
     }
 
+        // product review api
+    public Observable<Object> reviewsApi(int userId) {
+        return addNetworkCheck(serviceInstance.reviewsApi(userId));
+    }
+
     // fetch nearby service centers
     public Observable<List<ServiceCenterResponse>> findNearByServiceCenters(int brandId) {
         return addNetworkCheck(serviceInstance.findNearByServiceCenters(brandId));

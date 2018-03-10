@@ -202,6 +202,12 @@ public interface AppServiceObservable {
     @GET("user/servicerequests/{userId}")
     Observable<ArrayList<ServiceStatus>> fetchUserRequests(@Path("userId") int userId);
 
+
+    // product review api
+    @GET("product/reviews/{userId}")
+    Observable<Object> reviewsApi(@Path("userId") int userId);
+
+
     // new user registation  api
     @POST("user/newuser/{phoneNumber}")
     Observable<UserInfoResponse> newUserRegistation(@Path("phoneNumber")

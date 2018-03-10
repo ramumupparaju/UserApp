@@ -122,6 +122,11 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
 
     }
 
+    @Override
+    public void reviewToProduct(int userId) {
+
+    }
+
     // service request
     @Override
     public void serviceRequest(ServiceRequest serviceRequest) {
