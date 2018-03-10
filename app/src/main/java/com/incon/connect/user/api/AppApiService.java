@@ -199,6 +199,14 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.returnApi(userId));
     }
 
+        // product review api
+    public Observable<Object> reviewsApi(int userId) {
+        return addNetworkCheck(serviceInstance.reviewsApi(userId));
+    }
+    public Observable<Object> saveReviewsApi(HashMap<String, String> saveReviewsBody) {
+        return addNetworkCheck(serviceInstance.saveReviewsApi(saveReviewsBody));
+    }
+
     // fetch nearby service centers
     public Observable<List<ServiceCenterResponse>> findNearByServiceCenters(int brandId, int userId) {
         return addNetworkCheck(serviceInstance.findNearByServiceCenters(brandId, userId));
@@ -261,8 +269,8 @@ public class AppApiService implements AppConstants {
     }
 
     //transfer  api
-    public Observable<Object> transferRequest(String phoneNumber, int favouriteId) {
-        return addNetworkCheck(serviceInstance.transferRequest(phoneNumber, favouriteId));
+    public Observable<Object> transferRequest(String phoneNumber, String warrantyId) {
+        return addNetworkCheck(serviceInstance.transferRequest(phoneNumber, warrantyId));
     }
 
     //transfer request otp api

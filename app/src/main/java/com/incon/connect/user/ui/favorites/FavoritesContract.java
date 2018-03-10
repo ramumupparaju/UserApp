@@ -35,10 +35,20 @@ public interface FavoritesContract {
         void transferMobileNumber(Object response);
 
         void deleteProduct(Object response);
+
+        void productReviews();
+
+        void saveReviews(Object saveReviews);
     }
 
     interface Presenter {
+
+
         void doGetAddressApi(int userId);
+
+        void reviewToproduct(int userId);
+
+        void saveReviewsApi(HashMap<String, String> reviewsMap);
 
         void doFavoritesProductApi(int userId, int addressId);
 
@@ -56,6 +66,6 @@ public interface FavoritesContract {
 
         void deleteFovoriteProduct(int favouriteId);
 
-        void doTransferProductApi(String phoneNumber, int userId);
+        void doTransferProductApi(String phoneNumber, String warrantyId);
     }
 }

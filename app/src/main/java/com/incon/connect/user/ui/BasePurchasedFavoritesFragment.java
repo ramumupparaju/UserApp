@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.FeedbackData;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
@@ -20,11 +21,13 @@ import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterRes
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.CustomPhoneNumberAlertDialogCallback;
+import com.incon.connect.user.callbacks.FeedbackAlertDialogCallback;
 import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
+import com.incon.connect.user.custom.view.AppEditTextListDialog;
 import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
 import com.incon.connect.user.custom.view.ServiceRequestDialog;
 import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
@@ -46,6 +49,7 @@ import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -62,7 +66,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public PurchasedPresenter purchasedPresenter;
     public FragmentPurchasedBinding binding;
     public PurchasedAdapter purchasedAdapter;
-   /////////////////////////////////////////
+    /////////////////////////////////////////
 
 
     /////////////specific to favoorites fragment
@@ -81,7 +85,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public boolean isFindServiceCenter;
 
     private AppEditTextDialog suggestionsDialog;
-    public AppEditTextDialog feedBackDialog;
+    public AppEditTextListDialog feedBackDialog;
     public AppEditTextDialog transferDialog;
     public AppAlertDialog detailsDialog;
     public ServiceRequestDialog serviceRequestDialog;
@@ -175,24 +179,35 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         } else {
             int warrantyId = Integer.parseInt(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
             purchasedPresenter.deleteProduct(warrantyId);
-
         }
-
-
     }
 
     public void showSuggestionsDialog() {
+        final HashMap<String, String> saveReviewApi = new HashMap<>();
+        saveReviewApi.put(ApiRequestKeyConstants.BODY_USER_ID, String.valueOf(userId));
+
         suggestionsDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String commentString) {
                         //TODO api cal
+                        saveReviewApi.put(ApiRequestKeyConstants.BODY_SUGGESTIONS, commentString);
                     }
 
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
+
+                                if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+                                    ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(productSelectedPosition);
+                                    saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_ID, String.valueOf(itemFromPosition.getProductId()));
+                                    favoritesPresenter.saveReviewsApi(saveReviewApi);
+                                } else {
+                                    ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(productSelectedPosition);
+                                    saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_ID, String.valueOf(itemFromPosition.getProductId()));
+                                    purchasedPresenter.saveReviewsApi(saveReviewApi);
+                                }
                                 break;
                             case AlertDialogCallback.CANCEL:
                                 suggestionsDialog.dismiss();
@@ -218,14 +233,12 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
                         if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
                             // TODO have to check with naveen
-                        ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(productSelectedPosition);
-                            favoritesPresenter.doTransferProductApi(commentString, itemFromPosition.getFavouriteId());
-                        }
-
-                        else {
+                            ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(productSelectedPosition);
+                            favoritesPresenter.doTransferProductApi(commentString, itemFromPosition.getWarrantyId());
+                        } else {
                             // TODO have to check with naveen
-                        ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(productSelectedPosition);
-                            purchasedPresenter.doTransferProductApi(commentString, itemFromPosition.getProductId());
+                            ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(productSelectedPosition);
+                            purchasedPresenter.doTransferProductApi(commentString, itemFromPosition.getWarrantyId());
                         }
                     }
 
@@ -250,17 +263,39 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     }
 
 
-    public void showFeedBackDialog() {
-        feedBackDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
+    public void productReviews() {
+//showFeedBackDialog();
+    }
+
+    public void showFeedBackDialog(List<FeedbackData> reviews) {
+        final HashMap<String, String> saveReviewApi = new HashMap<>();
+        saveReviewApi.put(ApiRequestKeyConstants.BODY_USER_ID, String.valueOf(userId));
+
+        feedBackDialog = new AppEditTextListDialog.AlertDialogBuilder(getActivity(), new
+                FeedbackAlertDialogCallback() {
+                    @Override
+                    public void selectedRating(String rating) {
+                        saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_RATING, rating);
+                    }
+
                     @Override
                     public void enteredText(String commentString) {
+                        saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_REVIEW, commentString);
                     }
 
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
+                                if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+                                    ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(productSelectedPosition);
+                                    saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_ID, String.valueOf(itemFromPosition.getProductId()));
+                                    favoritesPresenter.saveReviewsApi(saveReviewApi);
+                                } else {
+                                    ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(productSelectedPosition);
+                                    saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_ID, String.valueOf(itemFromPosition.getProductId()));
+                                    purchasedPresenter.saveReviewsApi(saveReviewApi);
+                                }
                                 break;
                             case AlertDialogCallback.CANCEL:
                                 feedBackDialog.dismiss();
@@ -272,9 +307,26 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 }).title(getString(R.string.bottom_option_feedback))
                 .leftButtonText(getString(R.string.action_cancel))
                 .rightButtonText(getString(R.string.action_submit))
+                .feedbackDataList(reviews)
                 .build();
         feedBackDialog.showDialog();
         feedBackDialog.setCancelable(true);
+    }
+
+    public void doReviewsApi() {
+        //todo have to call reviews api
+
+        if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+            favoritesPresenter.reviewToproduct(userId);
+        } else {
+            purchasedPresenter.reviewToProduct(userId);
+        }
+        showFeedBackDialog(null);
+
+    }
+
+
+    public void saveReviews(Object saveReviews) {
 
     }
 

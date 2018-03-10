@@ -256,6 +256,12 @@ public interface AppConstants {
         String BODY_MOBILE_NUMBER = "mobileNumber";
         String STORE_LOGO = "logo";
         String BODY_PASSWORD = "password";
+        String BODY_PRODUCT_ID = "productId";
+        String BODY_PRODUCT_RATING = "rating";
+        String BODY_PRODUCT_REVIEW = "review";
+        String BODY_SUGGESTIONS = "suggestions";
+
+
         String BODY_PIN = "pin";
     }
 

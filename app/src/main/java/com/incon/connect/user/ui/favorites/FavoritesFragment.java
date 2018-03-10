@@ -427,10 +427,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                     drawablesArray.add(R.drawable.ic_option_call);
                 }
 
-                textArray.add(getString(R.string.bottom_option_add));
-                tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_ADD);
-                drawablesArray.add(R.drawable.ic_option_bill);
-
                 textArray.add(getString(R.string.bottom_option_find_service_center));
                 tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER);
                 drawablesArray.add(R.drawable.ic_option_bill);
@@ -442,18 +438,19 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 textArray.add(getString(R.string.bottom_option_add));
                 tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_ADD);
                 drawablesArray.add(R.drawable.ic_option_bill);
+
             } else if (tag == R.id.SUPPORT_AUTHORIZE) {
 
                 textArray.add(getString(R.string.bottom_option_call_customer_care));
-                textArray.add(getString(R.string.bottom_option_find_service_center));
-                textArray.add(getString(R.string.bottom_option_service_request));
-
                 tagsArray.add(R.id.SUPPORT_AUTHORIZE_CALL);
-                tagsArray.add(R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER);
-                tagsArray.add(R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST);
-
                 drawablesArray.add(R.drawable.ic_option_call);
+
+                textArray.add(getString(R.string.bottom_option_find_service_center));
+                tagsArray.add(R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER);
                 drawablesArray.add(R.drawable.ic_option_bill);
+
+                textArray.add(getString(R.string.bottom_option_service_request));
+                tagsArray.add(R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST);
                 drawablesArray.add(R.drawable.ic_option_bill);
             } else if (tag == R.id.PRODUCT_DETAILS) {
 
@@ -485,9 +482,9 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.PRODUCT_TRANSFER) {
                 showTransferDialog();
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
-                showFeedBackDialog();
+                doReviewsApi();
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                showSuggestionsDialog();
             } else if (tag == R.id.PRODUCT_EDIT) {
                 textArray.add(getString(R.string.bottom_option_nick_name));
                 textArray.add(getString(R.string.bottom_option_location_change));
@@ -507,7 +504,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.SHOWROOM_LOCATION) {
                 showLocationDialog();
             } else if (tag == R.id.SHOWROOM_FEEDBACK) {
-                showFeedBackDialog();
+                doReviewsApi();
             }
 
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.VISIBLE);
@@ -578,16 +575,12 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     };
 
     private void productNameEditDialog() {
-
         productNameEditDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String commentString) {
-
-
                         ProductInfoResponse itemFromPosition = favoritesAdapter.
                                 getItemFromPosition(productSelectedPosition);
-                        //TODO api cal
                         productEdit = commentString;
                         HashMap<String, String> productNameEditMap = new HashMap<>();
                         productNameEditMap.put(ApiRequestKeyConstants.BODY_NICK_NAME, productEdit);
@@ -618,56 +611,57 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
 
     private void showFavoritesLocationChangeDialog() {
 
-
         final List<AddUserAddressResponse> addressResponsesList = addressessAdapter.getAddressResponsesList();
         if (addressResponsesList == null || addressResponsesList.size() == 0) {
-            Logger.e("showFavoritesLocationChangeDialog", "addressResponsesList are either empty are zero");
-            if (addressResponsesList == null || addressResponsesList.size() == 0) {
-                Logger.e("showFavoriteOptionsDialog", "addressResponsesList are either empty are zero");
-                return;
-            }
-
-            //set previous selected categories as checked
-            List<CheckedModelSpinner> filterNamesList = new ArrayList<>();
-
-            for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
-                CheckedModelSpinner checkedModelSpinner = new CheckedModelSpinner();
-                checkedModelSpinner.setName(addUserAddressResponse.getName());
-                filterNamesList.add(checkedModelSpinner);
-            }
-            productLocationDialog = new AppCheckBoxListDialog.AlertDialogBuilder(getActivity(), new
-                    TextAlertDialogCallback() {
-                        @Override
-                        public void enteredText(String selectedLocationName) {
-                            for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
-                                if (addUserAddressResponse.getName().equals(selectedLocationName)) {
-                                    addressId = addUserAddressResponse.getId();
-                                    break;
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void alertDialogCallback(byte dialogStatus) {
-                            switch (dialogStatus) {
-                                case AlertDialogCallback.OK:
-                                    Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
-                                    pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
-                                    startActivityForResult(pinIntent, RequestCodes.LOCATION_CHANGED);
-                                    break;
-                                case AlertDialogCallback.CANCEL:
-                                    productLocationDialog.dismiss();
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }).title(getString(R.string.bottom_option_location_change))
-                    .spinnerItems(filterNamesList)
-                    .build();
-            productLocationDialog.showDialog();
-            productLocationDialog.setRadioType(true);
+            Logger.e("showFavoriteOptionsDialog", "addressResponsesList are either empty are zero");
+            return;
         }
+
+        //set previous selected categories as checked
+        List<CheckedModelSpinner> filterNamesList = new ArrayList<>();
+        for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
+
+            AddUserAddressResponse singleAddressResponse = addressessAdapter.
+                    getItemFromPosition(addressSelectedPosition);
+            if (singleAddressResponse.getId() == addUserAddressResponse.getId()) {
+                continue;
+            }
+            CheckedModelSpinner checkedModelSpinner = new CheckedModelSpinner();
+            checkedModelSpinner.setName(addUserAddressResponse.getName());
+            filterNamesList.add(checkedModelSpinner);
+        }
+        productLocationDialog = new AppCheckBoxListDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String selectedLocationName) {
+                        for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
+                            if (addUserAddressResponse.getName().equals(selectedLocationName)) {
+                                addressId = addUserAddressResponse.getId();
+                                break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
+                                pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
+                                startActivityForResult(pinIntent, RequestCodes.LOCATION_CHANGED);
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                productLocationDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.bottom_option_location_change))
+                .spinnerItems(filterNamesList)
+                .build();
+        productLocationDialog.showDialog();
+        productLocationDialog.setRadioType(true);
     }
 
     private void productLocationChangeApi() {
@@ -677,7 +671,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         productLocationChangeMap.put(BODY_ID, String.valueOf(itemFromPosition.getFavouriteId()));
         productLocationChangeMap.put(BODY_ADDRESS_ID, String.valueOf(itemFromPosition.getAddressId()));
         favoritesPresenter.doLocationChangeProductNameEditApi(productLocationChangeMap);
-
     }
 
 
@@ -721,6 +714,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     @Override
     public void onLocationChanged() {
         dismissDialog(productLocationDialog);
+        dismissDialog(productNameEditDialog);
         dismissDialog(bottomSheetDialog);
         onRefreshListener.onRefresh();
     }
@@ -746,6 +740,11 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         shimmerFrameLayout.stopShimmerAnimation();
         shimmerFrameLayout.setVisibility(View.GONE);
 
+
+    }
+
+    @Override
+    public void productReviews() {
 
     }
 

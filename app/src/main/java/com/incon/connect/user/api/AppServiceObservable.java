@@ -198,13 +198,22 @@ public interface AppServiceObservable {
     Observable<Object> warrantyRequestOtp(@Path("phoneNumber") String phoneNumber);
 
     //transfer product api
-    @GET("user/transfer/{phoneNumber}/{favouriteId}")
+    @GET("user/transfer/{phoneNumber}/{warrantyId}")
     Observable<Object> transferRequest(@Path("phoneNumber") String phoneNumber,
-                                       @Path("favouriteId") int favouriteId);
+                                       @Path("warrantyId") String warrantyId);
 
     //transfer product api
     @GET("user/servicerequests/{userId}")
     Observable<ArrayList<ServiceStatus>> fetchUserRequests(@Path("userId") int userId);
+
+
+    // product review api
+    @GET("product/reviews/{userId}")
+    Observable<Object> reviewsApi(@Path("userId") int userId);
+
+    @POST("product/savereviews")
+    Observable<Object> saveReviewsApi(@Body HashMap<String, String> savereviewsBody);
+
 
     // new user registation  api
     @POST("user/newuser/{phoneNumber}")
