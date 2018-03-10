@@ -70,7 +70,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
 
     // do location Api
     @Override
-    public void doLocationChangeProductNameEditApi(HashMap<String, String> favoritesMap) {
+    public void doLocationChangeProductNameEditApi(HashMap<String, String> locationChangeMap) {
         getView().showProgress(appContext.getString(R.string.progress_change_product_location));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
@@ -91,7 +91,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().productChangeLocationProductNameEditApi(favoritesMap).subscribe(observer);
+        AppApiService.getInstance().productChangeLocationProductNameEditApi(locationChangeMap).subscribe(observer);
         addDisposable(observer);
     }
 

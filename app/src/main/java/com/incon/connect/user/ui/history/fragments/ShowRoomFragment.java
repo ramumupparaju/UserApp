@@ -99,17 +99,13 @@ public class ShowRoomFragment extends BaseTabFragment implements ShowRoomContrac
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
         getProductsApi();
-
     }
 
     private void getProductsApi() {
-
         binding.showroomRecyclerview.setVisibility(View.GONE);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmerAnimation();
         showRoomPresenter.storesList(userId);
-
-
     }
 
     // data re load

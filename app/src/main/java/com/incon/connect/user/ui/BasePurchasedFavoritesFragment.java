@@ -180,16 +180,17 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             purchasedPresenter.deleteProduct(warrantyId);
         }
     }
+
     public void showSuggestionsDialog() {
         final HashMap<String, String> saveReviewApi = new HashMap<>();
-        saveReviewApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID, String.valueOf(userId));
+        saveReviewApi.put(ApiRequestKeyConstants.BODY_USER_ID, String.valueOf(userId));
 
         suggestionsDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String commentString) {
                         //TODO api cal
-                        saveReviewApi.put(ApiRequestKeyConstants.BODY_SUGGESTIONS,commentString );
+                        saveReviewApi.put(ApiRequestKeyConstants.BODY_SUGGESTIONS, commentString);
                     }
 
                     @Override
@@ -267,7 +268,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
     public void showFeedBackDialog(List<FeedbackData> reviews) {
         final HashMap<String, String> saveReviewApi = new HashMap<>();
-        saveReviewApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID, String.valueOf(userId));
+        saveReviewApi.put(ApiRequestKeyConstants.BODY_USER_ID, String.valueOf(userId));
 
         feedBackDialog = new AppEditTextListDialog.AlertDialogBuilder(getActivity(), new
                 FeedbackAlertDialogCallback() {
@@ -278,7 +279,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
                     @Override
                     public void enteredText(String commentString) {
-                        saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_REVIEW,commentString );
+                        saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_REVIEW, commentString);
                     }
 
                     @Override
@@ -312,7 +313,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     }
 
     public void doReviewsApi() {
-  //todo have to call reviews api
+        //todo have to call reviews api
 
         if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
             favoritesPresenter.reviewToproduct(userId);
