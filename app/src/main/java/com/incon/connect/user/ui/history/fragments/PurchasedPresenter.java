@@ -263,8 +263,9 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         favoritesPresenter.doGetAddressApi(userId);
     }
 
+
     @Override
-    public void doTransferProductApi(String phoneNumber, int favouriteId) {
+    public void doTransferProductApi(String phoneNumber, String warrantyId) {
         getView().showProgress(appContext.getString(R.string.progress_transfering_product));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
@@ -285,7 +286,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().transferRequest(phoneNumber, favouriteId).subscribe(observer);
+        AppApiService.getInstance().transferRequest(phoneNumber, warrantyId).subscribe(observer);
         addDisposable(observer);
     }
 

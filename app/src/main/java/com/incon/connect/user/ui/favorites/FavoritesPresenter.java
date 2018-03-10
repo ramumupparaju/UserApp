@@ -220,11 +220,11 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     }
 
     @Override
-    public void doTransferProductApi(String phoneNumber, int userId) {
+    public void doTransferProductApi(String phoneNumber, String warrantyId) {
         PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.initialize(null);
         purchasedPresenter.setView(purchasedView);
-        purchasedPresenter.doTransferProductApi(phoneNumber,userId);
+        purchasedPresenter.doTransferProductApi(phoneNumber,warrantyId);
     }
 
     @Override

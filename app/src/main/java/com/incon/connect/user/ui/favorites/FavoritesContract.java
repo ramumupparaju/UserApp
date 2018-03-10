@@ -66,6 +66,6 @@ public interface FavoritesContract {
 
         void deleteFovoriteProduct(int favouriteId);
 
-        void doTransferProductApi(String phoneNumber, int userId);
+        void doTransferProductApi(String phoneNumber, String warrantyId);
     }
 }

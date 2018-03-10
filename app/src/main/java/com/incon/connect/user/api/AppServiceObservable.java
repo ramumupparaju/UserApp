@@ -194,9 +194,9 @@ public interface AppServiceObservable {
     Observable<Object> warrantyRequestOtp(@Path("phoneNumber") String phoneNumber);
 
     //transfer product api
-    @GET("user/transfer/{phoneNumber}/{favouriteId}")
+    @GET("user/transfer/{phoneNumber}/{warrantyId}")
     Observable<Object> transferRequest(@Path("phoneNumber") String phoneNumber,
-                                       @Path("favouriteId") int favouriteId);
+                                       @Path("warrantyId") String warrantyId);
 
     //transfer product api
     @GET("user/servicerequests/{userId}")

@@ -233,11 +233,11 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                         if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
                             // TODO have to check with naveen
                             ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(productSelectedPosition);
-                            favoritesPresenter.doTransferProductApi(commentString, itemFromPosition.getFavouriteId());
+                            favoritesPresenter.doTransferProductApi(commentString, itemFromPosition.getWarrantyId());
                         } else {
                             // TODO have to check with naveen
                             ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(productSelectedPosition);
-                            purchasedPresenter.doTransferProductApi(commentString, itemFromPosition.getProductId());
+                            purchasedPresenter.doTransferProductApi(commentString, itemFromPosition.getWarrantyId());
                         }
                     }
 

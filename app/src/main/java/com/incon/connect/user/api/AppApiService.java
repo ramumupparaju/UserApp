@@ -264,8 +264,8 @@ public class AppApiService implements AppConstants {
     }
 
     //transfer  api
-    public Observable<Object> transferRequest(String phoneNumber, int favouriteId) {
-        return addNetworkCheck(serviceInstance.transferRequest(phoneNumber, favouriteId));
+    public Observable<Object> transferRequest(String phoneNumber, String warrantyId) {
+        return addNetworkCheck(serviceInstance.transferRequest(phoneNumber, warrantyId));
     }
 
     //transfer request otp api
