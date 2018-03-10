@@ -9,11 +9,12 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.pin.interfaces.LifeCycleInterface;
 import com.incon.connect.user.ui.pin.managers.AppLockActivity;
 
 
-public class PinActivity extends Activity {
+public class PinActivity extends BaseActivity {
     private static LifeCycleInterface mLifeCycleListener;
     private final BroadcastReceiver mPinCancelledReceiver;
 
@@ -25,6 +26,21 @@ public class PinActivity extends Activity {
                 finish();
             }
         };
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return 0;
+    }
+
+    @Override
+    protected void initializePresenter() {
+
+    }
+
+    @Override
+    protected void onCreateView(Bundle saveInstanceState) {
+
     }
 
     @Override

@@ -141,6 +141,10 @@ public interface AppServiceObservable {
     @POST("user/buyrequest")
     Observable<Object> buyRequestApi(@Body HashMap<String, String> buyRequestBody);
 
+
+    @POST("user/updateuser/{userId}")
+    Observable<Object> updateUserApi(@Body HashMap<String, String> pinMap, @Path("userId") int userId);
+
     //return history  api
     @GET("user/history/return/{userId}")
     Observable<List<ProductInfoResponse>> returnApi(@Path("userId") int userId);

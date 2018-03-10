@@ -256,6 +256,7 @@ public interface AppConstants {
         String BODY_MOBILE_NUMBER = "mobileNumber";
         String STORE_LOGO = "logo";
         String BODY_PASSWORD = "password";
+        String BODY_PIN = "pin";
     }
 
     interface RequestCodes {

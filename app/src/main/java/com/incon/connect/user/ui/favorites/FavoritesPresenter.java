@@ -165,7 +165,6 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         purchasedPresenter.initialize(null);
         purchasedPresenter.setView(purchasedView);
         purchasedPresenter.nearByServiceCenters(brandId, userId);
-
     }
 
     @Override

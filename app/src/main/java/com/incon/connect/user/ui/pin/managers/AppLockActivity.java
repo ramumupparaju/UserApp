@@ -6,6 +6,7 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,12 +15,18 @@ import android.widget.TextView;
 
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
+import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.ui.pin.PinActivity;
 import com.incon.connect.user.ui.pin.enums.KeyboardButtonEnum;
 import com.incon.connect.user.ui.pin.interfaces.KeyboardButtonClickedListener;
 import com.incon.connect.user.ui.pin.views.KeyboardView;
 import com.incon.connect.user.ui.pin.views.PinCodeRoundView;
+import com.incon.connect.user.utils.ErrorMsgUtil;
 import com.incon.connect.user.utils.SharedPrefsUtils;
+
+import java.util.HashMap;
+
+import io.reactivex.observers.DisposableObserver;
 
 public abstract class AppLockActivity extends PinActivity implements KeyboardButtonClickedListener, View.OnClickListener, FingerprintUiHelper.Callback {
 
@@ -45,6 +52,8 @@ public abstract class AppLockActivity extends PinActivity implements KeyboardBut
     protected String mOldPinCode;
 
     private boolean isCodeSuccessful = false;
+    private DisposableObserver<Object> observer;
+
 
     /**
      * First creation
@@ -55,6 +64,42 @@ public abstract class AppLockActivity extends PinActivity implements KeyboardBut
 
         setContentView(getContentView());
         initLayout(getIntent());
+    }
+
+    public void userPin() {
+
+        int userId = SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE);
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put(ApiRequestKeyConstants.BODY_PIN, String.valueOf(mPinCode));
+
+        showProgress("");
+        observer = new DisposableObserver<Object>() {
+            @Override
+            public void onNext(Object o) {
+                onPinChanged();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                hideProgress();
+                Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                handleException(errorDetails);
+                onPinChanged();// TODO have to remove
+            }
+
+            @Override
+            public void onComplete() {
+                hideProgress();
+            }
+        };
+        AppApiService.getInstance().updateUserApi(hashMap, userId).subscribe(observer);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (observer != null && !observer.isDisposed())
+            observer.dispose();
     }
 
     /**
@@ -258,13 +303,7 @@ public abstract class AppLockActivity extends PinActivity implements KeyboardBut
                 break;
             case AppLock.CONFIRM_PIN:
                 if (mPinCode.equals(mOldPinCode)) {
-                    setResult(RESULT_OK);
-                    //TODO have to make api call
-                    SharedPrefsUtils.loginProvider().setStringPreference(AppConstants.LoginPrefs.USER_PIN, mPinCode);
-                    SharedPrefsUtils.loginProvider().setBooleanPreference(AppConstants.LoginPrefs.PIN_PROMPT, false);
-                    SharedPrefsUtils.loginProvider().setBooleanPreference(AppConstants.LoginPrefs.LOGGED_IN, true);
-                    onPinCodeSuccess();
-                    finish();
+                    userPin();
                 } else {
                     mOldPinCode = "";
                     setPinCode("");
@@ -306,6 +345,15 @@ public abstract class AppLockActivity extends PinActivity implements KeyboardBut
     public void onAuthenticated() {
         Log.e(TAG, "Fingerprint READ!!!");
         setResult(RESULT_OK);
+        onPinCodeSuccess();
+        finish();
+    }
+
+    private void onPinChanged() {
+        setResult(RESULT_OK);
+        SharedPrefsUtils.loginProvider().setStringPreference(AppConstants.LoginPrefs.USER_PIN, mPinCode);
+        SharedPrefsUtils.loginProvider().setBooleanPreference(AppConstants.LoginPrefs.PIN_PROMPT, false);
+        SharedPrefsUtils.loginProvider().setBooleanPreference(AppConstants.LoginPrefs.LOGGED_IN, true);
         onPinCodeSuccess();
         finish();
     }

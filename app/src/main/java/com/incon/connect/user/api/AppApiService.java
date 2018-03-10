@@ -95,6 +95,11 @@ public class AppApiService implements AppConstants {
         return addNetworkCheck(serviceInstance.forgotPassword(email));
     }
 
+    //update pin api using map
+    public Observable<Object> updateUserApi(HashMap<String, String> userMap, int userId) {
+        return addNetworkCheck(serviceInstance.updateUserApi(userMap, userId));
+    }
+
     //registration api
     public Observable<LoginResponse> register(Registration registrationBody) {
         return addNetworkCheck(serviceInstance.register(registrationBody));
