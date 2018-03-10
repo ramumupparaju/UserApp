@@ -207,6 +207,9 @@ public interface AppServiceObservable {
     @GET("product/reviews/{userId}")
     Observable<Object> reviewsApi(@Path("userId") int userId);
 
+    @POST("product/savereviews")
+    Observable<Object> saveReviewsApi(@Body HashMap<String, String> savereviewsBody);
+
 
     // new user registation  api
     @POST("user/newuser/{phoneNumber}")

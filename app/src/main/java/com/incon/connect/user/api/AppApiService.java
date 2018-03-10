@@ -198,6 +198,9 @@ public class AppApiService implements AppConstants {
     public Observable<Object> reviewsApi(int userId) {
         return addNetworkCheck(serviceInstance.reviewsApi(userId));
     }
+    public Observable<Object> saveReviewsApi(HashMap<String, String> saveReviewsBody) {
+        return addNetworkCheck(serviceInstance.saveReviewsApi(saveReviewsBody));
+    }
 
     // fetch nearby service centers
     public Observable<List<ServiceCenterResponse>> findNearByServiceCenters(int brandId) {

@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.RatingBar;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.FeedbackData;
+import com.incon.connect.user.callbacks.FeedbackAlertDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.databinding.ViewEditTextListDialogBinding;
 
@@ -27,7 +29,8 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
     private final String rightButtonText; // required
     private final List<FeedbackData> feedbackDataList; // required
     private EditText editTextNotes; // required
-    private final TextAlertDialogCallback mAlertDialogCallback; // required
+    private RatingBar ratingBar; // required
+    private final FeedbackAlertDialogCallback mAlertDialogCallback; // required
 
     /**
      * @param builder
@@ -47,6 +50,7 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
                 LayoutInflater.from(context), R.layout.view_edit_text_list_dialog, null, false);
         View contentView = viewEditTextListDialogBinding.getRoot();
 
+        ratingBar = viewEditTextListDialogBinding.inputRatingbar;
         editTextNotes = viewEditTextListDialogBinding.edittextUsername;
         viewEditTextListDialogBinding.textVerifyTitle.setText(title);
         if (title.equals(getContext().getString(
@@ -97,6 +101,7 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
                 mAlertDialogCallback.alertDialogCallback(TextAlertDialogCallback.CANCEL);
                 break;
             case R.id.button_right:
+                mAlertDialogCallback.selectedRating(String.valueOf(ratingBar.getRating()));
                 mAlertDialogCallback.enteredText(editTextNotes.getText().toString());
                 mAlertDialogCallback.alertDialogCallback(TextAlertDialogCallback.OK);
                 break;
@@ -107,14 +112,14 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
 
     public static class AlertDialogBuilder {
         private final Context context;
-        private final TextAlertDialogCallback callback;
+        private final FeedbackAlertDialogCallback callback;
         private String title;
         private String leftButtonText;
         private String rightButtonText;
         private List<FeedbackData> feedbackDataList;
 
 
-        public AlertDialogBuilder(Context context, TextAlertDialogCallback callback) {
+        public AlertDialogBuilder(Context context, FeedbackAlertDialogCallback callback) {
             this.context = context;
             this.callback = callback;
         }

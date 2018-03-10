@@ -35,6 +35,11 @@ public interface PurchasedContract {
         void addedServiceEngineer(ProductInfoResponse productInfoResponse);
 
         void addedToFavorite();
+
+        void productReviews();
+
+        void saveReviews(Object saveReviews);
+
     }
 
     interface Presenter {
@@ -45,6 +50,8 @@ public interface PurchasedContract {
         void doTransferProductApi(String phoneNumber, int favouriteId);
 
         void addToFavotites(HashMap<String, String> favoritesMap);
+
+        void saveReviewsApi(HashMap<String, String> reviewsMap);
 
         void deleteProduct(int userId);
 

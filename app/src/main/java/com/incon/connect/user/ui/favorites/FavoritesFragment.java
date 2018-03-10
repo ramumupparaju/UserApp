@@ -478,9 +478,9 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.PRODUCT_TRANSFER) {
                 showTransferDialog();
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
-                showFeedBackDialog();
+                doReviewsApi();
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                showSuggestionsDialog();
             } else if (tag == R.id.PRODUCT_EDIT) {
                 textArray.add(getString(R.string.bottom_option_nick_name));
                 textArray.add(getString(R.string.bottom_option_location_change));
@@ -500,7 +500,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.SHOWROOM_LOCATION) {
                 showLocationDialog();
             } else if (tag == R.id.SHOWROOM_FEEDBACK) {
-                showFeedBackDialog();
+                doReviewsApi();
             }
 
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.VISIBLE);
@@ -739,6 +739,11 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         shimmerFrameLayout.stopShimmerAnimation();
         shimmerFrameLayout.setVisibility(View.GONE);
 
+
+    }
+
+    @Override
+    public void productReviews() {
 
     }
 

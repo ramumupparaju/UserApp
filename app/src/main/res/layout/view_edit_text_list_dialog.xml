@@ -42,13 +42,21 @@
                 android:textSize="14sp" />
         </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
+        <RatingBar
+            android:id="@+id/input_ratingbar"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@+id/input_layout_verify"
+            android:max="5"
+            android:numStars="5" />
+
         <!-- layout for bottom buttons -->
         <include
             android:id="@+id/include_register_bottom_buttons"
             layout="@layout/view_registration_bottom_buttons"
             android:layout_width="match_parent"
             android:layout_height="47dp"
-            android:layout_below="@id/input_layout_verify" />
+            android:layout_below="@id/input_ratingbar" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/feedback_recyclerview"

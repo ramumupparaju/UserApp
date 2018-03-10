@@ -94,6 +94,33 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         addDisposable(observer);
     }
 
+    @Override
+    public void saveReviewsApi(HashMap<String, String> reviewsMap) {
+
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object review) {
+                        getView().saveReviews(review);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                        getView().showErrorMessage(errorDetails.second);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().saveReviewsApi(reviewsMap).subscribe(observer);
+        addDisposable(observer);
+    }
+
     // delete product
     @Override
     public void deleteProduct(int warrantyId) {
@@ -124,6 +151,27 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
 
     @Override
     public void reviewToProduct(int userId) {
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object o) {
+                        getView().productReviews();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().reviewsApi(userId).subscribe(observer);
+        addDisposable(observer);
 
     }
 
@@ -284,6 +332,17 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
 
         @Override
         public void deleteProduct(Object response) {
+        }
+
+        @Override
+        public void productReviews() {
+            getView().productReviews();
+
+        }
+
+        @Override
+        public void saveReviews(Object saveReviews) {
+            getView().saveReviews(saveReviews);
         }
 
 

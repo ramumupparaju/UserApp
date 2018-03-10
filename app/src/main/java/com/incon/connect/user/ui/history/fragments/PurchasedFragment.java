@@ -406,7 +406,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.PRODUCT_TRANSFER) {
                 showTransferDialog();
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
-                showFeedBackDialog();
+                doReviewsApi();
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
                 showSuggestionsDialog();
             } else if (tag == R.id.SHOWROOM_CALL) {
@@ -415,7 +415,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.SHOWROOM_LOCATION) {
                 showLocationDialog();
             } else if (tag == R.id.SHOWROOM_FEEDBACK) {
-                showFeedBackDialog();
+                doReviewsApi();
             }
 
 
@@ -538,6 +538,8 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             getActivity().onBackPressed();
         }
     }
+
+
 
 
     // product search

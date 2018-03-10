@@ -40,7 +40,6 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         appContext = ConnectApplication.getAppContext();
     }
 
-
     @Override
     public void doGetAddressApi(int userId) {
         getView().showProgress(appContext.getString(R.string.progress_get_addresses));
@@ -185,6 +184,15 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     }
 
     @Override
+    public void saveReviewsApi(HashMap<String, String> reviewsMap) {
+        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
+        purchasedPresenter.initialize(null);
+        purchasedPresenter.setView(purchasedView);
+        purchasedPresenter.saveReviewsApi(reviewsMap);
+
+    }
+
+    @Override
     public void deleteFovoriteProduct(int favouriteId) {
 
         getView().showProgress(appContext.getString(R.string.progress_deleting_product));
@@ -209,10 +217,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
 
         AppApiService.getInstance().deleteFavoritesProduct(favouriteId).subscribe(observer);
         addDisposable(observer);
-
-
     }
-
 
     @Override
     public void doTransferProductApi(String phoneNumber, int userId) {
@@ -222,6 +227,13 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         purchasedPresenter.doTransferProductApi(phoneNumber,userId);
     }
 
+    @Override
+    public void reviewToproduct(int userId) {
+        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
+        purchasedPresenter.initialize(null);
+        purchasedPresenter.setView(purchasedView);
+        purchasedPresenter.reviewToProduct(userId);
+    }
 
 
     PurchasedContract.View purchasedView = new PurchasedContract.View() {
@@ -269,6 +281,18 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         @Override
         public void addedToFavorite() {
 
+
+        }
+
+        @Override
+        public void productReviews() {
+            getView().productReviews();
+
+        }
+
+        @Override
+        public void saveReviews(Object saveReviews) {
+            getView().saveReviews(saveReviews);
 
         }
 
