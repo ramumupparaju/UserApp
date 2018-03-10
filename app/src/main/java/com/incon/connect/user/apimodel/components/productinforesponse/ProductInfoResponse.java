@@ -226,7 +226,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @Expose
     private List<AddServiceEngineer> serviceEngineerList = null;
 
-   // showroom  details
+    // showroom  details
 
     @SerializedName("storeId")
     @Expose
@@ -236,6 +236,8 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @Expose
     private String showRoomName;
 
+    private String favouriteName;
+
     @SerializedName("favouriteId")
     @Expose
     private Integer favouriteId;
@@ -243,6 +245,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("offers")
     @Expose
     private List<Object> offers = null;
+
     public Integer getFavouriteId() {
         return favouriteId;
     }
@@ -259,6 +262,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     public void setFavouriteId(Integer favouriteId) {
         this.favouriteId = favouriteId;
     }
+
     public Integer getStoreId() {
         return storeId;
     }
@@ -368,6 +372,16 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
 
     public ProductInfoResponse() {
 
+    }
+
+    @Bindable
+    public String getFavouriteName() {
+        return favouriteName;
+    }
+
+    public void setFavouriteName(String favouriteName) {
+        this.favouriteName = favouriteName;
+        notifyChange();
     }
 
     @Bindable
