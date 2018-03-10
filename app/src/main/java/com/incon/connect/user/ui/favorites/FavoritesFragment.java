@@ -420,10 +420,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                     drawablesArray.add(R.drawable.ic_option_call);
                 }
 
-                textArray.add(getString(R.string.bottom_option_add));
-                tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_ADD);
-                drawablesArray.add(R.drawable.ic_option_bill);
-
                 textArray.add(getString(R.string.bottom_option_find_service_center));
                 tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER);
                 drawablesArray.add(R.drawable.ic_option_bill);
@@ -435,18 +431,19 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 textArray.add(getString(R.string.bottom_option_add));
                 tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_ADD);
                 drawablesArray.add(R.drawable.ic_option_bill);
+
             } else if (tag == R.id.SUPPORT_AUTHORIZE) {
 
                 textArray.add(getString(R.string.bottom_option_call_customer_care));
-                textArray.add(getString(R.string.bottom_option_find_service_center));
-                textArray.add(getString(R.string.bottom_option_service_request));
-
                 tagsArray.add(R.id.SUPPORT_AUTHORIZE_CALL);
-                tagsArray.add(R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER);
-                tagsArray.add(R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST);
-
                 drawablesArray.add(R.drawable.ic_option_call);
+
+                textArray.add(getString(R.string.bottom_option_find_service_center));
+                tagsArray.add(R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER);
                 drawablesArray.add(R.drawable.ic_option_bill);
+
+                textArray.add(getString(R.string.bottom_option_service_request));
+                tagsArray.add(R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST);
                 drawablesArray.add(R.drawable.ic_option_bill);
             } else if (tag == R.id.PRODUCT_DETAILS) {
 
