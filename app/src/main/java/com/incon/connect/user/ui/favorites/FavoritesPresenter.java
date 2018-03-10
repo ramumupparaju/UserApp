@@ -160,11 +160,11 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     }
 
     @Override
-    public void nearByServiceCenters(int brandId) {
+    public void nearByServiceCenters(int brandId, int userId) {
         PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.initialize(null);
         purchasedPresenter.setView(purchasedView);
-        purchasedPresenter.nearByServiceCenters(brandId);
+        purchasedPresenter.nearByServiceCenters(brandId, userId);
 
     }
 

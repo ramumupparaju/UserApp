@@ -47,6 +47,9 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("categoryId")
     @Expose
     private Integer categoryId;
+    @SerializedName("categoryName")
+    @Expose
+    private String categoryName;
     @SerializedName("productName")
     @Expose
     private String productName;
@@ -242,6 +245,15 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     private List<Object> offers = null;
     public Integer getFavouriteId() {
         return favouriteId;
+    }
+
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public void setFavouriteId(Integer favouriteId) {

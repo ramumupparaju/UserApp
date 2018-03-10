@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
@@ -335,34 +336,40 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 drawablesArray.add(R.drawable.ic_option_find_service_center);
             } else if (tag == R.id.PRODUCT) {
                 textArray.add(getString(R.string.bottom_option_info));
-                textArray.add(getString(R.string.bottom_option_warranty));
-                textArray.add(getString(R.string.bottom_option_bill));
-                textArray.add(getString(R.string.bottom_option_past_history));
-                textArray.add(getString(R.string.bottom_option_share));
-                textArray.add(getString(R.string.bottom_option_transfer));
-                textArray.add(getString(R.string.bottom_option_feedback));
-                textArray.add(getString(R.string.bottom_option_suggestions));
-                textArray.add(getString(R.string.bottom_option_edit));
-
                 tagsArray.add(R.id.PRODUCT_DETAILS);
-                tagsArray.add(R.id.PRODUCT_WARRANTY);
-                tagsArray.add(R.id.PRODUCT_BILL);
-                tagsArray.add(R.id.PRODUCT_PAST_HISTORY);
-                tagsArray.add(R.id.PRODUCT_SHARE);
-                tagsArray.add(R.id.PRODUCT_TRANSFER);
-                tagsArray.add(R.id.PRODUCT_FEEDBACK);
-                tagsArray.add(R.id.PRODUCT_SUGGESTION);
-                tagsArray.add(R.id.PRODUCT_EDIT);
-
                 drawablesArray.add(R.drawable.ic_option_details);
-                drawablesArray.add(R.drawable.ic_option_warranty);
+
+                ProductInfoResponse productInfoResponse = favoritesAdapter.getItemFromPosition(productSelectedPosition);
+                if (!productInfoResponse.getCategory().equalsIgnoreCase(AppConstants.CATEGORY_AUTOMOBILES)) {
+                    textArray.add(getString(R.string.bottom_option_warranty));
+                    tagsArray.add(R.id.PRODUCT_WARRANTY);
+                    drawablesArray.add(R.drawable.ic_option_warranty);
+                }
+                textArray.add(getString(R.string.bottom_option_bill));
+                tagsArray.add(R.id.PRODUCT_BILL);
                 drawablesArray.add(R.drawable.ic_option_bill);
+
+                textArray.add(getString(R.string.bottom_option_past_history));
+                tagsArray.add(R.id.PRODUCT_PAST_HISTORY);
                 drawablesArray.add(R.drawable.ic_option_pasthistory);
+
+                textArray.add(getString(R.string.bottom_option_share));
+                tagsArray.add(R.id.PRODUCT_SHARE);
                 drawablesArray.add(R.drawable.ic_option_share);
+
+                textArray.add(getString(R.string.bottom_option_transfer));
+                tagsArray.add(R.id.PRODUCT_TRANSFER);
                 drawablesArray.add(R.drawable.ic_option_transfer);
+
+                textArray.add(getString(R.string.bottom_option_feedback));
+                tagsArray.add(R.id.PRODUCT_FEEDBACK);
                 drawablesArray.add(R.drawable.ic_option_feedback);
+
+                textArray.add(getString(R.string.bottom_option_suggestions));
+                tagsArray.add(R.id.PRODUCT_SUGGESTION);
                 drawablesArray.add(R.drawable.ic_option_suggestions);
-                drawablesArray.add(R.drawable.ic_option_suggestions);
+
+
             } else if (tag == R.id.SHOWROOM) {
                 textArray.add(getString(R.string.bottom_option_Call));
                 textArray.add(getString(R.string.bottom_option_location));

@@ -42,6 +42,7 @@ import com.incon.connect.user.ui.pin.CustomPinActivity;
 import com.incon.connect.user.ui.pin.managers.AppLock;
 import com.incon.connect.user.ui.servicecenters.ServiceCentersActivity;
 import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -298,10 +299,11 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         if (TextUtils.isEmpty(brandId)) {
             AppUtils.longToast(getActivity(), getString(R.string.error_contact_customer_care));
         } else {
+            int userId = SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE);
             if (this instanceof FavoritesFragment) {
-                favoritesPresenter.nearByServiceCenters(Integer.parseInt(brandId));
+                favoritesPresenter.nearByServiceCenters(Integer.parseInt(brandId), userId);
             } else {
-                purchasedPresenter.nearByServiceCenters(Integer.parseInt(brandId));
+                purchasedPresenter.nearByServiceCenters(Integer.parseInt(brandId), userId);
             }
         }
 

@@ -393,8 +393,8 @@
     <string name="add_new_price">Price</string>
     <string name="add_new_mrp_price_star">MRP Price * </string>
     <string name="add_new_batch_no">Batch No</string>
-    <string name="add_new_serial_no_star">Serial No *</string>
     <string name="add_new_serial_no">Serial No</string>
+    <string name="add_new_serial_no_star">Serial No *</string>
     <string name="add_engine_no">Engine No</string>
     <string name="add_vin">VIN</string>
     <string name="add_vrn">Vehicle Registration Number</string>

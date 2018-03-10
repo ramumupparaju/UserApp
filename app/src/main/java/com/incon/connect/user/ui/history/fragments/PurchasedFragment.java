@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
@@ -204,10 +205,12 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 tagsArray.add(R.id.PRODUCT_DETAILS);
                 drawablesArray.add(R.drawable.ic_option_details);
 
-                textArray.add(getString(R.string.bottom_option_warranty));
-                tagsArray.add(R.id.PRODUCT_WARRANTY);
-                drawablesArray.add(R.drawable.ic_option_warranty);
-
+                ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(productSelectedPosition);
+                if (!productInfoResponse.getCategory().equalsIgnoreCase(AppConstants.CATEGORY_AUTOMOBILES)) {
+                    textArray.add(getString(R.string.bottom_option_warranty));
+                    tagsArray.add(R.id.PRODUCT_WARRANTY);
+                    drawablesArray.add(R.drawable.ic_option_warranty);
+                }
                 textArray.add(getString(R.string.bottom_option_bill));
                 tagsArray.add(R.id.PRODUCT_BILL);
                 drawablesArray.add(R.drawable.ic_option_bill);
@@ -454,7 +457,6 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER) {
                 isFindServiceCenter = true;
                 loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
-
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST) {
                 isFindServiceCenter = false;
                 if (serviceCenterResponseList != null) {

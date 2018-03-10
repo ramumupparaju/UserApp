@@ -48,7 +48,7 @@ public interface FavoritesContract {
 
         void serviceRequest(ServiceRequest serviceRequest);
 
-        void nearByServiceCenters(int brandId);
+        void nearByServiceCenters(int brandId, int userId);
 
         void getUsersListOfServiceCenters(int serviceCenterId);
 
