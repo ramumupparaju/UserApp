@@ -21,7 +21,7 @@ public interface AppConstants {
     int DEFAULT_GOOGLE_MAP_ZOOM_LEVEL = 16;
     int DEAULT_VALUE = Integer.MAX_VALUE;
 
-    String WHATS_APP_PACKAGE_NAME= "com.whatsapp";
+    String CUSTOM= "custom";
 
     interface StatusDrawables {
         int COMPLAINT_ID = 2;

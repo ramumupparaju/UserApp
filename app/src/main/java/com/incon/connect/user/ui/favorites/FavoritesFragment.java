@@ -295,12 +295,17 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         textArray.add(getString(R.string.bottom_option_service));
         tagsArray.add(R.id.SUPPORT);
         drawablesArray.add(R.drawable.ic_option_service_support);
+
         textArray.add(getString(R.string.bottom_option_product));
         tagsArray.add(R.id.PRODUCT);
         drawablesArray.add(R.drawable.ic_option_product);
-        textArray.add(getString(R.string.bottom_option_showroom));
-        tagsArray.add(R.id.SHOWROOM);
-        drawablesArray.add(R.drawable.ic_option_customer);
+
+        ProductInfoResponse productInfoResponse = favoritesAdapter.getItemFromPosition(productSelectedPosition);
+        if (!productInfoResponse.getCustomProductFlag().equalsIgnoreCase(CUSTOM)) {
+            textArray.add(getString(R.string.bottom_option_showroom));
+            tagsArray.add(R.id.SHOWROOM);
+            drawablesArray.add(R.drawable.ic_option_customer);
+        }
 
         bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
         bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);

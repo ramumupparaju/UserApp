@@ -241,10 +241,19 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("favouriteId")
     @Expose
     private Integer favouriteId;
+    private String customProductFlag;
 
     @SerializedName("offers")
     @Expose
     private List<Object> offers = null;
+
+    public String getCustomProductFlag() {
+        return customProductFlag;
+    }
+
+    public void setCustomProductFlag(String customProductFlag) {
+        this.customProductFlag = customProductFlag;
+    }
 
     public Integer getFavouriteId() {
         return favouriteId;
