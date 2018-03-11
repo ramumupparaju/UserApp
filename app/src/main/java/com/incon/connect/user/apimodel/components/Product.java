@@ -17,6 +17,24 @@ public class Product {
     @SerializedName("specialInstruction")
     @Expose
     private String specialInstruction;
+    private String logoUrl;
+    private String imageUrl;
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String getName() {
         return name;
