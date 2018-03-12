@@ -327,6 +327,11 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
 
     public void saveReviews(Object saveReviews) {
+        dismissDialog(suggestionsDialog);
+        dismissDialog(feedBackDialog);
+        dismissDialog(bottomSheetDialog);
+        onRefreshListener.onRefresh();
+
 
     }
 

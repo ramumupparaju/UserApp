@@ -109,7 +109,6 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         productsList = new ArrayList<>();
         serviceStatusList = new ArrayList<>();
 
-
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
 
         FragmentActivity activity = getActivity();

@@ -398,10 +398,10 @@
     <string name="add_engine_no">Engine No</string>
     <string name="add_vin">VIN</string>
     <string name="add_vrn">Vehicle Registration Number</string>
-    <string name="add_new__category_star">Category *</string>
-    <string name="add_new__division_star">Division *</string>
-    <string name="add_new__invoiceNumber">InvoiceNumber</string>
-    <string name="add_new__type">Type</string>
+    <string name="add_new_category_star">Category *</string>
+    <string name="add_new_division_star">Division *</string>
+    <string name="add_new_invoiceNumber">InvoiceNumber</string>
+    <string name="add_new_type">Type</string>
     <string name="add_new_notes">Notes</string>
     <string name="add_new_warrnty_period">Warranty Period</string>
     <string name="add_new_extended_warranty">Extended Warranty</string>
@@ -582,8 +582,6 @@
     <string name="button9_large_text" translatable="false">9</string>
     <string name="button9_small_text" translatable="false">WXYZ</string>
     <string name="button11_large_text" translatable="false">0</string>
-
-
 
 </resources>
 

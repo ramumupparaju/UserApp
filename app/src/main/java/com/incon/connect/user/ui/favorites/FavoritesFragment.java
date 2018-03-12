@@ -374,6 +374,10 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 tagsArray.add(R.id.PRODUCT_SUGGESTION);
                 drawablesArray.add(R.drawable.ic_option_suggestions);
 
+                textArray.add(getString(R.string.bottom_option_edit));
+                tagsArray.add(R.id.PRODUCT_EDIT);
+                drawablesArray.add(R.drawable.ic_option_suggestions);
+
 
             } else if (tag == R.id.SHOWROOM) {
                 textArray.add(getString(R.string.bottom_option_Call));
@@ -571,7 +575,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 showFavoritesLocationChangeDialog();
                 return;
             } else if (tag == R.id.PRODUCT_EDIT_DELETE) {
-
                 showDeleteDialog();
 
             }

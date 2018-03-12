@@ -251,7 +251,6 @@ public class AppUtils {
         GlideUrl glideUrl = new GlideUrl(BuildConfig.SERVICE_ENDPOINT + url, new LazyHeaders.Builder()
                 .addHeader(AppConstants.ApiRequestKeyConstants.HEADER_AUTHORIZATION, context.getString(R.string.default_key))
                 .build());
-
         Glide.with(context)
                 .setDefaultRequestOptions(requestOptions)
                 .load(glideUrl)
