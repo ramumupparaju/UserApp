@@ -236,7 +236,6 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                             ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(productSelectedPosition);
                             favoritesPresenter.doTransferProductApi(commentString, itemFromPosition.getWarrantyId());
                         } else {
-                            // TODO have to check with naveen
                             ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(productSelectedPosition);
                             purchasedPresenter.doTransferProductApi(commentString, itemFromPosition.getWarrantyId());
                         }
