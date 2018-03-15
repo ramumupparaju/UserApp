@@ -91,8 +91,7 @@ public class ShowRoomAdapter extends BaseRecyclerViewAdapter {
         public void bind(ProductInfoResponse productInfoResponse) {
             binding.setVariable(BR.productinforesponse
                     , productInfoResponse);
-            AppUtils.loadImageFromApi(binding.storeImageview, productInfoResponse
-                    .getProductImageUrl());
+            AppUtils.loadImageFromApi(binding.storeImageview, productInfoResponse.getProductImageUrl());
 
             String[] location = productInfoResponse.getLocation().split(",");
             loadLocationDetailsFromGeocoder(new LatLng(Double.parseDouble(location[0]), Double.parseDouble(location[1])), productInfoResponse);

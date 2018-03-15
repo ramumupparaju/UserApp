@@ -47,8 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_below="@+id/input_layout_verify"
-            android:rating="5"
-            android:numStars="5" />
+            android:numStars="5"
+            android:rating="5" />
 
         <!-- layout for bottom buttons -->
         <include
@@ -56,12 +56,12 @@
             layout="@layout/view_registration_bottom_buttons"
             android:layout_width="match_parent"
             android:layout_height="47dp"
-            android:layout_below="@id/input_ratingbar" />
+            android:layout_below="@id/feedback_recyclerview" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/feedback_recyclerview"
             style="@style/MatchWrap"
-            android:layout_below="@id/include_register_bottom_buttons"
+            android:layout_below="@id/input_ratingbar"
             android:scrollbars="vertical" />
 
     </RelativeLayout>
