@@ -321,13 +321,14 @@ public interface AppConstants {
         String YYYY_MM_DD = "yyyy-MM-dd"; //2017-01-15
         String MMMM_SPACE_DD = "MMMM dd"; // March 24 at 11:26am
         String HH_MM_A = "hh:mma"; // March 24 at 11:26am
+        String HH = "HH"; // 14
         String YYYY_MMMM_DD = "yyyy-MMMM-dd"; //2017-01-15
         String YYYY_MMM_DD = "yyyy-MMM-dd"; //2017-Jan-15
         String MMM_SPACE_DD = "MMM dd"; //Mar 28
         String MMMM_DD_YYYY = "MMMM dd, yyyy"; //Oct-21-2017
         String DD_NOSPACE_MMMM = "ddMMMM"; //28March
 
-        String TIME_HH_MM = "HH:mm";
+        String TIME_HH_MM = "HH:mm"; //16:20
 
         String UTC = "UTC";
         Locale DATE_FORMAT_LOCALE = Locale.getDefault();
