@@ -108,8 +108,8 @@ public interface AppServiceObservable {
     Observable<Object> productChangeLocationProductNameEditApi(@Body HashMap<String, String> changeLocationMap);
 
     // fetch near by service centers  api
-    @POST("service/nearbycenters/{brandId}/{userId}")
-    Observable<List<ServiceCenterResponse>> findNearByServiceCenters(@Path("brandId") int brandId, @Path("userId") int userId);
+    @POST("service/nearbycenters/{type}/{brandId}/{userId}")
+    Observable<List<ServiceCenterResponse>> findNearByServiceCenters(@Path("type") int type,@Path("brandId") int brandId, @Path("userId") int userId);
 
 
     // delete purchased product api

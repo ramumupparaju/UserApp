@@ -83,6 +83,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public Integer addressId;
     public Integer favouriteId;
     public boolean isFindServiceCenter;
+    public boolean isFindUnAuthorizedServiceCenter;
 
     private AppEditTextDialog suggestionsDialog;
     public AppEditTextListDialog feedBackDialog;
@@ -334,15 +335,15 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             purchasedPresenter.getUsersListOfServiceCenters(serviceCenterId);
         }
     }
-    public void loadNearByServiceCentersDialogData(String brandId) {
+    public void loadNearByServiceCentersDialogData(int type,String brandId) {
         if (TextUtils.isEmpty(brandId)) {
             AppUtils.longToast(getActivity(), getString(R.string.error_contact_customer_care));
         } else {
             int userId = SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE);
             if (this instanceof FavoritesFragment) {
-                favoritesPresenter.nearByServiceCenters(Integer.parseInt(brandId), userId);
+                favoritesPresenter.nearByServiceCenters(type,Integer.parseInt(brandId), userId);
             } else {
-                purchasedPresenter.nearByServiceCenters(Integer.parseInt(brandId), userId);
+                purchasedPresenter.nearByServiceCenters(type,Integer.parseInt(brandId), userId);
             }
         }
 

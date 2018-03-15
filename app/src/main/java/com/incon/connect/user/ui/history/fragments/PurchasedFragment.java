@@ -420,8 +420,6 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.SHOWROOM_FEEDBACK) {
                 doReviewsApi();
             }
-
-
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
@@ -447,22 +445,30 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.SUPPORT_UNAUTHORIZE_ADD) {
                 showCustomPhoneNumberDialog();
             } else if (tag == R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER) {
-                // todo have call  service centers api
+                isFindUnAuthorizedServiceCenter = true;
+                loadNearByServiceCentersDialogData(ServiceConstants.UNAUTHORIZED_TYPE,productInfoResponse.getBrandId());
+
             } else if (tag == R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST) {
-                // todo have call  service request api
+                // todo have check api
+                /*isFindUnAuthorizedServiceCenter = false;
+                if (serviceCenterResponseList != null) {
+                    loadServiceRequesDialogData();
+                } else {
+                    loadNearByServiceCentersDialogData(ServiceConstants.UNAUTHORIZED_TYPE,productInfoResponse.getBrandId());
+                }*/
             } else if (tag == R.id.SUPPORT_AUTHORIZE_CALL) {
                 callPhoneNumber(productInfoResponse.getMobileNumber());
                 return;
 
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER) {
                 isFindServiceCenter = true;
-                loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
+                loadNearByServiceCentersDialogData(ServiceConstants.AUTHORIZED_TYPE,productInfoResponse.getBrandId());
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST) {
                 isFindServiceCenter = false;
                 if (serviceCenterResponseList != null) {
                     loadServiceRequesDialogData();
                 } else {
-                    loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
+                    loadNearByServiceCentersDialogData(ServiceConstants.AUTHORIZED_TYPE,productInfoResponse.getBrandId());
                 }
 
             } else if (tag == R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS) {

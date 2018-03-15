@@ -52,6 +52,8 @@ public interface AppConstants {
         String TIME_10_12 = "10:00,12:00";
         String TIME_12_15 = "12:00,15:00";
         String TIME_15_17 = "15:00,17:00";
+        int AUTHORIZED_TYPE = 1;
+        int UNAUTHORIZED_TYPE = 0;
     }
 
     interface FilterConstants {
