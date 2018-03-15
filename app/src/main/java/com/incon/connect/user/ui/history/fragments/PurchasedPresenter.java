@@ -272,6 +272,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                     @Override
                     public void onNext(Object o) {
                         getView().transferMobileNumber(o);
+                        getView().hideProgress();
                     }
 
                     @Override

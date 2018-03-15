@@ -94,7 +94,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     // material support design
     compile "com.android.support:design:${supportLibraryVersion}"
     compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
@@ -167,7 +166,6 @@ dependencies {
 
     //TypefaceView
     compile 'com.github.omadahealth.typefaceview:typefaceview:1.5.0@aar' //TypefaceTextView
-
 
     // fab
     compile 'com.github.clans:fab:1.6.4'
