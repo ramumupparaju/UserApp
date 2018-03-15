@@ -288,6 +288,7 @@ public interface AppConstants {
         int DELETE_PRODUCT = 125;
         int LOCATION_CHANGED = 126;
         int BUY_REQUEST = 127;
+        int SERVICE_REQUEST = 128;
     }
 
     interface TimeConstants {

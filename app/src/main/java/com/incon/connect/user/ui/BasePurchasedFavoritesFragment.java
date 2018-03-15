@@ -114,21 +114,6 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
     }
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case RequestCodes.DELETE_PRODUCT:
-                    doProductDeleteApi();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
     public void navigateToAddressActivity() {
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
         addressIntent.putExtra(IntentConstants.BUTTON_TEXT, getString(R.string.action_add));
@@ -265,7 +250,6 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public void productReviews() {
 //showFeedBackDialog();
     }
-
     public void showFeedBackDialog(List<FeedbackData> reviews) {
         final HashMap<String, String> saveReviewApi = new HashMap<>();
         saveReviewApi.put(ApiRequestKeyConstants.BODY_USER_ID, String.valueOf(userId));
@@ -314,33 +298,33 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
     public void doReviewsApi() {
         //todo have to call reviews api
-
         if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
             favoritesPresenter.reviewToproduct(userId);
         } else {
             purchasedPresenter.reviewToProduct(userId);
         }
         showFeedBackDialog(null);
-
     }
-
 
     public void saveReviews(Object saveReviews) {
         dismissDialog(suggestionsDialog);
         dismissDialog(feedBackDialog);
         dismissDialog(bottomSheetDialog);
         onRefreshListener.onRefresh();
-
-
     }
 
-
     public void loadServiceRequesDialogData() {
-        if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
+
+        Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
+        pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
+        startActivityForResult(pinIntent, RequestCodes.SERVICE_REQUEST);
+
+
+       /* if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
             loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
         } else {
             showErrorMessage(getString(R.string.error_no_service_centers_found));
-        }
+        }*/
     }
 
     public void loadUsersDataFromServiceCenterId(Integer serviceCenterId) {
@@ -350,7 +334,6 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             purchasedPresenter.getUsersListOfServiceCenters(serviceCenterId);
         }
     }
-
     public void loadNearByServiceCentersDialogData(String brandId) {
         if (TextUtils.isEmpty(brandId)) {
             AppUtils.longToast(getActivity(), getString(R.string.error_contact_customer_care));
@@ -364,7 +347,6 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
 
     }
-
 
     public void showInformationDialog(String title, String messageInfo) {
         detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
@@ -486,6 +468,38 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RequestCodes.SERVICE_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                serviceRequestApi();
+            } else {
+                showErrorMessage(getString(R.string.error_athentication_failed));
+            }
+            return;
+        }
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case RequestCodes.DELETE_PRODUCT:
+                    doProductDeleteApi();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void serviceRequestApi() {
+        if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
+            loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
+        } else {
+            showErrorMessage(getString(R.string.error_no_service_centers_found));
+        }
+
+    }
+
     private void showServiceRequestDialog(List<UsersListOfServiceCenters> listOfServiceCenters) {
         if (serviceCenterResponseList == null) {
             return;
@@ -527,7 +541,6 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                     favoritesPresenter.serviceRequest(serviceRequest);
                 } else {
                     purchasedPresenter.serviceRequest(serviceRequest);
-
                 }
             }
 
@@ -565,7 +578,6 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             }
         }).build();
         timeSlotAlertDialog.showDialog();
-
 
     }
 
@@ -605,7 +617,6 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
                 }
             };
-
 
     public void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponses) {
         this.serviceCenterResponseList = (ArrayList<ServiceCenterResponse>) serviceCenterResponses;
