@@ -504,8 +504,8 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             }
 
             @Override
-            public void timeClicked() {
-                showTimePickerToPlaceServiceRequest();
+            public void timeClicked(String selectedDate) {
+                showTimePickerToPlaceServiceRequest(selectedDate);
             }
 
             @Override
@@ -547,8 +547,8 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         serviceRequestDialog.showDialog();
     }
 
-    private void showTimePickerToPlaceServiceRequest() {
-        timeSlotAlertDialog = new TimeSlotAlertDialog.AlertDialogBuilder(getContext(), new TimeSlotAlertDialogCallback() {
+    private void showTimePickerToPlaceServiceRequest(String selectedDate) {
+        timeSlotAlertDialog = new TimeSlotAlertDialog.AlertDialogBuilder(getContext(), selectedDate, new TimeSlotAlertDialogCallback() {
             @Override
             public void selectedTimeSlot(String timeSlot) {
                 serviceRequestDialog.setTimeFromPicker(timeSlot);

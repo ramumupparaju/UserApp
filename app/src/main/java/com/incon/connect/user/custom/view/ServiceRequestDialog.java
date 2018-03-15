@@ -225,10 +225,10 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         }
         switch (view.getId()) {
             case R.id.view_date:
-                serviceRequestCallback.dateClicked("");
+                serviceRequestCallback.dateClicked(binding.edittextDate.getText().toString());
                 break;
             case R.id.view_time:
-                serviceRequestCallback.timeClicked();
+                serviceRequestCallback.timeClicked(binding.edittextDate.getText().toString());
                 break;
             case R.id.button_left:
                 serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.CANCEL);
