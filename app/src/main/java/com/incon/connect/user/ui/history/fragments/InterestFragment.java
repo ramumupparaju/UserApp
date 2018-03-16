@@ -354,6 +354,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 .rightButtonText(getString(R.string.action_submit))
                 .build();
         buyRequestDialog.showDialog();
+        buyRequestDialog.setCancelable(true);
     }
 
 
