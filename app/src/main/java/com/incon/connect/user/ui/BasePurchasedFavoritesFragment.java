@@ -335,7 +335,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             purchasedPresenter.getUsersListOfServiceCenters(serviceCenterId);
         }
     }
-    public void loadNearByServiceCentersDialogData(int type,String brandId) {
+    public void loadNearByServiceCentersDialogData(String type,String brandId) {
         if (TextUtils.isEmpty(brandId)) {
             AppUtils.longToast(getActivity(), getString(R.string.error_contact_customer_care));
         } else {

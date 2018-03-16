@@ -109,7 +109,7 @@ public interface AppServiceObservable {
 
     // fetch near by service centers  api
     @POST("service/nearbycenters/{type}/{brandId}/{userId}")
-    Observable<List<ServiceCenterResponse>> findNearByServiceCenters(@Path("type") int type,@Path("brandId") int brandId, @Path("userId") int userId);
+    Observable<List<ServiceCenterResponse>> findNearByServiceCenters(@Path("type") String type,@Path("brandId") int brandId, @Path("userId") int userId);
 
 
     // delete purchased product api
