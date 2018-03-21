@@ -97,6 +97,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     private HashMap<Integer, String> errorMap;
     private Animation shakeAnim;
     private WarratyDialog warratyDialog;
+    private WarratyDialog extendeWarratyDialog;
     private KeyListener spinnerCategoryKeyListener;
 
     @Override
@@ -211,32 +212,32 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
 
     private void showExtendedWarrantyDialog() {
-        warratyDialog = new WarratyDialog.AlertDialogBuilder(getActivity(), new
+        extendeWarratyDialog = new WarratyDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String yearsMonthsDays) {
                         String[] split = yearsMonthsDays.split(AppConstants.COMMA_SEPARATOR);
-                        addCustomProductModel.setWarrantyYears(split[0]);
+                        addCustomProductModel.setExtendedWarranty(split[0]);
                         addCustomProductModel.setWarrantyMonths(split[1]);
                         addCustomProductModel.setWarrantyDays(split[2]);
-                        addCustomProductModel.setExtendedWarranty(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
+                        addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
                     }
 
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                warratyDialog.dismiss();
+                                extendeWarratyDialog.dismiss();
                                 break;
                             case AlertDialogCallback.CANCEL:
-                                warratyDialog.dismiss();
+                                extendeWarratyDialog.dismiss();
                                 break;
                             default:
                                 break;
                         }
                     }
-                }).years(addCustomProductModel.getWarrantyYears()).months(addCustomProductModel.getWarrantyMonths()).days(addCustomProductModel.getWarrantyDays()).build();
-        warratyDialog.showDialog();
+                }).years(addCustomProductModel.getExtendedWarranty()).months(addCustomProductModel.getWarrantyMonths()).days(addCustomProductModel.getWarrantyDays()).build();
+        extendeWarratyDialog.showDialog();
     }
 
     //warranty dialog
