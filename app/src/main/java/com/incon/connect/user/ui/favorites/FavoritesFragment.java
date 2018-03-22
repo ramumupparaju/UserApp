@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
@@ -95,6 +96,8 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     }
 
     private void initFabs() {
+        final FloatingActionButton programFab1 = new FloatingActionButton(getActivity());
+        programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
         favoritesBinding.fab.showMenuButton(true);
         favoritesBinding.fab.setClosedOnTouchOutside(true);
     }

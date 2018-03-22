@@ -96,6 +96,10 @@
     <string name="text_price">Price</string>
 
     <!--warrantyregistration-->
+    <string name="action_request_pending">Request pending</string>
+
+
+
     <string name="action_accept">Accept</string>
     <string name="action_hold">Hold</string>
     <string name="action_reject">Reject</string>

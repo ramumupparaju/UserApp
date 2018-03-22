@@ -101,7 +101,6 @@
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            fab:menu_backgroundColor="#ccffffff"
             fab:menu_fab_label=""
             fab:menu_labels_ellipsize="end"
             fab:menu_labels_singleLine="true">

@@ -50,7 +50,7 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
             binding.interestDate.setText(DateUtils.convertMillisToStringFormat(interestHistoryResponse.getRequestedDate()
                     , AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
 
-            //TODO have to move constant
+            //TODO have to remove constant
             String status = interestHistoryResponse.getStatus();
             if (!TextUtils.isEmpty(status)) {
                 if (status.equalsIgnoreCase(AppConstants.StatusConstants.PENDING)) {
