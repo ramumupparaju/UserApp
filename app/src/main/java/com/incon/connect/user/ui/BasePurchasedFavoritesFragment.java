@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.FeedbackData;
@@ -45,6 +46,7 @@ import com.incon.connect.user.ui.pin.CustomPinActivity;
 import com.incon.connect.user.ui.pin.managers.AppLock;
 import com.incon.connect.user.ui.servicecenters.ServiceCentersActivity;
 import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
@@ -59,6 +61,7 @@ import java.util.TimeZone;
 
 public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
+    final String TAG = BasePurchasedFavoritesFragment.class.getName();
     public View rootView;
     public ShimmerFrameLayout shimmerFrameLayout;
 
@@ -97,6 +100,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     //Adding unauthorized phone number
     public CustomPhoneNumberDialog customPhoneNumberDialog;
     public AddServiceEngineer serviceEngineer;
+    public ServiceRequest serviceRequestData;
 
     @Override
     public void handleException(Pair<Integer, String> error) {
@@ -153,9 +157,13 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     }
 
     public void showDeleteDialog() {
+        launchPinActivity(RequestCodes.DELETE_PRODUCT);
+    }
+
+    private void launchPinActivity(int requestCode) {
         Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
         pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
-        startActivityForResult(pinIntent, RequestCodes.DELETE_PRODUCT);
+        startActivityForResult(pinIntent, requestCode);
     }
 
     public void doProductDeleteApi() {
@@ -251,6 +259,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public void productReviews() {
 //showFeedBackDialog();
     }
+
     public void showFeedBackDialog(List<FeedbackData> reviews) {
         final HashMap<String, String> saveReviewApi = new HashMap<>();
         saveReviewApi.put(ApiRequestKeyConstants.BODY_USER_ID, String.valueOf(userId));
@@ -315,17 +324,11 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     }
 
     public void loadServiceRequesDialogData() {
-
-        Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
-        pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
-        startActivityForResult(pinIntent, RequestCodes.SERVICE_REQUEST);
-
-
-       /* if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
+        if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
             loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
         } else {
             showErrorMessage(getString(R.string.error_no_service_centers_found));
-        }*/
+        }
     }
 
     public void loadUsersDataFromServiceCenterId(Integer serviceCenterId) {
@@ -335,15 +338,16 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             purchasedPresenter.getUsersListOfServiceCenters(serviceCenterId);
         }
     }
-    public void loadNearByServiceCentersDialogData(String type,String brandId) {
+
+    public void loadNearByServiceCentersDialogData(String type, String brandId) {
         if (TextUtils.isEmpty(brandId)) {
             AppUtils.longToast(getActivity(), getString(R.string.error_contact_customer_care));
         } else {
             int userId = SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE);
             if (this instanceof FavoritesFragment) {
-                favoritesPresenter.nearByServiceCenters(type,Integer.parseInt(brandId), userId);
+                favoritesPresenter.nearByServiceCenters(type, Integer.parseInt(brandId), userId);
             } else {
-                purchasedPresenter.nearByServiceCenters(type,Integer.parseInt(brandId), userId);
+                purchasedPresenter.nearByServiceCenters(type, Integer.parseInt(brandId), userId);
             }
         }
 
@@ -492,13 +496,17 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
     }
 
-    public void serviceRequestApi() {
-        if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
-            loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
-        } else {
-            showErrorMessage(getString(R.string.error_no_service_centers_found));
-        }
 
+    public void serviceRequestApi() {
+        if (serviceRequestData != null) {
+            if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+                favoritesPresenter.serviceRequest(serviceRequestData);
+            } else {
+                purchasedPresenter.serviceRequest(serviceRequestData);
+            }
+        } else {
+            Logger.e(TAG, "serviceRequestData is null");
+        }
     }
 
     private void showServiceRequestDialog(List<UsersListOfServiceCenters> listOfServiceCenters) {
@@ -512,6 +520,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         problemsArray[3] = "Others";
 
         serviceRequestDialog = new ServiceRequestDialog.AlertDialogBuilder(getContext(), new ServiceRequestCallback() {
+
             @Override
             public void getUsersListFromServiceCenterId(int serviceCenterId) {
                 loadUsersDataFromServiceCenterId(serviceCenterId);
@@ -538,11 +547,9 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 Integer purchaseId = Integer.valueOf(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
                 serviceRequest.setPurchaseId(purchaseId);
                 serviceRequest.setCustomerId(userId);
-                if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
-                    favoritesPresenter.serviceRequest(serviceRequest);
-                } else {
-                    purchasedPresenter.serviceRequest(serviceRequest);
-                }
+                serviceRequestData = serviceRequest;
+
+                launchPinActivity(RequestCodes.SERVICE_REQUEST);
             }
 
             @Override
@@ -579,7 +586,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             }
         }).build();
         timeSlotAlertDialog.showDialog();
-
+        timeSlotAlertDialog.setCancelable(true);
     }
 
     private void showDatePickerToPlaceServiceRequest(String date) {
