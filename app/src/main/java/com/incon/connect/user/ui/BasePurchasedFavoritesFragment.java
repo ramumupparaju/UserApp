@@ -544,7 +544,14 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
             @Override
             public void doServiceRequestApi(ServiceRequest serviceRequest) {
-                Integer purchaseId = Integer.valueOf(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
+                Integer purchaseId;
+
+                if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+                    purchaseId = Integer.valueOf(favoritesAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
+                } else {
+                    purchaseId = Integer.valueOf(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
+                }
+
                 serviceRequest.setPurchaseId(purchaseId);
                 serviceRequest.setCustomerId(userId);
                 serviceRequestData = serviceRequest;

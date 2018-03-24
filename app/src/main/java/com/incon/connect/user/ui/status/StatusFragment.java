@@ -78,7 +78,6 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
             new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-
                     statusPresenter.fetchUserRequests(SharedPrefsUtils.loginProvider().getIntegerPreference
                             (LoginPrefs.USER_ID, DEFAULT_VALUE));
                 }
@@ -91,7 +90,6 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
     }
 
     private void setListUi() {
-
         if (isServiceRequest && serviceStatusList.size() == 0) {
             binding.emptyData.setVisibility(View.VISIBLE);
         } else if (!isServiceRequest && productsList.size() == 0) {
