@@ -337,12 +337,10 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 tagsArray.add(R.id.PRODUCT_DETAILS);
                 drawablesArray.add(R.drawable.ic_option_details);
 
-                ProductInfoResponse productInfoResponse = favoritesAdapter.getItemFromPosition(productSelectedPosition);
-                if (!productInfoResponse.getCategoryName().equalsIgnoreCase(AppConstants.CATEGORY_AUTOMOBILES)) {
-                    textArray.add(getString(R.string.bottom_option_warranty));
-                    tagsArray.add(R.id.PRODUCT_WARRANTY);
-                    drawablesArray.add(R.drawable.ic_option_warranty);
-                }
+                textArray.add(getString(R.string.bottom_option_warranty));
+                tagsArray.add(R.id.PRODUCT_WARRANTY);
+                drawablesArray.add(R.drawable.ic_option_warranty);
+
                 textArray.add(getString(R.string.bottom_option_bill));
                 tagsArray.add(R.id.PRODUCT_BILL);
                 drawablesArray.add(R.drawable.ic_option_bill);
