@@ -54,9 +54,7 @@ import static com.incon.connect.user.ui.BaseActivity.TRANSACTION_TYPE_REPLACE;
 /**
  * Created by PC on 11/4/2017.
  */
-
-public class FavoritesFragment extends BasePurchasedFavoritesFragment implements FavoritesContract.View,
-        View.OnClickListener {
+public class FavoritesFragment extends BasePurchasedFavoritesFragment implements FavoritesContract.View {
 
 
     private AppUserAddressDialog dialog;
@@ -102,6 +100,11 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         favoritesBinding.fab.setClosedOnTouchOutside(true);
     }
 
+    //adding location
+    public void onLocationAddClick() {
+        showAddressDialog();
+    }
+
     // add product
     public void onProductAddClick() {
         Bundle bundle = new Bundle();
@@ -134,13 +137,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
 
         favoritesBinding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         favoritesBinding.swiperefresh.setOnRefreshListener(onRefreshListener);
-
-        //sets add address view
-        favoritesBinding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
-        favoritesBinding.addAddressView.homeText.setText(getString(R.string.action_add_location));
-        favoritesBinding.addAddressView.getRoot().setOnClickListener(this);
-        favoritesBinding.addAddressView.getRoot().setVisibility(View.GONE);
-
 
         //top recyclerview
         addressessAdapter = new HorizontalRecycleViewAdapter();
@@ -184,11 +180,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         });
     }
 
-    @Override
-    public void onClick(View view) {
-        showAddressDialog();
-    }
-
     // address dialog
     private void showAddressDialog() {
         addUserAddress = new AddUserAddress();
@@ -204,7 +195,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                     public void openAddressActivity() {
                         navigateToAddressActivity();
                     }
-
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
 
@@ -701,24 +691,27 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
 
 
     @Override
-    public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
-        if (favoritesResponseList == null) {
-            favoritesResponseList = new ArrayList<>();
+    public void loadAddresses(List<AddUserAddressResponse> addressesList) {
+        if (addressesList == null) {
+            addressesList = new ArrayList<>();
         }
-        addressessAdapter.setData(favoritesResponseList);
+        addressessAdapter.setData(addressesList);
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
-        favoritesBinding.addAddressView.getRoot().setVisibility(View.VISIBLE);
         dismissSwipeRefresh();
 
-        if (favoritesResponseList.size() > 0) {
+        if (addressesList.size() > 0) {
             iAddressClickCallback.onClickPosition(0);
-            // binding.parentProduct.setVisibility(View.VISIBLE);
+
+            favoritesBinding.customFab.show(false);
+            favoritesBinding.addFavFab.show(false);
         } else {
             loadFavoritesProducts(null);
             // binding.parentProduct.setVisibility(View.GONE);
 
+            favoritesBinding.customFab.hide(false);
+            favoritesBinding.addFavFab.hide(false);
         }
     }
 
@@ -750,8 +743,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         favoritesBinding.favoritesRecyclerview.setVisibility(View.VISIBLE);
         shimmerFrameLayout.stopShimmerAnimation();
         shimmerFrameLayout.setVisibility(View.GONE);
-
-
     }
 
     @Override

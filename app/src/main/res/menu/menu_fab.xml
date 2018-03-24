@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/fab2"
+        android:id="@+id/custom_fab"
         android:icon="@drawable/ic_tab_history"
         android:title="@string/title_history" />
 
     <item
-        android:id="@+id/fab3"
+        android:id="@+id/add_fav_fab"
         android:icon="@drawable/ic_tab_favorites"
         android:title="@string/title_favorites" />
 

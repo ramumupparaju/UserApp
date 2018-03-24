@@ -14,32 +14,15 @@
         style="@style/MatchWrap"
         android:background="@color/mercury">
 
-        <include
-            android:id="@+id/add_address_view"
-            layout="@layout/item_favorites_horizontal_recyclview"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:paddingLeft="@dimen/margin_5"
-            android:paddingRight="@dimen/margin_5" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/addresses_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_toLeftOf="@id/add_address_view"
+            android:background="@color/white"
             android:fadeScrollbars="false"
             android:scrollbarSize="4dp"
-            android:background="@color/white"
             android:scrollbarThumbHorizontal="@color/white"
             android:scrollbars="horizontal" />
-
-        <!--    <include
-                android:id="@+id/list_header"
-                layout="@layout/item_list_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/addresses_recyclerview"/>-->
 
         <TextView
             android:id="@+id/no_items_textview"
@@ -106,7 +89,7 @@
             fab:menu_labels_singleLine="true">
 
             <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fab2"
+                android:id="@+id/custom_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> favorites.onAddCustomProductClick()}"
@@ -115,12 +98,21 @@
                 fab:fab_size="mini" />
 
             <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fab3"
+                android:id="@+id/add_fav_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> favorites.onProductAddClick()}"
                 android:src="@drawable/add_new_icon"
                 fab:fab_label="@string/title_add_product"
+                fab:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/location_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> favorites.onLocationAddClick()}"
+                android:src="@drawable/add_new_icon"
+                fab:fab_label="@string/title_add_location"
                 fab:fab_size="mini" />
 
         </com.github.clans.fab.FloatingActionMenu>

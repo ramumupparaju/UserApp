@@ -516,6 +516,7 @@
     <string name="title_add_new_model">New Model</string>
     <string name="title_custom_product">Custom Product</string>
     <string name="title_add_product">Add Product</string>
+    <string name="title_add_location">Add Location</string>
     <string name="title_status">Status</string>
     <string name="title_updates">UpDates</string>
     <string name="title_qr_code_scanner">QR Code Scanner</string>
