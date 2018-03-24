@@ -615,6 +615,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 cal.get(Calendar.DAY_OF_MONTH));
         datePicker.setCancelable(false);
         datePicker.show();
+        datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
     }
 
     // date Listener
