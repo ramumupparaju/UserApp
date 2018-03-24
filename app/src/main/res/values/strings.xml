@@ -183,6 +183,7 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_close">Close</string>
     <string name="action_request_call">Request Call</string>
+    <string name="action_call">Call</string>
     <string name="action_take_new_survey">take new survey</string>
     <string name="action_save">save</string>
     <string name="action_discard">discard</string>

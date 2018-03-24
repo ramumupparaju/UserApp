@@ -6,4 +6,5 @@ package com.incon.connect.user.callbacks;
  */
 public interface IStatusClickCallback extends IClickCallback {
     void onClickStatusButton(int statusType);
+    void onClickStatus(int productPosition, int statusPosition);
 }

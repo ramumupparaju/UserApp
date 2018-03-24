@@ -64,7 +64,7 @@
                 android:textColor="@color/ebony_clay"
                 android:textSize="10sp"/>
 
-            <!--service center name-->
+            <!--service center address-->
             <TextView
                 android:id="@+id/merchant_name"
                 style="@style/BothWrap"
@@ -73,7 +73,7 @@
                 android:layout_toRightOf="@id/product_imageview"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{productinforesponse.serviceCenter.location}"
+                android:text="@{productinforesponse.serviceCenter.formattedAddress}"
                 android:textColor="@color/black"
                 android:textSize="10sp"/>
 
@@ -84,7 +84,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/dusty_gray">
 
-                <!--product name-->
+                <!--service center name-->
                 <TextView
                     android:id="@+id/service_center_name"
                     android:layout_marginLeft="@dimen/margin_15"
@@ -117,42 +117,6 @@
                     </LinearLayout>
 
                 </HorizontalScrollView>
-
-
-<!--                <TextView
-                    android:id="@+id/test_date_time"
-                    android:layout_below="@+id/status_scrollview"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_2"
-                    android:maxLines="1"
-                    android:text="@={productinforesponse.serviceCenter.name}"
-                    android:textAllCaps="true"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"/>
-
-                <TextView
-                    android:id="@+id/text_name"
-                    android:layout_below="@+id/test_date_time"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_2"
-                    android:maxLines="1"
-                    android:text="@={productinforesponse.serviceCenter.name}"
-                    android:textAllCaps="true"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"/>
-                <TextView
-                    android:layout_below="@+id/text_name"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_2"
-                    android:maxLines="1"
-                    android:text="@={productinforesponse.serviceCenter.name}"
-                    android:textAllCaps="true"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"/>-->
-
 
             </RelativeLayout>
 

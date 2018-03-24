@@ -21,6 +21,18 @@ public class ServiceCenter extends BaseObservable {
     @Expose
     private String contactNo;
 
+    private transient String formattedAddress;
+
+    @Bindable
+    public String getFormattedAddress() {
+        return formattedAddress;
+    }
+
+    public void setFormattedAddress(String formattedAddress) {
+        this.formattedAddress = formattedAddress;
+        notifyChange();
+    }
+
     public Integer getId() {
         return id;
     }

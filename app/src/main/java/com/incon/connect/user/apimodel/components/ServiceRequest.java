@@ -23,6 +23,9 @@ public class ServiceRequest {
     @SerializedName("preferredDateFrom")
     @Expose
     private String preferredDateFrom;
+    @SerializedName("createdDate")
+    @Expose
+    private Long createdDate;
 
     public Integer getId() {
         return id;
@@ -72,4 +75,11 @@ public class ServiceRequest {
         this.preferredDateFrom = preferredDateFrom;
     }
 
+    public Long getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Long createdDate) {
+        this.createdDate = createdDate;
+    }
 }

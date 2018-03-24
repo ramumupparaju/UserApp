@@ -101,11 +101,13 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
 
     //adding location
     public void onLocationAddClick() {
+        favoritesBinding.fab.close(false);
         showAddressDialog();
     }
 
     // add product
     public void onProductAddClick() {
+        favoritesBinding.fab.close(false);
         Bundle bundle = new Bundle();
         bundle.putBoolean(BundleConstants.FROM_FAVORITES, true);
         AddUserAddressResponse singleAddressResponse = addressessAdapter.
@@ -120,6 +122,8 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
 
 
     public void onAddCustomProductClick() {
+        favoritesBinding.fab.close(false);
+
         Bundle bundle = new Bundle();
         AddUserAddressResponse singleAddressResponse = addressessAdapter.
                 getItemFromPosition(addressSelectedPosition);
