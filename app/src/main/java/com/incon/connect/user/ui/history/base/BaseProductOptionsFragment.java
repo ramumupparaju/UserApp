@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
@@ -20,7 +24,15 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
+import com.incon.connect.user.BuildConfig;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
@@ -28,24 +40,89 @@ import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.utils.DeviceUtils;
 import com.incon.connect.user.utils.Logger;
+import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.incon.connect.user.AppConstants.LoginPrefs.USER_NAME;
 
 
 public abstract class BaseProductOptionsFragment extends BaseFragment {
 
 
     // share product details
-    public void shareProductDetails(ProductInfoResponse productInfoResponse) {
+    public void shareProductDetails(final ProductInfoResponse productInfoResponse) {
+        showProgress("");
+        final Context activity = getActivity();
 
-        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-        sharingIntent.setType("text/html");
+        GlideUrl glideUrl = new GlideUrl(BuildConfig.SERVICE_ENDPOINT + productInfoResponse.getProductImageUrl(), new LazyHeaders.Builder()
+                .addHeader(AppConstants.ApiRequestKeyConstants.HEADER_AUTHORIZATION, getActivity().getString(R.string.default_key))
+                .build());
 
-        String contentToShare = String.format("Name: %1$s\n%2$s\nPrice%3$s", productInfoResponse.getModelNumber(), productInfoResponse.getInformation()
-                , productInfoResponse.getMrp());
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, contentToShare);
-        startActivity(Intent.createChooser(sharingIntent, "Share using"));
+        Glide.with(this)
+                .asBitmap()
+                .load(glideUrl)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                        sharingIntent.putExtra(Intent.EXTRA_STREAM, AppUtils.getLocalBitmapUri(resource, activity));
+                        String contentToShare = getShareContent(productInfoResponse);
+                        sharingIntent.putExtra(Intent.EXTRA_TEXT, contentToShare);
+                        sharingIntent.setType("image/*");
+                        startActivity(Intent.createChooser(sharingIntent, "Share using"));
+                        hideProgress();
+                    }
+
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
+                        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                        String contentToShare = getShareContent(productInfoResponse);
+                        sharingIntent.putExtra(Intent.EXTRA_TEXT, contentToShare);
+                        sharingIntent.setType("text/html");
+                        startActivity(Intent.createChooser(sharingIntent, "Share using"));
+                        hideProgress();
+                    }
+                });
+    }
+
+    private String getShareContent(ProductInfoResponse productInfoResponse) {
+
+        final String subjectToShare = String.format("Your friend %1$s wants to share details of this product. To know compete details install the connect application", SharedPrefsUtils.loginProvider().getStringPreference(USER_NAME));
+
+//        Model num, product image, price, product name, store name, store contact number while sharing have to send
+        StringBuilder stringBuilder = new StringBuilder(subjectToShare);
+        stringBuilder.append(NEW_LINE);
+
+        if (!TextUtils.isEmpty(productInfoResponse.getModelNumber())) {
+            stringBuilder.append(NEW_LINE);
+            stringBuilder.append(String.format("Name: %1$s", productInfoResponse.getModelNumber()));
+        }
+        if (!TextUtils.isEmpty(productInfoResponse.getBrandName())) {
+            stringBuilder.append(NEW_LINE);
+            stringBuilder.append(String.format("Brand: %1$s", productInfoResponse.getBrandName()));
+        }
+        if (!TextUtils.isEmpty(productInfoResponse.getName())) {
+            stringBuilder.append(NEW_LINE);
+            stringBuilder.append(String.format("Model num: %1$s", productInfoResponse.getName()));
+        }
+        if (productInfoResponse.getMrp() != null) {
+            stringBuilder.append(NEW_LINE);
+            stringBuilder.append(String.format("Price: %1$s", productInfoResponse.getMrp()));
+        }
+
+        if (!TextUtils.isEmpty(productInfoResponse.getStoreName())) {
+            stringBuilder.append(NEW_LINE);
+            stringBuilder.append(String.format("Store Name: %1$s", productInfoResponse.getStoreName()));
+        }
+        if (!TextUtils.isEmpty(productInfoResponse.getStoreContactNumber())) {
+            stringBuilder.append(NEW_LINE);
+            stringBuilder.append(String.format("Store num: %1$s", productInfoResponse.getStoreContactNumber()));
+        }
+
+        return stringBuilder.toString();
     }
 
     @Override

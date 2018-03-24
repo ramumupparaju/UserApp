@@ -9,6 +9,7 @@ public interface AppConstants {
     String MULTIPART_FORM_DATA = "image/*";
     String COMMA_SEPARATOR = ",";
     String HYPHEN_SEPARATOR = "-";
+    String NEW_LINE= "\n";
     int DEFAULT_VALUE = Integer.MIN_VALUE;
 
     String CATEGORY_AUTOMOBILES = "Automobiles";
