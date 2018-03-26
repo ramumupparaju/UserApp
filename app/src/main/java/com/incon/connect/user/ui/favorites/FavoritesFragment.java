@@ -671,7 +671,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 getItemFromPosition(productSelectedPosition);
         HashMap<String, String> productLocationChangeMap = new HashMap<>();
         productLocationChangeMap.put(BODY_ID, String.valueOf(itemFromPosition.getFavouriteId()));
-        productLocationChangeMap.put(BODY_ADDRESS_ID, String.valueOf(itemFromPosition.getAddressId()));
+        productLocationChangeMap.put(BODY_ADDRESS_ID, String.valueOf(addressId));
         favoritesPresenter.doLocationChangeProductNameEditApi(productLocationChangeMap);
     }
 
