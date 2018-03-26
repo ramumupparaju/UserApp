@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -31,10 +32,26 @@
             android:text="@string/text_invoice"
             android:textColor="@color/white" />
 
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_20"
+            android:onClick="previewOrImage"
+            android:paddingTop="10dp"
+            app:srcCompat="@drawable/ic_barcode" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/bill_prev"
+            style="@style/BothMatch"
+            android:layout_above="@id/text_connect"
+            android:layout_below="@+id/text_invoice"
+            android:scaleType="fitXY" />
 
         <ScrollView
             android:id="@+id/scrollview_user_info"
             style="@style/MatchWrap"
+            android:layout_above="@id/text_connect"
             android:layout_below="@+id/text_invoice">
 
             <RelativeLayout style="@style/BothMatch">
@@ -58,37 +75,32 @@
                         android:layout_height="wrap_content"
                         android:weightSum="2">
 
-                        <LinearLayout
-                            style="@style/bill_header_linear_layout">
+                        <LinearLayout style="@style/bill_header_linear_layout">
 
                             <TextView
                                 android:id="@+id/text_dop"
                                 style="@style/bill_header_right_text_view"
-                                android:text="@string/text_date_of_purchase"
-                                />
+                                android:text="@string/text_date_of_purchase" />
+
                             <TextView
                                 android:id="@+id/text_bill_id"
                                 style="@style/bill_header_right_text_view"
-                                android:text="@string/text_bill_id"
-                                />
+                                android:text="@string/text_bill_id" />
 
                             <TextView
                                 android:id="@+id/text_invoice_no"
                                 style="@style/bill_header_right_text_view"
-                                android:text="@string/text_invoice_no"
-                                />
+                                android:text="@string/text_invoice_no" />
 
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            style="@style/bill_header_linear_layout">
+                        <LinearLayout style="@style/bill_header_linear_layout">
 
 
                             <TextView
                                 android:id="@+id/text_dop_values"
-                                style="@style/bill_header_left_text_view"
-                                />
+                                style="@style/bill_header_left_text_view" />
 
                             <TextView
                                 android:id="@+id/text_bill_id_values"
@@ -98,7 +110,7 @@
                             <TextView
                                 android:id="@+id/text_invoice_no_values"
                                 style="@style/bill_header_left_text_view"
-                                android:text="@{`:` + productinforesponse.invoiceNumber}"  />
+                                android:text="@{`:` + productinforesponse.invoiceNumber}" />
 
 
                         </LinearLayout>
@@ -294,13 +306,13 @@
                             android:text="@{productinforesponse.storeName}" />
 
                         <TextView
-                            android:layout_marginTop="@dimen/margin_5"
                             style="@style/bill_store_text_view_match"
+                            android:layout_marginTop="@dimen/margin_5"
                             android:text="@{productinforesponse.storeAddress}" />
 
                         <TextView
-                            android:layout_marginTop="@dimen/margin_5"
                             style="@style/bill_store_text_view_match"
+                            android:layout_marginTop="@dimen/margin_5"
                             android:text="@{productinforesponse.storeContactNumber}" />
 
                         <!--TODO have to insert correct value-->
@@ -350,14 +362,14 @@
 
                         <TextView
                             android:id="@+id/text_customer_address_values"
-                            android:layout_marginTop="@dimen/margin_5"
                             style="@style/bill_header_left_text_view"
+                            android:layout_marginTop="@dimen/margin_5"
                             android:text="@{productinforesponse.address}" />
 
                         <TextView
                             android:id="@+id/text_customer_contact_details_values"
-                            android:layout_marginTop="@dimen/margin_5"
                             style="@style/bill_header_left_text_view"
+                            android:layout_marginTop="@dimen/margin_5"
                             android:text="@{productinforesponse.mobileNumber}" />
 
                     </LinearLayout>
@@ -374,20 +386,20 @@
                        android:layout_marginTop="@dimen/margin_10"
                        android:background="@color/colorAccent" />-->
 
-                <TextView
-                    android:id="@+id/text_connect"
-                    style="@style/BothWrap"
-                    android:layout_alignParentBottom="true"
-                    android:layout_below="@id/customer_details_base"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:paddingBottom="@dimen/margin_20"
-                    android:text="@string/text_powered"
-                    android:textColor="@color/ebony_clay"
-                    android:textSize="12sp" />
 
             </RelativeLayout>
         </ScrollView>
+
+        <TextView
+            android:id="@+id/text_connect"
+            style="@style/BothWrap"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_20"
+            android:text="@string/text_powered"
+            android:textColor="@color/ebony_clay"
+            android:textSize="12sp" />
     </RelativeLayout>
 </layout>
