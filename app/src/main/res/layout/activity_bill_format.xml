@@ -41,12 +41,24 @@
             android:paddingTop="10dp"
             app:srcCompat="@drawable/ic_barcode" />
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/bill_prev"
+        <RelativeLayout
             style="@style/BothMatch"
             android:layout_above="@id/text_connect"
-            android:layout_below="@+id/text_invoice"
-            android:scaleType="fitXY" />
+            android:layout_below="@+id/text_invoice">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/bill_prev"
+                style="@style/BothMatch"
+                android:scaleType="fitXY" />
+
+            <!-- layout for bottom buttons -->
+            <include
+                android:id="@+id/include_register_bottom_buttons"
+                layout="@layout/view_registration_bottom_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
 
         <ScrollView
             android:id="@+id/scrollview_user_info"

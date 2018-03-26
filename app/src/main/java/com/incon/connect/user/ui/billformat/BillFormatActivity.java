@@ -64,7 +64,7 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
     private void showImageOptionsDialog() {
         pickImageDialog = new PickImageDialog(this);
         pickImageDialog.mImageHandlingDelegate = pickImageDialogInterface;
-        pickImageDialog.initDialogLayout();
+        pickImageDialog.initDialogLayout(false);
     }
 
     private PickImageDialogInterface pickImageDialogInterface = new PickImageDialogInterface() {
@@ -155,6 +155,16 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
 
 
         binding.textDopValues.setText(DateUtils.convertMillisToStringFormat(productInfoResponse.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY));
+
+
+        /*binding.includeRegisterBottomButtons.buttonLeft.setText(
+                TextUtils.isEmpty(leftButtonText) ? context.getString(
+                        R.string.action_back) : leftButtonText);
+        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonRight.setText(
+                TextUtils.isEmpty(leftButtonText) ? context.getString(
+                        R.string.action_next) : rightButtonText);
+        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(this);
+        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonRight.setOnClickListener(this);*/
     }
 
     @Override

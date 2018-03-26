@@ -184,7 +184,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     private void showImageOptionsDialog() {
         pickImageDialog = new PickImageDialog(getActivity());
         pickImageDialog.mImageHandlingDelegate = pickImageDialogInterface;
-        pickImageDialog.initDialogLayout();
+        pickImageDialog.initDialogLayout(true);
     }
 
     private PickImageDialogInterface pickImageDialogInterface = new PickImageDialogInterface() {

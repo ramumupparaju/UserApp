@@ -15,6 +15,9 @@ import com.incon.connect.user.utils.Logger;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class PickImageDialog implements Serializable {
@@ -29,15 +32,15 @@ public class PickImageDialog implements Serializable {
         this.mActivity = activity;
     }
 
-    public void initDialogLayout() {
+    public void initDialogLayout(boolean isThreeOptions) {
 
-        CharSequence[] items = mActivity.getResources().getStringArray(R.array.select_image_list);
+        CharSequence[] items = mActivity.getResources().getStringArray(isThreeOptions ? R.array.select_image_list : R.array.select_image_options_list);
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mActivity,
                 android.R.style.Theme_Material_Dialog_Alert);
         //builder.setTitle(getString(R.string.app_name));
         builder.setItems(items, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int item) {
-                        dialogInterface.dismiss();
+                dialogInterface.dismiss();
                 switch (item) {
                     case 0:
                         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
