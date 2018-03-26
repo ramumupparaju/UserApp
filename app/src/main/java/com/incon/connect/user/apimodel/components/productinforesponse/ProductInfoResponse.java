@@ -237,6 +237,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     private String showRoomName;
 
     private String favouriteName;
+    private String storeLogoUrl;
 
     @SerializedName("favouriteId")
     @Expose
@@ -245,7 +246,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
 
     @SerializedName("offers")
     @Expose
-    private List<Object> offers = null;
+    private List<String> offers = null;
 
     public String getCustomProductFlag() {
         return customProductFlag;
@@ -253,6 +254,15 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
 
     public void setCustomProductFlag(String customProductFlag) {
         this.customProductFlag = customProductFlag;
+    }
+
+
+    public String getStoreLogoUrl() {
+        return storeLogoUrl;
+    }
+
+    public void setStoreLogoUrl(String storeLogoUrl) {
+        this.storeLogoUrl = storeLogoUrl;
     }
 
     public Integer getFavouriteId() {
@@ -288,11 +298,11 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         this.showRoomName = showRoomName;
     }
 
-    public List<Object> getOffers() {
+    public List<String> getOffers() {
         return offers;
     }
 
-    public void setOffers(List<Object> offers) {
+    public void setOffers(List<String> offers) {
         this.offers = offers;
     }
 

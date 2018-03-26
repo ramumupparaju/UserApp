@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,7 +92,7 @@ public class ShowRoomAdapter extends BaseRecyclerViewAdapter {
         public void bind(ProductInfoResponse productInfoResponse) {
             binding.setVariable(BR.productinforesponse
                     , productInfoResponse);
-            AppUtils.loadImageFromApi(binding.storeImageview, productInfoResponse.getProductImageUrl());
+            AppUtils.loadImageFromApi(binding.storeImageview, productInfoResponse.getStoreLogoUrl());
 
             String[] location = productInfoResponse.getLocation().split(",");
             loadLocationDetailsFromGeocoder(new LatLng(Double.parseDouble(location[0]), Double.parseDouble(location[1])), productInfoResponse);
@@ -99,6 +100,13 @@ public class ShowRoomAdapter extends BaseRecyclerViewAdapter {
                 binding.viewsLayout.setVisibility(View.VISIBLE);
             } else {
                 binding.viewsLayout.setVisibility(View.GONE);
+            }
+
+            if (productInfoResponse.getOffers() != null && productInfoResponse.getOffers().size() > 0) {
+                binding.offersTv.setVisibility(View.VISIBLE);
+                binding.offersTv.setText(String.format("Offers :%1$s", productInfoResponse.getOffers().get(0)));
+            } else {
+                binding.offersTv.setVisibility(View.GONE);
             }
             binding.executePendingBindings();
 
