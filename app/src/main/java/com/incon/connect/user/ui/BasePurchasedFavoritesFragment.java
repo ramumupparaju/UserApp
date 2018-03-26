@@ -119,6 +119,16 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
     }
 
+    public void detailsData(ProductInfoResponse productInfoResponse) {
+        String detailsData = String.format("%1$s%2$s%3$s%4$s", productInfoResponse.getInformation(),
+                productInfoResponse.getProductSpecification(), productInfoResponse.getColor(), productInfoResponse.getProductDimensions());
+        if (TextUtils.isEmpty(detailsData)) {
+            showErrorMessage(getString(R.string.will_updated_soon));
+        } else {
+            showInformationDialog(getString(R.string.bottom_option_description), detailsData);
+        }
+    }
+
     public void navigateToAddressActivity() {
         Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
         addressIntent.putExtra(IntentConstants.BUTTON_TEXT, getString(R.string.action_add));

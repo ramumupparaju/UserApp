@@ -555,11 +555,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                         R.string.bottom_option_special_instructions),
                         productInfoResponse.getSpecialInstruction());
             } else if (tag == R.id.PRODUCT_DETAILS_DESCRIPTION) {
-                showInformationDialog(getString(
-                        R.string.bottom_option_description), productInfoResponse.getInformation()
-                        + productInfoResponse.getProductSpecification()
-                        + productInfoResponse.getColor()
-                        + productInfoResponse.getProductDimensions());
+                detailsData(productInfoResponse);
                 return;
 
             } else if (tag == R.id.PRODUCT_EDIT_NICK_NAME) {
