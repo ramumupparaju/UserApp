@@ -24,7 +24,7 @@
                 android:id="@+id/view_logo"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
-                app:srcCompat="@drawable/circle_shape"/>
+                android:src="@drawable/circle_shape"/>
 
             <View
                 android:layout_marginTop="@dimen/margin_20"
