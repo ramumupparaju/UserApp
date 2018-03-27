@@ -18,6 +18,7 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
@@ -408,7 +409,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.PRODUCT_TRANSFER) {
                 showTransferDialog();
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
-                doReviewsApi();
+                doReviewsApi(productInfoResponse.getProductId());
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
                 showSuggestionsDialog();
             } else if (tag == R.id.SHOWROOM_CALL) {
@@ -417,7 +418,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.SHOWROOM_LOCATION) {
                 showLocationDialog();
             } else if (tag == R.id.SHOWROOM_FEEDBACK) {
-                doReviewsApi();
+                doReviewsApi(productInfoResponse.getProductId());
             }
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.VISIBLE);
@@ -543,9 +544,6 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             getActivity().onBackPressed();
         }
     }
-
-
-
 
     // product search
     @Override

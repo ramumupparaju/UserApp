@@ -3,6 +3,7 @@ package com.incon.connect.user.ui.favorites;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
@@ -36,7 +37,7 @@ public interface FavoritesContract {
 
         void deleteProduct(Object response);
 
-        void productReviews();
+        void productReviews(List<ReviewData> reviewDataList);
 
         void saveReviews(Object saveReviews);
     }

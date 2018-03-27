@@ -11,13 +11,12 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.FeedbackData;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
@@ -108,6 +107,10 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
             AppUtils.shortToast(getActivity(), error.second);
         }
+    }
+
+    public void productReviews(List<ReviewData> reviewDataList) {
+        showFeedBackDialog(reviewDataList);
     }
 
     @Override
@@ -270,7 +273,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 //showFeedBackDialog();
     }
 
-    public void showFeedBackDialog(List<FeedbackData> reviews) {
+    public void showFeedBackDialog(List<ReviewData> reviews) {
         final HashMap<String, String> saveReviewApi = new HashMap<>();
         saveReviewApi.put(ApiRequestKeyConstants.BODY_USER_ID, String.valueOf(userId));
 
@@ -316,14 +319,12 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         feedBackDialog.setCancelable(true);
     }
 
-    public void doReviewsApi() {
-        //todo have to call reviews api
+    public void doReviewsApi(int productId) {
         if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
-            favoritesPresenter.reviewToproduct(userId);
+            favoritesPresenter.reviewToproduct(productId);
         } else {
-            purchasedPresenter.reviewToProduct(userId);
+            purchasedPresenter.reviewToProduct(productId);
         }
-        showFeedBackDialog(null);
     }
 
     public void saveReviews(Object saveReviews) {

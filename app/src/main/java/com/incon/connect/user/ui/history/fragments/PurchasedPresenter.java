@@ -10,6 +10,7 @@ import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
@@ -150,12 +151,16 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
     }
 
     @Override
-    public void reviewToProduct(int userId) {
+    public void reviewToProduct(int productId) {
+        getView().showProgress(appContext.getString(R.string.progress_loading_reviews));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
                     @Override
                     public void onNext(Object o) {
-                        getView().productReviews();
+                        if (o != null) {
+                            List<ReviewData> reviewData = (List<ReviewData>) o;
+                        getView().productReviews(reviewData);
+                        }
                     }
 
                     @Override
@@ -170,7 +175,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().reviewsApi(userId).subscribe(observer);
+        AppApiService.getInstance().reviewsApi(productId).subscribe(observer);
         addDisposable(observer);
 
     }
@@ -337,8 +342,8 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         }
 
         @Override
-        public void productReviews() {
-            getView().productReviews();
+        public void productReviews(List<ReviewData> reviewDataList) {
+            getView().productReviews(reviewDataList);
 
         }
 

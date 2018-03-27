@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.FeedbackData;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.callbacks.FeedbackAlertDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.databinding.ViewEditTextListDialogBinding;
@@ -27,7 +27,7 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
     private final String title; // required
     private final String leftButtonText; // required
     private final String rightButtonText; // required
-    private final List<FeedbackData> feedbackDataList; // required
+    private final List<ReviewData> feedbackDataList; // required
     private EditText editTextNotes; // required
     private RatingBar ratingBar; // required
     private final FeedbackAlertDialogCallback mAlertDialogCallback; // required
@@ -116,7 +116,7 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
         private String title;
         private String leftButtonText;
         private String rightButtonText;
-        private List<FeedbackData> feedbackDataList;
+        private List<ReviewData> feedbackDataList;
 
 
         public AlertDialogBuilder(Context context, FeedbackAlertDialogCallback callback) {
@@ -139,7 +139,7 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
             return this;
         }
 
-        public AlertDialogBuilder feedbackDataList(List<FeedbackData> feedbackData) {
+        public AlertDialogBuilder feedbackDataList(List<ReviewData> feedbackData) {
             this.feedbackDataList = feedbackData;
             return this;
         }

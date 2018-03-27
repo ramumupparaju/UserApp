@@ -20,6 +20,7 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAddressDialogCallback;
@@ -485,7 +486,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.PRODUCT_TRANSFER) {
                 showTransferDialog();
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
-                doReviewsApi();
+                doReviewsApi(productInfoResponse.getProductId());
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
                 showSuggestionsDialog();
             } else if (tag == R.id.PRODUCT_EDIT) {
@@ -507,7 +508,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.SHOWROOM_LOCATION) {
                 showLocationDialog();
             } else if (tag == R.id.SHOWROOM_FEEDBACK) {
-                doReviewsApi();
+                doReviewsApi(productInfoResponse.getProductId());
             }
 
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.VISIBLE);
@@ -740,11 +741,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         favoritesBinding.favoritesRecyclerview.setVisibility(View.VISIBLE);
         shimmerFrameLayout.stopShimmerAnimation();
         shimmerFrameLayout.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void productReviews() {
-
     }
 
     private void dismissSwipeRefresh() {

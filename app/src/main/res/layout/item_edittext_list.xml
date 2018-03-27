@@ -5,7 +5,7 @@
 
         <variable
             name="model"
-            type="com.incon.connect.user.apimodel.components.FeedbackData" />
+            type="com.incon.connect.user.apimodel.components.review.ReviewData" />
     </data>
 
     <LinearLayout
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/margin_5"
-            android:text="@{model.name}"
+            android:text="@{model.userName + `(`+model.rating+`/5)`}"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_13" />
 
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/margin_5"
-            android:text="@{model.comments}"
+            android:text="@{`Comments : ` + model.review}"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_13" />
 

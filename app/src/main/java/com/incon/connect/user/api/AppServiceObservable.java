@@ -10,6 +10,7 @@ import com.incon.connect.user.apimodel.components.login.LoginResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
@@ -211,8 +212,8 @@ public interface AppServiceObservable {
 
 
     // product review api
-    @GET("product/reviews/{userId}")
-    Observable<Object> reviewsApi(@Path("userId") int userId);
+    @GET("product/reviews/{productId}")
+    Observable<List<ReviewData>> reviewsApi(@Path("productId") int productId);
 
     @POST("product/savereviews")
     Observable<Object> saveReviewsApi(@Body HashMap<String, String> savereviewsBody);

@@ -4,6 +4,7 @@ package com.incon.connect.user.ui.history.fragments;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
@@ -36,7 +37,7 @@ public interface PurchasedContract {
 
         void addedToFavorite();
 
-        void productReviews();
+        void productReviews(List<ReviewData> reviewDataList);
 
         void saveReviews(Object saveReviews);
 
@@ -55,7 +56,7 @@ public interface PurchasedContract {
 
         void deleteProduct(int userId);
 
-        void reviewToProduct(int userId);
+        void reviewToProduct(int productId);
 
         void serviceRequest(ServiceRequest serviceRequest);
 

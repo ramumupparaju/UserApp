@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.FeedbackData;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.databinding.ItemEdittextListBinding;
 
 import java.util.List;
@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class AppEditTextListAdapter extends RecyclerView.Adapter<AppEditTextListAdapter.ViewHolder> {
 
-    public List<FeedbackData> feedbackDataList;
+    public List<ReviewData> feedbackDataList;
 
-    public AppEditTextListAdapter(List<FeedbackData> feedbackDataList) {
+    public AppEditTextListAdapter(List<ReviewData> feedbackDataList) {
         this.feedbackDataList = feedbackDataList;
     }
 
@@ -33,7 +33,7 @@ public class AppEditTextListAdapter extends RecyclerView.Adapter<AppEditTextList
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        FeedbackData feedbackData = feedbackDataList.get(position);
+        ReviewData feedbackData = feedbackDataList.get(position);
         holder.bind(feedbackData, position);
     }
 
@@ -50,7 +50,7 @@ public class AppEditTextListAdapter extends RecyclerView.Adapter<AppEditTextList
             this.binding = binding;
         }
 
-        public void bind(FeedbackData feedbackData, int position) {
+        public void bind(ReviewData feedbackData, int position) {
             binding.setVariable(BR.model, feedbackData);
             binding.executePendingBindings();
         }

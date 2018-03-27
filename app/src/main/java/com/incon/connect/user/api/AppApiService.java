@@ -12,6 +12,7 @@ import com.incon.connect.user.apimodel.components.login.LoginResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
@@ -201,7 +202,7 @@ public class AppApiService implements AppConstants {
     }
 
         // product review api
-    public Observable<Object> reviewsApi(int userId) {
+    public Observable<List<ReviewData>> reviewsApi(int userId) {
         return addNetworkCheck(serviceInstance.reviewsApi(userId));
     }
     public Observable<Object> saveReviewsApi(HashMap<String, String> saveReviewsBody) {
