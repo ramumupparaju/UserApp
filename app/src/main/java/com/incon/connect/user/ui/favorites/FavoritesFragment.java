@@ -337,10 +337,10 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 drawablesArray.add(R.drawable.ic_option_call);
                 drawablesArray.add(R.drawable.ic_option_find_service_center);
             } else if (tag == R.id.PRODUCT) {
-                textArray.add(getString(R.string.bottom_option_info));
+                /*textArray.add(getString(R.string.bottom_option_info));
                 tagsArray.add(R.id.PRODUCT_DETAILS);
                 drawablesArray.add(R.drawable.ic_option_details);
-
+*/
                 textArray.add(getString(R.string.bottom_option_warranty));
                 tagsArray.add(R.id.PRODUCT_WARRANTY);
                 drawablesArray.add(R.drawable.ic_option_warranty);

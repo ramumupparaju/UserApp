@@ -160,11 +160,6 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
         textArray.add(getString(R.string.bottom_option_showroom));
         drawablesArray.add(R.drawable.ic_option_customer);
 
-        tagsArray.add(R.id.DELETE);
-        textArray.add(getString(R.string.bottom_option_delete));
-        drawablesArray.add(R.drawable.ic_option_delete);
-
-
         if (productInfoResponse.getAddressId() == null) { //checking whether it is already added as favorite or not
             tagsArray.add(R.id.FAVORITE);
             textArray.add(getString(R.string.bottom_option_add_as_favorite));
@@ -203,9 +198,9 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 drawablesArray.add(R.drawable.ic_option_find_service_center);
 
             } else if (tag == R.id.PRODUCT) {
-                textArray.add(getString(R.string.bottom_option_info));
+                /*textArray.add(getString(R.string.bottom_option_info));
                 tagsArray.add(R.id.PRODUCT_DETAILS);
-                drawablesArray.add(R.drawable.ic_option_details);
+                drawablesArray.add(R.drawable.ic_option_details);*/
 
                 textArray.add(getString(R.string.bottom_option_warranty));
                 tagsArray.add(R.id.PRODUCT_WARRANTY);
@@ -235,6 +230,9 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 tagsArray.add(R.id.PRODUCT_SUGGESTION);
                 drawablesArray.add(R.drawable.ic_option_suggestions);
 
+                tagsArray.add(R.id.DELETE);
+                textArray.add(getString(R.string.bottom_option_delete));
+                drawablesArray.add(R.drawable.ic_option_delete);
 
             } else if (tag == R.id.SHOWROOM) {
                 int length = 3;
@@ -250,8 +248,6 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 tagsArray.add(R.id.SHOWROOM_FEEDBACK);
                 drawablesArray.add(R.drawable.ic_option_feedback);
 
-            } else if (tag == R.id.DELETE) {
-                showDeleteDialog();
             } else if (tag == R.id.FAVORITE) {
                 showFavoriteOptionsDialog();
             }
@@ -412,6 +408,8 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 doReviewsApi(productInfoResponse.getProductId());
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
                 showSuggestionsDialog();
+            } else if (tag == R.id.DELETE) {
+                showDeleteDialog();
             } else if (tag == R.id.SHOWROOM_CALL) {
                 callPhoneNumber(productInfoResponse.getStoreContactNumber());
                 return;
@@ -446,7 +444,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 showCustomPhoneNumberDialog();
             } else if (tag == R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER) {
                 isFindUnAuthorizedServiceCenter = true;
-                loadNearByServiceCentersDialogData(ServiceConstants.UNAUTHORIZED_TYPE,productInfoResponse.getBrandId());
+                loadNearByServiceCentersDialogData(ServiceConstants.UNAUTHORIZED_TYPE, productInfoResponse.getBrandId());
 
             } else if (tag == R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST) {
                 // todo have check api
@@ -462,13 +460,13 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
 
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER) {
                 isFindServiceCenter = true;
-                loadNearByServiceCentersDialogData(ServiceConstants.AUTHORIZED_TYPE,productInfoResponse.getBrandId());
+                loadNearByServiceCentersDialogData(ServiceConstants.AUTHORIZED_TYPE, productInfoResponse.getBrandId());
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST) {
                 isFindServiceCenter = false;
                 if (serviceCenterResponseList != null) {
                     loadServiceRequesDialogData();
                 } else {
-                    loadNearByServiceCentersDialogData(ServiceConstants.AUTHORIZED_TYPE,productInfoResponse.getBrandId());
+                    loadNearByServiceCentersDialogData(ServiceConstants.AUTHORIZED_TYPE, productInfoResponse.getBrandId());
                 }
 
             } else if (tag == R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS) {
@@ -482,7 +480,6 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
         }
 
     };
-
 
 
     @Override
