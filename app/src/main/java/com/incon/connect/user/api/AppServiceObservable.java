@@ -32,9 +32,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface AppServiceObservable {
@@ -245,4 +248,8 @@ public interface AppServiceObservable {
     @POST("service/updateStatus/{userId}")
     Observable<Object> upDateStatus(@Path("userId") int userId, @Body UpDateStatus upDateStatus);
 
+    // service center logo  api
+    @Multipart
+    @POST("warranty/updatebill/{purchaseId}")
+    Observable<Object> uploadBill(@Path("purchaseId") int purchaseId, @Part MultipartBody.Part billPrev);
 }

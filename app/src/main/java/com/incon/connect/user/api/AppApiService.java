@@ -38,6 +38,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MultipartBody;
 
 public class AppApiService implements AppConstants {
 
@@ -321,4 +322,10 @@ public class AppApiService implements AppConstants {
     public Observable<Object> upDateStatus(int userId, UpDateStatus upDateStatus) {
         return addNetworkCheck(serviceInstance.upDateStatus(userId, upDateStatus));
     }
+
+    // bill  api
+    public Observable<Object> uploadBill(int purchaseId, MultipartBody.Part billPrev) {
+        return addNetworkCheck(serviceInstance.uploadBill(purchaseId, billPrev));
+    }
+
 }

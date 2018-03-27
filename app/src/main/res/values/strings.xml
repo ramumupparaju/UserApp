@@ -323,6 +323,7 @@
     <string name="progress_location">Loading location details...</string>
     <string name="progress_finding_service_centers">Loading service centers...</string>
     <string name="progress_login">Logging in...</string>
+    <string name="progress_uploading_bill">Uploading bill...</string>
     <string name="progress_resend">Resending OTP...</string>
     <string name="progress_sendotp">Sending otp...</string>
     <string name="progress_verifycode">Verifying code...</string>

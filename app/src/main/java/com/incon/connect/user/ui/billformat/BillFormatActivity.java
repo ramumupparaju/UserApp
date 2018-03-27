@@ -23,7 +23,12 @@ import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.PermissionUtils;
 
+import java.io.File;
 import java.util.HashMap;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 import static com.incon.connect.user.ui.tutorial.TutorialActivity.TAG;
 
@@ -39,6 +44,9 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
     private PickImageDialog pickImageDialog;
     private String selectedFilePath = "";
     private boolean showingOriginal = false;
+    private BillFormatPresenter billFormatPresenter;
+    private int purchaseId;
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -59,6 +67,9 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
 
     @Override
     protected void initializePresenter() {
+        billFormatPresenter = new BillFormatPresenter();
+        billFormatPresenter.setView(this);
+        setBasePresenter(billFormatPresenter);
     }
 
     private void showImageOptionsDialog() {
@@ -87,6 +98,18 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
             selectedFilePath = uri;
             loadImageUsingGlide(selectedFilePath, binding.billPrev);
             toggleImage();
+
+            File fileToUpload = new File(selectedFilePath == null ? "" : selectedFilePath);
+            if (fileToUpload.exists()) {
+                RequestBody requestFile =
+                        RequestBody.create(MediaType.parse(MULTIPART_FORM_DATA), fileToUpload);
+                // MultipartBody.Part is used to send also the actual file name
+                MultipartBody.Part imagenPerfil = MultipartBody.Part.createFormData(ApiRequestKeyConstants.STORE_LOGO,
+                        fileToUpload.getName(), requestFile);
+                billFormatPresenter.uploadBill(purchaseId, imagenPerfil);
+            } else {
+                showErrorMessage(getString(R.string.error_image_path_upload));
+            }
         }
     };
 
@@ -150,7 +173,9 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         binding = DataBindingUtil.setContentView(this, getLayoutId());
         binding.setBillFormatActivity(this);
         Bundle bundle = getIntent().getExtras();
+
         productInfoResponse = bundle.getParcelable(BundleConstants.PRODUCT_INFO_RESPONSE);
+        purchaseId = Integer.parseInt(productInfoResponse.getWarrantyId());
         binding.setProductinforesponse(productInfoResponse);
 
 
