@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
@@ -97,16 +98,13 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         public void displayPickedImage(String uri, int requestCode) {
             selectedFilePath = uri;
             loadImageUsingGlide(selectedFilePath, binding.billPrev);
+            showingOriginal = false;
             toggleImage();
 
             File fileToUpload = new File(selectedFilePath == null ? "" : selectedFilePath);
             if (fileToUpload.exists()) {
-                RequestBody requestFile =
-                        RequestBody.create(MediaType.parse(MULTIPART_FORM_DATA), fileToUpload);
-                // MultipartBody.Part is used to send also the actual file name
-                MultipartBody.Part imagenPerfil = MultipartBody.Part.createFormData(ApiRequestKeyConstants.STORE_LOGO,
-                        fileToUpload.getName(), requestFile);
-                billFormatPresenter.uploadBill(purchaseId, imagenPerfil);
+                binding.includeRegisterBottomButtons.buttonLeft.setText(getString(R.string.action_new));
+                binding.includeRegisterBottomButtons.buttonRight.setText(getString(R.string.action_upload_now));
             } else {
                 showErrorMessage(getString(R.string.error_image_path_upload));
             }
@@ -149,9 +147,9 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
     private void toggleImage() {
         if (showingOriginal) {
             binding.scrollviewUserInfo.setVisibility(View.VISIBLE);
-            binding.billPrev.setVisibility(View.GONE);
+            binding.billPrevLayout.setVisibility(View.GONE);
         } else {
-            binding.billPrev.setVisibility(View.VISIBLE);
+            binding.billPrevLayout.setVisibility(View.VISIBLE);
             binding.scrollviewUserInfo.setVisibility(View.GONE);
         }
         showingOriginal = !showingOriginal;
@@ -177,20 +175,46 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         productInfoResponse = bundle.getParcelable(BundleConstants.PRODUCT_INFO_RESPONSE);
         purchaseId = Integer.parseInt(productInfoResponse.getWarrantyId());
         binding.setProductinforesponse(productInfoResponse);
+        selectedFilePath = productInfoResponse.getBillUrl();
 
 
         binding.textDopValues.setText(DateUtils.convertMillisToStringFormat(productInfoResponse.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY));
-
-
-        /*binding.includeRegisterBottomButtons.buttonLeft.setText(
-                TextUtils.isEmpty(leftButtonText) ? context.getString(
-                        R.string.action_back) : leftButtonText);
-        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonRight.setText(
-                TextUtils.isEmpty(leftButtonText) ? context.getString(
-                        R.string.action_next) : rightButtonText);
-        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(this);
-        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonRight.setOnClickListener(this);*/
+        binding.includeRegisterBottomButtons.buttonLeft.setText(getString(R.string.action_back));
+        binding.includeRegisterBottomButtons.buttonLeft.setText(getString(R.string.action_edit));
+        binding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(onClickListener);
+        binding.includeRegisterBottomButtons.buttonRight.setOnClickListener(onClickListener);
     }
+
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Button button = (Button) view;
+
+            if (button.getText().toString().equals(getString(R.string.action_upload_now))) {
+                File fileToUpload = new File(selectedFilePath == null ? "" : selectedFilePath);
+                if (fileToUpload.exists()) {
+                    RequestBody requestFile =
+                            RequestBody.create(MediaType.parse(MULTIPART_FORM_DATA), fileToUpload);
+                    // MultipartBody.Part is used to send also the actual file name
+                    MultipartBody.Part imagenPerfil = MultipartBody.Part.createFormData(ApiRequestKeyConstants.STORE_LOGO,
+                            fileToUpload.getName(), requestFile);
+                    billFormatPresenter.uploadBill(purchaseId, imagenPerfil);
+                } else {
+                    showErrorMessage(getString(R.string.error_image_path_upload));
+                }
+            } else if (button.getText().toString().equals(getString(R.string.action_new)) ||
+                    button.getText().toString().equals(getString(R.string.action_edit))) {
+                selectedFilePath = null;
+                previewOrImage(view);
+            }else if (button.getText().toString().equals(getString(R.string.action_cancel))) {
+                selectedFilePath = productInfoResponse.getBillUrl();
+                previewOrImage(view);
+            }else if (button.getText().toString().equals(getString(R.string.action_back))) {
+                finish();
+            }
+        }
+    };
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

@@ -247,6 +247,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("offers")
     @Expose
     private List<String> offers = null;
+    private String billUrl;
 
     public String getCustomProductFlag() {
         return customProductFlag;
@@ -933,6 +934,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         storeId = in.readByte() == 0x00 ? null : in.readInt();
         showRoomName = in.readString();
         favouriteId = in.readByte() == 0x00 ? null : in.readInt();
+        billUrl = in.readString();
 
     }
 
@@ -1095,6 +1097,8 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
             dest.writeByte((byte) (0x01));
             dest.writeInt(favouriteId);
         }
+        dest.writeString(billUrl);
+
     }
 
     @Override
@@ -1126,4 +1130,12 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
             return new ProductInfoResponse[size];
         }
     };
+
+    public String getBillUrl() {
+        return billUrl;
+    }
+
+    public void setBillUrl(String billUrl) {
+        this.billUrl = billUrl;
+    }
 }

@@ -42,6 +42,7 @@
             app:srcCompat="@drawable/ic_barcode" />
 
         <RelativeLayout
+            android:id="@+id/bill_prev_layout"
             style="@style/BothMatch"
             android:layout_above="@id/text_connect"
             android:layout_below="@+id/text_invoice">

@@ -591,6 +591,8 @@
     <string name="button9_small_text" translatable="false">WXYZ</string>
     <string name="button11_large_text" translatable="false">0</string>
     <string name="will_updated_soon">Will be updated soon</string>
+    <string name="action_new">New</string>
+    <string name="action_edit">Edit</string>
 
 </resources>
 
