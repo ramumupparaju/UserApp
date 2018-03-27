@@ -85,14 +85,9 @@ public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdap
             AppUtils.loadImageFromApi(binding.brandImageview, productStatus.getProductLogoUrl());
             AppUtils.loadImageFromApi(binding.productImageview, productStatus.getProductImageUrl());
 
-            //TODO remove hard coding
             binding.productName.setText(productStatus.getProductName());
             binding.modelNumberTv.setText("Mod No : " +productStatus.getModelNumber());
             binding.storeName.setText(productStatus.getStoreName());
-
-          /*  binding.nameTv.setText("StoreName:" + productStatus.getStoreName() +
-                    ", model name: " + productStatus.getModelNumber());
-*/
             createStatusView(binding, productStatus);
             binding.executePendingBindings();
         }

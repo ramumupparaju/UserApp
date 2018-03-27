@@ -22,7 +22,7 @@
         <com.incon.connect.user.custom.view.CustomTextInputLayout
             android:id="@+id/input_layout_verify"
             style="@style/MatchWrap"
-            android:layout_below="@id/text_verify_title"
+            android:layout_below="@id/input_ratingbar"
             android:layout_marginStart="14dp"
             android:layout_marginTop="10dp"
             android:hint="@string/enter_note"
@@ -46,14 +46,15 @@
             android:id="@+id/input_ratingbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/input_layout_verify"
+            android:layout_below="@+id/text_verify_title"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="-4dp"
             android:layout_marginRight="-4dp"
             android:maxHeight="48dp"
             android:minHeight="48dp"
             android:numStars="5"
-            android:rating="2.5" />
+            android:rating="2.5"
+            android:theme="@style/RatingBar" />
 
         <!-- layout for bottom buttons -->
         <include
@@ -66,7 +67,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/feedback_recyclerview"
             style="@style/MatchWrap"
-            android:layout_below="@id/input_ratingbar"
+            android:layout_below="@id/input_layout_verify"
             android:scrollbars="vertical" />
 
     </RelativeLayout>
