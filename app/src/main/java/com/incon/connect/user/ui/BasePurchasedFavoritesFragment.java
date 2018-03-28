@@ -102,6 +102,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public AddServiceEngineer serviceEngineer;
     public ServiceRequest serviceRequestData;
     private WarrantyDialog extendeWarratyDialog;
+    private int serviceCenterSelectedPosition = 0;
 
     @Override
     public void handleException(Pair<Integer, String> error) {
@@ -314,9 +315,10 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         onRefreshListener.onRefresh();
     }
 
-    public void loadServiceRequesDialogData() {
-        if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
-            loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
+    public void loadServiceRequesDialogData(int position) {
+        if (serviceCenterResponseList.size() > 0 && serviceCenterResponseList.size() >= position) {// checking whether service centers are found or not
+            serviceCenterSelectedPosition = position;
+            loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(position).getId());
         } else {
             showErrorMessage(getString(R.string.error_no_service_centers_found));
         }
@@ -531,6 +533,10 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 case RequestCodes.DELETE_PRODUCT:
                     doProductDeleteApi();
                     break;
+                case RequestCodes.FROM_NEARBY_SERVICE_CENTER:
+                    int position = data.getIntExtra(IntentConstants.POSITION, 0);
+                    loadServiceRequesDialogData(position);
+                    break;
                 default:
                     break;
             }
@@ -616,8 +622,10 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }).problemsArray(problemsArray)
                 .loadUsersList(listOfServiceCenters)
                 .loadServiceCentersData(serviceCenterResponseList)
+                .serviceCenterSelectedPos(serviceCenterSelectedPosition)
                 .build();
         serviceRequestDialog.showDialog();
+        serviceCenterSelectedPosition = 0;
     }
 
     private void showTimePickerToPlaceServiceRequest(String selectedDate) {
@@ -684,24 +692,20 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
                 Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
                 serviceCenters.putParcelableArrayListExtra(IntentConstants.SERVICE_CENTER_DATA, this.serviceCenterResponseList);
-                startActivity(serviceCenters);
+                startActivityForResult(serviceCenters, RequestCodes.FROM_NEARBY_SERVICE_CENTER);
             } else {
                 showErrorMessage(getString(R.string.error_no_service_centers_found));
             }
         } else {
-            loadServiceRequesDialogData();
+            loadServiceRequesDialogData(0);
         }
     }
 
     public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> usersList) {
-
         if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
             serviceRequestDialog.setUsersData(usersList);
         } else {
             showServiceRequestDialog(usersList);
         }
-
     }
-
-
 }

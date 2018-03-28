@@ -55,6 +55,7 @@
     <string name="bottom_option_transfer">Transfer</string>
     <string name="bottom_option_feedback">Feedback </string>
     <string name="bottom_option_review">Review</string>
+    <string name="bottom_option_track">Track</string>
     <string name="bottom_option_price">Price </string>
     <string name="bottom_option_mrp">MRP </string>
     <string name="bottom_option_delete">Delete</string>

@@ -160,6 +160,7 @@ public interface AppConstants {
         String SERVICE_CENTER_DATA = "serviceCenterResponse";
         String BUTTON_TEXT = "buttonText";
         String SERVICE_ENGINEER_DATA = "serviceEngineerData";
+        String POSITION = "position";
     }
 
 
@@ -297,6 +298,7 @@ public interface AppConstants {
         int LOCATION_CHANGED = 126;
         int BUY_REQUEST = 127;
         int SERVICE_REQUEST = 128;
+        int FROM_NEARBY_SERVICE_CENTER = 129;
     }
 
     interface TimeConstants {

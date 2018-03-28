@@ -53,6 +53,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         this.problemsArray = builder.problemsArray;
         this.serviceRequestCallback = builder.callback;
         this.serviceCentersList = builder.serviceCenterResponseList;
+        this.serviceCenterSelectedPos = builder.serviceCenterSelectedPos;
         serviceRequest = new ServiceRequest();
     }
 
@@ -87,7 +88,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
                 R.layout.view_spinner, stringServiceCentersList);
         arrayAdapter.setDropDownViewResource(R.layout.view_spinner);
         binding.spinnerService.setAdapter(arrayAdapter);
-        binding.spinnerService.setText(stringServiceCentersList[0]); //setting user name with index o
+        binding.spinnerService.setText(stringServiceCentersList[serviceCenterSelectedPos]); //setting user name with index o
         binding.spinnerService.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -186,6 +187,7 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         private String[] problemsArray;
         private List<UsersListOfServiceCenters> usersList;
         private ArrayList<ServiceCenterResponse> serviceCenterResponseList;
+        private int serviceCenterSelectedPos;
 
         public AlertDialogBuilder(Context context, ServiceRequestCallback callback) {
             this.context = context;
@@ -205,6 +207,11 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
 
         public AlertDialogBuilder loadServiceCentersData(ArrayList<ServiceCenterResponse> serviceCenterResponseList) {
             this.serviceCenterResponseList = serviceCenterResponseList;
+            return this;
+        }
+
+        public AlertDialogBuilder serviceCenterSelectedPos(int serviceCenterSelectedPos) {
+            this.serviceCenterSelectedPos = serviceCenterSelectedPos;
             return this;
         }
 

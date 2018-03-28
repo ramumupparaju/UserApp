@@ -1,9 +1,13 @@
 package com.incon.connect.user.ui.servicecenters;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -17,6 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
 import com.incon.connect.user.databinding.ActivityServiceCentersBinding;
+import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.ui.BaseActivity;
 
 import java.util.ArrayList;
@@ -30,6 +35,10 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
     private GoogleMap mGoogleMap;
     private ArrayList<ServiceCenterResponse> serviceCentersList;
 
+    public BottomSheetDialog bottomSheetDialog;
+    public BottomSheetPurchasedBinding bottomSheetPurchasedBinding;
+    private int markerSelectedPosition;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_service_centers;
@@ -37,6 +46,13 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
 
     @Override
     protected void initializePresenter() {
+    }
+
+    // load bottom sheet
+    public void loadBottomSheet() {
+        bottomSheetPurchasedBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.bottom_sheet_purchased, null, false);
+        bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(bottomSheetPurchasedBinding.getRoot());
     }
 
     @Override
@@ -54,6 +70,8 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
         getSupportFragmentManager().beginTransaction().add(R.id.map_monitor, mapFragment).commit();
         mapFragment.getMapAsync(this);
+
+        loadBottomSheet();
     }
 
     public void onOkClick() {
@@ -68,17 +86,82 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
         for (int i = 0; i < serviceCentersList.size(); i++) {
             ServiceCenterResponse serviceCenterResponse = serviceCentersList.get(i);
             String[] location = serviceCenterResponse.getLocation().split(COMMA_SEPARATOR);
-            displayMarker(new LatLng(Double.parseDouble(location[0]), Double.parseDouble(location[1])),
+            displayMarker(i, new LatLng(Double.parseDouble(location[0]), Double.parseDouble(location[1])),
                     serviceCenterResponse.getName() + " \n" + serviceCenterResponse.getContactNo(), i == 0 ? true : false);
         }
+
+        mGoogleMap.setOnInfoWindowClickListener(infoWindowClickListener);
     }
 
-    private void displayMarker(LatLng latLng, String name, boolean zoomMap) {
+    GoogleMap.OnInfoWindowClickListener infoWindowClickListener = new GoogleMap.OnInfoWindowClickListener() {
+        @Override
+        public void onInfoWindowClick(Marker marker) {
+            markerSelectedPosition = (int) marker.getTag();
+            ;
+            createBottomSheetFirstRow();
+            bottomSheetDialog.show();
 
+        }
+    };
+
+    private void createBottomSheetFirstRow() {
+
+        ArrayList<Integer> drawablesArray = new ArrayList<>();
+        ArrayList<String> textArray = new ArrayList<>();
+        ArrayList<Integer> tagsArray = new ArrayList<>();
+
+
+        textArray.add(getString(R.string.bottom_option_details));
+        tagsArray.add(R.id.SERVICE_CENTER_DETAILS);
+        drawablesArray.add(R.drawable.ic_option_service_support);
+
+        textArray.add(getString(R.string.bottom_option_service_request));
+        tagsArray.add(R.id.SERVICE_CENTER_REQUEST);
+        drawablesArray.add(R.drawable.ic_option_product);
+
+        textArray.add(getString(R.string.bottom_option_track));
+        tagsArray.add(R.id.SERVICE_CENTER_TRACK);
+        drawablesArray.add(R.drawable.ic_option_customer);
+
+        bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
+        bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
+        bottomSheetPurchasedBinding.secondRow.setVisibility(View.GONE);
+        bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
+        bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
+        bottomSheetPurchasedBinding.firstRow.removeAllViews();
+        bottomSheetPurchasedBinding.firstRow.setWeightSum(tagsArray.size());
+        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray, tagsArray, bottomSheetFirstRowClickListener);
+
+    }
+
+    private View.OnClickListener bottomSheetFirstRowClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            Integer tag = (Integer) view.getTag();
+            changeSelectedViews(bottomSheetPurchasedBinding.firstRow, tag);
+            if (tag == R.id.SERVICE_CENTER_DETAILS) {
+
+            } else if (tag == R.id.SERVICE_CENTER_REQUEST) {
+                Intent intent = new Intent();
+                intent.putExtra(IntentConstants.POSITION, markerSelectedPosition);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            } else if (tag == R.id.SERVICE_CENTER_TRACK) {
+                String[] location = serviceCentersList.get(markerSelectedPosition).getLocation().split(",");
+                onClickNavigattion(new LatLng(Double.parseDouble(location[0]), Double.parseDouble(location[1])));
+            }
+
+        }
+    };
+
+
+    private void displayMarker(int markerTag, LatLng latLng, String name, boolean zoomMap) {
         if (latLng != null) {
             MarkerOptions options = new MarkerOptions()
                     .position(latLng);
             Marker marker = mGoogleMap.addMarker(options);
+            marker.setTag(markerTag);
             marker.setTitle(name);
             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,
                     GoogleMapConstants.DEFAULT_ZOOM_LEVEL));
@@ -86,6 +169,7 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,
                         GoogleMapConstants.DEFAULT_ZOOM_LEVEL));
             }
+            marker.showInfoWindow();
         }
     }
 

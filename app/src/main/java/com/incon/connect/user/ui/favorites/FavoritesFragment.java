@@ -20,7 +20,6 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
-import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAddressDialogCallback;
@@ -312,9 +311,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
         bottomSheetPurchasedBinding.firstRow.setWeightSum(tagsArray.size());
         setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray, tagsArray, bottomSheetFirstRowClickListener);
-
     }
-
 
     private View.OnClickListener bottomSheetFirstRowClickListener = new View.OnClickListener() {
         @Override
@@ -543,7 +540,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST) {
                 isFindServiceCenter = false;
                 if (serviceCenterResponseList != null) {
-                    loadServiceRequesDialogData();
+                    loadServiceRequesDialogData(0);
                 } else {
                     loadNearByServiceCentersDialogData(ServiceConstants.AUTHORIZED_TYPE,productInfoResponse.getBrandId());
                 }
