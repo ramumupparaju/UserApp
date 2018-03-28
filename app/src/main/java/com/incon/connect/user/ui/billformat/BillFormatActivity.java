@@ -179,7 +179,7 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
 
         binding.textDopValues.setText(DateUtils.convertMillisToStringFormat(productInfoResponse.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY));
         binding.includeRegisterBottomButtons.buttonLeft.setText(getString(R.string.action_back));
-        binding.includeRegisterBottomButtons.buttonRight.setText(getString(R.string.action_new));
+        binding.includeRegisterBottomButtons.buttonRight.setText(getString(R.string.action_change));
         binding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(onClickListener);
         binding.includeRegisterBottomButtons.buttonRight.setOnClickListener(onClickListener);
     }
@@ -202,7 +202,7 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
                 } else {
                     showErrorMessage(getString(R.string.error_image_path_upload));
                 }
-            } else if (button.getText().toString().equals(getString(R.string.action_new)) ||
+            } else if (button.getText().toString().equals(getString(R.string.action_change)) ||
                     button.getText().toString().equals(getString(R.string.action_edit))) {
                 showingOriginal = false;
                 selectedFilePath = null;

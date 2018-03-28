@@ -1,10 +1,12 @@
 package com.incon.connect.user.ui.servicecenters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,11 +20,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.callbacks.AlertDialogCallback;
+import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.databinding.ActivityServiceCentersBinding;
 import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.ui.BaseActivity;
+import com.incon.connect.user.utils.DateUtils;
 
 import java.util.ArrayList;
 
@@ -38,6 +45,7 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
     public BottomSheetDialog bottomSheetDialog;
     public BottomSheetPurchasedBinding bottomSheetPurchasedBinding;
     private int markerSelectedPosition;
+    private AppAlertDialog detailsDialog;
 
     @Override
     protected int getLayoutId() {
@@ -141,7 +149,7 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
             Integer tag = (Integer) view.getTag();
             changeSelectedViews(bottomSheetPurchasedBinding.firstRow, tag);
             if (tag == R.id.SERVICE_CENTER_DETAILS) {
-                //TODO have to display dialog withinfo
+                showInformationDialog(getString(R.string.bottom_option_details), "");
             } else if (tag == R.id.SERVICE_CENTER_REQUEST) {
                 Intent intent = new Intent();
                 intent.putExtra(IntentConstants.POSITION, markerSelectedPosition);
@@ -155,7 +163,62 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
         }
     };
 
+    public static String getFormattedWarrantyDataInString(ProductInfoResponse itemFromPosition, Context context) {
+        String purchasedDate = DateUtils.convertMillisToStringFormat(
+                itemFromPosition.getPurchasedDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY);
+        String warrantyEndDate = DateUtils.convertMillisToStringFormat(
+                itemFromPosition.getWarrantyEndDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY);
+        long noOfDays = DateUtils.convertDifferenceDateIndays(
+                itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
+        String warrantyConditions = itemFromPosition.getWarrantyConditions();
 
+        StringBuilder stringBuilder = new StringBuilder();
+
+        //warranty days
+        stringBuilder.append(context.getString(R.string.purchased_warranty_status_now));
+        stringBuilder.append(noOfDays <= 0 ? context.getString(R.string.label_expired) : noOfDays + " Days Left");
+
+        if (!TextUtils.isEmpty(purchasedDate)) {
+            stringBuilder.append("\n");
+            stringBuilder.append(context.getString(R.string.purchased_purchased_date));
+            stringBuilder.append(purchasedDate);
+        }
+
+        if (!TextUtils.isEmpty(warrantyConditions)) {
+            stringBuilder.append("\n");
+            stringBuilder.append(context.getString(R.string.purchased_warranty_covers_date));
+            stringBuilder.append(warrantyConditions);
+        }
+
+        stringBuilder.append("\n");
+        stringBuilder.append(context.getString(R.string.purchased_warranty_ends_on));
+        stringBuilder.append(warrantyEndDate);
+
+        return stringBuilder.toString();
+    }
+
+
+    public void showInformationDialog(String title, String messageInfo) {
+        detailsDialog = new AppAlertDialog.AlertDialogBuilder(this, new
+                AlertDialogCallback() {
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                detailsDialog.dismiss();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                detailsDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(title).content(messageInfo)
+                .build();
+        detailsDialog.showDialog();
+        detailsDialog.setCancelable(true);
+    }
     private void displayMarker(int markerTag, LatLng latLng, String name, boolean zoomMap) {
         if (latLng != null) {
             MarkerOptions options = new MarkerOptions()

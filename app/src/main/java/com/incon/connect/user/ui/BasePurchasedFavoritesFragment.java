@@ -361,7 +361,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                                 break;
                         }
                     }
-                }).title(title).content(messageInfo).button1Text(getString(R.string.add_new_extended_warranty))
+                }).title(title).content(messageInfo).button1Text(getString(R.string.add_extended_warranty))
                 .build();
         detailsDialog.showDialog();
         detailsDialog.setDialogType(WarrantyRegistrationConstants.WARRANTY_TYPE);
