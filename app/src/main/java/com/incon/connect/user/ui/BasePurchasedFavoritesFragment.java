@@ -89,7 +89,6 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public boolean isFindServiceCenter;
     public boolean isFindUnAuthorizedServiceCenter;
 
-    private AppEditTextDialog suggestionsDialog;
     public AppEditTextListDialog feedBackDialog;
     public AppEditTextDialog transferDialog;
     public AppAlertDialog detailsDialog;
@@ -113,7 +112,11 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     }
 
     public void productReviews(List<ReviewData> reviewDataList) {
-        showFeedBackDialog(reviewDataList);
+        showReviewDialogType(reviewDataList, DialogTypeConstants.PRODUCT_FEEDBACK);
+    }
+
+    public void productSuggestions(List<ReviewData> reviewDataList) {
+        showReviewDialogType(reviewDataList, DialogTypeConstants.PRODUCT_SUGGESTIONS);
     }
 
     @Override
@@ -192,49 +195,6 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
     }
 
-    public void showSuggestionsDialog() {
-        final HashMap<String, String> saveReviewApi = new HashMap<>();
-        saveReviewApi.put(ApiRequestKeyConstants.BODY_USER_ID, String.valueOf(userId));
-
-        suggestionsDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        //TODO api cal
-                        saveReviewApi.put(ApiRequestKeyConstants.BODY_SUGGESTIONS, commentString);
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-
-                                if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
-                                    ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(productSelectedPosition);
-                                    saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_ID, String.valueOf(itemFromPosition.getProductId()));
-                                    favoritesPresenter.saveReviewsApi(saveReviewApi);
-                                } else {
-                                    ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(productSelectedPosition);
-                                    saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_ID, String.valueOf(itemFromPosition.getProductId()));
-                                    purchasedPresenter.saveReviewsApi(saveReviewApi);
-                                }
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                suggestionsDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_suggestions))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        suggestionsDialog.showDialog();
-        suggestionsDialog.setCancelable(true);
-
-    }
-
     public void showTransferDialog() {
         transferDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
@@ -272,11 +232,14 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     }
 
 
-    public void productReviews() {
-//showFeedBackDialog();
-    }
+    public void showReviewDialogType(List<ReviewData> reviews, final int dialogType) {
 
-    public void showFeedBackDialog(List<ReviewData> reviews) {
+        String title = "";
+        if (dialogType == DialogTypeConstants.PRODUCT_FEEDBACK) {
+            title = getString(R.string.bottom_option_feedback);
+        } else if (dialogType == DialogTypeConstants.PRODUCT_SUGGESTIONS) {
+            title = getString(R.string.bottom_option_suggestions);
+        }
         final HashMap<String, String> saveReviewApi = new HashMap<>();
         saveReviewApi.put(ApiRequestKeyConstants.BODY_USER_ID, String.valueOf(userId));
 
@@ -284,12 +247,17 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 FeedbackAlertDialogCallback() {
                     @Override
                     public void selectedRating(String rating) {
-                        saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_RATING, rating);
+                        if (dialogType == DialogTypeConstants.PRODUCT_FEEDBACK)
+                            saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_RATING, rating);
                     }
 
                     @Override
                     public void enteredText(String commentString) {
-                        saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_REVIEW, commentString);
+                        if (dialogType == DialogTypeConstants.PRODUCT_FEEDBACK) {
+                            saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_REVIEW, commentString);
+                        } else if (dialogType == DialogTypeConstants.PRODUCT_SUGGESTIONS) {
+                            saveReviewApi.put(ApiRequestKeyConstants.BODY_SUGGESTIONS, commentString);
+                        }
                     }
 
                     @Override
@@ -313,10 +281,11 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                                 break;
                         }
                     }
-                }).title(getString(R.string.bottom_option_feedback))
+                }).title(title)
                 .leftButtonText(getString(R.string.action_cancel))
                 .rightButtonText(getString(R.string.action_submit))
                 .feedbackDataList(reviews)
+                .dialogType(dialogType)
                 .build();
         feedBackDialog.showDialog();
         feedBackDialog.setCancelable(true);
@@ -330,8 +299,16 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
     }
 
+    public void doProductSuggestionsApi(int productId) {
+        int userId = SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE);
+        if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+            favoritesPresenter.doProductSuggestions(userId, productId);
+        } else {
+            purchasedPresenter.doProductSuggestions(userId, productId);
+        }
+    }
+
     public void saveReviews(Object saveReviews) {
-        dismissDialog(suggestionsDialog);
         dismissDialog(feedBackDialog);
         dismissDialog(bottomSheetDialog);
         onRefreshListener.onRefresh();
@@ -725,4 +702,6 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
 
     }
+
+
 }

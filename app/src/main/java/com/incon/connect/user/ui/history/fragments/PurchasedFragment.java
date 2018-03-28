@@ -17,6 +17,7 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
@@ -404,7 +405,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
                 doReviewsApi(productInfoResponse.getProductId());
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
-                showSuggestionsDialog();
+                doProductSuggestionsApi(productInfoResponse.getProductId());
             } else if (tag == R.id.DELETE) {
                 showDeleteDialog();
             } else if (tag == R.id.SHOWROOM_CALL) {
@@ -412,8 +413,6 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 return;
             } else if (tag == R.id.SHOWROOM_LOCATION) {
                 showLocationDialog();
-            } else if (tag == R.id.SHOWROOM_FEEDBACK) {
-                doReviewsApi(productInfoResponse.getProductId());
             }
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.VISIBLE);

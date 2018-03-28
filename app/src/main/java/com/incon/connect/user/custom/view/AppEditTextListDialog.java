@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.callbacks.FeedbackAlertDialogCallback;
@@ -28,6 +29,7 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
     private final String leftButtonText; // required
     private final String rightButtonText; // required
     private final List<ReviewData> feedbackDataList; // required
+    private final int dialogType; //required
     private EditText editTextNotes; // required
     private RatingBar ratingBar; // required
     private final FeedbackAlertDialogCallback mAlertDialogCallback; // required
@@ -42,6 +44,7 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
         this.leftButtonText = builder.leftButtonText;
         this.rightButtonText = builder.rightButtonText;
         this.feedbackDataList = builder.feedbackDataList;
+        this.dialogType = builder.dialogType;
         this.mAlertDialogCallback = builder.callback;
     }
 
@@ -51,13 +54,11 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
         View contentView = viewEditTextListDialogBinding.getRoot();
 
         ratingBar = viewEditTextListDialogBinding.inputRatingbar;
-        editTextNotes = viewEditTextListDialogBinding.edittextUsername;
+        editTextNotes = viewEditTextListDialogBinding.edittextComments;
         viewEditTextListDialogBinding.textVerifyTitle.setText(title);
-        if (title.equals(getContext().getString(
-                R.string.bottom_option_transfer))) {
-            viewEditTextListDialogBinding.edittextUsername.setInputType(InputType.TYPE_CLASS_NUMBER);
-            viewEditTextListDialogBinding.inputLayoutVerify.setHint(getContext().getString(
-                    R.string.action_enter_transfer_phone_number));
+        viewEditTextListDialogBinding.inputLayoutVerify.setHint(title);
+        if (dialogType == AppConstants.DialogTypeConstants.PRODUCT_SUGGESTIONS) {
+            ratingBar.setVisibility(View.GONE);
         }
         viewEditTextListDialogBinding.includeRegisterBottomButtons.buttonLeft.setText(
                 TextUtils.isEmpty(leftButtonText) ? context.getString(
@@ -117,6 +118,7 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
         private String leftButtonText;
         private String rightButtonText;
         private List<ReviewData> feedbackDataList;
+        private int dialogType;
 
 
         public AlertDialogBuilder(Context context, FeedbackAlertDialogCallback callback) {
@@ -151,6 +153,11 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
                     this);
             dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
             return dialog;
+        }
+
+        public AlertDialogBuilder dialogType(int dialogType) {
+            this.dialogType = dialogType;
+            return this;
         }
     }
 }

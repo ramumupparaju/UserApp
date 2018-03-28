@@ -487,7 +487,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
                 doReviewsApi(productInfoResponse.getProductId());
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
-                showSuggestionsDialog();
+                doProductSuggestionsApi(productInfoResponse.getProductId());
             } else if (tag == R.id.PRODUCT_EDIT) {
                 textArray.add(getString(R.string.bottom_option_nick_name));
                 textArray.add(getString(R.string.bottom_option_location_change));
@@ -506,8 +506,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 return;
             } else if (tag == R.id.SHOWROOM_LOCATION) {
                 showLocationDialog();
-            } else if (tag == R.id.SHOWROOM_FEEDBACK) {
-                doReviewsApi(productInfoResponse.getProductId());
             }
 
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.VISIBLE);

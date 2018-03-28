@@ -215,6 +215,10 @@ public interface AppServiceObservable {
     @GET("product/reviews/{productId}")
     Observable<List<ReviewData>> reviewsApi(@Path("productId") int productId);
 
+    // product suggestions api
+    @GET("product/suggestions/{userid}/{productid}")
+    Observable<List<ReviewData>> productSuggestionsApi(@Path("userid") int userid, @Path("productid") int productid);
+
     @POST("product/savereviews")
     Observable<Object> saveReviewsApi(@Body HashMap<String, String> savereviewsBody);
 

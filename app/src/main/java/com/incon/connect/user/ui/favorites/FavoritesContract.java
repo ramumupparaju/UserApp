@@ -39,6 +39,8 @@ public interface FavoritesContract {
 
         void productReviews(List<ReviewData> reviewDataList);
 
+        void productSuggestions(List<ReviewData> reviewDataList);
+
         void saveReviews(Object saveReviews);
     }
 
@@ -47,7 +49,9 @@ public interface FavoritesContract {
 
         void doGetAddressApi(int userId);
 
-        void reviewToproduct(int userId);
+        void reviewToproduct(int productId);
+
+        void doProductSuggestions(int userId, int productId);
 
         void saveReviewsApi(HashMap<String, String> reviewsMap);
 
@@ -59,7 +63,7 @@ public interface FavoritesContract {
 
         void serviceRequest(ServiceRequest serviceRequest);
 
-        void nearByServiceCenters(String type,int brandId, int userId);
+        void nearByServiceCenters(String type, int brandId, int userId);
 
         void getUsersListOfServiceCenters(int serviceCenterId);
 

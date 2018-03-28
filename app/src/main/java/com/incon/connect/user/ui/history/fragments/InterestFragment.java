@@ -276,7 +276,7 @@ public class InterestFragment extends BaseTabFragment implements InterestContrac
                 return;
 
             } else if (tag == R.id.SHOWROOM_REVIEW) {
-                //showFeedBackDialog();
+                //showReviewDialogType();
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
 
             }

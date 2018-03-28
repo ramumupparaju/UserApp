@@ -152,7 +152,7 @@ public class AppUtils {
      * @param warrantyData: y;m;d
      * @return
      */
-    public static String getWarrantyInformationFromStrinArray(String[] warrantyData) {
+    public static String getWarrantyInformationFromStringArray(String[] warrantyData) {
         return getWarranty(Integer.valueOf(warrantyData[0]), Integer.parseInt(warrantyData[1]), Integer.parseInt(warrantyData[2]));
     }
 
@@ -299,6 +299,7 @@ public class AppUtils {
         Gson gson = new GsonBuilder().create();
         return gson.fromJson(json, aClass);
     }
+
 
 
 }

@@ -159,7 +159,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                     public void onNext(Object o) {
                         if (o != null) {
                             List<ReviewData> reviewData = (List<ReviewData>) o;
-                        getView().productReviews(reviewData);
+                            getView().productReviews(reviewData);
                         }
                     }
 
@@ -177,7 +177,35 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                 };
         AppApiService.getInstance().reviewsApi(productId).subscribe(observer);
         addDisposable(observer);
+    }
 
+    @Override
+    public void doProductSuggestions(int userId, int productId) {
+        getView().showProgress(appContext.getString(R.string.progress_loading_suggestions));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object o) {
+                        if (o != null) {
+                            List<ReviewData> reviewData = (List<ReviewData>) o;
+                            getView().productSuggestions(reviewData);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().productSuggestionsApi(userId, productId).subscribe(observer);
+        addDisposable(observer);
     }
 
     // service request
@@ -345,6 +373,11 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         public void productReviews(List<ReviewData> reviewDataList) {
             getView().productReviews(reviewDataList);
 
+        }
+
+        @Override
+        public void productSuggestions(List<ReviewData> reviewDataList) {
+            getView().productSuggestions(reviewDataList);
         }
 
         @Override

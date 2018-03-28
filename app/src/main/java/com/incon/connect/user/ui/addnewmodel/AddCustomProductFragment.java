@@ -217,10 +217,10 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     @Override
                     public void enteredText(String yearsMonthsDays) {
                         String[] split = yearsMonthsDays.split(AppConstants.COMMA_SEPARATOR);
-                        addCustomProductModel.setExtendedWarranty(split[0]);
+                        /*addCustomProductModel.setExtendedWarrantyShow(split[0]);
                         addCustomProductModel.setWarrantyMonths(split[1]);
-                        addCustomProductModel.setWarrantyDays(split[2]);
-                        addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
+                        addCustomProductModel.setWarrantyDays(split[2]);*/ //TODO have to add to model for sending to api
+                        addCustomProductModel.setExtendedWarrantyShow(AppUtils.getWarrantyInformationFromStringArray(split));
                     }
 
                     @Override
@@ -236,7 +236,9 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                                 break;
                         }
                     }
-                }).years(addCustomProductModel.getExtendedWarranty()).months(addCustomProductModel.getWarrantyMonths()).days(addCustomProductModel.getWarrantyDays()).build();
+                })
+//                .years(addCustomProductModel.getExtendedWarrantyShow()).months(addCustomProductModel.getWarrantyMonths()).days(addCustomProductModel.getWarrantyDays()) //TODO have to enable
+                .build();
         extendeWarratyDialog.showDialog();
     }
 

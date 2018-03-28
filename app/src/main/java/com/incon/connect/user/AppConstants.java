@@ -94,7 +94,10 @@ public interface AppConstants {
     interface AgeConstants {
         int USER_DOB = 16;
     }
-
+    interface DialogTypeConstants {
+        int PRODUCT_FEEDBACK = 0;
+        int PRODUCT_SUGGESTIONS = 1;
+    }
     interface RegistrationValidation {
         int NAME_REQ = 1;
         int PHONE_REQ = 3;

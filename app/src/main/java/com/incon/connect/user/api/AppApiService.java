@@ -202,9 +202,14 @@ public class AppApiService implements AppConstants {
     }
 
         // product review api
-    public Observable<List<ReviewData>> reviewsApi(int userId) {
-        return addNetworkCheck(serviceInstance.reviewsApi(userId));
+    public Observable<List<ReviewData>> reviewsApi(int productId) {
+        return addNetworkCheck(serviceInstance.reviewsApi(productId));
     }
+
+    public Observable<List<ReviewData>> productSuggestionsApi(int userId, int productId) {
+        return addNetworkCheck(serviceInstance.productSuggestionsApi(userId, productId));
+    }
+
     public Observable<Object> saveReviewsApi(HashMap<String, String> saveReviewsBody) {
         return addNetworkCheck(serviceInstance.saveReviewsApi(saveReviewsBody));
     }

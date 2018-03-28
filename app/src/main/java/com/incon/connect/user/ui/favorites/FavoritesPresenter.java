@@ -237,6 +237,16 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         purchasedPresenter.reviewToProduct(productId);
     }
 
+    @Override
+    public void doProductSuggestions(int userId, int productId) {
+        getView().showProgress(appContext.getString(R.string.progress_loading_suggestions));
+
+        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
+        purchasedPresenter.initialize(null);
+        purchasedPresenter.setView(purchasedView);
+        purchasedPresenter.reviewToProduct(productId);
+    }
+
 
     PurchasedContract.View purchasedView = new PurchasedContract.View() {
         @Override
@@ -290,6 +300,11 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         }
 
         @Override
+        public void productSuggestions(List<ReviewData> reviewDataList) {
+            getView().productSuggestions(reviewDataList);
+        }
+
+        @Override
         public void saveReviews(Object saveReviews) {
             getView().saveReviews(saveReviews);
         }
@@ -314,6 +329,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
             getView().handleException(error);
         }
     };
+
 
 
 }

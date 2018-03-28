@@ -2,8 +2,6 @@ package com.incon.connect.user.dto.addnewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Pair;
 
@@ -63,15 +61,15 @@ public class AddCustomProductModel extends BaseObservable {
     private transient String brandName;
     private transient String dateOfPurchased;
     private transient String warrantyShow;
-    private transient String extendedWarranty;
+    private transient String extendedWarrantyShow;
 
     @Bindable
-    public String getExtendedWarranty() {
-        return extendedWarranty;
+    public String getExtendedWarrantyShow() {
+        return extendedWarrantyShow;
     }
 
-    public void setExtendedWarranty(String extendedWarranty) {
-        this.extendedWarranty = extendedWarranty;
+    public void setExtendedWarrantyShow(String extendedWarrantyShow) {
+        this.extendedWarrantyShow = extendedWarrantyShow;
         notifyChange();
     }
 

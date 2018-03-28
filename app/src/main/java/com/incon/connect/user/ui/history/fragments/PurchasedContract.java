@@ -39,6 +39,8 @@ public interface PurchasedContract {
 
         void productReviews(List<ReviewData> reviewDataList);
 
+        void productSuggestions(List<ReviewData> reviewDataList);
+
         void saveReviews(Object saveReviews);
 
     }
@@ -57,6 +59,8 @@ public interface PurchasedContract {
         void deleteProduct(int userId);
 
         void reviewToProduct(int productId);
+
+        void doProductSuggestions(int userId, int productId);
 
         void serviceRequest(ServiceRequest serviceRequest);
 
