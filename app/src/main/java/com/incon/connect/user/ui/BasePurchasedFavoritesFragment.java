@@ -543,7 +543,9 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
     }
 
-
+    public void callCustomercare(ProductInfoResponse productInfoResponse) {
+        callPhoneNumber(productInfoResponse.getCustomerCareContact());
+    }
     public void serviceRequestApi() {
         if (serviceRequestData != null) {
             if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {

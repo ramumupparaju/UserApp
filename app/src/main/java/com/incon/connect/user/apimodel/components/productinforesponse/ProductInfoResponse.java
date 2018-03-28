@@ -247,7 +247,18 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("offers")
     @Expose
     private List<String> offers = null;
+    @SerializedName("bill")
+    @Expose
     private String billUrl;
+    private String customerCareContact;
+
+    public String getCustomerCareContact() {
+        return customerCareContact;
+    }
+
+    public void setCustomerCareContact(String customerCareContact) {
+        this.customerCareContact = customerCareContact;
+    }
 
     public String getCustomProductFlag() {
         return customProductFlag;

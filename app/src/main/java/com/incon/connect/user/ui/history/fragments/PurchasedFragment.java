@@ -450,9 +450,8 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                     loadNearByServiceCentersDialogData(ServiceConstants.UNAUTHORIZED_TYPE,productInfoResponse.getBrandId());
                 }*/
             } else if (tag == R.id.SUPPORT_AUTHORIZE_CALL) {
-                callPhoneNumber(productInfoResponse.getMobileNumber());
+                callCustomercare(productInfoResponse);
                 return;
-
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER) {
                 isFindServiceCenter = true;
                 loadNearByServiceCentersDialogData(ServiceConstants.AUTHORIZED_TYPE, productInfoResponse.getBrandId());
@@ -475,7 +474,6 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
         }
 
     };
-
 
     @Override
     public void loadPurchasedHistory(List<ProductInfoResponse> productInfoResponses) {

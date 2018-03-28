@@ -141,7 +141,7 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
             Integer tag = (Integer) view.getTag();
             changeSelectedViews(bottomSheetPurchasedBinding.firstRow, tag);
             if (tag == R.id.SERVICE_CENTER_DETAILS) {
-
+                //TODO have to display dialog withinfo
             } else if (tag == R.id.SERVICE_CENTER_REQUEST) {
                 Intent intent = new Intent();
                 intent.putExtra(IntentConstants.POSITION, markerSelectedPosition);

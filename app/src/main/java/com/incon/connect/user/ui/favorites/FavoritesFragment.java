@@ -530,7 +530,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 showCustomPhoneNumberDialog();
 
             } else if (tag == R.id.SUPPORT_AUTHORIZE_CALL) {
-                callPhoneNumber(productInfoResponse.getMobileNumber());
+                callCustomercare(productInfoResponse);
                 return;
 
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER) {
