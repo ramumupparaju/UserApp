@@ -23,7 +23,7 @@
         <RelativeLayout
             android:id="@+id/layout_return_item"
             android:layout_width="match_parent"
-            android:layout_height="120dp">
+            android:layout_height="140dp">
 
             <!--brand image-->
             <ImageView
@@ -62,24 +62,24 @@
                 android:textColor="@color/ebony_clay"
                 android:textSize="10sp"/>
 
-            <!--service center name-->
-            <TextView
-                android:id="@+id/store_name"
-                style="@style/BothWrap"
-                android:layout_marginTop="@dimen/margin_2"
-                android:layout_below="@id/model_number_tv"
-                android:layout_toRightOf="@id/product_imageview"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/black"
-                android:textSize="10sp"/>
-
             <RelativeLayout
                 android:id="@+id/scroll_layout"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_alignParentBottom="true"
                 android:background="@color/dusty_gray">
+
+                <!--service center name-->
+                <TextView
+                    android:id="@+id/store_name"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_7"
+                    fontPath="fonts/OpenSans-Bold.ttf"
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp"/>
 
                 <HorizontalScrollView
                     android:id="@+id/status_scrollview"
