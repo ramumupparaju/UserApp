@@ -72,7 +72,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     public void loadImageUsingGlide(String imagePath, ImageView imageView) {
 
         if (imagePath.contains(WEB_IMAGE)) {
-            Glide.with(this).load(imagePath).into(imageView);
+            AppUtils.loadImageFromApi(imageView, imagePath);
             return;
         }
         Glide.with(this).load(new File(imagePath))

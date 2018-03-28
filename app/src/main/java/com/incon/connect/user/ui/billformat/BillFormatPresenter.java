@@ -36,6 +36,7 @@ public class BillFormatPresenter extends BasePresenter<BillFormatContract.View> 
         DisposableObserver<Object> observer = new DisposableObserver<Object>() {
             @Override
             public void onNext(Object billResponse) {
+                getView().onBillUpload();
                 getView().hideProgress();
             }
 

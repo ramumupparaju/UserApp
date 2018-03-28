@@ -11,6 +11,7 @@ import okhttp3.MultipartBody;
 public interface BillFormatContract {
     interface View extends BaseView {
 
+        void onBillUpload();
     }
     interface Presenter {
 

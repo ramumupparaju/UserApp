@@ -97,8 +97,6 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         @Override
         public void displayPickedImage(String uri, int requestCode) {
             selectedFilePath = uri;
-            loadImageUsingGlide(selectedFilePath, binding.billPrev);
-            showingOriginal = false;
             toggleImage();
 
             File fileToUpload = new File(selectedFilePath == null ? "" : selectedFilePath);
@@ -150,6 +148,7 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
             binding.billPrevLayout.setVisibility(View.GONE);
         } else {
             binding.billPrevLayout.setVisibility(View.VISIBLE);
+            loadImageUsingGlide(selectedFilePath, binding.billPrev);
             binding.scrollviewUserInfo.setVisibility(View.GONE);
         }
         showingOriginal = !showingOriginal;
@@ -180,7 +179,7 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
 
         binding.textDopValues.setText(DateUtils.convertMillisToStringFormat(productInfoResponse.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY));
         binding.includeRegisterBottomButtons.buttonLeft.setText(getString(R.string.action_back));
-        binding.includeRegisterBottomButtons.buttonLeft.setText(getString(R.string.action_edit));
+        binding.includeRegisterBottomButtons.buttonRight.setText(getString(R.string.action_new));
         binding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(onClickListener);
         binding.includeRegisterBottomButtons.buttonRight.setOnClickListener(onClickListener);
     }
@@ -205,12 +204,13 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
                 }
             } else if (button.getText().toString().equals(getString(R.string.action_new)) ||
                     button.getText().toString().equals(getString(R.string.action_edit))) {
+                showingOriginal = false;
                 selectedFilePath = null;
                 previewOrImage(view);
-            }else if (button.getText().toString().equals(getString(R.string.action_cancel))) {
+            } else if (button.getText().toString().equals(getString(R.string.action_cancel))) {
                 selectedFilePath = productInfoResponse.getBillUrl();
                 previewOrImage(view);
-            }else if (button.getText().toString().equals(getString(R.string.action_back))) {
+            } else if (button.getText().toString().equals(getString(R.string.action_back))) {
                 finish();
             }
         }
@@ -229,4 +229,8 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         return super.onTouchEvent(event);
     }
 
+    @Override
+    public void onBillUpload() {
+        finish();
+    }
 }

@@ -201,9 +201,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String commentString) {
-
                         if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
-                            // TODO have to check with naveen
                             ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(productSelectedPosition);
                             favoritesPresenter.doTransferProductApi(commentString, itemFromPosition.getWarrantyId());
                         } else {
