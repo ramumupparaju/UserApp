@@ -469,8 +469,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 drawablesArray.add(R.drawable.ic_option_details);
 
             } else if (tag == R.id.PRODUCT_WARRANTY) {
-                showInformationDialog(getString(
-                        R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(productInfoResponse, getActivity()));
+                showWarrantyDialog(getString(R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(productInfoResponse, getActivity()));
             } else if (tag == R.id.PRODUCT_BILL) {
                 Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
                 Bundle bundle = new Bundle();
