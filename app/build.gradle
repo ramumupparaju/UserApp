@@ -21,14 +21,14 @@ apply plugin: 'checkstyle'
 apply from: 'configuration.gradle'
 
 android {
-    signingConfigs {
+    /*signingConfigs {
         config {
             keyAlias 'bogavalli'
             keyPassword 'B0gavalli'
             storeFile file('C:/Users/MY HOME//Desktop/connect/keystore.jks')
             storePassword 'B0gavalli'
         }
-    }
+    }*/
     flavorDimensions "default"
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion
@@ -61,7 +61,7 @@ android {
             resValue "string", "app_name", "Connect User"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
+//            signingConfig signingConfigs.config
         }
     }
     productFlavors {

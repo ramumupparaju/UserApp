@@ -12,14 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
-import com.incon.connect.user.apimodel.components.review.ReviewData;
-import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
@@ -386,7 +383,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 drawablesArray.add(R.drawable.ic_option_details);
 
             } else if (tag == R.id.PRODUCT_WARRANTY) {
-                showInformationDialog(getString(
+                showWarrantyDialog(getString(
                         R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(productInfoResponse, getActivity()));
                 return;
 

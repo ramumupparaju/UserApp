@@ -39,7 +39,7 @@ import com.incon.connect.user.custom.view.CustomAutoCompleteView;
 import com.incon.connect.user.custom.view.CustomTextInputLayout;
 import com.incon.connect.user.custom.view.PickImageDialog;
 import com.incon.connect.user.custom.view.PickImageDialogInterface;
-import com.incon.connect.user.custom.view.WarratyDialog;
+import com.incon.connect.user.custom.view.WarrantyDialog;
 import com.incon.connect.user.databinding.FragmentAddCustomProductBinding;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.ui.BaseActivity;
@@ -96,8 +96,8 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
     private HashMap<Integer, String> errorMap;
     private Animation shakeAnim;
-    private WarratyDialog warratyDialog;
-    private WarratyDialog extendeWarratyDialog;
+    private WarrantyDialog warratyDialog;
+    private WarrantyDialog extendeWarratyDialog;
     private KeyListener spinnerCategoryKeyListener;
 
     @Override
@@ -212,7 +212,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
 
     private void showExtendedWarrantyDialog() {
-        extendeWarratyDialog = new WarratyDialog.AlertDialogBuilder(getActivity(), new
+        extendeWarratyDialog = new WarrantyDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String yearsMonthsDays) {
@@ -242,7 +242,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
     //warranty dialog
     private void showWarrantyDialog() {
-        warratyDialog = new WarratyDialog.AlertDialogBuilder(getActivity(), new
+        warratyDialog = new WarrantyDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String yearsMonthsDays) {

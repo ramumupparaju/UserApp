@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
@@ -31,6 +32,7 @@ import com.incon.connect.user.custom.view.AppEditTextListDialog;
 import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
 import com.incon.connect.user.custom.view.ServiceRequestDialog;
 import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
+import com.incon.connect.user.custom.view.WarrantyDialog;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
@@ -100,6 +102,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public CustomPhoneNumberDialog customPhoneNumberDialog;
     public AddServiceEngineer serviceEngineer;
     public ServiceRequest serviceRequestData;
+    private WarrantyDialog extendeWarratyDialog;
 
     @Override
     public void handleException(Pair<Integer, String> error) {
@@ -362,6 +365,56 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             }
         }
 
+    }
+
+    public void showWarrantyDialog(String title, String messageInfo) {
+        detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
+                AlertDialogCallback() {
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                break;
+                            case AlertDialogCallback.EXTENDED_WARRANTY:
+                                showExtendedWarrantyDialog();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(title).content(messageInfo).button1Text(getString(R.string.add_new_extended_warranty))
+                .build();
+        detailsDialog.showDialog();
+        detailsDialog.setDialogType(WarrantyRegistrationConstants.WARRANTY_TYPE);
+        detailsDialog.setCancelable(true);
+    }
+
+    private void showExtendedWarrantyDialog() {
+        extendeWarratyDialog = new WarrantyDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String yearsMonthsDays) {
+                        String[] split = yearsMonthsDays.split(AppConstants.COMMA_SEPARATOR);
+                        //TODO have to call api for extended warranty
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                extendeWarratyDialog.dismiss();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                extendeWarratyDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).build();
+        extendeWarratyDialog.showDialog();
     }
 
     public void showInformationDialog(String title, String messageInfo) {

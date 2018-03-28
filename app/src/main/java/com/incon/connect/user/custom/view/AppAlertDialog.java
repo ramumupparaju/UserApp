@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 
@@ -21,6 +22,7 @@ public class AppAlertDialog extends Dialog implements View.OnClickListener {
     private final String button1text; // required
     private final String button2text; // required
     private final AlertDialogCallback mAlertDialogCallback; // required
+    private int warrantyType;
 
     /**
      * @param builder
@@ -84,6 +86,9 @@ public class AppAlertDialog extends Dialog implements View.OnClickListener {
         }
         switch (view.getId()) {
             case R.id.dialog_first_button:
+                if (warrantyType == AppConstants.WarrantyRegistrationConstants.WARRANTY_TYPE) {
+                    mAlertDialogCallback.alertDialogCallback(AlertDialogCallback.EXTENDED_WARRANTY);
+                }
                 mAlertDialogCallback.alertDialogCallback(AlertDialogCallback.OK);
                 break;
             case R.id.dialog_second_button:
@@ -92,6 +97,10 @@ public class AppAlertDialog extends Dialog implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    public void setDialogType(int warrantyType) {
+        this.warrantyType = warrantyType;
     }
 
     public static class AlertDialogBuilder {

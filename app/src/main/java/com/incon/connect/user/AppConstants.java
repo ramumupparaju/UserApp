@@ -65,6 +65,7 @@ public interface AppConstants {
     }
 
     interface WarrantyRegistrationConstants {
+        int WARRANTY_TYPE = 0;
         int MINIMUM_MODELNUMBER_TO_SEARCH = 2;
     }
 
