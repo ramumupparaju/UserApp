@@ -25,6 +25,7 @@ import com.incon.connect.user.ui.status.adapter.adapter.ServiceStatusAdapter;
 
 import java.util.List;
 
+import static com.incon.connect.user.AppConstants.ViewConstants.PAST_HISTORY;
 import static com.incon.connect.user.AppUtils.getStatusName;
 
 
@@ -70,6 +71,7 @@ public class PastHistoryActivity extends BaseActivity {
 
     private void initViews() {
         serviceStatusAdapter = new ServiceStatusAdapter(this, serviceStatusList);
+        serviceStatusAdapter.setViewType(PAST_HISTORY);
         serviceStatusAdapter.setClickCallback(iClickCallback);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.serviceRequestsRecyclerview.setAdapter(serviceStatusAdapter);
@@ -81,9 +83,9 @@ public class PastHistoryActivity extends BaseActivity {
     private void setListUi() {
         if (serviceStatusList.size() == 0) {
             binding.emptyData.setVisibility(View.VISIBLE);
-            binding.serviceRequestsRecyclerview.setVisibility(View.GONE);
+            binding.viewDataLayout.setVisibility(View.GONE);
         } else {
-            binding.serviceRequestsRecyclerview.setVisibility(View.VISIBLE);
+            binding.viewDataLayout.setVisibility(View.VISIBLE);
             binding.emptyData.setVisibility(View.GONE);
         }
     }

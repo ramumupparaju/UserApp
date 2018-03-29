@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="productinforesponse"
-            type="com.incon.connect.user.apimodel.components.status.ServiceStatus"/>
+            type="com.incon.connect.user.apimodel.components.status.ServiceStatus" />
     </data>
 
 
@@ -23,7 +23,7 @@
         <RelativeLayout
             android:id="@+id/layout_return_item"
             android:layout_width="match_parent"
-            android:layout_height="170dp">
+            android:layout_height="160dp">
 
             <!--brand image-->
             <ImageView
@@ -31,72 +31,71 @@
                 android:layout_width="45dp"
                 android:layout_height="32dp"
                 android:layout_marginLeft="@dimen/margin_10"
-                android:alpha="70"/>
+                android:alpha="70" />
 
             <!--product image-->
             <ImageView
                 android:id="@+id/product_imageview"
                 style="@style/image_product_icon"
-                android:layout_toRightOf="@id/brand_imageview"/>
+                android:layout_toRightOf="@id/brand_imageview" />
 
 
             <!--product name-->
             <TextView
                 android:id="@+id/product_name"
                 style="@style/BothWrap"
-                android:layout_marginTop="@dimen/margin_7"
                 fontPath="fonts/OpenSans-Bold.ttf"
+                android:layout_marginTop="@dimen/margin_7"
                 android:layout_toRightOf="@id/product_imageview"
                 android:maxLines="2"
                 android:text="@={productinforesponse.product.name}"
                 android:textAllCaps="true"
                 android:textColor="@color/ebony_clay"
-                android:textSize="12.4sp"/>
+                android:textSize="12.4sp" />
 
             <!--product model number-->
             <TextView
                 android:id="@+id/model_number_tv"
                 style="@style/BothWrap"
-                android:layout_marginTop="@dimen/margin_2"
                 android:layout_below="@id/product_name"
+                android:layout_marginTop="@dimen/margin_2"
                 android:layout_toRightOf="@id/product_imageview"
                 android:text="@{`Mod No : ` + productinforesponse.product.modelNo}"
                 android:textColor="@color/ebony_clay"
-                android:textSize="10sp"/>
-
-            <!--service center address-->
-            <TextView
-                android:id="@+id/merchant_name"
-                style="@style/BothWrap"
-                android:layout_marginTop="@dimen/margin_2"
-                android:layout_below="@id/model_number_tv"
-                android:layout_toRightOf="@id/product_imageview"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@{productinforesponse.serviceCenter.formattedAddress}"
-                android:textColor="@color/black"
-                android:textSize="10sp"/>
+                android:textSize="10sp" />
 
             <RelativeLayout
                 android:id="@+id/scroll_layout"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="90dp"
                 android:layout_alignParentBottom="true"
                 android:background="@color/dusty_gray">
 
                 <!--service center name-->
                 <TextView
                     android:id="@+id/service_center_name"
-                    android:layout_marginLeft="@dimen/margin_15"
                     style="@style/BothWrap"
-                    android:layout_marginTop="@dimen/margin_7"
                     fontPath="fonts/OpenSans-Bold.ttf"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_7"
                     android:maxLines="1"
                     android:text="@={productinforesponse.serviceCenter.name}"
                     android:textAllCaps="true"
                     android:textColor="@color/ebony_clay"
-                    android:textSize="12.4sp"/>
+                    android:textSize="12.4sp" />
 
+                <!--service center address-->
+                <TextView
+                    android:id="@+id/merchant_name"
+                    style="@style/BothWrap"
+                    android:layout_below="@id/service_center_name"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_2"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{productinforesponse.serviceCenter.formattedAddress}"
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
 
 
                 <HorizontalScrollView
@@ -104,6 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_10"
                     android:scrollbarSize="4dp"
                     android:scrollbarThumbHorizontal="@drawable/scrollbar"
                     android:scrollbars="horizontal">
@@ -130,19 +130,19 @@
                     android:id="@+id/button_accept"
                     style="@style/style_submit_button"
                     android:layout_weight="1"
-                    android:text="@string/action_accept"/>
+                    android:text="@string/action_accept" />
 
                 <Button
                     android:id="@+id/button_hold"
                     style="@style/style_submit_button"
                     android:layout_weight="1"
-                    android:text="@string/action_hold"/>
+                    android:text="@string/action_hold" />
 
                 <Button
                     android:id="@+id/button_reject"
                     style="@style/style_submit_button"
                     android:layout_weight="1"
-                    android:text="@string/action_reject"/>
+                    android:text="@string/action_reject" />
             </LinearLayout>
 
         </RelativeLayout>

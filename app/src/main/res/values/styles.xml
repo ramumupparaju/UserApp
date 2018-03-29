@@ -116,11 +116,11 @@
         <item name="android:layout_height">@dimen/margin_75</item>
     </style>
 
-    <style name="SwitchCompatStyle" >
+    <style name="SwitchCompatStyle">
         <item name="thumbTint">@color/switch_color</item>
     </style>
 
-    <style name="SwitchCompatTheme" >
+    <style name="SwitchCompatTheme">
         <item name="colorControlActivated">@color/astral</item>
     </style>
 
@@ -256,6 +256,16 @@
     </style>
 
 
+    <style name="header_text_view" parent="@style/MatchWrap">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:background">@color/astral</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_15</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
     <style name="bill_header_text_view" parent="@style/MatchWrap">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_size_15</item>
@@ -300,10 +310,12 @@
     </style>
 
     <style name="image_product_icon">
-        <item name="android:layout_width">75dp</item>
-        <item name="android:layout_height">75dp</item>
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
     </style>
 
     <style name="linear_layout_product_details" parent="BothWrap">

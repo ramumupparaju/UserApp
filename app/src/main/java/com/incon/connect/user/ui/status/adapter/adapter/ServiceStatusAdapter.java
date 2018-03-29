@@ -44,6 +44,7 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
     private IStatusClickCallback clickCallback;
     private Context context;
     private AddressFromLatLngAddress addressFromLatLngAddress;
+    private int viewType;
 
     public void setClickCallback(IStatusClickCallback clickCallback) {
         this.clickCallback = clickCallback;
@@ -68,6 +69,10 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
                 locationAddress, AppConstants.RequestCodes.LOCATION_ADDRESS_FROM_LATLNG, new LocationHandler(position));
     }
 
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
+    }
+
     private class LocationHandler extends Handler {
 
         int position;
@@ -85,7 +90,12 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
                 switch (message.what) {
                     case AppConstants.RequestCodes.LOCATION_ADDRESS_FROM_LATLNG:
                         try {
-                            serviceStatusList.get(position).getServiceCenter().setFormattedAddress(locationAddress.getAddressLine(0));
+                            if (viewType == AppConstants.ViewConstants.PAST_HISTORY) {
+
+                                serviceStatusList.get(position).getServiceCenter().setFormattedAddress(locationAddress.getSubLocality());
+                            } else {
+                                serviceStatusList.get(position).getServiceCenter().setFormattedAddress(locationAddress.getAddressLine(0));
+                            }
                         } catch (Exception e) {
                             Logger.e("LocationHandler class", "Address not found");
                         }

@@ -9,7 +9,7 @@ public interface AppConstants {
     String MULTIPART_FORM_DATA = "image/*";
     String COMMA_SEPARATOR = ",";
     String HYPHEN_SEPARATOR = "-";
-    String NEW_LINE= "\n";
+    String NEW_LINE = "\n";
     int DEFAULT_VALUE = Integer.MIN_VALUE;
 
     String CATEGORY_AUTOMOBILES = "Automobiles";
@@ -22,7 +22,7 @@ public interface AppConstants {
     int DEFAULT_GOOGLE_MAP_ZOOM_LEVEL = 16;
     int DEAULT_VALUE = Integer.MAX_VALUE;
 
-    String CUSTOM= "custom";
+    String CUSTOM = "custom";
 
     interface StatusDrawables {
         int COMPLAINT_ID = 2;
@@ -94,10 +94,12 @@ public interface AppConstants {
     interface AgeConstants {
         int USER_DOB = 16;
     }
+
     interface DialogTypeConstants {
         int PRODUCT_FEEDBACK = 0;
         int PRODUCT_SUGGESTIONS = 1;
     }
+
     interface RegistrationValidation {
         int NAME_REQ = 1;
         int PHONE_REQ = 3;
@@ -163,6 +165,10 @@ public interface AppConstants {
         String POSITION = "position";
     }
 
+
+    interface ViewConstants {
+        int PAST_HISTORY = 2;
+    }
 
     interface UpDateUserProfileValidation {
         int NAME_REQ = 1;
