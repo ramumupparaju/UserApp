@@ -78,6 +78,6 @@ public interface FavoritesContract {
 
         void doTransferProductApi(String phoneNumber, String warrantyId);
 
-        void doProductPastHistoryApi(int userId);
+        void doProductPastHistoryApi(int userId, int warrantyId);
     }
 }

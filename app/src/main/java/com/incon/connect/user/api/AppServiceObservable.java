@@ -206,6 +206,10 @@ public interface AppServiceObservable {
     Observable<Object> transferRequest(@Path("phoneNumber") String phoneNumber,
                                        @Path("warrantyId") String warrantyId);
 
+    //paset history product api
+    @GET("user/servicereqHistory/{userId}/{warrantyId}")
+    Observable<ArrayList<ServiceStatus>> fetchProductPastHistory(@Path("userId") int userId, @Path("warrantyId") int warrantyId);
+
     //transfer product api
     @GET("user/servicerequests/{userId}")
     Observable<ArrayList<ServiceStatus>> fetchUserRequests(@Path("userId") int userId);

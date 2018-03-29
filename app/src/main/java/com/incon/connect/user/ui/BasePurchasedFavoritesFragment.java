@@ -126,9 +126,9 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public void doProductPastHistoryApi() {
         int userId = SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE);
         if (this instanceof FavoritesFragment) {
-            favoritesPresenter.doProductPastHistoryApi(userId);
+            favoritesPresenter.doProductPastHistoryApi(userId, Integer.parseInt(favoritesAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId()));
         } else {
-            purchasedPresenter.doProductPastHistoryApi(userId);
+            purchasedPresenter.doProductPastHistoryApi(userId, Integer.parseInt(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId()));
 
         }
     }

@@ -240,13 +240,13 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     }
 
     @Override
-    public void doProductPastHistoryApi(int userId) {
+    public void doProductPastHistoryApi(int userId, int warrantyId) {
         getView().showProgress(appContext.getString(R.string.progress_loading_history));
 
         PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.initialize(null);
         purchasedPresenter.setView(purchasedView);
-        purchasedPresenter.doProductPastHistoryApi(userId);
+        purchasedPresenter.doProductPastHistoryApi(userId, warrantyId);
     }
     @Override
     public void doProductSuggestions(int userId, int productId) {

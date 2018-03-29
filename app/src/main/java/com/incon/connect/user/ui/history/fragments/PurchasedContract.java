@@ -73,7 +73,7 @@ public interface PurchasedContract {
 
         void addServiceEngineer(AddServiceEngineer serviceEngineer, int userId);
 
-        void doProductPastHistoryApi(int userId);
+        void doProductPastHistoryApi(int userId, int warrantyId);
     }
 
 }

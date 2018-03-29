@@ -281,6 +281,11 @@ public class AppApiService implements AppConstants {
     }
 
     //transfer request otp api
+    public Observable<ArrayList<ServiceStatus>> fetchProductPastHistory(int userId, int warrantyId) {
+        return addNetworkCheck(serviceInstance.fetchProductPastHistory(userId, warrantyId));
+    }
+
+    //transfer request otp api
     public Observable<ArrayList<ServiceStatus>> fetchUserRequests(int userId) {
         return addNetworkCheck(serviceInstance.fetchUserRequests(userId));
     }

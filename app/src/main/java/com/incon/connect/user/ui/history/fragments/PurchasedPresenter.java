@@ -43,10 +43,10 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
     }
 
     @Override
-    public void doProductPastHistoryApi(int userId) {
+    public void doProductPastHistoryApi(int userId, int warrantyId) {
         getView().showProgress(appContext.getString(R.string.progress_loading_history));
         if (appContext.getStatusListResponses() == null) {
-            getDefaultStatusData(userId);
+            getDefaultStatusData(userId, warrantyId);
             return;
         }
 
@@ -70,17 +70,17 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
             public void onComplete() {
             }
         };
-        AppApiService.getInstance().fetchUserRequests(userId).subscribe(observer);
+        AppApiService.getInstance().fetchProductPastHistory(userId, warrantyId).subscribe(observer);
         addDisposable(observer);
     }
 
-    private void getDefaultStatusData(final int userId) {
+    private void getDefaultStatusData(final int userId, final int warrantyId) {
         // get status list
         DisposableObserver<List<DefaultStatusData>> observer = new DisposableObserver<List<DefaultStatusData>>() {
             @Override
             public void onNext(List<DefaultStatusData> statusListResponses) {
                 appContext.setStatusListData(statusListResponses);
-                doProductPastHistoryApi(userId);
+                doProductPastHistoryApi(userId, warrantyId);
             }
 
             @Override
