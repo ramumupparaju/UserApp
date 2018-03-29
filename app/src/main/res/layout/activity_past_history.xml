@@ -17,7 +17,6 @@
             android:id="@+id/view_data_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/link_water"
             android:orientation="vertical">
 
             <TextView
@@ -28,7 +27,6 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/service_requests_recyclerview"
                 style="@style/MatchWrap"
-                android:layout_marginTop="@dimen/margin_10"
                 android:fadeScrollbars="false"
                 android:scrollbarSize="4dp"
                 android:scrollbarThumbVertical="@drawable/scrollbar"

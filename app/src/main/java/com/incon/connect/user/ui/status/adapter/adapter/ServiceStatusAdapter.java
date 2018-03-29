@@ -27,6 +27,7 @@ import com.incon.connect.user.databinding.ItemServiceStatusListBinding;
 import com.incon.connect.user.databinding.StatusViewBinding;
 import com.incon.connect.user.ui.RegistrationMapActivity;
 import com.incon.connect.user.utils.AddressFromLatLngAddress;
+import com.incon.connect.user.utils.DeviceUtils;
 import com.incon.connect.user.utils.Logger;
 
 import java.util.List;
@@ -137,6 +138,14 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
         }
 
         public void bind(ServiceStatus serviceStatus, int position) {
+
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) binding.cardView.getLayoutParams();
+            int margin8 = (int) DeviceUtils.convertPxToDp(8);
+            if (position == serviceStatusList.size() - 1) {
+                layoutParams.setMargins(margin8, margin8, margin8, margin8);
+            } else {
+                layoutParams.setMargins(margin8, margin8, margin8, 0);
+            }
             binding.setVariable(BR.productinforesponse, serviceStatus);
 
             AppUtils.loadImageFromApi(binding.brandImageview, serviceStatus.getProduct().getLogoUrl());
