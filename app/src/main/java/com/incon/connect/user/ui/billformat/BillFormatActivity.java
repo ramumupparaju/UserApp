@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.incon.connect.user.AppConstants;
+import com.incon.connect.user.BuildConfig;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.custom.view.PickImageDialog;
@@ -54,11 +55,9 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
 
     private PickImageDialog pickImageDialog;
     private String selectedFilePath = "";
-    private boolean showingOriginal = false;
     private BillFormatPresenter billFormatPresenter;
     private int purchaseId;
     private AddressFromLatLngAddress addressFromLatLngAddress;
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -108,8 +107,6 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         @Override
         public void displayPickedImage(String uri, int requestCode) {
             selectedFilePath = uri;
-            toggleImage();
-
             File fileToUpload = new File(selectedFilePath == null ? "" : selectedFilePath);
             if (fileToUpload.exists()) {
                 binding.includeRegisterBottomButtons.buttonLeft.setText(getString(R.string.action_new));
@@ -120,41 +117,49 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         }
     };
 
+    @Override
+    public void finish() {
+        setResult(RESULT_OK);
+        super.finish();
+    }
+
     public void previewOrImage(View view) {
+        toggleImage();
+        showCameraOptions();
+    }
 
-        if (!TextUtils.isEmpty(selectedFilePath)) {
+    private void showCameraOptions() {
 
-            toggleImage();
-            return;
-        }
-        PermissionUtils.getInstance().grantPermission(this,
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA},
-                new PermissionUtils.Callback() {
-                    @Override
-                    public void onFinish(HashMap<String, Integer> permissionsStatusMap) {
-                        int storageStatus = permissionsStatusMap.get(
-                                Manifest.permission.CAMERA);
-                        switch (storageStatus) {
-                            case PermissionUtils.PERMISSION_GRANTED:
-                                showImageOptionsDialog();
-                                Logger.v(TAG, "location :" + "granted");
-                                break;
-                            case PermissionUtils.PERMISSION_DENIED:
-                                Logger.v(TAG, "location :" + "denied");
-                                break;
-                            case PermissionUtils.PERMISSION_DENIED_FOREVER:
-                                Logger.v(TAG, "location :" + "denied forever");
-                                break;
-                            default:
-                                break;
+        if (TextUtils.isEmpty(selectedFilePath)) {
+            PermissionUtils.getInstance().grantPermission(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA},
+                    new PermissionUtils.Callback() {
+                        @Override
+                        public void onFinish(HashMap<String, Integer> permissionsStatusMap) {
+                            int storageStatus = permissionsStatusMap.get(
+                                    Manifest.permission.CAMERA);
+                            switch (storageStatus) {
+                                case PermissionUtils.PERMISSION_GRANTED:
+                                    showImageOptionsDialog();
+                                    Logger.v(TAG, "location :" + "granted");
+                                    break;
+                                case PermissionUtils.PERMISSION_DENIED:
+                                    Logger.v(TAG, "location :" + "denied");
+                                    break;
+                                case PermissionUtils.PERMISSION_DENIED_FOREVER:
+                                    Logger.v(TAG, "location :" + "denied forever");
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     private void toggleImage() {
-        if (showingOriginal) {
+        if (binding.billPrevLayout.getVisibility() == View.VISIBLE) {
             binding.scrollviewUserInfo.setVisibility(View.VISIBLE);
             binding.billPrevLayout.setVisibility(View.GONE);
         } else {
@@ -162,7 +167,6 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
             loadImageUsingGlide(selectedFilePath, binding.billPrev);
             binding.scrollviewUserInfo.setVisibility(View.GONE);
         }
-        showingOriginal = !showingOriginal;
     }
 
     @Override
@@ -185,7 +189,7 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         productInfoResponse = bundle.getParcelable(BundleConstants.PRODUCT_INFO_RESPONSE);
         purchaseId = Integer.parseInt(productInfoResponse.getWarrantyId());
         binding.setProductinforesponse(productInfoResponse);
-        selectedFilePath = productInfoResponse.getBillUrl();
+        selectedFilePath = TextUtils.isEmpty(productInfoResponse.getBillUrl()) ? "" : BuildConfig.SERVICE_ENDPOINT + productInfoResponse.getBillUrl();
 
         if (productInfoResponse.getCategoryName().equals(AppConstants.CATEGORY_AUTOMOBILES)) {
             binding.textSn.setText(getString(R.string.add_vin));
@@ -250,7 +254,6 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         @Override
         public void onClick(View view) {
             Button button = (Button) view;
-
             if (button.getText().toString().equals(getString(R.string.action_upload_now))) {
                 File fileToUpload = new File(selectedFilePath == null ? "" : selectedFilePath);
                 if (fileToUpload.exists()) {
@@ -265,12 +268,11 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
                 }
             } else if (button.getText().toString().equals(getString(R.string.action_change)) ||
                     button.getText().toString().equals(getString(R.string.action_edit))) {
-                showingOriginal = false;
                 selectedFilePath = null;
-                previewOrImage(view);
+                showCameraOptions();
             } else if (button.getText().toString().equals(getString(R.string.action_cancel))) {
                 selectedFilePath = productInfoResponse.getBillUrl();
-                previewOrImage(view);
+                loadImageUsingGlide(selectedFilePath, binding.billPrev);
             } else if (button.getText().toString().equals(getString(R.string.action_back))) {
                 finish();
             }

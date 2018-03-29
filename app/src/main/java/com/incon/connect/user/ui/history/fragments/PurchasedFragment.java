@@ -2,7 +2,6 @@ package com.incon.connect.user.ui.history.fragments;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,7 +22,6 @@ import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.ui.BasePurchasedFavoritesFragment;
-import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.SharedPrefsUtils;
@@ -388,11 +386,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 return;
 
             } else if (tag == R.id.PRODUCT_BILL) {
-                Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, productInfoResponse);
-                billFormatIntent.putExtras(bundle);
-                startActivity(billFormatIntent);
+                showBillActtivity(productInfoResponse);
                 return;
             } else if (tag == R.id.PRODUCT_PAST_HISTORY) {
                 doProductPastHistoryApi();

@@ -307,6 +307,7 @@ public interface AppConstants {
         int BUY_REQUEST = 127;
         int SERVICE_REQUEST = 128;
         int FROM_NEARBY_SERVICE_CENTER = 129;
+        int BILL_ACTIVITY = 130;
     }
 
     interface TimeConstants {

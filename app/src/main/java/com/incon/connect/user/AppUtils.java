@@ -286,8 +286,11 @@ public class AppUtils {
         requestOptions.placeholder(R.drawable.ic_placeholder);
         requestOptions.error(R.drawable.ic_placeholder);
 
+        if (!url.contains(BuildConfig.SERVICE_ENDPOINT)){
+            url = BuildConfig.SERVICE_ENDPOINT + url;
+        }
         Context context = imageView.getContext();
-        GlideUrl glideUrl = new GlideUrl(BuildConfig.SERVICE_ENDPOINT + url, new LazyHeaders.Builder()
+        GlideUrl glideUrl = new GlideUrl(url, new LazyHeaders.Builder()
                 .addHeader(AppConstants.ApiRequestKeyConstants.HEADER_AUTHORIZATION, context.getString(R.string.default_key))
                 .build());
         Glide.with(context)

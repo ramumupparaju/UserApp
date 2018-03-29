@@ -31,7 +31,6 @@ import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.ui.BasePurchasedFavoritesFragment;
 import com.incon.connect.user.ui.addnewmodel.AddCustomProductFragment;
-import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
 import com.incon.connect.user.ui.history.fragments.PurchasedFragment;
@@ -468,11 +467,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.PRODUCT_WARRANTY) {
                 showWarrantyDialog(getString(R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(productInfoResponse, getActivity()));
             } else if (tag == R.id.PRODUCT_BILL) {
-                Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, productInfoResponse);
-                billFormatIntent.putExtras(bundle);
-                startActivity(billFormatIntent);
+                showBillActtivity(productInfoResponse);
                 return;
             } else if (tag == R.id.PRODUCT_PAST_HISTORY) {
                 doProductPastHistoryApi();
@@ -512,7 +507,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, textArray, drawablesArray, tagsArray, bottomSheetThirdRowClickListener);
         }
     };
-
 
     private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
         @Override

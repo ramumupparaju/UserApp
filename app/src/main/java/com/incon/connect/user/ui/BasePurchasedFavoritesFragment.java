@@ -38,6 +38,7 @@ import com.incon.connect.user.custom.view.WarrantyDialog;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
+import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.favorites.FavoritesFragment;
 import com.incon.connect.user.ui.favorites.FavoritesPresenter;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
@@ -549,6 +550,9 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
+                case RequestCodes.BILL_ACTIVITY:
+                    onRefreshListener.onRefresh();
+                    break;
                 case RequestCodes.DELETE_PRODUCT:
                     doProductDeleteApi();
                     break;
@@ -560,6 +564,14 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                     break;
             }
         }
+    }
+
+    public void showBillActtivity(ProductInfoResponse productInfoResponse) {
+        Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, productInfoResponse);
+        billFormatIntent.putExtras(bundle);
+        startActivityForResult(billFormatIntent, RequestCodes.BILL_ACTIVITY);
     }
 
     public void callCustomercare(ProductInfoResponse productInfoResponse) {
