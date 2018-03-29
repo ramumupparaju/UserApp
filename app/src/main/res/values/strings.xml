@@ -86,15 +86,18 @@
     <string name="text_powered">POWERED BY CONNECT</string>
     <string name="text_customer_details">Customer Details</string>
     <string name="text_product_details">Product Details</string>
+    <string name="text_bill_details">Bill Details</string>
     <string name="text_invoice">INVOICE</string>
     <string name="text_date_of_purchase">Date of purchase</string>
     <string name="text_bill_id">Bill ID</string>
-    <string name="text_invoice_no">Invoice NO</string>
+    <string name="text_invoice_no">Invoice No</string>
     <string name="text_showroom_details">Showroom Details</string>
     <string name="text_product_name">Product name</string>
-    <string name="text_model_no">Model no</string>
+    <string name="text_model_no">Model No</string>
     <string name="text_s_n">S/N</string>
     <string name="text_price">Price</string>
+    <string name="bill_value">: %1$s</string>
+    <string name="label_colon">:</string>
 
     <!--warrantyregistration-->
     <string name="action_request_pending">Request pending</string>

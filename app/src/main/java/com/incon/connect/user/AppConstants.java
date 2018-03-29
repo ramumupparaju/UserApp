@@ -233,6 +233,7 @@ public interface AppConstants {
         String USER_EMAIL_ID = "userEmailId";
         String USER_PHONE_NUMBER = "userPhoneNumber";
         String USER_DOB = "userDob";
+        String USER_LOCATION = "location";
         String USER_GENDER = "userGender";
         String USER_ADDRESS = "userAddress";
         String USER_CITY = "userCity";

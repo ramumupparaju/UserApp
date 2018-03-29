@@ -456,6 +456,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
     private void initializeModelNumberAdapter(List<ModelSearchResponse>
                                                       modelNumberList) {
+        addCustomProductModel.setProductId(null);
         selectedPosition = -1;
         this.modelSearchResponseList = modelNumberList;
         modelNumberAdapter = new ModelSearchArrayAdapter(getContext(),
@@ -472,6 +473,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     ModelSearchResponse modelSearchResponse = modelSearchResponseList.get(selectedPosition);
                     selectedModelNumber = modelSearchResponse.getModelNumber();
 
+                    addCustomProductModel.setProductId(modelSearchResponse.getId());
                     addCustomProductModel.setName(modelSearchResponse.getName());
                     addCustomProductModel.setPrice(modelSearchResponse.getPrice());
                     addCustomProductModel.setWarrantyYears(modelSearchResponse.getWarrantyYears());

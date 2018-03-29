@@ -890,6 +890,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         category = in.readString();
         productId = in.readByte() == 0x00 ? null : in.readInt();
         categoryId = in.readByte() == 0x00 ? null : in.readInt();
+        categoryName = in.readString();
         productName = in.readString();
         modelNumber = in.readString();
         division = in.readString();
@@ -946,6 +947,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         showRoomName = in.readString();
         favouriteId = in.readByte() == 0x00 ? null : in.readInt();
         billUrl = in.readString();
+        customProductFlag = in.readString();
 
     }
 
@@ -981,6 +983,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
             dest.writeByte((byte) (0x01));
             dest.writeInt(categoryId);
         }
+        dest.writeString(categoryName);
         dest.writeString(productName);
         dest.writeString(modelNumber);
         dest.writeString(division);
@@ -1109,6 +1112,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
             dest.writeInt(favouriteId);
         }
         dest.writeString(billUrl);
+        dest.writeString(customProductFlag);
 
     }
 

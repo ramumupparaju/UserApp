@@ -56,12 +56,21 @@ public class AddCustomProductModel extends BaseObservable {
     @SerializedName("warrantyYears")
     @Expose
     private String warrantyYears;
+    private Integer productId;
     private transient String categoryName;
     private transient String divisionName;
     private transient String brandName;
     private transient String dateOfPurchased;
     private transient String warrantyShow;
     private transient String extendedWarrantyShow;
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
 
     @Bindable
     public String getExtendedWarrantyShow() {

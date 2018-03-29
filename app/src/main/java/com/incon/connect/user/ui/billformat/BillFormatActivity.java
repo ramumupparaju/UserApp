@@ -6,23 +6,33 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
+import android.location.Address;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.custom.view.PickImageDialog;
 import com.incon.connect.user.custom.view.PickImageDialogInterface;
 import com.incon.connect.user.databinding.ActivityBillFormatBinding;
 import com.incon.connect.user.ui.BaseActivity;
+import com.incon.connect.user.ui.history.adapter.ShowRoomAdapter;
+import com.incon.connect.user.utils.AddressFromLatLngAddress;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.PermissionUtils;
+import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.io.File;
 import java.util.HashMap;
@@ -47,6 +57,7 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
     private boolean showingOriginal = false;
     private BillFormatPresenter billFormatPresenter;
     private int purchaseId;
+    private AddressFromLatLngAddress addressFromLatLngAddress;
 
 
     @Override
@@ -176,14 +187,64 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         binding.setProductinforesponse(productInfoResponse);
         selectedFilePath = productInfoResponse.getBillUrl();
 
+        if (productInfoResponse.getCategoryName().equals(AppConstants.CATEGORY_AUTOMOBILES)) {
+            binding.textSn.setText(getString(R.string.add_vin));
+        } else {
+            binding.textSn.setText(getString(R.string.text_s_n));
+        }
 
+        RelativeLayout.LayoutParams customerDetailsBase = (RelativeLayout.LayoutParams) binding.customerDetailsBase.getLayoutParams();
+        if (productInfoResponse.getCustomProductFlag().equalsIgnoreCase(CUSTOM)) {
+            binding.textBillId.setVisibility(View.GONE);
+            binding.textBillIdColon.setVisibility(View.GONE);
+            binding.textBillIdValues.setVisibility(View.GONE);
+            customerDetailsBase.addRule(RelativeLayout.BELOW, binding.productDetailsBase.getId());
+        } else {
+            customerDetailsBase.addRule(RelativeLayout.BELOW, binding.showroomDetailsBase.getId());
+            binding.textBillId.setVisibility(View.VISIBLE);
+            binding.textBillIdColon.setVisibility(View.VISIBLE);
+            binding.textBillIdValues.setVisibility(View.VISIBLE);
+        }
+        try {
+            String formattedPrice = productInfoResponse.getPrice().substring(0, productInfoResponse.getPrice().indexOf('.'));
+            binding.textPriceValus.setText("INR " + formattedPrice);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            binding.textPriceValus.setText("INR " + productInfoResponse.getPrice());
+        }
         binding.textDopValues.setText(DateUtils.convertMillisToStringFormat(productInfoResponse.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY));
+        binding.textInvoiceNoValues.setText(TextUtils.isEmpty(productInfoResponse.getInvoiceNumber()) ? "-" : productInfoResponse.getInvoiceNumber());
         binding.includeRegisterBottomButtons.buttonLeft.setText(getString(R.string.action_back));
         binding.includeRegisterBottomButtons.buttonRight.setText(getString(R.string.action_change));
         binding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(onClickListener);
         binding.includeRegisterBottomButtons.buttonRight.setOnClickListener(onClickListener);
+
+
+        binding.textCustomerNameValues.setText(SharedPrefsUtils.loginProvider().getStringPreference(LoginPrefs.USER_NAME));
+        binding.textCustomerContactDetailsValues.setText(SharedPrefsUtils.loginProvider().getStringPreference(LoginPrefs.USER_PHONE_NUMBER));
+        String[] location = SharedPrefsUtils.loginProvider().getStringPreference(LoginPrefs.USER_LOCATION).split(COMMA_SEPARATOR);
+        addressFromLatLngAddress.getAddressFromLocation(this,
+                new LatLng(Double.parseDouble(location[0]), Double.parseDouble(location[1])), AppConstants.RequestCodes.LOCATION_ADDRESS_FROM_LATLNG, new LocationHandler());
+
     }
 
+    private class LocationHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            Bundle bundle = message.getData();
+            Address locationAddress = bundle.getParcelable(AppConstants.BundleConstants
+                    .LOCATION_ADDRESS);
+            if (locationAddress != null) {
+                switch (message.what) {
+                    case AppConstants.RequestCodes.LOCATION_ADDRESS_FROM_LATLNG:
+                        binding.textCustomerAddressValues.setText(locationAddress.getAddressLine(0));
+                        break;
+                    default:
+                        //do nothing
+                }
+            }
+        }
+    }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override

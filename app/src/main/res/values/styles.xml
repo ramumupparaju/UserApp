@@ -268,10 +268,11 @@
 
     <style name="bill_header_text_view" parent="@style/MatchWrap">
         <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/text_size_15</item>
+        <item name="android:textSize">@dimen/text_size_13</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:gravity">left</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:layout_marginLeft">@dimen/margin_10</item>
+        <item name="android:layout_marginTop">@dimen/margin_10</item>
     </style>
 
     <style name="bill_header_right_text_view" parent="@style/BothWrap">
@@ -294,13 +295,15 @@
         <item name="android:layout_marginLeft">@dimen/margin_10</item>
     </style>
 
-    <style name="bill_header_linear_layout" parent="@style/BothWrap">
+    <style name="bill_header_linear_layout" parent="@style/zerowrap">
         <item name="android:orientation">vertical</item>
         <item name="android:layout_weight">1</item>
     </style>
 
     <style name="bill_header_left_text_view" parent="@style/bill_header_right_text_view">
-        <item name="android:layout_marginLeft">@dimen/margin_10</item>
+        <item name="android:layout_marginRight">@dimen/margin_10</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
 
