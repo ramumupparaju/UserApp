@@ -185,7 +185,13 @@
             android:windowSoftInputMode="adjustResize">
 
         </activity>
+        <activity
+            android:name="com.incon.connect.user.ui.pasthistory.PastHistoryActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithCorners">
 
+        </activity>
         <activity
             android:name="com.incon.connect.user.ui.billformat.BillFormatActivity"
             android:configChanges="orientation|keyboardHidden"

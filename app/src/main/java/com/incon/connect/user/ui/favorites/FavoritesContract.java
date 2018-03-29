@@ -5,11 +5,13 @@ import com.incon.connect.user.apimodel.components.favorites.AddUserAddressRespon
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.BaseView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,6 +44,9 @@ public interface FavoritesContract {
         void productSuggestions(List<ReviewData> reviewDataList);
 
         void saveReviews(Object saveReviews);
+
+        void onProductPastHistoryApi(ArrayList<ServiceStatus> statusListResponses);
+
     }
 
     interface Presenter {
@@ -72,5 +77,7 @@ public interface FavoritesContract {
         void deleteFovoriteProduct(int favouriteId);
 
         void doTransferProductApi(String phoneNumber, String warrantyId);
+
+        void doProductPastHistoryApi(int userId);
     }
 }

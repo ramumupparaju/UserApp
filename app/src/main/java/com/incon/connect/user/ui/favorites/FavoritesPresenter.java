@@ -12,6 +12,7 @@ import com.incon.connect.user.apimodel.components.favorites.AddUserAddressRespon
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
@@ -20,6 +21,7 @@ import com.incon.connect.user.ui.history.fragments.PurchasedContract;
 import com.incon.connect.user.ui.history.fragments.PurchasedPresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -238,6 +240,15 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
     }
 
     @Override
+    public void doProductPastHistoryApi(int userId) {
+        getView().showProgress(appContext.getString(R.string.progress_loading_history));
+
+        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
+        purchasedPresenter.initialize(null);
+        purchasedPresenter.setView(purchasedView);
+        purchasedPresenter.doProductPastHistoryApi(userId);
+    }
+    @Override
     public void doProductSuggestions(int userId, int productId) {
         getView().showProgress(appContext.getString(R.string.progress_loading_suggestions));
 
@@ -307,6 +318,11 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         @Override
         public void saveReviews(Object saveReviews) {
             getView().saveReviews(saveReviews);
+        }
+
+        @Override
+        public void onProductPastHistoryApi(ArrayList<ServiceStatus> statusListResponses) {
+            getView().onProductPastHistoryApi(statusListResponses);
         }
 
         @Override

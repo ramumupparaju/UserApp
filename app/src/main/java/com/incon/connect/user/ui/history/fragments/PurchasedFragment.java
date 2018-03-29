@@ -395,7 +395,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 startActivity(billFormatIntent);
                 return;
             } else if (tag == R.id.PRODUCT_PAST_HISTORY) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                doProductPastHistoryApi();
             } else if (tag == R.id.PRODUCT_SHARE) {
                 shareProductDetails(productInfoResponse);
                 return;
@@ -421,7 +421,6 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
             setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, textArray, drawablesArray, tagsArray, bottomSheetThirdRowClickListener);
         }
     };
-
 
     private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
         @Override

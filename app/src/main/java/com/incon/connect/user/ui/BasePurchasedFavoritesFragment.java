@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Pair;
@@ -19,6 +20,7 @@ import com.incon.connect.user.apimodel.components.favorites.AddUserAddressRespon
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.CustomPhoneNumberAlertDialogCallback;
@@ -43,6 +45,7 @@ import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
 import com.incon.connect.user.ui.history.fragments.PurchasedPresenter;
+import com.incon.connect.user.ui.pasthistory.PastHistoryActivity;
 import com.incon.connect.user.ui.pin.CustomPinActivity;
 import com.incon.connect.user.ui.pin.managers.AppLock;
 import com.incon.connect.user.ui.servicecenters.ServiceCentersActivity;
@@ -118,6 +121,24 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
     public void productSuggestions(List<ReviewData> reviewDataList) {
         showReviewDialogType(reviewDataList, DialogTypeConstants.PRODUCT_SUGGESTIONS);
+    }
+
+    public void doProductPastHistoryApi() {
+        int userId = SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE);
+        if (this instanceof FavoritesFragment) {
+            favoritesPresenter.doProductPastHistoryApi(userId);
+        } else {
+            purchasedPresenter.doProductPastHistoryApi(userId);
+
+        }
+    }
+
+    public void onProductPastHistoryApi(ArrayList<ServiceStatus> statusListResponses) {
+        Intent pastHistoryIntent = new Intent(getActivity(), PastHistoryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(BundleConstants.SERVICE_STATUS_RESPONSE, statusListResponses);
+        pastHistoryIntent.putExtras(bundle);
+        startActivity(pastHistoryIntent);
     }
 
     @Override
@@ -544,6 +565,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public void callCustomercare(ProductInfoResponse productInfoResponse) {
         callPhoneNumber(productInfoResponse.getCustomerCareContact());
     }
+
     public void serviceRequestApi() {
         if (serviceRequestData != null) {
             if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {

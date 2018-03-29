@@ -6,10 +6,12 @@ import com.incon.connect.user.apimodel.components.favorites.AddUserAddressRespon
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.BaseView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,6 +45,7 @@ public interface PurchasedContract {
 
         void saveReviews(Object saveReviews);
 
+        void onProductPastHistoryApi(ArrayList<ServiceStatus> statusListResponses);
     }
 
     interface Presenter {
@@ -69,6 +72,8 @@ public interface PurchasedContract {
         void getUsersListOfServiceCenters(int serviceCenterId);
 
         void addServiceEngineer(AddServiceEngineer serviceEngineer, int userId);
+
+        void doProductPastHistoryApi(int userId);
     }
 
 }

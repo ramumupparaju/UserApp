@@ -171,6 +171,7 @@
     <string name="action_yes">Yes</string>
     <string name="action_no">No</string>
     <string name="action_cancel_request">Cancel Request</string>
+    <string name="action_past_history">Past History</string>
     <string name="action_reset_password">Reset Password</string>
     <string name="action_register">Register</string>
     <string name="action_continue">continue</string>
@@ -304,6 +305,7 @@
     <string name="progress_adding_to_favorites">Adding to favorites...</string>
     <string name="progress_deleting_product">Deleting Product ...</string>
     <string name="progress_loading_reviews">Loading reviews...</string>
+    <string name="progress_loading_history">Loading history...</string>
     <string name="progress_loading_suggestions">Loading suggestions...</string>
     <string name="progress_change_product_location">Change Product Location...</string>
     <string name="progress_purchased_history">Loading Purchased History...</string>

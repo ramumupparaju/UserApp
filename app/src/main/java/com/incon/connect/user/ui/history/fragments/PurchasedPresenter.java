@@ -1,6 +1,5 @@
 package com.incon.connect.user.ui.history.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Pair;
 
@@ -12,6 +11,8 @@ import com.incon.connect.user.apimodel.components.favorites.AddUserAddressRespon
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
+import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.BasePresenter;
@@ -19,6 +20,7 @@ import com.incon.connect.user.ui.favorites.FavoritesContract;
 import com.incon.connect.user.ui.favorites.FavoritesPresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,12 +34,69 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         PurchasedContract.Presenter {
 
     private static final String TAG = PurchasedPresenter.class.getName();
-    private Context appContext;
+    private ConnectApplication appContext;
 
     @Override
     public void initialize(Bundle extras) {
         super.initialize(extras);
         appContext = ConnectApplication.getAppContext();
+    }
+
+    @Override
+    public void doProductPastHistoryApi(int userId) {
+        getView().showProgress(appContext.getString(R.string.progress_loading_history));
+        if (appContext.getStatusListResponses() == null) {
+            getDefaultStatusData(userId);
+            return;
+        }
+
+        DisposableObserver<ArrayList<ServiceStatus>> observer = new DisposableObserver<ArrayList<ServiceStatus>>() {
+            @Override
+            public void onNext(ArrayList<ServiceStatus> statusListResponses) {
+
+                getView().onProductPastHistoryApi(statusListResponses);
+                getView().hideProgress();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                getView().hideProgress();
+                Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                getView().handleException(errorDetails);
+
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        };
+        AppApiService.getInstance().fetchUserRequests(userId).subscribe(observer);
+        addDisposable(observer);
+    }
+
+    private void getDefaultStatusData(final int userId) {
+        // get status list
+        DisposableObserver<List<DefaultStatusData>> observer = new DisposableObserver<List<DefaultStatusData>>() {
+            @Override
+            public void onNext(List<DefaultStatusData> statusListResponses) {
+                appContext.setStatusListData(statusListResponses);
+                doProductPastHistoryApi(userId);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                getView().hideProgress();
+                Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                getView().handleException(errorDetails);
+
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        };
+        AppApiService.getInstance().getStatusList().subscribe(observer);
+        addDisposable(observer);
     }
 
     // purchased
@@ -383,6 +442,11 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         @Override
         public void saveReviews(Object saveReviews) {
             getView().saveReviews(saveReviews);
+        }
+
+        @Override
+        public void onProductPastHistoryApi(ArrayList<ServiceStatus> statusListResponses) {
+            //DO nothing
         }
 
 

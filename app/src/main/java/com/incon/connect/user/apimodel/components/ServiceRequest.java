@@ -1,9 +1,12 @@
 package com.incon.connect.user.apimodel.components;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ServiceRequest {
+public class ServiceRequest implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -82,4 +85,63 @@ public class ServiceRequest {
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
     }
+
+    protected ServiceRequest(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        warrantyId = in.readByte() == 0x00 ? null : in.readInt();
+        status = in.readByte() == 0x00 ? null : in.readInt();
+        comments = in.readString();
+        complaint = in.readString();
+        preferredDateFrom = in.readString();
+        createdDate = in.readByte() == 0x00 ? null : in.readLong();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
+        if (warrantyId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(warrantyId);
+        }
+        if (status == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(status);
+        }
+        dest.writeString(comments);
+        dest.writeString(complaint);
+        dest.writeString(preferredDateFrom);
+        if (createdDate == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(createdDate);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<ServiceRequest> CREATOR = new Parcelable.Creator<ServiceRequest>() {
+        @Override
+        public ServiceRequest createFromParcel(Parcel in) {
+            return new ServiceRequest(in);
+        }
+
+        @Override
+        public ServiceRequest[] newArray(int size) {
+            return new ServiceRequest[size];
+        }
+    };
 }

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.AssignedUser;
 import com.incon.connect.user.apimodel.components.ServiceRequest;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
@@ -20,7 +19,6 @@ import com.incon.connect.user.apimodel.components.status.StatusList;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IStatusClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
-import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppStatusDialog;
 import com.incon.connect.user.databinding.FragmentStatusBinding;
@@ -29,7 +27,6 @@ import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.status.adapter.adapter.ProductStatusAdapter;
 import com.incon.connect.user.ui.status.adapter.adapter.ServiceStatusAdapter;
-import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
@@ -216,7 +213,7 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
                 StatusList status = statusList.get(statusPosition);
                 ServiceRequest serviceRequest = status.getRequest();
                 String phoneNumber = TextUtils.isEmpty(status.getAssignedUser().getMobileNumber()) ? status.getServiceCenter().getContactNo() : status.getAssignedUser().getMobileNumber();
-                showStatusDialog(getStatusName(serviceRequest.getStatus()), formattedDescription(status), phoneNumber);
+                showStatusDialog(getStatusName(serviceRequest.getStatus()), AppUtils.formattedDescription(status), phoneNumber);
             }
 
         }
@@ -236,22 +233,7 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         }
     };
 
-    private String formattedDescription(StatusList status) {
-        StringBuilder stringBuilder = new StringBuilder();
-        AssignedUser assignedUser = status.getAssignedUser();
-        if (assignedUser != null) {
-            if (!TextUtils.isEmpty(assignedUser.getName()))
-                stringBuilder.append("Name : ").append(assignedUser.getName()).append(NEW_LINE);
-            if (!TextUtils.isEmpty(assignedUser.getMobileNumber()))
-                stringBuilder.append("Mobile num : ").append(assignedUser.getMobileNumber()).append(NEW_LINE);
-            if (!TextUtils.isEmpty(assignedUser.getDesignation())) {
-                stringBuilder.append("Desig : ").append(assignedUser.getDesignation()).append(NEW_LINE);
-            }
 
-            stringBuilder.append("Date : ").append(DateUtils.convertMillisToStringFormat(status.getRequest().getCreatedDate(), DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
-        }
-        return stringBuilder.toString();
-    }
 
 
     @Override

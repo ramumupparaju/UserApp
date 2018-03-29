@@ -25,8 +25,10 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.incon.connect.user.apimodel.components.AssignedUser;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
+import com.incon.connect.user.apimodel.components.status.StatusList;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.ValidationUtils;
@@ -37,6 +39,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.incon.connect.user.AppConstants.NEW_LINE;
 import static com.incon.connect.user.AppConstants.RegistrationValidation.DOB_FUTURE_DATE;
 import static com.incon.connect.user.AppConstants.RegistrationValidation.DOB_PERSON_LIMIT;
 import static com.incon.connect.user.AppConstants.VALIDATION_SUCCESS;
@@ -183,6 +186,23 @@ public class AppUtils {
 
 
         return stringBuffer.toString();
+    }
+
+    public static String formattedDescription(StatusList status) {
+        StringBuilder stringBuilder = new StringBuilder();
+        AssignedUser assignedUser = status.getAssignedUser();
+        if (assignedUser != null) {
+            if (!TextUtils.isEmpty(assignedUser.getName()))
+                stringBuilder.append("Name : ").append(assignedUser.getName()).append(NEW_LINE);
+            if (!TextUtils.isEmpty(assignedUser.getMobileNumber()))
+                stringBuilder.append("Mobile num : ").append(assignedUser.getMobileNumber()).append(NEW_LINE);
+            if (!TextUtils.isEmpty(assignedUser.getDesignation())) {
+                stringBuilder.append("Desig : ").append(assignedUser.getDesignation()).append(NEW_LINE);
+            }
+
+            stringBuilder.append("Date : ").append(DateUtils.convertMillisToStringFormat(status.getRequest().getCreatedDate(), AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
+        }
+        return stringBuilder.toString();
     }
 
     //fetching status name basedon request

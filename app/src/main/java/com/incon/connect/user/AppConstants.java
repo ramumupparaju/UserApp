@@ -199,6 +199,7 @@ public interface AppConstants {
         String ADD_NEW_MODEL_DATA = "addnewmodelData";
         String LOCATION_ADDRESS = "locationAddress";
         String PRODUCT_INFO_RESPONSE = "productInfoResponse";
+        String SERVICE_STATUS_RESPONSE = "serviceStatusResponse";
 
         String FROM_FAVORITES = "fromFavorites";
         String ADDRESS_ID = "addressId";
