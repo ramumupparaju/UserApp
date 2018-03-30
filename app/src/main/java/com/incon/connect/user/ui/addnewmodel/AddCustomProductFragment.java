@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.text.method.KeyListener;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -65,6 +64,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.incon.connect.user.AppConstants.DialogTypeConstants.EXTENDED_WARRANTY;
 import static com.incon.connect.user.ui.tutorial.TutorialActivity.TAG;
 
 /**
@@ -96,9 +96,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
     private HashMap<Integer, String> errorMap;
     private Animation shakeAnim;
-    private WarrantyDialog warratyDialog;
-    private WarrantyDialog extendeWarratyDialog;
-    private KeyListener spinnerCategoryKeyListener;
+    private WarrantyDialog warrantyDialog;
 
     @Override
     protected void initializePresenter() {
@@ -133,11 +131,11 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     }
 
     public void onWarrantyClick() {
-        showWarrantyDialog();
+        showWarrantyDialog(DialogTypeConstants.WARRANTY_TYPE);
     }
 
     public void onExtendedWarrantyClick() {
-        showExtendedWarrantyDialog();
+        showWarrantyDialog(DialogTypeConstants.EXTENDED_WARRANTY);
     }
 
     @Override
@@ -146,7 +144,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         if (id == R.id.checkbox_extened) {
             if (binding.checkboxExtened.isChecked()) {
                 binding.inputLayoutWarrantyExtended.setVisibility(View.VISIBLE);
-                showExtendedWarrantyDialog();
+                showWarrantyDialog(DialogTypeConstants.EXTENDED_WARRANTY);
             } else {
                 binding.inputLayoutWarrantyExtended.setVisibility(View.GONE);
             }
@@ -211,65 +209,45 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     };
 
 
-    private void showExtendedWarrantyDialog() {
-        extendeWarratyDialog = new WarrantyDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String yearsMonthsDays) {
-                        String[] split = yearsMonthsDays.split(AppConstants.COMMA_SEPARATOR);
-                        /*addCustomProductModel.setExtendedWarrantyShow(split[0]);
-                        addCustomProductModel.setWarrantyMonths(split[1]);
-                        addCustomProductModel.setWarrantyDays(split[2]);*/ //TODO have to add to model for sending to api
-                        addCustomProductModel.setExtendedWarrantyShow(AppUtils.getWarrantyInformationFromStringArray(split));
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                extendeWarratyDialog.dismiss();
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                extendeWarratyDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                })
-//                .years(addCustomProductModel.getExtendedWarrantyShow()).months(addCustomProductModel.getWarrantyMonths()).days(addCustomProductModel.getWarrantyDays()) //TODO have to enable
-                .build();
-        extendeWarratyDialog.showDialog();
-    }
-
     //warranty dialog
-    private void showWarrantyDialog() {
-        warratyDialog = new WarrantyDialog.AlertDialogBuilder(getActivity(), new
+    private void showWarrantyDialog(final int dialogType) {
+        String warrantyYears = dialogType == EXTENDED_WARRANTY ? addCustomProductModel.getExtendedWarrantyYears() : addCustomProductModel.getWarrantyYears();
+        String warrantyMonths = dialogType == EXTENDED_WARRANTY ? addCustomProductModel.getExtendedWarrantyMonths() : addCustomProductModel.getWarrantyMonths();
+        String warrantyDays = dialogType == EXTENDED_WARRANTY ? addCustomProductModel.getExtendedWarrantyDays() : addCustomProductModel.getWarrantyDays();
+
+        warrantyDialog = new WarrantyDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String yearsMonthsDays) {
                         String[] split = yearsMonthsDays.split(AppConstants.COMMA_SEPARATOR);
-                        addCustomProductModel.setWarrantyYears(split[0]);
-                        addCustomProductModel.setWarrantyMonths(split[1]);
-                        addCustomProductModel.setWarrantyDays(split[2]);
-                        addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
+                        if (dialogType == EXTENDED_WARRANTY) {
+                            addCustomProductModel.setExtendedWarrantyYears(split[0]);
+                            addCustomProductModel.setExtendedWarrantyMonths(split[1]);
+                            addCustomProductModel.setExtendedWarrantyDays(split[2]);
+                            addCustomProductModel.setExtendedWarrantyShow(AppUtils.getWarrantyInformationFromStringArray(split));
+                        } else {
+                            addCustomProductModel.setWarrantyYears(split[0]);
+                            addCustomProductModel.setWarrantyMonths(split[1]);
+                            addCustomProductModel.setWarrantyDays(split[2]);
+                            addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromStringArray(split));
+                        }
                     }
 
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
                         switch (dialogStatus) {
                             case AlertDialogCallback.OK:
-                                warratyDialog.dismiss();
+                                warrantyDialog.dismiss();
                                 break;
                             case AlertDialogCallback.CANCEL:
-                                warratyDialog.dismiss();
+                                warrantyDialog.dismiss();
                                 break;
                             default:
                                 break;
                         }
                     }
-                }).years(addCustomProductModel.getWarrantyYears()).months(addCustomProductModel.getWarrantyMonths()).days(addCustomProductModel.getWarrantyDays()).build();
-        warratyDialog.showDialog();
+                }).years(warrantyYears).months(warrantyMonths).days(warrantyDays).build();
+        warrantyDialog.showDialog();
     }
 
     public void onPurchasedDateClick() {
@@ -567,8 +545,6 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
         selectedModelNumber = binding.edittextModelNumber.getText().toString();
         initializeModelNumberAdapter(new ArrayList<ModelSearchResponse>());
-
-        spinnerCategoryKeyListener = binding.spinnerCategory.getKeyListener();
 
         if (ConnectApplication.getAppContext().getCategoriesList() == null) {
             addCustomProductPresenter.getCategories();

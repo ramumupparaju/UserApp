@@ -99,6 +99,7 @@ public interface AppConstants {
         int PRODUCT_FEEDBACK = 0;
         int PRODUCT_SUGGESTIONS = 1;
         int WARRANTY_TYPE = 2;
+        int EXTENDED_WARRANTY = 3;
     }
 
     interface RegistrationValidation {

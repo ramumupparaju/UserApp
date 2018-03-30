@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_marginLeft="@dimen/margin_8"
         android:layout_marginRight="@dimen/margin_8"
-        android:layout_marginTop="@dimen/margin_4"
+        android:layout_marginTop="@dimen/margin_2"
         app:cardCornerRadius="@dimen/corner_radius">
 
         <LinearLayout

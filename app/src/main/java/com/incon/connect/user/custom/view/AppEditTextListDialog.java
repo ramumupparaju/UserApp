@@ -58,11 +58,6 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
                 LayoutInflater.from(context), R.layout.view_edit_text_list_dialog, null, false);
         View contentView = binding.getRoot();
 
-//
-//        LinearLayout  linearLayout = binding.baseLayout;
-//        int maxHeight = (int) (Resources.getSystem().getDisplayMetrics().heightPixels * 0.8);
-//        linearLayout.setMaxHeight(maxHeight);
-
         LinearLayout.LayoutParams crlp = (LinearLayout.LayoutParams) binding.dialogTitleTextView.getLayoutParams();
         crlp.width = (int) (Resources.getSystem().getDisplayMetrics().widthPixels * 0.8);
 
