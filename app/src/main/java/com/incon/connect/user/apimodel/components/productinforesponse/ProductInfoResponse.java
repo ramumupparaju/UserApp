@@ -89,6 +89,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("warrantyEndDate")
     @Expose
     private Long warrantyEndDate;
+    private Long extendedWarrantyEndDate;
     @SerializedName("productLogoUrl")
     @Expose
     private String productLogoUrl;
@@ -251,6 +252,14 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @Expose
     private String billUrl;
     private String customerCareContact;
+
+    public Long getExtendedWarrantyEndDate() {
+        return extendedWarrantyEndDate;
+    }
+
+    public void setExtendedWarrantyEndDate(Long extendedWarrantyEndDate) {
+        this.extendedWarrantyEndDate = extendedWarrantyEndDate;
+    }
 
     public String getCustomerCareContact() {
         return customerCareContact;

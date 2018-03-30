@@ -191,7 +191,7 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
         }
 
         stringBuilder.append("\n");
-        stringBuilder.append(context.getString(R.string.purchased_warranty_ends_on));
+        stringBuilder.append(context.getString(R.string.purchased_warranty_ends));
         stringBuilder.append(warrantyEndDate);
 
         return stringBuilder.toString();

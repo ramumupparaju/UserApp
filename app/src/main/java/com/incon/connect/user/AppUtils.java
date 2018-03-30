@@ -140,7 +140,14 @@ public class AppUtils {
             dialogRows.add(new DialogRow(context.getString(R.string.purchased_warranty_covers_date), warrantyConditions));
         }
 
-        dialogRows.add(new DialogRow(context.getString(R.string.purchased_warranty_ends_on), warrantyEndDate));
+        dialogRows.add(new DialogRow(context.getString(R.string.purchased_warranty_ends), warrantyEndDate));
+
+        if (itemFromPosition.getExtendedWarrantyEndDate() != null) {
+            String extendedWarrantyEndDate = DateUtils.convertMillisToStringFormat(
+                    itemFromPosition.getExtendedWarrantyEndDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY);
+            dialogRows.add(new DialogRow(context.getString(R.string.purchased_extended_warranty_ends), extendedWarrantyEndDate));
+        }
+
         return dialogRows;
     }
 

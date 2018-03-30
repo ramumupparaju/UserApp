@@ -514,7 +514,8 @@
     <string name="purchased_warranty_status">Warranty Status</string>
     <string name="purchased_purchased_date">Purchased Date</string>
     <string name="purchased_warranty_covers_date">Warranty Covers</string>
-    <string name="purchased_warranty_ends_on">"Warranty Ends on"</string>
+    <string name="purchased_warranty_ends">"Warranty Ends on"</string>
+    <string name="purchased_extended_warranty_ends">"Extended Warranty Ends"</string>
 
     <!--add offers-->
     <string name="add_offer_brand">Brand</string>
