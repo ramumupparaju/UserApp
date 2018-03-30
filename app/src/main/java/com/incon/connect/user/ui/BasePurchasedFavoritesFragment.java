@@ -259,10 +259,13 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public void showReviewDialogType(List<ReviewData> reviews, final int dialogType) {
 
         String title = "";
+        String hintText = "";
         if (dialogType == DialogTypeConstants.PRODUCT_FEEDBACK) {
             title = getString(R.string.bottom_option_feedback);
+            hintText = getString(R.string.action_feedback_hint);
         } else if (dialogType == DialogTypeConstants.PRODUCT_SUGGESTIONS) {
             title = getString(R.string.bottom_option_suggestions);
+            hintText = getString(R.string.action_suggestions_hint);
         }
         final HashMap<String, String> saveReviewApi = new HashMap<>();
         saveReviewApi.put(ApiRequestKeyConstants.BODY_USER_ID, String.valueOf(userId));
@@ -308,6 +311,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 }).title(title)
                 .leftButtonText(getString(R.string.action_cancel))
                 .rightButtonText(getString(R.string.action_submit))
+                .hintText(hintText)
                 .feedbackDataList(reviews)
                 .dialogType(dialogType)
                 .build();

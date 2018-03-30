@@ -117,6 +117,8 @@
     <string name="action_batchno">Batch No :</string>
     <string name="action_serialno">Serial No :</string>
     <string name="action_submit">Submit</string>
+    <string name="action_feedback_hint">Enter your feedback here</string>
+    <string name="action_suggestions_hint">Enter your suggestions here(It will be displayed to the manufacturer only)</string>
     <string name="action_otp">OTP</string>
     <string name="action_qr_code">QR Code Scan</string>
     <string name="action_manual_entry">Manual Enter</string>
