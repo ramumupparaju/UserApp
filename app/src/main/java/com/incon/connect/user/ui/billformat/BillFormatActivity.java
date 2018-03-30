@@ -111,6 +111,7 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
             if (fileToUpload.exists()) {
                 binding.includeRegisterBottomButtons.buttonLeft.setText(getString(R.string.action_new));
                 binding.includeRegisterBottomButtons.buttonRight.setText(getString(R.string.action_upload_now));
+                loadImageUsingGlide(selectedFilePath, binding.billPrev);
             } else {
                 showErrorMessage(getString(R.string.error_image_path_upload));
             }
@@ -164,7 +165,6 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
             binding.billPrevLayout.setVisibility(View.GONE);
         } else {
             binding.billPrevLayout.setVisibility(View.VISIBLE);
-            loadImageUsingGlide(selectedFilePath, binding.billPrev);
             binding.scrollviewUserInfo.setVisibility(View.GONE);
         }
     }
@@ -190,6 +190,10 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         purchaseId = Integer.parseInt(productInfoResponse.getWarrantyId());
         binding.setProductinforesponse(productInfoResponse);
         selectedFilePath = TextUtils.isEmpty(productInfoResponse.getBillUrl()) ? "" : BuildConfig.SERVICE_ENDPOINT + productInfoResponse.getBillUrl();
+
+        if (!TextUtils.isEmpty(selectedFilePath)) {
+            loadImageUsingGlide(selectedFilePath, binding.billPrev);
+        }
 
         if (productInfoResponse.getCategoryName().equals(AppConstants.CATEGORY_AUTOMOBILES)) {
             binding.textSn.setText(getString(R.string.add_vin));
