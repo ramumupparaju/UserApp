@@ -29,6 +29,7 @@ import com.incon.connect.user.apimodel.components.AssignedUser;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.apimodel.components.status.StatusList;
+import com.incon.connect.user.dto.DialogRow;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.ValidationUtils;
@@ -36,6 +37,7 @@ import com.incon.connect.user.utils.ValidationUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -49,7 +51,7 @@ public class AppUtils {
     static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
         Uri bmpUri = null;
         try {
-            File file =  new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image" + ".png");
+            File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image" + ".png");
             FileOutputStream out = new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
             out.close();
@@ -115,7 +117,9 @@ public class AppUtils {
         return getWarranty(warrantyIntYears, warrantyIntMonths, warrantyIntDays);
     }
 
-    public static String getFormattedWarrantyDataInString(ProductInfoResponse itemFromPosition, Context context) {
+    public static List<DialogRow> getFormattedWarrantyDataInString(ProductInfoResponse itemFromPosition, Context context) {
+        List<DialogRow> dialogRows = new ArrayList<>();
+
         String purchasedDate = DateUtils.convertMillisToStringFormat(
                 itemFromPosition.getPurchasedDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY);
         String warrantyEndDate = DateUtils.convertMillisToStringFormat(
@@ -124,29 +128,20 @@ public class AppUtils {
                 itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
         String warrantyConditions = itemFromPosition.getWarrantyConditions();
 
-        StringBuilder stringBuilder = new StringBuilder();
 
         //warranty days
-        stringBuilder.append(context.getString(R.string.purchased_warranty_status_now));
-        stringBuilder.append(noOfDays <= 0 ? context.getString(R.string.label_expired) : noOfDays + " Days Left");
+        dialogRows.add(new DialogRow(context.getString(R.string.purchased_warranty_status), noOfDays <= 0 ? context.getString(R.string.label_expired) : noOfDays + " Days Left"));
 
         if (!TextUtils.isEmpty(purchasedDate)) {
-            stringBuilder.append("\n");
-            stringBuilder.append(context.getString(R.string.purchased_purchased_date));
-            stringBuilder.append(purchasedDate);
+            dialogRows.add(new DialogRow(context.getString(R.string.purchased_purchased_date), purchasedDate));
         }
 
         if (!TextUtils.isEmpty(warrantyConditions)) {
-            stringBuilder.append("\n");
-            stringBuilder.append(context.getString(R.string.purchased_warranty_covers_date));
-            stringBuilder.append(warrantyConditions);
+            dialogRows.add(new DialogRow(context.getString(R.string.purchased_warranty_covers_date), warrantyConditions));
         }
 
-        stringBuilder.append("\n");
-        stringBuilder.append(context.getString(R.string.purchased_warranty_ends_on));
-        stringBuilder.append(warrantyEndDate);
-
-        return stringBuilder.toString();
+        dialogRows.add(new DialogRow(context.getString(R.string.purchased_warranty_ends_on), warrantyEndDate));
+        return dialogRows;
     }
 
     /**
@@ -286,7 +281,7 @@ public class AppUtils {
         requestOptions.placeholder(R.drawable.ic_placeholder);
         requestOptions.error(R.drawable.ic_placeholder);
 
-        if (!url.contains(BuildConfig.SERVICE_ENDPOINT)){
+        if (!url.contains(BuildConfig.SERVICE_ENDPOINT)) {
             url = BuildConfig.SERVICE_ENDPOINT + url;
         }
         Context context = imageView.getContext();
@@ -322,7 +317,6 @@ public class AppUtils {
         Gson gson = new GsonBuilder().create();
         return gson.fromJson(json, aClass);
     }
-
 
 
 }

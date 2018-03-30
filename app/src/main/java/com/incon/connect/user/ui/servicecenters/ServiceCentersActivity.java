@@ -175,7 +175,7 @@ public class ServiceCentersActivity extends BaseActivity implements OnMapReadyCa
         StringBuilder stringBuilder = new StringBuilder();
 
         //warranty days
-        stringBuilder.append(context.getString(R.string.purchased_warranty_status_now));
+        stringBuilder.append(context.getString(R.string.purchased_warranty_status));
         stringBuilder.append(noOfDays <= 0 ? context.getString(R.string.label_expired) : noOfDays + " Days Left");
 
         if (!TextUtils.isEmpty(purchasedDate)) {

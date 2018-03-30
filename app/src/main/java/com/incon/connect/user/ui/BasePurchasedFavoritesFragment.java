@@ -31,12 +31,14 @@ import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppEditTextListDialog;
+import com.incon.connect.user.custom.view.CardViewAlertDialog;
 import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
 import com.incon.connect.user.custom.view.ServiceRequestDialog;
 import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
 import com.incon.connect.user.custom.view.WarrantyDialog;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
+import com.incon.connect.user.dto.DialogRow;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.favorites.FavoritesFragment;
@@ -96,6 +98,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public AppEditTextListDialog feedBackDialog;
     public AppEditTextDialog transferDialog;
     public AppAlertDialog detailsDialog;
+    public CardViewAlertDialog cardViewAlertDialog;
     public ServiceRequestDialog serviceRequestDialog;
     public TimeSlotAlertDialog timeSlotAlertDialog;
     public ArrayList<ServiceCenterResponse> serviceCenterResponseList;
@@ -366,8 +369,8 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
     }
 
-    public void showWarrantyDialog(String title, String messageInfo) {
-        detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
+    public void showWarrantyDialog(String title, List<DialogRow> messageInfo) {
+        cardViewAlertDialog = new CardViewAlertDialog.AlertDialogBuilder(getActivity(), new
                 AlertDialogCallback() {
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
@@ -385,9 +388,9 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                     }
                 }).title(title).content(messageInfo).button1Text(getString(R.string.add_extended_warranty))
                 .build();
-        detailsDialog.showDialog();
-        detailsDialog.setDialogType(WarrantyRegistrationConstants.WARRANTY_TYPE);
-        detailsDialog.setCancelable(true);
+        cardViewAlertDialog.setDialogType(DialogTypeConstants.WARRANTY_TYPE);
+        cardViewAlertDialog.showDialog();
+        cardViewAlertDialog.setCancelable(true);
     }
 
     private void showExtendedWarrantyDialog() {

@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/BothMatch"
-    android:background="@drawable/dialog_shadow"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/dialog_title_textView"
-        style="@style/header_text_view"
-        fontPath="fonts/OpenSans-Bold.ttf"
-        android:text="@string/action_description" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/margin_10">
+        android:id="@+id/base_layout"
+        style="@style/BothMatch"
+        android:background="@drawable/dialog_shadow"
+        android:orientation="vertical">
 
-        <!--invoice card view-->
+        <!--title-->
+        <TextView
+            android:id="@+id/dialog_title_textView"
+            style="@style/header_text_view"
+            fontPath="fonts/OpenSans-Bold.ttf" />
+
+        <!--card view-->
         <android.support.v7.widget.CardView
-            android:id="@+id/invoice_base"
+            android:id="@+id/card_view"
             style="@style/MatchWrap"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/margin_8"
@@ -27,29 +24,36 @@
             android:layout_marginTop="@dimen/margin_8"
             app:cardCornerRadius="@dimen/corner_radius">
 
-            <ScrollView
+
+            <LinearLayout
+                android:id="@+id/desc_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_5"
+                android:gravity="center"
+                android:minHeight="80dp"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_10">
 
-                <LinearLayout
-                    android:id="@+id/desc_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_10"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-            </ScrollView>
+            </LinearLayout>
         </android.support.v7.widget.CardView>
 
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_10" />
+
+        <!--bottombar buttons layout-->
         <LinearLayout
             android:id="@+id/button_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="@dimen/margin_30"
-            android:layout_marginRight="@dimen/margin_30"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_marginTop="@dimen/margin_20"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <Button
@@ -74,5 +78,4 @@
         </LinearLayout>
 
     </LinearLayout>
-</LinearLayout>
-
+</layout>
