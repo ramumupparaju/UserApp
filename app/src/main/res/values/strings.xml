@@ -32,7 +32,7 @@
     <string name="bottom_option_Call">Call</string>
     <string name="bottom_option_call_customer_care">Call customer care</string>
     <string name="bottom_option_find_service_center">Find service center</string>
-    <string name="bottom_option_un_authorized">Un Authorize</string>
+    <string name="bottom_option_un_authorized">Non-Authorize</string>
     <string name="bottom_option_authorized">Authorize</string>
     <string name="bottom_option_service_request">Service request</string>
     <string name="bottom_option_location">Location</string>
@@ -130,7 +130,7 @@
     <string name="action_female">Female</string>
 
     <string name="label_expired">Expired</string>
-    <string name="label_product_status">Product status</string>
+    <string name="label_product_status">Product delivery status</string>
     <string name="label_service_requests">Service Requests</string>
 
     <!--product Assign-->
@@ -491,7 +491,7 @@
     <!--Settings -->
     <string name="title_menu_change_password">Change Password</string>
     <string name="title_menu_change_pin">Change Pin</string>
-    <string name="title_menu_manage_unauthorize_numbers">Manage Unauthorize Numbers</string>
+    <string name="title_menu_manage_unauthorize_numbers">Non-authorized Service Engineers</string>
     <string name="title_menu_profile">Profile</string>
     <string name="title_menu_store_settings">Store Settings</string>
     <string name="title_menu_bill_format">Bill Format</string>
@@ -526,9 +526,10 @@
     <string name="title_scan">Scan</string>
     <string name="title_warranty_register">Warranty Registration</string>
     <string name="title_add_new_model">New Model</string>
-    <string name="title_custom_product">Custom Product</string>
-    <string name="title_add_product">Add Product</string>
+    <string name="title_custom_product">Old products</string>
+    <string name="title_add_product">Product from purchased history</string>
     <string name="title_add_location">Add Location</string>
+    <string name="title_location">Location</string>
     <string name="title_status">Status</string>
     <string name="title_updates">UpDates</string>
     <string name="title_qr_code_scanner">QR Code Scanner</string>

@@ -142,24 +142,18 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
 
         ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(productSelectedPosition);
 
+        tagsArray.add(R.id.PRODUCT);
+        textArray.add(getString(R.string.bottom_option_product));
+        drawablesArray.add(R.drawable.ic_option_product);
 
         tagsArray.add(R.id.SUPPORT);
         textArray.add(getString(R.string.bottom_option_service));
         drawablesArray.add(R.drawable.ic_option_service_support);
 
-        tagsArray.add(R.id.PRODUCT);
-        textArray.add(getString(R.string.bottom_option_product));
-        drawablesArray.add(R.drawable.ic_option_product);
-
         tagsArray.add(R.id.SHOWROOM);
         textArray.add(getString(R.string.bottom_option_showroom));
         drawablesArray.add(R.drawable.ic_option_customer);
 
-        if (productInfoResponse.getAddressId() == null) { //checking whether it is already added as favorite or not
-            tagsArray.add(R.id.FAVORITE);
-            textArray.add(getString(R.string.bottom_option_add_as_favorite));
-            drawablesArray.add(R.drawable.ic_user_favorite);
-        }
 
         bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
         bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
@@ -209,6 +203,13 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 tagsArray.add(R.id.PRODUCT_PAST_HISTORY);
                 drawablesArray.add(R.drawable.ic_option_pasthistory);
 
+                ProductInfoResponse productInfoResponse = purchasedAdapter.getItemFromPosition(productSelectedPosition);
+                if (productInfoResponse.getAddressId() == null) { //checking whether it is already added as favorite or not
+                    tagsArray.add(R.id.FAVORITE);
+                    textArray.add(getString(R.string.bottom_option_add_as_favorite));
+                    drawablesArray.add(R.drawable.ic_user_favorite);
+                }
+
                 textArray.add(getString(R.string.bottom_option_share));
                 tagsArray.add(R.id.PRODUCT_SHARE);
                 drawablesArray.add(R.drawable.ic_option_share);
@@ -243,8 +244,6 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 tagsArray.add(R.id.SHOWROOM_FEEDBACK);
                 drawablesArray.add(R.drawable.ic_option_feedback);
 
-            } else if (tag == R.id.FAVORITE) {
-                showFavoriteOptionsDialog();
             }
             bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.secondRow.setVisibility(View.VISIBLE);
@@ -381,8 +380,7 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 drawablesArray.add(R.drawable.ic_option_details);
 
             } else if (tag == R.id.PRODUCT_WARRANTY) {
-                showWarrantyDialog(getString(
-                        R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(productInfoResponse, getActivity()));
+                showWarrantyDialog(getString(R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(productInfoResponse, getActivity()));
                 return;
 
             } else if (tag == R.id.PRODUCT_BILL) {
@@ -390,6 +388,8 @@ public class PurchasedFragment extends BasePurchasedFavoritesFragment implements
                 return;
             } else if (tag == R.id.PRODUCT_PAST_HISTORY) {
                 doProductPastHistoryApi();
+            }else if (tag == R.id.FAVORITE) {
+                showFavoriteOptionsDialog();
             } else if (tag == R.id.PRODUCT_SHARE) {
                 shareProductDetails(productInfoResponse);
                 return;

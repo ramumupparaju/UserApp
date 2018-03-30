@@ -92,8 +92,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     }
 
     private void initFabs() {
-        final FloatingActionButton programFab1 = new FloatingActionButton(getActivity());
-        programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
         favoritesBinding.fab.showMenuButton(true);
         favoritesBinding.fab.setClosedOnTouchOutside(true);
     }
@@ -286,14 +284,13 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         ArrayList<String> textArray = new ArrayList<>();
         ArrayList<Integer> tagsArray = new ArrayList<>();
 
+        textArray.add(getString(R.string.bottom_option_product));
+        tagsArray.add(R.id.PRODUCT);
+        drawablesArray.add(R.drawable.ic_option_product);
 
         textArray.add(getString(R.string.bottom_option_service));
         tagsArray.add(R.id.SUPPORT);
         drawablesArray.add(R.drawable.ic_option_service_support);
-
-        textArray.add(getString(R.string.bottom_option_product));
-        tagsArray.add(R.id.PRODUCT);
-        drawablesArray.add(R.drawable.ic_option_product);
 
         ProductInfoResponse productInfoResponse = favoritesAdapter.getItemFromPosition(productSelectedPosition);
         if (!productInfoResponse.getCustomProductFlag().equalsIgnoreCase(CUSTOM)) {

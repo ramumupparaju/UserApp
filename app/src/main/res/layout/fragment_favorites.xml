@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> favorites.onLocationAddClick()}"
                 android:src="@drawable/add_new_icon"
-                fab:fab_label="@string/title_add_location"
+                fab:fab_label="@string/title_location"
                 fab:fab_size="mini" />
 
         </com.github.clans.fab.FloatingActionMenu>
