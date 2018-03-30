@@ -125,7 +125,7 @@ public class AppUtils {
         String warrantyEndDate = DateUtils.convertMillisToStringFormat(
                 itemFromPosition.getWarrantyEndDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY);
         long noOfDays = DateUtils.convertDifferenceDateIndays(
-                itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
+                itemFromPosition.getExtendedWarrantyEndDate() == null ? itemFromPosition.getWarrantyEndDate() : itemFromPosition.getExtendedWarrantyEndDate(), System.currentTimeMillis());
         String warrantyConditions = itemFromPosition.getWarrantyConditions();
 
 
