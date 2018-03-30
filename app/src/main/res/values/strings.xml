@@ -36,8 +36,8 @@
     <string name="bottom_option_authorized">Authorize</string>
     <string name="bottom_option_service_request">Service request</string>
     <string name="bottom_option_location">Location</string>
-    <string name="bottom_option_timings">Timings</string
-        >
+    <string name="bottom_option_timings">Timings</string>
+    <string name="label_receivers_phone_number">Receiver\'s phone number</string>
     <string name="bottom_option_info">Info</string>
     <string name="bottom_option_nick_name">Nick Name</string>
     <string name="bottom_option_location_change">Location Change</string>

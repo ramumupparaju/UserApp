@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/base_layout"
         style="@style/MatchWrap"
-        android:background="@drawable/dialog_shadow"
-        android:minHeight="80dp">
+        android:background="@drawable/dialog_background"
+        android:orientation="vertical">
 
         <!--title-->
         <TextView
@@ -13,26 +14,31 @@
             fontPath="fonts/OpenSans-Bold.ttf" />
 
 
-        <!--edit text to edit-->
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/edittext_comments"
-            style="@style/MatchWrap"
-            android:layout_below="@id/dialog_title_textView"
-            android:layout_weight="1"
-            android:paddingEnd="2dp"
-            android:paddingStart="2dp"
-            android:scrollbars="vertical"
-            android:text=""
-            android:textColor="@color/colorForgotPasswordHintText"
-            android:textSize="14sp" />
-
-        <!-- layout for bottom buttons -->
-        <include
-            android:id="@+id/include_register_bottom_buttons"
-            layout="@layout/view_registration_bottom_buttons"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="47dp"
-            android:layout_below="@id/edittext_comments" />
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_10"
+            android:orientation="vertical">
 
-    </RelativeLayout>
+            <!--edit text to edit-->
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edittext_comments"
+                style="@style/MatchWrap"
+                android:layout_weight="1"
+                android:paddingEnd="2dp"
+                android:paddingStart="2dp"
+                android:scrollbars="vertical"
+                android:text=""
+                android:textColor="@color/colorForgotPasswordHintText"
+                android:textSize="14sp" />
+
+
+            <!-- layout for bottom buttons -->
+            <include
+                android:id="@+id/include_register_bottom_buttons"
+                layout="@layout/view_registration_bottom_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="32dp" />
+        </LinearLayout>
+    </LinearLayout>
 </layout>

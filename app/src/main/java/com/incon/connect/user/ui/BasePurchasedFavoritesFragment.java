@@ -251,6 +251,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 }).title(getString(R.string.bottom_option_transfer))
                 .leftButtonText(getString(R.string.action_cancel))
                 .rightButtonText(getString(R.string.action_submit))
+                .hintText(getString(R.string.label_receivers_phone_number))
                 .build();
         transferDialog.showDialog();
     }

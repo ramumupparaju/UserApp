@@ -44,7 +44,7 @@ public class AppEditTextDialog extends Dialog implements View.OnClickListener {
         ViewEditTextDialogBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(context), R.layout.view_edit_text_dialog, null, false);
         View contentView = binding.getRoot();
-        RelativeLayout.LayoutParams crlp = (RelativeLayout.LayoutParams) binding.dialogTitleTextView.getLayoutParams();
+        LinearLayout.LayoutParams crlp = (LinearLayout.LayoutParams) binding.dialogTitleTextView.getLayoutParams();
         crlp.width = (int) (Resources.getSystem().getDisplayMetrics().widthPixels * 0.8);
 
         editTextNotes = binding.edittextComments;
