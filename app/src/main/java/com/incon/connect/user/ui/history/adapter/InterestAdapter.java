@@ -47,22 +47,25 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
 
         public void bind(ProductInfoResponse interestHistoryResponse, int position) {
             binding.setVariable(BR.productinforesponse, interestHistoryResponse);
-
             binding.interestDate.setText(DateUtils.convertMillisToStringFormat(interestHistoryResponse.getRequestedDate()
-                    , AppConstants.DateFormatterConstants.DD_MM_YYYY));
+                    , AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
 
-            //TODO have to move constant
+            //TODO have to remove constant
             String status = interestHistoryResponse.getStatus();
             if (!TextUtils.isEmpty(status)) {
                 if (status.equalsIgnoreCase(AppConstants.StatusConstants.PENDING)) {
                     status = "Request pending";
                 } else if (status.equalsIgnoreCase(AppConstants.StatusConstants.BUY_REQUEST_ACCEPT)) {
-                    status = "Request accepted";
+                    status = "Waiting for warranty registration";
                 } else if (status.equalsIgnoreCase(AppConstants.StatusConstants.BUY_REQUEST_REJECT)) {
                     status = "Request rejected";
                 } else {
-                    status = "";
+                    status = "for testing";
                 }
+            }
+            // todo have to check
+            if (!TextUtils.isEmpty(status)) {
+                status = status.trim();
             }
             if (TextUtils.isEmpty(status)) {
                 binding.statusTv.setVisibility(View.GONE);
@@ -70,8 +73,11 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
                 binding.statusTv.setVisibility(View.VISIBLE);
                 binding.statusTv.setText("Status:" + status);
             }
-
+            // todo have to check
             String merchantComments = interestHistoryResponse.getMerchantComments();
+            if (!TextUtils.isEmpty(merchantComments)) {
+                merchantComments = merchantComments.trim();
+            }
             if (TextUtils.isEmpty(merchantComments)) {
                 binding.commentTv.setVisibility(View.INVISIBLE);
             } else {
@@ -82,8 +88,12 @@ public class InterestAdapter extends BaseRecyclerViewAdapter {
             AppUtils.loadImageFromApi(binding.productImageview, interestHistoryResponse
                     .getProductImageUrl());
 
+            if (interestHistoryResponse.isSelected()) {
+                binding.viewsLayout.setVisibility(View.VISIBLE);
+            } else {
+                binding.viewsLayout.setVisibility(View.GONE);
+            }
 
-            binding.viewsLayout.setVisibility(interestHistoryResponse.isSelected() ? View.VISIBLE : View.GONE);
             binding.executePendingBindings();
         }
 

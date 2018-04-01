@@ -23,19 +23,19 @@
         <RelativeLayout
             android:id="@+id/layout_purchsed_item"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="100dp"
+            >
 
             <RelativeLayout
                 android:id="@+id/main_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/margin_8">
+                style="@style/BothMatch">
 
                 <!--brand image-->
                 <ImageView
                     android:id="@+id/brand_imageview"
                     android:layout_width="45dp"
                     android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/margin_10"
                     android:alpha="70" />
 
                 <!--product image-->
@@ -49,6 +49,7 @@
                 <TextView
                     android:id="@+id/product_name"
                     style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_7"
                     fontPath="fonts/OpenSans-Bold.ttf"
                     android:layout_toLeftOf="@id/status_layout"
                     android:layout_toRightOf="@id/product_imageview"
@@ -58,10 +59,21 @@
                     android:textSize="12.4sp" />
 
                 <TextView
+                    android:id="@+id/product_nick_name"
+                    style="@style/BothWrap"
+                    android:layout_below="@+id/product_name"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:layout_toLeftOf="@id/status_layout"
+                    android:layout_toRightOf="@id/product_imageview"
+                    android:maxLines="2"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="10sp" />
+
+                <TextView
                     android:id="@+id/warranty_period"
                     style="@style/MatchWrap"
                     android:layout_above="@+id/warranty_layout"
-                    android:layout_marginRight="@dimen/margin_5"
+                    android:layout_marginRight="@dimen/margin_10"
                     android:layout_toRightOf="@id/product_imageview"
                     android:gravity="right"
                     android:maxLines="1"
@@ -75,6 +87,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="6dp"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_marginBottom="@dimen/margin_10"
                     android:layout_toRightOf="@id/product_imageview">
 
                     <View
@@ -87,22 +101,22 @@
                         android:id="@+id/progress_status_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/btn_stroke_white" />
+                        android:background="@drawable/btn_stroke_white"
+                        />
                 </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/status_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <!--warranty icon-->
                     <ImageView
                         android:id="@+id/warrenty_icon"
-                        android:layout_width="8dp"
-                        android:layout_height="8dp" />
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
 

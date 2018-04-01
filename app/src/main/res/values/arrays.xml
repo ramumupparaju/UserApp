@@ -7,6 +7,7 @@
         <item>@string/tab_purchased</item>
         <item>@string/tab_interest</item>
         <item>@string/tab_return</item>
+        <item>@string/tab_showroom</item>
     </string-array>
 
     <!-- Gender dropdown options -->
@@ -38,6 +39,8 @@
     <string-array
         name="side_menu_items_list">
         <item>@string/title_menu_change_password</item>
+        <item>@string/title_menu_change_pin</item>
+        <item>@string/title_menu_manage_unauthorize_numbers</item>
         <item>@string/title_menu_logout</item>
 
     </string-array>

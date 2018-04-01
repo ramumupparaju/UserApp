@@ -22,8 +22,6 @@ public interface PurchasedContract {
 
         void loadAddresses(List<AddUserAddressResponse> favoritesResponseList);
 
-        void addedToFavorite();
-
         void transferMobileNumber(Object response);
 
         void deleteProduct(Object response);
@@ -35,6 +33,13 @@ public interface PurchasedContract {
         void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> listOfServiceCenters);
 
         void addedServiceEngineer(ProductInfoResponse productInfoResponse);
+
+        void addedToFavorite();
+
+        void productReviews();
+
+        void saveReviews(Object saveReviews);
+
     }
 
     interface Presenter {
@@ -42,15 +47,19 @@ public interface PurchasedContract {
 
         void doGetAddressApi(int userId);
 
-        void doTransferProductApi(String phoneNumber, int userId);
+        void doTransferProductApi(String phoneNumber, String warrantyId);
 
         void addToFavotites(HashMap<String, String> favoritesMap);
 
+        void saveReviewsApi(HashMap<String, String> reviewsMap);
+
         void deleteProduct(int userId);
+
+        void reviewToProduct(int userId);
 
         void serviceRequest(ServiceRequest serviceRequest);
 
-        void nearByServiceCenters(int brandId);
+        void nearByServiceCenters(String type, int brandId, int userId);
 
         void getUsersListOfServiceCenters(int serviceCenterId);
 

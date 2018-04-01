@@ -81,7 +81,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
         SharedPrefsUtils.cacheProvider().setBooleanPreference(CachePrefs.IS_SCAN_FIRST, true);
 
-        binding.bottomNavigationView.setCurrentItem(TAB_SCAN);
+        binding.bottomNavigationView.setCurrentItem(TAB_HISTORY);
 
         //changed preference as otp verified
         SharedPrefsUtils.loginProvider().setBooleanPreference(LoginPrefs.IS_REGISTERED, false);

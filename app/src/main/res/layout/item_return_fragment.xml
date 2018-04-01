@@ -16,70 +16,76 @@
         android:layout_marginBottom="@dimen/margin_3"
         android:layout_marginLeft="@dimen/margin_8"
         android:layout_marginRight="@dimen/margin_8"
-        android:layout_marginTop="@dimen/margin_3"
+        android:layout_marginTop="@dimen/margin_5"
         app:cardCornerRadius="@dimen/corner_radius">
 
-    <RelativeLayout
-        android:id="@+id/layout_return_item"
-        android:layout_width="match_parent"
-        android:layout_height="90dp">
+        <RelativeLayout
+            android:id="@+id/layout_return_item"
+            android:layout_width="match_parent"
+            android:layout_height="90dp">
 
-        <!--brand image-->
-        <ImageView
-            android:id="@+id/brand_imageview"
-            android:layout_width="45dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="@dimen/margin_10"
-            android:alpha="70" />
+            <RelativeLayout
+                style="@style/BothMatch"
+                >
 
-        <!--product image-->
-        <ImageView
-            android:id="@+id/product_imageview"
-            style="@style/image_product_icon"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/brand_imageview" />
-
-        <!--product name-->
-        <TextView
-            android:id="@+id/product_name"
-            style="@style/BothWrap"
-            fontPath="fonts/OpenSans-Bold.ttf"
-            android:layout_marginTop="@dimen/margin_5"
-            android:layout_toLeftOf="@id/status_layout"
-            android:layout_toRightOf="@id/product_imageview"
-            android:maxLines="2"
-            android:text="@={productinforesponse.productName}"
-            android:textAllCaps="true"
-            android:textColor="@color/ebony_clay"
-            android:textSize="12.4sp" />
-
-        <!--product return date-->
-        <TextView
-            android:id="@+id/return_date"
-            style="@style/BothWrap"
-            android:layout_width="80dp"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@id/product_imageview"
-            android:textColor="@color/ebony_clay"
-            android:textSize="12.4sp" />
-
-        <LinearLayout
-            android:id="@+id/status_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin_10"
-            android:layout_marginTop="@dimen/margin_5"
-            android:gravity="center"
-            android:orientation="vertical">
-            <!--warranty icon-->
+            <!--brand image-->
             <ImageView
-                android:src="@drawable/warranty"
-                android:id="@+id/warrenty_icon"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_marginTop="@dimen/margin_5" />
-        </LinearLayout>
+                android:id="@+id/brand_imageview"
+                android:layout_width="45dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:alpha="70" />
+
+            <!--product image-->
+            <ImageView
+                android:id="@+id/product_imageview"
+                style="@style/image_product_icon"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/brand_imageview" />
+
+            <LinearLayout
+                style="@style/BothWrap"
+                android:layout_toRightOf="@id/product_imageview"
+                android:orientation="vertical">
+                <!--product name-->
+                <TextView
+                    android:id="@+id/product_name"
+                    style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_7"
+                    fontPath="fonts/OpenSans-Bold.ttf"
+                    android:maxLines="2"
+                    android:text="@={productinforesponse.productName}"
+                    android:textAllCaps="true"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="12.4sp" />
+
+                <!--product model-->
+                <TextView
+                    android:id="@+id/product_model"
+                    android:layout_marginTop="@dimen/margin_3"
+                    style="@style/BothWrap"
+                    android:maxLines="1"
+                    android:text="@{`Mod No : ` + productinforesponse.modelNumber}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="10sp" />
+
+                <!--product return date-->
+                <TextView
+                    android:id="@+id/return_date"
+                    android:layout_marginTop="@dimen/margin_3"
+                    style="@style/BothWrap"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+
         </RelativeLayout>
+        <!--Dummy view for showing selection-->
+        <ImageView
+            android:id="@+id/views_layout"
+            style="@style/BothMatch"
+            android:background="@color/alpha_corn_flower_blue" />
+    </RelativeLayout>
+
     </android.support.v7.widget.CardView>
 </layout>

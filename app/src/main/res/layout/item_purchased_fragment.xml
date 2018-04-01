@@ -26,15 +26,14 @@
             android:layout_height="100dp">
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/margin_8">
+                style="@style/BothMatch">
 
                 <!--brand image-->
                 <ImageView
                     android:id="@+id/brand_imageview"
                     android:layout_width="45dp"
                     android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/margin_10"
                     android:alpha="70" />
 
                 <!--product image-->
@@ -48,6 +47,7 @@
                 <TextView
                     android:id="@+id/product_name"
                     style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_7"
                     fontPath="fonts/OpenSans-Bold.ttf"
                     android:layout_toLeftOf="@id/status_layout"
                     android:layout_toRightOf="@id/product_imageview"
@@ -61,17 +61,30 @@
                 <TextView
                     android:id="@+id/model_number_tv"
                     style="@style/BothWrap"
+                    android:layout_marginTop="@dimen/margin_3"
                     android:layout_below="@id/product_name"
                     android:layout_toRightOf="@id/product_imageview"
-                    android:text="@{`Mod No :` + productinforesponse.modelNumber}"
+                    android:text="@{`Mod No : ` + productinforesponse.modelNumber}"
+                    android:textColor="@color/ebony_clay"
+                    android:textSize="10sp" />
+
+                <!--price -->
+                <TextView
+                    android:id="@+id/text_price"
+                    android:layout_marginTop="@dimen/margin_3"
+                    style="@style/BothWrap"
+                    android:layout_below="@id/model_number_tv"
+                    android:layout_toRightOf="@id/product_imageview"
+                    android:text="@{'\u20B9' + productinforesponse.price}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="10sp" />
 
                 <!--product purchased date-->
                 <TextView
                     android:id="@+id/purchased_date"
+                    android:layout_marginTop="@dimen/margin_3"
                     style="@style/BothWrap"
-                    android:layout_width="80dp"
+                    android:layout_below="@+id/text_price"
                     android:layout_alignParentBottom="true"
                     android:layout_toRightOf="@id/product_imageview"
                     android:textColor="@color/ebony_clay"
@@ -83,43 +96,44 @@
                     style="@style/MatchWrap"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="@dimen/margin_3"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_marginBottom="@dimen/margin_5"
                     android:layout_toRightOf="@id/purchased_date"
                     android:ellipsize="end"
                     android:gravity="right"
                     android:maxLines="1"
                     android:text="@{productinforesponse.storeName}"
                     android:textColor="@color/black"
-                    android:textSize="12.4sp" />
+                    android:textSize="10sp" />
 
                 <LinearLayout
                     android:id="@+id/status_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <!--favorite icon-->
                     <ImageView
                         android:id="@+id/favourite_icon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginBottom="@dimen/margin_5"
+                        android:layout_marginTop="@dimen/margin_5"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginRight="@dimen/margin_5"
                         android:src="@drawable/fav" />
 
                     <!--warranty icon-->
                     <ImageView
                         android:id="@+id/warrenty_icon"
-                        android:layout_width="8dp"
-                        android:layout_height="8dp" />
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
             </RelativeLayout>
             <!--Dummy view for showing selection-->
             <ImageView
                 android:id="@+id/views_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                style="@style/BothMatch"
                 android:background="@color/alpha_corn_flower_blue" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>

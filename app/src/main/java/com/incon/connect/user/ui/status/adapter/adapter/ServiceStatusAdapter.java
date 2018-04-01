@@ -11,20 +11,16 @@ import android.widget.LinearLayout;
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
-import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.ServiceRequest;
-import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.status.StatusList;
-import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.IStatusClickCallback;
 import com.incon.connect.user.databinding.ItemServiceStatusListBinding;
 import com.incon.connect.user.databinding.StatusViewBinding;
 
 import java.util.List;
 
-import static com.incon.connect.user.AppUtils.getDrawableFromRequestId;
 import static com.incon.connect.user.AppUtils.getStatusName;
 
 /**
@@ -34,9 +30,9 @@ import static com.incon.connect.user.AppUtils.getStatusName;
 public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdapter.ViewHolder>
         implements AppConstants.StatusDrawables {
 
-    private Context context;
     private List<ServiceStatus> serviceStatusList;
     private IStatusClickCallback clickCallback;
+    private Context context;
 
     public void setClickCallback(IStatusClickCallback clickCallback) {
         this.clickCallback = clickCallback;
@@ -75,7 +71,6 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ItemServiceStatusListBinding binding;
 
-
         public ViewHolder(ItemServiceStatusListBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -86,12 +81,10 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
         }
 
         public void bind(ServiceStatus serviceStatus, int position) {
-            binding.setVariable(BR.modelResponse, serviceStatus);
+            binding.setVariable(BR.productinforesponse, serviceStatus);
 
-            //TODO remove hard coding
-            binding.nameTv.setText("Service Center:" + serviceStatus.getServiceCenter().getName() +
-                    ", model name: " + serviceStatus.getProduct().getName());
-
+            AppUtils.loadImageFromApi(binding.brandImageview, serviceStatus.getProduct().getLogoUrl());
+            AppUtils.loadImageFromApi(binding.productImageview, serviceStatus.getProduct().getImageUrl());
 
             List<StatusList> statusList = serviceStatus.getStatusList();
             if (statusList != null && statusList.size() > 0) {
@@ -142,12 +135,8 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
                 LinearLayout linearLayout = new LinearLayout(context);
                 StatusViewBinding statusView = getStatusView();
                 statusView.viewTv.setText(getStatusName(serviceRequest.getStatus()));
-                statusView.viewLogo.setImageResource(getDrawableFromRequestId(serviceRequest.getStatus()));
-                if (i == size - 1) {
-                    statusView.viewLine.setVisibility(View.GONE);
-                } else {
-                    statusView.viewLine.setVisibility(View.VISIBLE);
-                }
+                statusView.viewLeftLine.setVisibility(i == 0 ? View.INVISIBLE : View.VISIBLE);
+                statusView.viewRightLine.setVisibility(i == size - 1 ? View.INVISIBLE : View.VISIBLE);
                 View statusRootView = statusView.getRoot();
                 statusRootView.setOnClickListener(onClickListener);
                 statusRootView.setTag(statusData.getServiceCenter().getContactNo());

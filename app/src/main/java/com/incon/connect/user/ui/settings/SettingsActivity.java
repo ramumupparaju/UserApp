@@ -7,7 +7,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BuildConfig;
 import com.incon.connect.user.R;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
@@ -17,9 +16,10 @@ import com.incon.connect.user.databinding.ActivitySettingsBinding;
 import com.incon.connect.user.dto.settings.SettingsItem;
 import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.changepassword.ChangePasswordActivity;
-import com.incon.connect.user.ui.home.HomeActivity;
+import com.incon.connect.user.ui.pin.CustomPinActivity;
+import com.incon.connect.user.ui.pin.managers.AppLock;
 import com.incon.connect.user.ui.settings.adapters.SettingsAdapter;
-import com.incon.connect.user.ui.settings.billformat.SettingsBillFormatActivity;
+import com.incon.connect.user.ui.settings.unauthorizenumbers.UnauthorizeSEListActivity;
 import com.incon.connect.user.ui.settings.update.UpDateUserProfileActivity;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
@@ -29,7 +29,6 @@ import static com.incon.connect.user.AppConstants.LoginPrefs.USER_NAME;
 
 /**
  * Created on 26 Jul 2017 3:47 PM.
- *
  */
 public class SettingsActivity extends BaseActivity implements SettingsContract.View,
         IClickCallback {
@@ -60,8 +59,7 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
         binding.toolbarLeftIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent backToHome = new Intent(SettingsActivity.this, HomeActivity.class);
-                startActivity(backToHome);
+                finish();
             }
         });
 
@@ -89,7 +87,9 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
     private void prepareMenuData() {
 
         int[] icons = {R.drawable.ic_menu_change_password,
-                R.drawable.ic_menu_logout_svg };
+                R.drawable.ic_menu_change_password,
+                R.drawable.ic_menu_change_password,
+                R.drawable.ic_menu_logout_svg};
         String[] menuTitles = getResources().getStringArray(R.array.side_menu_items_list);
 
         menuItems = new ArrayList<>();
@@ -119,7 +119,6 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
     }
 
 
-
     @Override
     public void onClickPosition(int position) {
         switch (position) {
@@ -132,6 +131,19 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
                 startActivity(changePasswordIntent);
                 break;
 
+            case MenuConstants.CHANGE_PIN:
+                Intent pinIntent = new Intent(this, CustomPinActivity.class);
+                pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.CHANGE_PIN);
+                startActivity(pinIntent);
+
+                break;
+
+            case MenuConstants.MANAGE_UNAUTHORIZE_NUMBERS:
+                Intent unauthorizeNumbers = new Intent(this, UnauthorizeSEListActivity.class);
+                startActivity(unauthorizeNumbers);
+                break;
+
+
             case MenuConstants.LOGOUT:
                 showLogoutDialog();
                 break;
@@ -140,6 +152,8 @@ public class SettingsActivity extends BaseActivity implements SettingsContract.V
                 break;
         }
     }
+
+
 
 
     private void showLogoutDialog() {

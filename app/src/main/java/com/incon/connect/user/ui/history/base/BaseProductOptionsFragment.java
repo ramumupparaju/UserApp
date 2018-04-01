@@ -3,6 +3,7 @@ package com.incon.connect.user.ui.history.base;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -22,16 +23,30 @@ import android.widget.TextView;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
+import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.databinding.BottomSheetPurchasedBinding;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.utils.DeviceUtils;
 import com.incon.connect.user.utils.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public abstract class BaseProductOptionsFragment extends BaseFragment {
 
+
+    // share product details
+    public void shareProductDetails(ProductInfoResponse productInfoResponse) {
+
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/html");
+
+        String contentToShare = String.format("Name: %1$s\n%2$s\nPrice%3$s", productInfoResponse.getModelNumber(), productInfoResponse.getInformation()
+                , productInfoResponse.getMrp());
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, contentToShare);
+        startActivity(Intent.createChooser(sharingIntent, "Share using"));
+    }
 
     @Override
     public void showErrorMessage(String errorMessage) {
@@ -124,8 +139,8 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
      * @param imagesArray
      * @param onClickListener
      */
-    public void setBottomViewOptions(LinearLayout parentLayout, String[] namesArray, int[] imagesArray,int[] tagsArray, View.OnClickListener onClickListener) {
-        int length = namesArray.length;
+    public void setBottomViewOptions(LinearLayout parentLayout, ArrayList<String> namesArray, ArrayList<Integer> imagesArray, ArrayList<Integer> tagsArray, View.OnClickListener onClickListener) {
+        int length = namesArray.size();
 
         boolean isScrollAdded = length > 5 ? true : false;
         HorizontalScrollView horizontalScrollView = null;
@@ -141,10 +156,10 @@ public abstract class BaseProductOptionsFragment extends BaseFragment {
         for (int i = 0; i < length; i++) {
             LinearLayout customBottomView = getCustomBottomView(isScrollAdded);
 
-            getBottomTextView(customBottomView).setText(namesArray[i]);
-            getBottomImageView(customBottomView).setImageResource(imagesArray[i]);
+            getBottomTextView(customBottomView).setText(namesArray.get(i));
+            getBottomImageView(customBottomView).setImageResource(imagesArray.get(i));
 
-            customBottomView.setTag(tagsArray[i]);
+            customBottomView.setTag(tagsArray.get(i));
             customBottomView.setOnClickListener(onClickListener);
             if (horizontalScrollView != null) {
                 linearLayout.addView(customBottomView);

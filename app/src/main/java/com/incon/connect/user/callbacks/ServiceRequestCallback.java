@@ -10,7 +10,7 @@ public interface ServiceRequestCallback extends AlertDialogCallback {
 
     void getUsersListFromServiceCenterId(int serviceCenterId);
     void dateClicked(String date);
-    void timeClicked();
+    void timeClicked(String selectedDate);
     void enteredText(String comment);
 
     void doServiceRequestApi(ServiceRequest serviceRequest);

@@ -63,6 +63,18 @@ public class AddCustomProductModel extends BaseObservable {
     private transient String brandName;
     private transient String dateOfPurchased;
     private transient String warrantyShow;
+    private transient String extendedWarranty;
+
+    @Bindable
+    public String getExtendedWarranty() {
+        return extendedWarranty;
+    }
+
+    public void setExtendedWarranty(String extendedWarranty) {
+        this.extendedWarranty = extendedWarranty;
+        notifyChange();
+    }
+
 
     @Bindable
     public String getWarrantyShow() {
@@ -271,12 +283,12 @@ public class AddCustomProductModel extends BaseObservable {
 
     private int validateFields(int id, boolean emptyValidation) {
         switch (id) {
-            case 0:
+           /* case 0:
                 boolean modelEmpty = TextUtils.isEmpty(productModel);
                 if (emptyValidation && modelEmpty) {
                     return AppConstants.AddNewModelValidation.MODEL;
                 }
-                break;
+                break;*/
 
             case 1:
                 boolean nameEmpty = TextUtils.isEmpty(name);

@@ -3,6 +3,9 @@ package com.incon.connect.user.apimodel.components.productinforesponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
+import com.incon.connect.user.apimodel.components.status.StatusList;
+
+import java.util.List;
 
 public class ProductStatus {
 
@@ -50,5 +53,6 @@ return isActive;
 public void setIsActive(Integer isActive) {
 this.isActive = isActive;
 }
+
 
 }

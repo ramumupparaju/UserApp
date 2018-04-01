@@ -12,6 +12,8 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.google.com' }
+
 }
 
 
@@ -19,6 +21,14 @@ apply plugin: 'checkstyle'
 apply from: 'configuration.gradle'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'bogavalli'
+            keyPassword 'B0gavalli'
+            storeFile file('C:/Users/MY HOME//Desktop/connect/keystore.jks')
+            storePassword 'B0gavalli'
+        }
+    }
     flavorDimensions "default"
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion
@@ -39,7 +49,6 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
-
     useLibrary 'org.apache.http.legacy'
     buildTypes {
         debug {
@@ -48,29 +57,27 @@ android {
         }
         release {
             resValue 'string', 'default_key', "Basic Y29ubmVjdDpzM2NyZXQ="
-
-            buildConfigField 'String', 'SERVICE_ENDPOINT', "\"http://ec2-13-126-102-199.ap-south-1.compute.amazonaws.com:8443/connect/\""
             buildConfigField 'boolean', 'LOG_VALUE', 'true'
             resValue "string", "app_name", "Connect User"
-
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     productFlavors {
 
         connect_staging {
-            resValue "string", "app_name", "Connect User dev"
+            resValue "string", "app_name", "Connect User Stage"
 
-            buildConfigField 'String', 'SERVICE_ENDPOINT', "\"http://ec2-52-11-96-200.us-west-2.compute.amazonaws.com:9898/connect/\""
+            buildConfigField 'String', 'SERVICE_ENDPOINT', "\"http://13.126.102.199/connect/\""
         }
-        connect_production {
-            resValue "string", "app_name", "Connect User pro"
 
-            buildConfigField 'String', 'SERVICE_ENDPOINT', "\"http://13.126.102.199:9898/connect/\""
+        connect_live {
+            resValue "string", "app_name", "Connect User live"
+
+            buildConfigField 'String', 'SERVICE_ENDPOINT', "\"https://connect.incontechnologies.in/api/\""
         }
     }
-
     dataBinding {
         enabled = true
     }
@@ -83,7 +90,7 @@ configurations.all {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -96,30 +103,39 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${supportLibraryVersion}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+
     //MultiDex
     compile 'com.android.support:multidex:1.0.1'
+
     // retrofit
     compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
     compile "com.squareup.okhttp3:okhttp:${okhttpVersion}"
+
     //Android RX
     compile 'io.reactivex.rxjava2:rxjava:2.0.7'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+
     // To handle events from our View/UI layer
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+
     // Firebase for push notifications
     compile 'com.firebase:firebase-jobdispatcher:0.7.0'
     compile "com.google.firebase:firebase-messaging:${googlePlayVersion}"
+
     /*google maps*/
     compile "com.google.android.gms:play-services-places:${googlePlayVersion}"
     compile "com.google.android.gms:play-services-maps:${googlePlayVersion}"
     compile "com.google.android.gms:play-services-location:${googlePlayVersion}"
+
     //Dagger
     compile "com.google.dagger:dagger:${daggerVersion}"
     annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
+
     //Logging api requests and responses
     compile "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}"
+
     //Glide
     compile 'com.github.bumptech.glide:glide:4.0.0'
 
@@ -132,14 +148,27 @@ dependencies {
 
     // Bottom navigation view
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.0'
+
     // font typeface
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+
     // material spinner
     compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
+
     // shimmer effect
     compile 'com.facebook.shimmer:shimmer:0.1.0@aar'
+
     //rounded imageview
     compile 'de.hdodenhof:circleimageview:2.1.0'
+
+    //RippleView
+    compile 'com.github.traex.rippleeffect:ripple:1.3.1-OG'
+
+    //TypefaceView
+    compile 'com.github.omadahealth.typefaceview:typefaceview:1.5.0@aar' //TypefaceTextView
+
+    // fab
+    compile 'com.github.clans:fab:1.6.4'
     allprojects {
         repositories {
             maven { url "https://jitpack.io" }
@@ -148,6 +177,13 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true;
     }
+
+    /*//pin library
+    compile project(':lib')*/
+
+    //Lollipop dialogs https://github.com/lewisjdeane/L-Dialogs and buttons, animations etc...
+    compile 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
+
 }
 // ADD THIS AT THE BOTTOM
 apply plugin: 'com.google.gms.google-services'

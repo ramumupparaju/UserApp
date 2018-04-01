@@ -94,10 +94,37 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         addDisposable(observer);
     }
 
+    @Override
+    public void saveReviewsApi(HashMap<String, String> reviewsMap) {
+
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object review) {
+                        getView().saveReviews(review);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                        getView().showErrorMessage(errorDetails.second);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().saveReviewsApi(reviewsMap).subscribe(observer);
+        addDisposable(observer);
+    }
+
     // delete product
     @Override
     public void deleteProduct(int warrantyId) {
-        getView().showProgress(appContext.getString(R.string.progress_adding_to_favorites));
+        getView().showProgress(appContext.getString(R.string.progress_deleting_product));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
                     @Override
@@ -118,6 +145,32 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                     }
                 };
         AppApiService.getInstance().deleteProduct(warrantyId).subscribe(observer);
+        addDisposable(observer);
+
+    }
+
+    @Override
+    public void reviewToProduct(int userId) {
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object o) {
+                        getView().productReviews();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().reviewsApi(userId).subscribe(observer);
         addDisposable(observer);
 
     }
@@ -150,7 +203,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
     }
 
     @Override
-    public void nearByServiceCenters(int brandId) {
+    public void nearByServiceCenters(String type, int brandId, int userId) {
         getView().showProgress(appContext.getString(R.string.progress_finding_service_centers));
         DisposableObserver<List<ServiceCenterResponse>> observer = new
                 DisposableObserver<List<ServiceCenterResponse>>() {
@@ -171,7 +224,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().findNearByServiceCenters(brandId).subscribe(observer);
+        AppApiService.getInstance().findNearByServiceCenters(type, brandId, userId).subscribe(observer);
         addDisposable(observer);
     }
 
@@ -210,14 +263,16 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         favoritesPresenter.doGetAddressApi(userId);
     }
 
+
     @Override
-    public void doTransferProductApi(String phoneNumber, int userId) {
-        getView().showProgress(appContext.getString(R.string.progress_adding_to_favorites));
+    public void doTransferProductApi(String phoneNumber, String warrantyId) {
+        getView().showProgress(appContext.getString(R.string.progress_transfering_product));
         DisposableObserver<Object> observer = new
                 DisposableObserver<Object>() {
                     @Override
                     public void onNext(Object o) {
                         getView().transferMobileNumber(o);
+                        getView().hideProgress();
                     }
 
                     @Override
@@ -232,7 +287,7 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
                         getView().hideProgress();
                     }
                 };
-        AppApiService.getInstance().transferRequest(phoneNumber, userId).subscribe(observer);
+        AppApiService.getInstance().transferRequest(phoneNumber, warrantyId).subscribe(observer);
         addDisposable(observer);
     }
 
@@ -240,6 +295,11 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
         @Override
         public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
             getView().loadAddresses(favoritesResponseList);
+        }
+
+        @Override
+        public void onLocationChanged() {
+
         }
 
         @Override
@@ -267,25 +327,45 @@ public class PurchasedPresenter extends BasePresenter<PurchasedContract.View> im
 
         }
 
+        @Override
+        public void transferMobileNumber(Object response) {
+
+        }
+
+        @Override
+        public void deleteProduct(Object response) {
+        }
+
+        @Override
+        public void productReviews() {
+            getView().productReviews();
+
+        }
+
+        @Override
+        public void saveReviews(Object saveReviews) {
+            getView().saveReviews(saveReviews);
+        }
+
 
         @Override
         public void showProgress(String message) {
-
+            getView().showProgress(message);
         }
 
         @Override
         public void hideProgress() {
-
+            getView().hideProgress();
         }
 
         @Override
         public void showErrorMessage(String errorMessage) {
-
+            getView().showErrorMessage(errorMessage);
         }
 
         @Override
         public void handleException(Pair<Integer, String> error) {
-
+            getView().handleException(error);
         }
     };
 

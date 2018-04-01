@@ -1,5 +1,6 @@
 package com.incon.connect.user.ui.addnewmodel;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.text.method.KeyListener;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,6 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -27,7 +30,6 @@ import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.defaults.CategoryResponse;
 import com.incon.connect.user.apimodel.components.fetchcategorie.Brand;
-import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.search.Category;
 import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
@@ -35,14 +37,19 @@ import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.CustomAutoCompleteView;
 import com.incon.connect.user.custom.view.CustomTextInputLayout;
+import com.incon.connect.user.custom.view.PickImageDialog;
+import com.incon.connect.user.custom.view.PickImageDialogInterface;
 import com.incon.connect.user.custom.view.WarratyDialog;
 import com.incon.connect.user.databinding.FragmentAddCustomProductBinding;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
+import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.BaseFragment;
 import com.incon.connect.user.ui.addnewmodel.adapter.ModelSearchArrayAdapter;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.qrcodescan.QrcodeBarcodeScanActivity;
 import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.Logger;
+import com.incon.connect.user.utils.PermissionUtils;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent;
@@ -58,11 +65,13 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.incon.connect.user.ui.tutorial.TutorialActivity.TAG;
+
 /**
  * Created by PC on 10/4/2017.
  */
 
-public class AddCustomProductFragment extends BaseFragment implements AddCustomProductContract.View, View.OnClickListener {
+public class AddCustomProductFragment extends BaseFragment implements AddCustomProductContract.View, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private FragmentAddCustomProductBinding binding;
     private View rootView;
     private AddCustomProductPresenter addCustomProductPresenter;
@@ -75,6 +84,8 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     private int categorySelectedPos = -1;
     private int divisionSelectedPos = -1;
     private int brandSelectedPos = -1;
+    private PickImageDialog pickImageDialog;
+    private String selectedFilePath = "";
 
 
     private DisposableObserver<TextViewAfterTextChangeEvent> observer;
@@ -86,6 +97,8 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
     private HashMap<Integer, String> errorMap;
     private Animation shakeAnim;
     private WarratyDialog warratyDialog;
+    private WarratyDialog extendeWarratyDialog;
+    private KeyListener spinnerCategoryKeyListener;
 
     @Override
     protected void initializePresenter() {
@@ -110,6 +123,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             addCustomProductModel.setAddressId(bundle.getInt(BundleConstants.ADDRESS_ID));
             addCustomProductModel.setCustomerId(SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE));
             binding.setAddCustomProductModel(addCustomProductModel);
+            binding.checkboxExtened.setOnCheckedChangeListener(this);
             binding.setAddCustomProductFragment(this);
             rootView = binding.getRoot();
             initViews();
@@ -120,6 +134,110 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
     public void onWarrantyClick() {
         showWarrantyDialog();
+    }
+
+    public void onExtendedWarrantyClick() {
+        showExtendedWarrantyDialog();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+        int id = compoundButton.getId();
+        if (id == R.id.checkbox_extened) {
+            if (binding.checkboxExtened.isChecked()) {
+                binding.inputLayoutWarrantyExtended.setVisibility(View.VISIBLE);
+                showExtendedWarrantyDialog();
+            } else {
+                binding.inputLayoutWarrantyExtended.setVisibility(View.GONE);
+            }
+        }
+    }
+
+
+    public void openCameraToUpload() {
+        PermissionUtils.getInstance().grantPermission(getActivity(),
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA},
+                new PermissionUtils.Callback() {
+                    @Override
+                    public void onFinish(HashMap<String, Integer> permissionsStatusMap) {
+                        int storageStatus = permissionsStatusMap.get(
+                                Manifest.permission.CAMERA);
+                        switch (storageStatus) {
+                            case PermissionUtils.PERMISSION_GRANTED:
+                                showImageOptionsDialog();
+                                Logger.v(TAG, "location :" + "granted");
+                                break;
+                            case PermissionUtils.PERMISSION_DENIED:
+                                Logger.v(TAG, "location :" + "denied");
+                                break;
+                            case PermissionUtils.PERMISSION_DENIED_FOREVER:
+                                Logger.v(TAG, "location :" + "denied forever");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void showImageOptionsDialog() {
+        pickImageDialog = new PickImageDialog(getActivity());
+        pickImageDialog.mImageHandlingDelegate = pickImageDialogInterface;
+        pickImageDialog.initDialogLayout();
+    }
+
+    private PickImageDialogInterface pickImageDialogInterface = new PickImageDialogInterface() {
+        @Override
+        public void handleIntent(Intent intent, int requestCode) {
+            if (requestCode == RequestCodes.SEND_IMAGE_PATH) { // loading image in full screen
+                if (TextUtils.isEmpty(selectedFilePath)) {
+                    showErrorMessage(getString(R.string.error_image_path_req));
+                } else {
+                    intent.putExtra(IntentConstants.IMAGE_PATH, selectedFilePath);
+                    startActivity(intent);
+                }
+                return;
+            }
+            startActivityForResult(intent, requestCode);
+        }
+
+        @Override
+        public void displayPickedImage(String uri, int requestCode) {
+            selectedFilePath = uri;
+            ((BaseActivity) getActivity()).loadImageUsingGlide(
+                    selectedFilePath, binding.profileLogoIv);
+        }
+    };
+
+
+    private void showExtendedWarrantyDialog() {
+        extendeWarratyDialog = new WarratyDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String yearsMonthsDays) {
+                        String[] split = yearsMonthsDays.split(AppConstants.COMMA_SEPARATOR);
+                        addCustomProductModel.setExtendedWarranty(split[0]);
+                        addCustomProductModel.setWarrantyMonths(split[1]);
+                        addCustomProductModel.setWarrantyDays(split[2]);
+                        addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                extendeWarratyDialog.dismiss();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                extendeWarratyDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).years(addCustomProductModel.getExtendedWarranty()).months(addCustomProductModel.getWarrantyMonths()).days(addCustomProductModel.getWarrantyDays()).build();
+        extendeWarratyDialog.showDialog();
     }
 
     //warranty dialog
@@ -211,11 +329,10 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (categorySelectedPos != position) {
-
                     CategoryResponse fetchCategories = categoriesList.get(position);
+                    setSerialNumberBatchNumbersLabels(fetchCategories.getName());
                     addCustomProductModel.setCategoryId(fetchCategories.getId());
                     addCustomProductModel.setCategoryName(fetchCategories.getName());
-
                     HashMap<Integer, List<Division>> divisionHashMap = ((HomeActivity) getActivity()).getDivisionHashMap();
                     List<Division> divisions = divisionHashMap.get(fetchCategories.getId());
                     divisionSelectedPos = -1;
@@ -269,7 +386,6 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     Division division = divisionsList.get(divisionSelectedPos);
                     addCustomProductModel.setDivisionId(division.getId());
                     addCustomProductModel.setDivisionName(division.getName());
-
 
                     HashMap<Integer, List<Brand>> brandHashMap = ((HomeActivity) getActivity()).getBrandHashMap();
                     List<Brand> brands = brandHashMap.get(division.getId());
@@ -361,38 +477,41 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     addCustomProductModel.setWarrantyDays(modelSearchResponse.getWarrantyDays());
                     addCustomProductModel.setWarrantyShow(AppUtils.getWarrantyInformationFromAddNewModel(addCustomProductModel));
 
-                    //Clear spinner data
-                    categorySelectedPos = -1;
-                    categoriesList.clear();
-                    loadCategorySpinnerData();
-                    brandSelectedPos = -1;
-                    fetchBrandsList.clear();
-                    loadBrandSpinnerData(fetchBrandsList);
-                    divisionSelectedPos = -1;
-                    divisionsList.clear();
-                    loadDivisionSpinnerData(divisionsList);
-                    ///////////////////
-
 
                     //added data based on model selection
                     Category category = modelSearchResponse.getCategory();
                     addCustomProductModel.setCategoryId(category.getId());
                     addCustomProductModel.setCategoryName(category.getName());
 
+                    setSerialNumberBatchNumbersLabels(category.getName());
+
+                    Logger.e("setOnItemClickListener", binding.spinnerCategory.isFocusable() + "");
 
                     binding.spinnerDivision.setVisibility(View.VISIBLE);
                     Division division = modelSearchResponse.getDivision();
                     addCustomProductModel.setDivisionId(division.getId());
                     addCustomProductModel.setDivisionName(division.getName());
+                    binding.spinnerDivision.setFocusable(false);
 
                     binding.spinnerBrand.setVisibility(View.VISIBLE);
                     Brand brand = modelSearchResponse.getBrand();
                     addCustomProductModel.setBrandId(brand.getId());
                     addCustomProductModel.setBrandName(brand.getName());
+                    binding.spinnerBrand.setFocusable(false);
                 }
                 AppUtils.hideSoftKeyboard(getActivity(), rootView);
             }
         });
+    }
+
+    private void setSerialNumberBatchNumbersLabels(String categoryName) {
+        if (categoryName.equalsIgnoreCase(AppConstants.CATEGORY_AUTOMOBILES)) {
+            binding.inputLayoutSerialNo.setHint(getString(R.string.add_vin));
+            binding.inputLayoutBatchNo.setHint(getString(R.string.add_vrn));
+        } else {
+            binding.inputLayoutSerialNo.setHint(getString(R.string.add_new_serial_no));
+            binding.inputLayoutBatchNo.setHint(getString(R.string.add_new_batch_no));
+        }
     }
 
     private void setObservableForModelNumber(CustomAutoCompleteView edittextModelNumber) {
@@ -403,12 +522,20 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
             @Override
             public void onNext(TextViewAfterTextChangeEvent textViewAfterTextChangeEvent) {
+
                 String modelNumberString = textViewAfterTextChangeEvent.editable()
                         .toString();
                 if ((TextUtils.isEmpty(selectedModelNumber) || !selectedModelNumber.equals(
                         modelNumberString))) {
                     if (modelNumberString.length() > WarrantyRegistrationConstants
                             .MINIMUM_MODELNUMBER_TO_SEARCH) {
+                        //Reset spinner data
+                        //Clear spinner data
+                        categorySelectedPos = -1;
+                        loadCategorySpinnerData();
+                        binding.spinnerDivision.setVisibility(View.GONE);
+                        binding.spinnerBrand.setVisibility(View.GONE);
+                        ////////////////////////
                         addCustomProductPresenter.doModelSearchApi(modelNumberString);
                         selectedModelNumber = modelNumberString;
                     }
@@ -436,6 +563,8 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
 
         selectedModelNumber = binding.edittextModelNumber.getText().toString();
         initializeModelNumberAdapter(new ArrayList<ModelSearchResponse>());
+
+        spinnerCategoryKeyListener = binding.spinnerCategory.getKeyListener();
 
         if (ConnectApplication.getAppContext().getCategoriesList() == null) {
             addCustomProductPresenter.getCategories();
@@ -526,6 +655,7 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
                     }
                     break;
                 default:
+                    pickImageDialog.onActivityResult(requestCode, resultCode, data);
                     break;
             }
         }
@@ -655,4 +785,6 @@ public class AddCustomProductFragment extends BaseFragment implements AddCustomP
         super.onDestroy();
         addCustomProductPresenter.disposeAll();
     }
+
+
 }

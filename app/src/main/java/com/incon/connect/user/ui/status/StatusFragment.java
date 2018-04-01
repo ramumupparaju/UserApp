@@ -1,10 +1,11 @@
 package com.incon.connect.user.ui.status;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,6 @@ import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
-import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.IStatusClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
@@ -90,7 +90,6 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         setListUi();
     }
 
-
     private void setListUi() {
 
         if (isServiceRequest && serviceStatusList.size() == 0) {
@@ -110,25 +109,18 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         productsList = new ArrayList<>();
         serviceStatusList = new ArrayList<>();
 
-
         binding.swiperefresh.setOnRefreshListener(onRefreshListener);
 
         FragmentActivity activity = getActivity();
         serviceStatusAdapter = new ServiceStatusAdapter(getActivity(), serviceStatusList);
         serviceStatusAdapter.setClickCallback(iClickCallback);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                activity, linearLayoutManager.getOrientation());
-        binding.serviceRequestsRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.serviceRequestsRecyclerview.setAdapter(serviceStatusAdapter);
         binding.serviceRequestsRecyclerview.setLayoutManager(linearLayoutManager);
 
         productStatusAdapter = new ProductStatusAdapter(productsList);
         productStatusAdapter.setClickCallback(iClickCallback);
         linearLayoutManager = new LinearLayoutManager(activity);
-        dividerItemDecoration = new DividerItemDecoration(
-                activity, linearLayoutManager.getOrientation());
-        binding.productStatusRecyclerview.addItemDecoration(dividerItemDecoration);
         binding.productStatusRecyclerview.setAdapter(productStatusAdapter);
         binding.productStatusRecyclerview.setLayoutManager(linearLayoutManager);
 

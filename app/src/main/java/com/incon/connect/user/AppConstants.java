@@ -11,6 +11,8 @@ public interface AppConstants {
     String HYPHEN_SEPARATOR = "-";
     int DEFAULT_VALUE = Integer.MIN_VALUE;
 
+    String CATEGORY_AUTOMOBILES = "Automobiles";
+
     String BUILD_FLAVOR = "moonz_dev";
     int VALIDATION_SUCCESS = 0;
     int VALIDATION_FAILURE = -1;
@@ -18,6 +20,8 @@ public interface AppConstants {
     String DELIMITOR = "-";
     int DEFAULT_GOOGLE_MAP_ZOOM_LEVEL = 16;
     int DEAULT_VALUE = Integer.MAX_VALUE;
+
+    String CUSTOM= "custom";
 
     interface StatusDrawables {
         int COMPLAINT_ID = 2;
@@ -48,6 +52,9 @@ public interface AppConstants {
         String TIME_10_12 = "10:00,12:00";
         String TIME_12_15 = "12:00,15:00";
         String TIME_15_17 = "15:00,17:00";
+
+        String AUTHORIZED_TYPE = "authorized";
+        String UNAUTHORIZED_TYPE = "unauthorized";
     }
 
     interface FilterConstants {
@@ -147,6 +154,7 @@ public interface AppConstants {
         String FROM_FORGOT_PASSWORD_SCREEN = "fromForgotPasswordScreen";
         String SERVICE_CENTER_DATA = "serviceCenterResponse";
         String BUTTON_TEXT = "buttonText";
+        String SERVICE_ENGINEER_DATA = "serviceEngineerData";
     }
 
 
@@ -220,12 +228,14 @@ public interface AppConstants {
         String USER_PASSWORD = "userPassword";
         String USER_CONFIRM_PASSWORD = "userConfirmPassword";
         String USER_UUID = "uuid";
+        String USER_PIN = "user_pin";
         //store details
         String STORE_ID = "storeId";
 
         String IS_REGISTERED = "isRegistered";
         String IS_FORGOT_PASSWORD = "isForgotPassword";
         String LOGGED_IN = "isLoggedIn";
+        String PIN_PROMPT = "pin_prompt";
         String PUSH_TOKEN_STATUS = "pushTokenStatus";
         String ACCESS_TOKEN = "accesstoken";
     }
@@ -238,14 +248,24 @@ public interface AppConstants {
         String BODY_INTEREST_ID = "interestId";
         String BODY_QRCODE_ID = "qrCodeId";
         String BODY_COMMENTS = "comments";
+        String BODY_PRODUCT_EDIT = "productedit";
         String BODY_USER_ID = "userId";
         String BODY_ADDRESS_ID = "addressId";
+        String BODY_ID = "id";
+        String BODY_NICK_NAME = "name";
         String BODY_WARRANTY_ID = "warrantyId";
         String BODY_PRODUCT_CODE = "code";
         String BODY_OTP = "otp";
         String BODY_MOBILE_NUMBER = "mobileNumber";
         String STORE_LOGO = "logo";
         String BODY_PASSWORD = "password";
+        String BODY_PRODUCT_ID = "productId";
+        String BODY_PRODUCT_RATING = "rating";
+        String BODY_PRODUCT_REVIEW = "review";
+        String BODY_SUGGESTIONS = "suggestions";
+
+
+        String BODY_PIN = "pin";
     }
 
     interface RequestCodes {
@@ -266,7 +286,12 @@ public interface AppConstants {
         int LOCATION_ADDRESS_FROM_LATLNG = 120;
         int PRODUCT_ADD_FRAGMENT = 121;
         int ADD_CUSTOM_PRODUCT_FRAGMENT = 122;
-
+        int REFRESH_SE_LIST = 123;
+        int PIN_PROMPT = 124;
+        int DELETE_PRODUCT = 125;
+        int LOCATION_CHANGED = 126;
+        int BUY_REQUEST = 127;
+        int SERVICE_REQUEST = 128;
     }
 
     interface TimeConstants {
@@ -297,13 +322,14 @@ public interface AppConstants {
         String YYYY_MM_DD = "yyyy-MM-dd"; //2017-01-15
         String MMMM_SPACE_DD = "MMMM dd"; // March 24 at 11:26am
         String HH_MM_A = "hh:mma"; // March 24 at 11:26am
+        String HH = "HH"; // 14
         String YYYY_MMMM_DD = "yyyy-MMMM-dd"; //2017-01-15
         String YYYY_MMM_DD = "yyyy-MMM-dd"; //2017-Jan-15
         String MMM_SPACE_DD = "MMM dd"; //Mar 28
         String MMMM_DD_YYYY = "MMMM dd, yyyy"; //Oct-21-2017
         String DD_NOSPACE_MMMM = "ddMMMM"; //28March
 
-        String TIME_HH_MM = "HH:mm";
+        String TIME_HH_MM = "HH:mm"; //16:20
 
         String UTC = "UTC";
         Locale DATE_FORMAT_LOCALE = Locale.getDefault();
@@ -328,7 +354,9 @@ public interface AppConstants {
     interface MenuConstants {
         int PROFILE = 0;
         int CHANGE_PWD = 1;
-        int LOGOUT = 2;
+        int CHANGE_PIN = 2;
+        int MANAGE_UNAUTHORIZE_NUMBERS = 3;
+        int LOGOUT = 4;
 
 
     }

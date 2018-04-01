@@ -155,7 +155,6 @@ public class UpDateUserProfileActivity extends BaseActivity implements
                 USER_GENDER);
         String maleString = getString(R.string.action_male);
         upDateUserProfile.setGenderType(maleString.startsWith(gender) ? maleString : getString(R.string.action_female));
-
         upDateUserProfile.setDateOfBirthToShow(sharedPrefsUtils.getStringPreference(
                 USER_DOB));
 

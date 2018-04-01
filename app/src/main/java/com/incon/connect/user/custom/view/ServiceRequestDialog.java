@@ -106,9 +106,11 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
 
     private void loadUsersSpinner() {
         if (usersList.size() == 0) {
+            usersSelectedPos = -1;
             binding.spinnerUsers.setVisibility(View.GONE);
             return;
         }
+        binding.spinnerUsers.setVisibility(View.VISIBLE);
         String[] stringUsersList = new String[usersList.size()];
         for (int i = 0; i < usersList.size(); i++) {
             stringUsersList[i] = usersList.get(i).getName();
@@ -123,6 +125,11 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (usersSelectedPos != position) {
                     usersSelectedPos = position;
+                }
+
+                //For avoiding double tapping issue
+                if (binding.spinnerUsers.getOnItemClickListener() != null) {
+                    binding.spinnerUsers.onItemClick(parent, view, position, id);
                 }
             }
         });
@@ -201,7 +208,6 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
             return this;
         }
 
-
         public ServiceRequestDialog build() {
             ServiceRequestDialog dialog = new ServiceRequestDialog(this);
             dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
@@ -219,10 +225,10 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         }
         switch (view.getId()) {
             case R.id.view_date:
-                serviceRequestCallback.dateClicked("");
+                serviceRequestCallback.dateClicked(binding.edittextDate.getText().toString());
                 break;
             case R.id.view_time:
-                serviceRequestCallback.timeClicked();
+                serviceRequestCallback.timeClicked(binding.edittextDate.getText().toString());
                 break;
             case R.id.button_left:
                 serviceRequestCallback.alertDialogCallback(ServiceRequestCallback.CANCEL);
@@ -244,25 +250,19 @@ public class ServiceRequestDialog extends Dialog implements View.OnClickListener
         String selectedTime = binding.edittextTime.getText().toString();
         String selectedDate = binding.edittextDate.getText().toString();
         int selectedPriority = binding.radioGroup.getCheckedRadioButtonId();
-        RadioButton radioButton = (RadioButton) findViewById(selectedPriority);
+        RadioButton radioButton = findViewById(selectedPriority);
 
         //no need to check users data
         if (serviceCenterSelectedPos == -1) {
-            //todo show toast as select users
             AppUtils.shortToast(getContext(), context.getString(R.string.user_selecte));
             return false;
         } else if (TextUtils.isEmpty(selectedDate)) {
-            // todo show toast as select date
-             AppUtils.shortToast(getContext(), context.getString(R.string.date_selecte));
-
+            AppUtils.shortToast(getContext(), context.getString(R.string.date_selecte));
             return false;
-
         } else if (TextUtils.isEmpty(selectedTime)) {
             AppUtils.shortToast(getContext(), context.getString(R.string.time_selecte));
-
             return false;
         } else {
-
             String[] selectedTimeArray = new String[0];
             if (selectedTime.equalsIgnoreCase(context.getString(R.string.time_10_12))) {
                 selectedTimeArray = AppConstants.ServiceConstants.TIME_10_12.split(COMMA_SEPARATOR);

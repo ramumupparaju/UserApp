@@ -185,30 +185,30 @@ public class Registration extends BaseObservable {
                 }
                 break;
 
-            case 2:
+     /*       case 2:
                 boolean genderTypeEmpty = TextUtils.isEmpty(getGenderType());
                 if (emptyValidation && genderTypeEmpty) {
                     return AppConstants.RegistrationValidation.GENDER_REQ;
                 }
-                break;
+                break;*/
 
-            case 3:
+           /* case 3:
                 boolean dobEmpty = TextUtils.isEmpty(getDob());
                 if (emptyValidation && dobEmpty) {
                     return AppConstants.RegistrationValidation.DOB_REQ;
                 } else if (!dobEmpty) {
                     return AppUtils.validateDob(dob);
                 }
-                break;
+                break;*/
 
-            case 4:
+           /* case 4:
                 boolean emailEmpty = TextUtils.isEmpty(getEmail());
                 if (emptyValidation && emailEmpty) {
                     return AppConstants.RegistrationValidation.EMAIL_REQ;
                 } else if (!emailEmpty && !ValidationUtils.isValidEmail(getEmail())) {
                     return AppConstants.RegistrationValidation.EMAIL_NOTVALID;
                 }
-                break;
+                break;*/
 
             case 5:
                 boolean passwordEmpty = TextUtils.isEmpty(getPassword());

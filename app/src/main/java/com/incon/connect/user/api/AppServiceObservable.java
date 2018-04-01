@@ -103,14 +103,23 @@ public interface AppServiceObservable {
     @POST("user/addtofavourites")
     Observable<Object> addToFavotites(@Body HashMap<String, String> favoriteMap);
 
+    // product change location  api
+    @POST("user/modifyfavourites")
+    Observable<Object> productChangeLocationProductNameEditApi(@Body HashMap<String, String> changeLocationMap);
+
     // fetch near by service centers  api
-    @POST("service/nearbycenters/{brandId}")
-    Observable<List<ServiceCenterResponse>> findNearByServiceCenters(@Path("brandId") int brandId);
+    @POST("service/nearbycenters/{type}/{brandId}/{userId}")
+    Observable<List<ServiceCenterResponse>> findNearByServiceCenters(@Path("type") String type,@Path("brandId") int brandId, @Path("userId") int userId);
 
 
-    // add favourites  api
+    // delete purchased product api
     @GET("user/history/deletepurchased/{warrantyId}")
     Observable<Object> deleteProduct(@Path("warrantyId") int warrantyId);
+
+
+    // delete Favorites product api
+    @GET("user/deletefavourites/{favouriteId}")
+    Observable<Object> deleteFavoritesProduct(@Path("favouriteId") int favouriteId);
 
     //assign qr code to product api
     @POST("product/assign")
@@ -120,6 +129,10 @@ public interface AppServiceObservable {
     @GET("user/history/interested/{userId}")
     Observable<List<ProductInfoResponse>> interestApi(@Path("userId") int userId);
 
+    //get stores   api
+    @GET("user/getstores/{userId}")
+    Observable<List<ProductInfoResponse>> storesApi(@Path("userId") int userId);
+
     //delete interest product api
     @GET("user/history/deleteinterested/{interestId}")
     Observable<Object> deleteApi(@Path("interestId") int interestId);
@@ -127,6 +140,10 @@ public interface AppServiceObservable {
     //buy requests api
     @POST("user/buyrequest")
     Observable<Object> buyRequestApi(@Body HashMap<String, String> buyRequestBody);
+
+
+    @POST("user/updateuser/{userId}")
+    Observable<Object> updateUserApi(@Body HashMap<String, String> pinMap, @Path("userId") int userId);
 
     //return history  api
     @GET("user/history/return/{userId}")
@@ -181,13 +198,22 @@ public interface AppServiceObservable {
     Observable<Object> warrantyRequestOtp(@Path("phoneNumber") String phoneNumber);
 
     //transfer product api
-    @GET("user/transfer/{phoneNumber}/{userId}")
+    @GET("user/transfer/{phoneNumber}/{warrantyId}")
     Observable<Object> transferRequest(@Path("phoneNumber") String phoneNumber,
-                                       @Path("userId") int userId);
+                                       @Path("warrantyId") String warrantyId);
 
     //transfer product api
     @GET("user/servicerequests/{userId}")
     Observable<ArrayList<ServiceStatus>> fetchUserRequests(@Path("userId") int userId);
+
+
+    // product review api
+    @GET("product/reviews/{userId}")
+    Observable<Object> reviewsApi(@Path("userId") int userId);
+
+    @POST("product/savereviews")
+    Observable<Object> saveReviewsApi(@Body HashMap<String, String> savereviewsBody);
+
 
     // new user registation  api
     @POST("user/newuser/{phoneNumber}")

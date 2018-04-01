@@ -28,13 +28,11 @@ import java.util.List;
  */
 
 public class ReturnFragment extends BaseTabFragment implements ReturnContract.View {
-    private View rootView;
     private FragmentReturnBinding binding;
+    private View rootView;
     private ReturnPresenter returnPresenter;
     private ReturnAdapter returnAdapter;
     private int userId;
-    private int productSelectedPosition;
-    private AppAlertDialog detailsDialog;
     private ShimmerFrameLayout shimmerFrameLayout;
 
     @Override
@@ -101,6 +99,7 @@ public class ReturnFragment extends BaseTabFragment implements ReturnContract.Vi
             ProductInfoResponse returnHistoryResponse = returnAdapter.
                     getItemFromPosition(position);
             returnHistoryResponse.setSelected(true);
+            productSelectedPosition = position;
             returnAdapter.notifyDataSetChanged();
         }
     };

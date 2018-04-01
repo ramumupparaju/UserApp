@@ -53,7 +53,7 @@ public class BillFormatActivity extends BaseActivity implements BillFormatContra
         binding.setProductinforesponse(productInfoResponse);
 
 
-        binding.textDopValues.setText(DateUtils.convertMillisToStringFormat(productInfoResponse.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY));
+        binding.textDopValues.setText( DateUtils.convertMillisToStringFormat(productInfoResponse.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY));
     }
 
     @Override

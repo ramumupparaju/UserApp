@@ -10,7 +10,6 @@
             android:orientation="horizontal"
             android:paddingBottom="@dimen/margin_2"
             android:paddingTop="@dimen/margin_2"
-            android:visibility="gone"
             />
 
         <View
@@ -27,7 +26,6 @@
             android:orientation="horizontal"
             android:paddingBottom="@dimen/margin_2"
             android:paddingTop="@dimen/margin_2"
-            android:visibility="gone"
             />
 
         <View

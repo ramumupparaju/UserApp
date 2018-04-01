@@ -19,6 +19,7 @@ import com.incon.connect.user.ui.history.fragments.PurchasedContract;
 import com.incon.connect.user.ui.history.fragments.PurchasedPresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;
@@ -38,7 +39,6 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         super.initialize(extras);
         appContext = ConnectApplication.getAppContext();
     }
-
 
     @Override
     public void doGetAddressApi(int userId) {
@@ -65,6 +65,33 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
                 };
 
         AppApiService.getInstance().getAddressesApi(userId).subscribe(observer);
+        addDisposable(observer);
+    }
+
+    // do location Api
+    @Override
+    public void doLocationChangeProductNameEditApi(HashMap<String, String> locationChangeMap) {
+        getView().showProgress(appContext.getString(R.string.progress_change_product_location));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object o) {
+                        getView().onLocationChanged();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getView().hideProgress();
+                    }
+                };
+        AppApiService.getInstance().productChangeLocationProductNameEditApi(locationChangeMap).subscribe(observer);
         addDisposable(observer);
     }
 
@@ -129,16 +156,14 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         purchasedPresenter.setView(purchasedView);
         purchasedPresenter.serviceRequest(serviceRequest);
 
-
     }
 
     @Override
-    public void nearByServiceCenters(int brandId) {
+    public void nearByServiceCenters(String type, int brandId, int userId) {
         PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.initialize(null);
         purchasedPresenter.setView(purchasedView);
-        purchasedPresenter.nearByServiceCenters(brandId);
-
+        purchasedPresenter.nearByServiceCenters(type,brandId, userId);
     }
 
     @Override
@@ -149,12 +174,66 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         purchasedPresenter.getUsersListOfServiceCenters(serviceCenterId);
     }
 
+    @Override
     public void addServiceEngineer(AddServiceEngineer serviceEngineer, int userId) {
         PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.initialize(null);
         purchasedPresenter.setView(purchasedView);
         purchasedPresenter.addServiceEngineer(serviceEngineer, userId);
     }
+
+    @Override
+    public void saveReviewsApi(HashMap<String, String> reviewsMap) {
+        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
+        purchasedPresenter.initialize(null);
+        purchasedPresenter.setView(purchasedView);
+        purchasedPresenter.saveReviewsApi(reviewsMap);
+
+    }
+
+    @Override
+    public void deleteFovoriteProduct(int favouriteId) {
+
+        getView().showProgress(appContext.getString(R.string.progress_deleting_product));
+        DisposableObserver<Object> observer = new
+                DisposableObserver<Object>() {
+                    @Override
+                    public void onNext(Object o) {
+                        getView().deleteProduct(o);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getView().hideProgress();
+                        Pair<Integer, String> errorDetails = ErrorMsgUtil.getErrorDetails(e);
+                        getView().handleException(errorDetails);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                };
+
+        AppApiService.getInstance().deleteFavoritesProduct(favouriteId).subscribe(observer);
+        addDisposable(observer);
+    }
+
+    @Override
+    public void doTransferProductApi(String phoneNumber, String warrantyId) {
+        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
+        purchasedPresenter.initialize(null);
+        purchasedPresenter.setView(purchasedView);
+        purchasedPresenter.doTransferProductApi(phoneNumber,warrantyId);
+    }
+
+    @Override
+    public void reviewToproduct(int userId) {
+        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
+        purchasedPresenter.initialize(null);
+        purchasedPresenter.setView(purchasedView);
+        purchasedPresenter.reviewToProduct(userId);
+    }
+
 
     PurchasedContract.View purchasedView = new PurchasedContract.View() {
         @Override
@@ -168,18 +247,13 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         }
 
         @Override
-        public void addedToFavorite() {
-            // do nothing
-        }
-
-        @Override
         public void transferMobileNumber(Object response) {
-            // do nothing
+           getView().transferMobileNumber(response);
         }
 
         @Override
         public void deleteProduct(Object response) {
-            // do nothing
+            getView().deleteProduct(response);
         }
 
         @Override
@@ -201,6 +275,24 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         @Override
         public void addedServiceEngineer(ProductInfoResponse o) {
             getView().addedServiceEngineer(o);
+        }
+
+        @Override
+        public void addedToFavorite() {
+
+
+        }
+
+        @Override
+        public void productReviews() {
+            getView().productReviews();
+
+        }
+
+        @Override
+        public void saveReviews(Object saveReviews) {
+            getView().saveReviews(saveReviews);
+
         }
 
         @Override

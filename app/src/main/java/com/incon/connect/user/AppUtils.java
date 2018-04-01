@@ -2,6 +2,7 @@ package com.incon.connect.user;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -22,7 +23,6 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.incon.connect.user.apimodel.components.addnewmodel.AddNewModelResponce;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
@@ -34,10 +34,6 @@ import java.util.List;
 
 import static com.incon.connect.user.AppConstants.RegistrationValidation.DOB_FUTURE_DATE;
 import static com.incon.connect.user.AppConstants.RegistrationValidation.DOB_PERSON_LIMIT;
-import static com.incon.connect.user.AppConstants.StatusDrawables.APPROVAL;
-import static com.incon.connect.user.AppConstants.StatusDrawables.COMPLAINT;
-import static com.incon.connect.user.AppConstants.StatusDrawables.COMPLAINT_ID;
-import static com.incon.connect.user.AppConstants.StatusDrawables.MANUAL_APPROVAL_ID;
 import static com.incon.connect.user.AppConstants.VALIDATION_SUCCESS;
 
 public class AppUtils {
@@ -51,6 +47,15 @@ public class AppUtils {
                 scrollView.smoothScrollTo(0, editTextView.getBottom());
             }
         });*/
+    }
+
+    public static boolean isAppInstalled(Context context, String packageName) {
+        try {
+            context.getPackageManager().getApplicationInfo(packageName, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
     /**
@@ -86,6 +91,40 @@ public class AppUtils {
         }
 
         return getWarranty(warrantyIntYears, warrantyIntMonths, warrantyIntDays);
+    }
+
+    public static String getFormattedWarrantyDataInString(ProductInfoResponse itemFromPosition, Context context) {
+        String purchasedDate = DateUtils.convertMillisToStringFormat(
+                itemFromPosition.getPurchasedDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY);
+        String warrantyEndDate = DateUtils.convertMillisToStringFormat(
+                itemFromPosition.getWarrantyEndDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY);
+        long noOfDays = DateUtils.convertDifferenceDateIndays(
+                itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
+        String warrantyConditions = itemFromPosition.getWarrantyConditions();
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        //warranty days
+        stringBuilder.append(context.getString(R.string.purchased_warranty_status_now));
+        stringBuilder.append(noOfDays <= 0 ? context.getString(R.string.label_expired) : noOfDays + " Days Left");
+
+        if (!TextUtils.isEmpty(purchasedDate)) {
+            stringBuilder.append("\n");
+            stringBuilder.append(context.getString(R.string.purchased_purchased_date));
+            stringBuilder.append(purchasedDate);
+        }
+
+        if (!TextUtils.isEmpty(warrantyConditions)) {
+            stringBuilder.append("\n");
+            stringBuilder.append(context.getString(R.string.purchased_warranty_covers_date));
+            stringBuilder.append(warrantyConditions);
+        }
+
+        stringBuilder.append("\n");
+        stringBuilder.append(context.getString(R.string.purchased_warranty_ends_on));
+        stringBuilder.append(warrantyEndDate);
+
+        return stringBuilder.toString();
     }
 
     /**
@@ -125,19 +164,6 @@ public class AppUtils {
 
 
         return stringBuffer.toString();
-    }
-
-    //fetching status icon basedon statud id
-    public static int getDrawableFromRequestId(Integer statusId) {
-//TODO have to add remaining service types
-        switch (statusId) {
-            case COMPLAINT_ID:
-                return COMPLAINT;
-            case MANUAL_APPROVAL_ID:
-                return APPROVAL;
-
-        }
-        return R.drawable.ic_options_feedback;
     }
 
     //fetching status name basedon request
@@ -225,7 +251,6 @@ public class AppUtils {
         GlideUrl glideUrl = new GlideUrl(BuildConfig.SERVICE_ENDPOINT + url, new LazyHeaders.Builder()
                 .addHeader(AppConstants.ApiRequestKeyConstants.HEADER_AUTHORIZATION, context.getString(R.string.default_key))
                 .build());
-
         Glide.with(context)
                 .setDefaultRequestOptions(requestOptions)
                 .load(glideUrl)

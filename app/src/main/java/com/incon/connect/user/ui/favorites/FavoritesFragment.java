@@ -1,14 +1,10 @@
 package com.incon.connect.user.ui.favorites;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.PorterDuff;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SnapHelper;
@@ -17,87 +13,58 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
+import com.github.clans.fab.FloatingActionButton;
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
-import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
-import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
-import com.incon.connect.user.callbacks.CustomPhoneNumberAlertDialogCallback;
 import com.incon.connect.user.callbacks.IClickCallback;
-import com.incon.connect.user.callbacks.ServiceRequestCallback;
 import com.incon.connect.user.callbacks.TextAddressDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
-import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
-import com.incon.connect.user.custom.view.AppAlertDialog;
+import com.incon.connect.user.custom.view.AppCheckBoxListDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppUserAddressDialog;
-import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
-import com.incon.connect.user.custom.view.ServiceRequestDialog;
-import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
-import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
-import com.incon.connect.user.dto.servicerequest.ServiceRequest;
-import com.incon.connect.user.ui.RegistrationMapActivity;
+import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
+import com.incon.connect.user.ui.BasePurchasedFavoritesFragment;
 import com.incon.connect.user.ui.addnewmodel.AddCustomProductFragment;
 import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
-import com.incon.connect.user.ui.history.base.BaseProductOptionsFragment;
 import com.incon.connect.user.ui.history.fragments.PurchasedFragment;
 import com.incon.connect.user.ui.home.HomeActivity;
-import com.incon.connect.user.ui.servicecenters.ServiceCentersActivity;
-import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.ui.pin.CustomPinActivity;
+import com.incon.connect.user.ui.pin.managers.AppLock;
 import com.incon.connect.user.utils.GravitySnapHelper;
+import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TimeZone;
 
+import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_ADDRESS_ID;
+import static com.incon.connect.user.AppConstants.ApiRequestKeyConstants.BODY_ID;
 import static com.incon.connect.user.ui.BaseActivity.TRANSACTION_TYPE_REPLACE;
 
 /**
  * Created by PC on 11/4/2017.
  */
 
-public class FavoritesFragment extends BaseProductOptionsFragment implements FavoritesContract.View,
+public class FavoritesFragment extends BasePurchasedFavoritesFragment implements FavoritesContract.View,
         View.OnClickListener {
-    private FragmentFavoritesBinding binding;
-    private FavoritesPresenter favoritesPresenter;
-    private View rootView;
-    private int userId;
 
-    private HorizontalRecycleViewAdapter addressessAdapter;
-    private FavoritesAdapter favoritesAdapter;
-    private int addressSelectedPosition = -1;
-    private int productSelectedPosition = -1;
+
     private AppUserAddressDialog dialog;
     private AddUserAddress addUserAddress;
-    private AppEditTextDialog buyRequestDialog;
-    private AppEditTextDialog feedBackDialog;
-    private AppEditTextDialog transferDialog;
-    private String buyRequestComment;
-    private AppAlertDialog detailsDialog;
-    private ShimmerFrameLayout shimmerFrameLayout;
-    private boolean isFindServiceCenter;
-    private ArrayList<ServiceCenterResponse> serviceCenterResponseList;
-    private ServiceRequestDialog serviceRequestDialog;
-    private TimeSlotAlertDialog timeSlotAlertDialog;
-    private String serviceRequestComment;
+    private AppCheckBoxListDialog productLocationDialog;
+    private AppEditTextDialog productNameEditDialog;
+    private String productEdit;
 
-    //Adding unauthorized phone number
-    private CustomPhoneNumberDialog customPhoneNumberDialog;
-    private AddServiceEngineer serviceEngineer;
 
     @Override
     protected void initializePresenter() {
@@ -115,16 +82,24 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     protected View onPrepareView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
         if (rootView == null) {
-            binding = DataBindingUtil.inflate(
+            favoritesBinding = DataBindingUtil.inflate(
                     inflater, R.layout.fragment_favorites, container, false);
-            binding.setFavorites(this);
-            rootView = binding.getRoot();
+            favoritesBinding.setFavorites(this);
+            rootView = favoritesBinding.getRoot();
             shimmerFrameLayout = rootView.findViewById(R.id
                     .effect_shimmer);
+            initFabs();
             initViews();
         }
         setTitle();
         return rootView;
+    }
+
+    private void initFabs() {
+        final FloatingActionButton programFab1 = new FloatingActionButton(getActivity());
+        programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
+        favoritesBinding.fab.showMenuButton(true);
+        favoritesBinding.fab.setClosedOnTouchOutside(true);
     }
 
     // add product
@@ -141,18 +116,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                 bundle, 0, 0, TRANSACTION_TYPE_REPLACE);
     }
 
-    public void onParentProductClick() {
-        ImageView addProduct = binding.addProduct;
-        if (addProduct.getVisibility() == View.VISIBLE) {
-            binding.parentProduct.setImageResource(R.drawable.ic_add_circle);
-            addProduct.setVisibility(View.GONE);
-            binding.customProduct.setVisibility(View.GONE);
-        } else {
-            binding.parentProduct.setImageResource(R.drawable.ic_close);
-            addProduct.setVisibility(View.VISIBLE);
-            binding.customProduct.setVisibility(View.VISIBLE);
-        }
-    }
 
     public void onAddCustomProductClick() {
         Bundle bundle = new Bundle();
@@ -169,16 +132,14 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         userId = SharedPrefsUtils.loginProvider().getIntegerPreference(
                 LoginPrefs.USER_ID, DEFAULT_VALUE);
 
-        binding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
-        binding.swiperefresh.setOnRefreshListener(onRefreshListener);
-
-        binding.parentProduct.setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+        favoritesBinding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
+        favoritesBinding.swiperefresh.setOnRefreshListener(onRefreshListener);
 
         //sets add address view
-        binding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
-        binding.addAddressView.homeText.setText(getString(R.string.action_add_location));
-        binding.addAddressView.getRoot().setOnClickListener(this);
-        binding.addAddressView.getRoot().setVisibility(View.GONE);
+        favoritesBinding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
+        favoritesBinding.addAddressView.homeText.setText(getString(R.string.action_add_location));
+        favoritesBinding.addAddressView.getRoot().setOnClickListener(this);
+        favoritesBinding.addAddressView.getRoot().setVisibility(View.GONE);
 
 
         //top recyclerview
@@ -187,21 +148,21 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.addressesRecyclerview.setLayoutManager(linearLayoutManager);
+        favoritesBinding.addressesRecyclerview.setLayoutManager(linearLayoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 getContext(), linearLayoutManager.getOrientation());
-        binding.addressesRecyclerview.addItemDecoration(dividerItemDecoration);
-        binding.addressesRecyclerview.setAdapter(addressessAdapter);
+        favoritesBinding.addressesRecyclerview.addItemDecoration(dividerItemDecoration);
+        favoritesBinding.addressesRecyclerview.setAdapter(addressessAdapter);
         SnapHelper snapHelper = new GravitySnapHelper(Gravity.END);
-        snapHelper.attachToRecyclerView(binding.addressesRecyclerview);
+        snapHelper.attachToRecyclerView(favoritesBinding.addressesRecyclerview);
 
         //bottom recyclerview
         favoritesAdapter = new FavoritesAdapter();
         favoritesAdapter.setClickCallback(iProductClickCallback);
 
         LinearLayoutManager secondLinearLayoutManager = new LinearLayoutManager(getContext());
-        binding.favoritesRecyclerview.setAdapter(favoritesAdapter);
-        binding.favoritesRecyclerview.setLayoutManager(secondLinearLayoutManager);
+        favoritesBinding.favoritesRecyclerview.setAdapter(favoritesAdapter);
+        favoritesBinding.favoritesRecyclerview.setLayoutManager(secondLinearLayoutManager);
 
         //api call to get addresses
         favoritesPresenter.doGetAddressApi(userId);
@@ -210,21 +171,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
     }
 
-
-    private void getProductsApi() {
-        binding.favoritesRecyclerview.setVisibility(View.GONE);
-        shimmerFrameLayout.setVisibility(View.VISIBLE);
-        shimmerFrameLayout.startShimmerAnimation();
-        if (addressSelectedPosition == -1) {
-            return;
-        }
-        AddUserAddressResponse singleAddressResponse = addressessAdapter.
-                getItemFromPosition(addressSelectedPosition);
-        binding.addressesRecyclerview.getLayoutManager().scrollToPosition(
-                addressSelectedPosition);
-        favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());
-
-    }
 
     // load bottom sheet
     @Override
@@ -284,15 +230,17 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         dialog.showDialog();
     }
 
-    private void navigateToAddressActivity() {
-        Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
-        addressIntent.putExtra(IntentConstants.BUTTON_TEXT, getString(R.string.action_add));
-        startActivityForResult(addressIntent, RequestCodes.ADDRESS_LOCATION);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RequestCodes.LOCATION_CHANGED) {
+            if (resultCode == Activity.RESULT_OK) {
+                productLocationChangeApi();
+            } else {
+                showErrorMessage(getString(R.string.error_athentication_failed));
+            }
+            return;
+        }
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case RequestCodes.ADDRESS_LOCATION:
@@ -321,6 +269,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                     break;
             }
         }
+
+
     }
 
     //recyclerview click event
@@ -340,26 +290,25 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
     private void createBottomSheetFirstRow() {
 
-        int length;
-        int[] drawablesArray;
-        String[] textArray;
-        int[] tagsArray;
-        length = 3;
+        ArrayList<Integer> drawablesArray = new ArrayList<>();
+        ArrayList<String> textArray = new ArrayList<>();
+        ArrayList<Integer> tagsArray = new ArrayList<>();
 
-        textArray = new String[length];
-        textArray[0] = getString(R.string.bottom_option_service);
-        textArray[1] = getString(R.string.bottom_option_product);
-        textArray[2] = getString(R.string.bottom_option_showroom);
 
-        tagsArray = new int[length];
-        tagsArray[0] = R.id.SUPPORT;
-        tagsArray[1] = R.id.PRODUCT;
-        tagsArray[2] = R.id.SHOWROOM;
+        textArray.add(getString(R.string.bottom_option_service));
+        tagsArray.add(R.id.SUPPORT);
+        drawablesArray.add(R.drawable.ic_option_service_support);
 
-        drawablesArray = new int[length];
-        drawablesArray[0] = R.drawable.ic_option_service_support;
-        drawablesArray[1] = R.drawable.ic_option_product;
-        drawablesArray[2] = R.drawable.ic_option_customer;
+        textArray.add(getString(R.string.bottom_option_product));
+        tagsArray.add(R.id.PRODUCT);
+        drawablesArray.add(R.drawable.ic_option_product);
+
+        ProductInfoResponse productInfoResponse = favoritesAdapter.getItemFromPosition(productSelectedPosition);
+        if (!productInfoResponse.getCustomProductFlag().equalsIgnoreCase(CUSTOM)) {
+            textArray.add(getString(R.string.bottom_option_showroom));
+            tagsArray.add(R.id.SHOWROOM);
+            drawablesArray.add(R.drawable.ic_option_customer);
+        }
 
         bottomSheetPurchasedBinding.firstRow.setVisibility(View.VISIBLE);
         bottomSheetPurchasedBinding.secondRowLine.setVisibility(View.GONE);
@@ -367,8 +316,8 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
-        bottomSheetPurchasedBinding.firstRow.setWeightSum(length);
-        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray,tagsArray, bottomSheetFirstRowClickListener);
+        bottomSheetPurchasedBinding.firstRow.setWeightSum(tagsArray.size());
+        setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray, tagsArray, bottomSheetFirstRowClickListener);
 
     }
 
@@ -378,75 +327,77 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         public void onClick(View view) {
 
             Integer tag = (Integer) view.getTag();
-            String[] textArray = new String[0];
-            int[] drawablesArray = new int[0];
-            int[] tagsArray = new int[0];
+
+            ArrayList<Integer> drawablesArray = new ArrayList<>();
+            ArrayList<String> textArray = new ArrayList<>();
+            ArrayList<Integer> tagsArray = new ArrayList<>();
 
             changeSelectedViews(bottomSheetPurchasedBinding.firstRow, tag);
             if (tag == R.id.SUPPORT) {
-                int length = 2;
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_un_authorized);
-                textArray[1] = getString(R.string.bottom_option_authorized);
+                textArray.add(getString(R.string.bottom_option_un_authorized));
+                textArray.add(getString(R.string.bottom_option_authorized));
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE;
-                tagsArray[1] = R.id.SUPPORT_AUTHORIZE;
+                tagsArray.add(R.id.SUPPORT_UNAUTHORIZE);
+                tagsArray.add(R.id.SUPPORT_AUTHORIZE);
 
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_call;
-                drawablesArray[1] = R.drawable.ic_option_find_service_center;
+                drawablesArray.add(R.drawable.ic_option_call);
+                drawablesArray.add(R.drawable.ic_option_find_service_center);
             } else if (tag == R.id.PRODUCT) {
-                int length = 8;
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_details);
-                textArray[1] = getString(R.string.bottom_option_warranty);
-                textArray[2] = getString(R.string.bottom_option_bill);
-                textArray[3] = getString(R.string.bottom_option_past_history);
-                textArray[4] = getString(R.string.bottom_option_share);
-                textArray[5] = getString(R.string.bottom_option_transfer);
-                textArray[6] = getString(R.string.bottom_option_feedback);
-                textArray[7] = getString(R.string.bottom_option_suggestions);
+                textArray.add(getString(R.string.bottom_option_info));
+                tagsArray.add(R.id.PRODUCT_DETAILS);
+                drawablesArray.add(R.drawable.ic_option_details);
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.PRODUCT_DETAILS;
-                tagsArray[1] = R.id.PRODUCT_WARRANTY;
-                tagsArray[2] = R.id.PRODUCT_BILL;
-                tagsArray[3] = R.id.PRODUCT_PAST_HISTORY;
-                tagsArray[4] = R.id.PRODUCT_SHARE;
-                tagsArray[5] = R.id.PRODUCT_TRANSFER;
-                tagsArray[6] = R.id.PRODUCT_FEEDBACK;
-                tagsArray[7] = R.id.PRODUCT_SUGGESTION;
+                ProductInfoResponse productInfoResponse = favoritesAdapter.getItemFromPosition(productSelectedPosition);
+                if (!productInfoResponse.getCategoryName().equalsIgnoreCase(AppConstants.CATEGORY_AUTOMOBILES)) {
+                    textArray.add(getString(R.string.bottom_option_warranty));
+                    tagsArray.add(R.id.PRODUCT_WARRANTY);
+                    drawablesArray.add(R.drawable.ic_option_warranty);
+                }
+                textArray.add(getString(R.string.bottom_option_bill));
+                tagsArray.add(R.id.PRODUCT_BILL);
+                drawablesArray.add(R.drawable.ic_option_bill);
 
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_details;
-                drawablesArray[1] = R.drawable.ic_option_warranty;
-                drawablesArray[2] = R.drawable.ic_option_bill;
-                drawablesArray[3] = R.drawable.ic_option_pasthistory;
-                drawablesArray[4] = R.drawable.ic_option_share;
-                drawablesArray[5] = R.drawable.ic_option_transfer;
-                drawablesArray[6] = R.drawable.ic_option_feedback;
-                drawablesArray[7] = R.drawable.ic_option_suggestions;
+                textArray.add(getString(R.string.bottom_option_past_history));
+                tagsArray.add(R.id.PRODUCT_PAST_HISTORY);
+                drawablesArray.add(R.drawable.ic_option_pasthistory);
+
+                textArray.add(getString(R.string.bottom_option_share));
+                tagsArray.add(R.id.PRODUCT_SHARE);
+                drawablesArray.add(R.drawable.ic_option_share);
+
+                textArray.add(getString(R.string.bottom_option_transfer));
+                tagsArray.add(R.id.PRODUCT_TRANSFER);
+                drawablesArray.add(R.drawable.ic_option_transfer);
+
+                textArray.add(getString(R.string.bottom_option_feedback));
+                tagsArray.add(R.id.PRODUCT_FEEDBACK);
+                drawablesArray.add(R.drawable.ic_option_feedback);
+
+                textArray.add(getString(R.string.bottom_option_suggestions));
+                tagsArray.add(R.id.PRODUCT_SUGGESTION);
+                drawablesArray.add(R.drawable.ic_option_suggestions);
+
+                textArray.add(getString(R.string.bottom_option_edit));
+                tagsArray.add(R.id.PRODUCT_EDIT);
+                drawablesArray.add(R.drawable.ic_option_suggestions);
+
+
             } else if (tag == R.id.SHOWROOM) {
-                int length = 3;
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_Call);
-                textArray[1] = getString(R.string.bottom_option_location);
-                textArray[2] = getString(R.string.bottom_option_feedback);
+                textArray.add(getString(R.string.bottom_option_Call));
+                textArray.add(getString(R.string.bottom_option_location));
+                textArray.add(getString(R.string.bottom_option_feedback));
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.SHOWROOM_CALL;
-                tagsArray[1] = R.id.SHOWROOM_LOCATION;
-                tagsArray[2] = R.id.SHOWROOM_FEEDBACK;
+                tagsArray.add(R.id.SHOWROOM_CALL);
+                tagsArray.add(R.id.SHOWROOM_LOCATION);
+                tagsArray.add(R.id.SHOWROOM_FEEDBACK);
 
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_call;
-                drawablesArray[1] = R.drawable.ic_option_location;
-                drawablesArray[2] = R.drawable.ic_option_feedback;
+                drawablesArray.add(R.drawable.ic_option_call);
+                drawablesArray.add(R.drawable.ic_option_location);
+                drawablesArray.add(R.drawable.ic_option_feedback);
 
 
             } else {
-                // showFavoriteOptionsDialog();
+                // showFavoritesLocationChangeDialog();
                 return;
             }
 
@@ -455,7 +406,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.GONE);
             bottomSheetPurchasedBinding.secondRow.removeAllViews();
-            bottomSheetPurchasedBinding.secondRow.setWeightSum(textArray.length);
+            bottomSheetPurchasedBinding.secondRow.setWeightSum(tagsArray.size());
             setBottomViewOptions(bottomSheetPurchasedBinding.secondRow, textArray, drawablesArray, tagsArray, bottomSheetSecondRowClickListener);
 
         }
@@ -468,291 +419,113 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
         public void onClick(View view) {
 
             Integer tag = (Integer) view.getTag();
-            int[] tagsArray = new int[0];
-            String[] textArray = new String[0];
-            int[] drawablesArray = new int[0];
 
-            ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(
+            ArrayList<Integer> drawablesArray = new ArrayList<>();
+            ArrayList<String> textArray = new ArrayList<>();
+            ArrayList<Integer> tagsArray = new ArrayList<>();
+
+            ProductInfoResponse productInfoResponse = favoritesAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.secondRow, tag);
 
 
-
             if (tag == R.id.SUPPORT_UNAUTHORIZE) {
-                int length = 2;
 
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_Call);
-                textArray[1] = getString(R.string.bottom_option_add);
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.SUPPORT_UNAUTHORIZE_CALL;
-                tagsArray[1] = R.id.SUPPORT_UNAUTHORIZE_ADD;
+                List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
+                if (serviceEngineerList != null && serviceEngineerList.size() > 0) {
+                    textArray.add(getString(R.string.bottom_option_Call));
+                    tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_CALL);
+                    drawablesArray.add(R.drawable.ic_option_call);
+                }
 
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_call;
-                drawablesArray[1] = R.drawable.ic_option_bill;
+                textArray.add(getString(R.string.bottom_option_find_service_center));
+                tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_CENTER);
+                drawablesArray.add(R.drawable.ic_option_bill);
+
+                textArray.add(getString(R.string.bottom_option_service_request));
+                tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_FIND_SERVICE_REQUEST);
+                drawablesArray.add(R.drawable.ic_option_bill);
+
+                textArray.add(getString(R.string.bottom_option_add));
+                tagsArray.add(R.id.SUPPORT_UNAUTHORIZE_ADD);
+                drawablesArray.add(R.drawable.ic_option_bill);
 
             } else if (tag == R.id.SUPPORT_AUTHORIZE) {
 
-                int length = 3;
+                textArray.add(getString(R.string.bottom_option_call_customer_care));
+                tagsArray.add(R.id.SUPPORT_AUTHORIZE_CALL);
+                drawablesArray.add(R.drawable.ic_option_call);
 
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_Call);
-                textArray[1] = getString(R.string.bottom_option_find_service_center);
-                textArray[2] = getString(R.string.bottom_option_service_request);
+                textArray.add(getString(R.string.bottom_option_find_service_center));
+                tagsArray.add(R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER);
+                drawablesArray.add(R.drawable.ic_option_bill);
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.SUPPORT_AUTHORIZE_CALL;
-                tagsArray[1] = R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER;
-                tagsArray[2] = R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST;
-
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_call;
-                drawablesArray[1] = R.drawable.ic_option_bill;
-                drawablesArray[2] = R.drawable.ic_option_bill;
+                textArray.add(getString(R.string.bottom_option_service_request));
+                tagsArray.add(R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST);
+                drawablesArray.add(R.drawable.ic_option_bill);
             } else if (tag == R.id.PRODUCT_DETAILS) {
-                int length = 4;
-                textArray = new String[length];
-                textArray[0] = getString(R.string.bottom_option_return_policy);
-                textArray[1] = getString(R.string.bottom_option_special_instructions);
-                textArray[2] = getString(R.string.bottom_option_how_to_use);
-                textArray[3] = getString(R.string.bottom_option_description);
 
-                tagsArray = new int[length];
-                tagsArray[0] = R.id.PRODUCT_DETAILS_RETURN_POLICY;
-                tagsArray[1] = R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS;
-                tagsArray[2] = R.id.PRODUCT_DETAILS_HOW_TO_USE;
-                tagsArray[3] = R.id.PRODUCT_DETAILS_DESCRIPTION;
+                if (!TextUtils.isEmpty(productInfoResponse.getSpecialInstruction())) {
+                    textArray.add(getString(R.string.bottom_option_special_instructions));
+                    tagsArray.add(R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS);
+                    drawablesArray.add(R.drawable.ic_option_sp_instructions);
+                }
 
-                drawablesArray = new int[length];
-                drawablesArray[0] = R.drawable.ic_option_return_policy;
-                drawablesArray[1] = R.drawable.ic_option_sp_instructions;
-                drawablesArray[2] = R.drawable.ic_option_howtouse;
-                drawablesArray[3] = R.drawable.ic_option_details;
+                textArray.add(getString(R.string.bottom_option_details));
+                tagsArray.add(R.id.PRODUCT_DETAILS_DESCRIPTION);
+                drawablesArray.add(R.drawable.ic_option_details);
+
             } else if (tag == R.id.PRODUCT_WARRANTY) {
-                String purchasedDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY);
-                String warrantyEndDate = DateUtils.convertMillisToStringFormat(
-                        itemFromPosition.getWarrantyEndDate(), DateFormatterConstants.DD_MM_YYYY);
-                long noOfDays = DateUtils.convertDifferenceDateIndays(
-                        itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
-                String warrantyConditions = itemFromPosition.getWarrantyConditions();
                 showInformationDialog(getString(
-                        R.string.bottom_option_warranty), getString(
-                        R.string.purchased_warranty_status_now)
-                        + noOfDays + " Days Left "
-                        + "\n"
-                        + getString(
-                        R.string.purchased_purchased_date)
-                        + purchasedDate
-                        + "\n"
-                        + getString(
-                        R.string.purchased_warranty_covers_date)
-                        + warrantyConditions
-                        + "\n"
-                        + getString(
-                        R.string.purchased_warranty_ends_on) + warrantyEndDate);
-                return;
-
+                        R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(productInfoResponse, getActivity()));
             } else if (tag == R.id.PRODUCT_BILL) {
                 Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, itemFromPosition);
+                bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, productInfoResponse);
                 billFormatIntent.putExtras(bundle);
                 startActivity(billFormatIntent);
                 return;
             } else if (tag == R.id.PRODUCT_PAST_HISTORY) {
                 AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
             } else if (tag == R.id.PRODUCT_SHARE) {
-                shareProductDetails(itemFromPosition);
+                shareProductDetails(productInfoResponse);
                 return;
             } else if (tag == R.id.PRODUCT_TRANSFER) {
                 showTransferDialog();
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
-                showFeedBackDialog();
+                doReviewsApi();
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                showSuggestionsDialog();
+            } else if (tag == R.id.PRODUCT_EDIT) {
+                textArray.add(getString(R.string.bottom_option_nick_name));
+                textArray.add(getString(R.string.bottom_option_location_change));
+                textArray.add(getString(R.string.bottom_option_delete));
+
+                tagsArray.add(R.id.PRODUCT_EDIT_NICK_NAME);
+                tagsArray.add(R.id.PRODUCT_EDIT_LOCATION_CHANGE);
+                tagsArray.add(R.id.PRODUCT_EDIT_DELETE);
+
+                drawablesArray.add(R.drawable.ic_option_details);
+                drawablesArray.add(R.drawable.ic_option_details);
+                drawablesArray.add(R.drawable.ic_option_details);
+
             } else if (tag == R.id.SHOWROOM_CALL) {
-                callPhoneNumber(itemFromPosition.getStoreContactNumber());
+                callPhoneNumber(productInfoResponse.getStoreContactNumber());
                 return;
             } else if (tag == R.id.SHOWROOM_LOCATION) {
                 showLocationDialog();
             } else if (tag == R.id.SHOWROOM_FEEDBACK) {
-                showFeedBackDialog();
+                doReviewsApi();
             }
 
-
-            // service/support
-            /*if (firstRowTag == 0) {
-
-
-                //un authorized
-                if (secondRowTag == 0) {
-                    textArray = new String[2];
-                    textArray[0] = getString(R.string.bottom_option_Call);
-                    textArray[1] = getString(R.string.bottom_option_add);
-
-                    drawablesArray = new int[2];
-                    drawablesArray[0] = R.drawable.ic_option_details;
-                    drawablesArray[1] = R.drawable.ic_option_bill;
-                } else if (secondRowTag == 1) { // authorized
-                    textArray = new String[3];
-                    textArray[0] = getString(R.string.bottom_option_Call);
-                    textArray[1] = getString(R.string.bottom_option_find_service_center);
-                    textArray[2] = getString(R.string.bottom_option_service_request);
-
-                    drawablesArray = new int[3];
-                    drawablesArray[0] = R.drawable.ic_option_details;
-                    drawablesArray[1] = R.drawable.ic_option_return_product;
-                    drawablesArray[2] = R.drawable.ic_option_bill;
-                }
-
-            } else if (firstRowTag == 1) { // product
-
-                if (secondRowTag == 0) { // details
-                    textArray = new String[4];
-                    textArray[0] = getString(R.string.bottom_option_return_policy);
-                    textArray[1] = getString(R.string.bottom_option_special_instructions);
-                    textArray[2] = getString(R.string.bottom_option_how_to_use);
-                    textArray[3] = getString(R.string.bottom_option_description);
-                    drawablesArray = new int[4];
-                    drawablesArray[0] = R.drawable.ic_option_return_policy;
-                    drawablesArray[1] = R.drawable.ic_option_sp_instructions;
-                    drawablesArray[2] = R.drawable.ic_option_howtouse;
-                    drawablesArray[3] = R.drawable.ic_option_details;
-                } else if (secondRowTag == 1) { // warranty
-
-                    String purchasedDate = DateUtils.convertMillisToStringFormat(
-                            itemFromPosition.getPurchasedDate(), DateFormatterConstants.DD_MM_YYYY);
-                    String warrantyEndDate = DateUtils.convertMillisToStringFormat(
-                            itemFromPosition.getWarrantyEndDate(), DateFormatterConstants.DD_MM_YYYY);
-                    long noOfDays = DateUtils.convertDifferenceDateIndays(
-                            itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
-                    String warrantyConditions = itemFromPosition.getWarrantyConditions();
-                    showInformationDialog(getString(
-                            R.string.bottom_option_warranty), getString(
-                            R.string.purchased_warranty_status_now)
-                            + noOfDays + " Days Left "
-                            + "\n"
-                            + getString(
-                            R.string.purchased_purchased_date)
-                            + purchasedDate
-                            + "\n"
-                            + getString(
-                            R.string.purchased_warranty_covers_date)
-                            + warrantyConditions
-                            + "\n"
-                            + getString(
-                            R.string.purchased_warranty_ends_on) + warrantyEndDate);
-                    return;
-                } else if (secondRowTag == 2) { // bill
-                    Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, itemFromPosition);
-                    billFormatIntent.putExtras(bundle);
-                    startActivity(billFormatIntent);
-                    return;
-                } else if (secondRowTag == 3) { // past history
-                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                    textArray = new String[0];
-                    drawablesArray = new int[0];
-                } else if (secondRowTag == 4) { // share
-                    shareProductDetails(itemFromPosition);
-                    return;
-                } else if (secondRowTag == 5) { // transfer
-                    //  showTransferDialog();
-                    return;
-                } else if (secondRowTag == 6) { // feed back
-                    showFeedBackDialog();
-                } else if (secondRowTag == 7) { // suggestions
-                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                    textArray = new String[0];
-                    drawablesArray = new int[0];
-                }
-            } else if (firstRowTag == 2) { // showroom
-
-                if (secondRowTag == 0) { // call
-                    callPhoneNumber(itemFromPosition.getStoreContactNumber());
-                    return;
-                } else if (secondRowTag == 1) { // location
-                    showLocationDialog();
-
-                    return;
-                } else if (secondRowTag == 2) { // feed back
-                    AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                    textArray = new String[0];
-                    drawablesArray = new int[0];
-                }
-            }
-            */
-
-
-            bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.GONE);
+            bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.setVisibility(View.VISIBLE);
             bottomSheetPurchasedBinding.thirdRow.removeAllViews();
-            bottomSheetPurchasedBinding.thirdRow.setWeightSum(textArray.length);
-            setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, textArray, drawablesArray,tagsArray, bottomSheetThirdRowClickListener);
+            bottomSheetPurchasedBinding.thirdRow.setWeightSum(tagsArray.size());
+            setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, textArray, drawablesArray, tagsArray, bottomSheetThirdRowClickListener);
         }
     };
-
-    private void showTransferDialog() {
-        transferDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        buyRequestComment = commentString;
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                transferDialog.dismiss();
-                                AppUtils.hideSoftKeyboard(getContext(), getView());
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                transferDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_transfer))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        transferDialog.showDialog();
-    }
-
-
-    private void showFeedBackDialog() {
-        feedBackDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                feedBackDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_feedback))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        feedBackDialog.showDialog();
-        feedBackDialog.setCancelable(true);
-
-    }
 
 
     private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
@@ -762,12 +535,6 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
             ProductInfoResponse productInfoResponse = favoritesAdapter.getItemFromPosition(
                     productSelectedPosition);
             changeSelectedViews(bottomSheetPurchasedBinding.thirdRow, tag);
-
-
-            String[] textArray = new String[0];
-            int[] drawablesArray = new int[0];
-            int[] tagsArray = new int[0];
-
 
             if (tag == R.id.SUPPORT_UNAUTHORIZE_CALL) {
                 List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
@@ -782,25 +549,20 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
 
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER) {
                 isFindServiceCenter = true;
-                loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
+                loadNearByServiceCentersDialogData(ServiceConstants.AUTHORIZED_TYPE,productInfoResponse.getBrandId());
 
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST) {
                 isFindServiceCenter = false;
                 if (serviceCenterResponseList != null) {
                     loadServiceRequesDialogData();
                 } else {
-                    loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
+                    loadNearByServiceCentersDialogData(ServiceConstants.AUTHORIZED_TYPE,productInfoResponse.getBrandId());
                 }
 
-            } else if (tag == R.id.PRODUCT_DETAILS_RETURN_POLICY) {
-                showInformationDialog(getString(R.string.bottom_option_return_policy), productInfoResponse.getReturnPolicy());
             } else if (tag == R.id.PRODUCT_DETAILS_SPECIAL_INSTUCTIONS) {
                 showInformationDialog(getString(
                         R.string.bottom_option_special_instructions),
                         productInfoResponse.getSpecialInstruction());
-            } else if (tag == R.id.PRODUCT_DETAILS_HOW_TO_USE) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-
             } else if (tag == R.id.PRODUCT_DETAILS_DESCRIPTION) {
                 showInformationDialog(getString(
                         R.string.bottom_option_description), productInfoResponse.getInformation()
@@ -809,95 +571,117 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
                         + productInfoResponse.getProductDimensions());
                 return;
 
-            }
-
-
-
-            /*if (firstRowTag == 0) { // service/support
-                if (secondRowTag == 0) { // un authorized
-                    if (thirdRowTag == 0) { // call
-                        List<AddServiceEngineer> serviceEngineerList = productInfoResponse.getServiceEngineerList();
-                        showPhoneNumberList(serviceEngineerList);
-                        return;
-                    } else if (thirdRowTag == 1) { // add
-                        showCustomPhoneNumberDialog();
-                    }
-                } else if (secondRowTag == 1) { // authorized
-
-                    if (thirdRowTag == 0) { // call
-                        // todo have to check
-                        callPhoneNumber(productInfoResponse.getMobileNumber());
-                        return;
-                    } else if (thirdRowTag == 1) { //find service center
-                        // todo have to check
-                        isFindServiceCenter = true;
-                        loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
-                    } else if (thirdRowTag == 2) { // service center
-                        // todo have to check
-                        isFindServiceCenter = false;
-                        if (serviceCenterResponseList != null) {
-                            loadServiceRequesDialogData();
-                        } else {
-                            loadNearByServiceCentersDialogData(productInfoResponse.getBrandId());
-                        }
-
-                    }
-                }
+            } else if (tag == R.id.PRODUCT_EDIT_NICK_NAME) {
+                productNameEditDialog();
+                return;
+            } else if (tag == R.id.PRODUCT_EDIT_LOCATION_CHANGE) {
+                showFavoritesLocationChangeDialog();
+                return;
+            } else if (tag == R.id.PRODUCT_EDIT_DELETE) {
+                showDeleteDialog();
 
             }
-
-            //product
-            else if (firstRowTag == 1) {
-                // details
-                if (secondRowTag == 0) {
-                    // return policy
-                    if (thirdRowTag == 0) {
-                        showInformationDialog(getString(R.string.bottom_option_return_policy), productInfoResponse.getReturnPolicy());
-                    }
-                    // special instruction
-                    else if (thirdRowTag == 1) {
-                        showInformationDialog(getString(
-                                R.string.bottom_option_special_instructions),
-                                productInfoResponse.getSpecialInstruction());
-                    }
-                    //how to use
-                    else if (thirdRowTag == 2) {
-                        AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
-                        //                showInformationDialog(itemFromPosition.getInformation());
-                    }
-                    //description
-                    else if (thirdRowTag == 3) {
-                        showInformationDialog(getString(
-                                R.string.bottom_option_description), productInfoResponse.getInformation()
-                                + productInfoResponse.getProductSpecification()
-                                + productInfoResponse.getColor()
-                                + productInfoResponse.getProductDimensions());
-                        return;
-                    }
-                }
-            }
-*/
-
         }
 
     };
 
-    private void loadServiceRequesDialogData() {
-        if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
-            loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
-        } else {
-            showErrorMessage(getString(R.string.error_no_service_centers_found));
+    private void productNameEditDialog() {
+        productNameEditDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String commentString) {
+                        ProductInfoResponse itemFromPosition = favoritesAdapter.
+                                getItemFromPosition(productSelectedPosition);
+                        productEdit = commentString;
+                        HashMap<String, String> productNameEditMap = new HashMap<>();
+                        productNameEditMap.put(ApiRequestKeyConstants.BODY_NICK_NAME, productEdit);
+                        productNameEditMap.put(BODY_ID, String.valueOf(itemFromPosition.getFavouriteId()));
+                        favoritesPresenter.doLocationChangeProductNameEditApi(productNameEditMap);
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                productNameEditDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.bottom_option_product_name_edit))
+                .leftButtonText(getString(R.string.action_cancel))
+                .rightButtonText(getString(R.string.action_submit))
+                .build();
+        productNameEditDialog.showDialog();
+        productNameEditDialog.setCancelable(true);
+    }
+
+
+    private void showFavoritesLocationChangeDialog() {
+
+        final List<AddUserAddressResponse> addressResponsesList = addressessAdapter.getAddressResponsesList();
+        if (addressResponsesList == null || addressResponsesList.size() == 0) {
+            Logger.e("showFavoriteOptionsDialog", "addressResponsesList are either empty are zero");
+            return;
         }
+
+        //set previous selected categories as checked
+        List<CheckedModelSpinner> filterNamesList = new ArrayList<>();
+        for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
+
+            AddUserAddressResponse singleAddressResponse = addressessAdapter.
+                    getItemFromPosition(addressSelectedPosition);
+            if (singleAddressResponse.getId() == addUserAddressResponse.getId()) {
+                continue;
+            }
+            CheckedModelSpinner checkedModelSpinner = new CheckedModelSpinner();
+            checkedModelSpinner.setName(addUserAddressResponse.getName());
+            filterNamesList.add(checkedModelSpinner);
+        }
+        productLocationDialog = new AppCheckBoxListDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String selectedLocationName) {
+                        for (AddUserAddressResponse addUserAddressResponse : addressResponsesList) {
+                            if (addUserAddressResponse.getName().equals(selectedLocationName)) {
+                                addressId = addUserAddressResponse.getId();
+                                break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
+                                pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
+                                startActivityForResult(pinIntent, RequestCodes.LOCATION_CHANGED);
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                productLocationDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(getString(R.string.bottom_option_location_change))
+                .spinnerItems(filterNamesList)
+                .build();
+        productLocationDialog.showDialog();
+        productLocationDialog.setRadioType(true);
     }
 
-    private void loadUsersDataFromServiceCenterId(Integer serviceCenterId) {
-        //todo have to check
-        favoritesPresenter.getUsersListOfServiceCenters(serviceCenterId);
-    }
-
-    private void loadNearByServiceCentersDialogData(String brandId) {
-        //todo have to check
-        favoritesPresenter.nearByServiceCenters(Integer.parseInt(brandId));
+    private void productLocationChangeApi() {
+        ProductInfoResponse itemFromPosition = favoritesAdapter.
+                getItemFromPosition(productSelectedPosition);
+        HashMap<String, String> productLocationChangeMap = new HashMap<>();
+        productLocationChangeMap.put(BODY_ID, String.valueOf(itemFromPosition.getFavouriteId()));
+        productLocationChangeMap.put(BODY_ADDRESS_ID, String.valueOf(itemFromPosition.getAddressId()));
+        favoritesPresenter.doLocationChangeProductNameEditApi(productLocationChangeMap);
     }
 
 
@@ -916,237 +700,68 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     };
 
 
-    // bottom sheet second top view click event
-    private View.OnClickListener secondtopViewClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            TextView viewById = (TextView) view.findViewById(R.id.view_tv);
-            String topClickedText = viewById.getText().toString();
-            Integer tag = (Integer) view.getTag();
-            changeBackgroundText(tag, view);
-            ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(
-                    productSelectedPosition);
-            if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_return_policy))) {
-                String returnPolicy = itemFromPosition.getReturnPolicy();
-                if (returnPolicy != null) {
-                    showInformationDialog(getString(
-                            R.string.bottom_option_return_policy), returnPolicy);
-                }
-            } else if (tag == 1 && topClickedText.equals(getString(
-                    R.string.bottom_option_special_instructions))) {
-                String specialInstruction = itemFromPosition.getSpecialInstruction();
-                if (specialInstruction != null) {
-                    showInformationDialog(getString(
-                            R.string.bottom_option_special_instructions), specialInstruction);
-                }
-            } else if (tag == 2 && topClickedText.equals(getString(
-                    R.string.bottom_option_how_to_use))) {
-            } else if (tag == 3 && topClickedText.equals(getString(
-                    R.string.bottom_option_warranty))) {
-                if (itemFromPosition.getWarrantyYears() != null) {
-                    showInformationDialog(getString(
-                            R.string.bottom_option_warranty),
-                            +itemFromPosition.getWarrantyYears() + "Year");
-                } else {
-                    showInformationDialog(getString(
-                            R.string.bottom_option_warranty), "No Warranty Exists");
-                }
-            } else if (tag == 4 && topClickedText.equals(getString(
-                    R.string.bottom_option_share))) {
-                shareProductDetails(itemFromPosition);
-            } else if (tag == 0 && topClickedText.equals(getString(
-                    R.string.bottom_option_feedback))) {
-            }
+    @Override
+    public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
+        if (favoritesResponseList == null) {
+            favoritesResponseList = new ArrayList<>();
         }
-    };
-
-    // share product details
-    private void shareProductDetails(ProductInfoResponse productSelectedPosition) {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, productSelectedPosition.getInformation()
-                + " Price " + productSelectedPosition.getMrp());
-        sendIntent.setType("text/plain");
-        sendIntent.setPackage("com.whatsapp");
-        startActivity(sendIntent);
-
-    }
-
-    private void showInterestProductDeleteDialog(String messageInfo) {
-        detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
-                AlertDialogCallback() {
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                /*interestPresenter.deleteApi(interestAdapter.
-                                        getInterestDateFromPosition(
-                                                productSelectedPosition).getInterestId());*/
-                                detailsDialog.dismiss();
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                detailsDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(messageInfo)
-                .button1Text(getString(R.string.action_ok))
-                .button2Text(getString(R.string.action_cancel))
-                .build();
-        detailsDialog.showDialog();
-    }
-
-    private void showInformationDialog(String title, String messageInfo) {
-        detailsDialog = new AppAlertDialog.AlertDialogBuilder(getActivity(), new
-                AlertDialogCallback() {
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                detailsDialog.dismiss();
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                detailsDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(title).content(messageInfo)
-                .build();
-        detailsDialog.showDialog();
-        detailsDialog.setCancelable(true);
-    }
-
-    //location dialog
-    private void showLocationDialog() {
-        ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(
-                productSelectedPosition);
-        if (TextUtils.isEmpty(itemFromPosition.getLocation())) {
-            AppUtils.shortToast(getActivity(), getString(R.string.error_location));
-            return;
+        addressessAdapter.setData(favoritesResponseList);
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
         }
-        Intent addressIntent = new Intent(getActivity(), RegistrationMapActivity.class);
-        addressIntent.putExtra(IntentConstants.LOCATION_COMMA, itemFromPosition.getLocation());
-        addressIntent.putExtra(IntentConstants.ADDRESS_COMMA, itemFromPosition.getAddress());
-        startActivity(addressIntent);
+        favoritesBinding.addAddressView.getRoot().setVisibility(View.VISIBLE);
+        dismissSwipeRefresh();
+
+        if (favoritesResponseList.size() > 0) {
+            iAddressClickCallback.onClickPosition(0);
+            // binding.parentProduct.setVisibility(View.VISIBLE);
+        } else {
+            loadFavoritesProducts(null);
+            // binding.parentProduct.setVisibility(View.GONE);
+
+        }
     }
 
     @Override
-    public void addedServiceEngineer(ProductInfoResponse productInfoResponse) {
-        if (customPhoneNumberDialog != null && customPhoneNumberDialog.isShowing()) {
-            customPhoneNumberDialog.dismiss();
-        }
+    public void onLocationChanged() {
+        dismissDialog(productLocationDialog);
+        dismissDialog(productNameEditDialog);
+        dismissDialog(bottomSheetDialog);
         onRefreshListener.onRefresh();
-        bottomSheetDialog.dismiss();
     }
 
-    private void showCustomPhoneNumberDialog() {
-        if (serviceEngineer == null) {
-            serviceEngineer = new AddServiceEngineer();
+
+    @Override
+    public void loadFavoritesProducts(List<ProductInfoResponse> favoritesResponseList) {
+        if (favoritesResponseList == null) {
+            favoritesResponseList = new ArrayList<>();
         }
-        customPhoneNumberDialog = new CustomPhoneNumberDialog.AlertDialogBuilder(getActivity(), new
-                CustomPhoneNumberAlertDialogCallback() {
-                    @Override
-                    public void enteredName(String name) {
+        if (favoritesResponseList.size() == 0) {
+            // binding.listHeader.setVisibility(View.GONE);
+            favoritesBinding.noItemsTextview.setVisibility(View.VISIBLE);
+        } else {
+            // binding.listHeader.setVisibility(View.VISIBLE);
+            favoritesBinding.noItemsTextview.setVisibility(View.GONE);
+        }
+        {
+            favoritesAdapter.setData(favoritesResponseList);
+            dismissSwipeRefresh();
+        }
+        favoritesBinding.favoritesRecyclerview.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.stopShimmerAnimation();
+        shimmerFrameLayout.setVisibility(View.GONE);
 
-                        serviceEngineer.setName(name);
-                    }
 
-                    @Override
-                    public void enteredPhoneNumber(String phoneNumber) {
-                        serviceEngineer.setMobileNumber(phoneNumber);
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                if (TextUtils.isEmpty(serviceEngineer.getMobileNumber())) {
-                                    showErrorMessage(getString(R.string.error_phone_req));
-                                } else {
-                                    AppUtils.hideSoftKeyboard(getActivity(), rootView);
-                                    favoritesPresenter.addServiceEngineer(serviceEngineer, userId);
-                                }
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                customPhoneNumberDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.action_approval))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        customPhoneNumberDialog.showDialog();
-        customPhoneNumberDialog.setCancelable(true);
     }
 
-    //buy request dialog
-    private void showBuyRequestDialog() {
-        buyRequestDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        buyRequestComment = commentString;
-                    }
+    @Override
+    public void productReviews() {
 
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-                                HashMap<String, String> buyRequestApi = new HashMap<>();
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_CUSTOMER_ID,
-                                        String.valueOf(userId));
-                                ProductInfoResponse productInfoResponse = favoritesAdapter.
-                                        getItemFromPosition(productSelectedPosition);
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_MERCHANT_ID,
-                                        String.valueOf(productInfoResponse.getMerchantId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_QRCODE_ID,
-                                        String.valueOf(productInfoResponse.getQrcodeId()));
-                                buyRequestApi.put(ApiRequestKeyConstants.BODY_COMMENTS,
-                                        buyRequestComment);
-//                                interestPresenter.buyRequestApi(buyRequestApi);
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                buyRequestDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_buy_request))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        buyRequestDialog.showDialog();
     }
-
-    // data reload
-    private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
-            new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    getProductsApi();
-                   /* if (addressSelectedPosition == -1) {
-                        return;
-                    }
-                    AddUserAddressResponse singleAddressResponse = addressessAdapter.
-                            getItemFromPosition(addressSelectedPosition);
-                    binding.addressesRecyclerview.getLayoutManager().scrollToPosition(
-                            addressSelectedPosition);
-                    favoritesPresenter.doFavoritesProductApi(userId, singleAddressResponse.getId());*/
-                }
-            };
 
     private void dismissSwipeRefresh() {
-        if (binding.swiperefresh.isRefreshing()) {
-            binding.swiperefresh.setRefreshing(false);
+        if (favoritesBinding.swiperefresh.isRefreshing()) {
+            favoritesBinding.swiperefresh.setRefreshing(false);
         }
     }
 
@@ -1160,201 +775,7 @@ public class FavoritesFragment extends BaseProductOptionsFragment implements Fav
     }
 
     @Override
-    public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
-        if (favoritesResponseList == null) {
-            favoritesResponseList = new ArrayList<>();
-        }
-        addressessAdapter.setData(favoritesResponseList);
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
-        binding.addAddressView.getRoot().setVisibility(View.VISIBLE);
-        dismissSwipeRefresh();
-
-        if (favoritesResponseList.size() > 0) {
-            iAddressClickCallback.onClickPosition(0);
-            binding.parentProduct.setVisibility(View.VISIBLE);
-        } else {
-            loadFavoritesProducts(null);
-            binding.parentProduct.setVisibility(View.GONE);
-
-        }
-    }
-
-    @Override
-    public void loadFavoritesProducts(List<ProductInfoResponse> favoritesResponseList) {
-        if (favoritesResponseList == null) {
-            favoritesResponseList = new ArrayList<>();
-        }
-        if (favoritesResponseList.size() == 0) {
-            binding.listHeader.setVisibility(View.GONE);
-            binding.noItemsTextview.setVisibility(View.VISIBLE);
-        } else {
-            binding.listHeader.setVisibility(View.VISIBLE);
-            binding.noItemsTextview.setVisibility(View.GONE);
-        }
-        {
-            favoritesAdapter.setData(favoritesResponseList);
-            dismissSwipeRefresh();
-        }
-        binding.favoritesRecyclerview.setVisibility(View.VISIBLE);
-        shimmerFrameLayout.stopShimmerAnimation();
-        shimmerFrameLayout.setVisibility(View.GONE);
-
-
-    }
-
-    @Override
-    public void loadServiceRequest() {
-        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
-            serviceRequestDialog.dismiss();
-        }
-
-    }
-
-    private void showServiceRequestDialog(List<UsersListOfServiceCenters> listOfServiceCenters) {
-        if (serviceCenterResponseList == null) {
-            return;
-        }
-        String[] problemsArray = new String[4]; //TODO have to change based legal info
-        problemsArray[0] = "Engine repaired";
-        problemsArray[1] = "Need service";
-        problemsArray[2] = "Power problem";
-        problemsArray[3] = "Others";
-
-        serviceRequestDialog = new ServiceRequestDialog.AlertDialogBuilder(getContext(), new ServiceRequestCallback() {
-            @Override
-            public void getUsersListFromServiceCenterId(int serviceCenterId) {
-                loadUsersDataFromServiceCenterId(serviceCenterId);
-            }
-
-            @Override
-            public void dateClicked(String date) {
-                showDatePickerToPlaceServiceRequest(date);
-            }
-
-            @Override
-            public void timeClicked() {
-                showTimePickerToPlaceServiceRequest();
-            }
-
-            @Override
-            public void enteredText(String commentString) {
-                serviceRequestComment = commentString;
-
-            }
-
-            @Override
-            public void doServiceRequestApi(ServiceRequest serviceRequest) {
-                serviceRequest.setPurchaseId(Integer.valueOf(favoritesAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId()));
-                serviceRequest.setCustomerId(userId);
-                favoritesPresenter.serviceRequest(serviceRequest);
-            }
-
-            @Override
-            public void alertDialogCallback(byte dialogStatus) {
-                switch (dialogStatus) {
-                    case AlertDialogCallback.OK:
-                        break;
-                    case AlertDialogCallback.CANCEL:
-                        serviceRequestDialog.dismiss();
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-        }).problemsArray(problemsArray)
-                .loadUsersList(listOfServiceCenters)
-                .loadServiceCentersData(serviceCenterResponseList)
-                .build();
-        serviceRequestDialog.showDialog();
-    }
-
-    private void showTimePickerToPlaceServiceRequest() {
-        timeSlotAlertDialog = new TimeSlotAlertDialog.AlertDialogBuilder(getContext(), new TimeSlotAlertDialogCallback() {
-            @Override
-            public void selectedTimeSlot(String timeSlot) {
-                serviceRequestDialog.setTimeFromPicker(timeSlot);
-            }
-
-            @Override
-            public void alertDialogCallback(byte dialogStatus) {
-                timeSlotAlertDialog.dismiss();
-
-            }
-        }).build();
-        timeSlotAlertDialog.showDialog();
-
-
-    }
-
-    private void showDatePickerToPlaceServiceRequest(String date) {
-        AppUtils.hideSoftKeyboard(getContext(), getView());
-        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
-        String selectedDate = date;
-        if (!TextUtils.isEmpty(selectedDate)) {
-            cal.setTimeInMillis(DateUtils.convertStringFormatToMillis(
-                    selectedDate, DateFormatterConstants.DD_MM_YYYY));
-        }
-
-        int customStyle = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                ? R.style.DatePickerDialogTheme : android.R.style.Theme_DeviceDefault_Light_Dialog;
-        DatePickerDialog datePicker = new DatePickerDialog(getContext(),
-                customStyle,
-                serviceRequestDatePickerListener,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH));
-        datePicker.setCancelable(false);
-        datePicker.show();
-    }
-
-    // date Listener
-    private DatePickerDialog.OnDateSetListener serviceRequestDatePickerListener =
-            new DatePickerDialog.OnDateSetListener() {
-                // when dialog box is closed, below method will be called.
-                public void onDateSet(DatePicker view, int selectedYear,
-                                      int selectedMonth, int selectedDay) {
-                    Calendar selectedDateTime = Calendar.getInstance();
-                    selectedDateTime.set(selectedYear, selectedMonth, selectedDay);
-
-                    String dobInDD_MM_YYYY = DateUtils.convertDateToOtherFormat(
-                            selectedDateTime.getTime(), DateFormatterConstants.DD_MM_YYYY);
-                    serviceRequestDialog.setDateFromPicker(dobInDD_MM_YYYY);
-
-                }
-            };
-
-
-    @Override
-    public void loadNearByServiceCenters(List<ServiceCenterResponse> serviceCenterResponses) {
-        this.serviceCenterResponseList = (ArrayList<ServiceCenterResponse>) serviceCenterResponseList;
-        if (serviceCenterResponseList == null) {
-            return;
-        }
-        if (isFindServiceCenter) {
-            if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
-                Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
-                serviceCenters.putParcelableArrayListExtra(IntentConstants.SERVICE_CENTER_DATA, this.serviceCenterResponseList);
-                startActivity(serviceCenters);
-            } else {
-                showErrorMessage(getString(R.string.error_no_service_centers_found));
-            }
-        } else {
-            loadServiceRequesDialogData();
-        }
-
-    }
-
-    @Override
-    public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> usersList) {
-
-        if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
-            serviceRequestDialog.setUsersData(usersList);
-        } else {
-            showServiceRequestDialog(usersList);
-        }
-
+    public void onSearchClickListerner(String searchableText, String searchType) {
+        //DO nothing
     }
 }

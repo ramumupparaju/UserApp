@@ -21,6 +21,8 @@ import com.incon.connect.user.ui.BaseActivity;
 import com.incon.connect.user.ui.forgotpassword.ForgotPasswordActivity;
 import com.incon.connect.user.ui.home.HomeActivity;
 import com.incon.connect.user.ui.notifications.PushPresenter;
+import com.incon.connect.user.ui.pin.CustomPinActivity;
+import com.incon.connect.user.ui.pin.managers.AppLock;
 import com.incon.connect.user.ui.register.RegistrationActivity;
 import com.incon.connect.user.ui.resetpassword.ResetPasswordPromptActivity;
 import com.incon.connect.user.utils.Logger;
@@ -60,7 +62,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         binding.setActivity(this);
 
 //        LoginUserData loginUserData = new LoginUserData();
-        LoginUserData loginUserData = new LoginUserData("9666266663", "bogavalli24");
+        LoginUserData loginUserData = new LoginUserData("2234567890", "qwerty123"); //stage
+//        LoginUserData loginUserData = new LoginUserData("7799050905", "qwerty123"); //pro
         String phoneNumberPreference = SharedPrefsUtils.loginProvider().
                 getStringPreference(LoginPrefs.USER_PHONE_NUMBER);
         if (!TextUtils.isEmpty(phoneNumberPreference)) {
@@ -72,6 +75,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                 LoginPrefs.IS_REGISTERED, false);
         boolean isForgotOtpVerifiedFailed = SharedPrefsUtils.loginProvider().getBooleanPreference(
                 LoginPrefs.IS_FORGOT_PASSWORD, false);
+        boolean isPinPrompt = SharedPrefsUtils.loginProvider().getBooleanPreference(
+                LoginPrefs.PIN_PROMPT, false);
         if (isOtpVerifiedFailed) {
             showOtpDialog();
         } else if (isForgotOtpVerifiedFailed) {
@@ -80,6 +85,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             Intent registrationIntent = new Intent(this, ResetPasswordPromptActivity.class);
             registrationIntent.putExtra(IntentConstants.USER_PHONE_NUMBER, phoneNumber);
             startActivity(registrationIntent);
+        } else if (isPinPrompt){
+            Intent pinIntent = new Intent(LoginActivity.this, CustomPinActivity.class);
+            pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
+            startActivityForResult(pinIntent, RequestCodes.PIN_PROMPT);
         }
     }
 
@@ -137,6 +146,16 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     public void navigateToHomePage(LoginResponse loginResponse) {
         if (loginResponse == null) {
             clearData();
+            return;
+        }
+
+        String pin = SharedPrefsUtils.loginProvider().getStringPreference(LoginPrefs.USER_PIN);
+        if (TextUtils.isEmpty(pin)) {
+            SharedPrefsUtils.loginProvider().setBooleanPreference(LoginPrefs.LOGGED_IN, false);
+            SharedPrefsUtils.loginProvider().setBooleanPreference(LoginPrefs.PIN_PROMPT, true);
+            Intent pinIntent = new Intent(LoginActivity.this, CustomPinActivity.class);
+            pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
+            startActivityForResult(pinIntent, RequestCodes.PIN_PROMPT);
             return;
         }
 
@@ -233,12 +252,14 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                 case RequestCodes.FORGOT_PASSWORD:
                     binding.edittextPassword.setText("");
                     break;
+                    case RequestCodes.PIN_PROMPT:
+                        navigateToHomePage(new LoginResponse());
+                    break;
                 default:
                     break;
             }
         }
     }
-
 
 
     @Override

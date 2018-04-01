@@ -16,10 +16,10 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/return_textview"
+                    android:id="@+id/showroom_textview"
                     style="@style/BothMatch"
                     android:gravity="center"
-                    android:text="No ReturnItems"
+                    android:text="No ShowRoomItems"
                     android:visibility="gone"
                     />
                 <com.facebook.shimmer.ShimmerFrameLayout
@@ -45,7 +45,6 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/showroom_recyclerview"
                     style="@style/MatchWrap"
-                    android:layout_marginTop="@dimen/margin_10"
                     android:fadeScrollbars="false"
                     android:scrollbarSize="4dp"
                     android:scrollbarThumbVertical="@drawable/scrollbar"

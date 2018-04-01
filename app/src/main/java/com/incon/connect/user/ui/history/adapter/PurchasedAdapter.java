@@ -66,7 +66,7 @@ public class PurchasedAdapter extends BaseRecyclerViewAdapter {
 
             //settings date from millis
             binding.purchasedDate.setText(DateUtils.convertMillisToStringFormat(purchasedHistoryResponse
-                    .getPurchasedDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY));
+                    .getPurchasedDate(), AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
 
             AppUtils.loadImageFromApi(binding.brandImageview, purchasedHistoryResponse
                     .getProductLogoUrl());

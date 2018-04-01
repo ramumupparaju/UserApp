@@ -57,14 +57,14 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="astral">#2E79A9</color>
-    <color name="astral_alpha">#662E79A9</color>
+    <color name="astral_alpha">#222E79A9</color>
     <color name="blue_charcoal">#02131e</color>
     <color name="river_bed">#434f56</color>
     <color name="aqua">#00fbff</color>
     <color name="chartreuse_yellow">#edff00</color>
     <color name="cadet_blue">#b7bcca</color>
     <color name="ebony_clay">#1e272c</color>
-    <color name="dusty_gray">#979797</color>
+    <color name="dusty_gray">#44e5e7ee</color>
     <color name="lochmara">#0982D0</color>
     <color name="spring_green">#1DFF48</color>
     <color name="aqua_haze">#F4F7F8</color>
@@ -93,8 +93,22 @@
     <color name="scorpion2">#565656</color>
     <color name="mine_shaft">#1f1f1f</color>
     <color name="orange">#FFA500</color>
-    <color name="green">#00ff00</color>
+    <color name="green">#109210</color>
     <color name="red">#ff0000</color>
     <color name="mint_tulip">#D0EBF7</color>
+    <color name="dark_grey_color">#4a636f</color>
+    <color name="light_blue_500">#03a9f4</color>
+    <color name="blue_gray">#4b636f</color>
+    <color name="light_gray">#f0f6f9</color>
+    <color name="dark_gray">#9baab2</color>
+    <color name="light_gray_bar">#eaf2f5</color>
+
+    <color name="warning_color">#f4511e</color>
+    <color name="hint_color">#42000000</color>
+    <color name="success_color">#009688</color>
+
+
+
+
 
 </resources>

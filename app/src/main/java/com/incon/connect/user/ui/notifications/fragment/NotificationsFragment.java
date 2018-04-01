@@ -39,7 +39,7 @@ public class NotificationsFragment extends BaseProductOptionsFragment {
 
     @Override
     public void setTitle() {
-        ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.title_notifications));
+        ((HomeActivity) getActivity()).setToolbarTitle(getString(R.string.title_updates));
     }
 
     @Override

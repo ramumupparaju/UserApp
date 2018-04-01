@@ -8,32 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
-import com.incon.connect.user.ConnectApplication;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.ServiceRequest;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductStatus;
-import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
-import com.incon.connect.user.apimodel.components.status.StatusList;
-import com.incon.connect.user.callbacks.IClickCallback;
 import com.incon.connect.user.callbacks.IStatusClickCallback;
 import com.incon.connect.user.databinding.ItemProductStatusListBinding;
-import com.incon.connect.user.databinding.ItemServiceStatusListBinding;
 import com.incon.connect.user.databinding.StatusViewBinding;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import static com.incon.connect.user.AppUtils.getDrawableFromRequestId;
-import static com.incon.connect.user.AppUtils.getStatusName;
 
 /**
  * Created by INCON TECHNOLOGIES on 12/25/2017.
  */
-public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdapter.ViewHolder> {
+public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdapter.ViewHolder>
+        implements AppConstants.StatusDrawables{
 
     private List<ProductInfoResponse> productStatusList = new ArrayList<>();
     private IStatusClickCallback clickCallback;
@@ -83,22 +75,46 @@ public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdap
             super(binding.getRoot());
             this.binding = binding;
             binding.getRoot().setOnClickListener(this);
+            binding.buttonAccept.setOnClickListener(this);
+            binding.buttonReject.setOnClickListener(this);
+            binding.buttonHold.setOnClickListener(this);
         }
 
         public void bind(ProductInfoResponse productStatus, int position) {
             binding.setVariable(BR.modelResponse, productStatus);
+            AppUtils.loadImageFromApi(binding.brandImageview, productStatus.getProductLogoUrl());
+            AppUtils.loadImageFromApi(binding.productImageview, productStatus.getProductImageUrl());
 
             //TODO remove hard coding
-            binding.nameTv.setText("StoreName:" + productStatus.getStoreName() +
-                    ", model name: " + productStatus.getModelNumber());
+            binding.productName.setText(productStatus.getProductName());
+            binding.modelNumberTv.setText("Mod No : " +productStatus.getModelNumber());
+            binding.storeName.setText(productStatus.getStoreName());
 
+          /*  binding.nameTv.setText("StoreName:" + productStatus.getStoreName() +
+                    ", model name: " + productStatus.getModelNumber());
+*/
             createStatusView(binding, productStatus);
             binding.executePendingBindings();
         }
 
         @Override
         public void onClick(View view) {
-            clickCallback.onClickPosition(getAdapterPosition());
+           // clickCallback.onClickPosition(getAdapterPosition());
+            int statusType = -1;
+            if (view.getId() == R.id.button_accept) {
+                statusType = AppConstants.StatusConstants.APPROVED;
+            } else if (view.getId() == R.id.button_reject) {
+                statusType = AppConstants.StatusConstants.REJECTED;
+            } else if (view.getId() == R.id.button_hold) {
+                statusType = AppConstants.StatusConstants.HOLD;
+            }
+
+            //checking whether clicked on status buttons or not
+            if (statusType != -1) {
+                clickCallback.onClickStatusButton(statusType);
+            } else {
+                clickCallback.onClickPosition(getAdapterPosition());
+            }
         }
 
     }
@@ -117,12 +133,8 @@ public class ProductStatusAdapter extends RecyclerView.Adapter<ProductStatusAdap
                 LinearLayout linearLayout = new LinearLayout(context);
                 StatusViewBinding statusView = getStatusView();
                 statusView.viewTv.setText(AppUtils.getStatusName(statusId));
-                statusView.viewLogo.setImageResource(AppUtils.getDrawableFromRequestId(statusId));
-                if (i == size - 1) {
-                    statusView.viewLine.setVisibility(View.GONE);
-                } else {
-                    statusView.viewLine.setVisibility(View.VISIBLE);
-                }
+                statusView.viewLeftLine.setVisibility(i == 0 ? View.GONE : View.VISIBLE);
+                statusView.viewRightLine.setVisibility(i == size - 1 ? View.GONE : View.VISIBLE);
                 View statusRootView = statusView.getRoot();
                 statusRootView.setOnClickListener(onClickListener);
                 statusRootView.setTag(productInfoResponse.getStoreContactNumber());
