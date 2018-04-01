@@ -1,9 +1,12 @@
 package com.incon.connect.user.apimodel.components;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Product {
+public class Product implements Parcelable {
 
     @SerializedName("name")
     @Expose
@@ -68,4 +71,41 @@ public class Product {
         this.specialInstruction = specialInstruction;
     }
 
+
+    protected Product(Parcel in) {
+        name = in.readString();
+        modelNo = in.readString();
+        description = in.readString();
+        specialInstruction = in.readString();
+        logoUrl = in.readString();
+        imageUrl = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(modelNo);
+        dest.writeString(description);
+        dest.writeString(specialInstruction);
+        dest.writeString(logoUrl);
+        dest.writeString(imageUrl);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 }

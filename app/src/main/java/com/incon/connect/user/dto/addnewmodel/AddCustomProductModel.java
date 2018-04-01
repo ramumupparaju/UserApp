@@ -2,8 +2,6 @@ package com.incon.connect.user.dto.addnewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Pair;
 
@@ -49,6 +47,13 @@ public class AddCustomProductModel extends BaseObservable {
     @SerializedName("purchaseDate")
     @Expose
     private Long purchaseDate;
+
+    private Integer productId;
+    private transient String categoryName;
+    private transient String divisionName;
+    private transient String brandName;
+    private transient String dateOfPurchased;
+
     @SerializedName("warrantyDays")
     @Expose
     private String warrantyDays;
@@ -58,20 +63,61 @@ public class AddCustomProductModel extends BaseObservable {
     @SerializedName("warrantyYears")
     @Expose
     private String warrantyYears;
-    private transient String categoryName;
-    private transient String divisionName;
-    private transient String brandName;
-    private transient String dateOfPurchased;
     private transient String warrantyShow;
-    private transient String extendedWarranty;
 
-    @Bindable
-    public String getExtendedWarranty() {
+    private int extendedWarranty;
+    private String extendedWarrantyDays;
+    private String extendedWarrantyMonths;
+    private String extendedWarrantyYears;
+    private transient String extendedWarrantyShow;
+
+    public int getExtendedWarranty() {
         return extendedWarranty;
     }
 
-    public void setExtendedWarranty(String extendedWarranty) {
+    public void setExtendedWarranty(int extendedWarranty) {
         this.extendedWarranty = extendedWarranty;
+    }
+
+    public String getExtendedWarrantyDays() {
+        return extendedWarrantyDays;
+    }
+
+    public void setExtendedWarrantyDays(String extendedWarrantyDays) {
+        this.extendedWarrantyDays = extendedWarrantyDays;
+    }
+
+    public String getExtendedWarrantyMonths() {
+        return extendedWarrantyMonths;
+    }
+
+    public void setExtendedWarrantyMonths(String extendedWarrantyMonths) {
+        this.extendedWarrantyMonths = extendedWarrantyMonths;
+    }
+
+    public String getExtendedWarrantyYears() {
+        return extendedWarrantyYears;
+    }
+
+    public void setExtendedWarrantyYears(String extendedWarrantyYears) {
+        this.extendedWarrantyYears = extendedWarrantyYears;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    @Bindable
+    public String getExtendedWarrantyShow() {
+        return extendedWarrantyShow;
+    }
+
+    public void setExtendedWarrantyShow(String extendedWarrantyShow) {
+        this.extendedWarrantyShow = extendedWarrantyShow;
         notifyChange();
     }
 

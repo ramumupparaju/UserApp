@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Pair;
@@ -11,13 +12,15 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.FeedbackData;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.CustomPhoneNumberAlertDialogCallback;
@@ -28,12 +31,16 @@ import com.incon.connect.user.callbacks.TimeSlotAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertDialog;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
 import com.incon.connect.user.custom.view.AppEditTextListDialog;
+import com.incon.connect.user.custom.view.CardViewAlertDialog;
 import com.incon.connect.user.custom.view.CustomPhoneNumberDialog;
 import com.incon.connect.user.custom.view.ServiceRequestDialog;
 import com.incon.connect.user.custom.view.TimeSlotAlertDialog;
+import com.incon.connect.user.custom.view.WarrantyDialog;
 import com.incon.connect.user.databinding.FragmentFavoritesBinding;
 import com.incon.connect.user.databinding.FragmentPurchasedBinding;
+import com.incon.connect.user.dto.DialogRow;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
+import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.favorites.FavoritesFragment;
 import com.incon.connect.user.ui.favorites.FavoritesPresenter;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
@@ -41,10 +48,12 @@ import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
 import com.incon.connect.user.ui.history.adapter.PurchasedAdapter;
 import com.incon.connect.user.ui.history.base.BaseTabFragment;
 import com.incon.connect.user.ui.history.fragments.PurchasedPresenter;
+import com.incon.connect.user.ui.pasthistory.PastHistoryActivity;
 import com.incon.connect.user.ui.pin.CustomPinActivity;
 import com.incon.connect.user.ui.pin.managers.AppLock;
 import com.incon.connect.user.ui.servicecenters.ServiceCentersActivity;
 import com.incon.connect.user.utils.DateUtils;
+import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
@@ -59,6 +68,7 @@ import java.util.TimeZone;
 
 public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
+    final String TAG = BasePurchasedFavoritesFragment.class.getName();
     public View rootView;
     public ShimmerFrameLayout shimmerFrameLayout;
 
@@ -85,10 +95,10 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     public boolean isFindServiceCenter;
     public boolean isFindUnAuthorizedServiceCenter;
 
-    private AppEditTextDialog suggestionsDialog;
     public AppEditTextListDialog feedBackDialog;
     public AppEditTextDialog transferDialog;
     public AppAlertDialog detailsDialog;
+    public CardViewAlertDialog cardViewAlertDialog;
     public ServiceRequestDialog serviceRequestDialog;
     public TimeSlotAlertDialog timeSlotAlertDialog;
     public ArrayList<ServiceCenterResponse> serviceCenterResponseList;
@@ -97,6 +107,9 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     //Adding unauthorized phone number
     public CustomPhoneNumberDialog customPhoneNumberDialog;
     public AddServiceEngineer serviceEngineer;
+    public ServiceRequest serviceRequestData;
+    private WarrantyDialog extendeWarratyDialog;
+    private int serviceCenterSelectedPosition = 0;
 
     @Override
     public void handleException(Pair<Integer, String> error) {
@@ -106,12 +119,48 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
     }
 
+    public void productReviews(List<ReviewData> reviewDataList) {
+        showReviewDialogType(reviewDataList, DialogTypeConstants.PRODUCT_FEEDBACK);
+    }
+
+    public void productSuggestions(List<ReviewData> reviewDataList) {
+        showReviewDialogType(reviewDataList, DialogTypeConstants.PRODUCT_SUGGESTIONS);
+    }
+
+    public void doProductPastHistoryApi() {
+        int userId = SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE);
+        if (this instanceof FavoritesFragment) {
+            favoritesPresenter.doProductPastHistoryApi(userId, Integer.parseInt(favoritesAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId()));
+        } else {
+            purchasedPresenter.doProductPastHistoryApi(userId, Integer.parseInt(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId()));
+
+        }
+    }
+
+    public void onProductPastHistoryApi(ArrayList<ServiceStatus> statusListResponses) {
+        Intent pastHistoryIntent = new Intent(getActivity(), PastHistoryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(BundleConstants.SERVICE_STATUS_RESPONSE, statusListResponses);
+        pastHistoryIntent.putExtras(bundle);
+        startActivity(pastHistoryIntent);
+    }
+
     @Override
     public void showErrorMessage(String errorMessage) {
         if (bottomSheetDialog.isShowing()) {
             AppUtils.shortToast(getActivity(), errorMessage);
         } else {
             super.showErrorMessage(errorMessage);
+        }
+    }
+
+    public void detailsData(ProductInfoResponse productInfoResponse) {
+        String detailsData = String.format("%1$s%2$s%3$s%4$s", productInfoResponse.getInformation(),
+                productInfoResponse.getProductSpecification(), productInfoResponse.getColor(), productInfoResponse.getProductDimensions());
+        if (TextUtils.isEmpty(detailsData)) {
+            showErrorMessage(getString(R.string.will_updated_soon));
+        } else {
+            showInformationDialog(getString(R.string.bottom_option_description), detailsData);
         }
     }
 
@@ -153,9 +202,13 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
     }
 
     public void showDeleteDialog() {
+        launchPinActivity(RequestCodes.DELETE_PRODUCT);
+    }
+
+    private void launchPinActivity(int requestCode) {
         Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
         pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
-        startActivityForResult(pinIntent, RequestCodes.DELETE_PRODUCT);
+        startActivityForResult(pinIntent, requestCode);
     }
 
     public void doProductDeleteApi() {
@@ -168,57 +221,12 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
     }
 
-    public void showSuggestionsDialog() {
-        final HashMap<String, String> saveReviewApi = new HashMap<>();
-        saveReviewApi.put(ApiRequestKeyConstants.BODY_USER_ID, String.valueOf(userId));
-
-        suggestionsDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
-                TextAlertDialogCallback() {
-                    @Override
-                    public void enteredText(String commentString) {
-                        //TODO api cal
-                        saveReviewApi.put(ApiRequestKeyConstants.BODY_SUGGESTIONS, commentString);
-                    }
-
-                    @Override
-                    public void alertDialogCallback(byte dialogStatus) {
-                        switch (dialogStatus) {
-                            case AlertDialogCallback.OK:
-
-                                if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
-                                    ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(productSelectedPosition);
-                                    saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_ID, String.valueOf(itemFromPosition.getProductId()));
-                                    favoritesPresenter.saveReviewsApi(saveReviewApi);
-                                } else {
-                                    ProductInfoResponse itemFromPosition = purchasedAdapter.getItemFromPosition(productSelectedPosition);
-                                    saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_ID, String.valueOf(itemFromPosition.getProductId()));
-                                    purchasedPresenter.saveReviewsApi(saveReviewApi);
-                                }
-                                break;
-                            case AlertDialogCallback.CANCEL:
-                                suggestionsDialog.dismiss();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).title(getString(R.string.bottom_option_suggestions))
-                .leftButtonText(getString(R.string.action_cancel))
-                .rightButtonText(getString(R.string.action_submit))
-                .build();
-        suggestionsDialog.showDialog();
-        suggestionsDialog.setCancelable(true);
-
-    }
-
     public void showTransferDialog() {
         transferDialog = new AppEditTextDialog.AlertDialogBuilder(getActivity(), new
                 TextAlertDialogCallback() {
                     @Override
                     public void enteredText(String commentString) {
-
                         if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
-                            // TODO have to check with naveen
                             ProductInfoResponse itemFromPosition = favoritesAdapter.getItemFromPosition(productSelectedPosition);
                             favoritesPresenter.doTransferProductApi(commentString, itemFromPosition.getWarrantyId());
                         } else {
@@ -243,15 +251,23 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 }).title(getString(R.string.bottom_option_transfer))
                 .leftButtonText(getString(R.string.action_cancel))
                 .rightButtonText(getString(R.string.action_submit))
+                .hintText(getString(R.string.label_receivers_phone_number))
                 .build();
         transferDialog.showDialog();
     }
 
 
-    public void productReviews() {
-//showFeedBackDialog();
-    }
-    public void showFeedBackDialog(List<FeedbackData> reviews) {
+    public void showReviewDialogType(List<ReviewData> reviews, final int dialogType) {
+
+        String title = "";
+        String hintText = "";
+        if (dialogType == DialogTypeConstants.PRODUCT_FEEDBACK) {
+            title = getString(R.string.bottom_option_feedback);
+            hintText = getString(R.string.action_feedback_hint);
+        } else if (dialogType == DialogTypeConstants.PRODUCT_SUGGESTIONS) {
+            title = getString(R.string.bottom_option_suggestions);
+            hintText = getString(R.string.action_suggestions_hint);
+        }
         final HashMap<String, String> saveReviewApi = new HashMap<>();
         saveReviewApi.put(ApiRequestKeyConstants.BODY_USER_ID, String.valueOf(userId));
 
@@ -259,12 +275,17 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 FeedbackAlertDialogCallback() {
                     @Override
                     public void selectedRating(String rating) {
-                        saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_RATING, rating);
+                        if (dialogType == DialogTypeConstants.PRODUCT_FEEDBACK)
+                            saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_RATING, rating);
                     }
 
                     @Override
                     public void enteredText(String commentString) {
-                        saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_REVIEW, commentString);
+                        if (dialogType == DialogTypeConstants.PRODUCT_FEEDBACK) {
+                            saveReviewApi.put(ApiRequestKeyConstants.BODY_PRODUCT_REVIEW, commentString);
+                        } else if (dialogType == DialogTypeConstants.PRODUCT_SUGGESTIONS) {
+                            saveReviewApi.put(ApiRequestKeyConstants.BODY_SUGGESTIONS, commentString);
+                        }
                     }
 
                     @Override
@@ -288,44 +309,47 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                                 break;
                         }
                     }
-                }).title(getString(R.string.bottom_option_feedback))
+                }).title(title)
                 .leftButtonText(getString(R.string.action_cancel))
                 .rightButtonText(getString(R.string.action_submit))
+                .hintText(hintText)
                 .feedbackDataList(reviews)
+                .dialogType(dialogType)
                 .build();
         feedBackDialog.showDialog();
         feedBackDialog.setCancelable(true);
     }
 
-    public void doReviewsApi() {
-        //todo have to call reviews api
+    public void doReviewsApi(int productId) {
         if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
-            favoritesPresenter.reviewToproduct(userId);
+            favoritesPresenter.reviewToproduct(productId);
         } else {
-            purchasedPresenter.reviewToProduct(userId);
+            purchasedPresenter.reviewToProduct(productId);
         }
-        showFeedBackDialog(null);
+    }
+
+    public void doProductSuggestionsApi(int productId) {
+        int userId = SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE);
+        if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+            favoritesPresenter.doProductSuggestions(userId, productId);
+        } else {
+            purchasedPresenter.doProductSuggestions(userId, productId);
+        }
     }
 
     public void saveReviews(Object saveReviews) {
-        dismissDialog(suggestionsDialog);
         dismissDialog(feedBackDialog);
         dismissDialog(bottomSheetDialog);
         onRefreshListener.onRefresh();
     }
 
-    public void loadServiceRequesDialogData() {
-
-        Intent pinIntent = new Intent(getActivity(), CustomPinActivity.class);
-        pinIntent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);
-        startActivityForResult(pinIntent, RequestCodes.SERVICE_REQUEST);
-
-
-       /* if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
-            loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
+    public void loadServiceRequesDialogData(int position) {
+        if (serviceCenterResponseList.size() > 0 && serviceCenterResponseList.size() >= position) {// checking whether service centers are found or not
+            serviceCenterSelectedPosition = position;
+            loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(position).getId());
         } else {
             showErrorMessage(getString(R.string.error_no_service_centers_found));
-        }*/
+        }
     }
 
     public void loadUsersDataFromServiceCenterId(Integer serviceCenterId) {
@@ -335,18 +359,69 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             purchasedPresenter.getUsersListOfServiceCenters(serviceCenterId);
         }
     }
-    public void loadNearByServiceCentersDialogData(String type,String brandId) {
+
+    public void loadNearByServiceCentersDialogData(String type, String brandId) {
         if (TextUtils.isEmpty(brandId)) {
             AppUtils.longToast(getActivity(), getString(R.string.error_contact_customer_care));
         } else {
             int userId = SharedPrefsUtils.loginProvider().getIntegerPreference(LoginPrefs.USER_ID, DEFAULT_VALUE);
             if (this instanceof FavoritesFragment) {
-                favoritesPresenter.nearByServiceCenters(type,Integer.parseInt(brandId), userId);
+                favoritesPresenter.nearByServiceCenters(type, Integer.parseInt(brandId), userId);
             } else {
-                purchasedPresenter.nearByServiceCenters(type,Integer.parseInt(brandId), userId);
+                purchasedPresenter.nearByServiceCenters(type, Integer.parseInt(brandId), userId);
             }
         }
 
+    }
+
+    public void showWarrantyDialog(String title, List<DialogRow> messageInfo) {
+        cardViewAlertDialog = new CardViewAlertDialog.AlertDialogBuilder(getActivity(), new
+                AlertDialogCallback() {
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                break;
+                            case AlertDialogCallback.EXTENDED_WARRANTY:
+                                showExtendedWarrantyDialog();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(title).content(messageInfo).button1Text(getString(R.string.add_extended_warranty))
+                .build();
+        cardViewAlertDialog.setDialogType(DialogTypeConstants.WARRANTY_TYPE);
+        cardViewAlertDialog.showDialog();
+        cardViewAlertDialog.setCancelable(true);
+    }
+
+    private void showExtendedWarrantyDialog() {
+        extendeWarratyDialog = new WarrantyDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String yearsMonthsDays) {
+                        String[] split = yearsMonthsDays.split(AppConstants.COMMA_SEPARATOR);
+                        //TODO have to call api for extended warranty
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case AlertDialogCallback.OK:
+                                extendeWarratyDialog.dismiss();
+                                break;
+                            case AlertDialogCallback.CANCEL:
+                                extendeWarratyDialog.dismiss();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).build();
+        extendeWarratyDialog.showDialog();
     }
 
     public void showInformationDialog(String title, String messageInfo) {
@@ -483,8 +558,15 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
+                case RequestCodes.BILL_ACTIVITY:
+                    onRefreshListener.onRefresh();
+                    break;
                 case RequestCodes.DELETE_PRODUCT:
                     doProductDeleteApi();
+                    break;
+                case RequestCodes.FROM_NEARBY_SERVICE_CENTER:
+                    int position = data.getIntExtra(IntentConstants.POSITION, 0);
+                    loadServiceRequesDialogData(position);
                     break;
                 default:
                     break;
@@ -492,13 +574,28 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }
     }
 
-    public void serviceRequestApi() {
-        if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
-            loadUsersDataFromServiceCenterId(serviceCenterResponseList.get(0).getId());
-        } else {
-            showErrorMessage(getString(R.string.error_no_service_centers_found));
-        }
+    public void showBillActtivity(ProductInfoResponse productInfoResponse) {
+        Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, productInfoResponse);
+        billFormatIntent.putExtras(bundle);
+        startActivityForResult(billFormatIntent, RequestCodes.BILL_ACTIVITY);
+    }
 
+    public void callCustomercare(ProductInfoResponse productInfoResponse) {
+        callPhoneNumber(productInfoResponse.getCustomerCareContact());
+    }
+
+    public void serviceRequestApi() {
+        if (serviceRequestData != null) {
+            if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+                favoritesPresenter.serviceRequest(serviceRequestData);
+            } else {
+                purchasedPresenter.serviceRequest(serviceRequestData);
+            }
+        } else {
+            Logger.e(TAG, "serviceRequestData is null");
+        }
     }
 
     private void showServiceRequestDialog(List<UsersListOfServiceCenters> listOfServiceCenters) {
@@ -512,6 +609,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         problemsArray[3] = "Others";
 
         serviceRequestDialog = new ServiceRequestDialog.AlertDialogBuilder(getContext(), new ServiceRequestCallback() {
+
             @Override
             public void getUsersListFromServiceCenterId(int serviceCenterId) {
                 loadUsersDataFromServiceCenterId(serviceCenterId);
@@ -535,14 +633,19 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
 
             @Override
             public void doServiceRequestApi(ServiceRequest serviceRequest) {
-                Integer purchaseId = Integer.valueOf(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
+                Integer purchaseId;
+
+                if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
+                    purchaseId = Integer.valueOf(favoritesAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
+                } else {
+                    purchaseId = Integer.valueOf(purchasedAdapter.getItemFromPosition(productSelectedPosition).getWarrantyId());
+                }
+
                 serviceRequest.setPurchaseId(purchaseId);
                 serviceRequest.setCustomerId(userId);
-                if (BasePurchasedFavoritesFragment.this instanceof FavoritesFragment) {
-                    favoritesPresenter.serviceRequest(serviceRequest);
-                } else {
-                    purchasedPresenter.serviceRequest(serviceRequest);
-                }
+                serviceRequestData = serviceRequest;
+
+                launchPinActivity(RequestCodes.SERVICE_REQUEST);
             }
 
             @Override
@@ -561,8 +664,10 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
         }).problemsArray(problemsArray)
                 .loadUsersList(listOfServiceCenters)
                 .loadServiceCentersData(serviceCenterResponseList)
+                .serviceCenterSelectedPos(serviceCenterSelectedPosition)
                 .build();
         serviceRequestDialog.showDialog();
+        serviceCenterSelectedPosition = 0;
     }
 
     private void showTimePickerToPlaceServiceRequest(String selectedDate) {
@@ -579,7 +684,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             }
         }).build();
         timeSlotAlertDialog.showDialog();
-
+        timeSlotAlertDialog.setCancelable(true);
     }
 
     private void showDatePickerToPlaceServiceRequest(String date) {
@@ -601,6 +706,7 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
                 cal.get(Calendar.DAY_OF_MONTH));
         datePicker.setCancelable(false);
         datePicker.show();
+        datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
     }
 
     // date Listener
@@ -628,22 +734,20 @@ public abstract class BasePurchasedFavoritesFragment extends BaseTabFragment {
             if (serviceCenterResponseList.size() > 0) {// checking whether service centers are found or not
                 Intent serviceCenters = new Intent(getActivity(), ServiceCentersActivity.class);
                 serviceCenters.putParcelableArrayListExtra(IntentConstants.SERVICE_CENTER_DATA, this.serviceCenterResponseList);
-                startActivity(serviceCenters);
+                startActivityForResult(serviceCenters, RequestCodes.FROM_NEARBY_SERVICE_CENTER);
             } else {
                 showErrorMessage(getString(R.string.error_no_service_centers_found));
             }
         } else {
-            loadServiceRequesDialogData();
+            loadServiceRequesDialogData(0);
         }
     }
 
     public void loadUsersListOfServiceCenters(List<UsersListOfServiceCenters> usersList) {
-
         if (serviceRequestDialog != null && serviceRequestDialog.isShowing()) {
             serviceRequestDialog.setUsersData(usersList);
         } else {
             showServiceRequestDialog(usersList);
         }
-
     }
 }

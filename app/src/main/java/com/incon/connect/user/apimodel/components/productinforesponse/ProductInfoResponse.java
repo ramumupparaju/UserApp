@@ -89,6 +89,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     @SerializedName("warrantyEndDate")
     @Expose
     private Long warrantyEndDate;
+    private Long extendedWarrantyEndDate;
     @SerializedName("productLogoUrl")
     @Expose
     private String productLogoUrl;
@@ -237,6 +238,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
     private String showRoomName;
 
     private String favouriteName;
+    private String storeLogoUrl;
 
     @SerializedName("favouriteId")
     @Expose
@@ -245,7 +247,27 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
 
     @SerializedName("offers")
     @Expose
-    private List<Object> offers = null;
+    private List<String> offers = null;
+    @SerializedName("bill")
+    @Expose
+    private String billUrl;
+    private String customerCareContact;
+
+    public Long getExtendedWarrantyEndDate() {
+        return extendedWarrantyEndDate;
+    }
+
+    public void setExtendedWarrantyEndDate(Long extendedWarrantyEndDate) {
+        this.extendedWarrantyEndDate = extendedWarrantyEndDate;
+    }
+
+    public String getCustomerCareContact() {
+        return customerCareContact;
+    }
+
+    public void setCustomerCareContact(String customerCareContact) {
+        this.customerCareContact = customerCareContact;
+    }
 
     public String getCustomProductFlag() {
         return customProductFlag;
@@ -253,6 +275,15 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
 
     public void setCustomProductFlag(String customProductFlag) {
         this.customProductFlag = customProductFlag;
+    }
+
+
+    public String getStoreLogoUrl() {
+        return storeLogoUrl;
+    }
+
+    public void setStoreLogoUrl(String storeLogoUrl) {
+        this.storeLogoUrl = storeLogoUrl;
     }
 
     public Integer getFavouriteId() {
@@ -288,11 +319,11 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         this.showRoomName = showRoomName;
     }
 
-    public List<Object> getOffers() {
+    public List<String> getOffers() {
         return offers;
     }
 
-    public void setOffers(List<Object> offers) {
+    public void setOffers(List<String> offers) {
         this.offers = offers;
     }
 
@@ -868,6 +899,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         category = in.readString();
         productId = in.readByte() == 0x00 ? null : in.readInt();
         categoryId = in.readByte() == 0x00 ? null : in.readInt();
+        categoryName = in.readString();
         productName = in.readString();
         modelNumber = in.readString();
         division = in.readString();
@@ -923,6 +955,8 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
         storeId = in.readByte() == 0x00 ? null : in.readInt();
         showRoomName = in.readString();
         favouriteId = in.readByte() == 0x00 ? null : in.readInt();
+        billUrl = in.readString();
+        customProductFlag = in.readString();
 
     }
 
@@ -958,6 +992,7 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
             dest.writeByte((byte) (0x01));
             dest.writeInt(categoryId);
         }
+        dest.writeString(categoryName);
         dest.writeString(productName);
         dest.writeString(modelNumber);
         dest.writeString(division);
@@ -1085,6 +1120,9 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
             dest.writeByte((byte) (0x01));
             dest.writeInt(favouriteId);
         }
+        dest.writeString(billUrl);
+        dest.writeString(customProductFlag);
+
     }
 
     @Override
@@ -1116,4 +1154,12 @@ public class ProductInfoResponse extends BaseObservable implements Parcelable {
             return new ProductInfoResponse[size];
         }
     };
+
+    public String getBillUrl() {
+        return billUrl;
+    }
+
+    public void setBillUrl(String billUrl) {
+        this.billUrl = billUrl;
+    }
 }

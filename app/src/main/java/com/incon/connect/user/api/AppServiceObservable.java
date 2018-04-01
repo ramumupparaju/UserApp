@@ -10,6 +10,7 @@ import com.incon.connect.user.apimodel.components.login.LoginResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
@@ -32,9 +33,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface AppServiceObservable {
@@ -202,14 +206,22 @@ public interface AppServiceObservable {
     Observable<Object> transferRequest(@Path("phoneNumber") String phoneNumber,
                                        @Path("warrantyId") String warrantyId);
 
+    //paset history product api
+    @GET("user/servicereqHistory/{userId}/{warrantyId}")
+    Observable<ArrayList<ServiceStatus>> fetchProductPastHistory(@Path("userId") int userId, @Path("warrantyId") int warrantyId);
+
     //transfer product api
     @GET("user/servicerequests/{userId}")
     Observable<ArrayList<ServiceStatus>> fetchUserRequests(@Path("userId") int userId);
 
 
     // product review api
-    @GET("product/reviews/{userId}")
-    Observable<Object> reviewsApi(@Path("userId") int userId);
+    @GET("product/reviews/{productId}")
+    Observable<List<ReviewData>> reviewsApi(@Path("productId") int productId);
+
+    // product suggestions api
+    @GET("product/suggestions/{userid}/{productid}")
+    Observable<List<ReviewData>> productSuggestionsApi(@Path("userid") int userid, @Path("productid") int productid);
 
     @POST("product/savereviews")
     Observable<Object> saveReviewsApi(@Body HashMap<String, String> savereviewsBody);
@@ -245,4 +257,8 @@ public interface AppServiceObservable {
     @POST("service/updateStatus/{userId}")
     Observable<Object> upDateStatus(@Path("userId") int userId, @Body UpDateStatus upDateStatus);
 
+    // service center logo  api
+    @Multipart
+    @POST("warranty/updatebill/{purchaseId}")
+    Observable<Object> uploadBill(@Path("purchaseId") int purchaseId, @Part MultipartBody.Part billPrev);
 }

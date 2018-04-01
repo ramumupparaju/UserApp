@@ -49,4 +49,9 @@ public class SettingsBillFormatActivity extends BaseActivity implements BillForm
     public void onDestroy() {
         super.onDestroy();
     }
+
+    @Override
+    public void onBillUpload() {
+
+    }
 }

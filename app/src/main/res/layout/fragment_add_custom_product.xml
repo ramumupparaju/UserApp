@@ -326,7 +326,7 @@
                             android:maxLength="@integer/character_limit_45"
                             android:maxLines="1"
                             android:tag="11"
-                            android:text="@={addCustomProductModel.extendedWarranty}" />
+                            android:text="@={addCustomProductModel.extendedWarrantyShow}" />
                     </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
                     <!--dummy view for dob click event -->

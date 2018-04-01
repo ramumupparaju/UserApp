@@ -9,6 +9,7 @@ public interface AppConstants {
     String MULTIPART_FORM_DATA = "image/*";
     String COMMA_SEPARATOR = ",";
     String HYPHEN_SEPARATOR = "-";
+    String NEW_LINE = "\n";
     int DEFAULT_VALUE = Integer.MIN_VALUE;
 
     String CATEGORY_AUTOMOBILES = "Automobiles";
@@ -21,7 +22,7 @@ public interface AppConstants {
     int DEFAULT_GOOGLE_MAP_ZOOM_LEVEL = 16;
     int DEAULT_VALUE = Integer.MAX_VALUE;
 
-    String CUSTOM= "custom";
+    String CUSTOM = "custom";
 
     interface StatusDrawables {
         int COMPLAINT_ID = 2;
@@ -64,6 +65,7 @@ public interface AppConstants {
     }
 
     interface WarrantyRegistrationConstants {
+        int WARRANTY_TYPE = 0;
         int MINIMUM_MODELNUMBER_TO_SEARCH = 2;
     }
 
@@ -91,6 +93,13 @@ public interface AppConstants {
 
     interface AgeConstants {
         int USER_DOB = 16;
+    }
+
+    interface DialogTypeConstants {
+        int PRODUCT_FEEDBACK = 0;
+        int PRODUCT_SUGGESTIONS = 1;
+        int WARRANTY_TYPE = 2;
+        int EXTENDED_WARRANTY = 3;
     }
 
     interface RegistrationValidation {
@@ -155,8 +164,13 @@ public interface AppConstants {
         String SERVICE_CENTER_DATA = "serviceCenterResponse";
         String BUTTON_TEXT = "buttonText";
         String SERVICE_ENGINEER_DATA = "serviceEngineerData";
+        String POSITION = "position";
     }
 
+
+    interface ViewConstants {
+        int PAST_HISTORY = 2;
+    }
 
     interface UpDateUserProfileValidation {
         int NAME_REQ = 1;
@@ -193,6 +207,7 @@ public interface AppConstants {
         String ADD_NEW_MODEL_DATA = "addnewmodelData";
         String LOCATION_ADDRESS = "locationAddress";
         String PRODUCT_INFO_RESPONSE = "productInfoResponse";
+        String SERVICE_STATUS_RESPONSE = "serviceStatusResponse";
 
         String FROM_FAVORITES = "fromFavorites";
         String ADDRESS_ID = "addressId";
@@ -220,6 +235,7 @@ public interface AppConstants {
         String USER_EMAIL_ID = "userEmailId";
         String USER_PHONE_NUMBER = "userPhoneNumber";
         String USER_DOB = "userDob";
+        String USER_LOCATION = "location";
         String USER_GENDER = "userGender";
         String USER_ADDRESS = "userAddress";
         String USER_CITY = "userCity";
@@ -292,6 +308,8 @@ public interface AppConstants {
         int LOCATION_CHANGED = 126;
         int BUY_REQUEST = 127;
         int SERVICE_REQUEST = 128;
+        int FROM_NEARBY_SERVICE_CENTER = 129;
+        int BILL_ACTIVITY = 130;
     }
 
     interface TimeConstants {

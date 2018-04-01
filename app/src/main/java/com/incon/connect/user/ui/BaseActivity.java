@@ -3,29 +3,40 @@ package com.incon.connect.user.ui;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.Pair;
+import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.model.LatLng;
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.custom.view.AppAlertVerticalTwoButtonsDialog;
 import com.incon.connect.user.ui.login.LoginActivity;
+import com.incon.connect.user.utils.DeviceUtils;
 import com.incon.connect.user.utils.Logger;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -61,7 +72,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     public void loadImageUsingGlide(String imagePath, ImageView imageView) {
 
         if (imagePath.contains(WEB_IMAGE)) {
-            Glide.with(this).load(imagePath).into(imageView);
+            AppUtils.loadImageFromApi(imageView, imagePath);
             return;
         }
         Glide.with(this).load(new File(imagePath))
@@ -164,6 +175,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         dialog.setButtonBlueUnselectBackground();
     }
 
+    public void onClickNavigattion(LatLng srcLatLng) {
+        /*Intent intent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://maps.google.com/maps?daddr=" + mLatitude + "," + mLongitude));
+        startActivity(intent);*/
+        Intent intent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://maps.google.com/maps?saddr=" + srcLatLng.latitude + "," + srcLatLng.longitude + "&daddr="));
+        startActivity(intent);
+    }
+
+
     private void openPlayStore() {
         final String appPackageName = getPackageName();
         try {
@@ -243,5 +264,122 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         return fragment;
     }
 
+    /**
+     * chnaged selected views with primary and remaining as gray
+     */
+    public void changeSelectedViews(LinearLayout parentLayout, int selectedTag) {
 
+        for (int i = 0; i < parentLayout.getChildCount(); i++) {
+            View childAt = parentLayout.getChildAt(i);
+
+            LinearLayout linearLayout;
+            if (childAt instanceof LinearLayout) {
+                linearLayout = (LinearLayout) childAt;
+            } else {
+                HorizontalScrollView horizontalScrollView = (HorizontalScrollView) childAt;
+                LinearLayout childAt1 = (LinearLayout) horizontalScrollView.getChildAt(i);
+                changeSelectedViews(childAt1, selectedTag);
+                return;
+            }
+            int tag = (Integer) linearLayout.getTag();
+            boolean isSelectedView = tag == selectedTag;
+            (getBottomImageView(linearLayout)).setColorFilter(getResources().getColor(isSelectedView ? R.color.colorPrimary : R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+            (getBottomTextView(linearLayout)).setTextColor(ContextCompat.getColor(this, isSelectedView ? R.color.colorPrimary : R.color.colorAccent));
+        }
+    }
+
+    /**
+     * if options is grater than 5 we are adding horizontall scrollview else adding in linear layout
+     *
+     * @param parentLayout
+     * @param namesArray
+     * @param imagesArray
+     * @param onClickListener
+     */
+    public void setBottomViewOptions(LinearLayout parentLayout, ArrayList<String> namesArray, ArrayList<Integer> imagesArray, ArrayList<Integer> tagsArray, View.OnClickListener onClickListener) {
+        int length = namesArray.size();
+
+        boolean isScrollAdded = length > 5 ? true : false;
+        HorizontalScrollView horizontalScrollView = null;
+        LinearLayout linearLayout = null;
+        //Implemented in scroll view
+        if (isScrollAdded) {
+            horizontalScrollView = getcustomHorizontalScroll();
+            linearLayout = new LinearLayout(this);
+            horizontalScrollView.addView(linearLayout);
+            parentLayout.addView(horizontalScrollView);
+        }
+
+        for (int i = 0; i < length; i++) {
+            LinearLayout customBottomView = getCustomBottomView(isScrollAdded);
+
+            getBottomTextView(customBottomView).setText(namesArray.get(i));
+            getBottomImageView(customBottomView).setImageResource(imagesArray.get(i));
+
+            customBottomView.setTag(tagsArray.get(i));
+            customBottomView.setOnClickListener(onClickListener);
+            if (horizontalScrollView != null) {
+                linearLayout.addView(customBottomView);
+            } else {
+                parentLayout.addView(customBottomView);
+            }
+        }
+    }
+
+    private HorizontalScrollView getcustomHorizontalScroll() {
+        HorizontalScrollView horizontalScrollView = new HorizontalScrollView(this);
+        horizontalScrollView.setHorizontalScrollBarEnabled(false);
+        return horizontalScrollView;
+    }
+
+    public LinearLayout getCustomBottomView(boolean isScroll) {
+
+        int dp5 = (int) DeviceUtils.convertPxToDp(5);
+        Context context = this;
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setPadding(dp5, dp5, dp5, dp5);
+        linearLayout.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams llp;
+
+        if (isScroll) {
+            llp = new LinearLayout.LayoutParams((int) DeviceUtils.convertPxToDp(80), ViewGroup.LayoutParams.WRAP_CONTENT);
+        } else {
+            llp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            llp.weight = 1;
+        }
+        linearLayout.setLayoutParams(llp);
+        int dp24 = (int) DeviceUtils.convertPxToDp(20);
+        AppCompatImageView imageView = new AppCompatImageView(context);
+        imageView.setId(R.id.view_logo);
+        LinearLayout.LayoutParams imageViewLayoutParams = new LinearLayout.LayoutParams(dp24, dp24);
+        imageView.setLayoutParams(imageViewLayoutParams);
+        imageView.setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_IN);
+        linearLayout.addView(imageView);
+
+        TextView textView = new TextView(context);
+        textView.setId(R.id.view_tv);
+        textView.setTextColor(ContextCompat.getColor(context, R.color.black));
+        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+        textView.setTextSize(DeviceUtils.convertSpToPixels(4, context));
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textView.setLayoutParams(layoutParams);
+        linearLayout.addView(textView);
+        try {
+            Typeface type = Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Regular.ttf");
+            textView.setTypeface(type);
+        } catch (Exception e) {
+
+        }
+
+        return linearLayout;
+    }
+
+    public AppCompatImageView getBottomImageView(LinearLayout linearLayout) {
+        return ((AppCompatImageView) linearLayout.findViewById(R.id.view_logo));
+    }
+
+    public TextView getBottomTextView(LinearLayout linearLayout) {
+        return ((TextView) linearLayout.findViewById(R.id.view_tv));
+    }
 }

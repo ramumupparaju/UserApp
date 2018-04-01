@@ -70,6 +70,9 @@
 
     <item type="id" name="SERVICE_CENTER"/>
     <item type="id" name="SERVICE_CENTER_CALL"/>
+    <item type="id" name="SERVICE_CENTER_DETAILS"/>
+    <item type="id" name="SERVICE_CENTER_TRACK"/>
+    <item type="id" name="SERVICE_CENTER_REQUEST"/>
 
 
     <item type="id" name="REQUEST_UPDATE"/>

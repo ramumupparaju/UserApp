@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -23,20 +25,42 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.incon.connect.user.apimodel.components.AssignedUser;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.status.DefaultStatusData;
+import com.incon.connect.user.apimodel.components.status.StatusList;
+import com.incon.connect.user.dto.DialogRow;
 import com.incon.connect.user.dto.addnewmodel.AddCustomProductModel;
 import com.incon.connect.user.utils.DateUtils;
 import com.incon.connect.user.utils.ValidationUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.incon.connect.user.AppConstants.NEW_LINE;
 import static com.incon.connect.user.AppConstants.RegistrationValidation.DOB_FUTURE_DATE;
 import static com.incon.connect.user.AppConstants.RegistrationValidation.DOB_PERSON_LIMIT;
 import static com.incon.connect.user.AppConstants.VALIDATION_SUCCESS;
 
 public class AppUtils {
+
+    static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
+        Uri bmpUri = null;
+        try {
+            File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image" + ".png");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.close();
+            bmpUri = Uri.fromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
+    }
 
     public static void focusOnView(final ScrollView scrollView, final View view) {
         final Rect rect = new Rect(0, 0, view.getWidth(), view.getHeight());
@@ -93,38 +117,38 @@ public class AppUtils {
         return getWarranty(warrantyIntYears, warrantyIntMonths, warrantyIntDays);
     }
 
-    public static String getFormattedWarrantyDataInString(ProductInfoResponse itemFromPosition, Context context) {
+    public static List<DialogRow> getFormattedWarrantyDataInString(ProductInfoResponse itemFromPosition, Context context) {
+        List<DialogRow> dialogRows = new ArrayList<>();
+
         String purchasedDate = DateUtils.convertMillisToStringFormat(
                 itemFromPosition.getPurchasedDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY);
         String warrantyEndDate = DateUtils.convertMillisToStringFormat(
                 itemFromPosition.getWarrantyEndDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY);
         long noOfDays = DateUtils.convertDifferenceDateIndays(
-                itemFromPosition.getWarrantyEndDate(), System.currentTimeMillis());
+                itemFromPosition.getExtendedWarrantyEndDate() == null ? itemFromPosition.getWarrantyEndDate() : itemFromPosition.getExtendedWarrantyEndDate(), System.currentTimeMillis());
         String warrantyConditions = itemFromPosition.getWarrantyConditions();
 
-        StringBuilder stringBuilder = new StringBuilder();
 
         //warranty days
-        stringBuilder.append(context.getString(R.string.purchased_warranty_status_now));
-        stringBuilder.append(noOfDays <= 0 ? context.getString(R.string.label_expired) : noOfDays + " Days Left");
+        dialogRows.add(new DialogRow(context.getString(R.string.purchased_warranty_status), noOfDays <= 0 ? context.getString(R.string.label_expired) : noOfDays + " Days Left"));
 
         if (!TextUtils.isEmpty(purchasedDate)) {
-            stringBuilder.append("\n");
-            stringBuilder.append(context.getString(R.string.purchased_purchased_date));
-            stringBuilder.append(purchasedDate);
+            dialogRows.add(new DialogRow(context.getString(R.string.purchased_purchased_date), purchasedDate));
         }
 
         if (!TextUtils.isEmpty(warrantyConditions)) {
-            stringBuilder.append("\n");
-            stringBuilder.append(context.getString(R.string.purchased_warranty_covers_date));
-            stringBuilder.append(warrantyConditions);
+            dialogRows.add(new DialogRow(context.getString(R.string.purchased_warranty_covers_date), warrantyConditions));
         }
 
-        stringBuilder.append("\n");
-        stringBuilder.append(context.getString(R.string.purchased_warranty_ends_on));
-        stringBuilder.append(warrantyEndDate);
+        dialogRows.add(new DialogRow(context.getString(R.string.purchased_warranty_ends), warrantyEndDate));
 
-        return stringBuilder.toString();
+        if (itemFromPosition.getExtendedWarrantyEndDate() != null) {
+            String extendedWarrantyEndDate = DateUtils.convertMillisToStringFormat(
+                    itemFromPosition.getExtendedWarrantyEndDate(), AppConstants.DateFormatterConstants.DD_MM_YYYY);
+            dialogRows.add(new DialogRow(context.getString(R.string.purchased_extended_warranty_ends), extendedWarrantyEndDate));
+        }
+
+        return dialogRows;
     }
 
     /**
@@ -133,7 +157,7 @@ public class AppUtils {
      * @param warrantyData: y;m;d
      * @return
      */
-    public static String getWarrantyInformationFromStrinArray(String[] warrantyData) {
+    public static String getWarrantyInformationFromStringArray(String[] warrantyData) {
         return getWarranty(Integer.valueOf(warrantyData[0]), Integer.parseInt(warrantyData[1]), Integer.parseInt(warrantyData[2]));
     }
 
@@ -164,6 +188,23 @@ public class AppUtils {
 
 
         return stringBuffer.toString();
+    }
+
+    public static String formattedDescription(StatusList status) {
+        StringBuilder stringBuilder = new StringBuilder();
+        AssignedUser assignedUser = status.getAssignedUser();
+        if (assignedUser != null) {
+            if (!TextUtils.isEmpty(assignedUser.getName()))
+                stringBuilder.append("Name : ").append(assignedUser.getName()).append(NEW_LINE);
+            if (!TextUtils.isEmpty(assignedUser.getMobileNumber()))
+                stringBuilder.append("Mobile num : ").append(assignedUser.getMobileNumber()).append(NEW_LINE);
+            if (!TextUtils.isEmpty(assignedUser.getDesignation())) {
+                stringBuilder.append("Desig : ").append(assignedUser.getDesignation()).append(NEW_LINE);
+            }
+
+            stringBuilder.append("Date : ").append(DateUtils.convertMillisToStringFormat(status.getRequest().getCreatedDate(), AppConstants.DateFormatterConstants.LOCAL_DATE_DD_MM_YYYY_HH_MM));
+        }
+        return stringBuilder.toString();
     }
 
     //fetching status name basedon request
@@ -247,8 +288,11 @@ public class AppUtils {
         requestOptions.placeholder(R.drawable.ic_placeholder);
         requestOptions.error(R.drawable.ic_placeholder);
 
+        if (!url.contains(BuildConfig.SERVICE_ENDPOINT)) {
+            url = BuildConfig.SERVICE_ENDPOINT + url;
+        }
         Context context = imageView.getContext();
-        GlideUrl glideUrl = new GlideUrl(BuildConfig.SERVICE_ENDPOINT + url, new LazyHeaders.Builder()
+        GlideUrl glideUrl = new GlideUrl(url, new LazyHeaders.Builder()
                 .addHeader(AppConstants.ApiRequestKeyConstants.HEADER_AUTHORIZATION, context.getString(R.string.default_key))
                 .build());
         Glide.with(context)

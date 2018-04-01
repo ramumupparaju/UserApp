@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.clans.fab.FloatingActionButton;
-import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
@@ -32,7 +31,6 @@ import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.dialog.CheckedModelSpinner;
 import com.incon.connect.user.ui.BasePurchasedFavoritesFragment;
 import com.incon.connect.user.ui.addnewmodel.AddCustomProductFragment;
-import com.incon.connect.user.ui.billformat.BillFormatActivity;
 import com.incon.connect.user.ui.favorites.adapter.FavoritesAdapter;
 import com.incon.connect.user.ui.favorites.adapter.HorizontalRecycleViewAdapter;
 import com.incon.connect.user.ui.history.fragments.PurchasedFragment;
@@ -54,9 +52,7 @@ import static com.incon.connect.user.ui.BaseActivity.TRANSACTION_TYPE_REPLACE;
 /**
  * Created by PC on 11/4/2017.
  */
-
-public class FavoritesFragment extends BasePurchasedFavoritesFragment implements FavoritesContract.View,
-        View.OnClickListener {
+public class FavoritesFragment extends BasePurchasedFavoritesFragment implements FavoritesContract.View {
 
 
     private AppUserAddressDialog dialog;
@@ -96,14 +92,19 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
     }
 
     private void initFabs() {
-        final FloatingActionButton programFab1 = new FloatingActionButton(getActivity());
-        programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
         favoritesBinding.fab.showMenuButton(true);
         favoritesBinding.fab.setClosedOnTouchOutside(true);
     }
 
+    //adding location
+    public void onLocationAddClick() {
+        favoritesBinding.fab.close(false);
+        showAddressDialog();
+    }
+
     // add product
     public void onProductAddClick() {
+        favoritesBinding.fab.close(false);
         Bundle bundle = new Bundle();
         bundle.putBoolean(BundleConstants.FROM_FAVORITES, true);
         AddUserAddressResponse singleAddressResponse = addressessAdapter.
@@ -118,6 +119,8 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
 
 
     public void onAddCustomProductClick() {
+        favoritesBinding.fab.close(false);
+
         Bundle bundle = new Bundle();
         AddUserAddressResponse singleAddressResponse = addressessAdapter.
                 getItemFromPosition(addressSelectedPosition);
@@ -134,13 +137,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
 
         favoritesBinding.swiperefresh.setColorSchemeResources(R.color.colorPrimaryDark);
         favoritesBinding.swiperefresh.setOnRefreshListener(onRefreshListener);
-
-        //sets add address view
-        favoritesBinding.addAddressView.homeImageview.setImageResource(R.drawable.ic_add_new_location);
-        favoritesBinding.addAddressView.homeText.setText(getString(R.string.action_add_location));
-        favoritesBinding.addAddressView.getRoot().setOnClickListener(this);
-        favoritesBinding.addAddressView.getRoot().setVisibility(View.GONE);
-
 
         //top recyclerview
         addressessAdapter = new HorizontalRecycleViewAdapter();
@@ -184,11 +180,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         });
     }
 
-    @Override
-    public void onClick(View view) {
-        showAddressDialog();
-    }
-
     // address dialog
     private void showAddressDialog() {
         addUserAddress = new AddUserAddress();
@@ -204,7 +195,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                     public void openAddressActivity() {
                         navigateToAddressActivity();
                     }
-
                     @Override
                     public void alertDialogCallback(byte dialogStatus) {
 
@@ -294,14 +284,13 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         ArrayList<String> textArray = new ArrayList<>();
         ArrayList<Integer> tagsArray = new ArrayList<>();
 
+        textArray.add(getString(R.string.bottom_option_product));
+        tagsArray.add(R.id.PRODUCT);
+        drawablesArray.add(R.drawable.ic_option_product);
 
         textArray.add(getString(R.string.bottom_option_service));
         tagsArray.add(R.id.SUPPORT);
         drawablesArray.add(R.drawable.ic_option_service_support);
-
-        textArray.add(getString(R.string.bottom_option_product));
-        tagsArray.add(R.id.PRODUCT);
-        drawablesArray.add(R.drawable.ic_option_product);
 
         ProductInfoResponse productInfoResponse = favoritesAdapter.getItemFromPosition(productSelectedPosition);
         if (!productInfoResponse.getCustomProductFlag().equalsIgnoreCase(CUSTOM)) {
@@ -318,9 +307,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         bottomSheetPurchasedBinding.firstRow.removeAllViews();
         bottomSheetPurchasedBinding.firstRow.setWeightSum(tagsArray.size());
         setBottomViewOptions(bottomSheetPurchasedBinding.firstRow, textArray, drawablesArray, tagsArray, bottomSheetFirstRowClickListener);
-
     }
-
 
     private View.OnClickListener bottomSheetFirstRowClickListener = new View.OnClickListener() {
         @Override
@@ -343,16 +330,14 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 drawablesArray.add(R.drawable.ic_option_call);
                 drawablesArray.add(R.drawable.ic_option_find_service_center);
             } else if (tag == R.id.PRODUCT) {
-                textArray.add(getString(R.string.bottom_option_info));
+                /*textArray.add(getString(R.string.bottom_option_info));
                 tagsArray.add(R.id.PRODUCT_DETAILS);
                 drawablesArray.add(R.drawable.ic_option_details);
+*/
+                textArray.add(getString(R.string.bottom_option_warranty));
+                tagsArray.add(R.id.PRODUCT_WARRANTY);
+                drawablesArray.add(R.drawable.ic_option_warranty);
 
-                ProductInfoResponse productInfoResponse = favoritesAdapter.getItemFromPosition(productSelectedPosition);
-                if (!productInfoResponse.getCategoryName().equalsIgnoreCase(AppConstants.CATEGORY_AUTOMOBILES)) {
-                    textArray.add(getString(R.string.bottom_option_warranty));
-                    tagsArray.add(R.id.PRODUCT_WARRANTY);
-                    drawablesArray.add(R.drawable.ic_option_warranty);
-                }
                 textArray.add(getString(R.string.bottom_option_bill));
                 tagsArray.add(R.id.PRODUCT_BILL);
                 drawablesArray.add(R.drawable.ic_option_bill);
@@ -477,26 +462,21 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 drawablesArray.add(R.drawable.ic_option_details);
 
             } else if (tag == R.id.PRODUCT_WARRANTY) {
-                showInformationDialog(getString(
-                        R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(productInfoResponse, getActivity()));
+                showWarrantyDialog(getString(R.string.bottom_option_warranty), AppUtils.getFormattedWarrantyDataInString(productInfoResponse, getActivity()));
             } else if (tag == R.id.PRODUCT_BILL) {
-                Intent billFormatIntent = new Intent(getActivity(), BillFormatActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(BundleConstants.PRODUCT_INFO_RESPONSE, productInfoResponse);
-                billFormatIntent.putExtras(bundle);
-                startActivity(billFormatIntent);
+                showBillActtivity(productInfoResponse);
                 return;
             } else if (tag == R.id.PRODUCT_PAST_HISTORY) {
-                AppUtils.shortToast(getActivity(), getString(R.string.coming_soon));
+                doProductPastHistoryApi();
             } else if (tag == R.id.PRODUCT_SHARE) {
                 shareProductDetails(productInfoResponse);
                 return;
             } else if (tag == R.id.PRODUCT_TRANSFER) {
                 showTransferDialog();
             } else if (tag == R.id.PRODUCT_FEEDBACK) {
-                doReviewsApi();
+                doReviewsApi(productInfoResponse.getProductId());
             } else if (tag == R.id.PRODUCT_SUGGESTION) {
-                showSuggestionsDialog();
+                doProductSuggestionsApi(productInfoResponse.getProductId());
             } else if (tag == R.id.PRODUCT_EDIT) {
                 textArray.add(getString(R.string.bottom_option_nick_name));
                 textArray.add(getString(R.string.bottom_option_location_change));
@@ -515,8 +495,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 return;
             } else if (tag == R.id.SHOWROOM_LOCATION) {
                 showLocationDialog();
-            } else if (tag == R.id.SHOWROOM_FEEDBACK) {
-                doReviewsApi();
             }
 
             bottomSheetPurchasedBinding.thirdRowLine.setVisibility(View.VISIBLE);
@@ -526,7 +504,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             setBottomViewOptions(bottomSheetPurchasedBinding.thirdRow, textArray, drawablesArray, tagsArray, bottomSheetThirdRowClickListener);
         }
     };
-
 
     private View.OnClickListener bottomSheetThirdRowClickListener = new View.OnClickListener() {
         @Override
@@ -544,7 +521,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 showCustomPhoneNumberDialog();
 
             } else if (tag == R.id.SUPPORT_AUTHORIZE_CALL) {
-                callPhoneNumber(productInfoResponse.getMobileNumber());
+                callCustomercare(productInfoResponse);
                 return;
 
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_CENTER) {
@@ -554,7 +531,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
             } else if (tag == R.id.SUPPORT_AUTHORIZE_FIND_SERVICE_REQUEST) {
                 isFindServiceCenter = false;
                 if (serviceCenterResponseList != null) {
-                    loadServiceRequesDialogData();
+                    loadServiceRequesDialogData(0);
                 } else {
                     loadNearByServiceCentersDialogData(ServiceConstants.AUTHORIZED_TYPE,productInfoResponse.getBrandId());
                 }
@@ -564,11 +541,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                         R.string.bottom_option_special_instructions),
                         productInfoResponse.getSpecialInstruction());
             } else if (tag == R.id.PRODUCT_DETAILS_DESCRIPTION) {
-                showInformationDialog(getString(
-                        R.string.bottom_option_description), productInfoResponse.getInformation()
-                        + productInfoResponse.getProductSpecification()
-                        + productInfoResponse.getColor()
-                        + productInfoResponse.getProductDimensions());
+                detailsData(productInfoResponse);
                 return;
 
             } else if (tag == R.id.PRODUCT_EDIT_NICK_NAME) {
@@ -680,7 +653,7 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
                 getItemFromPosition(productSelectedPosition);
         HashMap<String, String> productLocationChangeMap = new HashMap<>();
         productLocationChangeMap.put(BODY_ID, String.valueOf(itemFromPosition.getFavouriteId()));
-        productLocationChangeMap.put(BODY_ADDRESS_ID, String.valueOf(itemFromPosition.getAddressId()));
+        productLocationChangeMap.put(BODY_ADDRESS_ID, String.valueOf(addressId));
         favoritesPresenter.doLocationChangeProductNameEditApi(productLocationChangeMap);
     }
 
@@ -701,24 +674,27 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
 
 
     @Override
-    public void loadAddresses(List<AddUserAddressResponse> favoritesResponseList) {
-        if (favoritesResponseList == null) {
-            favoritesResponseList = new ArrayList<>();
+    public void loadAddresses(List<AddUserAddressResponse> addressesList) {
+        if (addressesList == null) {
+            addressesList = new ArrayList<>();
         }
-        addressessAdapter.setData(favoritesResponseList);
+        addressessAdapter.setData(addressesList);
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
-        favoritesBinding.addAddressView.getRoot().setVisibility(View.VISIBLE);
         dismissSwipeRefresh();
 
-        if (favoritesResponseList.size() > 0) {
+        if (addressesList.size() > 0) {
             iAddressClickCallback.onClickPosition(0);
-            // binding.parentProduct.setVisibility(View.VISIBLE);
+
+            favoritesBinding.customFab.show(false);
+            favoritesBinding.addFavFab.show(false);
         } else {
             loadFavoritesProducts(null);
             // binding.parentProduct.setVisibility(View.GONE);
 
+            favoritesBinding.customFab.hide(false);
+            favoritesBinding.addFavFab.hide(false);
         }
     }
 
@@ -750,13 +726,6 @@ public class FavoritesFragment extends BasePurchasedFavoritesFragment implements
         favoritesBinding.favoritesRecyclerview.setVisibility(View.VISIBLE);
         shimmerFrameLayout.stopShimmerAnimation();
         shimmerFrameLayout.setVisibility(View.GONE);
-
-
-    }
-
-    @Override
-    public void productReviews() {
-
     }
 
     private void dismissSwipeRefresh() {

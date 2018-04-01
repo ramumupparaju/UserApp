@@ -18,7 +18,7 @@ import com.incon.connect.user.databinding.ViewWarrantyBinding;
  * Created by PC on 11/8/2017.
  */
 
-public class WarratyDialog extends Dialog implements View.OnClickListener {
+public class WarrantyDialog extends Dialog implements View.OnClickListener {
     private final Context context;
     private ViewWarrantyBinding binding;
     private final TextAlertDialogCallback mAlertDialogCallback; // required
@@ -26,7 +26,7 @@ public class WarratyDialog extends Dialog implements View.OnClickListener {
     private String months;
     private String days;
 
-    private WarratyDialog(AlertDialogBuilder builder) {
+    private WarrantyDialog(AlertDialogBuilder builder) {
         super(builder.context);
         this.context = builder.context;
         years = builder.years;
@@ -120,8 +120,8 @@ public class WarratyDialog extends Dialog implements View.OnClickListener {
         }
 
         //Return the finally constructed User object
-        public WarratyDialog build() {
-            WarratyDialog dialog = new WarratyDialog(this);
+        public WarrantyDialog build() {
+            WarrantyDialog dialog = new WarrantyDialog(this);
             dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
             return dialog;
         }

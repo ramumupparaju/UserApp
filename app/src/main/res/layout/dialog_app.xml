@@ -2,61 +2,60 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/BothMatch"
     android:background="@drawable/dialog_shadow"
-    android:orientation="vertical"
-    android:padding="@dimen/margin_10">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog_title_textView"
-        style="@style/MatchWrap"
-        android:gravity="center"
-        android:lineSpacingExtra="@dimen/text_size_13"
-        android:padding="@dimen/margin_20"
+        style="@style/header_text_view"
         fontPath="fonts/OpenSans-Bold.ttf"
-        android:textColor="@color/colorTap"
-        android:scrollbars="vertical"
-        android:text="@string/action_description"
-        android:textSize="@dimen/text_size_18" />
-
-    <TextView
-        android:id="@+id/dialog_content_textView"
-        style="@style/MatchWrap"
-        android:paddingBottom="@dimen/margin_20"
-        android:text="@string/action_add_as_favorite"
-        android:textColor="@color/colorEulaMessage"
-        android:textSize="@dimen/text_size_15"
-        android:visibility="visible" />
+        android:text="@string/action_description" />
 
     <LinearLayout
-        android:id="@+id/button_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="@dimen/margin_30"
-        android:layout_marginRight="@dimen/margin_30"
-        android:layout_marginTop="@dimen/margin_20"
         android:orientation="vertical"
-        android:weightSum="2">
+        android:padding="@dimen/margin_10">
 
-        <Button
-            android:id="@+id/dialog_first_button"
+        <TextView
+            android:id="@+id/dialog_content_textView"
             style="@style/MatchWrap"
-            fontPath="fonts/OpenSans-Bold.ttf"
-            android:layout_marginBottom="@dimen/margin_20"
-            android:layout_weight="1"
-            android:background="@drawable/btn_white_stroke_nevada_selector"
-            android:textColor="@color/text_nevada_white_selected"
-            android:textSize="@dimen/text_size_13" />
+            android:paddingBottom="@dimen/margin_20"
+            android:text="@string/action_add_as_favorite"
+            android:textColor="@color/colorEulaMessage"
+            android:textSize="@dimen/text_size_15"
+            android:visibility="visible" />
 
-        <Button
-            android:id="@+id/dialog_second_button"
-            style="@style/MatchWrap"
-            fontPath="fonts/OpenSans-Bold.ttf"
-            android:layout_marginBottom="@dimen/margin_20"
-            android:layout_weight="1"
-            android:background="@drawable/btn_white_stroke_nevada_selector"
-            android:textColor="@color/text_nevada_white_selected"
-            android:textSize="@dimen/text_size_13" />
+        <LinearLayout
+            android:id="@+id/button_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="@dimen/margin_30"
+            android:layout_marginRight="@dimen/margin_30"
+            android:layout_marginTop="@dimen/margin_20"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/dialog_first_button"
+                style="@style/MatchWrap"
+                fontPath="fonts/OpenSans-Bold.ttf"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_stroke_nevada_selector"
+                android:textColor="@color/text_nevada_white_selected"
+                android:textSize="@dimen/text_size_13" />
+
+            <Button
+                android:id="@+id/dialog_second_button"
+                style="@style/MatchWrap"
+                fontPath="fonts/OpenSans-Bold.ttf"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_stroke_nevada_selector"
+                android:textColor="@color/text_nevada_white_selected"
+                android:textSize="@dimen/text_size_13" />
+        </LinearLayout>
+
     </LinearLayout>
-
 </LinearLayout>
 

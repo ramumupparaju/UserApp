@@ -2,6 +2,7 @@ package com.incon.connect.user.custom.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,12 +10,15 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
+import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.R;
-import com.incon.connect.user.apimodel.components.FeedbackData;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.callbacks.FeedbackAlertDialogCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.databinding.ViewEditTextListDialogBinding;
@@ -27,7 +31,9 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
     private final String title; // required
     private final String leftButtonText; // required
     private final String rightButtonText; // required
-    private final List<FeedbackData> feedbackDataList; // required
+    private final String hintText; // required
+    private final List<ReviewData> feedbackDataList; // required
+    private final int dialogType; //required
     private EditText editTextNotes; // required
     private RatingBar ratingBar; // required
     private final FeedbackAlertDialogCallback mAlertDialogCallback; // required
@@ -39,36 +45,40 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
         super(builder.context);
         this.context = builder.context;
         this.title = builder.title;
+        this.hintText = builder.hintText;
         this.leftButtonText = builder.leftButtonText;
         this.rightButtonText = builder.rightButtonText;
         this.feedbackDataList = builder.feedbackDataList;
+        this.dialogType = builder.dialogType;
         this.mAlertDialogCallback = builder.callback;
     }
 
     public void showDialog() {
-        ViewEditTextListDialogBinding viewEditTextListDialogBinding = DataBindingUtil.inflate(
+        ViewEditTextListDialogBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(context), R.layout.view_edit_text_list_dialog, null, false);
-        View contentView = viewEditTextListDialogBinding.getRoot();
+        View contentView = binding.getRoot();
 
-        ratingBar = viewEditTextListDialogBinding.inputRatingbar;
-        editTextNotes = viewEditTextListDialogBinding.edittextUsername;
-        viewEditTextListDialogBinding.textVerifyTitle.setText(title);
-        if (title.equals(getContext().getString(
-                R.string.bottom_option_transfer))) {
-            viewEditTextListDialogBinding.edittextUsername.setInputType(InputType.TYPE_CLASS_NUMBER);
-            viewEditTextListDialogBinding.inputLayoutVerify.setHint(getContext().getString(
-                    R.string.action_enter_transfer_phone_number));
+        LinearLayout.LayoutParams crlp = (LinearLayout.LayoutParams) binding.dialogTitleTextView.getLayoutParams();
+        crlp.width = (int) (Resources.getSystem().getDisplayMetrics().widthPixels * 0.8);
+
+        ratingBar = binding.inputRatingbar;
+        editTextNotes = binding.edittextComments;
+        binding.dialogTitleTextView.setText(title);
+        if (dialogType == AppConstants.DialogTypeConstants.PRODUCT_SUGGESTIONS) {
+            ratingBar.setVisibility(View.GONE);
         }
-        viewEditTextListDialogBinding.includeRegisterBottomButtons.buttonLeft.setText(
+
+        binding.edittextComments.setHint(hintText);
+        binding.includeRegisterBottomButtons.buttonLeft.setText(
                 TextUtils.isEmpty(leftButtonText) ? context.getString(
                         R.string.action_back) : leftButtonText);
-        viewEditTextListDialogBinding.includeRegisterBottomButtons.buttonRight.setText(
+        binding.includeRegisterBottomButtons.buttonRight.setText(
                 TextUtils.isEmpty(leftButtonText) ? context.getString(
                         R.string.action_next) : rightButtonText);
-        viewEditTextListDialogBinding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(this);
-        viewEditTextListDialogBinding.includeRegisterBottomButtons.buttonRight.setOnClickListener(this);
+        binding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(this);
+        binding.includeRegisterBottomButtons.buttonRight.setOnClickListener(this);
 
-        loadFeedBackData(viewEditTextListDialogBinding);
+        loadFeedBackData(binding);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(contentView);
         setCancelable(false);
@@ -81,11 +91,6 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
             AppEditTextListAdapter purchasedAdapter = new AppEditTextListAdapter(feedbackDataList);
             binding.feedbackRecyclerview.setAdapter(purchasedAdapter);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-            Context context = binding.getRoot().getContext();
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
-                    linearLayoutManager.getOrientation());
-            dividerItemDecoration.setDrawable(context.getResources().getDrawable(R.drawable.list_divider));
-            binding.feedbackRecyclerview.addItemDecoration(dividerItemDecoration);
             binding.feedbackRecyclerview.setLayoutManager(linearLayoutManager);
         }
 
@@ -116,7 +121,9 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
         private String title;
         private String leftButtonText;
         private String rightButtonText;
-        private List<FeedbackData> feedbackDataList;
+        private List<ReviewData> feedbackDataList;
+        private int dialogType;
+        private String hintText;
 
 
         public AlertDialogBuilder(Context context, FeedbackAlertDialogCallback callback) {
@@ -139,7 +146,7 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
             return this;
         }
 
-        public AlertDialogBuilder feedbackDataList(List<FeedbackData> feedbackData) {
+        public AlertDialogBuilder feedbackDataList(List<ReviewData> feedbackData) {
             this.feedbackDataList = feedbackData;
             return this;
         }
@@ -151,6 +158,16 @@ public class AppEditTextListDialog extends Dialog implements View.OnClickListene
                     this);
             dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
             return dialog;
+        }
+
+        public AlertDialogBuilder dialogType(int dialogType) {
+            this.dialogType = dialogType;
+            return this;
+        }
+
+        public AlertDialogBuilder hintText(String hintText) {
+            this.hintText = hintText;
+            return this;
         }
     }
 }

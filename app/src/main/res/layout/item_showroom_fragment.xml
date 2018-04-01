@@ -59,12 +59,11 @@
 
                 <!--merchant offers-->
                 <TextView
-                    android:id="@+id/comment_tv"
+                    android:id="@+id/offers_tv"
                     style="@style/MatchWrap"
                     android:layout_below="@+id/showroom_location"
                     android:layout_toRightOf="@id/store_imageview"
                     android:layout_marginTop="@dimen/margin_3"
-                    android:text="@{`offers : ` + productinforesponse.merchantComments}"
                     android:textColor="@color/ebony_clay"
                     android:textSize="10sp"/>
 

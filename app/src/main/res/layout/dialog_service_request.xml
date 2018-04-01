@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         style="@style/MatchWrap"
         android:background="@drawable/dialog_background">
+        <!--title-->
+        <TextView
+            android:id="@+id/dialog_title_textView"
+            style="@style/header_text_view"
+            fontPath="fonts/OpenSans-Bold.ttf"
+            android:text="@string/bottom_option_service_request" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/spinners_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
-            >
+            android:layout_below="@+id/dialog_title_textView"
+            android:layout_marginTop="@dimen/margin_10">
             <!-- spinner service centers -->
             <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
                 android:id="@+id/spinner_service"
@@ -23,7 +28,7 @@
                 app:errorEnabled="true"
                 app:met_floatingLabel="highlight"
                 app:met_textColor="@color/colorForgotPasswordHintText"
-                app:met_textColorHint="@color/colorForgotPasswordHintText"/>
+                app:met_textColorHint="@color/colorForgotPasswordHintText" />
 
             <!-- spinner service centers -->
             <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
@@ -36,8 +41,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/spinner_service"
                 app:met_floatingLabel="highlight"
                 app:met_textColor="@color/colorForgotPasswordHintText"
-                app:met_textColorHint="@color/colorForgotPasswordHintText"
-                />
+                app:met_textColorHint="@color/colorForgotPasswordHintText" />
         </android.support.constraint.ConstraintLayout>
 
         <LinearLayout
@@ -54,7 +58,7 @@
                 app:errorEnabled="true"
                 app:met_floatingLabel="highlight"
                 app:met_textColor="@color/colorForgotPasswordHintText"
-                app:met_textColorHint="@color/colorForgotPasswordHintText"/>
+                app:met_textColorHint="@color/colorForgotPasswordHintText" />
 
             <EditText
                 android:id="@+id/edittext_others_comments"
@@ -64,7 +68,7 @@
                 android:layout_marginStart="@dimen/margin_42"
                 android:layout_marginTop="-6.5dp"
                 android:background="@drawable/bg_rectangle_edittext"
-                android:hint="@string/hint_problem_details"/>
+                android:hint="@string/hint_problem_details" />
 
         </LinearLayout>
         <!-- edit text comment -->
@@ -87,7 +91,7 @@
                 android:maxLength="@integer/character_limit_200"
                 android:maxLines="1"
                 android:paddingEnd="2dp"
-                android:paddingStart="2.1dp"/>
+                android:paddingStart="2.1dp" />
         </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
         <!-- Date picker -->
@@ -103,7 +107,7 @@
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/edittext_date"
                 style="@style/Register_TextInputEditText"
-                android:enabled="false"/>
+                android:enabled="false" />
         </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
         <!--dummy view for date click event -->
@@ -115,7 +119,7 @@
             android:layout_alignEnd="@+id/input_layout_date"
             android:layout_alignStart="@+id/input_layout_date"
             android:layout_alignTop="@+id/input_layout_date"
-            android:background="@null"/>
+            android:background="@null" />
 
         <!-- time picker -->
         <com.incon.connect.user.custom.view.CustomTextInputLayout
@@ -130,7 +134,7 @@
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/edittext_time"
                 style="@style/Register_TextInputEditText"
-                android:enabled="false"/>
+                android:enabled="false" />
         </com.incon.connect.user.custom.view.CustomTextInputLayout>
 
         <!--dummy view for time click event -->
@@ -142,7 +146,7 @@
             android:layout_alignEnd="@+id/input_layout_time"
             android:layout_alignStart="@+id/input_layout_time"
             android:layout_alignTop="@+id/input_layout_time"
-            android:background="@null"/>
+            android:background="@null" />
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -150,6 +154,7 @@
             android:layout_below="@+id/input_layout_time"
             android:layout_marginEnd="@dimen/margin_42"
             android:layout_marginStart="@dimen/margin_42"
+            android:layout_marginTop="-20dp"
             android:orientation="horizontal"
             android:weightSum="3">
 
@@ -160,7 +165,7 @@
                 android:tag="1"
                 android:text="@string/action_high"
                 android:textSize="12sp"
-                app:fontName="fonts/OpenSans-Regular.ttf"/>
+                app:fontName="fonts/OpenSans-Regular.ttf" />
 
             <RadioButton
                 android:id="@+id/radioButton2"
@@ -169,7 +174,7 @@
                 android:checked="true"
                 android:tag="2"
                 android:text="@string/action_medium"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/radioButton3"
@@ -177,7 +182,7 @@
                 android:layout_weight="1"
                 android:tag="3"
                 android:text="@string/action_low"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
         </RadioGroup>
 
         <!-- layout for bottom buttons -->
@@ -186,7 +191,8 @@
             layout="@layout/view_registration_bottom_buttons"
             android:layout_width="match_parent"
             android:layout_height="47dp"
-            android:layout_below="@id/radioGroup"/>
+            android:layout_below="@id/radioGroup"
+            android:layout_marginTop="@dimen/margin_10" />
 
     </RelativeLayout>
 </layout>

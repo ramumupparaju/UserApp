@@ -24,6 +24,11 @@
         <item>Choose From Gallery</item>
         <item>Tap to view</item>
     </string-array>
+    <string-array
+        name="select_image_options_list">
+        <item>Take Photo</item>
+        <item>Choose From Gallery</item>
+    </string-array>
 
 
     <!-- selecting by search-->

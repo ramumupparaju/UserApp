@@ -32,12 +32,12 @@
     <string name="bottom_option_Call">Call</string>
     <string name="bottom_option_call_customer_care">Call customer care</string>
     <string name="bottom_option_find_service_center">Find service center</string>
-    <string name="bottom_option_un_authorized">Un Authorize</string>
+    <string name="bottom_option_un_authorized">Non-Authorize</string>
     <string name="bottom_option_authorized">Authorize</string>
     <string name="bottom_option_service_request">Service request</string>
     <string name="bottom_option_location">Location</string>
-    <string name="bottom_option_timings">Timings</string
-        >
+    <string name="bottom_option_timings">Timings</string>
+    <string name="label_receivers_phone_number">Receiver\'s phone number</string>
     <string name="bottom_option_info">Info</string>
     <string name="bottom_option_nick_name">Nick Name</string>
     <string name="bottom_option_location_change">Location Change</string>
@@ -55,6 +55,7 @@
     <string name="bottom_option_transfer">Transfer</string>
     <string name="bottom_option_feedback">Feedback </string>
     <string name="bottom_option_review">Review</string>
+    <string name="bottom_option_track">Track</string>
     <string name="bottom_option_price">Price </string>
     <string name="bottom_option_mrp">MRP </string>
     <string name="bottom_option_delete">Delete</string>
@@ -85,15 +86,18 @@
     <string name="text_powered">POWERED BY CONNECT</string>
     <string name="text_customer_details">Customer Details</string>
     <string name="text_product_details">Product Details</string>
+    <string name="text_bill_details">Bill Details</string>
     <string name="text_invoice">INVOICE</string>
     <string name="text_date_of_purchase">Date of purchase</string>
     <string name="text_bill_id">Bill ID</string>
-    <string name="text_invoice_no">Invoice NO</string>
+    <string name="text_invoice_no">Invoice No</string>
     <string name="text_showroom_details">Showroom Details</string>
     <string name="text_product_name">Product name</string>
-    <string name="text_model_no">Model no</string>
+    <string name="text_model_no">Model No</string>
     <string name="text_s_n">S/N</string>
     <string name="text_price">Price</string>
+    <string name="bill_value">: %1$s</string>
+    <string name="label_colon">:</string>
 
     <!--warrantyregistration-->
     <string name="action_request_pending">Request pending</string>
@@ -113,6 +117,8 @@
     <string name="action_batchno">Batch No :</string>
     <string name="action_serialno">Serial No :</string>
     <string name="action_submit">Submit</string>
+    <string name="action_feedback_hint">Enter your feedback here</string>
+    <string name="action_suggestions_hint">Enter your suggestions here(It will be displayed to the manufacturer only)</string>
     <string name="action_otp">OTP</string>
     <string name="action_qr_code">QR Code Scan</string>
     <string name="action_manual_entry">Manual Enter</string>
@@ -126,7 +132,7 @@
     <string name="action_female">Female</string>
 
     <string name="label_expired">Expired</string>
-    <string name="label_product_status">Product status</string>
+    <string name="label_product_status">Product delivery status</string>
     <string name="label_service_requests">Service Requests</string>
 
     <!--product Assign-->
@@ -162,6 +168,7 @@
     <string name="action_changepassword">CHANGE PASSWORD</string>
     <string name="action_add_location">Location</string>
     <string name="action_back">Back</string>
+    <string name="action_change">Change</string>
     <string name="action_next">Next</string>
     <string name="action_login">Login</string>
     <string name="action_registration">Register</string>
@@ -169,6 +176,7 @@
     <string name="action_yes">Yes</string>
     <string name="action_no">No</string>
     <string name="action_cancel_request">Cancel Request</string>
+    <string name="action_past_history">Past History</string>
     <string name="action_reset_password">Reset Password</string>
     <string name="action_register">Register</string>
     <string name="action_continue">continue</string>
@@ -183,6 +191,7 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_close">Close</string>
     <string name="action_request_call">Request Call</string>
+    <string name="action_call">Call</string>
     <string name="action_take_new_survey">take new survey</string>
     <string name="action_save">save</string>
     <string name="action_discard">discard</string>
@@ -300,6 +309,9 @@
     <string name="progress_transfering_product">Transfering Product...</string>
     <string name="progress_adding_to_favorites">Adding to favorites...</string>
     <string name="progress_deleting_product">Deleting Product ...</string>
+    <string name="progress_loading_reviews">Loading reviews...</string>
+    <string name="progress_loading_history">Loading history...</string>
+    <string name="progress_loading_suggestions">Loading suggestions...</string>
     <string name="progress_change_product_location">Change Product Location...</string>
     <string name="progress_purchased_history">Loading Purchased History...</string>
     <string name="progress_interest_history">Loading Interest History...</string>
@@ -322,6 +334,7 @@
     <string name="progress_location">Loading location details...</string>
     <string name="progress_finding_service_centers">Loading service centers...</string>
     <string name="progress_login">Logging in...</string>
+    <string name="progress_uploading_bill">Uploading bill...</string>
     <string name="progress_resend">Resending OTP...</string>
     <string name="progress_sendotp">Sending otp...</string>
     <string name="progress_verifycode">Verifying code...</string>
@@ -409,6 +422,7 @@
     <string name="add_new_notes">Notes</string>
     <string name="add_new_warrnty_period">Warranty Period</string>
     <string name="add_new_extended_warranty">Extended Warranty</string>
+    <string name="add_extended_warranty">Add Extended Warranty</string>
 
 
     <!-- Registration -->
@@ -479,7 +493,7 @@
     <!--Settings -->
     <string name="title_menu_change_password">Change Password</string>
     <string name="title_menu_change_pin">Change Pin</string>
-    <string name="title_menu_manage_unauthorize_numbers">Manage Unauthorize Numbers</string>
+    <string name="title_menu_manage_unauthorize_numbers">Non-authorized Service Engineers</string>
     <string name="title_menu_profile">Profile</string>
     <string name="title_menu_store_settings">Store Settings</string>
     <string name="title_menu_bill_format">Bill Format</string>
@@ -499,10 +513,11 @@
     <string name="purchased_brand">Brand</string>
     <string name="purchased_product_image">Product Image</string>
     <string name="purchased_product_info">Product Info</string>
-    <string name="purchased_warranty_status_now">Warranty Status Now : </string>
-    <string name="purchased_purchased_date">Purchased Date :</string>
-    <string name="purchased_warranty_covers_date">Warranty Covers :</string>
-    <string name="purchased_warranty_ends_on">"Warranty Ends on :"</string>
+    <string name="purchased_warranty_status">Warranty Status</string>
+    <string name="purchased_purchased_date">Purchased Date</string>
+    <string name="purchased_warranty_covers_date">Warranty Covers</string>
+    <string name="purchased_warranty_ends">"Warranty Ends on"</string>
+    <string name="purchased_extended_warranty_ends">"Extended Warranty Ends"</string>
 
     <!--add offers-->
     <string name="add_offer_brand">Brand</string>
@@ -514,8 +529,10 @@
     <string name="title_scan">Scan</string>
     <string name="title_warranty_register">Warranty Registration</string>
     <string name="title_add_new_model">New Model</string>
-    <string name="title_custom_product">Custom Product</string>
-    <string name="title_add_product">Add Product</string>
+    <string name="title_custom_product">Old products</string>
+    <string name="title_add_product">Product from purchased history</string>
+    <string name="title_add_location">Add Location</string>
+    <string name="title_location">Location</string>
     <string name="title_status">Status</string>
     <string name="title_updates">UpDates</string>
     <string name="title_qr_code_scanner">QR Code Scanner</string>
@@ -586,6 +603,9 @@
     <string name="button9_large_text" translatable="false">9</string>
     <string name="button9_small_text" translatable="false">WXYZ</string>
     <string name="button11_large_text" translatable="false">0</string>
+    <string name="will_updated_soon">Will be updated soon</string>
+    <string name="action_new">New</string>
+    <string name="action_edit">Edit</string>
 
 </resources>
 

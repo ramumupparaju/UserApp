@@ -1,0 +1,38 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout
+        style="@style/BothMatch"
+        android:background="@color/mercury">
+
+        <TextView
+            android:id="@+id/empty_data"
+            style="@style/BothMatch"
+            android:gravity="center"
+            android:text="@string/action_no_data"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:id="@+id/view_data_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/header_text_view"
+                fontPath="fonts/OpenSans-Bold.ttf"
+                android:text="@string/bottom_option_past_history" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/service_requests_recyclerview"
+                style="@style/MatchWrap"
+                android:fadeScrollbars="false"
+                android:scrollbarSize="4dp"
+                android:scrollbarThumbVertical="@drawable/scrollbar"
+                android:scrollbars="vertical" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</layout>

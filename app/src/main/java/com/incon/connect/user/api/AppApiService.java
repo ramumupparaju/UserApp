@@ -12,6 +12,7 @@ import com.incon.connect.user.apimodel.components.login.LoginResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.qrcodebaruser.UserInfoResponse;
 import com.incon.connect.user.apimodel.components.registration.SendOtpResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.search.Division;
 import com.incon.connect.user.apimodel.components.search.ModelSearchResponse;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
@@ -38,6 +39,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MultipartBody;
 
 public class AppApiService implements AppConstants {
 
@@ -200,9 +202,14 @@ public class AppApiService implements AppConstants {
     }
 
         // product review api
-    public Observable<Object> reviewsApi(int userId) {
-        return addNetworkCheck(serviceInstance.reviewsApi(userId));
+    public Observable<List<ReviewData>> reviewsApi(int productId) {
+        return addNetworkCheck(serviceInstance.reviewsApi(productId));
     }
+
+    public Observable<List<ReviewData>> productSuggestionsApi(int userId, int productId) {
+        return addNetworkCheck(serviceInstance.productSuggestionsApi(userId, productId));
+    }
+
     public Observable<Object> saveReviewsApi(HashMap<String, String> saveReviewsBody) {
         return addNetworkCheck(serviceInstance.saveReviewsApi(saveReviewsBody));
     }
@@ -274,6 +281,11 @@ public class AppApiService implements AppConstants {
     }
 
     //transfer request otp api
+    public Observable<ArrayList<ServiceStatus>> fetchProductPastHistory(int userId, int warrantyId) {
+        return addNetworkCheck(serviceInstance.fetchProductPastHistory(userId, warrantyId));
+    }
+
+    //transfer request otp api
     public Observable<ArrayList<ServiceStatus>> fetchUserRequests(int userId) {
         return addNetworkCheck(serviceInstance.fetchUserRequests(userId));
     }
@@ -321,4 +333,10 @@ public class AppApiService implements AppConstants {
     public Observable<Object> upDateStatus(int userId, UpDateStatus upDateStatus) {
         return addNetworkCheck(serviceInstance.upDateStatus(userId, upDateStatus));
     }
+
+    // bill  api
+    public Observable<Object> uploadBill(int purchaseId, MultipartBody.Part billPrev) {
+        return addNetworkCheck(serviceInstance.uploadBill(purchaseId, billPrev));
+    }
+
 }

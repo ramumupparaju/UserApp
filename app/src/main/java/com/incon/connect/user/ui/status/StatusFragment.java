@@ -1,23 +1,26 @@
 package com.incon.connect.user.ui.status;
 
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.ServiceRequest;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
+import com.incon.connect.user.apimodel.components.status.StatusList;
 import com.incon.connect.user.callbacks.AlertDialogCallback;
 import com.incon.connect.user.callbacks.IStatusClickCallback;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
 import com.incon.connect.user.custom.view.AppEditTextDialog;
+import com.incon.connect.user.custom.view.AppStatusDialog;
 import com.incon.connect.user.databinding.FragmentStatusBinding;
 import com.incon.connect.user.dto.updatestatus.UpDateStatus;
 import com.incon.connect.user.ui.BaseFragment;
@@ -27,6 +30,9 @@ import com.incon.connect.user.ui.status.adapter.adapter.ServiceStatusAdapter;
 import com.incon.connect.user.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static com.incon.connect.user.AppUtils.getStatusName;
 
 /**
  * Created by PC on 12/1/2017.
@@ -47,6 +53,7 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
 
     private AppEditTextDialog acceptRejectApproveDialog;
     private UpDateStatus upDateStatus;
+    private AppStatusDialog statusDialog;
 
     @Override
     protected void initializePresenter() {
@@ -74,11 +81,34 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         return rootView;
     }
 
+    public void showStatusDialog(String title, String messageInfo, String phoneNumber) {
+        statusDialog = new AppStatusDialog.AlertDialogBuilder(getActivity(), new
+                TextAlertDialogCallback() {
+                    @Override
+                    public void enteredText(String phoneNumber) {
+                        AppUtils.callPhoneNumber(getActivity(), phoneNumber);
+                        statusDialog.dismiss();
+                    }
+
+                    @Override
+                    public void alertDialogCallback(byte dialogStatus) {
+                        switch (dialogStatus) {
+                            case TextAlertDialogCallback.OK:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }).title(title).description(messageInfo).phoneNumber(phoneNumber)
+                .build();
+        statusDialog.showDialog();
+        statusDialog.setCancelable(true);
+    }
+
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener =
             new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-
                     statusPresenter.fetchUserRequests(SharedPrefsUtils.loginProvider().getIntegerPreference
                             (LoginPrefs.USER_ID, DEFAULT_VALUE));
                 }
@@ -91,7 +121,6 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
     }
 
     private void setListUi() {
-
         if (isServiceRequest && serviceStatusList.size() == 0) {
             binding.emptyData.setVisibility(View.VISIBLE);
         } else if (!isServiceRequest && productsList.size() == 0) {
@@ -176,6 +205,20 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
         }
 
         @Override
+        public void onClickStatus(int productPosition, int statusPosition) {
+            if (isServiceRequest) {
+                ServiceStatus serviceStatus = serviceStatusList.get(productPosition);
+
+                List<StatusList> statusList = serviceStatus.getStatusList();
+                StatusList status = statusList.get(statusPosition);
+                ServiceRequest serviceRequest = status.getRequest();
+                String phoneNumber = TextUtils.isEmpty(status.getAssignedUser().getMobileNumber()) ? status.getServiceCenter().getContactNo() : status.getAssignedUser().getMobileNumber();
+                showStatusDialog(getStatusName(serviceRequest.getStatus()), AppUtils.formattedDescription(status), phoneNumber);
+            }
+
+        }
+
+        @Override
         public void onClickPosition(int position) {
             //TODO have to enable
             if (isServiceRequest) {
@@ -189,6 +232,8 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
             }
         }
     };
+
+
 
 
     @Override
@@ -218,6 +263,7 @@ public class StatusFragment extends BaseFragment implements StatusContract.View 
             binding.swiperefresh.setRefreshing(false);
         }
     }
+
     @Override
     public void statusUpdated() {
         if (acceptRejectApproveDialog != null && acceptRejectApproveDialog.isShowing()) {

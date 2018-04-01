@@ -2,22 +2,33 @@ package com.incon.connect.user.ui.status.adapter.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.location.Address;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.incon.connect.user.AppConstants;
 import com.incon.connect.user.AppUtils;
 import com.incon.connect.user.BR;
 import com.incon.connect.user.R;
+import com.incon.connect.user.apimodel.components.ServiceCenter;
 import com.incon.connect.user.apimodel.components.ServiceRequest;
 import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.status.StatusList;
 import com.incon.connect.user.callbacks.IStatusClickCallback;
 import com.incon.connect.user.databinding.ItemServiceStatusListBinding;
 import com.incon.connect.user.databinding.StatusViewBinding;
+import com.incon.connect.user.ui.RegistrationMapActivity;
+import com.incon.connect.user.utils.AddressFromLatLngAddress;
+import com.incon.connect.user.utils.DeviceUtils;
+import com.incon.connect.user.utils.Logger;
 
 import java.util.List;
 
@@ -33,6 +44,8 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
     private List<ServiceStatus> serviceStatusList;
     private IStatusClickCallback clickCallback;
     private Context context;
+    private AddressFromLatLngAddress addressFromLatLngAddress;
+    private int viewType;
 
     public void setClickCallback(IStatusClickCallback clickCallback) {
         this.clickCallback = clickCallback;
@@ -41,6 +54,7 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
     public ServiceStatusAdapter(Context context, List<ServiceStatus> serviceStatusList) {
         this.context = context;
         this.serviceStatusList = serviceStatusList;
+        addressFromLatLngAddress = new AddressFromLatLngAddress();
     }
 
     @Override
@@ -49,6 +63,49 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
         ItemServiceStatusListBinding binding = DataBindingUtil.inflate(layoutInflater,
                 R.layout.item_service_status_list, parent, false);
         return new ViewHolder(binding);
+    }
+
+    private void loadLocationDetailsFromGeocoder(LatLng locationAddress, int position) {
+        addressFromLatLngAddress.getAddressFromLocation(context,
+                locationAddress, AppConstants.RequestCodes.LOCATION_ADDRESS_FROM_LATLNG, new LocationHandler(position));
+    }
+
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
+    }
+
+    private class LocationHandler extends Handler {
+
+        int position;
+
+        public LocationHandler(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void handleMessage(Message message) {
+            Bundle bundle = message.getData();
+            Address locationAddress = bundle.getParcelable(AppConstants.BundleConstants
+                    .LOCATION_ADDRESS);
+            if (locationAddress != null) {
+                switch (message.what) {
+                    case AppConstants.RequestCodes.LOCATION_ADDRESS_FROM_LATLNG:
+                        try {
+                            if (viewType == AppConstants.ViewConstants.PAST_HISTORY) {
+
+                                serviceStatusList.get(position).getServiceCenter().setFormattedAddress(locationAddress.getSubLocality());
+                            } else {
+                                serviceStatusList.get(position).getServiceCenter().setFormattedAddress(locationAddress.getAddressLine(0));
+                            }
+                        } catch (Exception e) {
+                            Logger.e("LocationHandler class", "Address not found");
+                        }
+                        break;
+                    default:
+                        //do nothing
+                }
+            }
+        }
     }
 
     @Override
@@ -81,6 +138,14 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
         }
 
         public void bind(ServiceStatus serviceStatus, int position) {
+
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) binding.cardView.getLayoutParams();
+            int margin8 = (int) DeviceUtils.convertPxToDp(8);
+            if (position == serviceStatusList.size() - 1) {
+                layoutParams.setMargins(margin8, margin8, margin8, margin8);
+            } else {
+                layoutParams.setMargins(margin8, margin8, margin8, 0);
+            }
             binding.setVariable(BR.productinforesponse, serviceStatus);
 
             AppUtils.loadImageFromApi(binding.brandImageview, serviceStatus.getProduct().getLogoUrl());
@@ -97,7 +162,13 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
             } else {
                 binding.approvalViewsLayout.setVisibility(View.GONE);
             }
-            createStatusView(binding, statusList);
+            createStatusView(binding, statusList, position);
+
+            ServiceCenter serviceCenter = serviceStatus.getServiceCenter();
+            if (TextUtils.isEmpty(serviceCenter.getFormattedAddress())) {
+                String[] split = serviceCenter.getLocation().split(",");
+                loadLocationDetailsFromGeocoder(new LatLng(Double.parseDouble(split[0]), Double.parseDouble(split[1])), position);
+            }
             binding.executePendingBindings();
         }
 
@@ -121,7 +192,7 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
         }
     }
 
-    private void createStatusView(ItemServiceStatusListBinding binding, List<StatusList> statusList) {
+    private void createStatusView(ItemServiceStatusListBinding binding, List<StatusList> statusList, int position) {
 
         int size = statusList.size();
         if (statusList == null || size == 0) {
@@ -139,7 +210,8 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
                 statusView.viewRightLine.setVisibility(i == size - 1 ? View.INVISIBLE : View.VISIBLE);
                 View statusRootView = statusView.getRoot();
                 statusRootView.setOnClickListener(onClickListener);
-                statusRootView.setTag(statusData.getServiceCenter().getContactNo());
+//                statusRootView.setTag(statusData.getServiceCenter().getContactNo());
+                statusRootView.setTag(String.format("%1$s;%2$s", position, i));
                 linearLayout.addView(statusRootView);
                 binding.statusLayout.addView(linearLayout);
             }
@@ -151,7 +223,8 @@ public class ServiceStatusAdapter extends RecyclerView.Adapter<ServiceStatusAdap
         public void onClick(View view) {
             Object tag = view.getTag();
             if (tag != null) {
-                AppUtils.callPhoneNumber(context, (String) tag);
+                String[] positionsArray = ((String) tag).split(";");
+                clickCallback.onClickStatus(Integer.parseInt(positionsArray[0]), Integer.parseInt(positionsArray[1]));
             }
 
         }

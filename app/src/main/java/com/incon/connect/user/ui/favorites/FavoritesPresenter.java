@@ -10,7 +10,9 @@ import com.incon.connect.user.api.AppApiService;
 import com.incon.connect.user.apimodel.components.addserviceengineer.AddServiceEngineer;
 import com.incon.connect.user.apimodel.components.favorites.AddUserAddressResponse;
 import com.incon.connect.user.apimodel.components.productinforesponse.ProductInfoResponse;
+import com.incon.connect.user.apimodel.components.review.ReviewData;
 import com.incon.connect.user.apimodel.components.servicecenter.ServiceCenterResponse;
+import com.incon.connect.user.apimodel.components.status.ServiceStatus;
 import com.incon.connect.user.apimodel.components.userslistofservicecenters.UsersListOfServiceCenters;
 import com.incon.connect.user.dto.addfavorites.AddUserAddress;
 import com.incon.connect.user.dto.servicerequest.ServiceRequest;
@@ -19,6 +21,7 @@ import com.incon.connect.user.ui.history.fragments.PurchasedContract;
 import com.incon.connect.user.ui.history.fragments.PurchasedPresenter;
 import com.incon.connect.user.utils.ErrorMsgUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -163,7 +166,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.initialize(null);
         purchasedPresenter.setView(purchasedView);
-        purchasedPresenter.nearByServiceCenters(type,brandId, userId);
+        purchasedPresenter.nearByServiceCenters(type, brandId, userId);
     }
 
     @Override
@@ -223,15 +226,36 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
         PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.initialize(null);
         purchasedPresenter.setView(purchasedView);
-        purchasedPresenter.doTransferProductApi(phoneNumber,warrantyId);
+        purchasedPresenter.doTransferProductApi(phoneNumber, warrantyId);
     }
 
     @Override
-    public void reviewToproduct(int userId) {
+    public void reviewToproduct(int productId) {
+        getView().showProgress(appContext.getString(R.string.progress_loading_reviews));
+
         PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
         purchasedPresenter.initialize(null);
         purchasedPresenter.setView(purchasedView);
-        purchasedPresenter.reviewToProduct(userId);
+        purchasedPresenter.reviewToProduct(productId);
+    }
+
+    @Override
+    public void doProductPastHistoryApi(int userId, int warrantyId) {
+        getView().showProgress(appContext.getString(R.string.progress_loading_history));
+
+        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
+        purchasedPresenter.initialize(null);
+        purchasedPresenter.setView(purchasedView);
+        purchasedPresenter.doProductPastHistoryApi(userId, warrantyId);
+    }
+    @Override
+    public void doProductSuggestions(int userId, int productId) {
+        getView().showProgress(appContext.getString(R.string.progress_loading_suggestions));
+
+        PurchasedPresenter purchasedPresenter = new PurchasedPresenter();
+        purchasedPresenter.initialize(null);
+        purchasedPresenter.setView(purchasedView);
+        purchasedPresenter.reviewToProduct(productId);
     }
 
 
@@ -248,7 +272,7 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
 
         @Override
         public void transferMobileNumber(Object response) {
-           getView().transferMobileNumber(response);
+            getView().transferMobileNumber(response);
         }
 
         @Override
@@ -279,46 +303,49 @@ public class FavoritesPresenter extends BasePresenter<FavoritesContract.View> im
 
         @Override
         public void addedToFavorite() {
-
-
         }
 
         @Override
-        public void productReviews() {
-            getView().productReviews();
+        public void productReviews(List<ReviewData> reviewDataList) {
+            getView().productReviews(reviewDataList);
+        }
 
+        @Override
+        public void productSuggestions(List<ReviewData> reviewDataList) {
+            getView().productSuggestions(reviewDataList);
         }
 
         @Override
         public void saveReviews(Object saveReviews) {
             getView().saveReviews(saveReviews);
+        }
 
+        @Override
+        public void onProductPastHistoryApi(ArrayList<ServiceStatus> statusListResponses) {
+            getView().onProductPastHistoryApi(statusListResponses);
         }
 
         @Override
         public void showProgress(String message) {
             getView().showProgress(message);
-
         }
 
         @Override
         public void hideProgress() {
             getView().hideProgress();
-
         }
 
         @Override
         public void showErrorMessage(String errorMessage) {
             getView().showErrorMessage(errorMessage);
-
         }
 
         @Override
         public void handleException(Pair<Integer, String> error) {
             getView().handleException(error);
-
         }
     };
+
 
 
 }

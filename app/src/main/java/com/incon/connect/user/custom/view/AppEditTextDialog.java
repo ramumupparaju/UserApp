@@ -2,6 +2,7 @@ package com.incon.connect.user.custom.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.incon.connect.user.R;
 import com.incon.connect.user.callbacks.TextAlertDialogCallback;
@@ -20,6 +23,7 @@ public class AppEditTextDialog extends Dialog implements View.OnClickListener {
     private final String title; // required
     private final String leftButtonText; // required
     private final String rightButtonText; // required
+    private final String hintText; // required
     private EditText editTextNotes; // required
     private final TextAlertDialogCallback mAlertDialogCallback; // required
 
@@ -32,30 +36,34 @@ public class AppEditTextDialog extends Dialog implements View.OnClickListener {
         this.title = builder.title;
         this.leftButtonText = builder.leftButtonText;
         this.rightButtonText = builder.rightButtonText;
+        this.hintText = builder.hintText;
         this.mAlertDialogCallback = builder.callback;
     }
 
     public void showDialog() {
-        ViewEditTextDialogBinding viewEditTextDialogBinding = DataBindingUtil.inflate(
+        ViewEditTextDialogBinding binding = DataBindingUtil.inflate(
                 LayoutInflater.from(context), R.layout.view_edit_text_dialog, null, false);
-        View contentView = viewEditTextDialogBinding.getRoot();
+        View contentView = binding.getRoot();
+        LinearLayout.LayoutParams crlp = (LinearLayout.LayoutParams) binding.dialogTitleTextView.getLayoutParams();
+        crlp.width = (int) (Resources.getSystem().getDisplayMetrics().widthPixels * 0.8);
 
-        editTextNotes = viewEditTextDialogBinding.edittextUsername;
-        viewEditTextDialogBinding.textVerifyTitle.setText(title);
+        editTextNotes = binding.edittextComments;
+        binding.dialogTitleTextView.setText(title);
+        if (!TextUtils.isEmpty(hintText)) {
+            editTextNotes.setHint(hintText);
+        }
         if (title.equals(getContext().getString(
                 R.string.bottom_option_transfer))) {
-            viewEditTextDialogBinding.edittextUsername.setInputType(InputType.TYPE_CLASS_NUMBER);
-            viewEditTextDialogBinding.inputLayoutVerify.setHint(getContext().getString(
-                    R.string.action_enter_transfer_phone_number));
+            editTextNotes.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
-        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonLeft.setText(
+        binding.includeRegisterBottomButtons.buttonLeft.setText(
                 TextUtils.isEmpty(leftButtonText) ? context.getString(
                         R.string.action_back) : leftButtonText);
-        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonRight.setText(
+        binding.includeRegisterBottomButtons.buttonRight.setText(
                 TextUtils.isEmpty(leftButtonText) ? context.getString(
                         R.string.action_next) : rightButtonText);
-        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(this);
-        viewEditTextDialogBinding.includeRegisterBottomButtons.buttonRight.setOnClickListener(this);
+        binding.includeRegisterBottomButtons.buttonLeft.setOnClickListener(this);
+        binding.includeRegisterBottomButtons.buttonRight.setOnClickListener(this);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(contentView);
@@ -88,6 +96,7 @@ public class AppEditTextDialog extends Dialog implements View.OnClickListener {
         private String title;
         private String leftButtonText;
         private String rightButtonText;
+        private String hintText;
 
 
         public AlertDialogBuilder(Context context, TextAlertDialogCallback callback) {
@@ -107,6 +116,11 @@ public class AppEditTextDialog extends Dialog implements View.OnClickListener {
 
         public AlertDialogBuilder rightButtonText(String rightButtonText) {
             this.rightButtonText = rightButtonText;
+            return this;
+        }
+
+        public AlertDialogBuilder hintText(String hintText) {
+            this.hintText = hintText;
             return this;
         }
 
